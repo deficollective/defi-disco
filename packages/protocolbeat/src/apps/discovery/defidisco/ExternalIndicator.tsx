@@ -19,7 +19,7 @@ export function ExternalIndicator({
   return (
     <>
       {hasExternalContract && (
-        <span className="text-aux-orange font-bold"> (External)</span>
+        <span className="font-bold text-aux-orange"> (External)</span>
       )}
       {!IS_READONLY && (
         <button
@@ -29,7 +29,7 @@ export function ExternalIndicator({
               ? 'Mark as internal contract'
               : 'Mark as external dependency'
           }
-          className="ml-2 bg-aux-orange/80 px-2 py-0.5 text-xs font-medium text-white transition-all duration-200 hover:bg-aux-orange disabled:opacity-50 disabled:cursor-not-allowed"
+          className="ml-2 bg-aux-orange/80 px-2 py-0.5 font-medium text-white text-xs transition-all duration-200 hover:bg-aux-orange disabled:cursor-not-allowed disabled:opacity-50"
         >
           {hasExternalContract ? 'Mark Internal' : 'Mark External'}
         </button>

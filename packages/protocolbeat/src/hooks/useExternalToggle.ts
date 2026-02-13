@@ -2,14 +2,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { getFunctions, getProject, updateFunction } from '../api/api'
 import type { ApiProjectContract } from '../api/types'
-import {
-  useContractTags,
-  useUpdateContractTag,
-} from './useContractTags'
 import type {
   AffectedFunction,
   ExternalContract,
 } from '../apps/discovery/defidisco/DependencyPropagationDialog'
+import { useContractTags, useUpdateContractTag } from './useContractTags'
 
 export interface ExternalToggleTarget {
   address: string
@@ -88,10 +85,10 @@ export function useExternalToggle(
   }
 
   // Analyze impact when marking contracts as external
-  const analyzeAddDependencyImpact = async (): Promise<{
+  const analyzeAddDependencyImpact = (): {
     externalContracts: ExternalContract[]
     affectedFunctions: AffectedFunction[]
-  }> => {
+  } => {
     if (!projectData || !contractTags || !functionsData) {
       return { externalContracts: [], affectedFunctions: [] }
     }
@@ -207,10 +204,10 @@ export function useExternalToggle(
   }
 
   // Analyze impact when marking contracts as internal (uses referencedBy, same as add analysis)
-  const analyzeRemoveDependencyImpact = async (): Promise<{
+  const analyzeRemoveDependencyImpact = (): {
     externalContracts: ExternalContract[]
     affectedFunctions: AffectedFunction[]
-  }> => {
+  } => {
     if (!projectData || !contractTags) {
       return { externalContracts: [], affectedFunctions: [] }
     }

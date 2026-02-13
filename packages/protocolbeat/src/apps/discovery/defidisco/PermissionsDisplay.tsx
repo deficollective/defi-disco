@@ -1,7 +1,12 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getCode, getFunctions, getResearcherInfo, updateFunction } from '../../../api/api'
+import {
+  getCode,
+  getFunctions,
+  getResearcherInfo,
+  updateFunction,
+} from '../../../api/api'
 import type {
   ApiAbi,
   ApiAbiEntry,
@@ -86,7 +91,7 @@ export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
   const { data: researcherInfo } = useQuery({
     queryKey: ['researcher-info'],
     queryFn: getResearcherInfo,
-    staleTime: Infinity,
+    staleTime: Number.POSITIVE_INFINITY,
   })
 
   // Load functions data for this project

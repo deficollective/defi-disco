@@ -333,8 +333,8 @@ export interface ContractFunctions {
 }
 
 export interface FunctionAttribution {
-  author: string   // GitHub handle
-  date: string     // ISO 8601
+  author: string // GitHub handle
+  date: string // ISO 8601
 }
 
 export interface FunctionComment {

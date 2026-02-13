@@ -830,21 +830,35 @@ export function FunctionFolder({
                 className="flex w-full cursor-pointer items-center gap-1 py-0.5 text-coffee-400 text-xs hover:text-coffee-300"
               >
                 {isCommentsOpen ? <IconChevronDown /> : <IconChevronRight />}
-                <span>Audit Trail ({currentFunction.comments?.length || 0})</span>
+                <span>
+                  Audit Trail ({currentFunction.comments?.length || 0})
+                </span>
               </button>
-              {!isCommentsOpen && currentFunction.comments && currentFunction.comments.length > 0 && (
-                <div className="pb-1 pl-4 text-coffee-500 text-xs">
-                  Last: {currentFunction.comments[currentFunction.comments.length - 1]!.date.split('T')[0]} by{' '}
-                  <a
-                    href={`https://github.com/${currentFunction.comments[currentFunction.comments.length - 1]!.author}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-aux-cyan hover:underline"
-                  >
-                    {currentFunction.comments[currentFunction.comments.length - 1]!.author}
-                  </a>
-                </div>
-              )}
+              {!isCommentsOpen &&
+                currentFunction.comments &&
+                currentFunction.comments.length > 0 && (
+                  <div className="pb-1 pl-4 text-coffee-500 text-xs">
+                    Last:{' '}
+                    {
+                      currentFunction.comments[
+                        currentFunction.comments.length - 1
+                      ]!.date.split('T')[0]
+                    }{' '}
+                    by{' '}
+                    <a
+                      href={`https://github.com/${currentFunction.comments[currentFunction.comments.length - 1]!.author}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-aux-cyan hover:underline"
+                    >
+                      {
+                        currentFunction.comments[
+                          currentFunction.comments.length - 1
+                        ]!.author
+                      }
+                    </a>
+                  </div>
+                )}
               {isCommentsOpen && (
                 <div className="pb-2 pl-4">
                   {/* Comment list */}
@@ -853,7 +867,9 @@ export function FunctionFolder({
                       <div
                         key={idx}
                         className={`border-coffee-700 p-2 ${
-                          idx === 0 ? 'rounded-t border-t border-r border-l' : 'border-r border-b border-l'
+                          idx === 0
+                            ? 'rounded-t border-t border-r border-l'
+                            : 'border-r border-b border-l'
                         } ${idx === (currentFunction.comments?.length || 0) - 1 ? 'rounded-b' : ''}`}
                       >
                         <div className="mb-1 flex items-center gap-2 text-coffee-400 text-xs">
@@ -867,7 +883,9 @@ export function FunctionFolder({
                           </a>
                           <span>{comment.date.split('T')[0]}</span>
                         </div>
-                        <div className="text-coffee-200 text-xs">{comment.text}</div>
+                        <div className="text-coffee-200 text-xs">
+                          {comment.text}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -882,9 +900,16 @@ export function FunctionFolder({
                     <div className="mt-1 flex items-center justify-between">
                       <span className="text-coffee-500 text-xs">
                         {researcherGithub ? (
-                          <>Posting as <span className="text-aux-cyan">{researcherGithub}</span></>
+                          <>
+                            Posting as{' '}
+                            <span className="text-aux-cyan">
+                              {researcherGithub}
+                            </span>
+                          </>
                         ) : (
-                          <span className="text-aux-red">RESEARCHER_GITHUB not set</span>
+                          <span className="text-aux-red">
+                            RESEARCHER_GITHUB not set
+                          </span>
                         )}
                       </span>
                       <button
@@ -892,7 +917,11 @@ export function FunctionFolder({
                           if (!newCommentText.trim()) return
                           setIsSubmittingComment(true)
                           try {
-                            await onAddComment(contractAddress, functionName, newCommentText)
+                            await onAddComment(
+                              contractAddress,
+                              functionName,
+                              newCommentText,
+                            )
                             setNewCommentText('')
                           } finally {
                             setIsSubmittingComment(false)
@@ -911,59 +940,75 @@ export function FunctionFolder({
           )}
 
           {/* Add comment when no comments exist yet */}
-          {currentFunction && (!currentFunction.comments || currentFunction.comments.length === 0) && (
-            <div className="px-5">
-              {!isCommentsOpen ? (
-                <button
-                  onClick={() => setIsCommentsOpen(true)}
-                  className="py-0.5 text-coffee-500 text-xs hover:text-coffee-400"
-                >
-                  + Add audit comment
-                </button>
-              ) : (
-                <div className="pb-2">
-                  <div className="mb-1 flex items-center gap-1 py-0.5 text-coffee-400 text-xs">
-                    <button onClick={() => setIsCommentsOpen(false)} className="cursor-pointer">
-                      <IconChevronDown />
-                    </button>
-                    <span>Audit Trail (0)</span>
+          {currentFunction &&
+            (!currentFunction.comments ||
+              currentFunction.comments.length === 0) && (
+              <div className="px-5">
+                {!isCommentsOpen ? (
+                  <button
+                    onClick={() => setIsCommentsOpen(true)}
+                    className="py-0.5 text-coffee-500 text-xs hover:text-coffee-400"
+                  >
+                    + Add audit comment
+                  </button>
+                ) : (
+                  <div className="pb-2">
+                    <div className="mb-1 flex items-center gap-1 py-0.5 text-coffee-400 text-xs">
+                      <button
+                        onClick={() => setIsCommentsOpen(false)}
+                        className="cursor-pointer"
+                      >
+                        <IconChevronDown />
+                      </button>
+                      <span>Audit Trail (0)</span>
+                    </div>
+                    <textarea
+                      value={newCommentText}
+                      onChange={(e) => setNewCommentText(e.target.value)}
+                      placeholder="Add a comment..."
+                      className="h-16 w-full resize-none rounded border border-coffee-600 bg-coffee-800 px-2 py-1 font-mono text-coffee-100 text-xs focus:border-coffee-500 focus:outline-none"
+                    />
+                    <div className="mt-1 flex items-center justify-between">
+                      <span className="text-coffee-500 text-xs">
+                        {researcherGithub ? (
+                          <>
+                            Posting as{' '}
+                            <span className="text-aux-cyan">
+                              {researcherGithub}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-aux-red">
+                            RESEARCHER_GITHUB not set
+                          </span>
+                        )}
+                      </span>
+                      <button
+                        onClick={async () => {
+                          if (!newCommentText.trim()) return
+                          setIsSubmittingComment(true)
+                          try {
+                            await onAddComment(
+                              contractAddress,
+                              functionName,
+                              newCommentText,
+                            )
+                            setNewCommentText('')
+                            setIsCommentsOpen(false)
+                          } finally {
+                            setIsSubmittingComment(false)
+                          }
+                        }}
+                        disabled={!newCommentText.trim() || isSubmittingComment}
+                        className="rounded bg-coffee-700 px-3 py-1 text-coffee-100 text-xs hover:bg-coffee-600 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {isSubmittingComment ? 'Adding...' : 'Add Comment'}
+                      </button>
+                    </div>
                   </div>
-                  <textarea
-                    value={newCommentText}
-                    onChange={(e) => setNewCommentText(e.target.value)}
-                    placeholder="Add a comment..."
-                    className="h-16 w-full resize-none rounded border border-coffee-600 bg-coffee-800 px-2 py-1 font-mono text-coffee-100 text-xs focus:border-coffee-500 focus:outline-none"
-                  />
-                  <div className="mt-1 flex items-center justify-between">
-                    <span className="text-coffee-500 text-xs">
-                      {researcherGithub ? (
-                        <>Posting as <span className="text-aux-cyan">{researcherGithub}</span></>
-                      ) : (
-                        <span className="text-aux-red">RESEARCHER_GITHUB not set</span>
-                      )}
-                    </span>
-                    <button
-                      onClick={async () => {
-                        if (!newCommentText.trim()) return
-                        setIsSubmittingComment(true)
-                        try {
-                          await onAddComment(contractAddress, functionName, newCommentText)
-                          setNewCommentText('')
-                          setIsCommentsOpen(false)
-                        } finally {
-                          setIsSubmittingComment(false)
-                        }
-                      }}
-                      disabled={!newCommentText.trim() || isSubmittingComment}
-                      className="rounded bg-coffee-700 px-3 py-1 text-coffee-100 text-xs hover:bg-coffee-600 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                      {isSubmittingComment ? 'Adding...' : 'Add Comment'}
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+                )}
+              </div>
+            )}
 
           {/* Manage Function Owners Section */}
           <div className="border-coffee-700 border-b p-3">
