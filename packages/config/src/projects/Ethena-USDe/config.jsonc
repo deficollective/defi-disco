@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../../discovery/schemas/config.v2.schema.json",
+  "name": "Ethena-USDe",
+  "import": ["../globalConfig.jsonc"],
+  "maxAddresses": 30,
+  "initialAddresses": [
+    "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
+    "eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
+    "eth:0xf2fa332bD83149c66b09B45670bCe64746C6b439",
+    "eth:0x7FC7c91D556B400AFa565013E3F32055a0713425"
+  ],
+  "names": {
+    "eth:0x3B0AAf6e6fCd4a7cEEf8c92C32DFeA9E64dC1862": "Dev Multisig",
+    "eth:0xAB9110d36B030bAe812CD3BB7B9dE805A64AA7dC": "Ethena_Labs_GATEKEEPER_1",
+    "eth:0x0F566cC38677239Bed459047065925654b6d5BD9": "Ethena_Labs_GATEKEEPER_2",
+    "eth:0x496011675b197CC136B48BC19D848FE26D3a8996": "Ethena_Labs_GATEKEEPER_3",
+    "eth:0xb6ECaE7413A3E78a3e10f15aFE3066e79566CCA3": "Ethena_Labs_GATEKEEPER_4",
+    "eth:0xD0899998CCEB5B3df5cdcFaAdd43e53B8e1d553e": "Ethena_Labs_MINTER_REDEEMER_1",
+    "eth:0x655a1B0124b39B2d7C7F62a99627a891faD93B7B": "Ethena_Labs_MINTER_REDEEMER_2",
+    "eth:0x03984DDEF40850bB9862Ec09037853630d7b6Ae4": "Ethena_Labs_MINTER_REDEEMER_3",
+    "eth:0x950c886CC6B9d420455985c3D31090AA060e96C8": "Ethena_Labs_MINTER_REDEEMER_4",
+    "eth:0xcD992cFB025014C01EBc2f2311c3F87aA8411d9c": "Ethena_Labs_MINTER_REDEEMER_5",
+    "eth:0x7d69817Ea29244504c1A97B66E2C990F25DF7599": "Ethena_Labs_MINTER_REDEEMER_6",
+    "eth:0x6F1d2df2ACc5f2dA3167Ad1967b648207cfC63DB": "Ethena_Labs_MINTER_REDEEMER_7",
+    "eth:0x661Ca83074b8Ec630825D4604455325499F951a1": "Ethena_Labs_MINTER_REDEEMER_8",
+    "eth:0x64004ae464f49C30a188C34E01B0dC66c8bEb21E": "Ethena_Labs_MINTER_REDEEMER_9",
+    "eth:0x24bE9948466FEcEB22A9B77b19e404F2119fb962": "Ethena_Labs_MINTER_REDEEMER_10",
+    "eth:0x6FD5ffEe1220b0458c2114d6ce7fB4dE2BC8fEE6": "Ethena_Labs_MINTER_REDEEMER_11",
+    "eth:0x9b6889199627f78470EA230cC7Df974239e0a5e5": "Ethena_Labs_MINTER_REDEEMER_12",
+    "eth:0x0B23d23939A1731289EAA04f62BA1dd4Ecdd5c7d": "Ethena_Labs_MINTER_REDEEMER_13",
+    "eth:0xb229D6dB056750E22499191156Bf4c3654DF3826": "Ethena_Labs_MINTER_REDEEMER_14",
+    "eth:0x4d394F45dFaDef5522759c511702Db97690A5C12": "Ethena_Labs_MINTER_REDEEMER_15",
+    "eth:0xA22C29b20f9Be2C809979Ed606b24Fe5286AC8F2": "Ethena_Labs_MINTER_REDEEMER_16",
+    "eth:0x57093ffEdC2F49Eb3a5A11b63C0f4Ca1B75C5CB7": "Ethena_Labs_MINTER_REDEEMER_17",
+    "eth:0xc3309fDDFC8297c39A38d5D872a37222f98DAd37": "Ethena_Labs_MINTER_REDEEMER_18",
+    "eth:0x57FefB75863cc64fECF11ac99d7A5b60EBE0080f": "Ethena_Labs_MINTER_REDEEMER_19",
+    "eth:0x71C95AAA22696d745E378486b769eE47cA23797c": "Ethena_Labs_MINTER_REDEEMER_20"
+  },
+  "overrides": {
+    "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3": {
+      "fields": {
+        "accessControl": {
+          "handler": {
+            "type": "accessControl",
+            "roleNames": {
+              "0x0000000000000000000000000000000000000000000000000000000000000000": "DEFAULT_ADMIN_ROLE",
+              "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6": "MINTER_ROLE",
+              "0x44ac9762eec3a11893fefb11d028bb3102560094137c3ed4518712475b2577cc": "REDEEMER_ROLE",
+              "0x85e8f2d6819d6b24108062d87ea08f54651bcb8960d98062d3faf96e7873b8b9": "COLLATERAL_MANAGER_ROLE",
+              "0x3c63e605be3290ab6b04cfc46c6e1516e626d43236b034f09d7ede1d017beb0c": "GATEKEEPER_ROLE"
+            }
+          }
+        },
+        "whitelistedBenefactors": {
+          "handler": {
+            "type": "dynamicArray",
+            "slot": 4,
+            "returnType": "address",
+            "ignoreRelative": true
+          }
+        },
+        "custodianAddresses": {
+          "handler": {
+            "type": "dynamicArray",
+            "slot": 7,
+            "returnType": "address",
+            "ignoreRelative": false
+          }
+        }
+      }
+    },
+    "eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497": {
+      "fields": { "accessControl": { "handler": { "type": "accessControl" } } }
+    }
+  }
+}

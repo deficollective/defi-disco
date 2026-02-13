@@ -1,0 +1,380 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-02-11T13:16:04.828Z",
+  "contracts": {
+    "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3": {
+      "functions": [
+        {
+          "functionName": "mint",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function mints a specified amount of USDe tokens. Addresses with MINTER_ROLE should only call mint if health-checks pass, this happens on centralized servers, so the trust assumptions lie with that servers. There are few on-chain economic security guarantees that protect the system from too many minting orders fulfilled within a short time, like new minting per block and new minting per block and per asset. Additionally, if the collateral is a stablecoin, a check exists to see if the value is nominally not below stablesDeltaLimit. Mint cannot be called without a new (new nonce) order and with a successful transfer of accepted collateral into the EthenaMinting contract.",
+          "constraints": "belowMaxMintPerBlock(order.usde_amount, order.collateral_asset)\nbelowGlobalMaxMintPerBlock(order.usde_amount)\nverifyStablesLimit(order.collateral_amount, order.usde_amount, order.collateral_asset, order.order_type)\nverifyOrder(order, signature) -> passes EIP-712 structure\nbenefactor or beneficiary are whitelisted",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.MINTER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:34:21.126Z"
+        },
+        {
+          "functionName": "mintWETH",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function specialised for WETH as collateral mints a specified amount of USDe tokens. addresses with MINTER_ROLE should only call mint if health-checks pass, this happens on centralized servers, so the trust assumptions lie with that servers. There are few on-chain economic security guarantees that protect the system from too many minting orders fulfilled within a short time, like new minting per block and new minting per block and per asset. Mint cannot be called without a new (new nonce) order and with a successful transfer of accepted collateral into the EthenaMinting contract.",
+          "constraints": "belowMaxMintPerBlock(order.usde_amount, order.collateral_asset)\nbelowGlobalMaxMintPerBlock(order.usde_amount)\nverifyStablesLimit(order.collateral_amount, order.usde_amount, order.collateral_asset, order.order_type)\nverifyOrder(order, signature) -> passes EIP-712 structure\nbenefactor or beneficiary are whitelisted",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.MINTER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:34:35.897Z"
+        },
+        {
+          "functionName": "redeem",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "REDEEMER_ROLE can burn USDe tokens but only upon successful transfer of USDe to the EthenaMinting contract and based on an existing and valid order (EIP-712). Addresses with REDEEMER_ROLE should only call redeem if health-checks pass, this happens on centralized servers, so the trust assumptions lie with that servers. There are few on-chain economic security guarantees that protect the system from too many redemptions orders fulfilled within a short time, like amount of redemption value per block and per asset and per block. Additionally, if the collateral is a stablecoin, a check exists to see if the value is nominally below stablesDeltaLimit.",
+          "constraints": "belowMaxRedeemPerBlock(order.usde_amount, order.collateral_asset)\nbelowGlobalMaxRedeemPerBlock(order.usde_amount)\nverifyStablesLimit(order.collateral_amount, order.usde_amount, order.collateral_asset, order.order_type)\nverifyOrder(order, signature) -> passes EIP-712 structure\nbenefactor or beneficiary are whitelisted",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.REDEEMER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:34:59.997Z"
+        },
+        {
+          "functionName": "setGlobalMaxMintPerBlock",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "low-risk",
+          "description": "This function allows to set a cap on total mint per block, the first transaction that would surpass the cap reverts and does not execute successfully. This protects the system from an attack or destabilising the system by minting too much USDe in a short amount of time. If the value is set to a low value or 0, the system cannot generate more USDe in case of high demand it could lead to a depeg above $1.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:13:12.376Z"
+        },
+        {
+          "functionName": "setGlobalMaxRedeemPerBlock",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function allows to set a cap on total redemptions per block, the first transaction that would surpass the cap reverts and does not execute successfully. This protects the system from an attack or destabilising the system by redeeming too much collateral in a short amount of time. If the amount is set to 0, whitelisted benefactors can not exit the system and get back their collateral.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:12:08.506Z"
+        },
+        {
+          "functionName": "disableMintRedeem",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function disables minting and redeeming until it is resumed again. This allows to pause the system to investigate problems or to prevent (further) attacks. It could be mis-used to prevent minting and redeeming for a long period of time or indefinitely. It is resumed by calling setGlobalMaxMintPerBlock and setGlobalMaxRedeemPerBlock with a value of greater than 0.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.GATEKEEPER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T09:16:09.614Z"
+        },
+        {
+          "functionName": "transferToCustody",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "low-risk",
+          "description": "This function transfers collateral to the custody wallet. This transfers ownership over the collateral tokens from the EthenaMinting contract to the custody wallet.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.COLLATERAL_MANAGER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:39:48.356Z"
+        },
+        {
+          "functionName": "removeSupportedAsset",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function removes ERC20 assets from the list of supported assets that can be transferred to custody by calling transferToCustody. If all assets are removed, no further collateral can be sent to custodians addresses from which strategies are executed. USDe relies on these strategies to remain stable.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T09:31:45.851Z"
+        },
+        {
+          "functionName": "removeCustodianAddress",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function removes custodian receiver addresses from the list of custodian addresses that can be used to call transferToCustody. This endangers the system, as the system relies on trading strategies executed from the custody wallets instead of pure over-collateralization.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T09:22:47.295Z"
+        },
+        {
+          "functionName": "removeMinterRole",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "low-risk",
+          "description": "This allows the GATEKEEPER_ROLE to remove a MINTER_ROLE from an address. The address cannot further call mint or mintWETH. If all MINTER_ROLE owners are removed, the mint and mintWETH functions cannot be executed and all incoming mint orders cannot be solved.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.GATEKEEPER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T09:25:35.668Z"
+        },
+        {
+          "functionName": "removeRedeemerRole",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This allows the GATEKEEPER_ROLE to remove a REDEEMER_ROLE from an address. The address cannot further call redeem. If all REDEEMER_ROLE owners are removed, the redeem function cannot be executed and all incoming redeem orders cannot be solved. In this case if USDe depegs below $1, benefactors cannot redeem their collateral and lose funds.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.GATEKEEPER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T09:27:18.454Z"
+        },
+        {
+          "functionName": "removeCollateralManagerRole",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This allows the GATEKEEPER_ROLE to remove a COLLATERAL_MANAGER_ROLE owner. If all COLLATERAL_MANAGER_ROLE owners are removed, the transferToCustody function cannot be executed all funds remain in the EthenaMinting contract, which endangers the system, as the system relies on trading strategies executed from the custody wallets instead of pure over-collateralization.",
+          "constraints": "",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.GATEKEEPER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T17:38:36.528Z"
+        },
+        {
+          "functionName": "removeWhitelistedBenefactor",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This allows the GATEKEEPER_ROLE to remove an address from the whitelist. Only whitelisted addresses are allowed to supply valid orders. Ethena will not accept orders from addresses that are not whitelisted, to comply with AML laws and KYC requirements, as well as anti-terrorist financing laws. If an address created a position with collateral, but got removed from the whitelist, the address has to sell the USDe on the open market and has no access to its deposited collateral. This could lead to loss of funds.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T09:35:15.812Z"
+        },
+        {
+          "functionName": "addCustodianAddress",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function adds addresses that can be used as receiver addresses for transferToCustody function.",
+          "constraints": "0-address, usde token are not allowed\naddress has to be listed inside _custodianAddresses",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T17:32:39.499Z"
+        },
+        {
+          "functionName": "addWhitelistedBenefactor",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "low-risk",
+          "description": "This function adds addresses to the whitelist. Only whitelisted addresses are allowed to supply valid orders. Ethena will not accept orders from addresses that are not whitelisted, to comply with AML laws and KYC requirements, as well as anti-terrorist financing laws.",
+          "constraints": "0 address not allowed\nif address already listed as benefactor",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T17:35:39.177Z"
+        },
+        {
+          "functionName": "addSupportedAsset",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function address assets that can be used as collateral and can be sent to custodian addresses for collateral of USDe.",
+          "constraints": "0-address, usde token are not allowed\nor asset already active",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T17:33:42.080Z"
+        },
+        {
+          "functionName": "setMaxMintPerBlock",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "low-risk",
+          "description": "This function allows to set a maximum cap for each asset on how much of a collateral is accepted per block. The first transaction that surpasses this cap for a specific asset will revert.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:14:40.457Z"
+        },
+        {
+          "functionName": "setMaxRedeemPerBlock",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function allows to set a maximum cap for each asset on how much of a collateral is accepted to be removed as collateral through the redeem process per block. The first transaction that surpasses this cap for a specific asset will revert. If the amount is set to 0, whitelisted benefactors with that certain asset can not exit the system and get back their collateral.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:15:24.757Z"
+        },
+        {
+          "functionName": "setTokenType",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "low-risk",
+          "description": "This allows to set a collateral token as a stable or normal asset (volatile). If it's a stable coin, stablesDeltaLimit applies.",
+          "constraints": "tokenConfig[asset].isActive",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:36:04.323Z"
+        },
+        {
+          "functionName": "setStablesDeltaLimit",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "Sets the allowed price delta in bps for a stablecoin as collateral for USDe minting.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:28:19.444Z"
+        },
+        {
+          "functionName": "renounceRole",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "low-risk",
+          "description": "This allows a role owner to renounce its own role.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            },
+            {
+              "path": "$self.accessControl.MINTER_ROLE.members"
+            },
+            {
+              "path": "$self.accessControl.REDEEMER_ROLE.members"
+            },
+            {
+              "path": "$self.accessControl.COLLATERAL_MANAGER_ROLE.members"
+            },
+            {
+              "path": "$self.accessControl.GATEKEEPER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T09:41:31.651Z"
+        },
+        {
+          "functionName": "revokeRole",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function allows the admin to revoke roles from role owners. If all REDEEMER_ROLE roles are revoked, users cannot get back their collateral leading to loss of funds.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T09:44:07.262Z"
+        },
+        {
+          "functionName": "transferAdmin",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "low-risk",
+          "description": "This function transfers the admin role to a new address.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-10T10:38:37.800Z"
+        },
+        {
+          "functionName": "grantRole",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "high-risk",
+          "description": "This function grants a role to a given address. MINTER_ROLE, REDEEMER_ROLE, COLLATERAL_MANAGER_ROLE and GATEKEEPER_ROLE are the available roles.",
+          "constraints": "account cannot have the role already",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-11T13:16:04.828Z"
+        },
+        {
+          "functionName": "acceptAdmin",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "low-risk",
+          "description": "This function accepts the admin role.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.singleAdminAccessControl._pendingDefaultAdmin"
+            }
+          ],
+          "timestamp": "2026-02-10T17:29:01.662Z"
+        },
+        {
+          "functionName": "confirmDelegatedSigner",
+          "isPermissioned": false,
+          "checked": true,
+          "timestamp": "2026-02-10T10:38:51.332Z"
+        },
+        {
+          "functionName": "setApprovedBeneficiary",
+          "isPermissioned": false,
+          "checked": true,
+          "timestamp": "2026-02-10T10:38:52.622Z"
+        },
+        {
+          "functionName": "setDelegatedSigner",
+          "isPermissioned": false,
+          "checked": true,
+          "timestamp": "2026-02-10T10:38:53.048Z"
+        },
+        {
+          "functionName": "removeDelegatedSigner",
+          "isPermissioned": false,
+          "checked": true,
+          "timestamp": "2026-02-10T10:40:04.873Z"
+        }
+      ]
+    }
+  }
+}
