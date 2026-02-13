@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getCode, getFunctions, updateFunction } from '../../../api/api'
+import { getCode, getFunctions, getResearcherInfo, updateFunction } from '../../../api/api'
 import type {
   ApiAbi,
   ApiAbiEntry,
@@ -81,6 +81,13 @@ export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
 
   // Code store for editor operations
   const { showRange, setSourceIndex } = useCodeStore()
+
+  // Load researcher info (cached indefinitely)
+  const { data: researcherInfo } = useQuery({
+    queryKey: ['researcher-info'],
+    queryFn: getResearcherInfo,
+    staleTime: Infinity,
+  })
 
   // Load functions data for this project
   const { data: functionsData } = useQuery({
@@ -236,6 +243,29 @@ export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
     if (!project) return
 
     await updateFunctionEntry(contractAddress, functionName, { dependencies })
+  }
+
+  const handleAddComment = async (
+    contractAddress: string,
+    functionName: string,
+    commentText: string,
+  ) => {
+    if (!project || !commentText.trim()) return
+
+    try {
+      await updateFunction(project, {
+        contractAddress,
+        functionName,
+        newComment: { text: commentText },
+      })
+
+      // Invalidate and refetch the query to get fresh data
+      await queryClient.invalidateQueries({
+        queryKey: ['functions', project],
+      })
+    } catch (error) {
+      console.error('Failed to add comment:', error)
+    }
   }
 
   const handleOpenInCode = async (
@@ -439,6 +469,8 @@ export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
             onOwnerDefinitionsUpdate={handleOwnerDefinitionsUpdate}
             onDelayUpdate={handleDelayUpdate}
             onDependenciesUpdate={handleDependenciesUpdate}
+            onAddComment={handleAddComment}
+            researcherGithub={researcherInfo?.githubHandle ?? null}
           />
         </li>
       ))}
@@ -460,6 +492,8 @@ function PermissionsCode({
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
   onDependenciesUpdate,
+  onAddComment,
+  researcherGithub,
 }: {
   entries: ApiAbiEntry[]
   contractAddress: string
@@ -515,6 +549,12 @@ function PermissionsCode({
     functionName: string,
     dependencies?: { contractAddress: string }[],
   ) => void
+  onAddComment: (
+    contractAddress: string,
+    functionName: string,
+    commentText: string,
+  ) => void
+  researcherGithub: string | null
 }) {
   const readMarkers = [' view ', ' pure ']
 
@@ -544,6 +584,8 @@ function PermissionsCode({
           onOwnerDefinitionsUpdate={onOwnerDefinitionsUpdate}
           onDelayUpdate={onDelayUpdate}
           onDependenciesUpdate={onDependenciesUpdate}
+          onAddComment={onAddComment}
+          researcherGithub={researcherGithub}
         />
       </Folder>
     </div>
@@ -564,6 +606,8 @@ function WritePermissionsCodeEntries({
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
   onDependenciesUpdate,
+  onAddComment,
+  researcherGithub,
 }: {
   entries: ApiAbiEntry[]
   contractAddress: string
@@ -619,6 +663,12 @@ function WritePermissionsCodeEntries({
     functionName: string,
     dependencies?: { contractAddress: string }[],
   ) => void
+  onAddComment: (
+    contractAddress: string,
+    functionName: string,
+    commentText: string,
+  ) => void
+  researcherGithub: string | null
 }) {
   const extractFunctionName = (abiEntry: string): string | null => {
     const match = abiEntry.match(/function\s+(\w+)\s*\(/)
@@ -661,6 +711,8 @@ function WritePermissionsCodeEntries({
             onOwnerDefinitionsUpdate={onOwnerDefinitionsUpdate}
             onDelayUpdate={onDelayUpdate}
             onDependenciesUpdate={onDependenciesUpdate}
+            onAddComment={onAddComment}
+            researcherGithub={researcherGithub}
           />
         )
       })}
