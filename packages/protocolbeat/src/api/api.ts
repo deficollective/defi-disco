@@ -21,6 +21,8 @@ import type {
   ApiCallGraphResponse,
   ApiAIModelsResponse,
   ApiTokenInfoResponse,
+  ApiReviewConfigResponse,
+  ReviewConfig,
 } from './types'
 
 export async function getProjects(): Promise<ApiProjectsResponse> {
@@ -483,4 +485,31 @@ export function executeGenerateCallGraph(project: string, devMode: boolean): Eve
     devMode: devMode.toString(),
   })
   return new EventSource(`/api/terminal/generate-call-graph?${params}`)
+}
+
+export async function getReviewConfig(
+  project: string,
+): Promise<ApiReviewConfigResponse> {
+  const res = await fetch(`/api/projects/${project}/review-config`)
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+  const data = await res.json()
+  return data as ApiReviewConfigResponse
+}
+
+export async function updateReviewConfig(
+  project: string,
+  config: ReviewConfig,
+): Promise<void> {
+  const res = await fetch(`/api/projects/${project}/review-config`, {
+    method: 'PUT',
+    body: JSON.stringify(config),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
 }

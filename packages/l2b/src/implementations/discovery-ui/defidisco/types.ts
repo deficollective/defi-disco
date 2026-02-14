@@ -526,3 +526,112 @@ export interface ExternalCall {
   resolutionConfidence?: number // 0-100, dynamic based on match count
   resolutionCandidates?: ResolutionCandidate[] // All matches when multiple found
 }
+
+// ============================================================================
+// Review Config Types (Review Builder panel)
+// ============================================================================
+
+export type ReviewProjectType = 'stablecoin'
+
+export type ReviewMetricFormat = 'usd' | 'percent' | 'number' | 'string'
+
+export interface ReviewTextBlock {
+  type: 'text'
+  content: string
+}
+
+export interface ReviewTableColorScale {
+  columns: number[]
+  referenceMetric: string
+  valueMetrics: string[][]
+}
+
+export interface ReviewTableBadgeColumn {
+  column: number
+  colorMap: Record<string, string>
+}
+
+export interface ReviewTableBlock {
+  type: 'table'
+  headers: string[]
+  rows: string[][]
+  colorScale?: ReviewTableColorScale
+  badgeColumns?: ReviewTableBadgeColumn[]
+}
+
+export interface ReviewExpandableTableRow {
+  cells: string[]
+  expandedContent?: {
+    functions?: {
+      name: string
+      callers: string[]
+    }[]
+  }
+}
+
+export interface ReviewExpandableTableBlock {
+  type: 'expandableTable'
+  headers: string[]
+  rows: ReviewExpandableTableRow[]
+  badgeColumns?: ReviewTableBadgeColumn[]
+  externalCallers?: string[]
+}
+
+export interface ReviewDropdownBlock {
+  type: 'dropdown'
+  label: string
+  content: ReviewContentBlock[]
+}
+
+export interface ReviewLinkBlock {
+  type: 'link'
+  text: string
+  href: string
+  external: boolean
+}
+
+export interface ReviewMetricBlock {
+  type: 'metric'
+  label: string
+  dataKey: string
+  format: ReviewMetricFormat
+}
+
+export type ReviewContentBlock =
+  | ReviewTextBlock
+  | ReviewTableBlock
+  | ReviewExpandableTableBlock
+  | ReviewDropdownBlock
+  | ReviewLinkBlock
+  | ReviewMetricBlock
+
+export interface ReviewSubSection {
+  title: string
+  content: ReviewContentBlock[]
+}
+
+export interface ReviewSection {
+  title: string
+  description?: string
+  subsections: ReviewSubSection[]
+}
+
+export interface ReviewConfig {
+  protocolSlug: string
+  protocolName: string
+  tokenName: string
+  chain: string
+  projectType: ReviewProjectType
+  sections: {
+    collaterals: ReviewSection
+    dependencies: ReviewSection
+    actors: ReviewSection
+    codeAndAudits: ReviewSection
+  }
+  dataKeys: Record<string, string>
+}
+
+export interface ApiReviewConfigResponse {
+  config: ReviewConfig | null
+  availableTemplates: ReviewProjectType[]
+}
