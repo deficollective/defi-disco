@@ -15,11 +15,11 @@ import { IconChevronRight } from '../../../icons/IconChevronRight'
 import { usePanelStore } from '../store/panel-store'
 import { IconCheckFalse } from './IconCheckFalse'
 import { IconCheckTrue } from './IconCheckTrue'
+import { IconDependency } from './IconDependency'
 import { IconLockClosed } from './IconLockClosed'
 import { IconLockOpen } from './IconLockOpen'
 import { IconOpen } from './IconOpen'
 import { IconVoltage } from './IconVoltage'
-import { IconDependency } from './IconDependency'
 import { resolvePathExpression, UIContractDataAccess } from './ownerResolution'
 
 // Extended type for local display with contractAddress
@@ -710,13 +710,14 @@ export function FunctionFolder({
           <span
             className="inline-block"
             style={{
-              color: (currentFunction?.dependencies?.length ?? 0) > 0
-                ? '#f97316' // orange-500 (has dependencies)
-                : '#9ca3af', // gray-400 (no dependencies)
+              color:
+                (currentFunction?.dependencies?.length ?? 0) > 0
+                  ? '#f97316' // orange-500 (has dependencies)
+                  : '#9ca3af', // gray-400 (no dependencies)
             }}
             title={
               (currentFunction?.dependencies?.length ?? 0) > 0
-                ? `Has ${currentFunction!.dependencies!.length} external dependency/dependencies`
+                ? `Has ${currentFunction?.dependencies?.length} external dependency/dependencies`
                 : 'No external dependencies'
             }
           >

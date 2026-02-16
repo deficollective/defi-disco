@@ -17,7 +17,6 @@ import type {
 import { useCodeStore } from '../../../components/editor/store'
 import { partition } from '../../../utils/partition'
 import { useMultiViewStore } from '../multi-view/store'
-import { AddressDisplay } from '../panel-values/AddressDisplay'
 import { Folder } from '../panel-values/Folder'
 import { usePanelStore } from '../store/panel-store'
 import { FunctionFolder } from './FunctionFolder'
@@ -451,16 +450,6 @@ export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
     <ol>
       {abisWithWriteFunctions.map((abi) => (
         <li key={abi.address}>
-          <div className="px-5 pt-[3px] pb-0.5 font-mono text-xs">
-            <AddressDisplay
-              simplified
-              value={{
-                type: 'address',
-                address: abi.address,
-                addressType: 'Unknown',
-              }}
-            />
-          </div>
           <PermissionsCode
             entries={abi.entries}
             contractAddress={abi.address}
