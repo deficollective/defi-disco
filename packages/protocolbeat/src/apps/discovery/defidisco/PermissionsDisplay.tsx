@@ -101,12 +101,18 @@ export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
     enabled: !!project,
   })
 
-  // Get functions for the specific contracts we're displaying (much more efficient!)
+  // Get functions for the specific contracts we're displaying (case-insensitive lookup)
   const getFunctionsForContract = (contractAddress: string) => {
+    const normalizedAddr = contractAddress.toLowerCase()
+    const matchingKey = Object.keys(functionsData?.contracts || {}).find(
+      (k) => k.toLowerCase() === normalizedAddr,
+    )
     const contractFunctions =
-      functionsData?.contracts?.[contractAddress]?.functions || []
+      (matchingKey
+        ? functionsData?.contracts?.[matchingKey]?.functions
+        : undefined) || []
     const localFunctionsForContract = localFunctions.filter(
-      (o) => o.contractAddress === contractAddress,
+      (o) => o.contractAddress.toLowerCase() === normalizedAddr,
     )
 
     // Map contract functions to include contractAddress (functions in contracts don't have it)
@@ -156,12 +162,7 @@ export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
   ) => {
     if (!project) return
 
-    const scoreOrder: Array<
-      'unscored' | 'low-risk' | 'medium-risk' | 'high-risk' | 'critical'
-    > = ['unscored', 'low-risk', 'medium-risk', 'high-risk', 'critical']
-    const currentIndex = scoreOrder.indexOf(currentScore)
-    const nextIndex = (currentIndex + 1) % scoreOrder.length
-    const newScore = scoreOrder[nextIndex]
+    const newScore = currentScore === 'critical' ? 'unscored' : 'critical'
 
     await updateFunctionEntry(contractAddress, functionName, {
       score: newScore,

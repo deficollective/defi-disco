@@ -18,8 +18,8 @@ import { IconCheckTrue } from './IconCheckTrue'
 import { IconLockClosed } from './IconLockClosed'
 import { IconLockOpen } from './IconLockOpen'
 import { IconOpen } from './IconOpen'
-import { IconProbability } from './IconProbability'
 import { IconVoltage } from './IconVoltage'
+import { IconDependency } from './IconDependency'
 import { resolvePathExpression, UIContractDataAccess } from './ownerResolution'
 
 // Extended type for local display with contractAddress
@@ -473,20 +473,12 @@ export function FunctionFolder({
 
   const canCheck = isCheckingAllowed()
 
-  // Score colors
+  // Score colors (binary: gray for unscored, red for any score)
   const getScoreColor = (score: string, isHover = false) => {
-    switch (score) {
-      case 'low-risk':
-        return isHover ? '#6ee7b7' : '#10b981' // green-300 : green-500
-      case 'medium-risk':
-        return isHover ? '#fcd34d' : '#f59e0b' // yellow-300 : yellow-500
-      case 'high-risk':
-        return isHover ? '#fca5a5' : '#f87171' // red-300 : red-400
-      case 'critical':
-        return isHover ? '#c084fc' : '#a855f7' // purple-400 : purple-500
-      default:
-        return isHover ? '#d1d5db' : '#9ca3af' // gray-300 : gray-400
+    if (score !== 'unscored') {
+      return isHover ? '#fca5a5' : '#f87171' // red-300 : red-400
     }
+    return isHover ? '#d1d5db' : '#9ca3af' // gray-300 : gray-400
   }
 
   const handleDescriptionChange = (
@@ -714,32 +706,22 @@ export function FunctionFolder({
             <IconVoltage />
           </button>
 
-          {/* Likelihood Icon */}
-          <button
-            onClick={() =>
-              onLikelihoodToggle(
-                contractAddress,
-                functionName,
-                likelihoodStatus,
-              )
-            }
-            className="inline-block cursor-pointer transition-colors"
+          {/* Dependency Indicator Icon */}
+          <span
+            className="inline-block"
             style={{
-              color: getLikelihoodColor(likelihoodStatus),
+              color: (currentFunction?.dependencies?.length ?? 0) > 0
+                ? '#f97316' // orange-500 (has dependencies)
+                : '#9ca3af', // gray-400 (no dependencies)
             }}
-            title={`Current likelihood: ${likelihoodStatus}. Click to cycle: mitigated → low → medium → high`}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = getLikelihoodColor(
-                likelihoodStatus,
-                true,
-              )
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = getLikelihoodColor(likelihoodStatus)
-            }}
+            title={
+              (currentFunction?.dependencies?.length ?? 0) > 0
+                ? `Has ${currentFunction!.dependencies!.length} external dependency/dependencies`
+                : 'No external dependencies'
+            }
           >
-            <IconProbability />
-          </button>
+            <IconDependency />
+          </span>
 
           {/* Open in Code Icon */}
           <button
