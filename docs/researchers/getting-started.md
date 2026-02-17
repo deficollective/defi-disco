@@ -313,7 +313,7 @@ In the **Nodes** panel, select a contract and click the **Funds** button in the 
 ### Running the Fetch
 
 1. Mark contracts using the options above
-2. Start the DeFiScan API service: `cd packages/defiscan-endpoints && pnpm start`
+2. Start the DeFiScan API service: `cd packages/defiscan-endpoints && pnpm dev`
 3. In the Terminal panel, click **Fetch Funds**
 4. View results in the **DeFiScan** panel
 
