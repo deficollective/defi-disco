@@ -67,7 +67,13 @@ function findAllFunctionOccurrences(
   return occurrences
 }
 
-export function PermissionsDisplay({ abis, contractAddress }: { abis: ApiAbi[]; contractAddress: string }) {
+export function PermissionsDisplay({
+  abis,
+  contractAddress,
+}: {
+  abis: ApiAbi[]
+  contractAddress: string
+}) {
   const { project } = useParams()
   const queryClient = useQueryClient()
   const [localFunctions, setLocalFunctions] = useState<
@@ -575,7 +581,11 @@ function PermissionsCode({
   return (
     <div>
       <Folder
-        title={abiLabel ? `Write Functions ${abiLabel} (${write.length})` : `Write Functions (${write.length})`}
+        title={
+          abiLabel
+            ? `Write Functions ${abiLabel} (${write.length})`
+            : `Write Functions (${write.length})`
+        }
         collapsed={write.length === 0}
       >
         <WritePermissionsCodeEntries

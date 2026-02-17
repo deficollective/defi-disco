@@ -833,9 +833,7 @@ export function FunctionFolder({
                 on {currentFunction.lastChangedBy.date.split('T')[0]}
               </div>
             ) : (
-              <div className="text-coffee-500 text-xs">
-                No changes recorded
-              </div>
+              <div className="text-coffee-500 text-xs">No changes recorded</div>
             )}
           </div>
 
@@ -1184,9 +1182,8 @@ export function FunctionFolder({
               <div className="space-y-2">
                 {/* Token Balances */}
                 {contractFunds.balances &&
-                  contractFunds.balances.tokens.filter(
-                    (t) => t.usdValue > 0,
-                  ).length > 0 && (
+                  contractFunds.balances.tokens.filter((t) => t.usdValue > 0)
+                    .length > 0 && (
                     <div>
                       <div className="mb-1 text-coffee-400 text-xs">
                         Token Balances
@@ -1257,9 +1254,7 @@ export function FunctionFolder({
                 )}
 
                 {/* Show message if funds data exists but no balances/positions/token */}
-                {!contractFunds.balances?.tokens.some(
-                  (t) => t.usdValue > 0,
-                ) &&
+                {!contractFunds.balances?.tokens.some((t) => t.usdValue > 0) &&
                   !contractFunds.positions?.protocols.length &&
                   !contractFunds.tokenInfo && (
                     <div className="text-coffee-500 text-xs">
@@ -1622,18 +1617,13 @@ export function FunctionFolder({
             <label className="mb-2 block text-coffee-300 text-xs">
               Comments
             </label>
-            {currentFunction &&
-            (currentFunction.comments?.length || 0) > 0 ? (
+            {currentFunction && (currentFunction.comments?.length || 0) > 0 ? (
               <>
                 <button
                   onClick={() => setIsCommentsOpen(!isCommentsOpen)}
                   className="flex cursor-pointer items-center gap-1 text-coffee-400 text-xs hover:text-coffee-300"
                 >
-                  {isCommentsOpen ? (
-                    <IconChevronDown />
-                  ) : (
-                    <IconChevronRight />
-                  )}
+                  {isCommentsOpen ? <IconChevronDown /> : <IconChevronRight />}
                   <span>
                     {isCommentsOpen ? 'collapse' : 'expand'} comments (
                     {currentFunction.comments?.length || 0})
@@ -1799,9 +1789,7 @@ export function FunctionFolder({
                             setIsSubmittingComment(false)
                           }
                         }}
-                        disabled={
-                          !newCommentText.trim() || isSubmittingComment
-                        }
+                        disabled={!newCommentText.trim() || isSubmittingComment}
                         className="rounded bg-coffee-700 px-3 py-1 text-coffee-100 text-xs hover:bg-coffee-600 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {isSubmittingComment ? 'Adding...' : 'Add Comment'}
