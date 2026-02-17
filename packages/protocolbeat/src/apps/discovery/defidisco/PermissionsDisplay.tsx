@@ -67,7 +67,7 @@ function findAllFunctionOccurrences(
   return occurrences
 }
 
-export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
+export function PermissionsDisplay({ abis, contractAddress }: { abis: ApiAbi[]; contractAddress: string }) {
   const { project } = useParams()
   const queryClient = useQueryClient()
   const [localFunctions, setLocalFunctions] = useState<
@@ -446,29 +446,40 @@ export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
     return null
   }
 
+  const isMultiAbi = abisWithWriteFunctions.length > 1
+
   return (
     <ol>
-      {abisWithWriteFunctions.map((abi) => (
-        <li key={abi.address}>
-          <PermissionsCode
-            entries={abi.entries}
-            contractAddress={abi.address}
-            functions={getFunctionsForContract(abi.address)}
-            onPermissionToggle={handlePermissionToggle}
-            onCheckedToggle={handleCheckedToggle}
-            onScoreToggle={handleScoreToggle}
-            onLikelihoodToggle={handleLikelihoodToggle}
-            onDescriptionUpdate={handleDescriptionUpdate}
-            onConstraintsUpdate={handleConstraintsUpdate}
-            onOpenInCode={handleOpenInCode}
-            onOwnerDefinitionsUpdate={handleOwnerDefinitionsUpdate}
-            onDelayUpdate={handleDelayUpdate}
-            onDependenciesUpdate={handleDependenciesUpdate}
-            onAddComment={handleAddComment}
-            researcherGithub={researcherInfo?.githubHandle ?? null}
-          />
-        </li>
-      ))}
+      {abisWithWriteFunctions.map((abi) => {
+        const abiLabel = isMultiAbi
+          ? abi.address === contractAddress
+            ? 'Proxy'
+            : 'Implementation'
+          : undefined
+
+        return (
+          <li key={abi.address}>
+            <PermissionsCode
+              entries={abi.entries}
+              contractAddress={abi.address}
+              abiLabel={abiLabel}
+              functions={getFunctionsForContract(abi.address)}
+              onPermissionToggle={handlePermissionToggle}
+              onCheckedToggle={handleCheckedToggle}
+              onScoreToggle={handleScoreToggle}
+              onLikelihoodToggle={handleLikelihoodToggle}
+              onDescriptionUpdate={handleDescriptionUpdate}
+              onConstraintsUpdate={handleConstraintsUpdate}
+              onOpenInCode={handleOpenInCode}
+              onOwnerDefinitionsUpdate={handleOwnerDefinitionsUpdate}
+              onDelayUpdate={handleDelayUpdate}
+              onDependenciesUpdate={handleDependenciesUpdate}
+              onAddComment={handleAddComment}
+              researcherGithub={researcherInfo?.githubHandle ?? null}
+            />
+          </li>
+        )
+      })}
     </ol>
   )
 }
@@ -476,6 +487,7 @@ export function PermissionsDisplay({ abis }: { abis: ApiAbi[] }) {
 function PermissionsCode({
   entries,
   contractAddress,
+  abiLabel,
   functions,
   onPermissionToggle,
   onCheckedToggle,
@@ -492,6 +504,7 @@ function PermissionsCode({
 }: {
   entries: ApiAbiEntry[]
   contractAddress: string
+  abiLabel?: string
   functions: FunctionEntryWithContract[]
   onPermissionToggle: (
     contractAddress: string,
@@ -562,7 +575,7 @@ function PermissionsCode({
   return (
     <div>
       <Folder
-        title={`Write Functions (${write.length})`}
+        title={abiLabel ? `Write Functions ${abiLabel} (${write.length})` : `Write Functions (${write.length})`}
         collapsed={write.length === 0}
       >
         <WritePermissionsCodeEntries

@@ -183,7 +183,7 @@ export function ValuesPanelExtensions({ selected, abis }: Props) {
 
   return (
     <>
-      {hasAbis && <PermissionsDisplay abis={selected.abis} />}
+      {hasAbis && <PermissionsDisplay abis={selected.abis} contractAddress={selected.address} />}
       <ContractFundsSection address={selected.address} />
     </>
   )
