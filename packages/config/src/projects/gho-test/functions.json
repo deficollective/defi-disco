@@ -1,0 +1,820 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-02-17T14:21:31.271Z",
+  "contracts": {
+    "eth:0x40d16fc0246ad3160ccc09b8d0d3a2cd28ae6c2f": {
+      "functions": [
+        {
+          "functionName": "addFacilitator",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.FACILITATOR_MANAGER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:47.437Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:47.437Z"
+          }
+        },
+        {
+          "functionName": "removeFacilitator",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.FACILITATOR_MANAGER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:47.438Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:47.438Z"
+          }
+        },
+        {
+          "functionName": "setFacilitatorBucketCapacity",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.BUCKET_MANAGER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:47.438Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:47.438Z"
+          }
+        }
+      ]
+    },
+    "eth:0xadc45df3cf1584624c97338bef33363bf5b97ada": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.POOL"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:49.343Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:49.343Z"
+          }
+        }
+      ]
+    },
+    "eth:0x83b7ce402a0e756e901c4a9d1cafa27ca9572afc": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:54.638Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:54.638Z"
+          }
+        },
+        {
+          "functionName": "approve",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.FUNDS_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:54.639Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:54.639Z"
+          }
+        },
+        {
+          "functionName": "transfer",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.FUNDS_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:54.639Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:54.639Z"
+          }
+        },
+        {
+          "functionName": "createStream",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.FUNDS_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:54.639Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:54.639Z"
+          }
+        },
+        {
+          "functionName": "withdrawFromStream",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.FUNDS_ADMIN_ROLE.members"
+            },
+            {
+              "path": "$self._streams[streamId].recipient"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:54.639Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:54.639Z"
+          }
+        },
+        {
+          "functionName": "cancelStream",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.FUNDS_ADMIN_ROLE.members"
+            },
+            {
+              "path": "$self._streams[streamId].recipient"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:54.640Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:54.640Z"
+          }
+        }
+      ]
+    },
+    "eth:0x5300a1a15135ea4dc7ad5a167152c01efc9b192a": {
+      "functions": [
+        {
+          "functionName": "executeTransaction",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:20:56.170Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:20:56.170Z"
+          }
+        }
+      ]
+    },
+    "eth:0xe4c958de49303c9be571e00582cf9454586de76f": {
+      "functions": [
+        {
+          "functionName": "mintAndSupply",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            },
+            {
+              "path": "$self.guardian"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:02.914Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:02.914Z"
+          }
+        },
+        {
+          "functionName": "withdrawAndBurn",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            },
+            {
+              "path": "$self.guardian"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:02.915Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:02.915Z"
+          }
+        }
+      ]
+    },
+    "eth:0xb639d208bcf0589d54fac24e655c79ec529762b8": {
+      "functions": [
+        {
+          "functionName": "updateFee",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@ACL_MANAGER.accessControl.POOL_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:06.174Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:06.174Z"
+          }
+        },
+        {
+          "functionName": "updateGhoTreasury",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@ACL_MANAGER.accessControl.POOL_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:06.175Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:06.175Z"
+          }
+        }
+      ]
+    },
+    "eth:0x2edfb4eb6a7fb78b3ac9204f179510865d77c660": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.635Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.635Z"
+          }
+        },
+        {
+          "functionName": "rescueTokens",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.TOKEN_RESCUER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.635Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.635Z"
+          }
+        },
+        {
+          "functionName": "setSwapFreeze",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.SWAP_FREEZER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.636Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.636Z"
+          }
+        },
+        {
+          "functionName": "seize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.LIQUIDATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.636Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.636Z"
+          }
+        },
+        {
+          "functionName": "burnAfterSeize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.LIQUIDATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.636Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.636Z"
+          }
+        },
+        {
+          "functionName": "updateFeeStrategy",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.636Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.636Z"
+          }
+        },
+        {
+          "functionName": "updateExposureCap",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.636Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.636Z"
+          }
+        },
+        {
+          "functionName": "updateGhoTreasury",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.637Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.637Z"
+          }
+        },
+        {
+          "functionName": "backWithGho",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.637Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.637Z"
+          }
+        },
+        {
+          "functionName": "backWithUnderlying",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:12.637Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:12.637Z"
+          }
+        }
+      ]
+    },
+    "eth:0x0a539750a534765ba960af863cb5c31e34b4c846": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.541Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.541Z"
+          }
+        },
+        {
+          "functionName": "rescueTokens",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.TOKEN_RESCUER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.541Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.541Z"
+          }
+        },
+        {
+          "functionName": "setSwapFreeze",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.SWAP_FREEZER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.542Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.542Z"
+          }
+        },
+        {
+          "functionName": "seize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.LIQUIDATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.542Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.542Z"
+          }
+        },
+        {
+          "functionName": "burnAfterSeize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.LIQUIDATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.542Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.542Z"
+          }
+        },
+        {
+          "functionName": "updateFeeStrategy",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.542Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.542Z"
+          }
+        },
+        {
+          "functionName": "updateExposureCap",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.542Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.542Z"
+          }
+        },
+        {
+          "functionName": "updateGhoTreasury",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.542Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.542Z"
+          }
+        },
+        {
+          "functionName": "backWithGho",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.543Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.543Z"
+          }
+        },
+        {
+          "functionName": "backWithUnderlying",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CONFIGURATOR_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:17.543Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:17.543Z"
+          }
+        }
+      ]
+    },
+    "eth:0x8147b99df7672a21809c9093e6f6ce1a60f119bd": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:18.519Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:18.519Z"
+          }
+        }
+      ]
+    },
+    "eth:0x2f39d218133afab8f2b819b1066c7e434ad94e9e": {
+      "functions": [
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.798Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.798Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.798Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.798Z"
+          }
+        },
+        {
+          "functionName": "setMarketId",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.798Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.798Z"
+          }
+        },
+        {
+          "functionName": "setAddress",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.798Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.798Z"
+          }
+        },
+        {
+          "functionName": "setAddressAsProxy",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.798Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.798Z"
+          }
+        },
+        {
+          "functionName": "setPoolImpl",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.799Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.799Z"
+          }
+        },
+        {
+          "functionName": "setPoolConfiguratorImpl",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.799Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.799Z"
+          }
+        },
+        {
+          "functionName": "setPriceOracle",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.799Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.799Z"
+          }
+        },
+        {
+          "functionName": "setACLManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.799Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.799Z"
+          }
+        },
+        {
+          "functionName": "setACLAdmin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.799Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.799Z"
+          }
+        },
+        {
+          "functionName": "setPriceOracleSentinel",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.800Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.800Z"
+          }
+        },
+        {
+          "functionName": "setPoolDataProvider",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:22.800Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:22.800Z"
+          }
+        }
+      ]
+    },
+    "eth:0x6fddde45f777a4e461b0721a578b169b44579623": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.INITIALIZER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:24.078Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:24.078Z"
+          }
+        }
+      ]
+    },
+    "eth:0x20004c21e23c44adfdd118392c914a31a488f64d": {
+      "functions": [
+        {
+          "functionName": "upgradeAndCall",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:25.111Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:25.111Z"
+          }
+        }
+      ]
+    },
+    "eth:0x40e4243c9471bb0a84ba0968bccc9b8975e5ee62": {
+      "functions": [
+        {
+          "functionName": "upgradeAndCall",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:26.877Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:26.877Z"
+          }
+        }
+      ]
+    },
+    "eth:0x87f9ff2246ac5756a099c9d10802980fb75cce2b": {
+      "functions": [
+        {
+          "functionName": "upgradeAndCall",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:27.904Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:27.904Z"
+          }
+        }
+      ]
+    },
+    "eth:0x487c2c53c0866f0a73ae317bd1a28f63adcd9ad1": {
+      "functions": [
+        {
+          "functionName": "setPaused",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.canPause"
+            }
+          ],
+          "timestamp": "2026-02-17T14:21:31.271Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-02-17T14:21:31.271Z"
+          }
+        }
+      ]
+    }
+  }
+}

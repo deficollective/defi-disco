@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../../discovery/schemas/config.v2.schema.json",
+  "name": "gho-test",
+  "import": [
+    "../globalConfig.jsonc"
+  ],
+  "maxAddresses": 10,
+  "names": {
+    "eth:0x535b2f7C20B9C83d70e519cf9991578eF9816B7B": "GSM (USDT)",
+    "eth:0xFeeb6FE430B7523fEF2a38327241eE7153779535": "GSM (USDC)",
+    "eth:0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2": "Pool (Core)",
+    "eth:0x4e033931ad43597d96D6bcc25c280717730B58B1": "Pool (Prime)",
+    "eth:0xAe05Cd22df81871bc7cC2a04BeCfb516bFe332C8": "Pool (unidentified)",
+    "eth:0x5300A1a15135EA4dc7aD5a167152C01EFc9b192A": "Executor (Governance)",
+    "eth:0x5513224daaEABCa31af5280727878d52097afA05": "GhoDirectMinter (Core)",
+    "eth:0x2cE01c87Fec1b71A9041c52CaED46Fc5f4807285": "GhoDirectMinter (Prime)",
+    "eth:0xe10C78A3AC7f016eD2DE1A89c5479b1039EAB9eA": "GhoDirectMinter (unidentified)",
+    "eth:0x8513e6F37dBc52De87b166980Fa3F50639694B60": "GHO Steward (GhoDirectMinter)"
+  },
+  "initialAddresses": [
+    "eth:0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f"
+  ],
+  "overrides": {
+    "eth:0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f": {
+      "fields": {
+        "facilitators": {
+          "handler": {
+            "type": "array",
+            "method": "getFacilitatorsList",
+            "maxLength": 25
+          }
+        }
+      }
+    },
+    "eth:0x2cE01c87Fec1b71A9041c52CaED46Fc5f4807285": {
+      "ignoreDiscovery": true // we focus first on Core
+    },
+    "eth:0xe10C78A3AC7f016eD2DE1A89c5479b1039EAB9eA": {
+      "ignoreDiscovery": true // we focus first on Core
+    }
+  }
+}
