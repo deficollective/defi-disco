@@ -597,6 +597,30 @@ export interface ReviewMetricBlock {
   format: ReviewMetricFormat
 }
 
+// Data-bound block types (dynamically rendered from live API data)
+export type DataColumnFormat = 'text' | 'address' | 'usd' | 'number' | 'percent' | 'badge'
+
+export interface DataTableColumn {
+  field: string
+  header: string
+  format?: DataColumnFormat
+}
+
+export interface ReviewDataTableBlock {
+  type: 'dataTable'
+  dataSource: string
+  columns: DataTableColumn[]
+  filters?: Record<string, boolean>
+}
+
+export interface ReviewDataMetricBlock {
+  type: 'dataMetric'
+  dataSource: string
+  field: string
+  label: string
+  format: DataColumnFormat
+}
+
 export type ReviewContentBlock =
   | ReviewTextBlock
   | ReviewTableBlock
@@ -604,6 +628,8 @@ export type ReviewContentBlock =
   | ReviewDropdownBlock
   | ReviewLinkBlock
   | ReviewMetricBlock
+  | ReviewDataTableBlock
+  | ReviewDataMetricBlock
 
 export interface ReviewSubSection {
   title: string

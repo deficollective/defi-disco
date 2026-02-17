@@ -10,6 +10,11 @@ import type {
   ReviewTableBlock,
   ReviewTextBlock,
 } from '../../../api/types'
+import { DataTableBlockEditor } from './DataTableBlockEditor'
+import { DataMetricBlockEditor } from './DataMetricBlockEditor'
+import type { ImportDataBundle } from './reviewDataSources'
+
+type SectionKey = 'collaterals' | 'dependencies' | 'actors' | 'codeAndAudits'
 
 const BLOCK_TYPE_LABELS: Record<ReviewContentBlock['type'], string> = {
   text: 'TEXT',
@@ -18,6 +23,8 @@ const BLOCK_TYPE_LABELS: Record<ReviewContentBlock['type'], string> = {
   dropdown: 'DROPDOWN',
   link: 'LINK',
   metric: 'METRIC',
+  dataTable: 'DATA TABLE',
+  dataMetric: 'DATA METRIC',
 }
 
 const BLOCK_TYPE_COLORS: Record<ReviewContentBlock['type'], string> = {
@@ -27,6 +34,8 @@ const BLOCK_TYPE_COLORS: Record<ReviewContentBlock['type'], string> = {
   dropdown: 'text-aux-yellow',
   link: 'text-aux-violet',
   metric: 'text-aux-orange',
+  dataTable: 'text-cyan-400',
+  dataMetric: 'text-cyan-400',
 }
 
 interface ReviewBlockEditorProps {
@@ -37,6 +46,9 @@ interface ReviewBlockEditorProps {
   onRemove: () => void
   onMove: (direction: -1 | 1) => void
   depth?: number
+  importData?: ImportDataBundle
+  isDataLoading?: boolean
+  sectionKey?: SectionKey
 }
 
 export function ReviewBlockEditor({
@@ -47,6 +59,9 @@ export function ReviewBlockEditor({
   onRemove,
   onMove,
   depth = 0,
+  importData,
+  isDataLoading,
+  sectionKey,
 }: ReviewBlockEditorProps) {
   return (
     <div className={`rounded border border-coffee-700 bg-coffee-800/50 ${depth > 0 ? 'ml-3 border-l-2 border-l-coffee-500' : ''}`}>
@@ -102,6 +117,24 @@ export function ReviewBlockEditor({
         )}
         {block.type === 'metric' && (
           <MetricBlockForm block={block} onChange={onChange} />
+        )}
+        {block.type === 'dataTable' && importData && sectionKey && (
+          <DataTableBlockEditor
+            block={block}
+            onChange={onChange}
+            importData={importData}
+            isDataLoading={isDataLoading ?? false}
+            sectionKey={sectionKey}
+          />
+        )}
+        {block.type === 'dataMetric' && importData && sectionKey && (
+          <DataMetricBlockEditor
+            block={block}
+            onChange={onChange}
+            importData={importData}
+            isDataLoading={isDataLoading ?? false}
+            sectionKey={sectionKey}
+          />
         )}
       </div>
     </div>

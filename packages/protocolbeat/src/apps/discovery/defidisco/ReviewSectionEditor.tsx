@@ -5,15 +5,24 @@ import type {
   ReviewSubSection,
 } from '../../../api/types'
 import { ReviewBlockEditor } from './ReviewBlockEditor'
+import type { ImportDataBundle } from './reviewDataSources'
+
+type SectionKey = 'collaterals' | 'dependencies' | 'actors' | 'codeAndAudits'
 
 interface ReviewSectionEditorProps {
   section: ReviewSection
   onChange: (updater: (section: ReviewSection) => ReviewSection) => void
+  sectionKey: SectionKey
+  importData: ImportDataBundle
+  isDataLoading: boolean
 }
 
 export function ReviewSectionEditor({
   section,
   onChange,
+  sectionKey,
+  importData,
+  isDataLoading,
 }: ReviewSectionEditorProps) {
   const updateTitle = useCallback(
     (title: string) => {
@@ -111,6 +120,9 @@ export function ReviewSectionEditor({
           onChange={(updater) => updateSubsection(subIdx, updater)}
           onRemove={() => removeSubsection(subIdx)}
           onMove={(dir) => moveSubsection(subIdx, dir)}
+          sectionKey={sectionKey}
+          importData={importData}
+          isDataLoading={isDataLoading}
         />
       ))}
 
@@ -131,6 +143,9 @@ interface SubsectionEditorProps {
   onChange: (updater: (sub: ReviewSubSection) => ReviewSubSection) => void
   onRemove: () => void
   onMove: (direction: -1 | 1) => void
+  sectionKey: SectionKey
+  importData: ImportDataBundle
+  isDataLoading: boolean
 }
 
 function SubsectionEditor({
@@ -140,6 +155,9 @@ function SubsectionEditor({
   onChange,
   onRemove,
   onMove,
+  sectionKey,
+  importData,
+  isDataLoading,
 }: SubsectionEditorProps) {
   const updateBlock = useCallback(
     (blockIdx: number, block: ReviewContentBlock) => {
@@ -237,6 +255,9 @@ function SubsectionEditor({
             onChange={(b) => updateBlock(blockIdx, b)}
             onRemove={() => removeBlock(blockIdx)}
             onMove={(dir) => moveBlock(blockIdx, dir)}
+            importData={importData}
+            isDataLoading={isDataLoading}
+            sectionKey={sectionKey}
           />
         ))}
 
@@ -252,43 +273,62 @@ function AddBlockButton({
   onAdd: (type: ReviewContentBlock['type']) => void
 }) {
   return (
-    <div className="flex flex-wrap gap-1">
-      <button
-        onClick={() => onAdd('text')}
-        className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
-      >
-        + Text
-      </button>
-      <button
-        onClick={() => onAdd('table')}
-        className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
-      >
-        + Table
-      </button>
-      <button
-        onClick={() => onAdd('expandableTable')}
-        className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
-      >
-        + Expandable Table
-      </button>
-      <button
-        onClick={() => onAdd('dropdown')}
-        className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
-      >
-        + Dropdown
-      </button>
-      <button
-        onClick={() => onAdd('link')}
-        className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
-      >
-        + Link
-      </button>
-      <button
-        onClick={() => onAdd('metric')}
-        className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
-      >
-        + Metric
-      </button>
+    <div className="space-y-1">
+      {/* Static block types */}
+      <div className="flex flex-wrap gap-1">
+        <button
+          onClick={() => onAdd('text')}
+          className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
+        >
+          + Text
+        </button>
+        <button
+          onClick={() => onAdd('table')}
+          className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
+        >
+          + Table
+        </button>
+        <button
+          onClick={() => onAdd('expandableTable')}
+          className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
+        >
+          + Expandable Table
+        </button>
+        <button
+          onClick={() => onAdd('dropdown')}
+          className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
+        >
+          + Dropdown
+        </button>
+        <button
+          onClick={() => onAdd('link')}
+          className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
+        >
+          + Link
+        </button>
+        <button
+          onClick={() => onAdd('metric')}
+          className="rounded border border-dashed border-coffee-600 px-2 py-0.5 text-xs text-coffee-400 hover:border-autumn-300 hover:text-autumn-300"
+        >
+          + Metric
+        </button>
+      </div>
+
+      {/* Data-bound block types */}
+      <div className="flex flex-wrap gap-1">
+        <button
+          onClick={() => onAdd('dataTable')}
+          className="rounded border border-dashed border-cyan-800 px-2 py-0.5 text-xs text-cyan-400 hover:border-cyan-400 hover:text-cyan-300"
+        >
+          + Data Table
+        </button>
+        <button
+          onClick={() => onAdd('dataMetric')}
+          className="rounded border border-dashed border-cyan-800 px-2 py-0.5 text-xs text-cyan-400 hover:border-cyan-400 hover:text-cyan-300"
+        >
+          + Data Metric
+        </button>
+      </div>
     </div>
   )
 }
@@ -307,5 +347,9 @@ function createEmptyBlock(type: ReviewContentBlock['type']): ReviewContentBlock 
       return { type: 'link', text: '', href: '', external: true }
     case 'metric':
       return { type: 'metric', label: '', dataKey: '', format: 'string' }
+    case 'dataTable':
+      return { type: 'dataTable', dataSource: '', columns: [] }
+    case 'dataMetric':
+      return { type: 'dataMetric', dataSource: '', field: '', label: '', format: 'text' }
   }
 }

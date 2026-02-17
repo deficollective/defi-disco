@@ -16,6 +16,7 @@ import {
 import { registerPanelDirtyCheck } from './panelDirtyState'
 import { ReviewSectionEditor } from './ReviewSectionEditor'
 import { ReviewDataKeysEditor } from './ReviewDataKeysEditor'
+import { useReviewImportData } from './useReviewImportData'
 
 const SECTION_KEYS = [
   'collaterals',
@@ -49,6 +50,9 @@ export function ReviewBuilderPanel() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [activeSection, setActiveSection] = useState<SectionKey>('collaterals')
+
+  const { data: importData, isLoading: isImportDataLoading } =
+    useReviewImportData(project)
 
   useEffect(() => {
     if (data?.config && localConfig === null) {
@@ -249,6 +253,9 @@ export function ReviewBuilderPanel() {
         <ReviewSectionEditor
           section={localConfig.sections[activeSection]}
           onChange={(updater) => updateSection(activeSection, updater)}
+          sectionKey={activeSection}
+          importData={importData}
+          isDataLoading={isImportDataLoading}
         />
 
         {/* Data keys editor */}
