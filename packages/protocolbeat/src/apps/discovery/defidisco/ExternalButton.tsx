@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import {
-  useContractTags,
-  useUpdateContractTag,
-} from './hooks/useContractTags'
-import { useExternalToggle } from './hooks/useExternalToggle'
 import { ControlButton } from '../panel-nodes/controls/ControlButton'
 import { useStore } from '../panel-nodes/store/store'
 import { DependencyPropagationDialog } from './DependencyPropagationDialog'
+import { useContractTags, useUpdateContractTag } from './hooks/useContractTags'
+import { useExternalToggle } from './hooks/useExternalToggle'
 
 export function ExternalButton() {
   const { project } = useParams()

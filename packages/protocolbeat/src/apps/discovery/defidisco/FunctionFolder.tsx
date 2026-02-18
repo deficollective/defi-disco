@@ -10,11 +10,11 @@ import type {
   OwnerDefinition,
 } from '../../../api/types'
 import * as solidity from '../../../components/editor/languages/solidity'
-import { useContractTags } from './hooks/useContractTags'
 import { IconChevronDown } from '../../../icons/IconChevronDown'
 import { IconChevronRight } from '../../../icons/IconChevronRight'
 import { usePanelStore } from '../store/panel-store'
 import { formatUsdValue } from './formatUtils'
+import { useContractTags } from './hooks/useContractTags'
 import { IconCheckFalse } from './IconCheckFalse'
 import { IconCheckTrue } from './IconCheckTrue'
 import { IconDependency } from './IconDependency'
