@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getFunctions, getProject, updateContractTag } from '../api/api'
 import type { Impact, LetterGrade, Likelihood } from '../api/types'
 import { usePanelStore } from '../apps/discovery/store/panel-store'
-import { useContractTags } from '../hooks/useContractTags'
+import { useContractTags } from '../apps/discovery/defidisco/hooks/useContractTags'
 
 /**
  * Grade mapping: Impact × Likelihood → LetterGrade

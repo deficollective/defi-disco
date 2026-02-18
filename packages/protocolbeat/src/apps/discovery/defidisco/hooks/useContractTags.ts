@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getContractTags, updateContractTag } from '../api/api'
-import type { ApiContractTagsUpdateRequest } from '../api/types'
+import { getContractTags, updateContractTag } from '../../../../api/api'
+import type { ApiContractTagsUpdateRequest } from '../../../../api/types'
 
 export function useContractTags(project: string) {
   return useQuery({

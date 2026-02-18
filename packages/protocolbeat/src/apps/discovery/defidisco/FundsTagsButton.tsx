@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import {
   useContractTags,
   useUpdateContractTag,
-} from '../../../hooks/useContractTags'
+} from './hooks/useContractTags'
 import { ControlButton } from '../panel-nodes/controls/ControlButton'
 import { useStore } from '../panel-nodes/store/store'
 

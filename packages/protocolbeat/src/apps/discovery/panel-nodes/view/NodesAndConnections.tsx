@@ -7,7 +7,7 @@ import {
   getEdgeCalls,
   hasEdgeCalls,
   type BidirectionalCalls,
-} from '../../defidisco/useEdgeCallGraph'
+} from '../../defidisco/hooks/useEdgeCallGraph'
 import { EdgeCallGraphPopup } from '../../defidisco/EdgeCallGraphPopup'
 import { ClickableConnection } from '../../defidisco/ClickableConnection'
 import { useStore } from '../store/store'

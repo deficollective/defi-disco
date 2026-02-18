@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getProject, updateContractTag, updateFunction } from '../api/api'
 import type { AdminModuleScore, Impact, Likelihood } from '../api/types'
 import { buildProxyTypeMap } from '../apps/discovery/defidisco/proxyTypeUtils'
-import { useContractTags } from '../hooks/useContractTags'
+import { useContractTags } from '../apps/discovery/defidisco/hooks/useContractTags'
 import {
   computeDeduplicatedCapital,
   formatUsdValue,

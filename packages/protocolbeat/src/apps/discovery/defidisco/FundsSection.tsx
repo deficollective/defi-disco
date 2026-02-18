@@ -6,7 +6,7 @@ import type {
   FundsPositionProtocol,
   FundsTokenBalance,
 } from '../../../api/types'
-import { useContractTags } from '../../../hooks/useContractTags'
+import { useContractTags } from './hooks/useContractTags'
 import { usePanelStore } from '../store/panel-store'
 import { formatUsdValue } from './formatUtils'
 import { ProxyTypeTag } from './ProxyTypeTag'

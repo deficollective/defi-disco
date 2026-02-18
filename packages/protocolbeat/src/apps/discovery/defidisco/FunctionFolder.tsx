@@ -10,7 +10,7 @@ import type {
   OwnerDefinition,
 } from '../../../api/types'
 import * as solidity from '../../../components/editor/languages/solidity'
-import { useContractTags } from '../../../hooks/useContractTags'
+import { useContractTags } from './hooks/useContractTags'
 import { IconChevronDown } from '../../../icons/IconChevronDown'
 import { IconChevronRight } from '../../../icons/IconChevronRight'
 import { usePanelStore } from '../store/panel-store'

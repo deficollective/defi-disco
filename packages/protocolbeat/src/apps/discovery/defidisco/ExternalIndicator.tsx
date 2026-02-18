@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { IS_READONLY } from '../../../config/readonly'
-import { useExternalToggle } from '../../../hooks/useExternalToggle'
+import { useExternalToggle } from './hooks/useExternalToggle'
 import { DependencyPropagationDialog } from './DependencyPropagationDialog'
 
 export function ExternalIndicator({

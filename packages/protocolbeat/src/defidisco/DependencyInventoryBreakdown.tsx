@@ -10,7 +10,7 @@ import type {
 } from '../api/types'
 import { buildProxyTypeMap } from '../apps/discovery/defidisco/proxyTypeUtils'
 import { usePanelStore } from '../apps/discovery/store/panel-store'
-import { useContractTags } from '../hooks/useContractTags'
+import { useContractTags } from '../apps/discovery/defidisco/hooks/useContractTags'
 import {
   computeDeduplicatedCapital,
   computeWorstGrade,

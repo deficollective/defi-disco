@@ -1,11 +1,11 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { getFunctions, getProject, updateFunction } from '../api/api'
-import type { ApiProjectContract } from '../api/types'
+import { getFunctions, getProject, updateFunction } from '../../../../api/api'
+import type { ApiProjectContract } from '../../../../api/types'
 import type {
   AffectedFunction,
   ExternalContract,
-} from '../apps/discovery/defidisco/DependencyPropagationDialog'
+} from '../DependencyPropagationDialog'
 import { useContractTags, useUpdateContractTag } from './useContractTags'
 
 export interface ExternalToggleTarget {
