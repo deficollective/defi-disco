@@ -329,15 +329,15 @@ PORT=3001
 
 **Scoring Dashboard**: V2 scoring breakdown in DeFiScan panel (`/defidisco/V2ScoringSection.tsx`)
 
-- **Inventory Sections**: Contracts, Functions, Dependencies, Owners — each with grade and breakdown
+- **Inventory Sections**: Contracts, Functions, Dependencies, Owners — each with inventory count and breakdown
 - **Shared Scoring Module**: `/defidisco/scoringShared.tsx` — **single source of truth** for all scoring UI utilities and components
 
 **Shared Module (`scoringShared.tsx`)** — DO NOT duplicate code from this file:
 
-- **Utility Functions**: `formatUsdValue`, `hasCapitalData`, `hasTokenValueData`, `isZeroAddress`, `getGradeColor`, `getGradeBadgeStyles`, `getAdminTypeColor`, `getImpactColor`, `getLikelihoodColor`, `impactToScore`, `computeWorstGrade`, `computeDeduplicatedCapital`
-- **Picker Components**: `ImpactPicker`, `LikelihoodPicker` — dropdown pickers for impact/likelihood scoring
+- **Utility Functions**: `formatUsdValue`, `hasCapitalData`, `hasTokenValueData`, `isZeroAddress`, `getAdminTypeColor`, `getImpactColor`, `impactToScore`, `computeDeduplicatedCapital`
+- **Picker Components**: `ImpactPicker` — dropdown picker for impact scoring (binary: critical or unscored)
 - **Display Components**: `TreeNode`, `FundsDisplay`, `TokenValueDisplay`, `FunctionCapitalBreakdown` — tree-structured capital breakdown
-- **`OwnerSection`**: Shared component used by **both** Owners and Dependencies sections to render an owner/admin with admin type badges, proxy type tags, likelihood picker, capital-at-risk, and expandable function list with capital breakdown trees
+- **`OwnerSection`**: Shared component used by **both** Owners and Dependencies sections to render an owner/admin with admin type badges, proxy type tags, capital-at-risk, and expandable function list with capital breakdown trees
 
 **Section Architecture**:
 
@@ -406,7 +406,7 @@ PORT=3001
 - ❌ Address format mismatches (contracts use `eth:0x...`, tags use `0x...`)
 - ❌ Using `??` instead of `!== undefined` for optional fields that can be explicitly cleared
 - ❌ Forgetting to rebuild both `protocolbeat` AND `l2b` after backend changes
-- ❌ Duplicating scoring utilities — use `scoringShared.tsx` (`OwnerSection`, pickers, grade helpers, capital display)
+- ❌ Duplicating scoring utilities — use `scoringShared.tsx` (`OwnerSection`, `ImpactPicker`, capital display)
 
 **Proxy/Implementation Pattern:**
 

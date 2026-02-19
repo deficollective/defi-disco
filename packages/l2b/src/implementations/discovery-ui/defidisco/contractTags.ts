@@ -82,18 +82,13 @@ export function updateContractTag(
     updateRequest.centralization !== undefined
       ? updateRequest.centralization
       : existingTag?.centralization
-  const newLikelihood =
-    updateRequest.likelihood !== undefined
-      ? updateRequest.likelihood
-      : existingTag?.likelihood
 
-  // Check if any meaningful tag data exists (boolean fields true OR likelihood assigned)
+  // Check if any meaningful tag data exists
   const hasAnyTagData =
     newIsExternal ||
     newFetchBalances ||
     newFetchPositions ||
-    newIsToken ||
-    newLikelihood !== undefined
+    newIsToken
 
   if (hasAnyTagData) {
     // Create or update tag entry
@@ -101,7 +96,6 @@ export function updateContractTag(
       contractAddress: normalizedAddress,
       isExternal: newIsExternal,
       centralization: newCentralization,
-      likelihood: newLikelihood,
       fetchBalances: newFetchBalances || undefined, // Only store if true
       fetchPositions: newFetchPositions || undefined, // Only store if true
       isToken: newIsToken || undefined, // Only store if true

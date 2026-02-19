@@ -11,7 +11,6 @@ import type {
   ApiAbi,
   ApiAbiEntry,
   FunctionEntry,
-  Likelihood,
   OwnerDefinition,
 } from '../../../api/types'
 import { useCodeStore } from '../../../components/editor/store'
@@ -174,36 +173,6 @@ export function PermissionsDisplay({
     })
   }
 
-  const handleLikelihoodToggle = async (
-    contractAddress: string,
-    functionName: string,
-    currentLikelihood?: Likelihood,
-  ) => {
-    if (!project) return
-
-    const likelihoodOrder: (Likelihood | undefined)[] = [
-      undefined,
-      'mitigated',
-      'low',
-      'medium',
-      'high',
-    ]
-    let currentIndex = likelihoodOrder.indexOf(currentLikelihood)
-
-    // If not found (e.g., undefined not matching), treat as -1 and start from beginning
-    if (currentIndex === -1) {
-      currentIndex = currentLikelihood === undefined ? 0 : -1
-    }
-
-    const nextIndex = (currentIndex + 1) % likelihoodOrder.length
-    const newLikelihood = likelihoodOrder[nextIndex]
-
-    // Use null instead of undefined for JSON serialization (undefined gets stripped from JSON)
-    await updateFunctionEntry(contractAddress, functionName, {
-      likelihood: newLikelihood === undefined ? (null as any) : newLikelihood,
-    })
-  }
-
   const handleDescriptionUpdate = async (
     contractAddress: string,
     functionName: string,
@@ -350,7 +319,6 @@ export function PermissionsDisplay({
         | 'isPermissioned'
         | 'checked'
         | 'score'
-        | 'likelihood'
         | 'description'
         | 'constraints'
         | 'ownerDefinitions'
@@ -373,7 +341,6 @@ export function PermissionsDisplay({
         updates.isPermissioned ?? currentFunction?.isPermissioned ?? false,
       checked: updates.checked ?? currentFunction?.checked,
       score: updates.score ?? currentFunction?.score,
-      likelihood: updates.likelihood ?? currentFunction?.likelihood,
       description: updates.description ?? currentFunction?.description,
       constraints: updates.constraints ?? currentFunction?.constraints,
       ownerDefinitions:
@@ -473,7 +440,7 @@ export function PermissionsDisplay({
               onPermissionToggle={handlePermissionToggle}
               onCheckedToggle={handleCheckedToggle}
               onScoreToggle={handleScoreToggle}
-              onLikelihoodToggle={handleLikelihoodToggle}
+
               onDescriptionUpdate={handleDescriptionUpdate}
               onConstraintsUpdate={handleConstraintsUpdate}
               onOpenInCode={handleOpenInCode}
@@ -498,7 +465,7 @@ function PermissionsCode({
   onPermissionToggle,
   onCheckedToggle,
   onScoreToggle,
-  onLikelihoodToggle,
+
   onDescriptionUpdate,
   onConstraintsUpdate,
   onOpenInCode,
@@ -532,11 +499,7 @@ function PermissionsCode({
       | 'high-risk'
       | 'critical',
   ) => void
-  onLikelihoodToggle: (
-    contractAddress: string,
-    functionName: string,
-    currentLikelihood: Likelihood,
-  ) => void
+
   onDescriptionUpdate: (
     contractAddress: string,
     functionName: string,
@@ -595,7 +558,7 @@ function PermissionsCode({
           onPermissionToggle={onPermissionToggle}
           onCheckedToggle={onCheckedToggle}
           onScoreToggle={onScoreToggle}
-          onLikelihoodToggle={onLikelihoodToggle}
+
           onDescriptionUpdate={onDescriptionUpdate}
           onConstraintsUpdate={onConstraintsUpdate}
           onOpenInCode={onOpenInCode}
@@ -617,7 +580,7 @@ function WritePermissionsCodeEntries({
   onPermissionToggle,
   onCheckedToggle,
   onScoreToggle,
-  onLikelihoodToggle,
+
   onDescriptionUpdate,
   onConstraintsUpdate,
   onOpenInCode,
@@ -650,11 +613,7 @@ function WritePermissionsCodeEntries({
       | 'high-risk'
       | 'critical',
   ) => void
-  onLikelihoodToggle: (
-    contractAddress: string,
-    functionName: string,
-    currentLikelihood: Likelihood,
-  ) => void
+
   onDescriptionUpdate: (
     contractAddress: string,
     functionName: string,
@@ -722,7 +681,7 @@ function WritePermissionsCodeEntries({
             onPermissionToggle={onPermissionToggle}
             onCheckedToggle={onCheckedToggle}
             onScoreToggle={onScoreToggle}
-            onLikelihoodToggle={onLikelihoodToggle}
+  
             onDescriptionUpdate={onDescriptionUpdate}
             onConstraintsUpdate={onConstraintsUpdate}
             onOpenInCode={onOpenInCode}
