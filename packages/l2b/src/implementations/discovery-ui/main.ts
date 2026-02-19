@@ -51,6 +51,7 @@ import { calculateV2Score } from './defidisco/v2Scoring'
 import {
   getReviewConfig,
   updateReviewConfig,
+  updateEntityDescription,
 } from './defidisco/reviewConfig'
 import {
   attachTemplateRouter,
@@ -616,6 +617,28 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
     } catch (error) {
       console.error('Error updating review config:', error)
       res.status(500).json({ error: 'Failed to update review config' })
+    }
+  })
+
+  app.put('/api/projects/:project/review-config/entity', (req, res) => {
+    if (readonly) {
+      res.status(403).json({ error: 'Server is in readonly mode' })
+      return
+    }
+
+    const paramsValidation = projectParamsSchema.safeParse(req.params)
+    if (!paramsValidation.success) {
+      res.status(400).json({ errors: paramsValidation.message })
+      return
+    }
+    const { project } = paramsValidation.data
+
+    try {
+      updateEntityDescription(paths, project, req.body)
+      res.json({ success: true })
+    } catch (error) {
+      console.error('Error updating entity description:', error)
+      res.status(500).json({ error: 'Failed to update entity description' })
     }
   })
 

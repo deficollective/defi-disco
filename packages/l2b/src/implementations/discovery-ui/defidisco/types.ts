@@ -531,7 +531,16 @@ export interface ExternalCall {
 // Review Config Types (Review Builder panel)
 // ============================================================================
 
-export type ReviewProjectType = 'stablecoin'
+export type ReviewProjectType =
+  | 'stablecoin'
+  | 'lending'
+  | 'dex'
+  | 'bridge'
+  | 'derivatives'
+  | 'yield'
+  | 'liquid-staking'
+  | 'cdp'
+  | 'other'
 
 export type ReviewMetricFormat = 'usd' | 'percent' | 'number' | 'string'
 
@@ -642,16 +651,24 @@ export interface ReviewSection {
   subsections: ReviewSubSection[]
 }
 
+export interface EntityDescription {
+  name?: string
+  description: string
+}
+
 export interface ReviewConfig {
+  version: string
+  lastModified: string
   protocolSlug: string
   protocolName: string
   tokenName: string
   chain: string
   projectType: ReviewProjectType
+  description: string
+  admins: Record<string, EntityDescription>
+  dependencies: Record<string, EntityDescription>
+  funds: Record<string, EntityDescription>
   sections: {
-    collaterals: ReviewSection
-    dependencies: ReviewSection
-    actors: ReviewSection
     codeAndAudits: ReviewSection
   }
   dataKeys: Record<string, string>
@@ -660,4 +677,11 @@ export interface ReviewConfig {
 export interface ApiReviewConfigResponse {
   config: ReviewConfig | null
   availableTemplates: ReviewProjectType[]
+}
+
+export interface ApiUpdateEntityDescriptionRequest {
+  section: 'admins' | 'dependencies' | 'funds'
+  address: string
+  name?: string
+  description: string
 }

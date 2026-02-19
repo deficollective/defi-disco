@@ -365,6 +365,72 @@ PORT=3001
 - Token market cap is pre-computed during funds fetching (stored in `funds-data.json` under `tokenInfo.tokenValue`)
 - Header totals in Owners/Dependencies use `computeDeduplicatedCapital()` to avoid double-counting the same contract across multiple admins
 
+### Review Builder ✅
+
+**Unified review configuration**: Protocol metadata, descriptions, entity annotations, and section-based layout all stored in a single `review-config.json` file per project.
+
+- **File**: `review-config.json` per project in `packages/config/src/projects/{project}/`
+- **Backend**: `packages/l2b/src/implementations/discovery-ui/defidisco/reviewConfig.ts`
+- **Templates**: `packages/protocolbeat/src/apps/discovery/defidisco/reviewBuilderTemplates.ts`
+- **UI**: `ReviewBuilderPanel.tsx` (main panel), `ReviewDescriptionsEditor.tsx` (Descriptions tab), `ReviewSectionEditor.tsx` (section tabs)
+- **Frontend API**: `getReviewConfig()`, `updateReviewConfig()`, `updateReviewConfigEntity()` in `api.ts`
+
+**Data Structure** (`review-config.json`):
+
+```json
+{
+  "version": "1.0",
+  "lastModified": "2026-02-18T10:30:00.000Z",
+  "protocolSlug": "liquity-v2",
+  "protocolName": "Liquity V2",
+  "tokenName": "BOLD",
+  "chain": "Ethereum",
+  "projectType": "lending",
+  "description": "Liquity V2 is an immutable borrowing protocol...",
+  "admins": {
+    "eth:0x1234...": {
+      "name": "Core Team Multisig",
+      "description": "A 3-of-5 Gnosis Safe multisig..."
+    }
+  },
+  "dependencies": {
+    "eth:0x5678...": {
+      "name": "Chainlink ETH/USD Feed",
+      "description": "Price feed used for collateral valuation."
+    }
+  },
+  "funds": {
+    "eth:0x9abc...": {
+      "name": "Treasury",
+      "description": "Main protocol treasury holding reserves."
+    }
+  },
+  "sections": {
+    "codeAndAudits": { "title": "Code & Audits", "subsections": [] }
+  },
+  "dataKeys": {}
+}
+```
+
+**Key Types**:
+- `ReviewProjectType`: `'stablecoin' | 'lending' | 'dex' | 'bridge' | 'derivatives' | 'yield' | 'liquid-staking' | 'cdp' | 'other'`
+- `EntityDescription`: `{ name?, description }` — used for admins, dependencies, and funds
+- `ApiUpdateEntityDescriptionRequest`: `{ section: 'admins' | 'dependencies' | 'funds', address, name?, description }`
+- `ReviewConfig`: Full config including metadata, descriptions, sections, and dataKeys
+
+**API Endpoints**:
+- `GET /api/projects/:project/review-config` — full config (returns `{ config, availableTemplates }`)
+- `PUT /api/projects/:project/review-config` — full config save
+- `PUT /api/projects/:project/review-config/entity` — partial update for a single admin/dependency/funds entry
+
+**Design Decisions**:
+- Single unified file (protocol metadata + descriptions + sections + data keys)
+- Three curated entity description records: `admins`, `dependencies`, `funds` — each keyed by address
+- Only `codeAndAudits` in sections (collaterals/dependencies/actors data comes from DeFiScan panel)
+- `name` field overrides auto-resolved discovery names for display
+- Templates provide starting configs per project type 
+- Complements V2 scoring data — frontend joins on address to show descriptions alongside scoring/capital data
+
 ---
 
 ## Development Guidelines
@@ -434,13 +500,16 @@ packages/
 │   ├── AdminsInventoryBreakdown.tsx  # Owners section (imports from scoringShared)
 │   ├── DependencyInventoryBreakdown.tsx  # Dependencies section (imports from scoringShared)
 │   ├── FunctionBreakdown.tsx         # Functions section
+│   ├── ReviewDescriptionsEditor.tsx  # Review descriptions editor (Descriptions tab)
 │   └── icons/
 ├── l2b/src/implementations/discovery-ui/defidisco/
 │   ├── permissionOverrides.ts
 │   ├── contractTags.ts
+│   ├── reviewDescriptions.ts        # Review descriptions CRUD
 │   └── generatePermissionsReport.ts
 └── config/src/projects/compound-v3/
-    └── permission-overrides.json
+    ├── permission-overrides.json
+    └── review-descriptions.json      # Per-project review descriptions
 ```
 
 ### Data Access Patterns

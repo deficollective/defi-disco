@@ -23,6 +23,7 @@ import type {
   ApiTokenInfoResponse,
   ApiReviewConfigResponse,
   ReviewConfig,
+  ApiUpdateEntityDescriptionRequest,
 } from './types'
 
 export async function getProjects(): Promise<ApiProjectsResponse> {
@@ -509,6 +510,23 @@ export async function updateReviewConfig(
       'Content-Type': 'application/json',
     },
   })
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+}
+
+export async function updateReviewConfigEntity(
+  project: string,
+  request: ApiUpdateEntityDescriptionRequest,
+): Promise<void> {
+  const res = await fetch(
+    `/api/projects/${project}/review-config/entity`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(request),
+      headers: { 'Content-Type': 'application/json' },
+    },
+  )
   if (!res.ok) {
     throw new Error(res.statusText)
   }

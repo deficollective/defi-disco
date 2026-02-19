@@ -16,22 +16,22 @@ import {
 import { registerPanelDirtyCheck } from './panelDirtyState'
 import { ReviewSectionEditor } from './ReviewSectionEditor'
 import { ReviewDataKeysEditor } from './ReviewDataKeysEditor'
+import { ReviewDescriptionsEditor } from './ReviewDescriptionsEditor'
 import { useReviewImportData } from './useReviewImportData'
 
 const SECTION_KEYS = [
-  'collaterals',
-  'dependencies',
-  'actors',
   'codeAndAudits',
 ] as const
 type SectionKey = (typeof SECTION_KEYS)[number]
 
-const SECTION_LABELS: Record<SectionKey, string> = {
-  collaterals: 'Collaterals',
-  dependencies: 'Dependencies',
-  actors: 'Actors',
+type TabKey = SectionKey | 'descriptions'
+
+const TAB_LABELS: Record<TabKey, string> = {
+  descriptions: 'Descriptions',
   codeAndAudits: 'Code & Audits',
 }
+
+const ALL_TABS: TabKey[] = ['descriptions', ...SECTION_KEYS]
 
 export function ReviewBuilderPanel() {
   const { project } = useParams()
@@ -49,7 +49,7 @@ export function ReviewBuilderPanel() {
   const [savedJson, setSavedJson] = useState<string>('')
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
-  const [activeSection, setActiveSection] = useState<SectionKey>('collaterals')
+  const [activeTab, setActiveTab] = useState<TabKey>('descriptions')
 
   const { data: importData, isLoading: isImportDataLoading } =
     useReviewImportData(project)
@@ -234,29 +234,39 @@ export function ReviewBuilderPanel() {
 
         {/* Section tabs */}
         <div className="mb-2 flex border-b border-coffee-600">
-          {SECTION_KEYS.map((key) => (
+          {ALL_TABS.map((key) => (
             <button
               key={key}
-              onClick={() => setActiveSection(key)}
+              onClick={() => setActiveTab(key)}
               className={`px-3 py-1.5 text-xs font-medium ${
-                activeSection === key
+                activeTab === key
                   ? 'border-b-2 border-autumn-300 text-autumn-300'
                   : 'text-coffee-200 hover:text-coffee-100'
               }`}
             >
-              {SECTION_LABELS[key]}
+              {TAB_LABELS[key]}
             </button>
           ))}
         </div>
 
-        {/* Active section editor */}
-        <ReviewSectionEditor
-          section={localConfig.sections[activeSection]}
-          onChange={(updater) => updateSection(activeSection, updater)}
-          sectionKey={activeSection}
-          importData={importData}
-          isDataLoading={isImportDataLoading}
-        />
+        {/* Active tab content */}
+        {activeTab === 'descriptions' ? (
+          <ReviewDescriptionsEditor
+            project={project}
+            config={localConfig}
+            onUpdateConfig={(updater) =>
+              setLocalConfig((prev) => (prev ? updater(prev) : prev))
+            }
+          />
+        ) : (
+          <ReviewSectionEditor
+            section={localConfig.sections[activeTab]}
+            onChange={(updater) => updateSection(activeTab, updater)}
+            sectionKey={activeTab}
+            importData={importData}
+            isDataLoading={isImportDataLoading}
+          />
+        )}
 
         {/* Data keys editor */}
         <div className="mt-4 border-t border-coffee-600 pt-3">
