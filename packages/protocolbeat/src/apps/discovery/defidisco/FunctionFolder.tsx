@@ -1323,26 +1323,26 @@ export function FunctionFolder({
 
                           {/* Show centralization attributes */}
                           {depInfo && depInfo.centralization && (
-                              <div className="mt-1 flex items-center gap-3 text-xs">
-                                {depInfo.centralization && (
-                                  <div className="flex items-center gap-1">
-                                    <span className="text-coffee-400">
-                                      Centralization:
-                                    </span>
-                                    <span
-                                      style={{
-                                        color: getCentralizationColor(
-                                          depInfo.centralization,
-                                        ),
-                                      }}
-                                      className="font-semibold"
-                                    >
-                                      {depInfo.centralization}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                            <div className="mt-1 flex items-center gap-3 text-xs">
+                              {depInfo.centralization && (
+                                <div className="flex items-center gap-1">
+                                  <span className="text-coffee-400">
+                                    Centralization:
+                                  </span>
+                                  <span
+                                    style={{
+                                      color: getCentralizationColor(
+                                        depInfo.centralization,
+                                      ),
+                                    }}
+                                    className="font-semibold"
+                                  >
+                                    {depInfo.centralization}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </div>
                       )
                     })}

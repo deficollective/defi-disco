@@ -23,11 +23,7 @@ interface DependencyData {
 /**
  * External contract section - displays functions that depend on this contract
  */
-function DependencySection({
-  dependency,
-}: {
-  dependency: DependencyData
-}) {
+function DependencySection({ dependency }: { dependency: DependencyData }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const selectGlobal = usePanelStore((state) => state.select)
 
@@ -216,10 +212,7 @@ export function DependencyBreakdown() {
         {/* Dependencies list */}
         <div className="ml-2">
           {dependencies.map((dep) => (
-            <DependencySection
-              key={dep.contractAddress}
-              dependency={dep}
-            />
+            <DependencySection key={dep.contractAddress} dependency={dep} />
           ))}
         </div>
       </div>

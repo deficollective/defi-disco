@@ -440,7 +440,6 @@ export function PermissionsDisplay({
               onPermissionToggle={handlePermissionToggle}
               onCheckedToggle={handleCheckedToggle}
               onScoreToggle={handleScoreToggle}
-
               onDescriptionUpdate={handleDescriptionUpdate}
               onConstraintsUpdate={handleConstraintsUpdate}
               onOpenInCode={handleOpenInCode}
@@ -558,7 +557,6 @@ function PermissionsCode({
           onPermissionToggle={onPermissionToggle}
           onCheckedToggle={onCheckedToggle}
           onScoreToggle={onScoreToggle}
-
           onDescriptionUpdate={onDescriptionUpdate}
           onConstraintsUpdate={onConstraintsUpdate}
           onOpenInCode={onOpenInCode}
@@ -681,7 +679,6 @@ function WritePermissionsCodeEntries({
             onPermissionToggle={onPermissionToggle}
             onCheckedToggle={onCheckedToggle}
             onScoreToggle={onScoreToggle}
-  
             onDescriptionUpdate={onDescriptionUpdate}
             onConstraintsUpdate={onConstraintsUpdate}
             onOpenInCode={onOpenInCode}

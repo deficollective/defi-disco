@@ -334,8 +334,7 @@ PORT=3001
 
 **Shared Module (`scoringShared.tsx`)** — DO NOT duplicate code from this file:
 
-- **Utility Functions**: `formatUsdValue`, `hasCapitalData`, `hasTokenValueData`, `isZeroAddress`, `getAdminTypeColor`, `getImpactColor`, `impactToScore`, `computeDeduplicatedCapital`
-- **Picker Components**: `ImpactPicker` — dropdown picker for impact scoring (binary: critical or unscored)
+- **Utility Functions**: `formatUsdValue`, `hasCapitalData`, `hasTokenValueData`, `isZeroAddress`, `getAdminTypeColor`, `getImpactColor`, `computeDeduplicatedCapital`
 - **Display Components**: `TreeNode`, `FundsDisplay`, `TokenValueDisplay`, `FunctionCapitalBreakdown` — tree-structured capital breakdown
 - **`OwnerSection`**: Shared component used by **both** Owners and Dependencies sections to render an owner/admin with admin type badges, proxy type tags, capital-at-risk, and expandable function list with capital breakdown trees
 
@@ -406,7 +405,7 @@ PORT=3001
 - ❌ Address format mismatches (contracts use `eth:0x...`, tags use `0x...`)
 - ❌ Using `??` instead of `!== undefined` for optional fields that can be explicitly cleared
 - ❌ Forgetting to rebuild both `protocolbeat` AND `l2b` after backend changes
-- ❌ Duplicating scoring utilities — use `scoringShared.tsx` (`OwnerSection`, `ImpactPicker`, capital display)
+- ❌ Duplicating scoring utilities — use `scoringShared.tsx` (`OwnerSection`, capital display)
 
 **Proxy/Implementation Pattern:**
 
@@ -569,10 +568,10 @@ packages/
 
 - **Permission Owner System**: Uses generalized path expressions that work with **any** handler's data structure (ACL, AccessControl, custom handlers, future handlers). No special cases or hardcoded logic needed.
 - **Migration**: All existing permission-overrides.json files have been migrated to the new unified path format (one-off migration, October 2025).
-- **Score vs Impact Terminology**:
-  - In `functions.json`, the field is called `score` with values: `'unscored' | 'critical'` (binary scoring)
-  - **TypeScript types** use `Impact` with value: `'critical'`
-  - **Conversion**: `'unscored'` maps to `undefined`, `'critical'` maps to `'critical'`
+- **Score / Impact (Binary)**:
+  - In `functions.json`, the field is called `score` with values: `'unscored' | 'critical'`
+  - **TypeScript types** use `Impact = 'critical'` (single-value type)
+  - Impact is displayed as a static label in V2 scoring, toggled via binary switch in the Values panel
 
 **Future Development:** Follow the minimal integration principle to ensure easy upstream merges and maintainable code separation.
 

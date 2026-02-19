@@ -60,7 +60,6 @@ export function getImpactColor(impact: string): string {
   return '#9ca3af'
 }
 
-
 // ─── Tree structure constants ─────────────────────────────────────────────────
 
 export const TREE_BRANCH = '├──'

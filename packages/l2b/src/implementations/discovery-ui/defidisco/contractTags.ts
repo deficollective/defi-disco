@@ -85,10 +85,7 @@ export function updateContractTag(
 
   // Check if any meaningful tag data exists
   const hasAnyTagData =
-    newIsExternal ||
-    newFetchBalances ||
-    newFetchPositions ||
-    newIsToken
+    newIsExternal || newFetchBalances || newFetchPositions || newIsToken
 
   if (hasAnyTagData) {
     // Create or update tag entry

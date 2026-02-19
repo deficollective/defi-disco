@@ -200,7 +200,11 @@ class DependencyInventoryModule {
         ([contractAddress, contractData]: [string, any]) => {
           contractData.functions.forEach((func: any) => {
             // Only process scored functions that have dependencies
-            if (func.dependencies && func.dependencies.length > 0 && this.isScored(func.score)) {
+            if (
+              func.dependencies &&
+              func.dependencies.length > 0 &&
+              this.isScored(func.score)
+            ) {
               func.dependencies.forEach((dep: { contractAddress: string }) => {
                 const depAddress = dep.contractAddress
 
@@ -428,7 +432,6 @@ class AdminInventoryModule {
       breakdown: Array.from(adminsMap.values()),
     }
   }
-
 }
 
 // ============================================================================

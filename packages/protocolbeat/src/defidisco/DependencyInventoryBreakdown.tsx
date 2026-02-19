@@ -23,11 +23,7 @@ interface DependencyInventoryBreakdownProps {
 /**
  * Dependency section component - displays functions for a single external contract
  */
-function DependencySection({
-  dependency,
-}: {
-  dependency: any
-}) {
+function DependencySection({ dependency }: { dependency: any }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const selectGlobal = usePanelStore((state) => state.select)
 
@@ -223,10 +219,7 @@ export function DependencyInventoryBreakdown({
 
             {/* Regular dependencies */}
             {regularDeps.map((dep) => (
-              <DependencySection
-                key={dep.dependencyAddress}
-                dependency={dep}
-              />
+              <DependencySection key={dep.dependencyAddress} dependency={dep} />
             ))}
 
             {/* External owners (rendered with OwnerSection for full tags/funds) */}
