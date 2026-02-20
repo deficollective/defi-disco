@@ -3170,7 +3170,6 @@
           "isPermissioned": true,
           "checked": true,
           "score": "critical",
-          "likelihood": "mitigated",
           "description": "Allows the Tiebreaker committee to instruct the EmergencyProtectedTimelock singleton instance to schedule a submitted and non-cancelled proposal for execution. This can only be called if the governance is in deadlock and the mandatory timeout has passed since the activation of the tiebreaker committee.",
           "constraints": "Governance has to be in tie state.",
           "ownerDefinitions": [
@@ -3185,7 +3184,6 @@
           "isPermissioned": true,
           "checked": true,
           "score": "critical",
-          "likelihood": "mitigated",
           "description": "Allows the Tiebreaker committee to resume a paused sealable contract when the system is in a tie state.\n\n",
           "ownerDefinitions": [
             {
@@ -3261,7 +3259,6 @@
         {
           "functionName": "reseal",
           "isPermissioned": true,
-          "likelihood": "mitigated",
           "ownerDefinitions": [
             {
               "path": "@EMERGENCY_PROTECTED_TIMELOCK.governance"

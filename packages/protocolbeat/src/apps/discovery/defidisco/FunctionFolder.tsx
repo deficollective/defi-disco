@@ -47,12 +47,7 @@ interface FunctionFolderProps {
   onScoreToggle: (
     contractAddress: string,
     functionName: string,
-    currentScore:
-      | 'unscored'
-      | 'low-risk'
-      | 'medium-risk'
-      | 'high-risk'
-      | 'critical',
+    currentScore: 'unscored' | 'critical',
   ) => void
   onDescriptionUpdate: (
     contractAddress: string,
@@ -688,7 +683,7 @@ export function FunctionFolder({
             style={{
               color: getScoreColor(scoreStatus),
             }}
-            title={`Current score: ${scoreStatus}. Click to cycle: unscored → low-risk → medium-risk → high-risk → critical`}
+            title={`Current score: ${scoreStatus}. Click to toggle: unscored ↔ critical`}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = getScoreColor(scoreStatus, true)
             }}

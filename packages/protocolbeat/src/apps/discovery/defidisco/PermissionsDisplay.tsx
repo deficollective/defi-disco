@@ -157,12 +157,7 @@ export function PermissionsDisplay({
   const handleScoreToggle = async (
     contractAddress: string,
     functionName: string,
-    currentScore:
-      | 'unscored'
-      | 'low-risk'
-      | 'medium-risk'
-      | 'high-risk'
-      | 'critical',
+    currentScore: 'unscored' | 'critical',
   ) => {
     if (!project) return
 
@@ -464,7 +459,6 @@ function PermissionsCode({
   onPermissionToggle,
   onCheckedToggle,
   onScoreToggle,
-
   onDescriptionUpdate,
   onConstraintsUpdate,
   onOpenInCode,
@@ -491,14 +485,8 @@ function PermissionsCode({
   onScoreToggle: (
     contractAddress: string,
     functionName: string,
-    currentScore:
-      | 'unscored'
-      | 'low-risk'
-      | 'medium-risk'
-      | 'high-risk'
-      | 'critical',
+    currentScore: 'unscored' | 'critical',
   ) => void
-
   onDescriptionUpdate: (
     contractAddress: string,
     functionName: string,
@@ -578,7 +566,6 @@ function WritePermissionsCodeEntries({
   onPermissionToggle,
   onCheckedToggle,
   onScoreToggle,
-
   onDescriptionUpdate,
   onConstraintsUpdate,
   onOpenInCode,
@@ -604,14 +591,8 @@ function WritePermissionsCodeEntries({
   onScoreToggle: (
     contractAddress: string,
     functionName: string,
-    currentScore:
-      | 'unscored'
-      | 'low-risk'
-      | 'medium-risk'
-      | 'high-risk'
-      | 'critical',
+    currentScore: 'unscored' | 'critical',
   ) => void
-
   onDescriptionUpdate: (
     contractAddress: string,
     functionName: string,

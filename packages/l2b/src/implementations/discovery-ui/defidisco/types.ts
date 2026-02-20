@@ -326,7 +326,7 @@ export interface FunctionEntry {
   functionName: string
   isPermissioned: boolean
   checked?: boolean
-  score?: 'unscored' | 'low-risk' | 'medium-risk' | 'high-risk' | 'critical'
+  score?: 'unscored' | 'critical'
   reason?: string
   description?: string
   constraints?: string
@@ -367,7 +367,7 @@ export interface ApiFunctionsUpdateRequest {
   functionName: string
   isPermissioned?: boolean
   checked?: boolean
-  score?: 'unscored' | 'low-risk' | 'medium-risk' | 'high-risk' | 'critical'
+  score?: 'unscored' | 'critical'
   reason?: string
   description?: string
   constraints?: string
