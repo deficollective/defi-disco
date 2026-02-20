@@ -2,33 +2,26 @@
 
 import type { ChainSpecificAddress } from '@l2beat/shared-pure'
 
-// Severity scoring type aliases
-export type Impact = 'low' | 'medium' | 'high' | 'critical'
-export type Likelihood = 'mitigated' | 'low' | 'medium' | 'high'
-export type Severity = 'informational' | 'low' | 'medium' | 'high' | 'critical'
+// Scoring type aliases
+export type Impact = 'critical'
 
-// Function detail for severity scoring breakdown
+// Function detail for scoring breakdown
 export interface FunctionDetail {
   contractAddress: string
   contractName: string
   functionName: string
   impact: Impact
-  likelihood: Likelihood
-  severity: Severity
-  grade: LetterGrade
 }
 
 // Dependency detail for dependency scoring breakdown
 export interface DependencyDetail {
   dependencyAddress: string
   dependencyName: string
-  likelihood: Likelihood
   functions: {
     contractAddress: string
     contractName: string
     functionName: string
     impact: Impact
-    grade: LetterGrade
   }[]
 }
 
@@ -37,13 +30,11 @@ export interface AdminDetail {
   adminAddress: string
   adminName: string
   adminType: ApiAddressType
-  likelihood?: Likelihood
   functions: {
     contractAddress: string
     contractName: string
     functionName: string
     impact: Impact
-    grade?: LetterGrade // Only present if both impact and likelihood exist
   }[]
 }
 
@@ -390,12 +381,22 @@ export interface ContractFunctions {
   functions: FunctionEntry[]
 }
 
+export interface FunctionAttribution {
+  author: string   // GitHub handle
+  date: string     // ISO 8601
+}
+
+export interface FunctionComment {
+  author: string
+  date: string
+  text: string
+}
+
 export interface FunctionEntry {
   functionName: string
   isPermissioned: boolean
   checked?: boolean
-  score?: 'unscored' | 'low-risk' | 'medium-risk' | 'high-risk' | 'critical'
-  likelihood?: Likelihood
+  score?: 'unscored' | 'critical'
   reason?: string
   description?: string
   constraints?: string
@@ -411,6 +412,11 @@ export interface FunctionEntry {
   dependencies?: {
     contractAddress: string
   }[]
+  // Attribution tracking
+  lastChangedBy?: FunctionAttribution
+  completedBy?: FunctionAttribution
+  // Audit trail comments
+  comments?: FunctionComment[]
 }
 
 // Owner definition types - unified path expression approach
@@ -431,8 +437,7 @@ export interface ApiFunctionsUpdateRequest {
   functionName: string
   isPermissioned?: boolean
   checked?: boolean
-  score?: 'unscored' | 'low-risk' | 'medium-risk' | 'high-risk' | 'critical'
-  likelihood?: Likelihood
+  score?: 'unscored' | 'critical'
   reason?: string
   description?: string
   constraints?: string
@@ -444,6 +449,12 @@ export interface ApiFunctionsUpdateRequest {
   dependencies?: {
     contractAddress: string
   }[]
+  // Frontend sends only the text; backend stamps author + date
+  newComment?: { text: string }
+}
+
+export interface ApiResearcherInfoResponse {
+  githubHandle: string | null
 }
 
 // Contract tags types
@@ -457,7 +468,6 @@ export interface ContractTag {
   contractAddress: string
   isExternal: boolean
   centralization?: 'high' | 'medium' | 'low' | 'immutable'
-  likelihood?: Likelihood
   fetchBalances?: boolean
   fetchPositions?: boolean
   isToken?: boolean
@@ -468,23 +478,18 @@ export interface ApiContractTagsUpdateRequest {
   contractAddress: string
   isExternal?: boolean
   centralization?: 'high' | 'medium' | 'low' | 'immutable'
-  likelihood?: Likelihood
   fetchBalances?: boolean
   fetchPositions?: boolean
   isToken?: boolean
 }
 
 // V2 Scoring types
-export type LetterGrade = 'AAA' | 'AA' | 'A' | 'BBB' | 'BB' | 'B' | 'CCC' | 'CC' | 'C' | 'D' | 'Unscored'
-
 export interface ModuleScore {
-  grade: LetterGrade
   inventory: number
 }
 
 export interface FunctionModuleScore extends ModuleScore {
-  breakdown?: Record<LetterGrade, FunctionDetail[]>
-  unscoredCount?: number
+  breakdown?: FunctionDetail[]
 }
 
 export interface DependencyModuleScore extends ModuleScore {
@@ -504,7 +509,6 @@ export interface ApiV2ScoreResponse {
     dependencies: DependencyModuleScore
     admins: AdminModuleScore
   }
-  finalScore: LetterGrade
 }
 
 // Funds data types

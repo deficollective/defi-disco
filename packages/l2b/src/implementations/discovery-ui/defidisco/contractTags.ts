@@ -39,10 +39,12 @@ export function updateContractTag(
 ): void {
   const tagsPath = getContractTagsPath(paths, project)
 
-  // Normalize contract address to always include eth: prefix
-  const normalizedAddress = updateRequest.contractAddress.startsWith('eth:')
-    ? updateRequest.contractAddress
-    : `eth:${updateRequest.contractAddress}`
+  // Normalize contract address: always include eth: prefix, always lowercase
+  const normalizedAddress = (
+    updateRequest.contractAddress.startsWith('eth:')
+      ? updateRequest.contractAddress
+      : `eth:${updateRequest.contractAddress}`
+  ).toLowerCase()
 
   // Load existing contract tags
   let contractTags: ContractTag[] = []
@@ -56,11 +58,13 @@ export function updateContractTag(
     }
   }
 
-  // Find existing tag for the same contract (normalize both for comparison)
+  // Find existing tag for the same contract (case-insensitive comparison)
   const existingTagIndex = contractTags.findIndex((tag) => {
-    const existingNormalized = tag.contractAddress.startsWith('eth:')
-      ? tag.contractAddress
-      : `eth:${tag.contractAddress}`
+    const existingNormalized = (
+      tag.contractAddress.startsWith('eth:')
+        ? tag.contractAddress
+        : `eth:${tag.contractAddress}`
+    ).toLowerCase()
     return existingNormalized === normalizedAddress
   })
 
@@ -78,18 +82,10 @@ export function updateContractTag(
     updateRequest.centralization !== undefined
       ? updateRequest.centralization
       : existingTag?.centralization
-  const newLikelihood =
-    updateRequest.likelihood !== undefined
-      ? updateRequest.likelihood
-      : existingTag?.likelihood
 
-  // Check if any meaningful tag data exists (boolean fields true OR likelihood assigned)
+  // Check if any meaningful tag data exists
   const hasAnyTagData =
-    newIsExternal ||
-    newFetchBalances ||
-    newFetchPositions ||
-    newIsToken ||
-    newLikelihood !== undefined
+    newIsExternal || newFetchBalances || newFetchPositions || newIsToken
 
   if (hasAnyTagData) {
     // Create or update tag entry
@@ -97,7 +93,6 @@ export function updateContractTag(
       contractAddress: normalizedAddress,
       isExternal: newIsExternal,
       centralization: newCentralization,
-      likelihood: newLikelihood,
       fetchBalances: newFetchBalances || undefined, // Only store if true
       fetchPositions: newFetchPositions || undefined, // Only store if true
       isToken: newIsToken || undefined, // Only store if true
