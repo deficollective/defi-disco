@@ -172,15 +172,15 @@ export async function generateCallGraph(
   for (let i = 0; i < contracts.length; i++) {
     const contract = contracts[i]!
     onProgress?.(
-      `[${i + 1}/${contracts.length}] Analyzing ${contract.name} (${contract.address})...`,
+      `[${i + 1}/${contracts.length}] Analyzing ${contract.displayName} (${contract.entryAddress})...`,
     )
 
-    // Check cache first
+    // Check cache first (keyed by entry address, sourceHash covers proxy + implementation)
     const currentSourceHash = getContractSourceHash(
       discovered,
-      contract.address,
+      contract.entryAddress,
     )
-    const cachedEntry = getSlithirCache(paths, project, contract.address)
+    const cachedEntry = getSlithirCache(paths, project, contract.entryAddress)
 
     let slithirOutput: string | null = null
 
@@ -198,8 +198,9 @@ export async function generateCallGraph(
       const reason = cachedEntry ? 'source changed' : 'no cache'
       onProgress?.(`  Running Slither (${reason})...`)
 
+      // runs on implementation address for proxies (since interested in business logic of the contract, not proxy logic)
       const slitherResult = await runSlitherOnContract(
-        contract.address,
+        contract.slitherAddress,
         etherscanApiKey,
         onProgress,
       )
@@ -208,9 +209,9 @@ export async function generateCallGraph(
         onProgress?.(
           '  Skipping: Source code not available (unverified contract)',
         )
-        result[contract.address] = {
-          address: contract.address,
-          name: contract.name,
+        result[contract.entryAddress] = {
+          address: contract.entryAddress,
+          name: contract.displayName,
           externalCalls: [],
           generatedAt: new Date().toISOString(),
           skipped: true,
@@ -221,9 +222,9 @@ export async function generateCallGraph(
 
       if (slitherResult.error) {
         onProgress?.(`  Error: ${slitherResult.error}`)
-        result[contract.address] = {
-          address: contract.address,
-          name: contract.name,
+        result[contract.entryAddress] = {
+          address: contract.entryAddress,
+          name: contract.displayName,
           externalCalls: [],
           generatedAt: new Date().toISOString(),
           error: slitherResult.error,
@@ -236,7 +237,7 @@ export async function generateCallGraph(
 
       // Save to cache if we have a source hash
       if (currentSourceHash && slithirOutput) {
-        saveSlithirCache(paths, project, contract.address, {
+        saveSlithirCache(paths, project, contract.entryAddress, {
           version: '1.0',
           sourceHash: currentSourceHash,
           generatedAt: new Date().toISOString(),
@@ -245,16 +246,17 @@ export async function generateCallGraph(
       }
     }
 
-    // Get ABI function names for this contract
+    // Get ABI function names (use implementation ABI for proxies)
     const abiFunctionNames = getAbiFunctionNames(
       discovered.abis,
-      contract.address,
+      contract.abiAddress,
     )
 
     // Parse the slithir output using ABI-driven approach
+    // Uses code-derived name (from implementationNames) for SlithIR section lookup
     const externalCalls = parseSlithirForContract(
       slithirOutput!,
-      contract.name,
+      contract.slitherContractName,
       abiFunctionNames,
       onProgress,
     )
@@ -290,9 +292,10 @@ export async function generateCallGraph(
     // Resolve addresses and classify calls for each external call
     for (const call of externalCalls) {
       // Try deterministic resolution first (direct state variable lookup)
+      // Use entryAddress — values (state variables) are stored on the proxy entry
       const resolved = resolveStorageVariable(
         discovered,
-        contract.address,
+        contract.entryAddress,
         call.storageVariable,
       )
 
@@ -306,7 +309,7 @@ export async function generateCallGraph(
         // Try optimistic resolution using heuristics
         const heuristicContext: HeuristicContext = {
           call,
-          callerContractAddress: contract.address,
+          callerContractAddress: contract.entryAddress,
           discovered,
           variableAssignments,
         }
@@ -351,10 +354,11 @@ export async function generateCallGraph(
 
       // If we couldn't determine from target ABI, check if the caller function is view/pure
       // (view/pure functions can only call other view/pure functions)
+      // Use abiAddress — caller ABI is on the implementation for proxies
       if (call.isViewCall === undefined) {
         const callerAbiLookup = findFunctionInAbi(
           discovered.abis,
-          contract.address,
+          contract.abiAddress,
           call.callerFunction,
         )
         if (callerAbiLookup.found && callerAbiLookup.isView) {
@@ -374,9 +378,9 @@ export async function generateCallGraph(
     )
     onProgress?.(`  Read/Write: ${viewCount} reads, ${writeCount} writes`)
 
-    result[contract.address] = {
-      address: contract.address,
-      name: contract.name,
+    result[contract.entryAddress] = {
+      address: contract.entryAddress,
+      name: contract.displayName,
       externalCalls,
       generatedAt: new Date().toISOString(),
     }
@@ -526,14 +530,24 @@ function getContractSourceHash(
 // Private Helpers - Contract Analysis
 // =============================================================================
 
+interface ContractToAnalyze {
+  entryAddress: string // proxy address — used for storing results (UI shows proxy)
+  slitherAddress: string // address to run Slither on (impl for proxies, self otherwise)
+  slitherContractName: string // code-derived name for SlithIR section lookup
+  abiAddress: string // address to get ABI from (impl for proxies, self otherwise)
+  displayName: string // entry.name for display/logging
+}
+
 /**
- * Get list of non-external contracts to analyze
+ * Get list of non-external contracts to analyze.
+ * For proxy contracts, returns the implementation address for Slither/ABI analysis
+ * while keeping the proxy address for result storage.
  */
 function getContractsToAnalyze(
   paths: DiscoveryPaths,
   discovered: DiscoveryOutput,
   project: string,
-): { address: string; name: string }[] {
+): ContractToAnalyze[] {
   // Load contract tags to identify external contracts
   const tags = getContractTags(paths, project)
   const externalAddresses = new Set(
@@ -542,7 +556,7 @@ function getContractsToAnalyze(
       .map((tag) => tag.contractAddress.toLowerCase()),
   )
 
-  const contracts: { address: string; name: string }[] = []
+  const contracts: ContractToAnalyze[] = []
 
   for (const entry of discovered.entries) {
     if (entry.type !== 'Contract') continue
@@ -551,10 +565,59 @@ function getContractsToAnalyze(
     const normalizedAddress = entry.address.toLowerCase()
     if (externalAddresses.has(normalizedAddress)) continue
 
-    contracts.push({
-      address: entry.address,
-      name: entry.name || 'Unknown',
-    })
+    const displayName = entry.name || 'Unknown'
+    const implNames = (
+      'implementationNames' in entry ? entry.implementationNames : undefined
+    ) as Record<string, string> | undefined
+    const proxyType = ('proxyType' in entry ? entry.proxyType : undefined) as
+      | string
+      | undefined
+
+    // A contract is a proxy if proxyType is not "immutable" and not "EOA"
+    const isProxy =
+      proxyType !== undefined &&
+      proxyType !== 'immutable' &&
+      proxyType !== 'EOA'
+
+    if (isProxy) {
+      // Get implementation address from values.$implementation
+      const implValue =
+        'values' in entry && entry.values
+          ? (entry.values as Record<string, unknown>).$implementation
+          : undefined
+
+      if (typeof implValue === 'string' && implValue.startsWith('eth:')) {
+        // Proxy contract — analyze the implementation
+        const implName = implNames?.[implValue] ?? displayName
+        contracts.push({
+          entryAddress: entry.address,
+          slitherAddress: implValue,
+          slitherContractName: implName,
+          abiAddress: implValue,
+          displayName,
+        })
+      } else {
+        // Proxy but no valid $implementation — log warning and skip
+        contracts.push({
+          entryAddress: entry.address,
+          slitherAddress: entry.address,
+          slitherContractName: displayName,
+          abiAddress: entry.address,
+          displayName,
+        })
+      }
+    } else {
+      // Regular contract — use implementationNames for code-derived name
+      // prevent taking the alias given by config.jsonc (field "name")
+      const codeName = implNames?.[entry.address] ?? displayName
+      contracts.push({
+        entryAddress: entry.address,
+        slitherAddress: entry.address,
+        slitherContractName: codeName,
+        abiAddress: entry.address,
+        displayName,
+      })
+    }
   }
 
   return contracts
@@ -959,10 +1022,33 @@ function parseSlithirForContract(
     // Skip constructor
     if (funcName === 'constructor') continue
 
+    // Determine which SlithIR contract section contains this function
+    let targetContractName = contractName
+    const mainContract = parsedSlithir.contracts.get(contractName)
+
+    if (!mainContract?.functions.has(funcName)) {
+      // Inheritance fallback: search other sections within slithir output for this function
+      // Skip interfaces (empty function bodies — no call instructions)
+      for (const [name, contract] of parsedSlithir.contracts) {
+        if (name === contractName) continue
+        const func = contract.functions.get(funcName)
+        if (!func) continue
+        // Skip interfaces: they have declarations but no call instructions
+        if (
+          func.internalCalls.length === 0 &&
+          func.highLevelCalls.length === 0 &&
+          func.libraryCalls.length === 0
+        )
+          continue
+        targetContractName = name
+        break
+      }
+    }
+
     const visited = new Set<string>()
     const hlcs = collectHighLevelCalls(
       parsedSlithir,
-      contractName,
+      targetContractName,
       funcName,
       visited,
       new Map(), // No type substitutions for top-level public functions

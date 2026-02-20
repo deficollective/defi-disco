@@ -158,17 +158,39 @@ class InterfaceNameHeuristic implements ResolutionHeuristic {
     const expectedContractName = interfaceName.slice(1) // Remove 'I' prefix
 
     // Find all contracts with matching name (case-insensitive)
+    // Checks both entry.name and implementationNames values to handle:
+    // - Aliases: entry.name is the alias, but implementationNames has the code-derived name
+    // - Proxies: entry.name is the proxy name, but implementationNames has the implementation name
     const matches: HeuristicMatch[] = []
+    const expectedLower = expectedContractName.toLowerCase()
 
     for (const entry of discovered.entries) {
       if (entry.type !== 'Contract') continue
 
       const contractName = entry.name || ''
-      if (contractName.toLowerCase() === expectedContractName.toLowerCase()) {
+      if (contractName.toLowerCase() === expectedLower) {
         matches.push({
           address: entry.address,
           contractName: entry.name,
         })
+        continue // Don't double-match same entry
+      }
+
+      // Check implementationNames values (code-derived names from Etherscan source)
+      if ('implementationNames' in entry && entry.implementationNames) {
+        const implNames = entry.implementationNames as Record<string, string>
+        let matched = false
+        for (const implName of Object.values(implNames)) {
+          if (implName.toLowerCase() === expectedLower) {
+            matches.push({
+              address: entry.address,
+              contractName: entry.name,
+            })
+            matched = true
+            break // One match per entry is enough
+          }
+        }
+        if (matched) continue
       }
     }
 
