@@ -22,8 +22,8 @@ import * as solidity from '../../../components/editor/languages/solidity'
 import { IconChevronDown } from '../../../icons/IconChevronDown'
 import { IconChevronRight } from '../../../icons/IconChevronRight'
 import { usePanelStore } from '../store/panel-store'
-import { formatUsdValue } from './formatUtils'
 import {
+  formatUsdValue,
   getAdminTypeColor,
   isZeroAddress,
 } from '../../../defidisco/scoringShared'
