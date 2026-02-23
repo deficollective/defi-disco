@@ -150,7 +150,12 @@ export async function generateCallGraph(
   const discovered = configReader.readDiscovery(project)
 
   // Get contracts to analyze (non-external only)
-  const contracts = getContractsToAnalyze(paths, discovered, project)
+  const contracts = getContractsToAnalyze(
+    paths,
+    discovered,
+    project,
+    onProgress,
+  )
 
   onProgress?.(`Found ${contracts.length} non-external contracts to analyze`)
 
@@ -177,10 +182,11 @@ export async function generateCallGraph(
 
     // Check cache first
     // Cache key uses slitherAddress (implementation for proxies) since that's what Slither runs on
-    // Source hash uses entryAddress (proxy) since sourceHashes covers both proxy + implementation
+    // Source hash uses slitherAddress to avoid cache thrashing when two proxies share an implementation
     const currentSourceHash = getContractSourceHash(
       discovered,
       contract.entryAddress,
+      contract.slitherAddress,
     )
     const cachedEntry = getSlithirCache(paths, project, contract.slitherAddress)
 
@@ -509,23 +515,26 @@ function saveSlithirCache(
 
 function getContractSourceHash(
   discovered: DiscoveryOutput,
-  address: string,
+  entryAddress: string,
+  slitherAddress: string,
 ): string | undefined {
   const entry = discovered.entries.find(
-    (e) => e.address.toLowerCase() === address.toLowerCase(),
+    (e) => e.address.toLowerCase() === entryAddress.toLowerCase(),
   )
 
-  if (!entry || !('sourceHashes' in entry)) {
+  if (!entry?.sourceHashes || entry.sourceHashes.length === 0) {
     return undefined
   }
 
-  const sourceHashes = (entry as { sourceHashes?: string[] }).sourceHashes
-  if (!sourceHashes || sourceHashes.length === 0) {
-    return undefined
+  // For proxies (entryAddress !== slitherAddress), use only the implementation hash
+  // to avoid cache thrashing when two proxies share one implementation.
+  // sourceHashes order: [proxy, implementation] — last element is the implementation.
+  if (entryAddress.toLowerCase() !== slitherAddress.toLowerCase()) {
+    return entry.sourceHashes[entry.sourceHashes.length - 1]
   }
 
-  // Combine all source hashes into one (handles proxy + implementation)
-  return sourceHashes.join(':')
+  // Regular contract — single source hash
+  return entry.sourceHashes[0]
 }
 
 // =============================================================================
@@ -549,6 +558,7 @@ function getContractsToAnalyze(
   paths: DiscoveryPaths,
   discovered: DiscoveryOutput,
   project: string,
+  onProgress?: (message: string) => void,
 ): ContractToAnalyze[] {
   // Load contract tags to identify external contracts
   const tags = getContractTags(paths, project)
@@ -571,7 +581,7 @@ function getContractsToAnalyze(
     const implNames = entry.implementationNames
     const proxyType = entry.proxyType
 
-    // A contract is a proxy if proxyType is not "immutable" and not "EOA"
+    // A contract is a proxy if proxyType is not "immutable"
     const isProxy = proxyType !== undefined && proxyType !== 'immutable'
 
     if (isProxy) {
@@ -590,7 +600,10 @@ function getContractsToAnalyze(
           displayName,
         })
       } else {
-        // Proxy but no valid $implementation — log warning and skip
+        // Proxy but no valid $implementation — fall back to proxy address
+        onProgress?.(
+          `  Warning: proxy ${displayName} has no $implementation — running Slither on proxy bytecode, results may be empty`,
+        )
         contracts.push({
           entryAddress: entry.address,
           slitherAddress: entry.address,
