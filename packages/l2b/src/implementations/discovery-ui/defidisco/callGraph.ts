@@ -572,9 +572,7 @@ function getContractsToAnalyze(
     const proxyType = entry.proxyType
 
     // A contract is a proxy if proxyType is not "immutable" and not "EOA"
-    const isProxy =
-      proxyType !== undefined &&
-      proxyType !== 'immutable'
+    const isProxy = proxyType !== undefined && proxyType !== 'immutable'
 
     if (isProxy) {
       // Get implementation address from values.$implementation
