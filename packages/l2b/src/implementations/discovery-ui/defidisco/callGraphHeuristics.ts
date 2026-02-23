@@ -235,15 +235,30 @@ class FunctionSignatureHeuristic implements ResolutionHeuristic {
     for (const entry of discovered.entries) {
       if (entry.type !== 'Contract') continue
 
-      const abi = discovered.abis[entry.address]
-      if (!abi) continue
+      // Collect ABI addresses: entry address + implementation address for proxies
+      const abiAddresses = [entry.address]
+      const implValue =
+        'values' in entry && entry.values
+          ? (entry.values as Record<string, unknown>).$implementation
+          : undefined
+      if (typeof implValue === 'string' && implValue.startsWith('eth:')) {
+        abiAddresses.push(implValue as typeof entry.address)
+      }
 
-      // Check if this contract has the function
-      const hasFunction = abi.some((abiEntry) => {
-        if (!abiEntry.startsWith('function ')) return false
-        const match = abiEntry.match(/^function\s+(\w+)\(/)
-        return match && match[1] === functionName
-      })
+      // Check if any of the contract's ABIs have the function
+      let hasFunction = false
+      for (const abiAddress of abiAddresses) {
+        const abi = discovered.abis[abiAddress]
+        if (!abi) continue
+
+        hasFunction = abi.some((abiEntry) => {
+          if (!abiEntry.startsWith('function ')) return false
+          const match = abiEntry.match(/^function\s+(\w+)\(/)
+          return match && match[1] === functionName
+        })
+
+        if (hasFunction) break
+      }
 
       if (hasFunction) {
         matches.push({

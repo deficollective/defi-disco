@@ -175,12 +175,14 @@ export async function generateCallGraph(
       `[${i + 1}/${contracts.length}] Analyzing ${contract.displayName} (${contract.entryAddress})...`,
     )
 
-    // Check cache first (keyed by entry address, sourceHash covers proxy + implementation)
+    // Check cache first
+    // Cache key uses slitherAddress (implementation for proxies) since that's what Slither runs on
+    // Source hash uses entryAddress (proxy) since sourceHashes covers both proxy + implementation
     const currentSourceHash = getContractSourceHash(
       discovered,
       contract.entryAddress,
     )
-    const cachedEntry = getSlithirCache(paths, project, contract.entryAddress)
+    const cachedEntry = getSlithirCache(paths, project, contract.slitherAddress)
 
     let slithirOutput: string | null = null
 
@@ -237,7 +239,7 @@ export async function generateCallGraph(
 
       // Save to cache if we have a source hash
       if (currentSourceHash && slithirOutput) {
-        saveSlithirCache(paths, project, contract.entryAddress, {
+        saveSlithirCache(paths, project, contract.slitherAddress, {
           version: '1.0',
           sourceHash: currentSourceHash,
           generatedAt: new Date().toISOString(),
