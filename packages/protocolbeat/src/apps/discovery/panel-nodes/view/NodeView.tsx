@@ -2,10 +2,7 @@ import clsx from 'clsx'
 
 import { AddressIcon } from '../../../../components/AddressIcon'
 import { IconInitial } from '../../../../icons/IconInitial'
-import {
-  useIsContractExternal,
-  useIsContractGovernance,
-} from '../../defidisco/hooks/useContractTags'
+import { useContractTagColor } from '../../defidisco/hooks/useContractTags'
 import type { Field, Node } from '../store/State'
 import { useStore } from '../store/store'
 import {
@@ -24,9 +21,8 @@ export interface NodeViewProps {
 
 export function NodeView(props: NodeViewProps) {
   const projectId = useStore((state) => state.projectId)
-  const isExternal = useIsContractExternal(projectId, props.node.address)
-  const isGovernance = useIsContractGovernance(projectId, props.node.address)
-  const { isDark } = getColor({ ...props.node, isExternal, isGovernance })
+  const tagOverride = useContractTagColor(projectId, props.node.address)
+  const { isDark } = getColor({ ...props.node, tagOverride })
 
   const fullHeight =
     props.node.addressType === 'EOA' && props.node.fields.length === 0
@@ -56,7 +52,7 @@ export function NodeView(props: NodeViewProps) {
         )}
         style={{
           height: fullHeight ? HEADER_HEIGHT : HEADER_HEIGHT - 4,
-          background: getTitleBackground(props.node, isExternal, isGovernance),
+          background: getTitleBackground(props.node, tagOverride),
         }}
       >
         <AddressIcon type={props.node.addressType} />
@@ -93,10 +89,9 @@ export function NodeView(props: NodeViewProps) {
 
 function getTitleBackground(
   node: Node,
-  isExternal: boolean,
-  isGovernance: boolean,
+  tagOverride?: { color: { l: number; c: number; h: number }; isDark: boolean },
 ): string {
-  const { color, isDark } = getColor({ ...node, isExternal, isGovernance })
+  const { color, isDark } = getColor({ ...node, tagOverride })
   if (!node.isInitial) {
     return color
   }

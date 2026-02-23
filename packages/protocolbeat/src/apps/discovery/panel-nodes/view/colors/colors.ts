@@ -22,25 +22,21 @@ export function getColor({
   color,
   hueShift,
   addressType,
-  isExternal,
-  isGovernance,
+  tagOverride,
 }: {
   id: string
   color: number
   hueShift: number
   addressType: ApiAddressType
-  isExternal?: boolean
-  isGovernance?: boolean
+  tagOverride?: { color: OklchColor; isDark: boolean }
 }): { color: string; isDark: boolean } {
   const result =
     color === 0
       ? addressType === 'Unknown'
         ? { color: colors.aux.red, isDark: false }
-        : isExternal
-          ? { color: colors.aux.orange, isDark: false }
-          : isGovernance
-            ? { color: colors.aux.green, isDark: false }
-            : getChainColor(id.split(':')[0] ?? '')
+        : tagOverride
+          ? tagOverride
+          : getChainColor(id.split(':')[0] ?? '')
       : (SELECTABLE_COLORS[color - 1] ?? { color: colors.white, isDark: false })
 
   const colorCopy = {
