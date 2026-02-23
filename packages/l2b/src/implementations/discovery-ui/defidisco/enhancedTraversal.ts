@@ -274,9 +274,7 @@ function traverse(
     const sourceName = lookupName(ctx.contractNameMap, sourceContract)
 
     // Prefer call graph edges (more precise) over permission edges from same source
-    const callGraphEdges = sourceEdges.filter(
-      (e) => e.edgeType === 'callgraph',
-    )
+    const callGraphEdges = sourceEdges.filter((e) => e.edgeType === 'callgraph')
     const selectedEdges =
       callGraphEdges.length > 0
         ? callGraphEdges
@@ -314,9 +312,7 @@ function traverse(
           sourceContract,
           edge.sourceFunction,
         )
-        const isPublic = callerFuncData
-          ? !callerFuncData.isPermissioned
-          : false
+        const isPublic = callerFuncData ? !callerFuncData.isPermissioned : false
 
         if (
           callerFuncData?.isPermissioned &&
@@ -535,9 +531,7 @@ function deduplicateTerminals(
   const result: TraversalTerminal[] = []
   for (const terminal of terminals) {
     const chainSig = terminal.chain
-      .map(
-        (s) => `${s.contractAddress.toLowerCase()}:${s.functionName ?? ''}`,
-      )
+      .map((s) => `${s.contractAddress.toLowerCase()}:${s.functionName ?? ''}`)
       .join('→')
     const key = `${terminal.address.toLowerCase()}|${chainSig}`
     if (seen.has(key)) continue

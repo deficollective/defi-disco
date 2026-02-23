@@ -1,7 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getFundsData, getFunctionAnalysis, getProject, getEnhancedTraversal } from '../../../api/api'
+import {
+  getFundsData,
+  getFunctionAnalysis,
+  getProject,
+  getEnhancedTraversal,
+} from '../../../api/api'
 import type {
   ApiAbiEntry,
   ApiAddressType,
@@ -76,9 +81,7 @@ function collapseChains(
   // Group by contract address sequence
   const groups = new Map<string, TraversalTerminal['chain'][]>()
   for (const chain of chains) {
-    const key = chain
-      .map((s) => s.contractAddress.toLowerCase())
-      .join('\u2192')
+    const key = chain.map((s) => s.contractAddress.toLowerCase()).join('\u2192')
     const group = groups.get(key)
     if (group) {
       group.push(chain)
@@ -179,26 +182,20 @@ function getAdminTypeColor(type: ApiAddressType): string {
   }
 }
 
-function getAdminIconColor(
-  owners: FunctionTraversalResult | null,
-): string {
+function getAdminIconColor(owners: FunctionTraversalResult | null): string {
   if (!owners || owners.terminals.length === 0) return '#9ca3af' // gray - unresolved
 
   const hasEOA = owners.terminals.some(
     (o) => o.type === 'EOA' || o.type === 'EOAPermissioned',
   )
-  const hasMultisig = owners.terminals.some(
-    (o) => o.type === 'Multisig',
-  )
+  const hasMultisig = owners.terminals.some((o) => o.type === 'Multisig')
 
   if (hasEOA) return '#f87171' // red
   if (hasMultisig) return '#fbbf24' // amber
   return '#10b981' // green - only contracts/timelocks
 }
 
-function getAdminIconTitle(
-  owners: FunctionTraversalResult | null,
-): string {
+function getAdminIconTitle(owners: FunctionTraversalResult | null): string {
   if (!owners || owners.terminals.length === 0)
     return 'Admin (not yet resolved)'
   const types = [...new Set(owners.terminals.map((o) => o.type))]
@@ -229,9 +226,7 @@ function CallPathDisplay({ path }: { path: CallPathStep[] }) {
             {step.contractName}
           </button>
           <span className="text-coffee-500">.{step.functionName}()</span>
-          {step.isViewCall && (
-            <span className="text-coffee-600">[view]</span>
-          )}
+          {step.isViewCall && <span className="text-coffee-600">[view]</span>}
         </div>
       ))}
     </div>
@@ -962,16 +957,18 @@ export function FunctionFolder({
             const hasImpactData =
               (functionAnalysis?.impact?.totalFundsAtRisk ?? 0) > 0 ||
               (functionAnalysis?.impact?.totalTokenValueAtRisk ?? 0) > 0
-            const impactColor = scoreStatus !== 'unscored'
-              ? getScoreColor(scoreStatus)
-              : hasImpactData
-                ? '#fbbf24' // amber-400 — has funds at risk but unscored
-                : '#9ca3af' // gray-400
-            const impactHoverColor = scoreStatus !== 'unscored'
-              ? getScoreColor(scoreStatus, true)
-              : hasImpactData
-                ? '#fcd34d' // amber-300
-                : '#d1d5db' // gray-300
+            const impactColor =
+              scoreStatus !== 'unscored'
+                ? getScoreColor(scoreStatus)
+                : hasImpactData
+                  ? '#fbbf24' // amber-400 — has funds at risk but unscored
+                  : '#9ca3af' // gray-400
+            const impactHoverColor =
+              scoreStatus !== 'unscored'
+                ? getScoreColor(scoreStatus, true)
+                : hasImpactData
+                  ? '#fcd34d' // amber-300
+                  : '#d1d5db' // gray-300
             const impactTitle = hasImpactData
               ? `Score: ${scoreStatus}. Funds at risk: ${formatUsdValue((functionAnalysis?.impact?.totalFundsAtRisk ?? 0) + (functionAnalysis?.impact?.totalTokenValueAtRisk ?? 0))}. Click to toggle: unscored ↔ critical`
               : `Current score: ${scoreStatus}. Click to toggle: unscored ↔ critical`
@@ -1440,157 +1437,177 @@ export function FunctionFolder({
 
             {!traversalData ? (
               <div className="text-coffee-500 text-xs">Loading...</div>
-            ) : functionTraversal &&
-              functionTraversal.terminals.length > 0 ? (
-                <div className="space-y-2">
-                  {groupOwnersByAddress(functionTraversal.terminals).map((owner, idx) => {
+            ) : functionTraversal && functionTraversal.terminals.length > 0 ? (
+              <div className="space-y-2">
+                {groupOwnersByAddress(functionTraversal.terminals).map(
+                  (owner, idx) => {
                     const revoked = isZeroAddress(owner.address)
                     const adminKey = `admin-${idx}`
                     const isAdminExpanded = expandedPaths.has(adminKey)
-                    const hasChains = owner.collapsedChains.some((c) => c.length > 0)
-                    return (
-                    <div
-                      key={idx}
-                      className={`rounded bg-coffee-800 p-2 ${hasChains ? 'cursor-pointer' : ''}`}
-                      onClick={hasChains ? () => togglePath(adminKey) : undefined}
-                    >
-                      {/* Owner header: chevron + type badge + name */}
-                      <div className="flex items-center gap-2">
-                        {hasChains && (
-                          <span className="text-coffee-500 text-[10px]">
-                            {isAdminExpanded ? <IconChevronDown /> : <IconChevronRight />}
-                          </span>
-                        )}
-                        {revoked ? (
-                          <span
-                            className="rounded border px-1 text-xs font-semibold"
-                            style={{
-                              color: '#10b981',
-                              borderColor: '#10b98140',
-                              backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            }}
-                          >
-                            Revoked
-                          </span>
-                        ) : owner.isUnresolved ? (
-                          <span
-                            className="rounded border px-1 text-xs font-semibold"
-                            style={{
-                              color: '#9ca3af',
-                              borderColor: '#9ca3af40',
-                              backgroundColor: 'rgba(156, 163, 175, 0.1)',
-                            }}
-                          >
-                            Unresolved
-                          </span>
-                        ) : (
-                          <span
-                            className="rounded border px-1 text-xs font-semibold"
-                            style={{
-                              color: getAdminTypeColor(owner.type),
-                              borderColor:
-                                getAdminTypeColor(owner.type) + '40',
-                            }}
-                          >
-                            {displayType(owner.type)}
-                          </span>
-                        )}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            if (!revoked) usePanelStore.getState().select(owner.address)
-                          }}
-                          className={`font-mono text-xs ${revoked ? 'cursor-default text-coffee-400' : 'hover:underline'}`}
-                          style={revoked ? undefined : { color: '#67e8f9' }}
-                        >
-                          {revoked ? '0x0000...0000' : owner.name}
-                        </button>
-                        {owner.hasPublicFunction && (
-                          <span className="rounded bg-orange-900/30 px-1 text-orange-400 text-xs">
-                            public fn in path
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Chain tree: each collapsed chain = a branch (shown when expanded) */}
-                      {isAdminExpanded && owner.collapsedChains.map((chain, chainIdx) => {
-                        if (chain.length === 0) return null
-                        // Reverse to owner→target order
-                        const reversed = [...chain].reverse()
-                        // Step 0 = owner (already in header), grab its functions
-                        const ownerFns = reversed[0]?.functionNames ?? []
-                        const viaSteps = reversed.slice(1)
-                        const isLast = chainIdx === owner.collapsedChains.length - 1
-
-                        return (
-                        <div key={chainIdx} className="mt-1 border-coffee-700 border-t pt-1 text-xs">
-                          {/* Owner's functions (root of this branch) */}
-                          <div className="flex items-center gap-1">
-                            <span className="text-coffee-600">
-                              {isLast ? '\u2514' : '\u251C'}
-                            </span>
-                            {ownerFns.length > 0 ? (
-                              <span className="text-coffee-400">
-                                {formatFunctionNames(ownerFns)}
-                              </span>
-                            ) : (
-                              <span className="text-coffee-600 italic">
-                                (permission)
-                              </span>
-                            )}
-                          </div>
-                          {/* Via steps — indented under the branch */}
-                          {viaSteps.map((step, stepIdx) => (
-                            <div
-                              key={stepIdx}
-                              className="flex items-center gap-1"
-                              style={{ paddingLeft: `${(stepIdx + 1) * 16}px` }}
-                            >
-                              <span className="text-coffee-600">
-                                {stepIdx === viaSteps.length - 1 ? '\u2514' : '\u251C'}
-                              </span>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  usePanelStore
-                                    .getState()
-                                    .select(step.contractAddress)
-                                }}
-                                className="hover:underline shrink-0"
-                                style={{ color: '#67e8f9' }}
-                              >
-                                {step.contractName}
-                              </button>
-                              {step.functionNames.length > 0 && (
-                                <span className="text-coffee-500">
-                                  {formatFunctionNames(step.functionNames)}
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                        )
-                      })}
-                    </div>
+                    const hasChains = owner.collapsedChains.some(
+                      (c) => c.length > 0,
                     )
-                  })}
+                    return (
+                      <div
+                        key={idx}
+                        className={`rounded bg-coffee-800 p-2 ${hasChains ? 'cursor-pointer' : ''}`}
+                        onClick={
+                          hasChains ? () => togglePath(adminKey) : undefined
+                        }
+                      >
+                        {/* Owner header: chevron + type badge + name */}
+                        <div className="flex items-center gap-2">
+                          {hasChains && (
+                            <span className="text-coffee-500 text-[10px]">
+                              {isAdminExpanded ? (
+                                <IconChevronDown />
+                              ) : (
+                                <IconChevronRight />
+                              )}
+                            </span>
+                          )}
+                          {revoked ? (
+                            <span
+                              className="rounded border px-1 text-xs font-semibold"
+                              style={{
+                                color: '#10b981',
+                                borderColor: '#10b98140',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                              }}
+                            >
+                              Revoked
+                            </span>
+                          ) : owner.isUnresolved ? (
+                            <span
+                              className="rounded border px-1 text-xs font-semibold"
+                              style={{
+                                color: '#9ca3af',
+                                borderColor: '#9ca3af40',
+                                backgroundColor: 'rgba(156, 163, 175, 0.1)',
+                              }}
+                            >
+                              Unresolved
+                            </span>
+                          ) : (
+                            <span
+                              className="rounded border px-1 text-xs font-semibold"
+                              style={{
+                                color: getAdminTypeColor(owner.type),
+                                borderColor:
+                                  getAdminTypeColor(owner.type) + '40',
+                              }}
+                            >
+                              {displayType(owner.type)}
+                            </span>
+                          )}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              if (!revoked)
+                                usePanelStore.getState().select(owner.address)
+                            }}
+                            className={`font-mono text-xs ${revoked ? 'cursor-default text-coffee-400' : 'hover:underline'}`}
+                            style={revoked ? undefined : { color: '#67e8f9' }}
+                          >
+                            {revoked ? '0x0000...0000' : owner.name}
+                          </button>
+                          {owner.hasPublicFunction && (
+                            <span className="rounded bg-orange-900/30 px-1 text-orange-400 text-xs">
+                              public fn in path
+                            </span>
+                          )}
+                        </div>
 
-                  {/* Errors — collapsible */}
-                  {functionTraversal.errors.length > 0 && (
-                    <CollapsibleErrors errors={functionTraversal.errors} />
-                  )}
-                  {functionTraversal.depthLimitReached && (
-                    <div className="mt-1 text-yellow-400 text-xs">
-                      Depth limit reached — chain may be incomplete
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="text-coffee-500 text-xs">
-                  No terminals found (no owner definitions or empty
-                  resolution)
-                </div>
-              )}
+                        {/* Chain tree: each collapsed chain = a branch (shown when expanded) */}
+                        {isAdminExpanded &&
+                          owner.collapsedChains.map((chain, chainIdx) => {
+                            if (chain.length === 0) return null
+                            // Reverse to owner→target order
+                            const reversed = [...chain].reverse()
+                            // Step 0 = owner (already in header), grab its functions
+                            const ownerFns = reversed[0]?.functionNames ?? []
+                            const viaSteps = reversed.slice(1)
+                            const isLast =
+                              chainIdx === owner.collapsedChains.length - 1
+
+                            return (
+                              <div
+                                key={chainIdx}
+                                className="mt-1 border-coffee-700 border-t pt-1 text-xs"
+                              >
+                                {/* Owner's functions (root of this branch) */}
+                                <div className="flex items-center gap-1">
+                                  <span className="text-coffee-600">
+                                    {isLast ? '\u2514' : '\u251C'}
+                                  </span>
+                                  {ownerFns.length > 0 ? (
+                                    <span className="text-coffee-400">
+                                      {formatFunctionNames(ownerFns)}
+                                    </span>
+                                  ) : (
+                                    <span className="text-coffee-600 italic">
+                                      (permission)
+                                    </span>
+                                  )}
+                                </div>
+                                {/* Via steps — indented under the branch */}
+                                {viaSteps.map((step, stepIdx) => (
+                                  <div
+                                    key={stepIdx}
+                                    className="flex items-center gap-1"
+                                    style={{
+                                      paddingLeft: `${(stepIdx + 1) * 16}px`,
+                                    }}
+                                  >
+                                    <span className="text-coffee-600">
+                                      {stepIdx === viaSteps.length - 1
+                                        ? '\u2514'
+                                        : '\u251C'}
+                                    </span>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        usePanelStore
+                                          .getState()
+                                          .select(step.contractAddress)
+                                      }}
+                                      className="hover:underline shrink-0"
+                                      style={{ color: '#67e8f9' }}
+                                    >
+                                      {step.contractName}
+                                    </button>
+                                    {step.functionNames.length > 0 && (
+                                      <span className="text-coffee-500">
+                                        {formatFunctionNames(
+                                          step.functionNames,
+                                        )}
+                                      </span>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )
+                          })}
+                      </div>
+                    )
+                  },
+                )}
+
+                {/* Errors — collapsible */}
+                {functionTraversal.errors.length > 0 && (
+                  <CollapsibleErrors errors={functionTraversal.errors} />
+                )}
+                {functionTraversal.depthLimitReached && (
+                  <div className="mt-1 text-yellow-400 text-xs">
+                    Depth limit reached — chain may be incomplete
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-coffee-500 text-xs">
+                No terminals found (no owner definitions or empty resolution)
+              </div>
+            )}
           </div>
 
           {/* 5. Impact Section */}
@@ -1712,13 +1729,19 @@ export function FunctionFolder({
                           <div
                             key={idx}
                             className={`rounded bg-coffee-800 p-2 ${hasPath ? 'cursor-pointer' : ''}`}
-                            onClick={hasPath ? () => togglePath(pathKey) : undefined}
+                            onClick={
+                              hasPath ? () => togglePath(pathKey) : undefined
+                            }
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
                                 {hasPath && (
                                   <span className="text-coffee-500 text-[10px]">
-                                    {isExpanded ? <IconChevronDown /> : <IconChevronRight />}
+                                    {isExpanded ? (
+                                      <IconChevronDown />
+                                    ) : (
+                                      <IconChevronRight />
+                                    )}
                                   </span>
                                 )}
                                 <button
@@ -1832,10 +1855,18 @@ export function FunctionFolder({
 
             {/* Auto-detected dependencies from call graph */}
             {functionAnalysis?.dependencies?.entries &&
-              functionAnalysis.dependencies.entries.filter((d) => d.isAutoDetected).length > 0 && (
+              functionAnalysis.dependencies.entries.filter(
+                (d) => d.isAutoDetected,
+              ).length > 0 && (
                 <div className="mb-3">
                   <div className="mb-1 text-coffee-400 text-xs">
-                    Auto-detected ({functionAnalysis.dependencies.entries.filter((d) => d.isAutoDetected).length}):
+                    Auto-detected (
+                    {
+                      functionAnalysis.dependencies.entries.filter(
+                        (d) => d.isAutoDetected,
+                      ).length
+                    }
+                    ):
                   </div>
                   <div className="space-y-2">
                     {functionAnalysis.dependencies.entries
@@ -1848,13 +1879,19 @@ export function FunctionFolder({
                           <div
                             key={idx}
                             className={`rounded bg-coffee-800 p-2 ${hasPath ? 'cursor-pointer' : ''}`}
-                            onClick={hasPath ? () => togglePath(pathKey) : undefined}
+                            onClick={
+                              hasPath ? () => togglePath(pathKey) : undefined
+                            }
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
                                 {hasPath && (
                                   <span className="text-coffee-500 text-[10px]">
-                                    {isExpanded ? <IconChevronDown /> : <IconChevronRight />}
+                                    {isExpanded ? (
+                                      <IconChevronDown />
+                                    ) : (
+                                      <IconChevronRight />
+                                    )}
                                   </span>
                                 )}
                                 <button
@@ -1992,8 +2029,12 @@ export function FunctionFolder({
               )}
 
             {/* No dependencies message */}
-            {(!currentFunction?.dependencies || currentFunction.dependencies.length === 0) &&
-              (!functionAnalysis?.dependencies?.entries || functionAnalysis.dependencies.entries.filter((d) => d.isAutoDetected).length === 0) && (
+            {(!currentFunction?.dependencies ||
+              currentFunction.dependencies.length === 0) &&
+              (!functionAnalysis?.dependencies?.entries ||
+                functionAnalysis.dependencies.entries.filter(
+                  (d) => d.isAutoDetected,
+                ).length === 0) && (
                 <div className="mb-3 text-coffee-500 text-xs">
                   No dependencies detected
                 </div>

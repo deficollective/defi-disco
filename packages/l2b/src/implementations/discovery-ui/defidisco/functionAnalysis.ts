@@ -278,7 +278,10 @@ function computeImpact(
 
   // Also check direct contract funds
   const directFunds = getContractFunds(fundsData, startContractAddress)
-  const directTokenValue = getContractTokenValue(fundsData, startContractAddress)
+  const directTokenValue = getContractTokenValue(
+    fundsData,
+    startContractAddress,
+  )
 
   // Sort by total value descending
   reachableContracts.sort(
@@ -286,8 +289,7 @@ function computeImpact(
   )
 
   const totalFundsAtRisk =
-    directFunds +
-    reachableContracts.reduce((sum, c) => sum + c.fundsUsd, 0)
+    directFunds + reachableContracts.reduce((sum, c) => sum + c.fundsUsd, 0)
   const totalTokenValueAtRisk =
     directTokenValue +
     reachableContracts.reduce((sum, c) => sum + c.tokenValueUsd, 0)
@@ -329,7 +331,9 @@ function computeDependencies(
 
     const tag = findTag(tagsByAddress, addr)
     const contractName =
-      data.contractName ?? getCallGraphContractName(callGraphData, addr) ?? 'Unknown'
+      data.contractName ??
+      getCallGraphContractName(callGraphData, addr) ??
+      'Unknown'
 
     entries.push({
       contractAddress: addr,
@@ -354,7 +358,9 @@ function computeDependencies(
 
       entries.push({
         contractAddress: dep.contractAddress,
-        contractName: getCallGraphContractName(callGraphData, dep.contractAddress) ?? 'Unknown',
+        contractName:
+          getCallGraphContractName(callGraphData, dep.contractAddress) ??
+          'Unknown',
         isAutoDetected: false,
         viewOnlyPath: false,
         calledFunctions: [],
@@ -425,8 +431,7 @@ function getContractFunds(
   if (!fundsEntry) return 0
   const funds = fundsEntry[1]
   return (
-    (funds.balances?.totalUsdValue ?? 0) +
-    (funds.positions?.totalUsdValue ?? 0)
+    (funds.balances?.totalUsdValue ?? 0) + (funds.positions?.totalUsdValue ?? 0)
   )
 }
 

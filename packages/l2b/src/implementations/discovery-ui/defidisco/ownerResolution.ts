@@ -342,8 +342,7 @@ export class DiscoveredDataAccess implements IContractDataAccess {
     // Direct lookup by address
     const contract = this.discovered.entries.find(
       (entry: any) =>
-        entry.type === 'Contract' &&
-        entry.address.toLowerCase() === normalized,
+        entry.type === 'Contract' && entry.address.toLowerCase() === normalized,
     )
     if (contract) return contract
 
@@ -365,9 +364,7 @@ export class DiscoveredDataAccess implements IContractDataAccess {
       .map((e: any) => e.address)
       .slice(0, 5)
       .join(', ')
-    throw new Error(
-      `Contract ${address} not found. Available: ${available}...`,
-    )
+    throw new Error(`Contract ${address} not found. Available: ${available}...`)
   }
 
   getFieldValue(contract: any, fieldName: string): any {
