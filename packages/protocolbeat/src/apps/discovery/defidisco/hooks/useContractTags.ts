@@ -48,3 +48,23 @@ export function useIsContractExternal(
 
   return tag?.isExternal ?? false
 }
+
+export function useIsContractGovernance(
+  project: string,
+  contractAddress: string,
+) {
+  const { data: contractTags } = useContractTags(project)
+
+  const normalizeAddress = (addr: string) => {
+    return addr.toLowerCase().replace('eth:', '')
+  }
+
+  const normalizedNodeAddress = normalizeAddress(contractAddress)
+
+  const tag = contractTags?.tags.find((tag) => {
+    const normalizedTagAddress = normalizeAddress(tag.contractAddress)
+    return normalizedTagAddress === normalizedNodeAddress
+  })
+
+  return tag?.isGovernance ?? false
+}

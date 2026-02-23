@@ -23,12 +23,14 @@ export function getColor({
   hueShift,
   addressType,
   isExternal,
+  isGovernance,
 }: {
   id: string
   color: number
   hueShift: number
   addressType: ApiAddressType
   isExternal?: boolean
+  isGovernance?: boolean
 }): { color: string; isDark: boolean } {
   const result =
     color === 0
@@ -36,7 +38,9 @@ export function getColor({
         ? { color: colors.aux.red, isDark: false }
         : isExternal
           ? { color: colors.aux.orange, isDark: false }
-          : getChainColor(id.split(':')[0] ?? '')
+          : isGovernance
+            ? { color: colors.aux.green, isDark: false }
+            : getChainColor(id.split(':')[0] ?? '')
       : (SELECTABLE_COLORS[color - 1] ?? { color: colors.white, isDark: false })
 
   const colorCopy = {

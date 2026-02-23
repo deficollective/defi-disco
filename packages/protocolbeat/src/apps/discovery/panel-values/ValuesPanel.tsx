@@ -18,6 +18,7 @@ import { FieldDisplay } from './Field'
 import { FieldTag } from './FieldTag'
 import { Folder } from './Folder'
 import { ExternalIndicator } from '../defidisco/ExternalIndicator'
+import { GovernanceIndicator } from '../defidisco/GovernanceIndicator'
 import { ValuesPanelExtensions } from '../defidisco/ValuesPanelExtensions'
 import { ClearPermissionsDialog } from '../defidisco/ClearPermissionsDialog'
 import { TemplateDialog } from './template-dialog/TemplateDialog'
@@ -201,6 +202,7 @@ function Display({
               <span className="text-aux-red"> (Unverified)</span>
             )}
             <ExternalIndicator address={selected.address} name={selected.name} />
+            <GovernanceIndicator address={selected.address} />
           </div>
           <div className="flex items-center gap-2">
             {templateDialog}
