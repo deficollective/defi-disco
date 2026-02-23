@@ -669,6 +669,7 @@ export function FunctionFolder({
   const [isCommentsOpen, setIsCommentsOpen] = useState(false)
   const [newCommentText, setNewCommentText] = useState('')
   const [isSubmittingComment, setIsSubmittingComment] = useState(false)
+  const [showAllContracts, setShowAllContracts] = useState(false)
 
   // Update local description when external data changes
   useEffect(() => {
@@ -1437,8 +1438,40 @@ export function FunctionFolder({
             {!traversalData ? (
               <div className="text-coffee-500 text-xs">Loading...</div>
             ) : functionTraversal && functionTraversal.terminals.length > 0 ? (
+              (() => {
+                const allOwners = groupOwnersByAddress(functionTraversal.terminals)
+                const isGovernanceAddress = (addr: string) => {
+                  if (!contractTags?.tags) return false
+                  const norm = addr.toLowerCase().replace('eth:', '')
+                  return contractTags.tags.some(
+                    (tag) =>
+                      tag.contractAddress.toLowerCase().replace('eth:', '') === norm &&
+                      tag.isGovernance,
+                  )
+                }
+                const isKeyOwner = (owner: GroupedOwner) =>
+                  owner.type === 'EOA' ||
+                  owner.type === 'EOAPermissioned' ||
+                  owner.type === 'Multisig' ||
+                  isGovernanceAddress(owner.address)
+                const filteredOwners = showAllContracts
+                  ? allOwners
+                  : allOwners.filter(isKeyOwner)
+                const hasHiddenOwners = allOwners.some((o) => !isKeyOwner(o))
+                return (
               <div className="space-y-2">
-                {groupOwnersByAddress(functionTraversal.terminals).map(
+                {hasHiddenOwners && (
+                  <label className="flex cursor-pointer items-center gap-1.5 text-coffee-400 text-xs">
+                    <input
+                      type="checkbox"
+                      checked={showAllContracts}
+                      onChange={(e) => setShowAllContracts(e.target.checked)}
+                      className="h-3 w-3 cursor-pointer accent-coffee-500"
+                    />
+                    Show all contracts ({allOwners.length - filteredOwners.length} hidden)
+                  </label>
+                )}
+                {filteredOwners.map(
                   (owner, idx) => {
                     const revoked = isZeroAddress(owner.address)
                     const adminKey = `admin-${idx}`
@@ -1497,6 +1530,18 @@ export function FunctionFolder({
                               }}
                             >
                               {displayType(owner.type)}
+                            </span>
+                          )}
+                          {isGovernanceAddress(owner.address) && (
+                            <span
+                              className="rounded border px-1 text-xs font-semibold"
+                              style={{
+                                color: '#10b981',
+                                borderColor: '#10b98140',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                              }}
+                            >
+                              Governance
                             </span>
                           )}
                           <button
@@ -1602,6 +1647,8 @@ export function FunctionFolder({
                   </div>
                 )}
               </div>
+                )
+              })()
             ) : (
               <div className="text-coffee-500 text-xs">
                 No terminals found (no owner definitions or empty resolution)
