@@ -23,6 +23,10 @@ import { IconChevronDown } from '../../../icons/IconChevronDown'
 import { IconChevronRight } from '../../../icons/IconChevronRight'
 import { usePanelStore } from '../store/panel-store'
 import { formatUsdValue } from './formatUtils'
+import {
+  getAdminTypeColor,
+  isZeroAddress,
+} from '../../../defidisco/scoringShared'
 import { useContractTags } from './hooks/useContractTags'
 import { IconCheckFalse } from './IconCheckFalse'
 import { IconCheckTrue } from './IconCheckTrue'
@@ -42,11 +46,6 @@ import { resolvePathExpression, UIContractDataAccess } from './ownerResolution'
 function displayType(type: ApiAddressType): string {
   if (type === 'Untemplatized') return 'Contract'
   return type
-}
-
-function isZeroAddress(address: string): boolean {
-  const normalized = address.toLowerCase().replace('eth:', '')
-  return normalized === '0x0000000000000000000000000000000000000000'
 }
 
 /** A step in a collapsed chain — groups all functions at the same position */
@@ -163,23 +162,6 @@ function formatFunctionNames(names: string[]): string {
       .join(', .') +
     ` +${names.length - 2} more`
   )
-}
-
-function getAdminTypeColor(type: ApiAddressType): string {
-  switch (type) {
-    case 'EOA':
-    case 'EOAPermissioned':
-      return '#f87171' // red
-    case 'Multisig':
-      return '#fbbf24' // amber
-    case 'Timelock':
-      return '#10b981' // green
-    case 'Contract':
-    case 'Diamond':
-      return '#60a5fa' // blue
-    default:
-      return '#9ca3af' // gray
-  }
 }
 
 function getAdminIconColor(owners: FunctionTraversalResult | null): string {
