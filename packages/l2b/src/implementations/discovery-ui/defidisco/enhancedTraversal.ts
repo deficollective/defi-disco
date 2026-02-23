@@ -706,14 +706,27 @@ export function resolveEnhancedTraversal(
     }
   }
 
-  // Staleness check: compare timestamps
-  const functionsTimestamp = new Date(
-    functionsData.lastModified || '1970-01-01',
-  ).getTime()
+  // Staleness check: compare the on-disk functions.json lastModified against
+  // the call graph timestamp. We read functions.json directly because
+  // getFunctions() always sets lastModified to Date.now().
+  let functionsFileTimestamp = 0
+  try {
+    const functionsFilePath = path.join(
+      paths.discovery,
+      projectName,
+      'functions.json',
+    )
+    const raw = JSON.parse(fs.readFileSync(functionsFilePath, 'utf8'))
+    functionsFileTimestamp = new Date(
+      raw.lastModified || '1970-01-01',
+    ).getTime()
+  } catch {
+    // No functions.json on disk — not stale
+  }
   const callGraphTimestamp = new Date(
     callGraphData.lastModified || '1970-01-01',
   ).getTime()
-  const callGraphStale = functionsTimestamp > callGraphTimestamp
+  const callGraphStale = functionsFileTimestamp > callGraphTimestamp
 
   return {
     version: '1.0',

@@ -1404,12 +1404,29 @@ export function FunctionFolder({
                 </span>
                 Admin
               </label>
-              {traversalData?.callGraphStale && (
+              {traversalData && (
                 <span
-                  className="rounded bg-yellow-900/30 px-1.5 py-0.5 text-yellow-400 text-xs"
-                  title="Functions were modified after the call graph was generated. Consider re-generating the call graph."
+                  className="rounded px-1.5 py-0.5 text-xs"
+                  style={
+                    traversalData.callGraphStale
+                      ? {
+                          color: '#facc15',
+                          backgroundColor: 'rgba(161, 98, 7, 0.3)',
+                        }
+                      : {
+                          color: '#78716c',
+                          backgroundColor: '#292524',
+                        }
+                  }
+                  title={
+                    traversalData.callGraphStale
+                      ? 'Functions were modified after the call graph was generated. Consider re-generating the call graph.'
+                      : 'Call graph is up to date'
+                  }
                 >
-                  Stale call graph
+                  {traversalData.callGraphStale
+                    ? 'Stale call graph'
+                    : 'Call graph synced'}
                 </span>
               )}
             </div>
