@@ -568,12 +568,8 @@ function getContractsToAnalyze(
     if (externalAddresses.has(normalizedAddress)) continue
 
     const displayName = entry.name || 'Unknown'
-    const implNames = (
-      'implementationNames' in entry ? entry.implementationNames : undefined
-    ) as Record<string, string> | undefined
-    const proxyType = ('proxyType' in entry ? entry.proxyType : undefined) as
-      | string
-      | undefined
+    const implNames = entry.implementationNames
+    const proxyType = entry.proxyType
 
     // A contract is a proxy if proxyType is not "immutable" and not "EOA"
     const isProxy =
@@ -582,14 +578,12 @@ function getContractsToAnalyze(
 
     if (isProxy) {
       // Get implementation address from values.$implementation
-      const implValue =
-        'values' in entry && entry.values
-          ? (entry.values as Record<string, unknown>).$implementation
-          : undefined
+      const implValue = entry.values?.$implementation
 
       if (typeof implValue === 'string' && implValue.startsWith('eth:')) {
         // Proxy contract — analyze the implementation
-        const implName = implNames?.[implValue] ?? displayName
+        const implAddress = implValue as typeof entry.address
+        const implName = implNames?.[implAddress] ?? displayName
         contracts.push({
           entryAddress: entry.address,
           slitherAddress: implValue,

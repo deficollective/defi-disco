@@ -177,8 +177,8 @@ class InterfaceNameHeuristic implements ResolutionHeuristic {
       }
 
       // Check implementationNames values (code-derived names from Etherscan source)
-      if ('implementationNames' in entry && entry.implementationNames) {
-        const implNames = entry.implementationNames as Record<string, string>
+      if (entry.implementationNames) {
+        const implNames = entry.implementationNames
         let matched = false
         for (const implName of Object.values(implNames)) {
           if (implName.toLowerCase() === expectedLower) {
@@ -237,10 +237,7 @@ class FunctionSignatureHeuristic implements ResolutionHeuristic {
 
       // Collect ABI addresses: entry address + implementation address for proxies
       const abiAddresses = [entry.address]
-      const implValue =
-        'values' in entry && entry.values
-          ? (entry.values as Record<string, unknown>).$implementation
-          : undefined
+      const implValue = entry.values?.$implementation
       if (typeof implValue === 'string' && implValue.startsWith('eth:')) {
         abiAddresses.push(implValue as typeof entry.address)
       }
