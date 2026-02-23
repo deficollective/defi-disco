@@ -18,9 +18,7 @@ export function GovernanceButton() {
   const selectionExists = selected.length > 0
 
   const hasGovernanceContract = selectedNodes.some((node) => {
-    const normalizedNodeAddress = node.address
-      .toLowerCase()
-      .replace('eth:', '')
+    const normalizedNodeAddress = node.address.toLowerCase().replace('eth:', '')
     return contractTags?.tags.some(
       (tag) =>
         tag.contractAddress.toLowerCase().replace('eth:', '') ===

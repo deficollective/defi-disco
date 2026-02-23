@@ -1,15 +1,8 @@
 import { useParams } from 'react-router-dom'
 import { IS_READONLY } from '../../../config/readonly'
-import {
-  useContractTags,
-  useUpdateContractTag,
-} from './hooks/useContractTags'
+import { useContractTags, useUpdateContractTag } from './hooks/useContractTags'
 
-export function GovernanceIndicator({
-  address,
-}: {
-  address: string
-}) {
+export function GovernanceIndicator({ address }: { address: string }) {
   const { project } = useParams()
   if (!project) return null
 
