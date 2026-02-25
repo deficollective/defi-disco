@@ -40,8 +40,9 @@ export function positionsRouter(
       // Fetch positions
       const result = await positionService.getPositions(addr, chainId, forceRefresh)
 
-      // Return array with cached flag in response header
+      // Return array with source and cached flags in response headers
       res.setHeader('X-Cached', result.cached.toString())
+      res.setHeader('X-Source', result.source)
       res.json(result.data)
     } catch (error) {
       logger.error('Error fetching positions', error)
