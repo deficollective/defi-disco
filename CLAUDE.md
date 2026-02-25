@@ -268,7 +268,22 @@ cd ~/defidisco/packages/l2b && ./scripts/start-with-funds.sh
 ```bash
 DEBANK_API_KEY=your-debank-api-key
 PORT=3001
+ETHEREUM_RPC_URL_FOR_DISCOVERY=https://your-rpc-url  # Optional: enables Morpho vault onchain positions
 ```
+
+**Morpho Vault Onchain Positions**:
+
+When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho vaults and fetches their positions directly onchain instead of from DeBank. This provides more accurate per-market breakdowns.
+
+- **Detection**: Checks two MetaMorpho Factory contracts (`0x1897...`, `0xA9c3...`) via `isMetaMorpho(address)`. Results cached for 24h (immutable once deployed)
+- **Position Fetching**: Reads vault's supply queue from onchain, then for each market queries Morpho Blue (`0xBBBB...`) for position/market data. Computes `suppliedAssets = supplyShares * totalSupplyAssets / totalSupplyShares`
+- **Pricing**: Uses existing `BalanceService` to get Morpho Blue singleton's DeBank balances — standard cache applies, no extra API calls per vault
+- **Output**: Formatted as `DebankComplexProtocol[]` for downstream compatibility. One portfolio_item per market with non-zero supply
+- **Fallback**: On any RPC error, falls back to DeBank with a warning log. If RPC URL is not configured, logs a warning at startup and uses DeBank for everything
+- **Files**:
+  - `packages/defiscan-endpoints/src/clients/MorphoRpcClient.ts` — Ethers.js v5 RPC client for vault detection and position fetching
+  - `packages/defiscan-endpoints/src/services/MorphoVaultService.ts` — Orchestrates detection, onchain fetch, pricing, and formatting
+  - `packages/defiscan-endpoints/src/services/PositionService.ts` — Routes Morpho vaults (eth chain) to onchain path with try/catch fallback
 
 **API Endpoints**:
 
