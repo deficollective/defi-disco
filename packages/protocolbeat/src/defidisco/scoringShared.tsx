@@ -14,6 +14,9 @@ import { usePanelStore } from '../apps/discovery/store/panel-store'
 // ─── Pure utility functions ───────────────────────────────────────────────────
 
 export function formatUsdValue(value: number): string {
+  if (value >= 1_000_000_000) {
+    return `$${(value / 1_000_000_000).toFixed(2)}B`
+  }
   if (value >= 1_000_000) {
     return `$${(value / 1_000_000).toFixed(2)}M`
   }
@@ -23,7 +26,25 @@ export function formatUsdValue(value: number): string {
   if (value > 0) {
     return `$${value.toFixed(2)}`
   }
-  return '$0'
+  return ''
+}
+
+export function formatDelay(seconds: number): string {
+  if (seconds >= 86400) {
+    const days = seconds / 86400
+    return days === Math.floor(days) ? `${days}d` : `${days.toFixed(1)}d`
+  }
+  if (seconds >= 3600) {
+    const hours = seconds / 3600
+    return hours === Math.floor(hours) ? `${hours}h` : `${hours.toFixed(1)}h`
+  }
+  if (seconds >= 60) {
+    const minutes = seconds / 60
+    return minutes === Math.floor(minutes)
+      ? `${minutes}m`
+      : `${minutes.toFixed(1)}m`
+  }
+  return `${seconds}s`
 }
 
 export function hasCapitalData(admin: any): admin is AdminDetailWithCapital {
@@ -296,9 +317,11 @@ export function FunctionCapitalBreakdown({
 export function OwnerSection({
   admin,
   proxyType,
+  isGovernance,
 }: {
   admin: any
   proxyType?: string
+  isGovernance?: boolean
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const selectGlobal = usePanelStore((state) => state.select)
@@ -344,6 +367,18 @@ export function OwnerSection({
             }}
           >
             {admin.adminType}
+          </span>
+        )}
+        {isGovernance && (
+          <span
+            className="inline-block rounded border px-1.5 py-0.5 font-semibold text-xs"
+            style={{
+              color: '#10b981',
+              borderColor: '#10b98140',
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            }}
+          >
+            Governance
           </span>
         )}
         <ProxyTypeTag proxyType={proxyType} />

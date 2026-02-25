@@ -103,7 +103,7 @@ git fetch upstream && git merge upstream/main
 
 - **UI**: Select contract + numeric field to specify delay reference
 - **Backend**: Resolves delay value from discovered.json in real-time
-- **Display**: Shows resolved delay in seconds, indicator icon (⏱️) in collapsed view
+- **Display**: Clock icon (`IconClock.tsx`) always visible in collapsed view, color-coded: green (>= 7d), yellow (>= 1d), red (< 1d), gray (no delay). Uses `formatDelay()` from `scoringShared.tsx` for human-readable units (e.g., `7d`, `2h`, `45s`)
 - **Storage**: Delay reference stored in `permission-overrides.json` as `{ contractAddress, fieldName }`
 
 ### Permissions Report Generation ✅
@@ -138,6 +138,14 @@ git fetch upstream && git merge upstream/main
   - Async mutations with proper cache invalidation
 - **Backend**: `/defidisco/contractTags.ts` preserves attributes across updates
 - **Address Format**: Normalizes `eth:0x...` → `0x...` when comparing with tags
+
+### Governance Contract Tag ✅
+
+**Binary tag**: `isGovernance` in `contract-tags.json`, green in graph view
+
+- **UI**: `GovernanceButton.tsx` (node controls toggle), `GovernanceIndicator.tsx` (Values panel label, rendered inside `ExternalIndicator.tsx`)
+- **Node Coloring**: `useContractTagColor` hook in `useContractTags.ts` maps tags → color override. Priority: Unknown (red) > External (orange) > Governance (green) > Chain color
+- **Admin Filtering**: "Key owners" (shown by default) = EOA, EOAPermissioned, Multisig, or governance-tagged. "Show all contracts" checkbox reveals the rest
 
 ### AccessControl Role Support ✅
 
@@ -260,7 +268,22 @@ cd ~/defidisco/packages/l2b && ./scripts/start-with-funds.sh
 ```bash
 DEBANK_API_KEY=your-debank-api-key
 PORT=3001
+ETHEREUM_RPC_URL_FOR_DISCOVERY=https://your-rpc-url  # Optional: enables Morpho vault onchain positions
 ```
+
+**Morpho Vault Onchain Positions**:
+
+When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho vaults and fetches their positions directly onchain instead of from DeBank. This provides more accurate per-market breakdowns.
+
+- **Detection**: Checks two MetaMorpho Factory contracts (`0x1897...`, `0xA9c3...`) via `isMetaMorpho(address)`. Results cached for 24h (immutable once deployed)
+- **Position Fetching**: Reads vault's supply queue from onchain, then for each market queries Morpho Blue (`0xBBBB...`) for position/market data. Computes `suppliedAssets = supplyShares * totalSupplyAssets / totalSupplyShares`
+- **Pricing**: Uses existing `BalanceService` to get Morpho Blue singleton's DeBank balances — standard cache applies, no extra API calls per vault
+- **Output**: Formatted as `DebankComplexProtocol[]` for downstream compatibility. One portfolio_item per market with non-zero supply
+- **Fallback**: On any RPC error, falls back to DeBank with a warning log. If RPC URL is not configured, logs a warning at startup and uses DeBank for everything
+- **Files**:
+  - `packages/defiscan-endpoints/src/clients/MorphoRpcClient.ts` — Ethers.js v5 RPC client for vault detection and position fetching
+  - `packages/defiscan-endpoints/src/services/MorphoVaultService.ts` — Orchestrates detection, onchain fetch, pricing, and formatting
+  - `packages/defiscan-endpoints/src/services/PositionService.ts` — Routes Morpho vaults (eth chain) to onchain path with try/catch fallback
 
 **API Endpoints**:
 
@@ -325,6 +348,29 @@ PORT=3001
 }
 ```
 
+### Enhanced Traversal & Function Analysis ✅
+
+**Owner chain traversal and per-function impact/dependency analysis using call graph + permission data**
+
+| Endpoint | Backend | Purpose |
+|---|---|---|
+| `GET /api/projects/:project/enhanced-traversal` | `enhancedTraversal.ts` | Backward BFS → governance chain terminals (owners) for each permissioned function |
+| `GET /api/projects/:project/function-analysis` | `functionAnalysis.ts` | Forward BFS → reachable contracts with funds (impact) + external dependencies |
+
+**Enhanced Traversal** (`enhancedTraversal.ts`):
+- Unified graph from call graph edges (caller→callee) + permission edges (owner→function)
+- Backward BFS from each permissioned function, collapses chains into `CollapsedChainStep[]`
+- Response: `ApiEnhancedTraversalResponse` — `contracts[address][functionName] → FunctionTraversalResult`
+
+**Function Analysis** (`functionAnalysis.ts`):
+- **Impact** (permissioned only): Forward BFS via call graph, filters contracts with funds. Includes `callPath: CallPathStep[]` (shortest path)
+- **Dependencies** (all functions): Auto-detected external contracts (BFS + `isExternal` tag) merged with manual deps from `functions.json`. `isAutoDetected` flag distinguishes them
+- Response: `ApiFunctionAnalysisResponse` — `contracts[address][functionName] → FunctionAnalysis`
+
+**Key types** (in both backend and frontend `types.ts`):
+- `FunctionTraversalResult`, `TraversalTerminal`, `OwnershipChainStep` — enhanced traversal
+- `FunctionImpactEntry`, `FunctionDependencyEntry`, `FunctionAnalysis`, `CallPathStep` — function analysis
+
 ### V2 Scoring UI ✅
 
 **Scoring Dashboard**: V2 scoring breakdown in DeFiScan panel (`/defidisco/V2ScoringSection.tsx`)
@@ -334,7 +380,7 @@ PORT=3001
 
 **Shared Module (`scoringShared.tsx`)** — DO NOT duplicate code from this file:
 
-- **Utility Functions**: `formatUsdValue`, `hasCapitalData`, `hasTokenValueData`, `isZeroAddress`, `getAdminTypeColor`, `getImpactColor`, `computeDeduplicatedCapital`
+- **Utility Functions**: `formatUsdValue`, `formatDelay`, `hasCapitalData`, `hasTokenValueData`, `isZeroAddress`, `getAdminTypeColor`, `getImpactColor`, `computeDeduplicatedCapital`
 - **Display Components**: `TreeNode`, `FundsDisplay`, `TokenValueDisplay`, `FunctionCapitalBreakdown` — tree-structured capital breakdown
 - **`OwnerSection`**: Shared component used by **both** Owners and Dependencies sections to render an owner/admin with admin type badges, proxy type tags, capital-at-risk, and expandable function list with capital breakdown trees
 
@@ -342,7 +388,8 @@ PORT=3001
 
 - **Owners** (`AdminsInventoryBreakdown.tsx`): Displays non-external permission owners
   - Filters out external owners (shown in Dependencies instead)
-  - "Show immutable" toggle (default: **off**) — includes immutable + revoked (0x0) addresses
+  - By default shows only "key owners": EOAs, EOAPermissioned, Multisigs, and governance-tagged contracts
+  - "Show all contracts" checkbox reveals all other contract-type admins
   - Uses `OwnerSection` from `scoringShared.tsx`
 - **Dependencies** (`DependencyInventoryBreakdown.tsx`): Displays call-graph dependencies + external owners
   - Regular dependencies: `DependencySection` (local component for call-graph entries)
@@ -353,7 +400,8 @@ PORT=3001
 **Key Design Decisions**:
 
 - External owners (`isExternal: true` in contract-tags) appear in Dependencies, not Owners
-- Immutable contracts and revoked addresses (0x0) are grouped together for toggle filtering
+- Governance contracts (`isGovernance: true`) are treated as "key owners" alongside EOAs and Multisigs
+- "Key owners" (shown by default): EOA, EOAPermissioned, Multisig, or governance-tagged contracts. All other contract types hidden unless "Show all contracts" is checked
 - `OwnerSection` is shared to avoid duplicating admin type badges, proxy type tags, funds display, and capital breakdown logic
 
 **Capital & Token Value Display**:
@@ -494,6 +542,8 @@ packages/
 │   ├── PermissionsDisplay.tsx
 │   ├── FunctionFolder.tsx
 │   ├── ExternalButton.tsx
+│   ├── GovernanceButton.tsx            # Toggle governance tag in node controls
+│   ├── GovernanceIndicator.tsx         # Inline governance label + toggle in Values panel
 │   ├── V2ScoringSection.tsx          # V2 scoring entry point
 │   ├── scoringShared.tsx             # Shared scoring utilities & components (DO NOT DUPLICATE)
 │   ├── AdminsInventoryBreakdown.tsx  # Owners section (imports from scoringShared)
@@ -505,7 +555,9 @@ packages/
 │   ├── permissionOverrides.ts
 │   ├── contractTags.ts
 │   ├── reviewDescriptions.ts        # Review descriptions CRUD
-│   └── generatePermissionsReport.ts
+│   ├── generatePermissionsReport.ts
+│   ├── enhancedTraversal.ts          # Backward BFS governance chains
+│   └── functionAnalysis.ts           # Forward BFS impact & dependencies
 └── config/src/projects/compound-v3/
     ├── permission-overrides.json
     └── review-descriptions.json      # Per-project review descriptions
@@ -535,6 +587,7 @@ packages/
     {
       "contractAddress": "0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
       "isExternal": true,
+      "isGovernance": true,
       "centralization": "high",
       "mitigations": "complete",
       "timestamp": "2025-09-30T19:47:42.278Z"
@@ -544,8 +597,9 @@ packages/
 ```
 
 - **File Location**: `packages/config/src/projects/{project}/contract-tags.json`
-- **Fields**: `isExternal` (boolean), `centralization` (high/medium/low), `mitigations` (complete/partial/none)
+- **Fields**: `isExternal` (boolean), `isGovernance` (boolean), `centralization` (high/medium/low), `mitigations` (complete/partial/none)
 - **Update Pattern**: Backend preserves existing attributes when updating individual fields
+- **Cleanup**: When all boolean tag fields (`isExternal`, `isGovernance`, `fetchBalances`, `fetchPositions`, `isToken`) are false, the entry is removed from the file
 
 ### Permission Overrides Data Structure ✅
 

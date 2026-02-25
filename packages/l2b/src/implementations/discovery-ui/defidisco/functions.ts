@@ -174,7 +174,7 @@ export function updateFunction(
       updateRequest.ownerDefinitions ?? existingFunction?.ownerDefinitions,
     delay:
       updateRequest.delay !== undefined
-        ? updateRequest.delay
+        ? (updateRequest.delay ?? undefined)
         : existingFunction?.delay,
     // Handle dependencies: if provided and non-empty, use it; if provided and empty, set undefined to remove from JSON
     dependencies:
@@ -504,6 +504,56 @@ export function resolveOwnersFromDiscovered(
       error: 'Failed to parse discovered.json',
     }))
   }
+}
+
+/**
+ * Resolves owner definitions using a pre-loaded DiscoveredDataAccess instance.
+ * Avoids re-reading discovered.json from disk on every call.
+ * Use this in hot loops (e.g., enhanced graph traversal resolution).
+ */
+export function resolveOwnersWithDataAccess(
+  dataAccess: DiscoveredDataAccess,
+  contractAddress: string,
+  ownerDefinitions: OwnerDefinition[],
+): ResolvedOwner[] {
+  const resolved: ResolvedOwner[] = []
+
+  for (const definition of ownerDefinitions) {
+    const result = resolvePathExpression(
+      dataAccess,
+      contractAddress,
+      definition.path,
+    )
+
+    if (result.error) {
+      resolved.push({
+        address: 'RESOLUTION_FAILED',
+        source: definition,
+        isResolved: false,
+        error: result.error,
+      })
+    } else if (
+      result.addresses.length === 1 &&
+      typeof result.structuredValue === 'string'
+    ) {
+      resolved.push({
+        address: result.addresses[0]!,
+        source: definition,
+        isResolved: true,
+      })
+    } else {
+      resolved.push(
+        ...result.addresses.map((address) => ({
+          address,
+          source: definition,
+          isResolved: true,
+          structuredValue: result.structuredValue,
+        })),
+      )
+    }
+  }
+
+  return resolved
 }
 
 /**
