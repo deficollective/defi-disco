@@ -103,7 +103,7 @@ git fetch upstream && git merge upstream/main
 
 - **UI**: Select contract + numeric field to specify delay reference
 - **Backend**: Resolves delay value from discovered.json in real-time
-- **Display**: Shows resolved delay in seconds, indicator icon (⏱️) in collapsed view
+- **Display**: Clock icon (`IconClock.tsx`) always visible in collapsed view, color-coded: green (>= 7d), yellow (>= 1d), red (< 1d), gray (no delay). Uses `formatDelay()` from `scoringShared.tsx` for human-readable units (e.g., `7d`, `2h`, `45s`)
 - **Storage**: Delay reference stored in `permission-overrides.json` as `{ contractAddress, fieldName }`
 
 ### Permissions Report Generation ✅
@@ -365,7 +365,7 @@ PORT=3001
 
 **Shared Module (`scoringShared.tsx`)** — DO NOT duplicate code from this file:
 
-- **Utility Functions**: `formatUsdValue`, `hasCapitalData`, `hasTokenValueData`, `isZeroAddress`, `getAdminTypeColor`, `getImpactColor`, `computeDeduplicatedCapital`
+- **Utility Functions**: `formatUsdValue`, `formatDelay`, `hasCapitalData`, `hasTokenValueData`, `isZeroAddress`, `getAdminTypeColor`, `getImpactColor`, `computeDeduplicatedCapital`
 - **Display Components**: `TreeNode`, `FundsDisplay`, `TokenValueDisplay`, `FunctionCapitalBreakdown` — tree-structured capital breakdown
 - **`OwnerSection`**: Shared component used by **both** Owners and Dependencies sections to render an owner/admin with admin type badges, proxy type tags, capital-at-risk, and expandable function list with capital breakdown trees
 
