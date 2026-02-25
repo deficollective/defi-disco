@@ -193,7 +193,8 @@ export async function fetchFundsForContract(
 
       // Get cached status and source from headers
       positionsCached = positionsResponse.headers.get('X-Cached') === 'true'
-      const positionsSource = positionsResponse.headers.get('X-Source') ?? 'debank'
+      const positionsSource =
+        positionsResponse.headers.get('X-Source') ?? 'debank'
 
       if (!positionsResponse.ok) {
         throw new Error(
