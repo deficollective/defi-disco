@@ -1017,8 +1017,7 @@ export function FunctionFolder({
 
           {/* Delay Indicator Icon */}
           {(() => {
-            const hasDelay =
-              currentFunction?.delay && resolvedDelay?.isResolved
+            const hasDelay = currentFunction?.delay && resolvedDelay?.isResolved
             const seconds = resolvedDelay?.seconds ?? 0
             const delayColor = !hasDelay
               ? '#9ca3af' // gray-400 (no delay)

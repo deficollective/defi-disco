@@ -32,15 +32,11 @@ export function formatUsdValue(value: number): string {
 export function formatDelay(seconds: number): string {
   if (seconds >= 86400) {
     const days = seconds / 86400
-    return days === Math.floor(days)
-      ? `${days}d`
-      : `${days.toFixed(1)}d`
+    return days === Math.floor(days) ? `${days}d` : `${days.toFixed(1)}d`
   }
   if (seconds >= 3600) {
     const hours = seconds / 3600
-    return hours === Math.floor(hours)
-      ? `${hours}h`
-      : `${hours.toFixed(1)}h`
+    return hours === Math.floor(hours) ? `${hours}h` : `${hours.toFixed(1)}h`
   }
   if (seconds >= 60) {
     const minutes = seconds / 60

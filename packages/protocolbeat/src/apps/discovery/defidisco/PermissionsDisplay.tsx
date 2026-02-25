@@ -342,7 +342,7 @@ export function PermissionsDisplay({
         updates.ownerDefinitions ?? currentFunction?.ownerDefinitions,
       delay:
         'delay' in updates
-          ? updates.delay ?? undefined
+          ? (updates.delay ?? undefined)
           : currentFunction?.delay,
       dependencies:
         updates.dependencies !== undefined

@@ -4,10 +4,7 @@ import { v } from '@l2beat/validate'
 import type { ContractValue } from '../../output/types'
 import type { IProvider } from '../../provider/IProvider'
 import type { Handler, HandlerResult } from '../Handler'
-import {
-  generateReferenceInput,
-  resolveReference,
-} from '../reference'
+import { generateReferenceInput, resolveReference } from '../reference'
 import { toContractValue } from '../utils/toContractValue'
 
 export type MorphoMarketsHandlerDefinition = v.infer<
@@ -90,7 +87,11 @@ export class MorphoMarketsHandler implements Handler {
     // Extract the specified field from each market entry
     const addresses: ContractValue[] = []
     for (const market of sourceResult.value) {
-      if (typeof market === 'object' && market !== null && !Array.isArray(market)) {
+      if (
+        typeof market === 'object' &&
+        market !== null &&
+        !Array.isArray(market)
+      ) {
         const addr = (market as Record<string, ContractValue>)[extractField]
         if (typeof addr === 'string') {
           addresses.push(addr)
@@ -124,7 +125,10 @@ export class MorphoMarketsHandler implements Handler {
       const fieldName = this.definition.morphoAddressField ?? 'MORPHO'
       const rawAddress = resolveReference(`{{ ${fieldName} }}`, referenceInput)
       if (typeof rawAddress !== 'string') {
-        return { field: this.field, error: `Cannot resolve Morpho address from field "${fieldName}"` }
+        return {
+          field: this.field,
+          error: `Cannot resolve Morpho address from field "${fieldName}"`,
+        }
       }
       // The raw value from handler results is just "0x..." without chain prefix
       // We need to add the chain prefix from the current contract
@@ -136,12 +140,18 @@ export class MorphoMarketsHandler implements Handler {
     const queueField = this.definition.queueField ?? 'supplyQueue'
     const queueResult = previousResults[queueField]
     if (!queueResult || queueResult.error) {
-      return { field: this.field, error: `Cannot resolve supply queue from field "${queueField}": ${queueResult?.error ?? 'missing'}` }
+      return {
+        field: this.field,
+        error: `Cannot resolve supply queue from field "${queueField}": ${queueResult?.error ?? 'missing'}`,
+      }
     }
 
     const queue = queueResult.value
     if (!Array.isArray(queue)) {
-      return { field: this.field, error: `Expected array for "${queueField}", got ${typeof queue}` }
+      return {
+        field: this.field,
+        error: `Expected array for "${queueField}", got ${typeof queue}`,
+      }
     }
 
     // For each market ID, call idToMarketParams on the Morpho contract
