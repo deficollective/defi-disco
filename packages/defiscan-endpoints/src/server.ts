@@ -75,6 +75,10 @@ async function main() {
       logger.for('MorphoVaultService'),
     )
     logger.info('Morpho vault onchain positions enabled')
+  } else {
+    logger.warn(
+      'Morpho vault onchain positions disabled: ETHEREUM_RPC_URL_FOR_DISCOVERY not set',
+    )
   }
 
   const positionService = new PositionService(
