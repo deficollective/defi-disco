@@ -7,9 +7,7 @@ const METAMORPHO_FACTORIES = [
 ]
 const MORPHO_BLUE = '0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb'
 
-const FACTORY_ABI = [
-  'function isMetaMorpho(address) view returns (bool)',
-]
+const FACTORY_ABI = ['function isMetaMorpho(address) view returns (bool)']
 
 const VAULT_ABI = [
   'function supplyQueueLength() view returns (uint256)',

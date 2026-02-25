@@ -33,15 +33,25 @@ export class PositionService {
       try {
         const isMorpho = await this.morphoVaultService.isMorphoVault(address)
         if (isMorpho) {
-          this.logger.info('Detected Morpho vault, fetching onchain positions', { address })
-          const morphoResult = await this.morphoVaultService.getPositions(address, chainId, forceRefresh)
+          this.logger.info(
+            'Detected Morpho vault, fetching onchain positions',
+            { address },
+          )
+          const morphoResult = await this.morphoVaultService.getPositions(
+            address,
+            chainId,
+            forceRefresh,
+          )
           return { ...morphoResult, source: 'onchain/debank' }
         }
       } catch (error) {
-        this.logger.warn('Morpho vault detection/fetch failed, falling back to DeBank', {
-          address,
-          error: error instanceof Error ? error.message : String(error),
-        })
+        this.logger.warn(
+          'Morpho vault detection/fetch failed, falling back to DeBank',
+          {
+            address,
+            error: error instanceof Error ? error.message : String(error),
+          },
+        )
       }
     }
 
@@ -49,14 +59,20 @@ export class PositionService {
     if (!forceRefresh) {
       const cached = this.cache.get(cacheKey)
       if (cached) {
-        this.logger.info('CACHE HIT - Returning cached positions', { address, chain })
+        this.logger.info('CACHE HIT - Returning cached positions', {
+          address,
+          chain,
+        })
         return { data: cached, cached: true, source: 'debank' }
       }
     } else {
       this.logger.info('FORCE REFRESH - Bypassing cache', { address, chain })
     }
 
-    this.logger.info('FETCHING - Getting positions from DeBank', { address, chain })
+    this.logger.info('FETCHING - Getting positions from DeBank', {
+      address,
+      chain,
+    })
 
     // Fetch from DeBank
     const result = await this.debankClient.getComplexProtocols(address, chain)

@@ -28,12 +28,7 @@ async function main() {
   const env = getEnv()
 
   const logger = new Logger({
-    level: config.logLevel as
-      | 'DEBUG'
-      | 'INFO'
-      | 'WARN'
-      | 'ERROR'
-      | 'CRITICAL',
+    level: config.logLevel as 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'CRITICAL',
   })
 
   logger.info('Starting DeFiScan Endpoints Service', { port: config.port })

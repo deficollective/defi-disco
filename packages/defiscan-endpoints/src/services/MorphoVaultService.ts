@@ -95,8 +95,7 @@ export class MorphoVaultService {
       }
 
       // Convert raw suppliedAssets to human-readable amount
-      const amount =
-        Number(pos.suppliedAssets) / 10 ** decimals
+      const amount = Number(pos.suppliedAssets) / 10 ** decimals
 
       const usdValue = amount * price
 
@@ -149,8 +148,7 @@ export class MorphoVaultService {
     const priceMap = new Map<string, TokenPriceInfo>()
 
     for (const token of balanceResult.data.balances) {
-      const rawAmount =
-        Number(token.balance) / 10 ** token.decimals
+      const rawAmount = Number(token.balance) / 10 ** token.decimals
       const price = rawAmount > 0 ? token.usd_value / rawAmount : 0
 
       priceMap.set(token.asset_address.toLowerCase(), {
