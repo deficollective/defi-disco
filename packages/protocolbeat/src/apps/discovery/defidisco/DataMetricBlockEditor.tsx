@@ -64,11 +64,13 @@ export function DataMetricBlockEditor({
       {/* Source + field info */}
       <div className="flex items-center gap-2">
         <span className="text-xs text-coffee-200">
-          Source: <span className="font-medium text-coffee-100">{source.label}</span>
+          Source:{' '}
+          <span className="font-medium text-coffee-100">{source.label}</span>
         </span>
         <span className="text-xs text-coffee-400">/</span>
         <span className="text-xs text-coffee-200">
-          {source.availableMetrics.find((m) => m.field === block.field)?.label ?? block.field}
+          {source.availableMetrics.find((m) => m.field === block.field)
+            ?.label ?? block.field}
         </span>
       </div>
 
@@ -101,7 +103,9 @@ export function DataMetricBlockEditor({
           <select
             value={block.field}
             onChange={(e) => {
-              const metric = source.availableMetrics.find((m) => m.field === e.target.value)
+              const metric = source.availableMetrics.find(
+                (m) => m.field === e.target.value,
+              )
               onChange({
                 ...block,
                 field: e.target.value,
@@ -159,7 +163,12 @@ function MetricSourcePicker({
   sectionKey: SectionKey
   importData: ImportDataBundle
   isDataLoading: boolean
-  onSelect: (sourceId: string, field: string, label: string, format: DataColumnFormat) => void
+  onSelect: (
+    sourceId: string,
+    field: string,
+    label: string,
+    format: DataColumnFormat,
+  ) => void
 }) {
   const [selectedSourceId, setSelectedSourceId] = useState<string | null>(null)
 
@@ -168,7 +177,9 @@ function MetricSourcePicker({
   const allSources = [...sectionSources, ...otherSources]
 
   // Filter to sources that have metrics
-  const sourcesWithMetrics = allSources.filter((ds) => ds.availableMetrics.length > 0)
+  const sourcesWithMetrics = allSources.filter(
+    (ds) => ds.availableMetrics.length > 0,
+  )
 
   if (selectedSourceId) {
     const source = getDataSource(selectedSourceId)
@@ -177,7 +188,11 @@ function MetricSourcePicker({
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="text-xs text-coffee-300">
-              Select metric from <span className="font-medium text-coffee-100">{source.label}</span>:
+              Select metric from{' '}
+              <span className="font-medium text-coffee-100">
+                {source.label}
+              </span>
+              :
             </span>
             <button
               onClick={() => setSelectedSourceId(null)}
@@ -189,18 +204,28 @@ function MetricSourcePicker({
           <div className="space-y-0.5">
             {source.availableMetrics.map((metric) => {
               const available = isDataSourceAvailable(source, importData)
-              const value = available && source.getMetricValue
-                ? source.getMetricValue(importData, metric.field, {})
-                : undefined
+              const value =
+                available && source.getMetricValue
+                  ? source.getMetricValue(importData, metric.field, {})
+                  : undefined
 
               return (
                 <button
                   key={metric.field}
-                  onClick={() => onSelect(source.id, metric.field, metric.label, metric.format)}
+                  onClick={() =>
+                    onSelect(
+                      source.id,
+                      metric.field,
+                      metric.label,
+                      metric.format,
+                    )
+                  }
                   disabled={isDataLoading || !available}
                   className="flex w-full items-center gap-2 rounded border border-coffee-700 bg-coffee-800 px-2 py-1.5 text-left hover:border-autumn-300 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <span className="text-xs font-medium text-coffee-100">{metric.label}</span>
+                  <span className="text-xs font-medium text-coffee-100">
+                    {metric.label}
+                  </span>
                   {value !== undefined && (
                     <span className="text-xs text-coffee-400">
                       ({formatColumnValue(value, metric.format)})
@@ -217,7 +242,9 @@ function MetricSourcePicker({
 
   return (
     <div className="space-y-1">
-      <span className="text-xs text-coffee-300">Select a data source for the metric:</span>
+      <span className="text-xs text-coffee-300">
+        Select a data source for the metric:
+      </span>
       <div className="space-y-0.5">
         {sourcesWithMetrics.map((ds) => {
           const available = isDataSourceAvailable(ds, importData)
@@ -229,12 +256,17 @@ function MetricSourcePicker({
               className="flex w-full items-center gap-2 rounded border border-coffee-700 bg-coffee-800 px-2 py-1.5 text-left hover:border-autumn-300 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <div className="flex-1">
-                <span className="text-xs font-medium text-coffee-100">{ds.label}</span>
+                <span className="text-xs font-medium text-coffee-100">
+                  {ds.label}
+                </span>
                 <span className="ml-2 text-xs text-coffee-400">
-                  {ds.availableMetrics.length} {ds.availableMetrics.length === 1 ? 'metric' : 'metrics'}
+                  {ds.availableMetrics.length}{' '}
+                  {ds.availableMetrics.length === 1 ? 'metric' : 'metrics'}
                 </span>
               </div>
-              {!available && <span className="text-xs text-red-400">No data</span>}
+              {!available && (
+                <span className="text-xs text-red-400">No data</span>
+              )}
             </button>
           )
         })}

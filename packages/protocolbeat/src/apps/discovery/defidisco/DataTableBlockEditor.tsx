@@ -69,7 +69,8 @@ export function DataTableBlockEditor({
       {/* Source info bar */}
       <div className="flex items-center gap-2">
         <span className="text-xs text-coffee-200">
-          Source: <span className="font-medium text-coffee-100">{source.label}</span>
+          Source:{' '}
+          <span className="font-medium text-coffee-100">{source.label}</span>
         </span>
         {isDataLoading ? (
           <span className="text-xs text-coffee-400">Loading...</span>
@@ -108,10 +109,7 @@ export function DataTableBlockEditor({
 
       {/* Live preview */}
       {showPreview && available && (
-        <PreviewTable
-          items={items}
-          columns={block.columns}
-        />
+        <PreviewTable items={items} columns={block.columns} />
       )}
     </div>
   )
@@ -134,9 +132,7 @@ function DataSourcePicker({
 }) {
   const sources = getDataSourcesForSection(sectionKey)
   // Also show all sources that aren't section-specific
-  const allSources = DATA_SOURCES.filter(
-    (ds) => !sources.includes(ds),
-  )
+  const allSources = DATA_SOURCES.filter((ds) => !sources.includes(ds))
 
   return (
     <div className="space-y-1">
@@ -144,7 +140,9 @@ function DataSourcePicker({
       <div className="space-y-1">
         {sources.length > 0 && (
           <div className="space-y-0.5">
-            <span className="text-xs text-coffee-400">Recommended for this section:</span>
+            <span className="text-xs text-coffee-400">
+              Recommended for this section:
+            </span>
             {sources.map((ds) => (
               <SourceOption
                 key={ds.id}
@@ -199,8 +197,12 @@ function SourceOption({
       className="flex w-full items-center gap-2 rounded border border-coffee-700 bg-coffee-800 px-2 py-1.5 text-left hover:border-autumn-300 disabled:cursor-not-allowed disabled:opacity-40"
     >
       <div className="flex-1">
-        <span className="text-xs font-medium text-coffee-100">{source.label}</span>
-        <span className="ml-2 text-xs text-coffee-400">{source.description}</span>
+        <span className="text-xs font-medium text-coffee-100">
+          {source.label}
+        </span>
+        <span className="ml-2 text-xs text-coffee-400">
+          {source.description}
+        </span>
       </div>
       {available ? (
         <span className="text-xs text-coffee-400">{itemCount} items</span>
@@ -237,7 +239,11 @@ function ConfigPanel({
       } else {
         newColumns = [
           ...block.columns,
-          { field: col.field, header: col.header, format: col.format as DataTableColumn['format'] },
+          {
+            field: col.field,
+            header: col.header,
+            format: col.format as DataTableColumn['format'],
+          },
         ]
       }
       onChange({ ...block, columns: newColumns })
@@ -247,7 +253,8 @@ function ConfigPanel({
 
   const toggleFilter = useCallback(
     (filterId: string) => {
-      const currentFilters = block.filters ?? getDefaultFilters(source, sectionKey)
+      const currentFilters =
+        block.filters ?? getDefaultFilters(source, sectionKey)
       onChange({
         ...block,
         filters: {
@@ -313,7 +320,14 @@ function ConfigPanel({
       {/* Change data source */}
       <div className="border-t border-coffee-700 pt-1">
         <button
-          onClick={() => onChange({ ...block, dataSource: '', columns: [], filters: undefined })}
+          onClick={() =>
+            onChange({
+              ...block,
+              dataSource: '',
+              columns: [],
+              filters: undefined,
+            })
+          }
           className="text-xs text-coffee-400 hover:text-autumn-300"
         >
           Change data source...

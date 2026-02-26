@@ -53,10 +53,7 @@ export function ReviewSectionEditor({
   const addSubsection = useCallback(() => {
     onChange((s) => ({
       ...s,
-      subsections: [
-        ...s.subsections,
-        { title: 'New Subsection', content: [] },
-      ],
+      subsections: [...s.subsections, { title: 'New Subsection', content: [] }],
     }))
   }, [onChange])
 
@@ -333,7 +330,9 @@ function AddBlockButton({
   )
 }
 
-function createEmptyBlock(type: ReviewContentBlock['type']): ReviewContentBlock {
+function createEmptyBlock(
+  type: ReviewContentBlock['type'],
+): ReviewContentBlock {
   switch (type) {
     case 'text':
       return { type: 'text', content: '' }
@@ -350,6 +349,12 @@ function createEmptyBlock(type: ReviewContentBlock['type']): ReviewContentBlock 
     case 'dataTable':
       return { type: 'dataTable', dataSource: '', columns: [] }
     case 'dataMetric':
-      return { type: 'dataMetric', dataSource: '', field: '', label: '', format: 'text' }
+      return {
+        type: 'dataMetric',
+        dataSource: '',
+        field: '',
+        label: '',
+        format: 'text',
+      }
   }
 }

@@ -19,9 +19,7 @@ import { ReviewDataKeysEditor } from './ReviewDataKeysEditor'
 import { ReviewDescriptionsEditor } from './ReviewDescriptionsEditor'
 import { useReviewImportData } from './useReviewImportData'
 
-const SECTION_KEYS = [
-  'codeAndAudits',
-] as const
+const SECTION_KEYS = ['codeAndAudits'] as const
 type SectionKey = (typeof SECTION_KEYS)[number]
 
 type TabKey = SectionKey | 'descriptions'
@@ -84,9 +82,7 @@ export function ReviewBuilderPanel() {
         queryKey: ['review-config', project],
       })
     } catch (error) {
-      setSaveError(
-        error instanceof Error ? error.message : 'Failed to save',
-      )
+      setSaveError(error instanceof Error ? error.message : 'Failed to save')
     } finally {
       setSaving(false)
     }
@@ -102,7 +98,13 @@ export function ReviewBuilderPanel() {
   )
 
   const updateMetadata = useCallback(
-    (field: keyof Pick<ReviewConfig, 'protocolSlug' | 'protocolName' | 'tokenName' | 'chain'>, value: string) => {
+    (
+      field: keyof Pick<
+        ReviewConfig,
+        'protocolSlug' | 'protocolName' | 'tokenName' | 'chain'
+      >,
+      value: string,
+    ) => {
       setLocalConfig((prev) => {
         if (!prev) return prev
         return { ...prev, [field]: value }
@@ -112,7 +114,10 @@ export function ReviewBuilderPanel() {
   )
 
   const updateSection = useCallback(
-    (sectionKey: SectionKey, updater: (section: ReviewSection) => ReviewSection) => {
+    (
+      sectionKey: SectionKey,
+      updater: (section: ReviewSection) => ReviewSection,
+    ) => {
       setLocalConfig((prev) => {
         if (!prev) return prev
         return {
@@ -127,15 +132,12 @@ export function ReviewBuilderPanel() {
     [],
   )
 
-  const updateDataKeys = useCallback(
-    (dataKeys: Record<string, string>) => {
-      setLocalConfig((prev) => {
-        if (!prev) return prev
-        return { ...prev, dataKeys }
-      })
-    },
-    [],
-  )
+  const updateDataKeys = useCallback((dataKeys: Record<string, string>) => {
+    setLocalConfig((prev) => {
+      if (!prev) return prev
+      return { ...prev, dataKeys }
+    })
+  }, [])
 
   if (isLoading) {
     return (

@@ -63,9 +63,16 @@ export interface DataSourceDefinition {
   /** Which API data is required */
   requires: (keyof ImportDataBundle)[]
   /** Transform raw API data into flat items for table rendering */
-  getItems: (data: ImportDataBundle, filters: Record<string, boolean>) => Record<string, unknown>[]
+  getItems: (
+    data: ImportDataBundle,
+    filters: Record<string, boolean>,
+  ) => Record<string, unknown>[]
   /** Get a metric value */
-  getMetricValue?: (data: ImportDataBundle, field: string, filters: Record<string, boolean>) => unknown
+  getMetricValue?: (
+    data: ImportDataBundle,
+    field: string,
+    filters: Record<string, boolean>,
+  ) => unknown
 }
 
 // ============================================================================
@@ -123,9 +130,19 @@ const projectContractsSource: DataSourceDefinition = {
   requires: ['projectData'],
   availableColumns: [
     { field: 'name', header: 'Name', defaultSelected: true },
-    { field: 'address', header: 'Address', format: 'address', defaultSelected: true },
+    {
+      field: 'address',
+      header: 'Address',
+      format: 'address',
+      defaultSelected: true,
+    },
     { field: 'type', header: 'Type', defaultSelected: false },
-    { field: 'proxyType', header: 'Proxy Type', format: 'badge', defaultSelected: true },
+    {
+      field: 'proxyType',
+      header: 'Proxy Type',
+      format: 'badge',
+      defaultSelected: true,
+    },
   ],
   availableFilters: [
     { id: 'excludeExternal', label: 'Exclude external', default: false },
@@ -139,7 +156,11 @@ const projectContractsSource: DataSourceDefinition = {
     const all = [...entry.initialContracts, ...entry.discoveredContracts]
     return all
       .filter((c) => {
-        if (filters.excludeExternal && isExternalContract(c.address, data.contractTags)) return false
+        if (
+          filters.excludeExternal &&
+          isExternalContract(c.address, data.contractTags)
+        )
+          return false
         return true
       })
       .map((c) => ({
@@ -167,11 +188,36 @@ const v2ScoreAdminsSource: DataSourceDefinition = {
   requires: ['v2Score'],
   availableColumns: [
     { field: 'adminName', header: 'Name', defaultSelected: true },
-    { field: 'adminAddress', header: 'Address', format: 'address', defaultSelected: true },
-    { field: 'adminType', header: 'Type', format: 'badge', defaultSelected: true },
-    { field: 'likelihood', header: 'Likelihood', format: 'badge', defaultSelected: false },
-    { field: 'functionsCount', header: 'Functions', format: 'number', defaultSelected: true },
-    { field: 'totalDirectCapital', header: 'Capital at Risk', format: 'usd', defaultSelected: true },
+    {
+      field: 'adminAddress',
+      header: 'Address',
+      format: 'address',
+      defaultSelected: true,
+    },
+    {
+      field: 'adminType',
+      header: 'Type',
+      format: 'badge',
+      defaultSelected: true,
+    },
+    {
+      field: 'likelihood',
+      header: 'Likelihood',
+      format: 'badge',
+      defaultSelected: false,
+    },
+    {
+      field: 'functionsCount',
+      header: 'Functions',
+      format: 'number',
+      defaultSelected: true,
+    },
+    {
+      field: 'totalDirectCapital',
+      header: 'Capital at Risk',
+      format: 'usd',
+      defaultSelected: true,
+    },
   ],
   availableFilters: [
     { id: 'excludeExternal', label: 'Exclude external', default: true },
@@ -179,7 +225,11 @@ const v2ScoreAdminsSource: DataSourceDefinition = {
   ],
   availableMetrics: [
     { field: 'count', label: 'Total Actors', format: 'number' },
-    { field: 'totalCapitalAtRisk', label: 'Total Capital at Risk', format: 'usd' },
+    {
+      field: 'totalCapitalAtRisk',
+      label: 'Total Capital at Risk',
+      format: 'usd',
+    },
   ],
   getItems(data, filters) {
     const breakdown = data.v2Score?.inventory?.admins?.breakdown
@@ -187,8 +237,18 @@ const v2ScoreAdminsSource: DataSourceDefinition = {
 
     return breakdown
       .filter((admin) => {
-        if (filters.excludeExternal && isExternalContract(admin.adminAddress, data.contractTags)) return false
-        if (filters.excludeImmutable && admin.adminAddress.includes('0x0000000000000000000000000000000000000000')) return false
+        if (
+          filters.excludeExternal &&
+          isExternalContract(admin.adminAddress, data.contractTags)
+        )
+          return false
+        if (
+          filters.excludeImmutable &&
+          admin.adminAddress.includes(
+            '0x0000000000000000000000000000000000000000',
+          )
+        )
+          return false
         return true
       })
       .map((admin) => ({
@@ -197,7 +257,9 @@ const v2ScoreAdminsSource: DataSourceDefinition = {
         adminType: admin.adminType,
         likelihood: admin.likelihood ?? 'unscored',
         functionsCount: admin.functions.length,
-        totalDirectCapital: hasCapitalData(admin) ? admin.totalDirectCapital : 0,
+        totalDirectCapital: hasCapitalData(admin)
+          ? admin.totalDirectCapital
+          : 0,
       }))
   },
   getMetricValue(data, field, filters) {
@@ -222,9 +284,24 @@ const v2ScoreDependenciesSource: DataSourceDefinition = {
   requires: ['v2Score'],
   availableColumns: [
     { field: 'dependencyName', header: 'Name', defaultSelected: true },
-    { field: 'dependencyAddress', header: 'Address', format: 'address', defaultSelected: true },
-    { field: 'likelihood', header: 'Likelihood', format: 'badge', defaultSelected: true },
-    { field: 'functionsCount', header: 'Functions Affected', format: 'number', defaultSelected: true },
+    {
+      field: 'dependencyAddress',
+      header: 'Address',
+      format: 'address',
+      defaultSelected: true,
+    },
+    {
+      field: 'likelihood',
+      header: 'Likelihood',
+      format: 'badge',
+      defaultSelected: true,
+    },
+    {
+      field: 'functionsCount',
+      header: 'Functions Affected',
+      format: 'number',
+      defaultSelected: true,
+    },
   ],
   availableFilters: [],
   availableMetrics: [
@@ -259,9 +336,24 @@ const fundsContractBalancesSource: DataSourceDefinition = {
   requires: ['fundsData'],
   availableColumns: [
     { field: 'contractName', header: 'Contract', defaultSelected: true },
-    { field: 'address', header: 'Address', format: 'address', defaultSelected: true },
-    { field: 'balancesTotal', header: 'Token Balance', format: 'usd', defaultSelected: true },
-    { field: 'positionsTotal', header: 'DeFi Positions', format: 'usd', defaultSelected: true },
+    {
+      field: 'address',
+      header: 'Address',
+      format: 'address',
+      defaultSelected: true,
+    },
+    {
+      field: 'balancesTotal',
+      header: 'Token Balance',
+      format: 'usd',
+      defaultSelected: true,
+    },
+    {
+      field: 'positionsTotal',
+      header: 'DeFi Positions',
+      format: 'usd',
+      defaultSelected: true,
+    },
   ],
   availableFilters: [
     {
@@ -291,12 +383,18 @@ const fundsContractBalancesSource: DataSourceDefinition = {
     return Object.entries(contracts)
       .filter(([addr, cfd]) => {
         if (!cfd.balances && !cfd.positions) return false
-        if (filters.excludeExternal && isExternalContract(addr, data.contractTags)) return false
-        if (filters.excludeTokens && isTokenContract(addr, data.contractTags)) return false
+        if (
+          filters.excludeExternal &&
+          isExternalContract(addr, data.contractTags)
+        )
+          return false
+        if (filters.excludeTokens && isTokenContract(addr, data.contractTags))
+          return false
         return true
       })
       .map(([addr, cfd]) => ({
-        contractName: contractNameMap.get(addr.toLowerCase()) ?? shortenAddress(addr),
+        contractName:
+          contractNameMap.get(addr.toLowerCase()) ?? shortenAddress(addr),
         address: addr,
         balancesTotal: cfd.balances?.totalUsdValue ?? 0,
         positionsTotal: cfd.positions?.totalUsdValue ?? 0,
@@ -306,10 +404,16 @@ const fundsContractBalancesSource: DataSourceDefinition = {
     const items = this.getItems(data, filters)
     if (field === 'count') return items.length
     if (field === 'totalBalances') {
-      return items.reduce((sum, item) => sum + (item.balancesTotal as number), 0)
+      return items.reduce(
+        (sum, item) => sum + (item.balancesTotal as number),
+        0,
+      )
     }
     if (field === 'totalPositions') {
-      return items.reduce((sum, item) => sum + (item.positionsTotal as number), 0)
+      return items.reduce(
+        (sum, item) => sum + (item.positionsTotal as number),
+        0,
+      )
     }
     return undefined
   },
@@ -327,13 +431,27 @@ const permissionedFunctionsSource: DataSourceDefinition = {
   requires: ['functionsData'],
   availableColumns: [
     { field: 'contractName', header: 'Contract', defaultSelected: true },
-    { field: 'contractAddress', header: 'Contract Address', format: 'address', defaultSelected: false },
+    {
+      field: 'contractAddress',
+      header: 'Contract Address',
+      format: 'address',
+      defaultSelected: false,
+    },
     { field: 'functionName', header: 'Function', defaultSelected: true },
-    { field: 'score', header: 'Impact', format: 'badge', defaultSelected: true },
+    {
+      field: 'score',
+      header: 'Impact',
+      format: 'badge',
+      defaultSelected: true,
+    },
     { field: 'ownerPaths', header: 'Owners', defaultSelected: false },
   ],
   availableFilters: [
-    { id: 'excludeExternal', label: 'Exclude external contracts', default: false },
+    {
+      id: 'excludeExternal',
+      label: 'Exclude external contracts',
+      default: false,
+    },
     { id: 'onlyChecked', label: 'Only reviewed functions', default: false },
   ],
   availableMetrics: [
@@ -347,18 +465,25 @@ const permissionedFunctionsSource: DataSourceDefinition = {
     const items: Record<string, unknown>[] = []
 
     for (const [addr, contractFuncs] of Object.entries(contracts)) {
-      if (filters.excludeExternal && isExternalContract(addr, data.contractTags)) continue
+      if (
+        filters.excludeExternal &&
+        isExternalContract(addr, data.contractTags)
+      )
+        continue
 
       for (const func of contractFuncs.functions) {
         if (!func.isPermissioned) continue
         if (filters.onlyChecked && !func.checked) continue
 
         items.push({
-          contractName: contractNameMap.get(addr.toLowerCase()) ?? shortenAddress(addr),
+          contractName:
+            contractNameMap.get(addr.toLowerCase()) ?? shortenAddress(addr),
           contractAddress: addr,
           functionName: func.functionName,
           score: func.score ?? 'unscored',
-          ownerPaths: (func.ownerDefinitions ?? []).map((od) => od.path).join(', '),
+          ownerPaths: (func.ownerDefinitions ?? [])
+            .map((od) => od.path)
+            .join(', '),
         })
       }
     }
@@ -407,7 +532,9 @@ export function getDataSource(id: string): DataSourceDefinition | undefined {
 }
 
 /** Get data sources relevant to a specific section */
-export function getDataSourcesForSection(sectionKey: SectionKey): DataSourceDefinition[] {
+export function getDataSourcesForSection(
+  sectionKey: SectionKey,
+): DataSourceDefinition[] {
   return DATA_SOURCES.filter((ds) => ds.relevantSections.includes(sectionKey))
 }
 
@@ -420,7 +547,9 @@ export function isDataSourceAvailable(
 }
 
 /** Get default columns for a data source */
-export function getDefaultColumns(source: DataSourceDefinition): DataTableColumn[] {
+export function getDefaultColumns(
+  source: DataSourceDefinition,
+): DataTableColumn[] {
   return source.availableColumns
     .filter((col) => col.defaultSelected)
     .map(({ field, header, format }) => ({ field, header, format }))
@@ -469,7 +598,9 @@ export function formatColumnValue(
     case 'number':
       return typeof value === 'number' ? value.toLocaleString() : String(value)
     case 'percent':
-      return typeof value === 'number' ? `${(value * 100).toFixed(1)}%` : String(value)
+      return typeof value === 'number'
+        ? `${(value * 100).toFixed(1)}%`
+        : String(value)
     default:
       return String(value)
   }

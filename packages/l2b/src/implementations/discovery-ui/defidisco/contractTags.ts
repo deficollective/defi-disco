@@ -82,7 +82,9 @@ export function updateContractTag(
     updateRequest.isGovernance ?? existingTag?.isGovernance ?? false
   const newEntity =
     updateRequest.entity !== undefined
-      ? (updateRequest.entity === null ? undefined : updateRequest.entity)
+      ? updateRequest.entity === null
+        ? undefined
+        : updateRequest.entity
       : existingTag?.entity
 
   // Check if any meaningful tag data exists

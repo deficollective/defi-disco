@@ -33,9 +33,7 @@ const STABLECOIN_TEMPLATE: ReviewConfig = {
         },
         {
           title: 'Audits',
-          content: [
-            { type: 'text', content: '' },
-          ],
+          content: [{ type: 'text', content: '' }],
         },
       ],
     },

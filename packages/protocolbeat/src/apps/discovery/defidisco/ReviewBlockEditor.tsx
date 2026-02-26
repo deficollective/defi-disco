@@ -64,7 +64,9 @@ export function ReviewBlockEditor({
   sectionKey,
 }: ReviewBlockEditorProps) {
   return (
-    <div className={`rounded border border-coffee-700 bg-coffee-800/50 ${depth > 0 ? 'ml-3 border-l-2 border-l-coffee-500' : ''}`}>
+    <div
+      className={`rounded border border-coffee-700 bg-coffee-800/50 ${depth > 0 ? 'ml-3 border-l-2 border-l-coffee-500' : ''}`}
+    >
       {/* Block header */}
       <div className="flex items-center gap-2 px-2 py-1">
         <span className={`text-xs font-bold ${BLOCK_TYPE_COLORS[block.type]}`}>
@@ -207,7 +209,9 @@ function TableBlockForm({
   const updateCell = useCallback(
     (rowIdx: number, colIdx: number, value: string) => {
       const rows = block.rows.map((row, ri) =>
-        ri === rowIdx ? row.map((cell, ci) => (ci === colIdx ? value : cell)) : row,
+        ri === rowIdx
+          ? row.map((cell, ci) => (ci === colIdx ? value : cell))
+          : row,
       )
       onChange({ ...block, rows })
     },
@@ -302,14 +306,18 @@ function AdvancedTableOptions({
 
   const hasBadgeColumns =
     block.badgeColumns !== undefined && block.badgeColumns.length > 0
-  const hasColorScale =
-    block.type === 'table' && block.colorScale !== undefined
+  const hasColorScale = block.type === 'table' && block.colorScale !== undefined
   const hasExternalCallers =
     block.type === 'expandableTable' &&
     block.externalCallers !== undefined &&
     block.externalCallers.length > 0
 
-  if (!showAdvanced && !hasBadgeColumns && !hasColorScale && !hasExternalCallers) {
+  if (
+    !showAdvanced &&
+    !hasBadgeColumns &&
+    !hasColorScale &&
+    !hasExternalCallers
+  ) {
     return (
       <button
         onClick={() => setShowAdvanced(true)}
@@ -360,14 +368,10 @@ function AdvancedTableOptions({
       {/* Color Scale (table only) */}
       {block.type === 'table' && (
         <div>
-          <label className="text-xs text-coffee-300">
-            Color Scale (JSON):
-          </label>
+          <label className="text-xs text-coffee-300">Color Scale (JSON):</label>
           <textarea
             value={
-              block.colorScale
-                ? JSON.stringify(block.colorScale, null, 2)
-                : ''
+              block.colorScale ? JSON.stringify(block.colorScale, null, 2) : ''
             }
             onChange={(e) => {
               try {
@@ -402,7 +406,8 @@ function AdvancedTableOptions({
                 .filter(Boolean)
               onChange({
                 ...block,
-                externalCallers: externalCallers.length > 0 ? externalCallers : undefined,
+                externalCallers:
+                  externalCallers.length > 0 ? externalCallers : undefined,
               })
             }}
             className="w-full rounded border border-coffee-600 bg-coffee-900 px-1 py-0.5 text-xs text-coffee-200 focus:border-autumn-300 focus:outline-none"
@@ -460,7 +465,10 @@ function ExpandableTableBlockForm({
     (rowIdx: number, colIdx: number, value: string) => {
       const rows = block.rows.map((row, ri) =>
         ri === rowIdx
-          ? { ...row, cells: row.cells.map((c, ci) => (ci === colIdx ? value : c)) }
+          ? {
+              ...row,
+              cells: row.cells.map((c, ci) => (ci === colIdx ? value : c)),
+            }
           : row,
       )
       onChange({ ...block, rows })
@@ -675,9 +683,7 @@ function DropdownBlockForm({
   const maxDepth = 3
   if (depth >= maxDepth) {
     return (
-      <p className="text-xs text-coffee-400">
-        Maximum nesting depth reached
-      </p>
+      <p className="text-xs text-coffee-400">Maximum nesting depth reached</p>
     )
   }
 
@@ -841,7 +847,9 @@ function MetricBlockForm({
 // Helpers
 // ============================================================================
 
-function createEmptyBlockOfType(type: ReviewContentBlock['type']): ReviewContentBlock {
+function createEmptyBlockOfType(
+  type: ReviewContentBlock['type'],
+): ReviewContentBlock {
   switch (type) {
     case 'text':
       return { type: 'text', content: '' }

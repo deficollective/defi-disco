@@ -470,9 +470,7 @@ export function useExternalToggle(
         )
 
         // Count successes and failures
-        const succeeded = results.filter(
-          (r) => r.status === 'fulfilled',
-        ).length
+        const succeeded = results.filter((r) => r.status === 'fulfilled').length
         const failed = results.filter((r) => r.status === 'rejected').length
 
         // Log results

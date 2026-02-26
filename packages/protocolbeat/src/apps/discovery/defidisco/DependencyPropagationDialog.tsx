@@ -298,9 +298,7 @@ export function DependencyPropagationDialog({
                                   <input
                                     type="checkbox"
                                     checked={isSelected}
-                                    onChange={() =>
-                                      handleToggleFunction(func)
-                                    }
+                                    onChange={() => handleToggleFunction(func)}
                                     disabled={isLoading}
                                     className="cursor-pointer"
                                   />

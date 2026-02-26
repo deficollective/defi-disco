@@ -137,9 +137,7 @@ function ProtocolSection({
         <label className="text-xs text-coffee-200">Type:</label>
         <select
           value={type}
-          onChange={(e) =>
-            onTypeChange(e.target.value as ReviewProjectType)
-          }
+          onChange={(e) => onTypeChange(e.target.value as ReviewProjectType)}
           className="rounded border border-coffee-600 bg-coffee-800 px-2 py-0.5 text-xs text-coffee-100 focus:border-autumn-300 focus:outline-none"
         >
           {PROTOCOL_TYPES.map((pt) => (
@@ -172,7 +170,11 @@ function EntitySection({
   sectionKey: 'admins' | 'dependencies' | 'funds'
   entities: Record<string, EntityDescription>
   isSaving: boolean
-  onSave: (address: string, name: string | undefined, description: string) => void
+  onSave: (
+    address: string,
+    name: string | undefined,
+    description: string,
+  ) => void
 }) {
   const [showAdd, setShowAdd] = useState(false)
 
@@ -183,7 +185,9 @@ function EntitySection({
       <div className="mb-2 flex items-center justify-between">
         <h3 className="font-bold text-xs text-autumn-300">
           {title}{' '}
-          <span className="font-normal text-coffee-400">({entries.length})</span>
+          <span className="font-normal text-coffee-400">
+            ({entries.length})
+          </span>
         </h3>
         <button
           onClick={() => setShowAdd(!showAdd)}
@@ -233,15 +237,18 @@ function EntityEntry({
   address: string
   entity: EntityDescription
   isSaving: boolean
-  onSave: (address: string, name: string | undefined, description: string) => void
+  onSave: (
+    address: string,
+    name: string | undefined,
+    description: string,
+  ) => void
 }) {
   const [localName, setLocalName] = useState(entity.name ?? '')
   const [localDesc, setLocalDesc] = useState(entity.description)
   const [expanded, setExpanded] = useState(false)
 
   const isDirty =
-    (localName || undefined) !== entity.name ||
-    localDesc !== entity.description
+    (localName || undefined) !== entity.name || localDesc !== entity.description
 
   return (
     <div className="mb-1 rounded border border-coffee-700 bg-coffee-800/50">
@@ -250,7 +257,9 @@ function EntityEntry({
         className="flex w-full items-center justify-between px-2 py-1 text-left"
       >
         <div className="flex items-center gap-2 overflow-hidden">
-          <span className="text-xs text-coffee-400">{expanded ? '▼' : '▶'}</span>
+          <span className="text-xs text-coffee-400">
+            {expanded ? '▼' : '▶'}
+          </span>
           <span className="truncate text-xs font-medium text-coffee-100">
             {entity.name || address}
           </span>
@@ -288,9 +297,7 @@ function EntityEntry({
               Delete
             </button>
             <button
-              onClick={() =>
-                onSave(address, localName || undefined, localDesc)
-              }
+              onClick={() => onSave(address, localName || undefined, localDesc)}
               disabled={!isDirty || isSaving}
               className={`rounded px-2 py-0.5 text-xs font-medium ${
                 isDirty && !isSaving
@@ -315,7 +322,11 @@ function AddEntityForm({
 }: {
   sectionKey: 'admins' | 'dependencies' | 'funds'
   isSaving: boolean
-  onSave: (address: string, name: string | undefined, description: string) => void
+  onSave: (
+    address: string,
+    name: string | undefined,
+    description: string,
+  ) => void
   onCancel: () => void
 }) {
   const [address, setAddress] = useState('')

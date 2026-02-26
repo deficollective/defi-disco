@@ -606,7 +606,13 @@ export interface ReviewMetricBlock {
 }
 
 // Data-bound block types (dynamically rendered from live API data)
-export type DataColumnFormat = 'text' | 'address' | 'usd' | 'number' | 'percent' | 'badge'
+export type DataColumnFormat =
+  | 'text'
+  | 'address'
+  | 'usd'
+  | 'number'
+  | 'percent'
+  | 'badge'
 
 export interface DataTableColumn {
   field: string

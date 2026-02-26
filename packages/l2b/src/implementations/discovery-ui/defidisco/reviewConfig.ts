@@ -29,7 +29,10 @@ export function getReviewConfig(
       if (config.sections) {
         const { codeAndAudits } = config.sections as any
         config.sections = {
-          codeAndAudits: codeAndAudits ?? { title: 'Code & Audits', subsections: [] },
+          codeAndAudits: codeAndAudits ?? {
+            title: 'Code & Audits',
+            subsections: [],
+          },
         }
       }
     } catch (error) {
@@ -94,9 +97,6 @@ function writeReviewConfig(
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
 }
 
-function getReviewConfigPath(
-  paths: DiscoveryPaths,
-  project: string,
-): string {
+function getReviewConfigPath(paths: DiscoveryPaths, project: string): string {
   return path.join(paths.discovery, project, 'review-config.json')
 }
