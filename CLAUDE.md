@@ -347,6 +347,14 @@ When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho 
 }
 ```
 
+**Shared Traversal Helpers** (exported from `callGraph.ts`, used by `functionAnalysis.ts` and `v2Scoring.ts`):
+
+- `traverseWithPaths(callGraphData, startContract, startFunction)` — BFS traversal with path tracking, returns reachable contracts + shortest paths
+- `findContractGraph(callGraphData, contract)` — case-insensitive contract graph lookup
+- `buildExternalAddressSet(tags)` / `buildTagsByAddress(tags)` — build lookup structures from contract tags
+- `isExternalAddress(address, externalAddresses)` / `findTag(tagsByAddress, address)` — address matching with `eth:` prefix normalization
+- `getCallGraphContractName(callGraphData, address)` — resolve contract name from call graph data
+
 ### Enhanced Traversal & Function Analysis ✅
 
 **Owner chain traversal and per-function impact/dependency analysis using call graph + permission data**
@@ -476,6 +484,29 @@ When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho 
 - `name` field overrides auto-resolved discovery names for display
 - Templates provide starting configs per project type 
 - Complements V2 scoring data — frontend joins on address to show descriptions alongside scoring/capital data
+
+### Review Generation Agent ✅
+
+**AI-powered review writer**: Claude Code skill that generates professional review text from pre-processed analysis data.
+
+- **Skill**: `/generate-review <project-name>`
+- **File**: `.claude/skills/generate-review/SKILL.md`
+- **Prerequisites**: l2b UI server running at `localhost:2021` (`cd packages/config && l2b ui`)
+- **Behavior**: Always replaces the entire review — every run generates fresh content
+
+**How It Works**:
+1. Fetches pre-processed data from l2b API endpoints (v2-score, enhanced-traversal, funds-data, contract-tags, functions, project data)
+2. Preprocesses large responses into compact summaries (python3 scripts)
+3. Analyzes protocol structure, admin hierarchy, dependencies, and fund distribution
+4. Generates professional descriptions following built-in writing guidelines (neutral tone, data-driven, no marketing copy, no hardcoded USD values)
+5. Writes result directly to `packages/config/src/projects/{project}/review-config.json`
+
+**What It Generates**:
+- `description`: Protocol overview (2-4 sentences)
+- `admins`: Per-admin human-readable name (e.g., "Team 3/5 Multisig") + description of what they control
+- `dependencies`: Per-dependency name + description of how it's used
+- `funds`: Per-fund-holding contract name + description of what tokens it holds
+- `sections.codeAndAudits`: Contract listing (dataTable block) + audits placeholder
 
 ---
 
