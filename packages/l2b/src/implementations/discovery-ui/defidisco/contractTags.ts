@@ -80,10 +80,10 @@ export function updateContractTag(
   const newIsToken = updateRequest.isToken ?? existingTag?.isToken ?? false
   const newIsGovernance =
     updateRequest.isGovernance ?? existingTag?.isGovernance ?? false
-  const newCentralization =
-    updateRequest.centralization !== undefined
-      ? updateRequest.centralization
-      : existingTag?.centralization
+  const newEntity =
+    updateRequest.entity !== undefined
+      ? (updateRequest.entity === null ? undefined : updateRequest.entity)
+      : existingTag?.entity
 
   // Check if any meaningful tag data exists
   const hasAnyTagData =
@@ -99,7 +99,7 @@ export function updateContractTag(
       contractAddress: normalizedAddress,
       isExternal: newIsExternal,
       isGovernance: newIsGovernance || undefined, // Only store if true
-      centralization: newCentralization,
+      entity: newEntity || undefined,
       fetchBalances: newFetchBalances || undefined, // Only store if true
       fetchPositions: newFetchPositions || undefined, // Only store if true
       isToken: newIsToken || undefined, // Only store if true

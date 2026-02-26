@@ -468,7 +468,7 @@ export interface ContractTag {
   contractAddress: string
   isExternal: boolean
   isGovernance?: boolean
-  centralization?: 'high' | 'medium' | 'low' | 'immutable'
+  entity?: string
   fetchBalances?: boolean
   fetchPositions?: boolean
   isToken?: boolean
@@ -479,7 +479,7 @@ export interface ApiContractTagsUpdateRequest {
   contractAddress: string
   isExternal?: boolean
   isGovernance?: boolean
-  centralization?: 'high' | 'medium' | 'low' | 'immutable'
+  entity?: string | null
   fetchBalances?: boolean
   fetchPositions?: boolean
   isToken?: boolean
@@ -898,8 +898,8 @@ export interface FunctionDependencyEntry {
   viewOnlyPath: boolean
   /** Functions called on this dependency (empty for manual) */
   calledFunctions: string[]
-  /** Centralization attribute from contract-tags */
-  centralization?: string
+  /** Entity name from contract-tags */
+  entity?: string
   /** Mitigations attribute from contract-tags */
   mitigations?: string
   /** Shortest call path from the starting function to this dependency */

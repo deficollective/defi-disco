@@ -341,7 +341,7 @@ function computeDependencies(
       isAutoDetected: true,
       viewOnlyPath: data.viewOnlyPath,
       calledFunctions: Array.from(data.calledFunctions),
-      centralization: tag?.centralization,
+      entity: tag?.entity,
       mitigations: undefined,
       callPath: data.shortestPath,
     })
@@ -364,7 +364,7 @@ function computeDependencies(
         isAutoDetected: false,
         viewOnlyPath: false,
         calledFunctions: [],
-        centralization: tag?.centralization,
+        entity: tag?.entity,
         mitigations: undefined,
         callPath: [], // No path info for manual deps
       })
