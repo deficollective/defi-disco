@@ -570,7 +570,10 @@ export function FunctionFolder({
       // Address normalization is now handled in the backend when saving
       const contract = projectData.entries
         .flatMap((e) => [...e.initialContracts, ...e.discoveredContracts])
-        .find((c) => c.address === tag.contractAddress)
+        .find(
+          (c) =>
+            c.address.toLowerCase() === tag.contractAddress.toLowerCase(),
+        )
 
       if (contract) {
         contracts.push({

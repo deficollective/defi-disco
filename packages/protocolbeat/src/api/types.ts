@@ -17,6 +17,7 @@ export interface FunctionDetail {
 export interface DependencyDetail {
   dependencyAddress: string
   dependencyName: string
+  entity?: string
   functions: {
     contractAddress: string
     contractName: string

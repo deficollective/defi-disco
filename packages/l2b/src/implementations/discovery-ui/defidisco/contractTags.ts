@@ -39,12 +39,11 @@ export function updateContractTag(
 ): void {
   const tagsPath = getContractTagsPath(paths, project)
 
-  // Normalize contract address: always include eth: prefix, always lowercase
-  const normalizedAddress = (
-    updateRequest.contractAddress.startsWith('eth:')
-      ? updateRequest.contractAddress
-      : `eth:${updateRequest.contractAddress}`
-  ).toLowerCase()
+  // Ensure eth: prefix, preserve original case
+  const addressWithPrefix = updateRequest.contractAddress.startsWith('eth:')
+    ? updateRequest.contractAddress
+    : `eth:${updateRequest.contractAddress}`
+  const normalizedForLookup = addressWithPrefix.toLowerCase()
 
   // Load existing contract tags
   let contractTags: ContractTag[] = []
@@ -65,7 +64,7 @@ export function updateContractTag(
         ? tag.contractAddress
         : `eth:${tag.contractAddress}`
     ).toLowerCase()
-    return existingNormalized === normalizedAddress
+    return existingNormalized === normalizedForLookup
   })
 
   // Determine the new values for all tag fields
@@ -98,7 +97,7 @@ export function updateContractTag(
   if (hasAnyTagData) {
     // Create or update tag entry
     const newTag: ContractTag = {
-      contractAddress: normalizedAddress,
+      contractAddress: existingTag?.contractAddress ?? addressWithPrefix,
       isExternal: newIsExternal,
       isGovernance: newIsGovernance || undefined, // Only store if true
       entity: newEntity || undefined,
