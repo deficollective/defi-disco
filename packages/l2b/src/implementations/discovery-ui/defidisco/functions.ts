@@ -127,9 +127,9 @@ export function updateFunction(
   const contractKey = existingKey ?? contractAddress
 
   // Find existing function entry for the same function
-  const existingFunctionIndex = userContracts[
-    contractKey
-  ].functions.findIndex((func) => func.functionName === functionName)
+  const existingFunctionIndex = userContracts[contractKey].functions.findIndex(
+    (func) => func.functionName === functionName,
+  )
   const existingFunction =
     existingFunctionIndex >= 0
       ? userContracts[contractKey].functions[existingFunctionIndex]
@@ -205,8 +205,7 @@ export function updateFunction(
   } else {
     // Update or add the function entry
     if (existingFunctionIndex >= 0) {
-      userContracts[contractKey].functions[existingFunctionIndex] =
-        newFunction
+      userContracts[contractKey].functions[existingFunctionIndex] = newFunction
     } else {
       userContracts[contractKey].functions.push(newFunction)
     }

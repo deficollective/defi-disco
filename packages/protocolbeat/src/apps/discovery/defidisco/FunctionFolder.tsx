@@ -571,8 +571,7 @@ export function FunctionFolder({
       const contract = projectData.entries
         .flatMap((e) => [...e.initialContracts, ...e.discoveredContracts])
         .find(
-          (c) =>
-            c.address.toLowerCase() === tag.contractAddress.toLowerCase(),
+          (c) => c.address.toLowerCase() === tag.contractAddress.toLowerCase(),
         )
 
       if (contract) {

@@ -340,7 +340,10 @@ class AdminInventoryModule {
 
       // Also add EOAs
       entry.eoas?.forEach((eoa: any) => {
-        contractNameMap.set(eoa.address.toLowerCase(), eoa.name || 'Unknown EOA')
+        contractNameMap.set(
+          eoa.address.toLowerCase(),
+          eoa.name || 'Unknown EOA',
+        )
         contractTypeMap.set(eoa.address.toLowerCase(), eoa.type || 'EOA')
       })
     })
@@ -390,10 +393,8 @@ class AdminInventoryModule {
               if (!adminsMap.has(adminAddr)) {
                 adminsMap.set(adminAddr, {
                   adminAddress: adminAddr,
-                  adminName:
-                    contractNameMap.get(normalizedAdmin) || adminAddr,
-                  adminType:
-                    contractTypeMap.get(normalizedAdmin) || 'Unknown',
+                  adminName: contractNameMap.get(normalizedAdmin) || adminAddr,
+                  adminType: contractTypeMap.get(normalizedAdmin) || 'Unknown',
                   functions: [],
                 })
               }
