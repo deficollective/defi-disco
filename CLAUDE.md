@@ -127,16 +127,15 @@ git fetch upstream && git merge upstream/main
 
 ### External Contract Attributes ✅
 
-**Contract Tagging Enhancement**: Extended contract tags with centralization/mitigation attributes
+**Contract Tagging Enhancement**: Extended contract tags with entity grouping
 
-- **Data Structure**: `contract-tags.json` stores `centralization` (high/medium/low) and `mitigations` (complete/partial/none)
-- **UI Component**: `/defidisco/ExternalButton.tsx` with dropdown picker (ColorButton pattern)
+- **Data Structure**: `contract-tags.json` stores `entity` (string, e.g. "Chainlink", "Uniswap") to group external contracts by provider
+- **UI Component**: `/defidisco/ExternalButton.tsx` with entity selector popup; `/defidisco/EntitySelector.tsx` (shared reusable component)
 - **Features**:
   - Mark contracts as external/internal
-  - Two-column attribute selector (Centralization | Mitigations)
-  - Reads current values from tags and displays them in picker
-  - Async mutations with proper cache invalidation
-- **Backend**: `/defidisco/contractTags.ts` preserves attributes across updates
+  - Entity selector (dropdown of existing entities + "+" to create new) — spelling-safe
+- **Hook**: `useProjectEntities(project)` in `useContractTags.ts` extracts unique entity names from project tags
+- **Backend**: `/defidisco/contractTags.ts` preserves attributes across updates; entity accepts `null` to clear
 - **Address Format**: Normalizes `eth:0x...` → `0x...` when comparing with tags
 
 ### Governance Contract Tag ✅
@@ -588,8 +587,7 @@ packages/
       "contractAddress": "0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
       "isExternal": true,
       "isGovernance": true,
-      "centralization": "high",
-      "mitigations": "complete",
+      "entity": "Chainlink",
       "timestamp": "2025-09-30T19:47:42.278Z"
     }
   ]
@@ -597,7 +595,7 @@ packages/
 ```
 
 - **File Location**: `packages/config/src/projects/{project}/contract-tags.json`
-- **Fields**: `isExternal` (boolean), `isGovernance` (boolean), `centralization` (high/medium/low), `mitigations` (complete/partial/none)
+- **Fields**: `isExternal` (boolean), `isGovernance` (boolean), `entity` (string, groups external contracts by provider)
 - **Update Pattern**: Backend preserves existing attributes when updating individual fields
 - **Cleanup**: When all boolean tag fields (`isExternal`, `isGovernance`, `fetchBalances`, `fetchPositions`, `isToken`) are false, the entry is removed from the file
 
