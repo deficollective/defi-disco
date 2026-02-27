@@ -86,7 +86,9 @@ function isExternalContract(
   if (!contractTags) return false
   const normalized = address.replace(/^eth:/, '').toLowerCase()
   return contractTags.tags.some(
-    (t) => t.contractAddress.toLowerCase() === normalized && t.isExternal,
+    (t) =>
+      t.contractAddress.replace(/^eth:/, '').toLowerCase() === normalized &&
+      t.isExternal,
   )
 }
 
@@ -97,7 +99,9 @@ function isTokenContract(
   if (!contractTags) return false
   const normalized = address.replace(/^eth:/, '').toLowerCase()
   return contractTags.tags.some(
-    (t) => t.contractAddress.toLowerCase() === normalized && t.isToken,
+    (t) =>
+      t.contractAddress.replace(/^eth:/, '').toLowerCase() === normalized &&
+      t.isToken,
   )
 }
 

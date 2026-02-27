@@ -584,13 +584,13 @@ packages/
 ├── l2b/src/implementations/discovery-ui/defidisco/
 │   ├── permissionOverrides.ts
 │   ├── contractTags.ts
-│   ├── reviewDescriptions.ts        # Review descriptions CRUD
+│   ├── reviewConfig.ts              # Review config CRUD
 │   ├── generatePermissionsReport.ts
 │   ├── enhancedTraversal.ts          # Backward BFS governance chains
 │   └── functionAnalysis.ts           # Forward BFS impact & dependencies
 └── config/src/projects/compound-v3/
     ├── permission-overrides.json
-    └── review-descriptions.json      # Per-project review descriptions
+    └── review-config.json            # Per-project review config
 ```
 
 ### Data Access Patterns

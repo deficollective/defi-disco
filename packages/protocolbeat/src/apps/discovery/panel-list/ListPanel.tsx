@@ -190,7 +190,7 @@ function ListItemContracts(props: {
   )
 }
 
-export function AddressEntry({ entry }: { entry: ApiAddressEntry }) {
+function AddressEntry({ entry }: { entry: ApiAddressEntry }) {
   const isSelected = usePanelStore((state) => state.selected === entry.address)
   const select = usePanelStore((state) => state.select)
   const markUnreachableEntries = useGlobalSettingsStore(

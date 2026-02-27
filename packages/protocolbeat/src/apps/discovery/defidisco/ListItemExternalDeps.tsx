@@ -8,7 +8,7 @@ import { IconChevronRight } from '../../../icons/IconChevronRight'
 import { IconFolder } from '../../../icons/IconFolder'
 import { IconFolderOpened } from '../../../icons/IconFolderOpened'
 import { usePanelStore } from '../store/panel-store'
-import { AddressEntry } from '../panel-list/ListPanel'
+import { AddressEntry } from './AddressEntry'
 
 interface ListItemExternalDepsProps {
   entries: ApiAddressEntry[]
