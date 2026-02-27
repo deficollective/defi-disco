@@ -299,7 +299,6 @@ Report what was generated:
 - **No emojis or exclamation marks**
 - **Don't hedge everything**: Take a position. "The timelock delay is 24 hours, which limits response time to governance attacks" is better than "Some might argue that the timelock delay could potentially be considered short"
 - **Don't write marketing copy**: No "revolutionary", "game-changing", "cutting-edge", "innovative", "robust", "battle-tested"
-- **Don't repeat patterns**: Vary your sentence openers. If three descriptions start with "Internal protocol contract that...", restructure some of them
 - **No hardcoded USD values**: Do NOT embed dollar amounts (e.g., "$68.8M in wstETH"). These values change constantly and are displayed as live data in the UI. Describe holdings qualitatively (e.g., "Holds wstETH collateral deposited by borrowers in the wstETH branch")
 
 ### Practical Rules
