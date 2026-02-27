@@ -186,6 +186,7 @@ Write 2-4 sentences covering:
 - Its core mechanism (how it works at a high level)
 - Key characteristics (immutable, upgradeable, governance model)
 - Key external dependencies the protocol relies on (oracles, price feeds, other protocols)
+- Optionally include total protocol TVL or capital using `{{keyName}}` if a meaningful aggregate value exists (e.g., `v2score.inventory.admins.totalCapitalAtRisk`)
 
 Base this on contract names, token info, dependencies, and the overall architecture you observe.
 
@@ -202,6 +203,7 @@ For each admin in v2-score `inventory.admins.breakdown[]`:
 
 **Generate `description`:**
 - List what permissioned functions this admin controls, grouped thematically (e.g., "Can pause deposits and withdrawals", "Can upgrade the price oracle")
+- Include capital exposure using `{{keyName}}` template variables (e.g., "Controls 19 contracts with {{wethBorrowerOpsCapital}} in direct capital exposure"). Create a dataKey mapping to `v2score.inventory.admins.breakdown["eth:0x..."].totalDirectCapital`
 - If the admin is the zero address, note the permission is effectively renounced
 - If the admin is an internal contract and the traversal shows no EOA/Multisig terminals, explain this is an internal access control mechanism (not a human-controlled permission)
 
@@ -225,7 +227,10 @@ For each contract in funds-data that has `balances.totalUsdValue > 0` OR `positi
 **Generate `name`:** Contract name from project data + primary token in parentheses (e.g., "ActivePool (wstETH)")
 
 **Generate `description`:**
-- What tokens it holds, but do not include how much as this violates the no raw USD values principle (by name/symbol, e.g., "wstETH collateral" or "BOLD deposits")
+- What tokens it holds with a `{{keyName}}` template variable for the USD value (e.g., "Holds {{wstethActivePoolBalance}} in wstETH collateral deposited by borrowers")
+- Create a dataKey entry for each fund contract: map to `fundsdata.contracts["eth:0x..."].balances.totalUsdValue` for token balances, or `.positions.totalUsdValue` for DeFi positions
+- If a contract has both balances and positions, create separate dataKeys for each
+- For token contracts, create a dataKey for market cap via `.tokenInfo.tokenValue`
 - What role the contract plays in the protocol (collateral pool, stability pool, treasury, etc.)
 - If it has DeFi positions, mention which protocols
 
@@ -299,7 +304,7 @@ Report what was generated:
 - **No emojis or exclamation marks**
 - **Don't hedge everything**: Take a position. "The timelock delay is 24 hours, which limits response time to governance attacks" is better than "Some might argue that the timelock delay could potentially be considered short"
 - **Don't write marketing copy**: No "revolutionary", "game-changing", "cutting-edge", "innovative", "robust", "battle-tested"
-- **No hardcoded USD values**: Do NOT embed dollar amounts (e.g., "$68.8M in wstETH"). These values change constantly and are displayed as live data in the UI. Describe holdings qualitatively (e.g., "Holds wstETH collateral deposited by borrowers in the wstETH branch")
+- **No hardcoded USD values**: Do NOT embed literal dollar amounts (e.g., "$68.8M in wstETH"). Instead, use `{{keyName}}` template variables that reference entries in the `dataKeys` record. Example: `"Holds {{wstethActivePoolBalance}} in wstETH collateral"` instead of `"Holds $68.8M in wstETH collateral"`. See the **dataKeys Generation** section below for syntax and available data sources
 
 ### Practical Rules
 
@@ -328,3 +333,58 @@ Filter options per source:
 - `v2score.admins`: `excludeExternal`, `excludeImmutable`
 - `funds.contractBalances`: `excludeExternal`, `excludeTokens`
 - `functions.permissioned`: `excludeExternal`, `onlyChecked`
+
+---
+
+## dataKeys Generation
+
+### Template Variable Syntax
+
+Use `{{keyName}}` in any description string (protocol description, admins, dependencies, funds) to insert a dynamic value that will be resolved at build time against live API data.
+
+**Every `{{keyName}}` used in a description MUST have a corresponding entry in `dataKeys`.**
+
+### Naming Convention
+
+- Use `camelCase` key names
+- Be descriptive: include the contract/concept name and what the value represents
+- Examples: `wstethActivePoolBalance`, `boldMarketCap`, `vaultPositionsTotal`, `totalProtocolCapital`
+
+### dataKeys Format
+
+Each entry in `dataKeys` maps a key name to a **raw API response path** — the exact JSON path to the value in the API response:
+
+```json
+{
+  "dataKeys": {
+    "wstethActivePoolBalance": "fundsdata.contracts[\"eth:0x531a8f99c70d6a56a7cee02d6b4281650d7919a0\"].balances.totalUsdValue",
+    "boldMarketCap": "fundsdata.contracts[\"eth:0x6440f144b7e50d6a8439336510312d2f54beb01d\"].tokenInfo.tokenValue",
+    "vaultPositionsTotal": "fundsdata.contracts[\"eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb\"].positions.totalUsdValue"
+  }
+}
+```
+
+### Available Data Sources
+
+**Funds data** (from `/api/projects/:project/funds-data`):
+
+| Path | Description |
+|------|-------------|
+| `fundsdata.contracts["eth:0x..."].balances.totalUsdValue` | Total USD value of token balances held by a contract |
+| `fundsdata.contracts["eth:0x..."].positions.totalUsdValue` | Total USD value of DeFi positions (lending, yield, etc.) |
+| `fundsdata.contracts["eth:0x..."].tokenInfo.tokenValue` | Protocol token market capitalization |
+
+**V2 scoring** (from `/api/projects/:project/v2-score`):
+
+| Path | Description |
+|------|-------------|
+| `v2score.inventory.admins.totalCapitalAtRisk` | Total capital at risk across all admins |
+| `v2score.inventory.admins.breakdown["eth:0x..."].totalDirectCapital` | Capital in contracts directly controlled by an admin |
+| `v2score.inventory.admins.breakdown["eth:0x..."].totalReachableCapital` | Capital in all contracts reachable via call graph from admin |
+
+### When to Use Template Variables
+
+- **Always** for contract balances, positions, and token market caps in funds descriptions
+- **Always** for capital-at-risk values in admin descriptions
+- **Optionally** for aggregate protocol TVL in the protocol description
+- **Never** for non-numeric data (contract names, function names, addresses)
