@@ -1,31 +1,16 @@
-name: defidisco-preview
-services:
-  - name: l2b-ui
-    github:
-      repo: deficollective/defiscan-v2
-      branch: main
-      deploy_on_push: false
-    dockerfile_path: Dockerfile.discoui
-    http_port: 2021
-    instance_size_slug: apps-s-1vcpu-1gb
-    instance_count: 1
-    health_check:
-      http_path: /api/projects
-      initial_delay_seconds: 30
-      period_seconds: 10
-
+name: defidisco-monitor-test
 workers:
   - name: defidisco-monitor
     github:
       repo: deficollective/defiscan-v2
-      branch: main
+      branch: monitoring-compilation
       deploy_on_push: false
     dockerfile_path: Dockerfile.monitor
     instance_size_slug: apps-s-2vcpu-4gb
     instance_count: 1
     envs:
       - key: DATABASE_URL
-        value: ${db-defidisco.DATABASE_URL}
+        value: ${db-defidisco-test.DATABASE_URL}
       - key: DATABASE_SSL
         value: "true"
       - key: DISCORD_TOKEN
@@ -45,10 +30,10 @@ workers:
       - key: RUN_ON_START
         value: "true"
       - key: LOG_LEVEL
-        value: "INFO"
+        value: "DEBUG"
 
 databases:
-  - name: db-defidisco
+  - name: db-defidisco-test
     engine: PG
     version: "16"
     size: db-s-1vcpu-1gb
