@@ -10,14 +10,16 @@ workers:
     instance_count: 1
     envs:
       - key: DATABASE_URL
-        value: ${db-defidisco-test.DATABASE_URL}
+        type: SECRET
       - key: DATABASE_SSL
-        value: "true"
+        value: "false"
       - key: DISCORD_TOKEN
         type: SECRET
       - key: DISCORD_CHANNEL_ID
         type: SECRET
       - key: ETHEREUM_RPC_URL_FOR_DISCOVERY
+        type: SECRET
+      - key: ETHEREUM_RPC_URL
         type: SECRET
       - key: ETHERSCAN_API_KEY
         type: SECRET
@@ -25,16 +27,7 @@ workers:
         value: "https://api.etherscan.io/api"
       - key: DEBANK_API_KEY
         type: SECRET
-      - key: ETHEREUM_RPC_URL
-        type: SECRET
       - key: RUN_ON_START
         value: "true"
       - key: LOG_LEVEL
         value: "DEBUG"
-
-databases:
-  - name: db-defidisco-test
-    engine: PG
-    version: "16"
-    size: db-s-1vcpu-1gb
-    num_nodes: 1
