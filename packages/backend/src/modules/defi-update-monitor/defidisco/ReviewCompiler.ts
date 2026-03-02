@@ -7,13 +7,13 @@ import {
 import {
   calculateV2Score,
   type V2ScoreResult,
-} from '@l2beat/l2b/src/implementations/discovery-ui/defidisco/v2Scoring'
+} from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/v2Scoring'
 import type {
   AdminDetailWithCapital,
   ApiAddressType,
-} from '@l2beat/l2b/src/implementations/discovery-ui/defidisco/types'
-import { getFundsData } from '@l2beat/l2b/src/implementations/discovery-ui/defidisco/fundsData'
-import { getContractTags } from '@l2beat/l2b/src/implementations/discovery-ui/defidisco/contractTags'
+} from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/types'
+import { getFundsData } from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/fundsData'
+import { getContractTags } from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/contractTags'
 import * as fs from 'fs'
 import * as path from 'path'
 

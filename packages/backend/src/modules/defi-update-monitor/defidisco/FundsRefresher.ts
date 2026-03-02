@@ -1,6 +1,6 @@
 import type { Logger } from '@l2beat/backend-tools'
 import type { DiscoveryPaths } from '@l2beat/discovery'
-import { fetchAllFundsForProject } from '@l2beat/l2b/src/implementations/discovery-ui/defidisco/fundsData'
+import { fetchAllFundsForProject } from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/fundsData'
 
 /**
  * Refreshes live funds data (token balances, DeFi positions) for a project.

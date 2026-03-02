@@ -9,7 +9,7 @@ import {
 } from '@l2beat/discovery'
 import { HttpClient } from '@l2beat/shared'
 import { UnixTime } from '@l2beat/shared-pure'
-import { createDefiscanServer } from '@l2beat/defiscan-endpoints/src/server'
+import { createDefiscanServer } from '@l2beat/defiscan-endpoints/build/server'
 import type { DiscordClient } from '../../../peripherals/discord/DiscordClient'
 import { DiscordClient as DiscordClientClass } from '../../../peripherals/discord/DiscordClient'
 import { Peripherals } from '../../../peripherals/Peripherals'

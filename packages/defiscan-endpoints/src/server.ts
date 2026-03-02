@@ -166,41 +166,43 @@ export function createDefiscanServer(
   }
 }
 
-// Standalone entry point
-dotenv()
+// Standalone entry point — only runs when this file is executed directly
+if (require.main === module) {
+  dotenv()
 
-async function main() {
-  const config = getConfig()
+  async function main() {
+    const config = getConfig()
 
-  const logger = new Logger({
-    level: config.logLevel as 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'CRITICAL',
-  })
-
-  logger.info('Starting DeFiScan Endpoints Service', { port: config.port })
-
-  const { start } = createDefiscanServer(config, logger)
-  const server = await start()
-
-  // Graceful shutdown
-  function shutdown(signal: NodeJS.Signals) {
-    logger.info(`Received ${signal}, shutting down gracefully...`)
-    server.close(() => {
-      logger.info('Server closed')
-      process.exit(0)
+    const logger = new Logger({
+      level: config.logLevel as 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'CRITICAL',
     })
 
-    // Force close after 10 seconds
-    setTimeout(() => {
-      logger.error('Forcing shutdown after timeout')
-      process.exit(1)
-    }, 10_000)
+    logger.info('Starting DeFiScan Endpoints Service', { port: config.port })
+
+    const { start } = createDefiscanServer(config, logger)
+    const server = await start()
+
+    // Graceful shutdown
+    function shutdown(signal: NodeJS.Signals) {
+      logger.info(`Received ${signal}, shutting down gracefully...`)
+      server.close(() => {
+        logger.info('Server closed')
+        process.exit(0)
+      })
+
+      // Force close after 10 seconds
+      setTimeout(() => {
+        logger.error('Forcing shutdown after timeout')
+        process.exit(1)
+      }, 10_000)
+    }
+
+    process.on('SIGINT', () => shutdown('SIGINT'))
+    process.on('SIGTERM', () => shutdown('SIGTERM'))
   }
 
-  process.on('SIGINT', () => shutdown('SIGINT'))
-  process.on('SIGTERM', () => shutdown('SIGTERM'))
+  main().catch((error) => {
+    console.error('Fatal error:', error)
+    process.exit(1)
+  })
 }
-
-main().catch((error) => {
-  console.error('Fatal error:', error)
-  process.exit(1)
-})

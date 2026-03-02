@@ -6,7 +6,7 @@ import {
   type DiscoveryPaths,
   getMulticall3Config,
 } from '@l2beat/discovery'
-import type { DefiscanEndpointsConfig } from '@l2beat/defiscan-endpoints/src/config'
+import type { DefiscanEndpointsConfig } from '@l2beat/defiscan-endpoints/build/config'
 import type { DiscordConfig } from '../../../config/Config'
 import { ChainSpecificAddress } from '@l2beat/shared-pure'
 import * as fs from 'fs'
