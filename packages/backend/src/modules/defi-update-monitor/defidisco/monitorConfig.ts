@@ -113,7 +113,7 @@ function getChainDiscoveryConfig(
     multicall: multicallConfig,
     explorer: {
       type: 'etherscan' as const,
-      url: env.string('ETHERSCAN_API_URL', 'https://api.etherscan.io/api'),
+      url: 'https://api.etherscan.io/v2/api',
       apiKey: env.string('ETHERSCAN_API_KEY'),
       chainId: chainName === 'ethereum' ? 1 : 0,
     },
