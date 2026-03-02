@@ -19,7 +19,14 @@ async function main() {
   const config = getMonitorConfig(env)
   const app = new DefidiscoMonitorApplication(config, logger)
 
-  // Graceful shutdown
+  // Run-once mode: single cycle then exit (used by GitHub Actions cron)
+  if (env.boolean('RUN_ONCE', false)) {
+    appLogger.info('Running in run-once mode')
+    await app.runOnce()
+    process.exit(0)
+  }
+
+  // Long-running mode: Clock-based scheduling
   const shutdown = async (signal: string) => {
     appLogger.info(`Received ${signal}, shutting down...`)
     await app.stop()

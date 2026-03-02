@@ -155,12 +155,43 @@ export class DefidiscoMonitorApplication {
       this.taskQueue.addToFront(UnixTime.now() - UnixTime.MINUTE)
     }
 
-    // Schedule hourly updates
+    // Schedule updates every 12 hours (at midnight and noon UTC)
     this.stopClock = this.clock.onNewHour((timestamp) => {
-      this.taskQueue.addToFront(timestamp - UnixTime.MINUTE)
+      const hour = UnixTime.toDate(timestamp).getUTCHours()
+      if (hour % 12 === 0) {
+        this.taskQueue.addToFront(timestamp - UnixTime.MINUTE)
+      }
     })
 
     this.logger.info('DeFiDisco Monitor started successfully')
+  }
+
+  /**
+   * Run a single monitoring cycle and exit cleanly.
+   * Used by GitHub Actions cron (RUN_ONCE=true).
+   */
+  async runOnce(): Promise<void> {
+    this.logger.info('Starting DeFiDisco Monitor (run-once)', {
+      projects: this.config.projects,
+      projectCount: this.config.projects.length,
+    })
+
+    // Start defiscan-endpoints in-process
+    const defiscanServer = createDefiscanServer(
+      this.config.defiscanEndpoints,
+      this.logger.for('defiscan-endpoints'),
+    )
+    await defiscanServer.start()
+
+    await this.sendDirectDiscordMessage('Monitor started (run-once).')
+
+    try {
+      await this.update(UnixTime.now())
+    } finally {
+      await defiscanServer.stop()
+      await this.db.close()
+      this.logger.info('Run-once cycle completed, exiting')
+    }
   }
 
   async stop(): Promise<void> {

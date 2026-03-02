@@ -4,7 +4,7 @@
 
 The DeFiDisco Monitor is a standalone background service that continuously watches DeFi protocols for smart contract changes, refreshes live financial data, and compiles publishable review artifacts.
 
-It runs as a Digital Ocean App Platform **worker** (no HTTP port), backed by managed PostgreSQL, and is triggered hourly.
+It runs as a Digital Ocean App Platform **worker** (no HTTP port), backed by PostgreSQL (currently Neon free tier), and is triggered hourly.
 
 ### What it does
 
@@ -13,6 +13,7 @@ It runs as a Digital Ocean App Platform **worker** (no HTTP port), backed by man
 3. **Notification** — Sends Discord messages when contract changes are detected
 4. **Funds Refresh** — Fetches live token balances and DeFi positions via DeBank API
 5. **Review Compilation** — Produces a self-contained `compiled-review.json` per project, ready for D1 ingestion
+6. **Cycle Summary** — Posts a Discord summary after every cycle (with change count and duration)
 
 ### What it does NOT do (researcher actions)
 
@@ -63,20 +64,20 @@ Every hour (Clock.onNewHour):
     4. Store: db.updateMonitor.upsert(discovery snapshot)
     5. Funds: fetchAllFundsForProject → updates funds-data.json on disk
     6. Compile: ReviewCompiler.compile() → writes compiled-review.json
+  After all projects:
+    Post cycle summary to Discord (project count, duration, changes)
 ```
 
 ### Pre-Compilation Guards
 
-Before compiling a review, the compiler checks for required data files. If missing, it skips compilation and sends a Discord warning:
+Before compiling a review, the compiler checks for required data files. If missing, it skips compilation silently (log only, no Discord notification):
 
-| Guard | Missing File | Discord Message |
-|-------|-------------|-----------------|
-| No review config | `review-config.json` | ⚠️ **{project}**: No review-config.json found — skipping review compilation. Run /generate-review or create manually. |
-| No call graph | `call-graph-data.json` | ⚠️ **{project}**: No call-graph-data.json found — skipping review compilation. Run call graph generation in the UI. |
+| Guard | Missing File | Behavior |
+|-------|-------------|----------|
+| No review config | `review-config.json` | Skipped — run `/generate-review` or create manually |
+| No call graph | `call-graph-data.json` | Skipped — run call graph generation in the UI |
 
 Discovery + diff + funds refresh still run regardless. Only the compilation step is gated.
-
-These warnings are sent directly via the Discord client, bypassing `UpdateNotifier` (which has throttling designed for discovery diffs — these are operational alerts that should always be visible).
 
 ---
 
@@ -147,18 +148,18 @@ To extend the compiled review with new data (e.g., historical TVL, gas costs):
 
 | Variable | Required | Default | Purpose |
 |----------|----------|---------|---------|
-| `DATABASE_URL` | Yes | — | PostgreSQL connection string |
+| `DATABASE_URL` | Yes | — | PostgreSQL connection string (currently Neon free tier) |
 | `DISCORD_TOKEN` | No | — | Discord bot token |
 | `DISCORD_CHANNEL_ID` | No | — | Single channel for all notifications |
 | `ETHEREUM_RPC_URL_FOR_DISCOVERY` | Yes | — | Ethereum RPC endpoint |
-| `ETHERSCAN_API_KEY` | Yes | — | Etherscan API key for source code |
-| `ETHERSCAN_API_URL` | No | `https://api.etherscan.io/api` | Etherscan endpoint |
+| `ETHERSCAN_API_KEY` | Yes | — | Etherscan V2 API key |
 | `DEBANK_API_KEY` | Yes | — | DeBank Pro API key |
 | `ETHEREUM_RPC_URL` | No | — | For Morpho vault detection |
 | `DEFISCAN_ENDPOINTS_PORT` | No | `3001` | In-process defiscan-endpoints port |
 | `DISCOVERY_CACHE_ENABLED` | No | `true` | Enable RPC response caching |
 | `DISCOVERY_CACHE_URI` | No | `postgres` | Cache backend |
-| `RUN_ON_START` | No | `true` | Run immediately on startup |
+| `RUN_ONCE` | No | `false` | Run single cycle and exit (for GitHub Actions cron) |
+| `RUN_ON_START` | No | `true` | Run immediately on startup (long-running mode only) |
 | `LOG_LEVEL` | No | `INFO` | Logging level |
 | `DATABASE_SSL` | No | `false` | Enable SSL for PostgreSQL |
 
@@ -166,59 +167,38 @@ To extend the compiled review with new data (e.g., historical TVL, gas costs):
 
 ## Deployment
 
-### Digital Ocean App Platform
+### Scheduling: GitHub Actions Cron
 
-The monitor is deployed as a **worker** (no HTTP port) alongside the existing `l2b-ui` service. See `.do/app.yaml` for the full configuration.
+The monitor runs as a **GitHub Actions cron job** (`.github/workflows/monitor.yml`), scheduled daily at 8:00 CET (7:00 UTC). It can also be triggered manually from the Actions UI via `workflow_dispatch`.
 
-```yaml
-workers:
-  - name: defidisco-monitor
-    dockerfile_path: Dockerfile.monitor
-    instance_size_slug: apps-s-2vcpu-4gb  # Discovery is memory-intensive
-    instance_count: 1
-    envs:
-      - key: DATABASE_URL
-        value: ${db-defidisco.DATABASE_URL}
-      # ... other env vars ...
+Each run:
+1. Builds the Docker image (`Dockerfile.monitor`) with layer caching
+2. Runs Prisma migrations (separate step for clear error reporting)
+3. Runs the monitor with `RUN_ONCE=true` — single cycle, then clean exit
 
-databases:
-  - name: db-defidisco
-    engine: PG
-    version: "16"
-    size: db-s-1vcpu-1gb
+### Database: Neon Free Tier (temporary)
+
+The monitor uses a **Neon free tier** PostgreSQL database. This is a temporary setup — a managed database should be used for production.
+
+**Security considerations**:
+- Neon connection string stored as a GitHub Actions secret (encrypted at rest)
+- Neon free tier has no IP allowlisting — any IP can connect with valid credentials
+- The data stored is only discovery cache + update monitor snapshots — no user credentials or sensitive data
+- Neon free tier compute scales to zero after inactivity, which may cause cold-start latency
+- **Recommendation**: Migrate to a managed PostgreSQL once the service is validated in production
+
+**Migrations**: The GitHub Actions workflow runs `prisma migrate deploy` as a separate step before each cycle. For initial setup, run locally:
+```bash
+cd packages/database
+PRISMA_DB_URL="<neon-connection-string>" npx prisma migrate deploy
 ```
-
-### First Deployment
-
-1. Create DO App Platform app from `deficollective/defiscan-v2`
-2. Set all SECRET env vars in the DO dashboard
-3. After first deploy, exec into the worker container and run migrations:
-   ```bash
-   cd packages/database && npx prisma migrate deploy
-   ```
-4. Monitor starts automatically
 
 ### Verifying
 
-- Check DO logs for "DeFiDisco Monitor started successfully"
-- Discord channel should receive "Monitor started." message
-- After first hourly cycle: check for discovery completion logs per project
-- Exec into container to verify `compiled-review.json` files exist
-
----
-
-## Future: D1 Integration
-
-The compiled review JSON files are written to disk within the container. In a future task, a push step will upload them to Cloudflare D1:
-
-```
-Monitor writes compiled-review.json
-  → Push worker reads from disk (or receives via API)
-  → Writes to D1 table: INSERT INTO reviews (slug, data, compiled_at) VALUES (...)
-  → Cloudflare Worker serves from D1 on request
-```
-
-This separation means the monitor can run independently of the D1 infrastructure. The compiled JSON format is the contract between the monitor and the frontend — both sides can evolve independently as long as the schema is maintained.
+- Go to **Actions → DeFiDisco Monitor → Run workflow** (manual trigger)
+- Check that the Docker build, migration, and monitor steps all pass
+- Discord channel should receive "Monitor started (run-once)." followed by a cycle summary
+- Per-project discovery diffs appear as individual Discord messages when changes are detected
 
 ---
 

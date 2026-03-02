@@ -510,23 +510,25 @@ When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho 
 
 ### Continuous Monitoring Service ✅
 
-**Automated change detection, funds refresh, and review compilation**: Standalone background worker that monitors DeFi protocols hourly.
+**Automated change detection, funds refresh, and review compilation**: Runs daily at 8:00 CET via GitHub Actions cron.
 
 - **Entry Point**: `packages/backend/src/defidisco-monitor.ts` — standalone process (not the full L2Beat backend)
 - **Orchestrator**: `packages/backend/src/modules/defi-update-monitor/defidisco/DefidiscoMonitorApplication.ts`
 - **Config**: `packages/backend/src/modules/defi-update-monitor/defidisco/monitorConfig.ts` — standalone config from env vars (does NOT use full `makeConfig()`)
 - **Documentation**: `packages/backend/src/modules/defi-update-monitor/defidisco/README.md`
-- **Deployment**: Digital Ocean App Platform worker (no HTTP port) + managed PostgreSQL
-- **Dockerfile**: `Dockerfile.monitor` — multi-stage build following `Dockerfile.discoui` pattern
-- **DO Config**: `.do/app.yaml` — worker + database sections
+- **Scheduling**: GitHub Actions cron (`.github/workflows/monitor.yml`) — daily at 7:00 UTC / 8:00 CET + manual trigger
+- **Dockerfile**: `Dockerfile.monitor` — multi-stage build, run in GH Actions with Docker layer caching
+- **Database**: Neon free tier PostgreSQL (temporary)
+- **Run Mode**: `RUN_ONCE=true` env var → `app.runOnce()` — single cycle then clean exit
 
-**Monitoring Loop** (every hour, for each project in `defidisco-config.json`):
-1. **Discovery**: `runner.run()` — contract analysis
+**Monitoring Loop** (for each project in `defidisco-config.json`):
+1. **Discovery**: `runner.run()` — contract analysis via Etherscan V2 API
 2. **Diff**: `diffDiscovery(sanitize(prev), sanitize(curr))` — detect changes
 3. **Notify**: Discord message if changes detected (via `UpdateNotifier`)
 4. **Store**: Upsert discovery snapshot to PostgreSQL
 5. **Funds Refresh**: `fetchAllFundsForProject()` via in-process defiscan-endpoints
 6. **Compile**: `ReviewCompiler.compile()` — writes `compiled-review.json`
+7. **Cycle Summary**: Discord message after all projects (project count, duration, change count)
 
 **Key Files**:
 
@@ -538,9 +540,9 @@ When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho 
 | `FundsRefresher.ts` | Wraps `fetchAllFundsForProject` from l2b |
 | `ReviewCompiler.ts` | Reads data files, computes V2 score, resolves templates, writes compiled JSON |
 
-**Pre-Compilation Guards**: Before compiling, checks for required data files. If missing, skips compilation and sends Discord warning:
-- No `review-config.json` → skips, sends warning
-- No `call-graph-data.json` → skips, sends warning
+**Pre-Compilation Guards**: Before compiling, checks for required data files. If missing, skips silently (log only, no Discord noise):
+- No `review-config.json` → skipped
+- No `call-graph-data.json` → skipped
 - Discovery + diff + funds refresh still run regardless
 
 **Compiled Review** (`compiled-review.json`):
@@ -557,7 +559,13 @@ When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho 
 - Modify permission overrides, function scores, or review descriptions
 - Push compiled reviews to D1 (deferred to future task)
 
+**Database**: Currently using **Neon free tier** PostgreSQL (temporary). The database stores discovery cache, update monitor snapshots, and diff history. No user credentials or sensitive data. See README.md for security considerations and migration recommendations.
+
 **Environment Variables**: See `README.md` for full table. Key vars: `DATABASE_URL`, `DISCORD_TOKEN`, `DISCORD_CHANNEL_ID`, `ETHEREUM_RPC_URL_FOR_DISCOVERY`, `ETHERSCAN_API_KEY`, `DEBANK_API_KEY`.
+
+**Import Paths**: The monitor runs compiled JS, so imports use build output paths (not TypeScript source paths):
+- `@l2beat/defiscan-endpoints/build/...` (not `src/`)
+- `@l2beat/l2b/dist/...` (not `src/`)
 
 ---
 
