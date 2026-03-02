@@ -69,4 +69,4 @@ USER appuser
 
 # Run database migrations on startup, then start the monitor
 # Prisma reads PRISMA_DB_URL (not DATABASE_URL), so we bridge them here
-CMD ["sh", "-c", "PRISMA_DB_URL=$DATABASE_URL cd packages/database && npx prisma migrate deploy && cd ../.. && node packages/backend/build/src/defidisco-monitor.js"]
+CMD ["sh", "-c", "export PRISMA_DB_URL=$DATABASE_URL && cd packages/database && npx prisma migrate deploy && cd ../.. && node packages/backend/build/src/defidisco-monitor.js"]
