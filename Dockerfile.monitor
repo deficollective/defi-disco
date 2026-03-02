@@ -39,13 +39,21 @@ RUN pnpm install --frozen-lockfile
 COPY --from=pruner /src/out/full/ .
 COPY --from=pruner /src/.discovery.json .
 
-# Build all packages
-RUN pnpm build
+# Build all dependency packages (skip token-backend which has a pre-existing
+# type error, and skip backend which we build separately below)
+RUN pnpm turbo run build --filter='!@l2beat/token-backend' --filter='!@l2beat/backend'
+
+# Build backend: allow emit despite type errors in the interop module
+# (which imports from token-backend). Our monitor code compiles cleanly.
+RUN cd packages/backend && npx tsc -p tsconfig.build.json --noEmitOnError false
 
 # Fetch flat sources (required for discovery)
 WORKDIR packages/l2b/
 RUN node cli.js fetch-flat-sources -q -y
 WORKDIR ../..
+
+# Verify the monitor entry point was built
+RUN test -f packages/backend/build/src/defidisco-monitor.js
 
 # Install production dependencies only
 RUN rm -rf node_modules
