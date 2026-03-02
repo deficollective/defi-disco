@@ -174,7 +174,7 @@ export class DefidiscoMonitorApplication {
   // ==========================================================================
 
   private async update(timestamp: UnixTime): Promise<void> {
-    const updateStart = UnixTime.now()
+    const updateStart = Date.now()
 
     this.logger.info('Update cycle started', {
       timestamp,
@@ -182,28 +182,55 @@ export class DefidiscoMonitorApplication {
       projectCount: this.config.projects.length,
     })
 
+    let totalChanges = 0
+    const projectsWithChanges: string[] = []
+
     for (const project of this.config.projects) {
-      await this.updateProject(project, timestamp)
+      const changes = await this.updateProject(project, timestamp)
+      if (changes > 0) {
+        totalChanges += changes
+        projectsWithChanges.push(project)
+      }
     }
 
-    const updateEnd = UnixTime.now()
+    const durationSec = Math.round((Date.now() - updateStart) / 1000)
+
     this.logger.info('Update cycle completed', {
-      duration: updateEnd - updateStart,
+      durationSec,
       projectCount: this.config.projects.length,
+      totalChanges,
     })
+
+    const mins = Math.floor(durationSec / 60)
+    const secs = durationSec % 60
+    const duration = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`
+
+    if (totalChanges > 0) {
+      await this.sendDirectDiscordMessage(
+        `\u{1F4CA} **Cycle summary**: ${this.config.projects.length} projects analyzed in ${duration} \u2014 ${totalChanges} change(s) in ${projectsWithChanges.join(', ')}`,
+      )
+    } else {
+      await this.sendDirectDiscordMessage(
+        `\u2705 **Cycle complete**: ${this.config.projects.length} projects analyzed in ${duration} \u2014 no changes`,
+      )
+    }
   }
 
+  /** Returns the number of discovery changes found (0 = no changes). */
   private async updateProject(
     project: string,
     timestamp: UnixTime,
-  ): Promise<void> {
-    const projectStart = UnixTime.now()
+  ): Promise<number> {
+    const projectStart = Date.now()
+    let changeCount = 0
 
     this.logger.info('Project update started', { project })
 
     try {
       // Step 1: Discovery
       const { discovery, diff } = await this.runDiscovery(project, timestamp)
+
+      changeCount = diff?.length ?? 0
 
       // Step 2: Notify on changes
       if (discovery && diff && diff.length > 0) {
@@ -227,11 +254,14 @@ export class DefidiscoMonitorApplication {
       )
     }
 
-    const projectEnd = UnixTime.now()
+    const durationSec = Math.round((Date.now() - projectStart) / 1000)
     this.logger.info('Project update completed', {
       project,
-      duration: projectEnd - projectStart,
+      durationSec,
+      changeCount,
     })
+
+    return changeCount
   }
 
   // ==========================================================================
@@ -383,15 +413,10 @@ export class DefidiscoMonitorApplication {
         break
 
       case 'skipped':
-        if (result.reason === 'no-review-config') {
-          await this.sendDirectDiscordMessage(
-            `\u26A0\uFE0F **${project}**: No review-config.json found \u2014 skipping review compilation. Run /generate-review or create manually.`,
-          )
-        } else if (result.reason === 'no-call-graph') {
-          await this.sendDirectDiscordMessage(
-            `\u26A0\uFE0F **${project}**: No call-graph-data.json found \u2014 skipping review compilation. Run call graph generation in the UI.`,
-          )
-        }
+        this.logger.info('Review compilation skipped', {
+          project,
+          reason: result.reason,
+        })
         break
 
       case 'error':
