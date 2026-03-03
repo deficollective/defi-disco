@@ -4,7 +4,14 @@ import {
   TemplateService,
 } from '@l2beat/discovery'
 import { calculateV2Score, type V2ScoreResult } from './v2Scoring'
-import type { AdminDetailWithCapital, ApiFunctionAnalysisResponse } from './types'
+import type {
+  AdminDetailWithCapital,
+  ApiContractTagsResponse,
+  ContractFundsData,
+  ApiFunctionAnalysisResponse,
+  ApiFundsDataResponse,
+  ReviewConfig,
+} from './types'
 import { computeFunctionAnalysis } from './functionAnalysis'
 import { getFundsData } from './fundsData'
 import { getContractTags } from './contractTags'
@@ -137,25 +144,6 @@ export type CompileResult =
   | { status: 'error'; error: string }
 
 // ============================================================================
-// Review Config (subset of the full type — only what we need to read)
-// ============================================================================
-
-interface ReviewConfig {
-  version: string
-  protocolSlug: string
-  protocolName: string
-  tokenName: string
-  chain: string
-  projectType: string
-  description: string
-  admins: Record<string, { name?: string; description: string }>
-  dependencies: Record<string, { name?: string; description: string }>
-  funds: Record<string, { name?: string; description: string }>
-  sections: Record<string, unknown>
-  dataKeys: Record<string, string>
-}
-
-// ============================================================================
 // ReviewCompiler
 // ============================================================================
 
@@ -256,19 +244,22 @@ export class ReviewCompiler {
     project: string,
     reviewConfig: ReviewConfig,
     v2Score: V2ScoreResult,
-    fundsData: any,
-    contractTags: any,
+    fundsData: ApiFundsDataResponse,
+    contractTags: ApiContractTagsResponse,
     functionAnalysis: ApiFunctionAnalysisResponse,
   ): CompiledReview {
-    const tagsByAddress = new Map<string, any>()
+    const tagsByAddress = new Map<
+      string,
+      ApiContractTagsResponse['tags'][number]
+    >()
     for (const tag of contractTags.tags ?? []) {
       tagsByAddress.set(tag.contractAddress.toLowerCase(), tag)
     }
 
-    // Case-insensitive lookup for funds data (review-config uses lowercase, funds-data uses checksummed)
-    const fundsLookup = new Map<string, any>()
+    // Case-insensitive lookup for funds data with eth: prefix normalization
+    const fundsLookup = new Map<string, ContractFundsData>()
     for (const [addr, data] of Object.entries(fundsData.contracts ?? {})) {
-      fundsLookup.set(addr.toLowerCase(), data)
+      fundsLookup.set(addr.replace(/^eth:/i, '').toLowerCase(), data)
     }
 
     // Build admins from v2 scoring breakdown
@@ -337,10 +328,7 @@ export class ReviewCompiler {
     if (v2Score.inventory.admins.breakdown) {
       for (const admin of v2Score.inventory.admins.breakdown) {
         for (const fn of admin.functions) {
-          contractNameMap.set(
-            fn.contractAddress.toLowerCase(),
-            fn.contractName,
-          )
+          contractNameMap.set(fn.contractAddress.toLowerCase(), fn.contractName)
         }
       }
     }
@@ -383,13 +371,14 @@ export class ReviewCompiler {
           }
           // Merge: auto-detected if ANY path is auto
           if (dep.isAutoDetected) existing.isAutoDetected = true
-          for (const cf of dep.calledFunctions)
-            existing.calledFunctions.add(cf)
+          // Keep entity if first entry was undefined but a later one has a value
+          if (!existing.entity && dep.entity) existing.entity = dep.entity
+          for (const cf of dep.calledFunctions) existing.calledFunctions.add(cf)
           // Add caller function (deduplicate)
           const alreadyAdded = existing.functions.some(
             (f) =>
-              f.contractAddress.toLowerCase() ===
-                contractAddr.toLowerCase() && f.functionName === funcName,
+              f.contractAddress.toLowerCase() === contractAddr.toLowerCase() &&
+              f.functionName === funcName,
           )
           if (!alreadyAdded) {
             existing.functions.push({
@@ -429,7 +418,9 @@ export class ReviewCompiler {
     // Build fund holders from funds data + review config descriptions
     const funds: CompiledFundHolder[] = []
     for (const [address, desc] of Object.entries(reviewConfig.funds ?? {})) {
-      const contractFunds = fundsLookup.get(address.toLowerCase())
+      const contractFunds = fundsLookup.get(
+        address.replace(/^eth:/i, '').toLowerCase(),
+      )
 
       funds.push({
         address,
@@ -522,7 +513,7 @@ export class ReviewCompiler {
   private resolveTemplateVariables(
     compiled: CompiledReview,
     dataKeys: Record<string, string>,
-    sources: { v2Score: V2ScoreResult; fundsData: any },
+    sources: { v2Score: V2ScoreResult; fundsData: ApiFundsDataResponse },
   ): void {
     if (!dataKeys || Object.keys(dataKeys).length === 0) return
 
@@ -570,7 +561,7 @@ export class ReviewCompiler {
    */
   private resolveDataPath(
     dataPath: string,
-    sources: { v2Score: V2ScoreResult; fundsData: any },
+    sources: { v2Score: V2ScoreResult; fundsData: ApiFundsDataResponse },
   ): number | null {
     try {
       let root: any

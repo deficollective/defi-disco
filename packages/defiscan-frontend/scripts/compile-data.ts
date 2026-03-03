@@ -22,13 +22,19 @@ interface CompiledReview {
     totalCapitalAtRisk: number
     totalTokenValueAtRisk: number
   }
+  admins: {
+    address: string
+    adminType: string
+    totalDirectCapital: number
+    functions: { contractAddress: string }[]
+  }[]
   dependencies: {
     address: string
     name: string
     entity: string | null
     functions: { contractAddress: string; contractName: string; functionName: string }[]
   }[]
-  funds?: {
+  funds: {
     address: string
     name: string
     description: string
@@ -104,14 +110,15 @@ function main() {
     const fundsDataPath = join(DATA_DIR, slug, 'funds-data.json')
     if (existsSync(fundsDataPath) && review.funds) {
       const fundsData: FundsData = JSON.parse(readFileSync(fundsDataPath, 'utf8'))
-      // Build case-insensitive lookup (review uses lowercase, funds-data uses checksummed)
+      // Build case-insensitive lookup with eth: prefix normalization
       const fundsLookup = new Map<string, FundsData['contracts'][string]>()
       for (const [addr, data] of Object.entries(fundsData.contracts ?? {})) {
-        fundsLookup.set(addr.toLowerCase(), data)
+        fundsLookup.set(addr.replace(/^eth:/i, '').toLowerCase(), data)
       }
       let patched = 0
       for (const fund of review.funds) {
-        const contractFunds = fundsLookup.get(fund.address.toLowerCase())
+        const normalizedAddr = fund.address.replace(/^eth:/i, '').toLowerCase()
+        const contractFunds = fundsLookup.get(normalizedAddr)
         if (!contractFunds) continue
         if (contractFunds.balances) {
           fund.balances = { totalUsdValue: contractFunds.balances.totalUsdValue }
@@ -132,9 +139,6 @@ function main() {
       if (patched > 0) {
         console.log(`    Patched ${patched} fund(s) from funds-data.json`)
       }
-
-      // Write patched review back
-      writeFileSync(reviewPath, JSON.stringify(review, null, 2))
     }
 
     // Add to protocol list
@@ -151,17 +155,31 @@ function main() {
     totalTokenValueAtRisk += review.totals.totalTokenValueAtRisk
 
     // Aggregate dependencies across protocols
+    // For each dependency, sum capital of admins whose functions use this dependency
+    // This avoids attributing the entire protocol TVL to every dependency
     for (const dep of review.dependencies) {
       const key = dep.address.toLowerCase()
+      // Compute capital controlled by admins that call through this dependency
+      const depContractAddresses = new Set(dep.functions.map((f) => f.contractAddress.toLowerCase()))
+      let depCapital = 0
+      for (const admin of review.admins) {
+        const usesThisDep = admin.functions.some(
+          (f) => depContractAddresses.has(f.contractAddress.toLowerCase()),
+        )
+        if (usesThisDep) {
+          depCapital += admin.totalDirectCapital
+        }
+      }
+
       const existing = depMap.get(key)
       if (existing) {
         existing.protocols.push({ slug, name: review.metadata.protocolName })
-        existing.totalFundsAtRisk += review.totals.totalCapitalAtRisk
+        existing.totalFundsAtRisk += depCapital
       } else {
         depMap.set(key, {
           name: dep.name,
           entity: dep.entity,
-          totalFundsAtRisk: review.totals.totalCapitalAtRisk,
+          totalFundsAtRisk: depCapital,
           protocols: [{ slug, name: review.metadata.protocolName }],
         })
       }

@@ -35,9 +35,8 @@ export function computeRiskScore(review: CompiledReview): number {
   } else if (adminTypes.some((t) => t === 'Timelock')) {
     score += 10
   }
-  if (adminTypes.every((t) => t === 'Untemplatized' || t === 'Contract' || t === 'Immutable')) {
-    score += 5
-  }
+  // No additional risk for immutable-only admins (or zero admins)
+
 
   // Dependency concentration (0-25 points)
   const depCount = review.totals.dependencyCount
@@ -50,13 +49,13 @@ export function computeRiskScore(review: CompiledReview): number {
   if (totalCap > 500_000_000) score += 20
   else if (totalCap > 100_000_000) score += 15
   else if (totalCap > 10_000_000) score += 10
-  else score += 5
+  else if (totalCap > 0) score += 5
 
   // Permissioned function density (0-15 points)
   const funcRatio = review.totals.permissionedFunctionCount / Math.max(review.totals.contractCount, 1)
   if (funcRatio > 3) score += 15
   else if (funcRatio > 1.5) score += 10
-  else score += 5
+  else if (funcRatio > 0) score += 5
 
   return Math.min(100, score)
 }

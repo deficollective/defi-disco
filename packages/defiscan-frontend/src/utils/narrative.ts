@@ -66,64 +66,6 @@ function humanAdminType(type: string): string {
   }
 }
 
-/** Determine overall risk level from admin types */
-export type RiskLevel = 'low' | 'medium' | 'high'
-
-export function assessOverallRisk(review: CompiledReview): {
-  level: RiskLevel
-  reasons: string[]
-} {
-  const reasons: string[] = []
-  let hasEOA = false
-  let hasMultisig = false
-  let allImmutable = true
-
-  for (const admin of review.admins) {
-    if (admin.adminType === 'EOA' || admin.adminType === 'EOAPermissioned') {
-      hasEOA = true
-      allImmutable = false
-    }
-    if (admin.adminType === 'Multisig') {
-      hasMultisig = true
-      allImmutable = false
-    }
-    if (
-      admin.adminType !== 'Revoked' &&
-      admin.adminType !== 'Contract' &&
-      admin.adminType !== 'Untemplatized' &&
-      admin.adminType !== 'Immutable'
-    ) {
-      allImmutable = false
-    }
-  }
-
-  if (hasEOA) {
-    reasons.push('One or more admin functions are controlled by externally owned accounts (EOAs), which represent single points of failure')
-  }
-  if (hasMultisig) {
-    reasons.push('Multisig wallets provide shared control but still require trust in a known set of signers')
-  }
-  if (review.totals.dependencyCount > 3) {
-    reasons.push(`The protocol depends on ${review.totals.dependencyCount} external systems, increasing its exposure to third-party risks`)
-  }
-  if (allImmutable && review.admins.length > 0) {
-    reasons.push('All admin controls resolve to immutable contracts or revoked addresses, meaning no human can alter protocol behavior')
-  }
-
-  let level: RiskLevel = 'medium'
-  if (hasEOA) {
-    level = 'high'
-  } else if (allImmutable) {
-    level = 'low'
-  }
-
-  if (reasons.length === 0) {
-    reasons.push('Standard DeFi protocol setup with typical governance controls')
-  }
-
-  return { level, reasons }
-}
-
 /** Generate human-readable admin narrative */
 export function generateAdminNarrative(admin: CompiledAdmin): string {
   const capitalStr = admin.totalDirectCapital > 0
@@ -160,9 +102,6 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
   const { admins, totals, dependencies } = review
 
   // Check for immutability
-  const hasHumanAdmin = admins.some(
-    (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned' || a.adminType === 'Multisig',
-  )
   const allRevoked = admins.every(
     (a) =>
       a.adminType === 'Revoked' ||

@@ -28,11 +28,10 @@ type Tab = 'overview' | 'charts' | 'rankings'
 
 export function ComparePage() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const slugsFromUrl = useMemo(
+  const selectedSlugs = useMemo(
     () => (searchParams.get('protocols') ?? '').split(',').filter(Boolean),
     [searchParams],
   )
-  const [selectedSlugs, setSelectedSlugs] = useState<string[]>(slugsFromUrl)
   const [activeTab, setActiveTab] = useState<Tab>('overview')
   const { data: allReviews, isLoading, error } = useAllReviews()
 
@@ -45,10 +44,10 @@ export function ComparePage() {
   // Selected reviews based on URL slugs
   const selectedReviews = useMemo(() => {
     if (!allReviews) return []
-    return slugsFromUrl
+    return selectedSlugs
       .map((slug) => allReviews.find((r) => r.metadata.protocolSlug === slug))
       .filter((r): r is CompiledReview => r !== undefined)
-  }, [allReviews, slugsFromUrl])
+  }, [allReviews, selectedSlugs])
 
   // Metrics for selected reviews only
   const selectedMetrics = useMemo(
@@ -63,18 +62,12 @@ export function ComparePage() {
 
   const handleSelectForCompare = useCallback(
     (slug: string) => {
-      setSelectedSlugs((prev) => {
-        const next = prev.includes(slug)
-          ? prev.filter((s) => s !== slug)
-          : [...prev, slug]
-        // Update URL when 2+ are selected
-        if (next.length >= 2) {
-          setSearchParams({ protocols: next.join(',') })
-        }
-        return next
-      })
+      const next = selectedSlugs.includes(slug)
+        ? selectedSlugs.filter((s) => s !== slug)
+        : [...selectedSlugs, slug]
+      setSearchParams(next.length > 0 ? { protocols: next.join(',') } : {})
     },
-    [setSearchParams],
+    [selectedSlugs, setSearchParams],
   )
 
   if (isLoading) {

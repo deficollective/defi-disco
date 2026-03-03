@@ -27,11 +27,11 @@ const SECTIONS: SectionDef[] = [
 
 export function ReportView({ review }: ReportViewProps) {
   const [activeSection, setActiveSection] = useState<string>(SECTIONS[0]?.id ?? 'key-findings')
-  const sectionRefs = useRef<Map<string, HTMLElement>>(new Map())
+  const observerRef = useRef<IntersectionObserver | null>(null)
 
-  // Track which section is currently in view via IntersectionObserver
+  // Create the IntersectionObserver once on mount
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    observerRef.current = new IntersectionObserver(
       (entries) => {
         // Find the topmost visible section
         const visible = entries
@@ -51,18 +51,19 @@ export function ReportView({ review }: ReportViewProps) {
       },
     )
 
-    const refs = sectionRefs.current
-    for (const el of refs.values()) {
-      observer.observe(el)
-    }
-
-    return () => observer.disconnect()
+    return () => observerRef.current?.disconnect()
   }, [])
 
+  // Register elements with the observer as they mount via ref callbacks
+  const sectionRefs = useRef<Map<string, HTMLElement>>(new Map())
   function registerRef(id: string, el: HTMLElement | null) {
+    const observer = observerRef.current
     if (el) {
       sectionRefs.current.set(id, el)
+      observer?.observe(el)
     } else {
+      const prev = sectionRefs.current.get(id)
+      if (prev) observer?.unobserve(prev)
       sectionRefs.current.delete(id)
     }
   }

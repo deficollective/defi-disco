@@ -333,7 +333,11 @@ function mapAdminType(
     if (proxyType === 'immutable') {
       return 'Immutable'
     }
-    return 'Upgradeable'
+    if (proxyType !== undefined) {
+      return 'Upgradeable'
+    }
+    // No proxy info available — keep original type
+    return rawType
   }
 
   return rawType
