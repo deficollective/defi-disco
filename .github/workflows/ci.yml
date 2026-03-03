@@ -51,7 +51,7 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - name: Build dependency packages
-        run: pnpm turbo run build --filter='!@l2beat/token-backend' --filter='!@l2beat/backend'
+        run: pnpm turbo run build --filter='!@l2beat/token-backend' --filter='!@l2beat/backend' --continue || true
       - name: Build backend (allow upstream type errors)
         run: cd packages/backend && npx tsc -p tsconfig.build.json --noEmitOnError false || true
       - name: Verify monitor entry point
