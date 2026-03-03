@@ -1,9 +1,10 @@
 import type { CompiledReview } from '../../types'
-import { AdminsSection } from './sections/AdminsSection'
-import { DependenciesSection } from './sections/DependenciesSection'
-import { FundsSection } from './sections/FundsSection'
-import { CodeAndAuditsSection } from './sections/CodeAndAuditsSection'
-import { AnnexeSection } from './sections/AnnexeSection'
+import { KeyFindings } from './sections/KeyFindings'
+import { NarrativeAdmins } from './sections/NarrativeAdmins'
+import { NarrativeDependencies } from './sections/NarrativeDependencies'
+import { NarrativeFunds } from './sections/NarrativeFunds'
+import { NarrativeCodeAndAudits } from './sections/NarrativeCodeAndAudits'
+import { NarrativeAnnexe } from './sections/NarrativeAnnexe'
 
 export type SectionComponent = React.FC<{ review: CompiledReview }>
 
@@ -14,33 +15,49 @@ export interface SectionDefinition {
 }
 
 const ALL_SECTIONS: Record<string, SectionDefinition> = {
-  admins: { id: 'admins', title: 'Admins', component: AdminsSection },
+  keyFindings: {
+    id: 'keyFindings',
+    title: 'Key Findings',
+    component: KeyFindings,
+  },
+  admins: {
+    id: 'admins',
+    title: 'Who Controls It?',
+    component: NarrativeAdmins,
+  },
+  funds: {
+    id: 'funds',
+    title: 'How Much Is at Stake?',
+    component: NarrativeFunds,
+  },
   dependencies: {
     id: 'dependencies',
-    title: 'Dependencies',
-    component: DependenciesSection,
+    title: 'What Does It Depend On?',
+    component: NarrativeDependencies,
   },
-  funds: { id: 'funds', title: 'Funds Overview', component: FundsSection },
   codeAndAudits: {
     id: 'codeAndAudits',
-    title: 'Code & Audits',
-    component: CodeAndAuditsSection,
+    title: 'Code & Contracts',
+    component: NarrativeCodeAndAudits,
   },
-  annexe: { id: 'annexe', title: 'Annexe', component: AnnexeSection },
+  annexe: {
+    id: 'annexe',
+    title: 'Full Technical Reference',
+    component: NarrativeAnnexe,
+  },
 }
 
 const DEFAULT_ORDER = [
+  'keyFindings',
   'admins',
-  'dependencies',
   'funds',
+  'dependencies',
   'codeAndAudits',
   'annexe',
 ]
 
 const SECTION_ORDERS: Record<string, string[]> = {
   default: DEFAULT_ORDER,
-  // Future per-type overrides:
-  // lending: ['funds', 'admins', 'dependencies', 'codeAndAudits', 'annexe'],
 }
 
 export function getSectionsForType(projectType: string): SectionDefinition[] {
