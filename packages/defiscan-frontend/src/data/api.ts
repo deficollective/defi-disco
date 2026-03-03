@@ -15,3 +15,11 @@ export async function getReview(slug: string): Promise<CompiledReview> {
   }
   return res.json()
 }
+
+export async function getAllReviews(): Promise<CompiledReview[]> {
+  const index = await getIndex()
+  const reviews = await Promise.all(
+    index.protocols.map((p) => getReview(p.slug)),
+  )
+  return reviews
+}

@@ -4,6 +4,9 @@ import { defineConfig } from 'vite'
 // biome-ignore lint/style/noDefaultExport: Vite requires default export
 export default defineConfig({
   plugins: [react()],
+  server: {
+    port: 5176,
+  },
   build: {
     outDir: 'build',
     rollupOptions: {
