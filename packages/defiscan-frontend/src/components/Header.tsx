@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export function Header() {
   return (
     <header className="border-b border-border bg-white">
-      <div className="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
+      <div className="mx-auto max-w-7xl px-4 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <span className="text-xl font-bold text-purple-600">DeFiScan</span>
         </Link>
