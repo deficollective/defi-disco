@@ -326,7 +326,10 @@ export class DefidiscoMonitorApplication {
     const { discovery } = runResult
 
     // Get previous discovery for diffing
-    const previousDiscovery = await this.getPreviousDiscovery(project)
+    const previousDiscovery = await this.getPreviousDiscovery(
+      project,
+      projectConfig,
+    )
     if (!previousDiscovery) {
       this.logger.info('No previous discovery — first run', { project })
       return { discovery, diff: undefined }
@@ -353,19 +356,42 @@ export class DefidiscoMonitorApplication {
 
   private async getPreviousDiscovery(
     project: string,
+    projectConfig: ConfigRegistry,
   ): Promise<DiscoveryOutput | undefined> {
     // Try database first
     const dbEntry = await this.db.updateMonitor.findLatest(project)
-    if (dbEntry) {
+    if (!dbEntry) {
+      // Fallback to committed discovered.json
+      try {
+        return this.config.discovery.configReader.readDiscovery(project)
+      } catch {
+        return undefined
+      }
+    }
+
+    // Check if config changed since last stored discovery.
+    // If it did, re-discover at the old timestamp with the new config
+    // so that config-structural changes (ignoreMethods, templates, etc.)
+    // don't show up as false-positive diffs.
+    const currentConfigHash = generateStructureHash(projectConfig.structure)
+    if (dbEntry.configHash === currentConfigHash) {
       return dbEntry.discovery
     }
 
-    // Fallback to committed discovered.json
-    try {
-      return this.config.discovery.configReader.readDiscovery(project)
-    } catch {
-      return undefined
-    }
+    this.logger.info(
+      'Config changed, re-discovering at previous timestamp to establish baseline',
+      { project, previousTimestamp: dbEntry.discovery.timestamp },
+    )
+
+    const previousTimestamp = dbEntry.discovery.timestamp
+    const runResult = await this.runner.run(
+      projectConfig,
+      previousTimestamp,
+      this.logger,
+      { [projectConfig.name]: { timestamp: previousTimestamp } },
+    )
+
+    return runResult.discovery
   }
 
   // ==========================================================================
