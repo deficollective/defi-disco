@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -56,23 +56,20 @@ interface FundsData {
   }>
 }
 
-const CONFIG_DIR = join(__dirname, '..', '..', 'config', 'src')
-const PROJECTS_DIR = join(CONFIG_DIR, 'projects')
-const OUTPUT_DIR = join(__dirname, '..', 'public', 'data')
+const DATA_DIR = join(__dirname, '..', 'public', 'data')
 
 function main() {
-  // Read project list
-  const configPath = join(CONFIG_DIR, 'defidisco-config.json')
-  if (!existsSync(configPath)) {
-    console.error('defidisco-config.json not found at', configPath)
-    process.exit(1)
+  mkdirSync(DATA_DIR, { recursive: true })
+
+  // Discover projects by scanning public/data/ for subdirs containing compiled-review.json
+  const slugs = readdirSync(DATA_DIR).filter((name) => {
+    const dir = join(DATA_DIR, name)
+    return statSync(dir).isDirectory() && existsSync(join(dir, 'compiled-review.json'))
+  })
+
+  if (slugs.length === 0) {
+    console.log('No compiled reviews found in public/data/. index.json will be empty.')
   }
-
-  const config = JSON.parse(readFileSync(configPath, 'utf8'))
-  const projectNames: string[] = config.defiProjects
-
-  // Ensure output dir exists
-  mkdirSync(OUTPUT_DIR, { recursive: true })
 
   const protocols: Array<{
     slug: string
@@ -97,24 +94,14 @@ function main() {
   let totalCapitalAtRisk = 0
   let totalTokenValueAtRisk = 0
 
-  for (const projectName of projectNames) {
-    // Look in config/projects first, then fall back to public/data (for committed reviews)
-    const configReviewPath = join(PROJECTS_DIR, projectName, 'compiled-review.json')
-    const localReviewPath = join(OUTPUT_DIR, projectName, 'compiled-review.json')
-    const reviewPath = existsSync(configReviewPath) ? configReviewPath : localReviewPath
-
-    if (!existsSync(reviewPath)) {
-      console.log(`  Skipping ${projectName} — no compiled-review.json`)
-      continue
-    }
-
+  for (const slug of slugs) {
+    const reviewPath = join(DATA_DIR, slug, 'compiled-review.json')
     const review: CompiledReview = JSON.parse(readFileSync(reviewPath, 'utf8'))
-    const slug = review.metadata.protocolSlug
 
     console.log(`  Processing ${slug}`)
 
-    // Patch funds data from funds-data.json if available
-    const fundsDataPath = join(PROJECTS_DIR, projectName, 'funds-data.json')
+    // Patch funds data from funds-data.json if available (co-located next to compiled-review.json)
+    const fundsDataPath = join(DATA_DIR, slug, 'funds-data.json')
     if (existsSync(fundsDataPath) && review.funds) {
       const fundsData: FundsData = JSON.parse(readFileSync(fundsDataPath, 'utf8'))
       // Build case-insensitive lookup (review uses lowercase, funds-data uses checksummed)
@@ -145,16 +132,14 @@ function main() {
       if (patched > 0) {
         console.log(`    Patched ${patched} fund(s) from funds-data.json`)
       }
-    }
 
-    // Write (potentially patched) compiled review to output
-    const slugDir = join(OUTPUT_DIR, slug)
-    mkdirSync(slugDir, { recursive: true })
-    writeFileSync(join(slugDir, 'compiled-review.json'), JSON.stringify(review, null, 2))
+      // Write patched review back
+      writeFileSync(reviewPath, JSON.stringify(review, null, 2))
+    }
 
     // Add to protocol list
     protocols.push({
-      slug,
+      slug: review.metadata.protocolSlug,
       name: review.metadata.protocolName,
       chain: review.metadata.chain,
       projectType: review.metadata.projectType,
@@ -206,9 +191,9 @@ function main() {
     dependencies,
   }
 
-  writeFileSync(join(OUTPUT_DIR, 'index.json'), JSON.stringify(index, null, 2))
+  writeFileSync(join(DATA_DIR, 'index.json'), JSON.stringify(index, null, 2))
 
-  console.log(`\nCompiled ${protocols.length} protocols → ${OUTPUT_DIR}/index.json`)
+  console.log(`\nCompiled ${protocols.length} protocols → public/data/index.json`)
   console.log(`Dependencies: ${dependencies.length}`)
 }
 
