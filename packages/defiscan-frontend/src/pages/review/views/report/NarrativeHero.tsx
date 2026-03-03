@@ -64,9 +64,9 @@ export function NarrativeHero({ review }: NarrativeHeroProps) {
       </div>
 
       {/* At-a-glance metrics */}
-      <div className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <MetricCard
-          label="Capital at Risk"
+          label="Funds Locked"
           value={formatUsdValue(totals.totalCapitalAtRisk)}
           sublabel="in protocol"
           accent="green"
@@ -185,7 +185,8 @@ function riskPresentation(
       (a) =>
         a.adminType === 'Revoked' ||
         a.adminType === 'Contract' ||
-        a.adminType === 'Untemplatized',
+        a.adminType === 'Untemplatized' ||
+        a.adminType === 'Immutable',
     )
 
   switch (level) {
@@ -193,8 +194,8 @@ function riskPresentation(
       return {
         label: 'Critical Risk',
         summary: hasEOA
-          ? `This protocol has externally owned accounts (EOAs) with admin access to ${formatUsdValue(totals.totalCapitalAtRisk)} in capital. A single compromised key could affect user funds.`
-          : `This protocol has significant centralization risks with ${totals.adminCount} admins controlling ${formatUsdValue(totals.totalCapitalAtRisk)} in capital.`,
+          ? `This protocol has externally owned accounts (EOAs) with admin access to ${formatUsdValue(totals.totalCapitalAtRisk)} in locked funds. A single compromised key could affect user funds.`
+          : `This protocol has significant centralization risks with ${totals.adminCount} admins controlling ${formatUsdValue(totals.totalCapitalAtRisk)} in locked funds.`,
         color: 'text-risk-critical',
         bgColor: 'bg-risk-critical/5',
         borderColor: 'border-risk-critical/30',
@@ -202,7 +203,7 @@ function riskPresentation(
     case 'HIGH':
       return {
         label: 'High Risk',
-        summary: `This protocol has notable centralization vectors. ${totals.adminCount} admin${totals.adminCount !== 1 ? 's' : ''} control${totals.adminCount === 1 ? 's' : ''} permissioned functions across ${totals.contractCount} contracts with ${formatUsdValue(totals.totalCapitalAtRisk)} at stake.`,
+        summary: `This protocol has notable centralization vectors. ${totals.adminCount} admin${totals.adminCount !== 1 ? 's' : ''} control${totals.adminCount === 1 ? 's' : ''} permissioned functions across ${totals.contractCount} contracts with ${formatUsdValue(totals.totalCapitalAtRisk)} in locked funds.`,
         color: 'text-risk-high',
         bgColor: 'bg-risk-high/5',
         borderColor: 'border-risk-high/30',
@@ -210,7 +211,7 @@ function riskPresentation(
     case 'MEDIUM':
       return {
         label: 'Medium Risk',
-        summary: `This protocol has standard governance controls. Admin access is distributed across ${totals.adminCount} entit${totals.adminCount !== 1 ? 'ies' : 'y'} with ${formatUsdValue(totals.totalCapitalAtRisk)} in managed capital.`,
+        summary: `This protocol has standard governance controls. Admin access is distributed across ${totals.adminCount} entit${totals.adminCount !== 1 ? 'ies' : 'y'} managing ${formatUsdValue(totals.totalCapitalAtRisk)} in locked funds.`,
         color: 'text-risk-medium',
         bgColor: 'bg-risk-medium/5',
         borderColor: 'border-risk-medium/30',
@@ -220,7 +221,7 @@ function riskPresentation(
         label: 'Low Risk',
         summary: allImmutable
           ? 'All admin controls resolve to immutable contracts or revoked addresses. No human entity can modify protocol behavior.'
-          : `This protocol has minimal centralization risk with strong governance controls protecting ${formatUsdValue(totals.totalCapitalAtRisk)} in capital.`,
+          : `This protocol has minimal centralization risk with strong governance controls protecting ${formatUsdValue(totals.totalCapitalAtRisk)} in locked funds.`,
         color: 'text-risk-low',
         bgColor: 'bg-risk-low/5',
         borderColor: 'border-risk-low/30',

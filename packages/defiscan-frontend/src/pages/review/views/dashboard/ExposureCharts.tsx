@@ -24,7 +24,9 @@ const ADMIN_TYPE_COLORS: Record<string, string> = {
   Multisig: '#F59E0B',
   Timelock: '#10B981',
   Contract: '#3B82F6',
+  Upgradeable: '#3B82F6',
   Revoked: '#10B981',
+  Immutable: '#10B981',
   Untemplatized: '#6B7280',
   Diamond: '#3B82F6',
 }
@@ -146,7 +148,7 @@ export function ExposureCharts({ review }: ExposureChartsProps) {
     return (
       <div className="rounded-xl border border-border bg-white p-8 text-center">
         <p className="text-sm text-text-muted">
-          No capital distribution data available.
+          No funds distribution data available.
         </p>
       </div>
     )
@@ -155,7 +157,7 @@ export function ExposureCharts({ review }: ExposureChartsProps) {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-text-primary">
-        Capital Distribution
+        Funds Distribution
       </h3>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -164,10 +166,10 @@ export function ExposureCharts({ review }: ExposureChartsProps) {
           <div className="lg:col-span-2 rounded-xl border border-border bg-white shadow-sm">
             <div className="border-b border-border px-5 py-3">
               <h4 className="text-sm font-semibold text-text-primary">
-                Admin Capital Treemap
+                Admin Funds Treemap
               </h4>
               <p className="text-xs text-text-muted mt-0.5">
-                Size proportional to capital under control
+                Size proportional to funds under control
               </p>
             </div>
             <div className="p-4">
@@ -255,10 +257,10 @@ export function ExposureCharts({ review }: ExposureChartsProps) {
         <div className="rounded-xl border border-border bg-white shadow-sm">
           <div className="border-b border-border px-5 py-3">
             <h4 className="text-sm font-semibold text-text-primary">
-              Capital by Admin
+              Funds by Admin
             </h4>
             <p className="text-xs text-text-muted mt-0.5">
-              Direct capital and token value controlled per admin
+              Direct funds and token value controlled per admin
             </p>
           </div>
           <div className="p-4">
@@ -304,7 +306,7 @@ export function ExposureCharts({ review }: ExposureChartsProps) {
                 />
                 <Bar
                   dataKey="capital"
-                  name="Capital"
+                  name="Funds"
                   stackId="a"
                   radius={[0, 2, 2, 0]}
                 >

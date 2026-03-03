@@ -16,7 +16,7 @@ export function DirectVsReachableDiagram({ admins }: DirectVsReachableDiagramPro
   if (withCapital.length === 0) {
     return (
       <div className="text-center text-text-muted text-sm py-4">
-        No admin capital data available.
+        No admin funds data available.
       </div>
     )
   }

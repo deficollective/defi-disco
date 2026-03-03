@@ -10,7 +10,7 @@ export function generateExecutiveSummary(review: CompiledReview): string {
   const parts: string[] = []
 
   parts.push(
-    `${metadata.protocolName} has ${capitalStr} in capital managed across ${totals.contractCount} contracts`,
+    `${metadata.protocolName} has ${capitalStr} in funds locked across ${totals.contractCount} contracts`,
   )
 
   if (totals.adminCount > 0) {
@@ -55,6 +55,10 @@ function humanAdminType(type: string): string {
       return 'contract'
     case 'Diamond':
       return 'diamond proxy'
+    case 'Immutable':
+      return 'immutable contract'
+    case 'Upgradeable':
+      return 'upgradeable contract'
     case 'Revoked':
       return 'revoked address'
     default:
@@ -86,7 +90,8 @@ export function assessOverallRisk(review: CompiledReview): {
     if (
       admin.adminType !== 'Revoked' &&
       admin.adminType !== 'Contract' &&
-      admin.adminType !== 'Untemplatized'
+      admin.adminType !== 'Untemplatized' &&
+      admin.adminType !== 'Immutable'
     ) {
       allImmutable = false
     }
@@ -122,7 +127,7 @@ export function assessOverallRisk(review: CompiledReview): {
 /** Generate human-readable admin narrative */
 export function generateAdminNarrative(admin: CompiledAdmin): string {
   const capitalStr = admin.totalDirectCapital > 0
-    ? ` with access to ${formatUsdValue(admin.totalDirectCapital)} in direct capital`
+    ? ` with access to ${formatUsdValue(admin.totalDirectCapital)} in locked funds`
     : ''
 
   const funcCount = admin.functions.length
@@ -145,7 +150,7 @@ export function groupDependenciesByEntity(deps: CompiledDependency[]): Map<strin
 
 /** Get key findings from the review data */
 export interface KeyFinding {
-  type: 'positive' | 'warning' | 'critical'
+  type: 'positive' | 'warning' | 'critical' | 'info'
   title: string
   detail: string
 }
@@ -162,7 +167,8 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
     (a) =>
       a.adminType === 'Revoked' ||
       a.adminType === 'Contract' ||
-      a.adminType === 'Untemplatized',
+      a.adminType === 'Untemplatized' ||
+      a.adminType === 'Immutable',
   )
 
   if (allRevoked && admins.length > 0) {
@@ -183,7 +189,7 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
     findings.push({
       type: 'critical',
       title: `${eoas.length} EOA${eoas.length > 1 ? 's' : ''} with admin access`,
-      detail: `Externally owned account${eoas.length > 1 ? 's' : ''} can execute critical functions affecting up to ${formatUsdValue(maxCapital)} in capital. A single compromised private key could impact user funds.`,
+      detail: `Externally owned account${eoas.length > 1 ? 's' : ''} can execute critical functions affecting up to ${formatUsdValue(maxCapital)} in locked funds. A single compromised private key could impact user funds.`,
     })
   }
 
@@ -197,36 +203,27 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
     })
   }
 
-  // High capital concentration
-  if (totals.totalCapitalAtRisk > 100_000_000) {
+  // Funds locked — always show as info
+  if (totals.totalCapitalAtRisk > 0) {
     findings.push({
-      type: 'warning',
-      title: `${formatUsdValue(totals.totalCapitalAtRisk)} in capital at risk`,
-      detail: 'Large capital concentration increases the potential impact of any exploit or admin key compromise.',
+      type: 'info',
+      title: `${formatUsdValue(totals.totalCapitalAtRisk)} in funds locked`,
+      detail: 'Total value of funds locked in the protocol across all contracts.',
     })
   }
 
-  // Token value at risk
-  if (totals.totalTokenValueAtRisk > 0) {
-    findings.push({
-      type: 'warning',
-      title: `${formatUsdValue(totals.totalTokenValueAtRisk)} in protocol token value`,
-      detail: `The protocol's native token (${review.metadata.tokenName}) has significant market capitalization that could be affected by protocol changes.`,
-    })
-  }
-
-  // Dependency count
-  if (dependencies.length > 3) {
-    findings.push({
-      type: 'warning',
-      title: `${dependencies.length} external dependencies`,
-      detail: 'Multiple external dependencies increase the attack surface and risk of cascading failures.',
-    })
-  } else if (dependencies.length <= 1) {
+  // Dependencies
+  if (dependencies.length === 0) {
     findings.push({
       type: 'positive',
-      title: 'Minimal external dependencies',
-      detail: `The protocol relies on ${dependencies.length === 0 ? 'no' : 'only one'} external system${dependencies.length === 1 && dependencies[0] ? ` (${dependencies[0].name})` : ''}, reducing third-party risk.`,
+      title: 'Fully autonomous protocol',
+      detail: 'The protocol does not depend on any external contracts, operating entirely through its own on-chain logic.',
+    })
+  } else {
+    findings.push({
+      type: 'warning',
+      title: `${dependencies.length} external dependenc${dependencies.length !== 1 ? 'ies' : 'y'}`,
+      detail: `The protocol depends on ${dependencies.length} external contract${dependencies.length !== 1 ? 's' : ''}, introducing third-party risk. A failure or compromise in any dependency could affect protocol operations.`,
     })
   }
 
@@ -240,7 +237,7 @@ export const GLOSSARY: Record<string, string> = {
   Timelock: 'A smart contract mechanism that enforces a mandatory waiting period before changes take effect, giving users time to react.',
   Proxy: 'A contract pattern that allows upgrading the underlying logic while keeping the same address. Users interact with the proxy, which delegates to an implementation.',
   'Permissioned Function': 'A smart contract function that can only be called by specific addresses (admins), not by the general public.',
-  'Capital at Risk': 'The total USD value of funds that could be affected if an admin key is compromised or misused.',
+  'Funds Locked': 'The total USD value of funds locked in the protocol that could be affected if an admin key is compromised or misused.',
   Immutable: 'A contract that cannot be changed after deployment — its code and behavior are permanently fixed on the blockchain.',
   CDP: 'Collateralized Debt Position — a mechanism where users lock collateral to borrow assets, commonly used in stablecoin protocols.',
   Oracle: 'A service that brings external data (like asset prices) onto the blockchain for smart contracts to use.',

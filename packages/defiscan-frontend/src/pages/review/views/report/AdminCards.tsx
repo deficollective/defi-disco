@@ -29,6 +29,10 @@ function describeAdminType(adminType: string): string {
     case 'Contract':
     case 'Untemplatized':
       return 'This is a smart contract with admin privileges. Its behavior is determined by its code logic rather than human decisions.'
+    case 'Immutable':
+      return 'This is an immutable smart contract whose code cannot be changed after deployment. Its admin privileges are exercised purely through fixed on-chain logic.'
+    case 'Upgradeable':
+      return 'This is an upgradeable smart contract whose logic can be changed by whoever controls the upgrade mechanism.'
     case 'Diamond':
       return 'This is a Diamond proxy contract that can have its logic upgraded through facet additions, replacements, or removals.'
     case 'Revoked':
@@ -45,8 +49,10 @@ function sortAdminsByRisk(admins: CompiledAdmin[]): CompiledAdmin[] {
     EOAPermissioned: 1,
     Multisig: 2,
     Timelock: 3,
+    Upgradeable: 4,
     Diamond: 4,
     Contract: 5,
+    Immutable: 5,
     Untemplatized: 6,
     Revoked: 7,
   }
@@ -96,31 +102,54 @@ export function AdminCards({ review }: AdminCardsProps) {
       a.adminType !== 'Timelock',
   )
 
+  const allImmutable =
+    admins.length > 0 &&
+    admins.every(
+      (a) =>
+        a.adminType === 'Revoked' ||
+        a.adminType === 'Contract' ||
+        a.adminType === 'Untemplatized' ||
+        a.adminType === 'Immutable',
+    )
+
   return (
     <div>
       <p className="text-lg text-text-secondary leading-relaxed max-w-3xl mb-8">
-        Who can change this protocol? We identified{' '}
-        <span className="font-semibold text-text-primary">
-          {admins.length} admin{admins.length !== 1 ? 's' : ''}
-        </span>{' '}
-        with permissioned access to{' '}
-        <span className="font-semibold text-text-primary">
-          {totals.permissionedFunctionCount} functions
-        </span>
-        , controlling{' '}
-        <UsdValue value={totals.totalCapitalAtRisk} variant="capital" />
-        {' '}in capital
-        {totals.totalTokenValueAtRisk > 0 && (
+        {allImmutable ? (
           <>
-            {' '}and{' '}
-            <UsdValue
-              value={totals.totalTokenValueAtRisk}
-              variant="token"
-            />{' '}
-            in protocol tokens
+            This protocol has{' '}
+            <span className="font-semibold text-text-primary">
+              {totals.permissionedFunctionCount} permissioned functions
+            </span>
+            , but all admin controls resolve to immutable contracts or revoked
+            addresses. No permissioned functions can affect user funds.
+          </>
+        ) : (
+          <>
+            Who can change this protocol? We identified{' '}
+            <span className="font-semibold text-text-primary">
+              {admins.length} admin{admins.length !== 1 ? 's' : ''}
+            </span>{' '}
+            with permissioned access to{' '}
+            <span className="font-semibold text-text-primary">
+              {totals.permissionedFunctionCount} functions
+            </span>
+            , controlling{' '}
+            <UsdValue value={totals.totalCapitalAtRisk} variant="capital" />
+            {' '}in locked funds
+            {totals.totalTokenValueAtRisk > 0 && (
+              <>
+                {' '}and{' '}
+                <UsdValue
+                  value={totals.totalTokenValueAtRisk}
+                  variant="token"
+                />{' '}
+                in protocol tokens
+              </>
+            )}
+            .
           </>
         )}
-        .
       </p>
 
       {/* Human-controlled admins -- the ones readers care about most */}
@@ -188,7 +217,7 @@ function AdminCard({ admin }: { admin: CompiledAdmin }) {
                   variant="capital"
                   className="text-lg font-semibold"
                 />
-                <p className="text-xs text-text-muted">capital at risk</p>
+                <p className="text-xs text-text-muted">funds locked</p>
               </div>
             )}
           </div>

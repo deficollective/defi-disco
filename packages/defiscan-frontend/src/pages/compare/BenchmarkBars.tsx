@@ -32,7 +32,7 @@ interface BenchmarkCategory {
 const CATEGORIES: BenchmarkCategory[] = [
   {
     key: 'totalCapitalAtRisk',
-    title: 'Capital at Risk',
+    title: 'Funds Locked',
     format: formatUsdValue,
   },
   {
@@ -52,7 +52,7 @@ const CATEGORIES: BenchmarkCategory[] = [
   },
   {
     key: 'capitalPerAdmin',
-    title: 'Capital per Admin',
+    title: 'Funds per Admin',
     format: formatUsdValue,
   },
 ]

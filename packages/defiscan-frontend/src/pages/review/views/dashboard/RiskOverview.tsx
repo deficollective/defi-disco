@@ -13,7 +13,9 @@ const ADMIN_TYPE_BG: Record<string, string> = {
   Multisig: 'bg-amber-50 text-amber-700 border-amber-200',
   Timelock: 'bg-green-50 text-green-700 border-green-200',
   Contract: 'bg-blue-50 text-blue-700 border-blue-200',
+  Upgradeable: 'bg-blue-50 text-blue-700 border-blue-200',
   Revoked: 'bg-green-50 text-green-700 border-green-200',
+  Immutable: 'bg-green-50 text-green-700 border-green-200',
   Untemplatized: 'bg-gray-50 text-gray-600 border-gray-200',
   Diamond: 'bg-blue-50 text-blue-700 border-blue-200',
 }

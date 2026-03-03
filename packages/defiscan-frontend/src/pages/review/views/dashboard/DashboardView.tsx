@@ -29,7 +29,7 @@ export function DashboardView({ review }: DashboardViewProps) {
       {/* Top row: 6 metric cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <MetricCard
-          label="Capital at Risk"
+          label="Funds Locked"
           value={formatUsdValue(totalCapitalAtRisk)}
           accent="green"
         />
@@ -95,7 +95,7 @@ export function DashboardView({ review }: DashboardViewProps) {
                     color={dependencyCount >= 5 ? 'red' : dependencyCount >= 3 ? 'amber' : 'green'}
                   />
                   <ScoreFactorPill
-                    label="Capital"
+                    label="Funds"
                     value={formatUsdValue(totalCapitalAtRisk)}
                     color={totalCapitalAtRisk > 100_000_000 ? 'red' : totalCapitalAtRisk > 10_000_000 ? 'amber' : 'green'}
                   />

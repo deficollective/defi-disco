@@ -16,8 +16,8 @@ interface RankingCategory {
 
 const CATEGORIES: RankingCategory[] = [
   {
-    title: 'Most Capital at Risk',
-    description: 'Protocols with the most funds under admin control',
+    title: 'Most Funds Locked',
+    description: 'Protocols with the most funds locked in the protocol',
     sortFn: (a, b) => b.totalCapitalAtRisk - a.totalCapitalAtRisk,
     display: (m) => formatUsdValue(m.totalCapitalAtRisk),
     isGood: false,
@@ -31,8 +31,8 @@ const CATEGORIES: RankingCategory[] = [
     isGood: true,
   },
   {
-    title: 'Highest Capital per Admin',
-    description: 'Most capital controlled per individual admin',
+    title: 'Highest Funds per Admin',
+    description: 'Most funds controlled per individual admin',
     sortFn: (a, b) => b.capitalPerAdmin - a.capitalPerAdmin,
     display: (m) => formatUsdValue(m.capitalPerAdmin),
     isGood: false,

@@ -4,7 +4,8 @@ import {
   TemplateService,
 } from '@l2beat/discovery'
 import { calculateV2Score, type V2ScoreResult } from './v2Scoring'
-import type { AdminDetailWithCapital } from './types'
+import type { AdminDetailWithCapital, ApiFunctionAnalysisResponse } from './types'
+import { computeFunctionAnalysis } from './functionAnalysis'
 import { getFundsData } from './fundsData'
 import { getContractTags } from './contractTags'
 import * as fs from 'fs'
@@ -86,10 +87,13 @@ export interface CompiledDependency {
   description: string
   entity: string | null
   isAutoDetected: boolean
+  viewOnlyPath: boolean
+  calledFunctions: string[]
   functions: {
     contractAddress: string
     contractName: string
     functionName: string
+    viewOnlyPath: boolean
   }[]
 }
 
@@ -214,22 +218,26 @@ export class ReviewCompiler {
       // 4. Read contract tags
       const contractTags = getContractTags(this.paths, project)
 
-      // 5. Build the compiled review
+      // 5. Compute function analysis (rich dependency data with viewOnlyPath)
+      const functionAnalysis = computeFunctionAnalysis(this.paths, project)
+
+      // 6. Build the compiled review
       const compiled = this.buildCompiledReview(
         project,
         reviewConfig,
         v2Score,
         fundsData,
         contractTags,
+        functionAnalysis,
       )
 
-      // 6. Resolve template variables in all description fields
+      // 7. Resolve template variables in all description fields
       this.resolveTemplateVariables(compiled, reviewConfig.dataKeys, {
         v2Score,
         fundsData,
       })
 
-      // 7. Write compiled-review.json
+      // 8. Write compiled-review.json
       const outputPath = path.join(projectDir, 'compiled-review.json')
       fs.writeFileSync(outputPath, JSON.stringify(compiled, null, 2))
 
@@ -250,6 +258,7 @@ export class ReviewCompiler {
     v2Score: V2ScoreResult,
     fundsData: any,
     contractTags: any,
+    functionAnalysis: ApiFunctionAnalysisResponse,
   ): CompiledReview {
     const tagsByAddress = new Map<string, any>()
     for (const tag of contractTags.tags ?? []) {
@@ -323,27 +332,98 @@ export class ReviewCompiler {
       }
     }
 
-    // Build dependencies from v2 scoring breakdown
-    const dependencies: CompiledDependency[] = []
-    if (v2Score.inventory.dependencies.breakdown) {
-      for (const dep of v2Score.inventory.dependencies.breakdown) {
-        const desc =
-          reviewConfig.dependencies[dep.dependencyAddress] ??
-          reviewConfig.dependencies[dep.dependencyAddress.toLowerCase()]
-
-        dependencies.push({
-          address: dep.dependencyAddress,
-          name: desc?.name ?? dep.dependencyName,
-          description: desc?.description ?? '',
-          entity: dep.entity ?? null,
-          isAutoDetected: true,
-          functions: dep.functions.map((f) => ({
-            contractAddress: f.contractAddress,
-            contractName: f.contractName,
-            functionName: f.functionName,
-          })),
-        })
+    // Build contract name lookup from v2Score admin functions
+    const contractNameMap = new Map<string, string>()
+    if (v2Score.inventory.admins.breakdown) {
+      for (const admin of v2Score.inventory.admins.breakdown) {
+        for (const fn of admin.functions) {
+          contractNameMap.set(
+            fn.contractAddress.toLowerCase(),
+            fn.contractName,
+          )
+        }
       }
+    }
+
+    // Build dependencies from function analysis (richer data than v2Score)
+    const depMap = new Map<
+      string,
+      {
+        address: string
+        name: string
+        entity: string | undefined
+        isAutoDetected: boolean
+        calledFunctions: Set<string>
+        functions: {
+          contractAddress: string
+          contractName: string
+          functionName: string
+          viewOnlyPath: boolean
+        }[]
+      }
+    >()
+
+    for (const [contractAddr, contractFuncs] of Object.entries(
+      functionAnalysis.contracts,
+    )) {
+      for (const [funcName, analysis] of Object.entries(contractFuncs)) {
+        for (const dep of analysis.dependencies.entries) {
+          const key = dep.contractAddress.toLowerCase()
+          let existing = depMap.get(key)
+          if (!existing) {
+            existing = {
+              address: dep.contractAddress,
+              name: dep.contractName,
+              entity: dep.entity,
+              isAutoDetected: dep.isAutoDetected,
+              calledFunctions: new Set(dep.calledFunctions),
+              functions: [],
+            }
+            depMap.set(key, existing)
+          }
+          // Merge: auto-detected if ANY path is auto
+          if (dep.isAutoDetected) existing.isAutoDetected = true
+          for (const cf of dep.calledFunctions)
+            existing.calledFunctions.add(cf)
+          // Add caller function (deduplicate)
+          const alreadyAdded = existing.functions.some(
+            (f) =>
+              f.contractAddress.toLowerCase() ===
+                contractAddr.toLowerCase() && f.functionName === funcName,
+          )
+          if (!alreadyAdded) {
+            existing.functions.push({
+              contractAddress: contractAddr,
+              contractName:
+                contractNameMap.get(contractAddr.toLowerCase()) ??
+                'Unknown Contract',
+              functionName: funcName,
+              viewOnlyPath: dep.viewOnlyPath,
+            })
+          }
+        }
+      }
+    }
+
+    // Build final CompiledDependency[] with review-config descriptions
+    const dependencies: CompiledDependency[] = []
+    for (const dep of depMap.values()) {
+      const desc =
+        reviewConfig.dependencies[dep.address] ??
+        reviewConfig.dependencies[dep.address.toLowerCase()]
+
+      dependencies.push({
+        address: dep.address,
+        name: desc?.name ?? dep.name,
+        description: desc?.description ?? '',
+        entity: dep.entity ?? null,
+        isAutoDetected: dep.isAutoDetected,
+        viewOnlyPath:
+          dep.functions.length > 0 &&
+          dep.functions.every((f) => f.viewOnlyPath),
+        calledFunctions: Array.from(dep.calledFunctions),
+        functions: dep.functions,
+      })
     }
 
     // Build fund holders from funds data + review config descriptions

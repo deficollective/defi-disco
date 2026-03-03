@@ -20,7 +20,9 @@ export function OverviewTab({ review }: OverviewTabProps) {
     (a) =>
       a.adminType === 'Untemplatized' ||
       a.adminType === 'Contract' ||
-      a.adminType === 'Diamond',
+      a.adminType === 'Diamond' ||
+      a.adminType === 'Immutable' ||
+      a.adminType === 'Upgradeable',
   )
 
   // Compute the highest capital-at-risk for a single admin
@@ -53,9 +55,9 @@ export function OverviewTab({ review }: OverviewTabProps) {
       {/* Key metrics row */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
         <MetricBox
-          label="Total Capital"
+          label="Funds Locked"
           value={formatUsdValue(totals.totalCapitalAtRisk)}
-          sublabel="at risk"
+          sublabel="in protocol"
           color="text-capital"
         />
         {totals.totalTokenValueAtRisk > 0 && (
@@ -162,7 +164,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
             />
             {topAdmin && topAdmin.totalDirectCapital > 0 && (
               <RiskRow
-                label="Max single-admin capital"
+                label="Max single-admin funds"
                 status="info"
                 detail={`${topAdmin.name}: ${formatUsdValue(topAdmin.totalDirectCapital)}`}
               />
@@ -174,7 +176,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
       {/* Capital Flow Diagram */}
       <div className="rounded-lg border border-border bg-white p-4">
         <h3 className="text-sm font-semibold text-text-primary mb-3">
-          Capital Flow: Admins to Fund Holders
+          Funds Flow: Admins to Fund Holders
         </h3>
         <CapitalFlowDiagram review={review} />
       </div>

@@ -39,11 +39,11 @@ export function extractMetrics(review: CompiledReview, index: number): ProtocolM
   ).length
   const multisigAdminCount = admins.filter((a) => a.adminType === 'Multisig').length
   const contractAdminCount = admins.filter((a) =>
-    a.adminType === 'Contract' || a.adminType === 'Diamond' || a.adminType === 'Untemplatized',
+    a.adminType === 'Contract' || a.adminType === 'Diamond' || a.adminType === 'Untemplatized' || a.adminType === 'Immutable' || a.adminType === 'Upgradeable',
   ).length
   const timelockAdminCount = admins.filter((a) => a.adminType === 'Timelock').length
   const revokedAdminCount = admins.filter((a) =>
-    a.adminType === 'Revoked' || a.adminType === 'Unknown',
+    a.adminType === 'Revoked',
   ).length
   const governanceAdminCount = admins.filter((a) => a.isGovernance).length
 
@@ -101,7 +101,7 @@ export function buildRadarData(metrics: ProtocolMetrics[]): RadarDimension[] {
   const maxFunctions = Math.max(...metrics.map((m) => m.permissionedFunctionCount), 1)
 
   const dimensions = [
-    { key: 'capital', fullLabel: 'Capital at Risk', normalize: (m: ProtocolMetrics) => (m.totalCapitalAtRisk / maxCapital) * 100 },
+    { key: 'capital', fullLabel: 'Funds Locked', normalize: (m: ProtocolMetrics) => (m.totalCapitalAtRisk / maxCapital) * 100 },
     { key: 'contracts', fullLabel: 'Contracts', normalize: (m: ProtocolMetrics) => (m.contractCount / maxContracts) * 100 },
     { key: 'admins', fullLabel: 'Admin Count', normalize: (m: ProtocolMetrics) => (m.adminCount / maxAdmins) * 100 },
     { key: 'deps', fullLabel: 'Dependencies', normalize: (m: ProtocolMetrics) => (m.dependencyCount / maxDeps) * 100 },

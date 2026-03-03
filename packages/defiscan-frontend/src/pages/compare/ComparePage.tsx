@@ -283,7 +283,7 @@ function OverviewTab({
           </thead>
           <tbody>
             <MetricRow
-              label="Capital at Risk"
+              label="Funds Locked"
               values={selectedMetrics.map((m) => m.totalCapitalAtRisk)}
               format={formatUsdValue}
               colors={selectedMetrics.map((m) => m.color)}
@@ -339,7 +339,7 @@ function OverviewTab({
               higherIsWorse={false}
             />
             <MetricRow
-              label="Capital per Admin"
+              label="Funds per Admin"
               values={selectedMetrics.map((m) => m.capitalPerAdmin)}
               format={formatUsdValue}
               colors={selectedMetrics.map((m) => m.color)}

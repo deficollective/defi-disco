@@ -32,7 +32,7 @@ const SORT_CONFIGS: Record<
 > = {
   name: { label: 'Protocol', accessor: (m) => m.name, align: 'left' },
   capital: {
-    label: 'Capital at Risk',
+    label: 'Funds Locked',
     accessor: (m) => m.totalCapitalAtRisk,
     align: 'right',
   },
@@ -58,7 +58,7 @@ const SORT_CONFIGS: Record<
     align: 'right',
   },
   capitalPerAdmin: {
-    label: 'Capital/Admin',
+    label: 'Funds/Admin',
     accessor: (m) => m.capitalPerAdmin,
     align: 'right',
   },

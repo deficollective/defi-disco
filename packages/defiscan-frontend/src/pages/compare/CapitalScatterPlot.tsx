@@ -36,7 +36,7 @@ export function CapitalScatterPlot({
   return (
     <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
       <h3 className="text-lg font-semibold text-text-primary mb-2">
-        Capital vs {xLabel}
+        Funds vs {xLabel}
       </h3>
       <p className="text-sm text-text-secondary mb-4">
         Dashed lines show averages across all protocols
@@ -59,7 +59,7 @@ export function CapitalScatterPlot({
           <YAxis
             type="number"
             dataKey="y"
-            name="Capital at Risk"
+            name="Funds Locked"
             tick={{ fill: '#6B7280', fontSize: 12 }}
             tickFormatter={(v: number) => formatUsdValue(v)}
           />

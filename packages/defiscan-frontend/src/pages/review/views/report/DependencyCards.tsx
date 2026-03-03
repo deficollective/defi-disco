@@ -1,7 +1,15 @@
+import { useMemo } from 'react'
 import { Badge } from '../../../../components/Badge'
 import { AddressDisplay } from '../../../../components/AddressDisplay'
+import { UsdValue } from '../../../../components/UsdValue'
 import { Expandable } from '../../../../components/Expandable'
 import { GlossaryTooltip } from '../../../../components/GlossaryTooltip'
+import { formatUsdValue } from '../../../../utils/format'
+import {
+  buildFunctionContractFundsMap,
+  computeDepFundsAtRisk,
+  getFunctionFunds,
+} from '../../../../utils/dependencies'
 import type { CompiledReview, CompiledDependency } from '../../../../types'
 
 interface DependencyCardsProps {
@@ -10,6 +18,10 @@ interface DependencyCardsProps {
 
 export function DependencyCards({ review }: DependencyCardsProps) {
   const { dependencies } = review
+  const fnContractMap = useMemo(
+    () => buildFunctionContractFundsMap(review),
+    [review],
+  )
 
   if (dependencies.length === 0) {
     return (
@@ -112,7 +124,7 @@ export function DependencyCards({ review }: DependencyCardsProps) {
             )}
             <div className="space-y-3">
               {deps.map((dep) => (
-                <DependencyCard key={dep.address} dependency={dep} />
+                <DependencyCard key={dep.address} dependency={dep} fnContractMap={fnContractMap} />
               ))}
             </div>
           </div>
@@ -124,9 +136,15 @@ export function DependencyCards({ review }: DependencyCardsProps) {
 
 function DependencyCard({
   dependency,
+  fnContractMap,
 }: {
   dependency: CompiledDependency
+  fnContractMap: Map<string, Map<string, number>>
 }) {
+  const fundsAtRisk = computeDepFundsAtRisk(dependency, fnContractMap)
+  const readFns = dependency.functions.filter((f) => f.viewOnlyPath)
+  const writeFns = dependency.functions.filter((f) => !f.viewOnlyPath)
+
   return (
     <div className="rounded-xl border border-border bg-white p-5 shadow-sm">
       <div className="flex items-start gap-3">
@@ -151,14 +169,44 @@ function DependencyCard({
             <h4 className="font-semibold text-text-primary">
               {dependency.name}
             </h4>
+            {dependency.viewOnlyPath ? (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-status-blue/10 text-status-blue">
+                Read-only
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-status-amber/10 text-status-amber">
+                Write access
+              </span>
+            )}
           </div>
-          <div className="mt-1">
+          <div className="mt-1 flex items-center gap-3">
             <AddressDisplay address={dependency.address} />
+            {fundsAtRisk > 0 && (
+              <UsdValue
+                value={fundsAtRisk}
+                variant="capital"
+                className="text-sm"
+              />
+            )}
           </div>
           {dependency.description && (
             <p className="mt-2 text-sm text-text-secondary leading-relaxed">
               {dependency.description}
             </p>
+          )}
+
+          {/* Called functions on this dependency */}
+          {dependency.calledFunctions.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {dependency.calledFunctions.map((fn) => (
+                <span
+                  key={fn}
+                  className="inline-flex items-center px-2 py-0.5 rounded bg-bg-muted border border-border text-xs font-mono text-text-secondary"
+                >
+                  {fn}()
+                </span>
+              ))}
+            </div>
           )}
 
           {/* Functions using this dependency */}
@@ -169,24 +217,48 @@ function DependencyCard({
                   <span className="text-sm font-medium text-text-secondary">
                     Used by {dependency.functions.length} function
                     {dependency.functions.length !== 1 ? 's' : ''}
+                    {readFns.length > 0 && writeFns.length > 0 && (
+                      <span className="text-text-muted ml-1">
+                        ({writeFns.length} write, {readFns.length} read)
+                      </span>
+                    )}
                   </span>
                 }
               >
-                <ul className="mt-2 space-y-1">
-                  {dependency.functions.map((fn) => (
-                    <li
-                      key={`${fn.contractAddress}-${fn.functionName}`}
-                      className="text-sm"
-                    >
-                      <span className="text-text-muted">
-                        {fn.contractName}
-                      </span>
-                      <span className="text-text-primary font-medium font-mono">
-                        .{fn.functionName}()
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="mt-2 space-y-1">
+                  {dependency.functions.map((fn) => {
+                    const fnFunds = getFunctionFunds(
+                      fn.contractAddress,
+                      fn.functionName,
+                      fnContractMap,
+                    )
+                    return (
+                      <div
+                        key={`${fn.contractAddress}-${fn.functionName}`}
+                        className="flex items-center justify-between text-sm"
+                      >
+                        <div className="flex items-center gap-2">
+                          {fn.viewOnlyPath ? (
+                            <span className="text-status-blue text-xs">R</span>
+                          ) : (
+                            <span className="text-status-amber text-xs">W</span>
+                          )}
+                          <span className="text-text-muted">
+                            {fn.contractName}
+                          </span>
+                          <span className="text-text-primary font-medium font-mono">
+                            .{fn.functionName}()
+                          </span>
+                        </div>
+                        {fnFunds > 0 && (
+                          <span className="text-capital text-xs font-medium tabular-nums">
+                            {formatUsdValue(fnFunds)}
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
               </Expandable>
             </div>
           )}

@@ -90,7 +90,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
           admin{admins.length !== 1 ? 's' : ''}
         </span>
         <span className="text-text-secondary">
-          Capital:{' '}
+          Funds Locked:{' '}
           <UsdValue
             value={totals.totalCapitalAtRisk}
             variant="capital"
@@ -138,7 +138,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
               />
               <SortHeader
                 field="directCapital"
-                label="Direct Capital"
+                label="Direct Funds"
                 current={sortField}
                 dir={sortDir}
                 onClick={handleSort}
@@ -146,7 +146,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
               />
               <SortHeader
                 field="reachableCapital"
-                label="Reachable Capital"
+                label="Reachable Funds"
                 current={sortField}
                 dir={sortDir}
                 onClick={handleSort}
@@ -220,7 +220,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
       {/* Direct vs Reachable Capital diagram */}
       <div className="rounded-lg border border-border bg-white p-4 mt-4">
         <h3 className="text-sm font-semibold text-text-primary mb-2">
-          Direct vs Reachable Capital
+          Direct vs Reachable Funds
         </h3>
         <DirectVsReachableDiagram admins={admins} />
       </div>
@@ -426,7 +426,9 @@ function AdminHierarchySvg({ admins }: { admins: CompiledAdmin[] }) {
     Timelock: '#10B981',
     Contract: '#3B82F6',
     Diamond: '#3B82F6',
-    Revoked: '#6B7280',
+    Upgradeable: '#3B82F6',
+    Revoked: '#10B981',
+    Immutable: '#10B981',
     Untemplatized: '#8B5CF6',
   }
 
@@ -478,7 +480,7 @@ function AdminHierarchySvg({ admins }: { admins: CompiledAdmin[] }) {
             >
               {data.capital > 0
                 ? formatUsdValue(data.capital)
-                : 'No direct capital'}
+                : 'No direct funds'}
             </text>
           </g>
         )

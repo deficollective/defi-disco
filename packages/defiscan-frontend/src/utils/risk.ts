@@ -35,7 +35,7 @@ export function computeRiskScore(review: CompiledReview): number {
   } else if (adminTypes.some((t) => t === 'Timelock')) {
     score += 10
   }
-  if (adminTypes.every((t) => t === 'Untemplatized' || t === 'Contract')) {
+  if (adminTypes.every((t) => t === 'Untemplatized' || t === 'Contract' || t === 'Immutable')) {
     score += 5
   }
 

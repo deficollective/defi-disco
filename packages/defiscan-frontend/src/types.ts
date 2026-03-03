@@ -72,10 +72,13 @@ export interface CompiledDependency {
   description: string
   entity: string | null
   isAutoDetected: boolean
+  viewOnlyPath: boolean
+  calledFunctions: string[]
   functions: {
     contractAddress: string
     contractName: string
     functionName: string
+    viewOnlyPath: boolean
   }[]
 }
 

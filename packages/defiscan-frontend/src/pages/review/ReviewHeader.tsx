@@ -39,7 +39,7 @@ export function ReviewHeader({ review }: ReviewHeaderProps) {
         <StatCard
           label="Admins"
           value={String(totals.adminCount)}
-          sublabel={formatUsdValue(totals.totalCapitalAtRisk) + ' at risk'}
+          sublabel={formatUsdValue(totals.totalCapitalAtRisk) + ' locked'}
         />
         <StatCard
           label="Dependencies"
