@@ -1,19 +1,12 @@
-import type { Logger } from '@l2beat/backend-tools'
 import {
   ConfigReader,
   type DiscoveryPaths,
   TemplateService,
 } from '@l2beat/discovery'
-import {
-  calculateV2Score,
-  type V2ScoreResult,
-} from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/v2Scoring'
-import type {
-  AdminDetailWithCapital,
-  ApiAddressType,
-} from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/types'
-import { getFundsData } from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/fundsData'
-import { getContractTags } from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/contractTags'
+import { calculateV2Score, type V2ScoreResult } from './v2Scoring'
+import type { AdminDetailWithCapital } from './types'
+import { getFundsData } from './fundsData'
+import { getContractTags } from './contractTags'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -179,10 +172,8 @@ interface ReviewConfig {
 export class ReviewCompiler {
   constructor(
     private readonly paths: DiscoveryPaths,
-    private readonly logger: Logger,
-  ) {
-    this.logger = this.logger.for(this)
-  }
+    private readonly log: (msg: string) => void = console.log,
+  ) {}
 
   compile(project: string): CompileResult {
     const projectDir = path.join(this.paths.discovery, project)
@@ -190,14 +181,14 @@ export class ReviewCompiler {
     // Guard: review-config.json must exist
     const reviewConfigPath = path.join(projectDir, 'review-config.json')
     if (!fs.existsSync(reviewConfigPath)) {
-      this.logger.warn('No review-config.json found', { project })
+      this.log(`No review-config.json found for ${project}`)
       return { status: 'skipped', reason: 'no-review-config' }
     }
 
     // Guard: call-graph-data.json must exist
     const callGraphPath = path.join(projectDir, 'call-graph-data.json')
     if (!fs.existsSync(callGraphPath)) {
-      this.logger.warn('No call-graph-data.json found', { project })
+      this.log(`No call-graph-data.json found for ${project}`)
       return { status: 'skipped', reason: 'no-call-graph' }
     }
 
@@ -242,16 +233,13 @@ export class ReviewCompiler {
       const outputPath = path.join(projectDir, 'compiled-review.json')
       fs.writeFileSync(outputPath, JSON.stringify(compiled, null, 2))
 
-      this.logger.info('Review compiled successfully', {
-        project,
-        outputPath,
-      })
+      this.log(`Review compiled successfully: ${outputPath}`)
 
       return { status: 'success', path: outputPath }
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error)
-      this.logger.error({ project }, error as Error)
+      this.log(`Review compilation error for ${project}: ${errorMessage}`)
       return { status: 'error', error: errorMessage }
     }
   }
@@ -266,6 +254,12 @@ export class ReviewCompiler {
     const tagsByAddress = new Map<string, any>()
     for (const tag of contractTags.tags ?? []) {
       tagsByAddress.set(tag.contractAddress.toLowerCase(), tag)
+    }
+
+    // Case-insensitive lookup for funds data (review-config uses lowercase, funds-data uses checksummed)
+    const fundsLookup = new Map<string, any>()
+    for (const [addr, data] of Object.entries(fundsData.contracts ?? {})) {
+      fundsLookup.set(addr.toLowerCase(), data)
     }
 
     // Build admins from v2 scoring breakdown
@@ -315,9 +309,7 @@ export class ReviewCompiler {
                 directTokenValueUsd: 0,
                 reachableContracts: [],
               })),
-          totalDirectCapital: hasCapital
-            ? withCapital.totalDirectCapital
-            : 0,
+          totalDirectCapital: hasCapital ? withCapital.totalDirectCapital : 0,
           totalDirectTokenValue: hasCapital
             ? withCapital.totalDirectTokenValue
             : 0,
@@ -357,7 +349,7 @@ export class ReviewCompiler {
     // Build fund holders from funds data + review config descriptions
     const funds: CompiledFundHolder[] = []
     for (const [address, desc] of Object.entries(reviewConfig.funds ?? {})) {
-      const contractFunds = fundsData.contracts?.[address]
+      const contractFunds = fundsLookup.get(address.toLowerCase())
 
       funds.push({
         address,
@@ -423,12 +415,10 @@ export class ReviewCompiler {
       totals: {
         contractCount: v2Score.inventory.contracts.inventory,
         permissionedFunctionCount: v2Score.inventory.functions.inventory,
-        scoredFunctionCount:
-          v2Score.inventory.functions.breakdown?.length ?? 0,
+        scoredFunctionCount: v2Score.inventory.functions.breakdown?.length ?? 0,
         adminCount: v2Score.inventory.admins.inventory,
         dependencyCount: v2Score.inventory.dependencies.inventory,
-        totalCapitalAtRisk:
-          v2Score.inventory.admins.totalCapitalAtRisk ?? 0,
+        totalCapitalAtRisk: v2Score.inventory.admins.totalCapitalAtRisk ?? 0,
         totalTokenValueAtRisk:
           v2Score.inventory.admins.totalTokenValueAtRisk ?? 0,
       },
@@ -471,10 +461,7 @@ export class ReviewCompiler {
 
     // Replace in admin descriptions
     for (const admin of compiled.admins) {
-      admin.description = this.replaceTemplateVars(
-        admin.description,
-        resolved,
-      )
+      admin.description = this.replaceTemplateVars(admin.description, resolved)
     }
 
     // Replace in dependency descriptions
@@ -531,9 +518,9 @@ export class ReviewCompiler {
     }
   }
 
-  private resolveBreakdownPath(root: any, path: string): number | null {
+  private resolveBreakdownPath(root: any, pathStr: string): number | null {
     // Parse: inventory.admins.breakdown["eth:0x..."].totalDirectCapital
-    const match = path.match(
+    const match = pathStr.match(
       /inventory\.admins\.breakdown\["([^"]+)"\]\.(\w+)/,
     )
     if (!match) return null
@@ -551,14 +538,14 @@ export class ReviewCompiler {
     return typeof value === 'number' ? value : null
   }
 
-  private navigatePath(obj: any, path: string): number | null {
+  private navigatePath(obj: any, pathStr: string): number | null {
     // Handle bracket notation: contracts["eth:0x..."].balances.totalUsdValue
     const parts: string[] = []
     let current = ''
     let inBracket = false
 
-    for (let i = 0; i < path.length; i++) {
-      const char = path[i]
+    for (let i = 0; i < pathStr.length; i++) {
+      const char = pathStr[i]
       if (char === '[' && !inBracket) {
         if (current) parts.push(current)
         current = ''

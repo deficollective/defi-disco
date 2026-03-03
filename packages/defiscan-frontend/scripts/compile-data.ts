@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync } from 'fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -28,6 +28,32 @@ interface CompiledReview {
     entity: string | null
     functions: { contractAddress: string; contractName: string; functionName: string }[]
   }[]
+  funds?: {
+    address: string
+    name: string
+    description: string
+    balances: { totalUsdValue: number } | null
+    positions: { totalUsdValue: number } | null
+    tokenInfo: {
+      symbol: string
+      price: number
+      totalSupply: string
+      tokenValue: number
+    } | null
+  }[]
+}
+
+interface FundsData {
+  contracts: Record<string, {
+    balances?: { totalUsdValue: number }
+    positions?: { totalUsdValue: number }
+    tokenInfo?: {
+      symbol: string
+      price: number
+      totalSupply: string
+      tokenValue: number
+    }
+  }>
 }
 
 const CONFIG_DIR = join(__dirname, '..', '..', 'config', 'src')
@@ -72,7 +98,11 @@ function main() {
   let totalTokenValueAtRisk = 0
 
   for (const projectName of projectNames) {
-    const reviewPath = join(PROJECTS_DIR, projectName, 'compiled-review.json')
+    // Look in config/projects first, then fall back to public/data (for committed reviews)
+    const configReviewPath = join(PROJECTS_DIR, projectName, 'compiled-review.json')
+    const localReviewPath = join(OUTPUT_DIR, projectName, 'compiled-review.json')
+    const reviewPath = existsSync(configReviewPath) ? configReviewPath : localReviewPath
+
     if (!existsSync(reviewPath)) {
       console.log(`  Skipping ${projectName} — no compiled-review.json`)
       continue
@@ -83,10 +113,44 @@ function main() {
 
     console.log(`  Processing ${slug}`)
 
-    // Copy compiled review to output
+    // Patch funds data from funds-data.json if available
+    const fundsDataPath = join(PROJECTS_DIR, projectName, 'funds-data.json')
+    if (existsSync(fundsDataPath) && review.funds) {
+      const fundsData: FundsData = JSON.parse(readFileSync(fundsDataPath, 'utf8'))
+      // Build case-insensitive lookup (review uses lowercase, funds-data uses checksummed)
+      const fundsLookup = new Map<string, FundsData['contracts'][string]>()
+      for (const [addr, data] of Object.entries(fundsData.contracts ?? {})) {
+        fundsLookup.set(addr.toLowerCase(), data)
+      }
+      let patched = 0
+      for (const fund of review.funds) {
+        const contractFunds = fundsLookup.get(fund.address.toLowerCase())
+        if (!contractFunds) continue
+        if (contractFunds.balances) {
+          fund.balances = { totalUsdValue: contractFunds.balances.totalUsdValue }
+        }
+        if (contractFunds.positions) {
+          fund.positions = { totalUsdValue: contractFunds.positions.totalUsdValue }
+        }
+        if (contractFunds.tokenInfo) {
+          fund.tokenInfo = {
+            symbol: contractFunds.tokenInfo.symbol,
+            price: contractFunds.tokenInfo.price,
+            totalSupply: contractFunds.tokenInfo.totalSupply,
+            tokenValue: contractFunds.tokenInfo.tokenValue,
+          }
+        }
+        patched++
+      }
+      if (patched > 0) {
+        console.log(`    Patched ${patched} fund(s) from funds-data.json`)
+      }
+    }
+
+    // Write (potentially patched) compiled review to output
     const slugDir = join(OUTPUT_DIR, slug)
     mkdirSync(slugDir, { recursive: true })
-    copyFileSync(reviewPath, join(slugDir, 'compiled-review.json'))
+    writeFileSync(join(slugDir, 'compiled-review.json'), JSON.stringify(review, null, 2))
 
     // Add to protocol list
     protocols.push({

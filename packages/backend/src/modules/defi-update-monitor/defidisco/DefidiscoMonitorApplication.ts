@@ -24,7 +24,7 @@ import { findDependents } from '../../update-monitor/utils/findDependents'
 import { findUnknownEntries } from '../../update-monitor/utils/findUnknownEntries'
 import { FundsRefresher } from './FundsRefresher'
 import type { MonitorConfig } from './monitorConfig'
-import { ReviewCompiler } from './ReviewCompiler'
+import { ReviewCompiler } from '@l2beat/l2b/dist/implementations/discovery-ui/defidisco/reviewCompiler'
 
 /**
  * DeFiDisco Continuous Monitoring Service
@@ -121,7 +121,11 @@ export class DefidiscoMonitorApplication {
     )
 
     // Review compiler
-    this.reviewCompiler = new ReviewCompiler(config.discovery.paths, logger)
+    const reviewLogger = logger.for('ReviewCompiler')
+    this.reviewCompiler = new ReviewCompiler(
+      config.discovery.paths,
+      (msg: string) => reviewLogger.info(msg),
+    )
 
     // Task queue
     this.taskQueue = new TaskQueue(
