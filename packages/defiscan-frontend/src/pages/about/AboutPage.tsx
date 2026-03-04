@@ -4,59 +4,17 @@ export function AboutPage() {
       {/* Hero */}
       <div className="mb-12">
         <h1 className="text-3xl font-bold text-text-primary">About DeFiScan</h1>
-        <p className="mt-4 text-lg text-text-secondary leading-relaxed">
-          DeFiScan is an independent initiative dedicated to increasing
-          transparency and trust in decentralized finance. By providing
-          comprehensive, data-driven security reviews of DeFi protocols, we help
-          users understand the risks associated with the protocols they use.
-        </p>
       </div>
 
       {/* Our Mission */}
       <section className="mt-12">
         <h2 className="text-2xl font-bold text-text-primary">Our Mission</h2>
         <p className="mt-4 text-text-secondary leading-relaxed">
-          DeFi protocols manage billions of dollars in user funds, yet the level
-          of decentralization, security, and transparency varies widely across
-          the ecosystem. Many protocols present themselves as fully
-          decentralized while retaining significant admin controls, relying on
-          external dependencies, or lacking adequate security measures.
+          DeFiScan is dedicated to increasing transparency and trust in the decentralized finance (DeFi) ecosystem. We provide comprehensive analysis and ratings of DeFi protocols, helping users make informed decisions about their participation in various protocols.
         </p>
         <p className="mt-4 text-text-secondary leading-relaxed">
-          DeFiScan exists to close this transparency gap. We systematically
-          analyze each protocol's smart contract architecture, permission
-          structure, and dependency chain to give users a clear, honest picture
-          of how decentralized a protocol truly is.
+          Our goal is to evaluate and track the decentralization progress of DeFi protocols across multiple dimensions, including governance, autonomy, accessibility, and operational decentralization. By providing clear, objective assessments, we aim to promote higher standards and better practices across the entire DeFi space.
         </p>
-      </section>
-
-      {/* How We Evaluate */}
-      <section className="mt-12">
-        <h2 className="text-2xl font-bold text-text-primary">
-          How We Evaluate Protocols
-        </h2>
-        <p className="mt-4 text-text-secondary leading-relaxed">
-          Our reviews evaluate protocols across four key dimensions of
-          decentralization and security:
-        </p>
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <DimensionCard
-            title="Governance"
-            description="Who controls the protocol? We map every admin address, multisig, and governance contract to understand who can change the system and under what conditions."
-          />
-          <DimensionCard
-            title="Autonomy"
-            description="How dependent is the protocol on external systems? We identify all external dependencies such as oracles, bridges, and third-party contracts that the protocol relies on."
-          />
-          <DimensionCard
-            title="Security"
-            description="What safeguards are in place? We examine timelocks, upgrade delays, circuit breakers, and other mechanisms that protect users from sudden changes."
-          />
-          <DimensionCard
-            title="Transparency"
-            description="Is the code open source and audited? We review source code availability, audit history, and the overall verifiability of the protocol's smart contracts."
-          />
-        </div>
       </section>
 
       {/* Open Source */}
@@ -76,8 +34,7 @@ export function AboutPage() {
             L2BEAT
           </a>
           's battle-tested contract discovery engine, extending it with
-          permission analysis, fund tracking, dependency mapping, and automated
-          review generation.
+          DeFi-focused capabilities.
         </p>
         <p className="mt-4 text-text-secondary leading-relaxed">
           Anyone can inspect our methodology, reproduce our findings, or
