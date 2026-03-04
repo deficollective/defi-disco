@@ -248,12 +248,6 @@ export class ReviewCompiler {
       const outputPath = path.join(slugDir, 'compiled-review.json')
       fs.writeFileSync(outputPath, JSON.stringify(compiled, null, 2))
 
-      // Also copy funds-data.json alongside (used by compile-data.ts)
-      const fundsDataPath = path.join(projectDir, 'funds-data.json')
-      if (fs.existsSync(fundsDataPath)) {
-        fs.copyFileSync(fundsDataPath, path.join(slugDir, 'funds-data.json'))
-      }
-
       this.log(`Review compiled successfully: ${outputPath}`)
 
       return { status: 'success', path: outputPath }

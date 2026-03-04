@@ -52,14 +52,6 @@ jobs:
             defidisco-monitor:latest \
             node packages/backend/build/src/defidisco-monitor.js
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Rebuild frontend index
-        run: npx tsx packages/defiscan-frontend/scripts/compile-data.ts
-
       - name: Commit compiled reviews
         run: |
           git config user.name "github-actions[bot]"
