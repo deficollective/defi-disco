@@ -9,7 +9,7 @@ import { UsdValue } from '../../components/UsdValue'
 import { StatCard } from '../../components/StatCard'
 import type { CompiledReview, ProtocolSummary } from '../../types'
 
-type SortKey = 'name' | 'capital' | 'tokenValue' | 'admins' | 'dependencies' | 'contracts' | 'functions' | 'capitalPerAdmin'
+type SortKey = 'name' | 'capital' | 'tokenValue' | 'admins' | 'dependencies' | 'contracts' | 'functions'
 
 export function LandingPage() {
   const { data: indexData, isLoading: indexLoading } = useIndex()
@@ -60,14 +60,6 @@ export function LandingPage() {
         case 'functions':
           cmp = a.totals.permissionedFunctionCount - b.totals.permissionedFunctionCount
           break
-        case 'capitalPerAdmin': {
-          const aAdmins = getAdminCount(a)
-          const bAdmins = getAdminCount(b)
-          const aRatio = aAdmins > 0 ? a.totals.totalCapitalAtRisk / aAdmins : 0
-          const bRatio = bAdmins > 0 ? b.totals.totalCapitalAtRisk / bAdmins : 0
-          cmp = aRatio - bRatio
-          break
-        }
       }
       return sortAsc ? cmp : -cmp
     })
@@ -144,7 +136,6 @@ export function LandingPage() {
               <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-left w-32">Relative</th>
               <SortHeader label="Token Value" sortKey="tokenValue" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <SortHeader label="Admins" sortKey="admins" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <SortHeader label="$/Admin" sortKey="capitalPerAdmin" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <SortHeader label="Deps" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <SortHeader label="Contracts" sortKey="contracts" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <SortHeader label="Perm Fns" sortKey="functions" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
@@ -157,7 +148,6 @@ export function LandingPage() {
               const adminBreakdown = review ? computeAdminBreakdown(review) : {}
               const adminCount = review ? countActiveAdmins(review) : p.totals.adminCount
               const capitalPct = maxCapital > 0 ? (p.totals.totalCapitalAtRisk / maxCapital) * 100 : 0
-              const capitalPerAdmin = adminCount > 0 ? p.totals.totalCapitalAtRisk / adminCount : 0
 
               return (
                 <tr key={p.slug} className="border-b border-border last:border-0 hover:bg-bg-muted/50 transition-colors">
@@ -178,7 +168,6 @@ export function LandingPage() {
                     {p.totals.totalTokenValueAtRisk > 0 ? <UsdValue value={p.totals.totalTokenValueAtRisk} variant="token" /> : <span className="text-text-muted">-</span>}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums font-medium">{adminCount}</td>
-                  <td className="px-3 py-3 text-right"><span className="tabular-nums text-text-secondary">{formatUsdValue(capitalPerAdmin)}</span></td>
                   <td className="px-3 py-3 text-right tabular-nums">{p.totals.dependencyCount}</td>
                   <td className="px-3 py-3 text-right tabular-nums">{p.totals.contractCount}</td>
                   <td className="px-3 py-3 text-right tabular-nums">{p.totals.permissionedFunctionCount}</td>
