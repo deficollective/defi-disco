@@ -71,6 +71,29 @@ export function AboutPage() {
           from conflicts of interest.
         </p>
       </section>
+
+      {/* Support Us */}
+      <section className="mt-12">
+        <h2 className="text-2xl font-bold text-text-primary">Support Us</h2>
+        <p className="mt-4 text-text-secondary leading-relaxed">
+          DeFiScan is free for everyone. If you find our
+          reviews useful, consider supporting our mission with a donation. Your
+          contribution helps us cover infrastructure costs, fund our researchers, and
+          expand our coverage to more protocols.
+        </p>
+        <p className="mt-4 text-text-secondary leading-relaxed">
+          You can donate directly to{' '}
+          <a
+            href="https://etherscan.io/address/0xDc6f869d2D34E4aee3E89A51f2Af6D54F0F7f690"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-sm text-purple-600 hover:text-purple-800 bg-bg-muted px-2 py-0.5 rounded transition-colors"
+          >
+            grantsfortheants.eth
+          </a>
+          . Every contribution, no matter the size, makes a difference.
+        </p>
+      </section>
     </div>
   )
 }
