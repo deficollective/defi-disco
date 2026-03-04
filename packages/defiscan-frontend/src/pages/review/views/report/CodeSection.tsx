@@ -89,10 +89,10 @@ export function CodeSection({ review }: CodeSectionProps) {
         </div>
       )}
 
-      {/* Section content from review config */}
-      {section?.subsections?.length ? (
+      {/* Section content from review config (excluding Audits) */}
+      {section?.subsections?.filter((s) => s.title !== 'Audits').length ? (
         <div className="space-y-6">
-          {section.subsections.map((sub) => (
+          {section.subsections.filter((s) => s.title !== 'Audits').map((sub) => (
             <div key={sub.title}>
               <h3 className="text-lg font-semibold text-text-primary mb-3">
                 {sub.title}

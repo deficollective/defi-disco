@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { clsx } from 'clsx'
 import type { CompiledReview } from '../../../../types'
-import { NarrativeHero } from './NarrativeHero'
 import { KeyFindings } from './KeyFindings'
 import { AdminCards } from './AdminCards'
 import { FundCards } from './FundCards'
@@ -71,9 +70,6 @@ export function ReportView({ review }: ReportViewProps) {
 
   return (
     <article className="max-w-4xl mx-auto">
-      {/* Executive summary / hero */}
-      <NarrativeHero review={review} />
-
       {/* Sticky section navigation bar */}
       <nav className="mt-10 sticky top-0 z-40 -mx-4 px-4 py-3 bg-white/90 backdrop-blur-sm border-b border-border">
         <div className="flex gap-1 overflow-x-auto">
