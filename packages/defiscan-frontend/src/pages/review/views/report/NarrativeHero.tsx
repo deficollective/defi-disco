@@ -15,17 +15,10 @@ export function NarrativeHero({ review }: NarrativeHeroProps) {
 
   return (
     <div>
-      {/* Protocol description */}
-      {metadata.description && (
-        <p className="text-lg text-text-secondary leading-relaxed max-w-3xl">
-          {metadata.description}
-        </p>
-      )}
-
       {/* Risk verdict banner */}
       <div
         className={clsx(
-          'mt-8 rounded-2xl border-2 p-6',
+          'rounded-2xl border-2 p-6',
           risk.bgColor,
           risk.borderColor,
         )}
@@ -44,38 +37,6 @@ export function NarrativeHero({ review }: NarrativeHeroProps) {
               {risk.summary}
             </p>
           </div>
-        </div>
-      </div>
-
-      {/* At-a-glance metrics */}
-      <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-text-secondary">Contracts</p>
-          <p className="mt-1 text-2xl font-bold text-text-primary">
-            {totals.contractCount}
-          </p>
-          <p className="mt-1 text-sm text-text-muted">analyzed</p>
-        </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-text-secondary">Admins</p>
-          <p className="mt-1 text-2xl font-bold text-text-primary">
-            {totals.adminCount}
-          </p>
-          <p className="mt-1 text-sm text-text-muted">with control</p>
-        </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-text-secondary">Capital at Risk</p>
-          <p className="mt-1 text-2xl font-bold text-capital">
-            {formatUsdValue(totals.totalCapitalAtRisk)}
-          </p>
-          <p className="mt-1 text-sm text-text-muted">in protocol</p>
-        </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-text-secondary">Dependencies</p>
-          <p className="mt-1 text-2xl font-bold text-text-primary">
-            {totals.dependencyCount}
-          </p>
-          <p className="mt-1 text-sm text-text-muted">external</p>
         </div>
       </div>
     </div>

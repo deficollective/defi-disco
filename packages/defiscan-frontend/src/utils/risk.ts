@@ -1,4 +1,5 @@
 import type { CompiledReview } from '../types'
+import { computeEntityDependencyCount } from './dependencies'
 
 export type RiskLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'MINIMAL'
 
@@ -39,7 +40,7 @@ export function computeRiskScore(review: CompiledReview): number {
 
 
   // Dependency concentration (0-25 points)
-  const depCount = review.totals.dependencyCount
+  const depCount = computeEntityDependencyCount(review.dependencies)
   if (depCount >= 5) score += 25
   else if (depCount >= 3) score += 15
   else if (depCount >= 1) score += 8
@@ -99,9 +100,11 @@ export function buildRiskProfile(review: CompiledReview): ProtocolRiskProfile {
   const hasMultisig = review.admins.some((a) => a.adminType === 'Multisig')
   const hasTimelock = review.admins.some((a) => a.adminType === 'Timelock')
 
+  const entityDepCount = computeEntityDependencyCount(review.dependencies)
+
   const keyRiskFactors: string[] = []
   if (hasEOA) keyRiskFactors.push('EOA admin detected')
-  if (review.totals.dependencyCount > 3) keyRiskFactors.push('High dependency count')
+  if (entityDepCount > 3) keyRiskFactors.push('High dependency count')
   if (review.totals.totalCapitalAtRisk > 100_000_000) keyRiskFactors.push('Large capital exposure')
   if (!hasTimelock && hasMultisig) keyRiskFactors.push('No timelock protection')
 
@@ -117,7 +120,7 @@ export function buildRiskProfile(review: CompiledReview): ProtocolRiskProfile {
     totalExposure: review.totals.totalCapitalAtRisk + review.totals.totalTokenValueAtRisk,
     adminBreakdown,
     adminCount: review.totals.adminCount,
-    dependencyCount: review.totals.dependencyCount,
+    dependencyCount: entityDepCount,
     contractCount: review.totals.contractCount,
     permissionedFunctions: review.totals.permissionedFunctionCount,
     hasEOAAdmin: hasEOA,
