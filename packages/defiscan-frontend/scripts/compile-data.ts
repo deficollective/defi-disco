@@ -149,6 +149,11 @@ function main() {
       else ungroupedDeps++
     }
 
+    // Count admins excluding Immutable and Revoked
+    const activeAdminCount = review.admins.filter(
+      (a) => a.adminType !== 'Immutable' && a.adminType !== 'Revoked',
+    ).length
+
     // Add to protocol list
     protocols.push({
       slug: review.metadata.protocolSlug,
@@ -158,6 +163,7 @@ function main() {
       tokenName: review.metadata.tokenName,
       totals: {
         ...review.totals,
+        adminCount: activeAdminCount,
         dependencyCount: depEntities.size + ungroupedDeps,
       },
     })

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-04T14:06:58.517Z",
+  "compiledAt": "2026-03-04T14:34:03.184Z",
   "project": "liquity-v2",
   "metadata": {
     "protocolName": "Liquity V2",
@@ -24,7 +24,7 @@
       "address": "eth:0xa741A32f9dcFe6aDBa088fD0f97e90742d7d5DA3",
       "name": "wstETH Branch BorrowerOperations",
       "description": "Internal protocol contract — not a human-controlled admin. BorrowerOperations is the exclusive caller permitted to execute sendColl, receiveColl, accountForReceivedColl, and mintAggInterest functions on the wstETH branch collateral pools, and is the entry point for all Trove operations. All ownership chain terminals resolve to immutable Liquity V2 contracts with no external keyholder. Authorized access spans $87.58M in direct capital across 21 contracts.",
-      "adminType": "Contract",
+      "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
         {
@@ -2625,7 +2625,7 @@
       "address": "eth:0xA2895d6A3bf110561Dfe4b71cA539d84e1928B22",
       "name": "wstETH Branch TroveManager",
       "description": "Internal protocol contract. TroveManager is authorized to call sendCollToDefaultPool, mintAggInterestAndAccountForTroveChange, mintBatchManagementFeeAndAccountForChange, and setShutdownFlag on the wstETH ActivePool, and drives SortedTroves remove and removeFromBatch operations during liquidations. Authorized access spans $87.58M in direct capital across 10 contracts.",
-      "adminType": "Contract",
+      "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
         {
@@ -3031,7 +3031,7 @@
       "address": "eth:0x9502b7c397E9aa22FE9dB7EF7DAF21cD2AEBe56B",
       "name": "wstETH Branch StabilityPool",
       "description": "Internal protocol contract. The wstETH StabilityPool is authorized to call sendColl and mintAggInterest on the wstETH ActivePool, enabling BOLD liquidation offsets and interest distribution to stability depositors. Holds $11.15M in BOLD deposits and wstETH liquidation proceeds.",
-      "adminType": "Contract",
+      "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
         {
@@ -3234,7 +3234,7 @@
       "address": "eth:0x9074D72cc82DaD1e13E454755Aa8f144c479532F",
       "name": "rETH Branch ActivePool",
       "description": "Internal protocol contract. The rETH ActivePool is authorized to call receiveColl on its DefaultPool and triggerBoldRewards on the rETH StabilityPool, coordinating redistribution accounting and interest distribution to depositors. Holds $13.75M in rETH collateral, and its authorized-caller set is fixed at deployment.",
-      "adminType": "Contract",
+      "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
         {
@@ -3292,7 +3292,7 @@
       "address": "eth:0xe8119fC02953B27a1b48D2573855738485A17329",
       "name": "rETH Branch BorrowerOperations",
       "description": "Internal protocol contract. The rETH branch BorrowerOperations is authorized to call insert, remove, reInsert, insertIntoBatch, removeFromBatch, and reInsertBatch on the rETH SortedTroves, maintaining the sorted-by-interest-rate linked list used for batch management and redemptions. SortedTroves holds no collateral, so direct capital exposure is zero.",
-      "adminType": "Contract",
+      "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
         {
@@ -3611,7 +3611,7 @@
       "address": "eth:0xb2B2ABEb5C357a234363FF5D180912D319e3e19e",
       "name": "rETH Branch TroveManager",
       "description": "Internal protocol contract. The rETH TroveManager is authorized to call remove and removeFromBatch on its SortedTroves, collateral accounting functions on its DefaultPool, and offset on the rETH StabilityPool during liquidations. Authorized access spans $14.47M in direct capital across 8 contracts.",
-      "adminType": "Contract",
+      "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
         {

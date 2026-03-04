@@ -32,6 +32,10 @@ export function LandingPage() {
   }, [allReviews])
 
   const sorted = useMemo(() => {
+    const getAdminCount = (p: ProtocolSummary) => {
+      const review = reviewMap.get(p.slug)
+      return review ? countActiveAdmins(review) : p.totals.adminCount
+    }
     return [...protocols].sort((a, b) => {
       let cmp = 0
       switch (sortKey) {
@@ -45,7 +49,7 @@ export function LandingPage() {
           cmp = a.totals.totalTokenValueAtRisk - b.totals.totalTokenValueAtRisk
           break
         case 'admins':
-          cmp = a.totals.adminCount - b.totals.adminCount
+          cmp = getAdminCount(a) - getAdminCount(b)
           break
         case 'dependencies':
           cmp = a.totals.dependencyCount - b.totals.dependencyCount
@@ -57,15 +61,17 @@ export function LandingPage() {
           cmp = a.totals.permissionedFunctionCount - b.totals.permissionedFunctionCount
           break
         case 'capitalPerAdmin': {
-          const aRatio = a.totals.adminCount > 0 ? a.totals.totalCapitalAtRisk / a.totals.adminCount : 0
-          const bRatio = b.totals.adminCount > 0 ? b.totals.totalCapitalAtRisk / b.totals.adminCount : 0
+          const aAdmins = getAdminCount(a)
+          const bAdmins = getAdminCount(b)
+          const aRatio = aAdmins > 0 ? a.totals.totalCapitalAtRisk / aAdmins : 0
+          const bRatio = bAdmins > 0 ? b.totals.totalCapitalAtRisk / bAdmins : 0
           cmp = aRatio - bRatio
           break
         }
       }
       return sortAsc ? cmp : -cmp
     })
-  }, [protocols, sortKey, sortAsc])
+  }, [protocols, sortKey, sortAsc, reviewMap])
 
   const maxCapital = useMemo(
     () => Math.max(...protocols.map((p) => p.totals.totalCapitalAtRisk), 1),
@@ -149,8 +155,9 @@ export function LandingPage() {
             {sorted.map((p) => {
               const review = reviewMap.get(p.slug)
               const adminBreakdown = review ? computeAdminBreakdown(review) : {}
+              const adminCount = review ? countActiveAdmins(review) : p.totals.adminCount
               const capitalPct = maxCapital > 0 ? (p.totals.totalCapitalAtRisk / maxCapital) * 100 : 0
-              const capitalPerAdmin = p.totals.adminCount > 0 ? p.totals.totalCapitalAtRisk / p.totals.adminCount : 0
+              const capitalPerAdmin = adminCount > 0 ? p.totals.totalCapitalAtRisk / adminCount : 0
 
               return (
                 <tr key={p.slug} className="border-b border-border last:border-0 hover:bg-bg-muted/50 transition-colors">
@@ -170,7 +177,7 @@ export function LandingPage() {
                   <td className="px-3 py-3 text-right">
                     {p.totals.totalTokenValueAtRisk > 0 ? <UsdValue value={p.totals.totalTokenValueAtRisk} variant="token" /> : <span className="text-text-muted">-</span>}
                   </td>
-                  <td className="px-3 py-3 text-right tabular-nums font-medium">{p.totals.adminCount}</td>
+                  <td className="px-3 py-3 text-right tabular-nums font-medium">{adminCount}</td>
                   <td className="px-3 py-3 text-right"><span className="tabular-nums text-text-secondary">{formatUsdValue(capitalPerAdmin)}</span></td>
                   <td className="px-3 py-3 text-right tabular-nums">{p.totals.dependencyCount}</td>
                   <td className="px-3 py-3 text-right tabular-nums">{p.totals.contractCount}</td>
@@ -226,4 +233,10 @@ function computeAdminBreakdown(review: CompiledReview) {
     counts[t] = (counts[t] || 0) + 1
   }
   return counts
+}
+
+function countActiveAdmins(review: CompiledReview): number {
+  return review.admins.filter(
+    (a) => a.adminType !== 'Immutable' && a.adminType !== 'Revoked',
+  ).length
 }
