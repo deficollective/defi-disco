@@ -29,10 +29,6 @@ function describeAdminType(adminType: string): string {
     case 'Contract':
     case 'Untemplatized':
       return 'This is a smart contract with admin privileges. Its behavior is determined by its code logic rather than human decisions.'
-    case 'Immutable':
-      return 'This is an immutable smart contract whose code cannot be changed after deployment. Its admin privileges are exercised purely through fixed on-chain logic.'
-    case 'Upgradeable':
-      return 'This is an upgradeable smart contract whose logic can be changed by whoever controls the upgrade mechanism.'
     case 'Diamond':
       return 'This is a Diamond proxy contract that can have its logic upgraded through facet additions, replacements, or removals.'
     case 'Revoked':
@@ -49,10 +45,8 @@ function sortAdminsByRisk(admins: CompiledAdmin[]): CompiledAdmin[] {
     EOAPermissioned: 1,
     Multisig: 2,
     Timelock: 3,
-    Upgradeable: 4,
     Diamond: 4,
     Contract: 5,
-    Immutable: 5,
     Untemplatized: 6,
     Revoked: 7,
   }
@@ -86,77 +80,53 @@ export function AdminCards({ review }: AdminCardsProps) {
 
   const sorted = sortAdminsByRisk(admins)
 
-  // Categorize admins into "human-controlled" vs "internal"
-  const humanControlled = sorted.filter(
-    (a) =>
-      a.adminType === 'EOA' ||
-      a.adminType === 'EOAPermissioned' ||
-      a.adminType === 'Multisig' ||
-      a.adminType === 'Timelock',
-  )
-  const internalOrOther = sorted.filter(
-    (a) =>
-      a.adminType !== 'EOA' &&
-      a.adminType !== 'EOAPermissioned' &&
-      a.adminType !== 'Multisig' &&
-      a.adminType !== 'Timelock',
-  )
+  const isHumanControlled = (a: CompiledAdmin) =>
+    a.adminType === 'EOA' ||
+    a.adminType === 'EOAPermissioned' ||
+    a.adminType === 'Multisig' ||
+    a.adminType === 'Timelock'
 
-  const allImmutable =
-    admins.length > 0 &&
-    admins.every(
-      (a) =>
-        a.adminType === 'Revoked' ||
-        a.adminType === 'Contract' ||
-        a.adminType === 'Untemplatized' ||
-        a.adminType === 'Immutable',
-    )
+  // Categorize admins into 3 groups
+  const humanControlled = sorted.filter(isHumanControlled)
+  const governanceContracts = sorted.filter(
+    (a) => !isHumanControlled(a) && a.isGovernance,
+  )
+  const internalContracts = sorted.filter(
+    (a) => !isHumanControlled(a) && !a.isGovernance,
+  )
 
   return (
     <div>
       <p className="text-lg text-text-secondary leading-relaxed max-w-3xl mb-8">
-        {allImmutable ? (
+        Who can change this protocol? We identified{' '}
+        <span className="font-semibold text-text-primary">
+          {admins.length} admin{admins.length !== 1 ? 's' : ''}
+        </span>{' '}
+        with permissioned access to{' '}
+        <span className="font-semibold text-text-primary">
+          {totals.permissionedFunctionCount} functions
+        </span>
+        , controlling{' '}
+        <UsdValue value={totals.totalCapitalAtRisk} variant="capital" />
+        {' '}in capital
+        {totals.totalTokenValueAtRisk > 0 && (
           <>
-            This protocol has{' '}
-            <span className="font-semibold text-text-primary">
-              {totals.permissionedFunctionCount} permissioned functions
-            </span>
-            , but all admin controls resolve to immutable contracts or revoked
-            addresses. No permissioned functions can affect user funds.
-          </>
-        ) : (
-          <>
-            Who can change this protocol? We identified{' '}
-            <span className="font-semibold text-text-primary">
-              {admins.length} admin{admins.length !== 1 ? 's' : ''}
-            </span>{' '}
-            with permissioned access to{' '}
-            <span className="font-semibold text-text-primary">
-              {totals.permissionedFunctionCount} functions
-            </span>
-            , controlling{' '}
-            <UsdValue value={totals.totalCapitalAtRisk} variant="capital" />
-            {' '}in locked funds
-            {totals.totalTokenValueAtRisk > 0 && (
-              <>
-                {' '}and{' '}
-                <UsdValue
-                  value={totals.totalTokenValueAtRisk}
-                  variant="token"
-                />{' '}
-                in protocol tokens
-              </>
-            )}
-            .
+            {' '}and{' '}
+            <UsdValue
+              value={totals.totalTokenValueAtRisk}
+              variant="token"
+            />{' '}
+            in protocol tokens
           </>
         )}
+        .
       </p>
 
-      {/* Human-controlled admins -- the ones readers care about most */}
+      {/* Centralized admins -- the ones readers care about most */}
       {humanControlled.length > 0 && (
         <div className="mb-8">
           <h3 className="text-lg font-semibold text-text-primary mb-4">
-            Human-Controlled Admins
+            Centralized Control through following Admins
           </h3>
           <p className="text-sm text-text-secondary mb-4">
             These are the entities that a person or group of people can directly
@@ -170,9 +140,32 @@ export function AdminCards({ review }: AdminCardsProps) {
         </div>
       )}
 
+      {/* Governance contracts */}
+      {governanceContracts.length > 0 && (
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <h3 className="text-lg font-semibold text-text-primary">
+              Governance Contracts
+            </h3>
+            <span className="text-sm text-text-muted">
+              ({governanceContracts.length})
+            </span>
+          </div>
+          <p className="text-sm text-text-secondary mb-4">
+            These contracts implement on-chain governance mechanisms for the
+            protocol.
+          </p>
+          <div className="space-y-4">
+            {governanceContracts.map((admin) => (
+              <AdminCard key={admin.address} admin={admin} />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Internal / contract admins */}
-      {internalOrOther.length > 0 && (
-        <InternalAdminsSection admins={internalOrOther} />
+      {internalContracts.length > 0 && (
+        <InternalAdminsSection admins={internalContracts} />
       )}
     </div>
   )
@@ -217,7 +210,7 @@ function AdminCard({ admin }: { admin: CompiledAdmin }) {
                   variant="capital"
                   className="text-lg font-semibold"
                 />
-                <p className="text-xs text-text-muted">funds locked</p>
+                <p className="text-xs text-text-muted">capital at risk</p>
               </div>
             )}
           </div>
