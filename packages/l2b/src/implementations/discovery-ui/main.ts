@@ -1,12 +1,14 @@
 import {
+  ConfigHealthService,
   ConfigReader,
   ConfigWriter,
   getDiscoveryPaths,
   TemplateService,
   get$Implementations,
+  UserHandlers,
 } from '@l2beat/discovery'
 import { ChainSpecificAddress } from '@l2beat/shared-pure'
-import { v as z } from '@l2beat/validate'
+import { toJsonSchema, v as z } from '@l2beat/validate'
 import express from 'express'
 import type { Server } from 'http'
 import path, { join } from 'path'
@@ -15,6 +17,7 @@ import { DiffoveryController } from './diffovery/DiffoveryController'
 import { attachDiffoveryRouter } from './diffovery/router'
 import { executeTerminalCommand } from './executeTerminalCommand'
 import { getCode, getCodePaths } from './getCode'
+import { getConfigHealth } from './getConfigHealth'
 import { getPreview } from './getPreview'
 import { getProject } from './getProject'
 import { getProjects } from './getProjects'
@@ -55,6 +58,7 @@ import {
   updateReviewConfig,
   updateEntityDescription,
 } from './defidisco/reviewConfig'
+import { ReviewCompiler } from './defidisco/reviewCompiler'
 import {
   attachTemplateRouter,
   listTemplateFilesSchema,
@@ -110,6 +114,8 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
   const configReader = new ConfigReader(paths.discovery)
   const configWriter = new ConfigWriter(configReader, paths.discovery)
   const templateService = new TemplateService(paths.discovery)
+  const configHealthService = new ConfigHealthService()
+
   const diffoveryController = new DiffoveryController()
 
   app.use(express.json())
@@ -168,13 +174,7 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
     const { project, address } = paramsValidation.data
 
     const checkFlatCode = readonly === false
-    const response = getCode(
-      paths,
-      configReader,
-      project,
-      address,
-      checkFlatCode,
-    )
+    const response = getCode(configReader, project, address, checkFlatCode)
     res.json(response)
   })
 
@@ -375,7 +375,7 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
         )
 
         // Get contract source code
-        const codeResponse = getCode(paths, configReader, project, address, false)
+        const codeResponse = getCode(configReader, project, address, false)
 
         if (!codeResponse.sources || codeResponse.sources.length === 0) {
           res.status(400).json({ error: 'No source code found for this contract' })
@@ -650,6 +650,29 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
     }
   })
 
+  // Compile review endpoint
+  app.post('/api/projects/:project/compile-review', (req, res) => {
+    if (readonly) {
+      res.status(403).json({ error: 'Server is in readonly mode' })
+      return
+    }
+    const paramsValidation = projectParamsSchema.safeParse(req.params)
+    if (!paramsValidation.success) {
+      res.status(400).json({ errors: paramsValidation.message })
+      return
+    }
+    const { project } = paramsValidation.data
+
+    try {
+      const compiler = new ReviewCompiler(paths)
+      const result = compiler.compile(project)
+      res.json(result)
+    } catch (error) {
+      console.error('Error compiling review:', error)
+      res.status(500).json({ error: 'Failed to compile review' })
+    }
+  })
+
   // V2 Scoring endpoint
   app.get('/api/projects/:project/v2-score', (req, res) => {
     const paramsValidation = projectParamsSchema.safeParse(req.params)
@@ -825,6 +848,28 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
     attachTemplateRouter(app, templateService)
     attachConfigRouter(app, configReader, configWriter, templateService)
 
+    app.get('/api/config/health', (_, res) => {
+      const response = getConfigHealth(
+        configReader,
+        templateService,
+        configHealthService,
+      )
+      res.json(response)
+    })
+
+    app.get('/api/handlers', (_req, res) => {
+      res.json({
+        handlers: Object.entries(UserHandlers).map(([type, definition]) => ({
+          type,
+          schema: toJsonSchema(definition),
+          // TODO: add docs
+          docs: '',
+          // TODO: add examples
+          examples: [],
+        })),
+      })
+    })
+
     app.get('/api/projects/:project/codeSearch', (req, res) => {
       const paramsValidation = projectSearchTermParamsSchema.safeParse({
         project: req.params.project,
@@ -838,13 +883,7 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
       }
       const { project, searchTerm, address } = paramsValidation.data
 
-      const response = searchCode(
-        paths,
-        configReader,
-        project,
-        searchTerm,
-        address,
-      )
+      const response = searchCode(configReader, project, searchTerm, address)
       res.json(response)
     })
 
@@ -870,7 +909,7 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
       }
       const { project, address, against } = queryValidation.data
 
-      const { codePaths } = getCodePaths(paths, configReader, project, address)
+      const { codePaths } = getCodePaths(configReader, project, address)
       const implementationPath =
         codePaths.length > 1 ? codePaths[1].path : codePaths[0].path
       const againstPath =

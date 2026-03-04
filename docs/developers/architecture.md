@@ -59,3 +59,45 @@ The Review Builder stores all review configuration in a single `review-config.js
 **Frontend**: The `ReviewBuilderPanel.tsx` component provides the editor UI, with `ReviewDescriptionsEditor.tsx` for entity descriptions and `ReviewSectionEditor.tsx` for section tabs. Data source definitions in `reviewDataSources.ts` power the data table blocks.
 
 **AI Generation**: The `/generate-review` Claude Code skill fetches pre-processed data from the l2b API, analyzes the protocol structure, and writes generated descriptions directly to `review-config.json`.
+
+### Continuous Monitoring Service
+
+The monitoring service is a standalone background process that continuously watches DeFi protocols for smart contract changes, refreshes live financial data, and compiles publishable review artifacts. It runs as a **GitHub Actions cron job** (daily at 8:00 CET), not as a long-running server.
+
+**Entry point**: `packages/backend/src/defidisco-monitor.ts` — creates the config, application, and handles `RUN_ONCE` mode (used by GitHub Actions) vs long-running mode (Clock-based scheduling).
+
+**Orchestrator**: `packages/backend/src/modules/defi-update-monitor/defidisco/DefidiscoMonitorApplication.ts` — wires all components and runs the monitoring loop. For each project listed in `packages/config/src/defidisco-config.json`:
+
+1. **Discovery** — runs the L2Beat discovery engine (`DiscoveryRunner`)
+2. **Diffing** — compares against the previous discovery snapshot stored in PostgreSQL
+3. **Notification** — sends Discord messages when contract changes are detected
+4. **Funds Refresh** — fetches live token balances and DeFi positions via DeBank API
+5. **Review Compilation** — produces a self-contained `compiled-review.json` per project
+
+After all projects are processed, a cycle summary is posted to Discord with project count, duration, and change count.
+
+**Review Compilation**: `ReviewCompiler.ts` reads all project data files (discovery, permissions, call graph, funds, contract tags, review config), runs V2 scoring, resolves template variables in descriptions, and writes a single `compiled-review.json` that contains everything a frontend needs to render a protocol review page — no client-side data joining required. Compilation is gated on `review-config.json` and `call-graph-data.json` existing; if either is missing, the step is skipped (log only).
+
+**Scheduling & Deployment**: The monitor runs via `.github/workflows/monitor.yml`:
+
+1. Builds the Docker image (`Dockerfile.monitor`) with GHA layer caching
+2. Runs Prisma migrations (separate step for clear error reporting)
+3. Runs the monitor with `RUN_ONCE=true` — single cycle, then clean exit
+4. Commits any updated `compiled-review.json` and `funds-data.json` files back to the repository
+
+**Database**: PostgreSQL (Neon free tier) stores discovery cache (RPC response caching across ephemeral containers) and update monitor snapshots (for diffing against previous discoveries). The connection string is stored as a GitHub Actions secret.
+
+**ReviewCompiler location**: The `ReviewCompiler` class lives in `packages/l2b/src/implementations/discovery-ui/defidisco/reviewCompiler.ts` and is shared between the l2b API (interactive compile endpoint) and the monitor (automated compilation). The monitor imports it via `@l2beat/l2b/dist/...`.
+
+### DeFiScan Frontend
+
+The public-facing review website is a separate package at `packages/defiscan-frontend/`. It is a static React application (Vite + TailwindCSS + Recharts) that renders compiled reviews — it does not connect to the l2b API at runtime.
+
+**Data pipeline**:
+1. `ReviewCompiler` produces `compiled-review.json` per project (triggered by "Compile Review" button in protocolbeat, or automatically by the monitor)
+2. Compiled reviews are placed in `packages/defiscan-frontend/public/data/<slug>/`
+3. At build time, `scripts/compile-data.ts` aggregates all compiled reviews into `public/data/index.json` with global stats and cross-protocol dependency data
+
+**Pages**: Landing (protocol table + global stats), Review (Report / Explorer / Dashboard views), Compare (side-by-side protocol comparison with charts).
+
+See `packages/defiscan-frontend/README.md` for detailed documentation.

@@ -3,10 +3,12 @@ import type {
   ApiCodeResponse,
   ApiCodeSearchResponse,
   ApiConfigFileResponse,
+  ApiConfigHealthResponse,
   ApiConfigSyncStatusResponse,
   ApiCreateConfigFileResponse,
   ApiCreateShapeResponse,
   ApiGlobalConfigSyncStatusResponse,
+  ApiHandlersResponse,
   ApiListTemplatesResponse,
   ApiFunctionsResponse,
   ApiFunctionsUpdateRequest,
@@ -200,6 +202,15 @@ export async function getGlobalConfigSyncStatus(): Promise<ApiGlobalConfigSyncSt
   return data as ApiGlobalConfigSyncStatusResponse
 }
 
+export async function getConfigHealth(): Promise<ApiConfigHealthResponse> {
+  const res = await fetch('/api/config/health')
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+  const data = await res.json()
+  return data as ApiConfigHealthResponse
+}
+
 export async function createConfigFile(
   project: string,
   type: 'project' | 'token',
@@ -256,6 +267,15 @@ export async function writeTemplateFile(templateId: string, content: string) {
   if (!res.ok) {
     throw new Error(res.statusText)
   }
+}
+
+export async function getHandlers(): Promise<ApiHandlersResponse> {
+  const res = await fetch('/api/handlers')
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+  const data = await res.json()
+  return data as ApiHandlersResponse
 }
 
 export async function createShape(
@@ -398,6 +418,18 @@ export async function getV2Score(project: string): Promise<ApiV2ScoreResponse> {
   }
   const data = await res.json()
   return data as ApiV2ScoreResponse
+}
+
+export async function compileReview(
+  project: string,
+): Promise<{ status: string; path?: string; reason?: string; error?: string }> {
+  const res = await fetch(`/api/projects/${project}/compile-review`, {
+    method: 'POST',
+  })
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+  return await res.json()
 }
 
 export async function getFundsData(project: string): Promise<ApiFundsDataResponse> {
