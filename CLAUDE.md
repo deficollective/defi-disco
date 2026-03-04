@@ -386,9 +386,8 @@ When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho 
 - **Shared Scoring Module**: `/defidisco/scoringShared.tsx` — **single source of truth** for all scoring UI utilities and components
 - **Admin Type Mapping** (`mapAdminType` in `v2Scoring.ts`): Maps raw types to user-facing types based on proxy info:
   - Zero address → `Revoked`
-  - `Untemplatized`/`Unknown` + `immutable` proxyType → `Immutable`
+  - Any type + `immutable` proxyType → `Immutable`
   - `Untemplatized`/`Unknown` + non-immutable proxyType → `Upgradeable`
-  - `Untemplatized`/`Unknown` + no proxy info → keeps original type
 
 **Shared Module (`scoringShared.tsx`)** — DO NOT duplicate code from this file:
 
@@ -519,8 +518,9 @@ When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho 
 
 - **Package**: `packages/defiscan-frontend/` (Vite + React + TailwindCSS + Recharts)
 - **Data Model**: Static JSON — reads pre-compiled `compiled-review.json` from `public/data/<slug>/`
-- **Build Script**: `scripts/compile-data.ts` — aggregates compiled reviews into `public/data/index.json` with global stats and dependency aggregation
-- **Pages**: Landing (protocol table + stats), Review (3 views: Report, Explorer, Dashboard), Compare (side-by-side charts)
+- **Build Script**: `scripts/compile-data.ts` — aggregates compiled reviews into `public/data/index.json` with global stats, entity-grouped dependency counts, and active admin counts (excludes Immutable/Revoked)
+- **Pages**: Landing (protocol table + stats), Review (3 views: Report, Explorer, Dashboard), Compare (side-by-side charts), About (mission, methodology, team)
+- **Deployment**: Vercel with SPA rewrites (`vercel.json` — excludes `/data/` from rewrites)
 - **Commands**: `pnpm dev` (dev server), `pnpm build` (production build, runs compile-data first)
 - **Detailed Docs**: See `packages/defiscan-frontend/README.md`
 
