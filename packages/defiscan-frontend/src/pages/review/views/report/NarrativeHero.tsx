@@ -160,6 +160,7 @@ function riskPresentation(
     admins.every(
       (a) =>
         a.adminType === 'Revoked' ||
+        a.adminType === 'Immutable' ||
         a.adminType === 'Contract' ||
         a.adminType === 'Untemplatized',
     )
