@@ -120,6 +120,7 @@ export interface IndexData {
   globalTotals: {
     totalCapitalAtRisk: number
     totalTokenValueAtRisk: number
+    totalTokenValue: number
     protocolsReviewed: number
   }
   dependencies: AggregatedDependency[]

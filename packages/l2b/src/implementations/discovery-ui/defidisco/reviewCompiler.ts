@@ -253,7 +253,10 @@ export class ReviewCompiler {
       ApiContractTagsResponse['tags'][number]
     >()
     for (const tag of contractTags.tags ?? []) {
-      tagsByAddress.set(tag.contractAddress.toLowerCase(), tag)
+      tagsByAddress.set(
+        tag.contractAddress.replace(/^eth:/i, '').toLowerCase(),
+        tag,
+      )
     }
 
     // Case-insensitive lookup for funds data with eth: prefix normalization

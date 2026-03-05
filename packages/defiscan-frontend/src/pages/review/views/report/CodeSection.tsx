@@ -170,7 +170,7 @@ function ContentBlockRenderer({
   review: CompiledReview
 }) {
   if (block.type === 'dataTable') {
-    return <DataTableBlock block={block} review={review} />
+    return null
   }
 
   if (block.type === 'text') {

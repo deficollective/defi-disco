@@ -6,7 +6,7 @@ import { KeyFindings } from './KeyFindings'
 import { AdminCards } from './AdminCards'
 import { FundCards } from './FundCards'
 import { DependencyCards } from './DependencyCards'
-import { CodeSection } from './CodeSection'
+
 
 interface ReportViewProps {
   review: CompiledReview
@@ -17,15 +17,18 @@ interface SectionDef {
   title: string
 }
 
-const SECTIONS: SectionDef[] = [
-  { id: 'key-findings', title: 'Key Findings' },
-  { id: 'admins', title: 'Who Controls It?' },
-  { id: 'funds', title: 'How Much Is at Stake?' },
-  { id: 'dependencies', title: 'What Does It Depend On?' },
-  { id: 'code', title: 'Code & Contracts' },
-]
+function buildSections(protocolName: string): SectionDef[] {
+  return [
+    { id: 'key-findings', title: 'Key Findings' },
+    { id: 'admins', title: `Who Controls ${protocolName}?` },
+    { id: 'funds', title: 'How Much Is at Stake?' },
+    { id: 'dependencies', title: `What Does ${protocolName} Depend On?` },
+    { id: 'code', title: 'Further Resources' },
+  ]
+}
 
 export function ReportView({ review }: ReportViewProps) {
+  const SECTIONS = buildSections(review.metadata.protocolName)
   const [activeSection, setActiveSection] = useState<string>(SECTIONS[0]?.id ?? 'key-findings')
   const observerRef = useRef<IntersectionObserver | null>(null)
 
@@ -121,7 +124,7 @@ export function ReportView({ review }: ReportViewProps) {
           ref={(el) => registerRef('admins', el)}
         >
           <h2 className="text-2xl font-bold text-text-primary mb-6">
-            Who Controls It?
+            Who Controls {review.metadata.protocolName}?
           </h2>
           <AdminCards review={review} />
         </section>
@@ -145,7 +148,7 @@ export function ReportView({ review }: ReportViewProps) {
           ref={(el) => registerRef('dependencies', el)}
         >
           <h2 className="text-2xl font-bold text-text-primary mb-6">
-            What Does It Depend On?
+            What Does {review.metadata.protocolName} Depend On?
           </h2>
           <DependencyCards review={review} />
         </section>
@@ -157,9 +160,8 @@ export function ReportView({ review }: ReportViewProps) {
           ref={(el) => registerRef('code', el)}
         >
           <h2 className="text-2xl font-bold text-text-primary mb-6">
-            Code & Contracts
+            Further Resources
           </h2>
-          <CodeSection review={review} />
         </section>
       </div>
     </article>

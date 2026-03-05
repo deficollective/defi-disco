@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import { AddressDisplay } from '../../../../components/AddressDisplay'
 import { Badge } from '../../../../components/Badge'
 import { UsdValue } from '../../../../components/UsdValue'
 import { formatUsdValue } from '../../../../utils/format'
-import type { CompiledReview, CompiledFundHolder } from '../../../../types'
+import type { CompiledReview, CompiledFundHolder, CompiledAdmin } from '../../../../types'
 
 interface FundCardsProps {
   review: CompiledReview
@@ -17,42 +18,34 @@ const BAR_COLORS = [
   '#10B981',
 ]
 
-/** Generate a narrative sentence for a fund holder */
-function narrativeForFund(fund: CompiledFundHolder): string {
-  const parts: string[] = []
-  const balanceVal = fund.balances?.totalUsdValue ?? 0
-  const positionVal = fund.positions?.totalUsdValue ?? 0
-  const total = balanceVal + positionVal
+const TOKEN_BAR_COLORS = [
+  '#F59E0B',
+  '#FBBF24',
+  '#FCD34D',
+  '#FDE68A',
+]
 
-  if (total === 0) {
-    return 'This contract currently holds no significant value.'
-  }
-
-  if (balanceVal > 0 && positionVal > 0) {
-    parts.push(
-      `This contract holds ${formatUsdValue(balanceVal)} in token balances and ${formatUsdValue(positionVal)} in DeFi positions`,
-    )
-  } else if (balanceVal > 0) {
-    parts.push(
-      `This contract holds ${formatUsdValue(balanceVal)} in token balances`,
-    )
-  } else {
-    parts.push(
-      `This contract has ${formatUsdValue(positionVal)} deployed in DeFi positions`,
-    )
-  }
-
-  if (fund.tokenInfo) {
-    parts.push(
-      `, with the protocol token ${fund.tokenInfo.symbol} having a market cap of ${formatUsdValue(fund.tokenInfo.tokenValue)}`,
-    )
-  }
-
-  return parts.join('') + '.'
+function getAdminsForFund(
+  review: CompiledReview,
+  fundAddress: string,
+): CompiledAdmin[] {
+  const normalized = fundAddress.toLowerCase()
+  return review.admins.filter(
+    (admin) =>
+      (admin.adminType === 'EOA' ||
+        admin.adminType === 'EOAPermissioned' ||
+        admin.adminType === 'Multisig' ||
+        admin.adminType === 'Timelock' ||
+        admin.isGovernance) &&
+      admin.functions.some(
+        (f) => f.contractAddress.toLowerCase() === normalized,
+      ),
+  )
 }
 
 export function FundCards({ review }: FundCardsProps) {
   const { funds, totals } = review
+  const [expandedFunds, setExpandedFunds] = useState<Set<string>>(new Set())
 
   if (funds.length === 0) {
     return (
@@ -72,13 +65,45 @@ export function FundCards({ review }: FundCardsProps) {
 
   const chartData = funds
     .map((f) => ({
-      name: f.name.length > 30 ? `${f.name.slice(0, 27)}...` : f.name,
+      fund: f,
       fullName: f.name,
       value:
         (f.balances?.totalUsdValue ?? 0) + (f.positions?.totalUsdValue ?? 0),
     }))
     .filter((d) => d.value > 0)
     .sort((a, b) => b.value - a.value)
+
+  // Separate token entries (funds with tokenInfo)
+  const tokenFunds = funds.filter((f) => f.tokenInfo)
+  const totalTokenValue = tokenFunds.reduce(
+    (sum, f) => sum + (f.tokenInfo?.tokenValue ?? 0),
+    0,
+  )
+  const tokenChartData = tokenFunds
+    .map((f) => ({
+      fund: f,
+      fullName: `${f.tokenInfo!.symbol} (${f.name})`,
+      value: f.tokenInfo!.tokenValue,
+    }))
+    .filter((d) => d.value > 0)
+    .sort((a, b) => b.value - a.value)
+
+  // Build token names list for pretext
+  const tokenNames = tokenFunds
+    .map((f) => f.tokenInfo!.symbol)
+    .filter((s, i, arr) => arr.indexOf(s) === i)
+
+  function toggleFund(key: string) {
+    setExpandedFunds((prev) => {
+      const next = new Set(prev)
+      if (next.has(key)) {
+        next.delete(key)
+      } else {
+        next.add(key)
+      }
+      return next
+    })
+  }
 
   return (
     <div>
@@ -88,136 +113,153 @@ export function FundCards({ review }: FundCardsProps) {
           {formatUsdValue(totalFunds)}
         </span>{' '}
         across {funds.length} contract{funds.length !== 1 ? 's' : ''}.
-        {totals.totalTokenValueAtRisk > 0 && (
+        {totalTokenValue > 0 && tokenNames.length > 0 && (
           <>
             {' '}
-            Additionally, the protocol's native token{' '}
-            <span className="font-semibold text-token">
-              {review.metadata.tokenName}
-            </span>{' '}
-            has a market cap of{' '}
-            <UsdValue value={totals.totalTokenValueAtRisk} variant="token" />.
+            Additionally, the protocol{tokenNames.length === 1 ? "'s native token" : ' issues'}{' '}
+            {tokenNames.map((name, i) => (
+              <span key={name}>
+                {i > 0 && (i === tokenNames.length - 1 ? ' and ' : ', ')}
+                <span className="font-semibold text-token">{name}</span>
+              </span>
+            ))}{' '}
+            {tokenNames.length === 1 ? 'has' : 'have'} a combined market cap of{' '}
+            <UsdValue value={totalTokenValue} variant="token" />.
           </>
         )}{' '}
         Here's where the money sits and what controls it.
       </p>
 
-      {/* Simple bar visualization for fund distribution */}
-      {chartData.length > 1 && (
-        <div className="rounded-xl border border-border bg-white p-6 shadow-sm mb-8">
-          <h3 className="text-base font-semibold text-text-primary mb-4">
-            Fund Distribution
-          </h3>
-          <div className="space-y-3">
-            {chartData.map((entry, index) => {
-              const percentage = totalFunds > 0 ? (entry.value / totalFunds) * 100 : 0
-              return (
-                <div key={entry.fullName}>
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span className="text-text-primary font-medium truncate mr-4">
-                      {entry.fullName}
-                    </span>
-                    <span className="text-text-secondary shrink-0">
-                      {formatUsdValue(entry.value)}
-                    </span>
-                  </div>
-                  <div className="h-3 rounded-full bg-bg-muted overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all"
-                      style={{
-                        width: `${Math.max(percentage, 1)}%`,
-                        backgroundColor:
-                          BAR_COLORS[index % BAR_COLORS.length],
-                      }}
-                    />
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
+      {/* Fund Distribution */}
+      {chartData.length > 0 && (
+        <DistributionChart
+          title="Fund Distribution"
+          entries={chartData}
+          total={totalFunds}
+          barColors={BAR_COLORS}
+          valueVariant="capital"
+          expandedSet={expandedFunds}
+          onToggle={toggleFund}
+          keyPrefix="fund"
+          review={review}
+        />
       )}
 
-      {/* Fund holder cards with narrative */}
-      <div className="space-y-4">
-        {funds.map((fund) => (
-          <FundCard key={fund.address} fund={fund} />
-        ))}
+      {/* Token Distribution */}
+      {tokenChartData.length > 0 && (
+        <div className="mt-6">
+          <DistributionChart
+            title="Protocol Token Distribution"
+            entries={tokenChartData}
+            total={totalTokenValue}
+            barColors={TOKEN_BAR_COLORS}
+            valueVariant="token"
+            expandedSet={expandedFunds}
+            onToggle={toggleFund}
+            keyPrefix="token"
+            review={review}
+          />
+        </div>
+      )}
+    </div>
+  )
+}
+
+function DistributionChart({
+  title,
+  entries,
+  total,
+  barColors,
+  valueVariant,
+  expandedSet,
+  onToggle,
+  keyPrefix,
+  review,
+}: {
+  title: string
+  entries: { fund: CompiledFundHolder; fullName: string; value: number }[]
+  total: number
+  barColors: string[]
+  valueVariant: 'capital' | 'token'
+  expandedSet: Set<string>
+  onToggle: (key: string) => void
+  keyPrefix: string
+  review: CompiledReview
+}) {
+  const maxValue = Math.max(...entries.map((e) => e.value), 0)
+
+  return (
+    <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
+      <h3 className="text-base font-semibold text-text-primary mb-4">
+        {title}
+      </h3>
+      <div className="space-y-3">
+        {entries.map((entry, index) => {
+          const percentage =
+            maxValue > 0 ? (entry.value / maxValue) * 100 : 0
+          const expandKey = `${keyPrefix}-${entry.fund.address}`
+          const isExpanded = expandedSet.has(expandKey)
+          const admins = getAdminsForFund(review, entry.fund.address)
+
+          return (
+            <div key={expandKey}>
+              <button
+                type="button"
+                onClick={() => onToggle(expandKey)}
+                className="w-full text-left cursor-pointer group"
+              >
+                <div className="flex items-center justify-between text-sm mb-1">
+                  <span className="text-text-primary font-medium truncate mr-4 flex items-center gap-1.5">
+                    <span className="text-text-muted text-xs">
+                      {isExpanded ? '\u25BC' : '\u25B6'}
+                    </span>
+                    {entry.fullName}
+                  </span>
+                  <span className={`font-semibold shrink-0 ${valueVariant === 'token' ? 'text-token' : 'text-capital'}`}>
+                    {formatUsdValue(entry.value)}
+                  </span>
+                </div>
+                <div className="h-3 rounded-full bg-bg-muted overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all"
+                    style={{
+                      width: `${Math.max(percentage, 1)}%`,
+                      backgroundColor:
+                        barColors[index % barColors.length],
+                    }}
+                  />
+                </div>
+              </button>
+
+              {isExpanded && (
+                <FundExpandedContent fund={entry.fund} admins={admins} />
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
 }
 
-function FundCard({ fund }: { fund: CompiledFundHolder }) {
-  const totalValue =
-    (fund.balances?.totalUsdValue ?? 0) + (fund.positions?.totalUsdValue ?? 0)
-
-  const hasBalances = fund.balances && fund.balances.totalUsdValue > 0
-  const hasPositions = fund.positions && fund.positions.totalUsdValue > 0
-
+function FundExpandedContent({
+  fund,
+  admins,
+}: {
+  fund: CompiledFundHolder
+  admins: CompiledAdmin[]
+}) {
   return (
-    <div className="rounded-xl border border-border bg-white p-5 shadow-sm">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-text-primary text-lg">
-            {fund.name}
-          </h3>
-          <div className="mt-1">
-            <AddressDisplay address={fund.address} />
-          </div>
-        </div>
-        <div className="text-right shrink-0">
-          {totalValue > 0 && (
-            <UsdValue
-              value={totalValue}
-              variant="capital"
-              className="text-xl font-bold"
-            />
-          )}
-        </div>
+    <div className="mt-2 ml-4 rounded-lg border border-border/60 bg-bg-muted/30 p-4 space-y-3">
+      <div>
+        <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1">
+          Contract Address
+        </p>
+        <AddressDisplay address={fund.address} />
       </div>
 
-      {/* Breakdown bar */}
-      {hasBalances && hasPositions && totalValue > 0 && (
-        <div className="mt-4">
-          <div className="flex gap-1 h-3 rounded-full overflow-hidden bg-bg-muted">
-            <div
-              className="bg-purple-500 rounded-l-full transition-all"
-              style={{
-                width: `${(fund.balances!.totalUsdValue / totalValue) * 100}%`,
-              }}
-              title={`Balances: ${formatUsdValue(fund.balances!.totalUsdValue)}`}
-            />
-            <div
-              className="bg-purple-300 rounded-r-full transition-all"
-              style={{
-                width: `${(fund.positions!.totalUsdValue / totalValue) * 100}%`,
-              }}
-              title={`Positions: ${formatUsdValue(fund.positions!.totalUsdValue)}`}
-            />
-          </div>
-          <div className="mt-2 flex justify-between text-xs text-text-muted">
-            <span>
-              Token Balances:{' '}
-              <UsdValue
-                value={fund.balances!.totalUsdValue}
-                className="text-xs"
-              />
-            </span>
-            <span>
-              DeFi Positions:{' '}
-              <UsdValue
-                value={fund.positions!.totalUsdValue}
-                className="text-xs"
-              />
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* Token info */}
       {fund.tokenInfo && (
-        <div className="mt-3 flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <Badge variant="purple">{fund.tokenInfo.symbol}</Badge>
           <span className="text-sm text-text-secondary">
             Market Cap:{' '}
@@ -230,18 +272,42 @@ function FundCard({ fund }: { fund: CompiledFundHolder }) {
         </div>
       )}
 
-      {/* Narrative */}
-      <div className="mt-3 rounded-lg bg-bg-muted/60 p-3">
-        <p className="text-sm text-text-secondary leading-relaxed">
-          {narrativeForFund(fund)}
-        </p>
-      </div>
-
-      {/* Description from review config */}
       {fund.description && (
-        <p className="mt-3 text-sm text-text-secondary leading-relaxed">
-          {fund.description}
-        </p>
+        <div>
+          <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1">
+            Contract Description
+          </p>
+          <p className="text-sm text-text-secondary leading-relaxed">
+            {fund.description}
+          </p>
+        </div>
+      )}
+
+      {admins.length > 0 && (
+        <div>
+          <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1.5">
+            Controlled by
+          </p>
+          <ul className="space-y-1">
+            {admins.map((admin) => (
+              <li
+                key={admin.address}
+                className="text-sm text-text-secondary flex items-center gap-1.5"
+              >
+                <span className="text-text-muted">&bull;</span>
+                <a
+                  href={`#admin-${admin.address}`}
+                  className="font-medium text-text-primary hover:text-purple-600 hover:underline transition-colors"
+                >
+                  {admin.name}
+                </a>
+                <span className="text-text-muted text-xs">
+                  ({admin.adminType})
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   )
