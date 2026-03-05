@@ -14,7 +14,7 @@ const HUMAN_ADMIN_TYPES = new Set(['EOA', 'EOAPermissioned', 'Multisig'])
 
 function computeHumanAdminCount(review: CompiledReview): number {
   return review.admins.filter(
-    (a) => HUMAN_ADMIN_TYPES.has(a.adminType) && !a.isGovernance,
+    (a) => HUMAN_ADMIN_TYPES.has(a.adminType) || a.isGovernance,
   ).length
 }
 

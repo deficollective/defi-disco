@@ -143,7 +143,7 @@ export function AdminCards({ review }: AdminCardsProps) {
           <>
             Who can change this protocol? We identified{' '}
             <span className="font-semibold text-text-primary">
-              {humanControlled.length} admin{humanControlled.length !== 1 ? 's' : ''}
+              {humanControlled.length + governance.length} admin{humanControlled.length + governance.length !== 1 ? 's' : ''}
             </span>{' '}
             with permissioned access to{' '}
             <span className="font-semibold text-text-primary">
