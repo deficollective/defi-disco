@@ -1,30 +1,13 @@
 {
   "version": "1.0",
-  "lastModified": "2026-03-05T00:00:00.000Z",
+  "lastModified": "2026-03-05T01:38:44.602Z",
   "protocolSlug": "liquity-v1",
   "protocolName": "Liquity V1",
   "tokenName": "LUSD",
   "chain": "Ethereum",
   "projectType": "cdp",
   "description": "Liquity V1 is an immutable, governance-free borrowing protocol on Ethereum that issues LUSD stablecoins against ETH collateral at a minimum 110% collateralization ratio. All smart contracts are non-upgradeable with ownership renounced to the zero address, making the protocol fully autonomous. The system relies on Chainlink and Tellor as dual oracle sources for ETH/USD pricing, with an automatic fallback mechanism between the two. The protocol holds {{totalProtocolCapital}} in total value across its contracts.",
-  "admins": {
-    "eth:0x0000000000000000000000000000000000000000": {
-      "name": "Zero Address (Renounced)",
-      "description": "Ownership of all core contracts (ActivePool, BorrowerOperations, CollSurplusPool, CommunityIssuance, DefaultPool, HintHelpers, LQTYStaking, SortedTroves, StabilityPool, TroveManager, PriceFeed) was transferred to the zero address at deployment. The setAddresses functions on these contracts can never be called again, permanently locking their configuration."
-    },
-    "eth:0xa39739ef8b0231dbfa0dcda07d7e29faabcf4bb2": {
-      "name": "TroveManager",
-      "description": "An immutable internal contract that can call increaseF_ETH on LQTYStaking (to distribute ETH redemption fees to LQTY stakers) and burn/returnFromPool on LUSD (to destroy repaid and liquidated debt). These are protocol-level contract-to-contract calls, not human-controlled permissions."
-    },
-    "eth:0x24179cd81c9e782a4096035f7ec97fb8b783e007": {
-      "name": "BorrowerOperations",
-      "description": "An immutable internal contract that can call mint and burn on LUSD (to issue new debt and process repayments) and increaseF_LUSD on LQTYStaking (to distribute borrowing fees to LQTY stakers). These are protocol-level contract-to-contract calls, not human-controlled permissions."
-    },
-    "eth:0x66017d22b0f8556afdd19fc67041899eb65a21bb": {
-      "name": "StabilityPool",
-      "description": "An immutable internal contract that can call burn, sendToPool, and returnFromPool on LUSD to manage stability deposits and liquidation offsets. These are protocol-level contract-to-contract calls, not human-controlled permissions."
-    }
-  },
+  "admins": {},
   "dependencies": {
     "eth:0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419": {
       "name": "Chainlink ETH/USD Price Feed",
@@ -37,14 +20,6 @@
     "eth:0xad430500ecda11e38c9bcb08a702274b94641112": {
       "name": "Tellor Price Feed",
       "description": "Secondary oracle for ETH/USD pricing, serving as fallback when the Chainlink feed is unavailable or reports stale data. Used by PriceFeed.fetchPrice as part of the dual-oracle redundancy mechanism."
-    },
-    "eth:0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0": {
-      "name": "Tellor Tributes Token (TRB)",
-      "description": "The TRB token contract underpinning the Tellor oracle network. Tellor reporters stake TRB to submit price data, and disputes are resolved through TRB-denominated voting."
-    },
-    "eth:0x21f73d42eb58ba49ddb685dc29d3bf5c0f0373ca": {
-      "name": "Chainlink 4/9 Multisig",
-      "description": "A 4-of-9 Gnosis Safe multisig that owns the Chainlink ETH/USD and LUSD/USD price feed aggregator contracts. Can update the aggregator implementation and modify feed parameters."
     }
   },
   "funds": {
@@ -85,18 +60,34 @@
               "type": "dataTable",
               "dataSource": "project.contracts",
               "columns": [
-                { "field": "name", "header": "Name" },
-                { "field": "address", "header": "Address", "format": "address" },
-                { "field": "proxyType", "header": "Proxy Type", "format": "badge" }
+                {
+                  "field": "name",
+                  "header": "Name"
+                },
+                {
+                  "field": "address",
+                  "header": "Address",
+                  "format": "address"
+                },
+                {
+                  "field": "proxyType",
+                  "header": "Proxy Type",
+                  "format": "badge"
+                }
               ],
-              "filters": { "excludeExternal": true }
+              "filters": {
+                "excludeExternal": true
+              }
             }
           ]
         },
         {
           "title": "Audits",
           "content": [
-            { "type": "text", "content": "" }
+            {
+              "type": "text",
+              "content": ""
+            }
           ]
         }
       ]
