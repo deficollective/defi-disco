@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -63,31 +63,19 @@ interface FundsData {
   }>
 }
 
-const CONFIG_PROJECTS_DIR = join(__dirname, '..', '..', 'config', 'src', 'projects')
 const DATA_DIR = join(__dirname, '..', 'public', 'data')
 
 function main() {
   mkdirSync(DATA_DIR, { recursive: true })
 
-  // Discover projects by scanning config source for subdirs containing compiled-review.json
-  const slugs = readdirSync(CONFIG_PROJECTS_DIR).filter((name) => {
-    const dir = join(CONFIG_PROJECTS_DIR, name)
+  // Discover projects by scanning public/data/ for subdirs containing compiled-review.json
+  const slugs = readdirSync(DATA_DIR).filter((name) => {
+    const dir = join(DATA_DIR, name)
     return statSync(dir).isDirectory() && existsSync(join(dir, 'compiled-review.json'))
   })
 
   if (slugs.length === 0) {
-    console.log('No compiled reviews found in config/src/projects/. index.json will be empty.')
-  }
-
-  // Copy compiled reviews (and funds-data if present) from config source to public/data
-  for (const slug of slugs) {
-    const outDir = join(DATA_DIR, slug)
-    mkdirSync(outDir, { recursive: true })
-    copyFileSync(join(CONFIG_PROJECTS_DIR, slug, 'compiled-review.json'), join(outDir, 'compiled-review.json'))
-    const fundsSource = join(CONFIG_PROJECTS_DIR, slug, 'funds-data.json')
-    if (existsSync(fundsSource)) {
-      copyFileSync(fundsSource, join(outDir, 'funds-data.json'))
-    }
+    console.log('No compiled reviews found in public/data/. index.json will be empty.')
   }
 
   const protocols: Array<{
@@ -154,8 +142,6 @@ function main() {
       }
       if (patched > 0) {
         console.log(`    Patched ${patched} fund(s) from funds-data.json`)
-        // Write patched review back so frontend gets funds data
-        writeFileSync(reviewPath, JSON.stringify(review, null, 2))
       }
     }
 
