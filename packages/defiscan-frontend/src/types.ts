@@ -22,6 +22,7 @@ export interface CompiledReview {
     dependencyCount: number
     totalCapitalAtRisk: number
     totalTokenValueAtRisk: number
+    totalTokenValue: number
   }
 
   admins: CompiledAdmin[]

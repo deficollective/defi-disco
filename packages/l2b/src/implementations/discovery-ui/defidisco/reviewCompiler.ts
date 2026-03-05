@@ -44,6 +44,7 @@ export interface CompiledReview {
     dependencyCount: number
     totalCapitalAtRisk: number
     totalTokenValueAtRisk: number
+    totalTokenValue: number
   }
 
   admins: CompiledAdmin[]
@@ -514,6 +515,10 @@ export class ReviewCompiler {
         totalCapitalAtRisk: v2Score.inventory.admins.totalCapitalAtRisk ?? 0,
         totalTokenValueAtRisk:
           v2Score.inventory.admins.totalTokenValueAtRisk ?? 0,
+        totalTokenValue: funds.reduce(
+          (sum, f) => sum + (f.tokenInfo?.tokenValue ?? 0),
+          0,
+        ),
       },
 
       admins,

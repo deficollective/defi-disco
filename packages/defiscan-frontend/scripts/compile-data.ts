@@ -21,6 +21,7 @@ interface CompiledReview {
     dependencyCount: number
     totalCapitalAtRisk: number
     totalTokenValueAtRisk: number
+    totalTokenValue?: number
   }
   admins: {
     address: string
@@ -173,14 +174,15 @@ function main() {
     })
 
     totalCapitalAtRisk += review.totals.totalCapitalAtRisk
-    totalTokenValue += review.totals.totalTokenValueAtRisk
+    const protocolTokenValue = review.totals.totalTokenValue ?? review.totals.totalTokenValueAtRisk
+    totalTokenValue += protocolTokenValue
 
     // Only count token value as "at risk" if the protocol has human-controlled admins
     const hasHumanAdmin = review.admins.some(
       (a) => HUMAN_ADMIN_TYPES.has(a.adminType) || a.isGovernance,
     )
     if (hasHumanAdmin) {
-      totalTokenValueAtRisk += review.totals.totalTokenValueAtRisk
+      totalTokenValueAtRisk += protocolTokenValue
     }
 
     // Aggregate dependencies across protocols

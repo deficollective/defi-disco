@@ -13,8 +13,26 @@
         "scoredFunctionCount": 0,
         "adminCount": 6,
         "dependencyCount": 2,
-        "totalCapitalAtRisk": 169519102.78369424,
-        "totalTokenValueAtRisk": 0
+        "totalCapitalAtRisk": 167289916.72157523,
+        "totalTokenValueAtRisk": 0,
+        "totalTokenValue": 0
+      }
+    },
+    {
+      "slug": "liquity-v1",
+      "name": "Liquity V1",
+      "chain": "Ethereum",
+      "projectType": "cdp",
+      "tokenName": "LUSD",
+      "totals": {
+        "contractCount": 18,
+        "permissionedFunctionCount": 17,
+        "scoredFunctionCount": 0,
+        "adminCount": 2,
+        "dependencyCount": 2,
+        "totalCapitalAtRisk": 175609673.29952922,
+        "totalTokenValueAtRisk": 31203451.700806536,
+        "totalTokenValue": 60403451.700806536
       }
     },
     {
@@ -29,22 +47,24 @@
         "scoredFunctionCount": 17,
         "adminCount": 0,
         "dependencyCount": 3,
-        "totalCapitalAtRisk": 102051801.83635905,
-        "totalTokenValueAtRisk": 0
+        "totalCapitalAtRisk": 106996514.52497174,
+        "totalTokenValueAtRisk": 0,
+        "totalTokenValue": 30806093.209586713
       }
     }
   ],
   "globalTotals": {
-    "totalCapitalAtRisk": 271570904.6200533,
+    "totalCapitalAtRisk": 449896104.5460762,
     "totalTokenValueAtRisk": 0,
-    "protocolsReviewed": 2
+    "totalTokenValue": 91209544.91039325,
+    "protocolsReviewed": 3
   },
   "dependencies": [
     {
       "address": "eth:0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
       "name": "Morpho Blue",
       "entity": "Morpho",
-      "totalFundsAtRisk": 1186633719.4858596,
+      "totalFundsAtRisk": 1171029417.0510266,
       "protocols": [
         {
           "slug": "Steakhouse-USDC",
@@ -53,10 +73,38 @@
       ]
     },
     {
+      "address": "eth:0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419",
+      "name": "Chainlink ETH/USD Price Feed",
+      "entity": null,
+      "totalFundsAtRisk": 175609673.29952922,
+      "protocols": [
+        {
+          "slug": "liquity-v1",
+          "name": "Liquity V1"
+        },
+        {
+          "slug": "liquity-v2",
+          "name": "Liquity V2"
+        }
+      ]
+    },
+    {
+      "address": "eth:0xad430500ecda11e38c9bcb08a702274b94641112",
+      "name": "Tellor Price Feed",
+      "entity": null,
+      "totalFundsAtRisk": 175609673.29952922,
+      "protocols": [
+        {
+          "slug": "liquity-v1",
+          "name": "Liquity V1"
+        }
+      ]
+    },
+    {
       "address": "eth:0x536218f9e9eb48863970252233c8f271f554c2d0",
       "name": "Chainlink stETH/USD Price Feed",
       "entity": "Chainlink",
-      "totalFundsAtRisk": 87579530.73604652,
+      "totalFundsAtRisk": 92541903.9259795,
       "protocols": [
         {
           "slug": "liquity-v2",
@@ -68,7 +116,7 @@
       "address": "eth:0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
       "name": "Lido wstETH",
       "entity": "Lido",
-      "totalFundsAtRisk": 87579530.73604652,
+      "totalFundsAtRisk": 92541903.9259795,
       "protocols": [
         {
           "slug": "liquity-v2",
@@ -80,7 +128,7 @@
       "address": "eth:0xae78736cd615f374d3085123a210448e74fc6393",
       "name": "Rocket Pool rETH",
       "entity": "RocketPool",
-      "totalFundsAtRisk": 87579530.73604652,
+      "totalFundsAtRisk": 92541903.9259795,
       "protocols": [
         {
           "slug": "liquity-v2",
@@ -169,18 +217,6 @@
         {
           "slug": "Steakhouse-USDC",
           "name": "Steakhouse USDC"
-        }
-      ]
-    },
-    {
-      "address": "eth:0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419",
-      "name": "Chainlink ETH/USD Price Feed",
-      "entity": "Chainlink",
-      "totalFundsAtRisk": 0,
-      "protocols": [
-        {
-          "slug": "liquity-v2",
-          "name": "Liquity V2"
         }
       ]
     }

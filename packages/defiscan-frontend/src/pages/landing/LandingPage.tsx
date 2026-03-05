@@ -53,7 +53,7 @@ export function LandingPage() {
           cmp = a.totals.totalCapitalAtRisk - b.totals.totalCapitalAtRisk
           break
         case 'tokenValue':
-          cmp = a.totals.totalTokenValueAtRisk - b.totals.totalTokenValueAtRisk
+          cmp = (a.totals.totalTokenValue ?? a.totals.totalTokenValueAtRisk) - (b.totals.totalTokenValue ?? b.totals.totalTokenValueAtRisk)
           break
         case 'admins': {
           const aReview = reviewMap.get(a.slug)
@@ -159,7 +159,7 @@ export function LandingPage() {
                   <td className="px-3 py-3"><ProtocolTypeBadge type={p.projectType} /></td>
                   <td className="px-3 py-3 text-right"><UsdValue value={p.totals.totalCapitalAtRisk} variant="capital" /></td>
                   <td className="px-3 py-3 text-right">
-                    {p.totals.totalTokenValueAtRisk > 0 ? <UsdValue value={p.totals.totalTokenValueAtRisk} variant="token" /> : <span className="text-text-muted">-</span>}
+                    {(p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk) > 0 ? <UsdValue value={p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk} variant="token" /> : <span className="text-text-muted">-</span>}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums font-medium">{humanAdminCount}</td>
                   <td className="px-3 py-3 text-center">

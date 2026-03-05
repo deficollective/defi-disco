@@ -17,7 +17,8 @@
     "adminCount": 7,
     "dependencyCount": 8,
     "totalCapitalAtRisk": 167289916.72157523,
-    "totalTokenValueAtRisk": 0
+    "totalTokenValueAtRisk": 0,
+    "totalTokenValue": 0
   },
   "admins": [
     {
@@ -604,7 +605,7 @@
       "name": "Governance DAO",
       "description": "Designated guardian contract in the vault's governance structure. Can revoke pending governance changes including timelock updates and market parameter modifications. This governance contract provides an additional layer of oversight for timelock-protected changes.",
       "adminType": "Contract",
-      "isGovernance": false,
+      "isGovernance": true,
       "functions": [
         {
           "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
