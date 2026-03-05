@@ -54,18 +54,106 @@
     "eth:0xA39739EF8b0231DbFA0DcdA07d7e29faAbCf4bb2": {
       "ignoreMethods": [
         "TroveOwners",
-        "getTroveFromTroveOwnersArray"
+        "getTroveFromTroveOwnersArray",
+        "getRedemptionFeeWithDecay",
+        "getBorrowingFee",
+        "getBorrowingFeeWithDecay",
+        "checkRecoveryMode",
+        "getTCR"
+      ],
+      "ignoreInWatchMode": [
+        "baseRate",
+        "getEntireSystemColl",
+        "getEntireSystemDebt",
+        "totalCollateralSnapshot",
+        "totalStakes",
+        "totalStakesSnapshot",
+        "MINUTE_DECAY_FACTOR",
+        "lastFeeOperationTime",
+        "getTroveOwnersCount"
       ]
     },
     "eth:0x8FdD3fbFEb32b28fb73555518f8b361bCeA741A6": {
       "ignoreMethods": [
         "getFirst",
-        "getLast"
+        "getLast",
+        "data"
+      ],
+      "ignoreInWatchMode": [
+        "getSize",
+        "isEmpty",
+        "isFull",
+        "isOwner"
       ]
     },
     "eth:0x3D7aE7E594f2f2091Ad8798313450130d0Aba3a0": {
       "ignoreMethods": [
         "aggregator"
+      ],
+      "ignoreInWatchMode": [
+        "getAnswer",
+        "getTimestamp",
+        "latestRoundData",
+        "latestTimestamp",
+        "latestAnswer",
+        "latestRound",
+        "proposedLatestRoundData"
+      ]
+    },
+    "eth:0xDf9Eb223bAFBE5c5271415C75aeCD68C21fE3D7F": {
+      "ignoreInWatchMode": [
+        "getETH",
+        "getLUSDDebt"
+      ]
+    },
+    "eth:0x24179CD81c9e782A4096035f7eC97fB8B783e007": {
+      "ignoreInWatchMode": [
+        "getEntireSystemColl",
+        "getEntireSystemDebt"
+      ],
+      "ignoreMethods": [
+        "getCompositeDebt"
+      ]
+    },
+    "eth:0x3D32e8b97Ed5881324241Cf03b2DA5E2EBcE5521": {
+      "ignoreInWatchMode": [
+        "getETH"
+      ]
+    },
+    "eth:0x4c517D4e2C851CA76d7eC94B805269Df0f2201De": {
+      "ignoreInWatchMode": [
+        "lastGoodPrice"
+      ]
+    },
+    "eth:0x66017D22b0f8556afDd19FC67041899Eb65a21bb": {
+      "ignoreInWatchMode": [
+        "getETH",
+        "getTotalLUSDDeposits",
+        "lastETHError_Offset",
+        "lastLQTYError",
+        "lastLUSDLossError_Offset",
+        "P"
+      ]
+    },
+    "eth:0x5f98805A4E8be255a32880FDeC7F6728C6568bA0": {
+      "ignoreInWatchMode": [
+        "totalSupply"
+      ]
+    },
+    "eth:0xAd430500ECDa11E38C9bCB08a702274b94641112": {
+      "ignoreInWatchMode": [
+        "getTellorCurrentValue"
+      ]
+    },
+    "eth:0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0": {
+      "ignoreInWatchMode": [
+        "currentMiners",
+        "disputesById",
+        "getLastNewValueById",
+        "getNewCurrentVariables",
+        "newValueTimestamps",
+        "totalSupply",
+        "getNewValueCountbyRequestId"
       ]
     }
   }
