@@ -252,9 +252,6 @@ function FundExpandedContent({
   return (
     <div className="mt-2 ml-4 rounded-lg border border-border/60 bg-bg-muted/30 p-4 space-y-3">
       <div>
-        <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1">
-          Contract Address
-        </p>
         <AddressDisplay address={fund.address} />
       </div>
 
@@ -274,9 +271,6 @@ function FundExpandedContent({
 
       {fund.description && (
         <div>
-          <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1">
-            Contract Description
-          </p>
           <p className="text-sm text-text-secondary leading-relaxed">
             {fund.description}
           </p>

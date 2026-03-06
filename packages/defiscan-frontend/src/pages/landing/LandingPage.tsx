@@ -164,8 +164,8 @@ export function LandingPage() {
                   <td className="px-3 py-3 text-right tabular-nums font-medium">{humanAdminCount}</td>
                   <td className="px-3 py-3 text-center">
                     {govExists
-                      ? <span className="text-status-green" title="Has governance">&#x2714;</span>
-                      : <span className="text-status-red" title="No governance">&#x2718;</span>}
+                      ? <span title="Has governance">Yes</span>
+                      : <span title="No governance">No</span>}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">{p.totals.dependencyCount}</td>
                 </tr>

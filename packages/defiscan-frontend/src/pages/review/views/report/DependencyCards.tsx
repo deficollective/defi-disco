@@ -266,17 +266,11 @@ function DepExpandedContent({
   return (
     <div className="mt-2 ml-6 rounded-lg border border-border/60 bg-bg-muted/30 p-5 space-y-4">
       <div>
-        <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1">
-          Address
-        </p>
         <AddressDisplay address={dep.address} />
       </div>
 
       {dep.description && (
         <div>
-          <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1">
-            Description
-          </p>
           <p className="text-sm text-text-secondary leading-relaxed">
             {dep.description}
           </p>

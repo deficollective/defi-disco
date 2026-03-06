@@ -133,39 +133,40 @@ export function AdminCards({ review }: AdminCardsProps) {
 
   return (
     <div>
-      <p className="text-lg text-text-secondary leading-relaxed max-w-3xl mb-8">
-        {noHumanControl ? (
-          <>
+      {noHumanControl ? (
+        <div className="rounded-xl border border-green-200 bg-green-50 px-6 py-5 mb-8 max-w-3xl">
+          <p className="text-lg font-semibold text-green-700 mb-1">No Admins</p>
+          <p className="text-sm text-text-secondary leading-relaxed">
             All admin controls resolve to immutable contracts or revoked
             addresses. No permissioned functions can affect user funds.
-          </>
-        ) : (
-          <>
-            Who can change this protocol? We identified{' '}
-            <span className="font-semibold text-text-primary">
-              {humanControlled.length + governance.length} admin{humanControlled.length + governance.length !== 1 ? 's' : ''}
-            </span>{' '}
-            with permissioned access to{' '}
-            <span className="font-semibold text-text-primary">
-              {totals.permissionedFunctionCount} functions
-            </span>
-            , controlling{' '}
-            <UsdValue value={totals.totalCapitalAtRisk} variant="capital" />
-            {' '}in locked funds
-            {totals.totalTokenValueAtRisk > 0 && (
-              <>
-                {' '}and{' '}
-                <UsdValue
-                  value={totals.totalTokenValueAtRisk}
-                  variant="token"
-                />{' '}
-                in protocol tokens
-              </>
-            )}
-            .
-          </>
-        )}
-      </p>
+          </p>
+        </div>
+      ) : (
+        <p className="text-lg text-text-secondary leading-relaxed max-w-3xl mb-8">
+          Who can change this protocol? We identified{' '}
+          <span className="font-semibold text-text-primary">
+            {humanControlled.length + governance.length} admin{humanControlled.length + governance.length !== 1 ? 's' : ''}
+          </span>{' '}
+          with permissioned access to{' '}
+          <span className="font-semibold text-text-primary">
+            {totals.permissionedFunctionCount} functions
+          </span>
+          , controlling{' '}
+          <UsdValue value={totals.totalCapitalAtRisk} variant="capital" />
+          {' '}in locked funds
+          {totals.totalTokenValueAtRisk > 0 && (
+            <>
+              {' '}and{' '}
+              <UsdValue
+                value={totals.totalTokenValueAtRisk}
+                variant="token"
+              />{' '}
+              in protocol tokens
+            </>
+          )}
+          .
+        </p>
+      )}
 
       {/* Human-controlled admins */}
       {humanControlled.length > 0 && (
@@ -288,9 +289,6 @@ function AdminExpandedContent({ admin }: { admin: CompiledAdmin }) {
   return (
     <div className="mt-2 ml-6 rounded-lg border border-border/60 bg-bg-muted/30 p-5 space-y-4">
       <div>
-        <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1">
-          Address
-        </p>
         <AddressDisplay address={admin.address} />
       </div>
 
@@ -305,9 +303,6 @@ function AdminExpandedContent({ admin }: { admin: CompiledAdmin }) {
 
       {/* Risk narrative */}
       <div>
-        <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1">
-          What is the risk of {admin.adminType === 'EOA' || admin.adminType === 'EOAPermissioned' ? 'an' : 'a'} {admin.adminType}?
-        </p>
         <p className="text-sm text-text-secondary leading-relaxed">
           {describeAdminType(admin.adminType)}{' '}
           {generateAdminNarrative(admin)}
