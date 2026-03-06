@@ -7,15 +7,12 @@ import { ProtocolTypeBadge } from '../../components/ProtocolTypeBadge'
 import { UsdValue } from '../../components/UsdValue'
 import { StatCard } from '../../components/StatCard'
 import type { CompiledReview } from '../../types'
+import { getHumanAdmins } from '../../utils/admins'
 
 type SortKey = 'name' | 'capital' | 'tokenValue' | 'admins' | 'dependencies'
 
-const HUMAN_ADMIN_TYPES = new Set(['EOA', 'EOAPermissioned', 'Multisig'])
-
 function computeHumanAdminCount(review: CompiledReview): number {
-  return review.admins.filter(
-    (a) => HUMAN_ADMIN_TYPES.has(a.adminType) || a.isGovernance,
-  ).length
+  return getHumanAdmins(review.admins).length
 }
 
 function hasGovernance(review: CompiledReview): boolean {

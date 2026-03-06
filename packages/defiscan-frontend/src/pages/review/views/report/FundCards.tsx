@@ -186,8 +186,6 @@ function DistributionChart({
   keyPrefix: string
   review: CompiledReview
 }) {
-  const maxValue = Math.max(...entries.map((e) => e.value), 0)
-
   return (
     <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
       <h3 className="text-base font-semibold text-text-primary mb-4">
@@ -196,7 +194,7 @@ function DistributionChart({
       <div className="space-y-3">
         {entries.map((entry, index) => {
           const percentage =
-            maxValue > 0 ? (entry.value / maxValue) * 100 : 0
+            total > 0 ? (entry.value / total) * 100 : 0
           const expandKey = `${keyPrefix}-${entry.fund.address}`
           const isExpanded = expandedSet.has(expandKey)
           const admins = getAdminsForFund(review, entry.fund.address)

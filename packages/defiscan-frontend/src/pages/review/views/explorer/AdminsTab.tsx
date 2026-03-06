@@ -94,12 +94,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
     <div>
       {/* Summary bar */}
       <div className="flex items-center gap-6 mb-4 text-sm">
-        <span className="text-text-secondary">
-          <span className="font-semibold text-text-primary">
-            {humanAdmins.length}
-          </span>{' '}
-          admin{humanAdmins.length !== 1 ? 's' : ''}
-        </span>
+        <AdminsSummaryLabel admins={humanAdmins} />
         <span className="text-text-secondary">
           Funds Locked:{' '}
           <UsdValue
@@ -183,40 +178,6 @@ export function AdminsTab({ review }: AdminsTabProps) {
               />
             ))}
           </tbody>
-          <tfoot>
-            <tr className="border-t-2 border-border bg-bg-muted/50">
-              <td
-                colSpan={2}
-                className="px-4 py-2 font-semibold text-text-primary"
-              >
-                Total
-              </td>
-              <td className="px-4 py-2 text-right">
-                <UsdValue
-                  value={totals.totalCapitalAtRisk}
-                  variant="capital"
-                  className="text-sm font-semibold"
-                />
-              </td>
-              <td className="px-4 py-2 text-right text-text-muted text-xs">
-                -
-              </td>
-              <td className="px-4 py-2 text-right">
-                {totals.totalTokenValueAtRisk > 0 ? (
-                  <UsdValue
-                    value={totals.totalTokenValueAtRisk}
-                    variant="token"
-                    className="text-sm font-semibold"
-                  />
-                ) : (
-                  <span className="text-text-muted">-</span>
-                )}
-              </td>
-              <td className="px-4 py-2 text-right font-semibold text-text-primary">
-                {totals.permissionedFunctionCount}
-              </td>
-            </tr>
-          </tfoot>
         </table>
       </div>
 
@@ -273,12 +234,11 @@ function AdminRow({
           </div>
         </td>
         <td className="px-4 py-2.5">
-          <Badge variant="admin-type" adminType={admin.adminType}>
-            {admin.adminType}
-          </Badge>
-          {admin.isGovernance && (
-            <Badge variant="governance" className="ml-1">
-              Gov
+          {admin.isGovernance ? (
+            <Badge variant="governance">Governance</Badge>
+          ) : (
+            <Badge variant="admin-type" adminType={admin.adminType}>
+              {admin.adminType}
             </Badge>
           )}
         </td>
@@ -399,6 +359,40 @@ function ExpandedFunctions({ admin }: { admin: CompiledAdmin }) {
         </table>
       </div>
     </div>
+  )
+}
+
+function AdminsSummaryLabel({ admins }: { admins: CompiledAdmin[] }) {
+  const adminCount = admins.filter((a) => !a.isGovernance).length
+  const govCount = admins.filter((a) => a.isGovernance).length
+
+  const parts: React.ReactNode[] = []
+  if (adminCount > 0) {
+    parts.push(
+      <span key="admins" className="text-text-secondary">
+        <span className="font-semibold text-text-primary">{adminCount}</span>
+        {' '}admin{adminCount !== 1 ? 's' : ''}
+      </span>,
+    )
+  }
+  if (govCount > 0) {
+    parts.push(
+      <span key="gov" className="text-text-secondary">
+        <span className="font-semibold text-text-primary">{govCount}</span>
+        {' '}governance contract{govCount !== 1 ? 's' : ''}
+      </span>,
+    )
+  }
+
+  if (parts.length === 0) {
+    return <span className="text-text-muted">No admins</span>
+  }
+
+  return (
+    <span className="text-text-secondary">
+      {parts[0]}
+      {parts.length > 1 && <>, {parts[1]}</>}
+    </span>
   )
 }
 
