@@ -186,7 +186,7 @@ function ResourceEntryRow({
                   type,
                   frontendSubtype:
                     type === 'frontend'
-                      ? localEntry.frontendSubtype ?? 'official'
+                      ? (localEntry.frontendSubtype ?? 'official')
                       : undefined,
                 })
               }}
