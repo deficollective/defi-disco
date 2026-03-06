@@ -36,6 +36,40 @@ export interface HeuristicEngineResult {
 }
 
 // =============================================================================
+// Shared Helpers
+// =============================================================================
+
+/**
+ * Check if a contract (including proxy implementations) has a function in its ABI.
+ */
+function contractHasFunction(
+  discovered: DiscoveryOutput,
+  entry: DiscoveryOutput['entries'][number],
+  functionName: string,
+): boolean {
+  const abiAddresses = [entry.address]
+  const implValue = entry.values?.$implementation
+  if (typeof implValue === 'string' && implValue.startsWith('eth:')) {
+    abiAddresses.push(implValue as typeof entry.address)
+  }
+
+  for (const abiAddress of abiAddresses) {
+    const abi = discovered.abis[abiAddress]
+    if (!abi) continue
+
+    const found = abi.some((abiEntry) => {
+      if (!abiEntry.startsWith('function ')) return false
+      const match = abiEntry.match(/^function\s+(\w+)\(/)
+      return match && match[1] === functionName
+    })
+
+    if (found) return true
+  }
+
+  return false
+}
+
+// =============================================================================
 // Heuristic Implementations
 // =============================================================================
 
@@ -250,29 +284,7 @@ class FunctionSignatureHeuristic implements ResolutionHeuristic {
     for (const entry of discovered.entries) {
       if (entry.type !== 'Contract') continue
 
-      // Collect ABI addresses: entry address + implementation address for proxies
-      const abiAddresses = [entry.address]
-      const implValue = entry.values?.$implementation
-      if (typeof implValue === 'string' && implValue.startsWith('eth:')) {
-        abiAddresses.push(implValue as typeof entry.address)
-      }
-
-      // Check if any of the contract's ABIs have the function
-      let hasFunction = false
-      for (const abiAddress of abiAddresses) {
-        const abi = discovered.abis[abiAddress]
-        if (!abi) continue
-
-        hasFunction = abi.some((abiEntry) => {
-          if (!abiEntry.startsWith('function ')) return false
-          const match = abiEntry.match(/^function\s+(\w+)\(/)
-          return match && match[1] === functionName
-        })
-
-        if (hasFunction) break
-      }
-
-      if (hasFunction) {
+      if (contractHasFunction(discovered, entry, functionName)) {
         matches.push({
           address: entry.address,
           contractName: entry.name,
@@ -336,18 +348,8 @@ class DiscoveredValuesScanHeuristic implements ResolutionHeuristic {
     // Collect all eth: addresses from the caller's values (one level deep into objects)
     const valueAddresses = new Set<string>()
     for (const value of Object.values(callerContract.values)) {
-      if (typeof value === 'string' && value.startsWith('eth:')) {
-        valueAddresses.add(value.toLowerCase())
-      } else if (
-        typeof value === 'object' &&
-        value !== null &&
-        !Array.isArray(value)
-      ) {
-        for (const v of Object.values(value)) {
-          if (typeof v === 'string' && v.startsWith('eth:')) {
-            valueAddresses.add(v.toLowerCase())
-          }
-        }
+      for (const addr of extractEthAddresses(value)) {
+        valueAddresses.add(addr.toLowerCase())
       }
     }
 
@@ -363,28 +365,7 @@ class DiscoveredValuesScanHeuristic implements ResolutionHeuristic {
       if (entry.type !== 'Contract') continue
       if (!valueAddresses.has(entry.address.toLowerCase())) continue
 
-      // Check if this contract has the called function in its ABI
-      const abiAddresses = [entry.address]
-      const implValue = entry.values?.$implementation
-      if (typeof implValue === 'string' && implValue.startsWith('eth:')) {
-        abiAddresses.push(implValue as typeof entry.address)
-      }
-
-      let hasFunction = false
-      for (const abiAddress of abiAddresses) {
-        const abi = discovered.abis[abiAddress]
-        if (!abi) continue
-
-        hasFunction = abi.some((abiEntry) => {
-          if (!abiEntry.startsWith('function ')) return false
-          const match = abiEntry.match(/^function\s+(\w+)\(/)
-          return match && match[1] === functionName
-        })
-
-        if (hasFunction) break
-      }
-
-      if (hasFunction) {
+      if (contractHasFunction(discovered, entry, functionName)) {
         matches.push({
           address: entry.address,
           contractName: entry.name,
@@ -632,7 +613,7 @@ export function parseVariableAssignments(
 export function createHeuristicEngine(): HeuristicEngine {
   const engine = new HeuristicEngine()
 
-  // Register heuristics in order of reliability
+  // Register heuristics (engine selects by highest confidence, order only affects tiebreaking)
   engine.register(new VariableChainHeuristic())
   engine.register(new DiscoveredValuesScanHeuristic())
   engine.register(new InterfaceNameHeuristic())
