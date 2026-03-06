@@ -62,7 +62,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
         />
         {totals.totalTokenValueAtRisk > 0 && (
           <MetricBox
-            label="Token Value"
+            label="Market Cap"
             value={formatUsdValue(totals.totalTokenValueAtRisk)}
             sublabel="protocol token"
             color="text-token"

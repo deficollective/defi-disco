@@ -112,7 +112,7 @@ export function FundsTab({ review }: FundsTabProps) {
         </span>
         {totalTokenValue > 0 && (
           <span className="text-text-secondary">
-            Token value:{' '}
+            Market Cap:{' '}
             <UsdValue
               value={totalTokenValue}
               variant="token"
@@ -126,7 +126,7 @@ export function FundsTab({ review }: FundsTabProps) {
       {chartData.length > 0 && (
         <div className="rounded-lg border border-border bg-white p-4 mb-4">
           <h3 className="text-sm font-semibold text-text-primary mb-3">
-            Fund Distribution (Token Value vs User Funds)
+            Fund Distribution (Market Cap vs Total Value Locked)
           </h3>
           <ResponsiveContainer
             width="100%"
@@ -152,7 +152,7 @@ export function FundsTab({ review }: FundsTabProps) {
               <Tooltip
                 formatter={(value: number, name: string) => [
                   formatUsdValue(value),
-                  name === 'balances' ? 'Protocol Owned Token Value' : 'User Funds',
+                  name === 'balances' ? 'Total Value Locked (TVL)' : 'Market Cap',
                 ]}
                 contentStyle={{
                   backgroundColor: '#fff',
@@ -164,27 +164,26 @@ export function FundsTab({ review }: FundsTabProps) {
               <Bar
                 dataKey="balances"
                 stackId="total"
-                fill="#7C3AED"
-                name="Protocol Owned Token Value"
+                fill="#10B981"
+                name="Total Value Locked (TVL)"
                 radius={[0, 0, 0, 0]}
               />
               <Bar
                 dataKey="positions"
                 stackId="total"
-                fill="#10B981"
-                name="User Funds"
+                fill="#F59E0B"
+                name="Market Cap"
                 radius={[0, 4, 4, 0]}
               />
             </BarChart>
           </ResponsiveContainer>
           <div className="flex gap-4 mt-2 text-xs text-text-muted">
             <span className="flex items-center gap-1">
-              <span className="w-3 h-3 rounded-sm bg-purple-600" /> Protocol
-              Owned Token Value
+              <span className="w-3 h-3 rounded-sm bg-status-green" /> Total
+              Value Locked (TVL)
             </span>
             <span className="flex items-center gap-1">
-              <span className="w-3 h-3 rounded-sm bg-status-green" /> User
-              Funds
+              <span className="w-3 h-3 rounded-sm bg-amber-500" /> Market Cap
             </span>
           </div>
         </div>
@@ -207,7 +206,7 @@ export function FundsTab({ review }: FundsTabProps) {
               </th>
               <SortHeader
                 field="balances"
-                label="Token Value"
+                label="TVL"
                 current={sortField}
                 dir={sortDir}
                 onClick={handleSort}
@@ -215,7 +214,7 @@ export function FundsTab({ review }: FundsTabProps) {
               />
               <SortHeader
                 field="positions"
-                label="User Funds"
+                label="Market Cap"
                 current={sortField}
                 dir={sortDir}
                 onClick={handleSort}
@@ -230,7 +229,7 @@ export function FundsTab({ review }: FundsTabProps) {
                 className="text-right"
               />
               <th className="px-4 py-2 font-medium text-text-secondary text-left">
-                Token
+                Market Cap Token
               </th>
             </tr>
           </thead>
@@ -390,13 +389,13 @@ function FundRow({ fund }: { fund: CompiledFundHolder }) {
               <div className="flex items-center gap-2">
                 <div className="flex-1 h-2 bg-gray-200 rounded overflow-hidden">
                   <div
-                    className="h-full bg-purple-600 rounded-l"
+                    className="h-full bg-status-green rounded-l"
                     style={{ width: `${balPct}%` }}
                   />
                 </div>
                 <span className="text-xs text-text-muted">
-                  {balPct.toFixed(0)}% token value / {(100 - balPct).toFixed(0)}%
-                  user funds
+                  {balPct.toFixed(0)}% TVL / {(100 - balPct).toFixed(0)}%
+                  market cap
                 </span>
               </div>
             )}

@@ -110,7 +110,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
         </span>
         {totals.totalTokenValueAtRisk > 0 && (
           <span className="text-text-secondary">
-            Token:{' '}
+            Market Cap:{' '}
             <UsdValue
               value={totals.totalTokenValueAtRisk}
               variant="token"
@@ -157,7 +157,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
               />
               <SortHeader
                 field="tokenValue"
-                label="Token Value"
+                label="Market Cap"
                 current={sortField}
                 dir={sortDir}
                 onClick={handleSort}
