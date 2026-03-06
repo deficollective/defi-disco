@@ -132,16 +132,33 @@ class VariableChainHeuristic implements ResolutionHeuristic {
     }
 
     // Handle nested objects (e.g., oracle structs like { aggregator: "eth:0x...", decimals: 8 })
+    // Filter to addresses that actually have the called function in their ABI
     const addresses = extractEthAddresses(value)
     if (addresses.length > 0) {
-      return {
-        matches: addresses.map((addr) => ({
-          address: addr,
-          contractName: discovered.entries.find(
+      const validMatches = addresses
+        .map((addr) => {
+          const entry = discovered.entries.find(
             (e) => e.address.toLowerCase() === addr.toLowerCase(),
-          )?.name,
-        })),
-        confidence: addresses.length === 1 ? 100 : 70,
+          )
+          return { address: addr, contractName: entry?.name, entry }
+        })
+        .filter(
+          (m) =>
+            m.entry &&
+            m.entry.type === 'Contract' &&
+            contractHasFunction(
+              discovered,
+              m.entry,
+              context.call.calledFunction,
+            ),
+        )
+        .map(({ address, contractName }) => ({ address, contractName }))
+
+      if (validMatches.length > 0) {
+        return {
+          matches: validMatches,
+          confidence: validMatches.length === 1 ? 100 : 70,
+        }
       }
     }
 

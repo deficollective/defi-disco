@@ -935,15 +935,17 @@ function buildTypeSubstitutionMap(
       // field access like _oracle.aggregator). The parent substitution holds the real
       // context (e.g., {Oracle → ethUsdOracle}). Propagate it so that downstream calls
       // differentiate _getOracleAnswer(ethUsdOracle) from _getOracleAnswer(rEthEthOracle).
-      const firstParentValue = parentSubstitutions.values().next().value
-      if (firstParentValue) {
-        argValue = firstParentValue
+      if (parentSubstitutions.size === 1) {
+        const firstParentValue = parentSubstitutions.values().next().value
+        if (firstParentValue) {
+          argValue = firstParentValue
+        }
       }
     }
 
-    // Only store if we don't already have a mapping for this type
+    // Only store if we have a valid type and don't already have a mapping
     // (handles case where multiple params have same type - first one wins)
-    if (!substitutions.has(paramType)) {
+    if (paramType !== undefined && !substitutions.has(paramType)) {
       substitutions.set(paramType, argValue)
     }
   }
@@ -1017,11 +1019,13 @@ function collectHighLevelCalls(
         hlc.storageVariable.startsWith('TMP_')) &&
       typeSubstitutions.size > 0
     ) {
-      // Use the first substitution value as context (internal functions typically
-      // have one relevant parameter, e.g., _getPrice(Oracle oracle))
-      const firstSubValue = typeSubstitutions.values().next().value
-      if (firstSubValue) {
-        storageVariable = firstSubValue
+      // Use the substitution value as context when unambiguous (single entry).
+      // With multiple entries we can't determine which parameter the REF_ derived from.
+      if (typeSubstitutions.size === 1) {
+        const firstSubValue = typeSubstitutions.values().next().value
+        if (firstSubValue) {
+          storageVariable = firstSubValue
+        }
       }
     }
 

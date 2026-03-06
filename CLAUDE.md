@@ -334,7 +334,7 @@ When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho 
 3. **InterfaceNameHeuristic** (confidence: 90/60/40%) — strips `I` prefix from interface name and matches contract names
 4. **FunctionSignatureHeuristic** (confidence: 99/50/30%) — finds all contracts with the called function in their ABI
 
-Shared helper: `contractHasFunction(discovered, entry, functionName)` — checks if a contract (including proxy implementations) has a function in its ABI.
+Internal helper: `contractHasFunction(discovered, entry, functionName)` — checks if a contract (including proxy implementations) has a function in its ABI. Module-private to `callGraphHeuristics.ts` (not exported).
 
 **Data Structure** (`call-graph-data.json`):
 
