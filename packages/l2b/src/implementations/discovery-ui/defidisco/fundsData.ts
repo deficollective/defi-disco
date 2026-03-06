@@ -1,6 +1,7 @@
 import type { DiscoveryPaths } from '@l2beat/discovery'
 import * as fs from 'fs'
 import * as path from 'path'
+import { addressesEqual, stripChainPrefix } from './addressUtils'
 import { getContractTags } from './contractTags'
 import type {
   ApiFundsDataResponse,
@@ -138,7 +139,7 @@ export async function fetchFundsForContract(
   let positionsCached = false
 
   // Normalize address - remove eth: prefix for API calls
-  const cleanAddress = contractAddress.replace(/^eth:/i, '')
+  const cleanAddress = stripChainPrefix(contractAddress)
   const forceRefreshParam = options.forceRefresh ? '&force_refresh=true' : ''
 
   try {
@@ -282,7 +283,7 @@ export async function fetchFundsForContract(
       if (options.discoveredData?.entries) {
         const contract = options.discoveredData.entries.find(
           (c: any) =>
-            c.address?.toLowerCase() === contractAddress.toLowerCase(),
+            c.address && addressesEqual(c.address, contractAddress),
         )
         if (contract?.values) {
           if (contract.values.totalSupply != null)
@@ -457,7 +458,7 @@ export async function fetchFundsForSingleContract(
 ): Promise<ApiFundsDataResponse> {
   const tags = getContractTags(paths, project)
   const tag = tags.tags.find(
-    (t) => t.contractAddress.toLowerCase() === contractAddress.toLowerCase(),
+    (t) => addressesEqual(t.contractAddress, contractAddress),
   )
 
   if (!tag || (!tag.fetchBalances && !tag.fetchPositions && !tag.isToken)) {

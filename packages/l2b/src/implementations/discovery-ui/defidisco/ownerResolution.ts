@@ -14,6 +14,8 @@
  *   "$self" → current contract itself is the owner
  */
 
+import { addressesEqual, isChainAddress, normalizeChainAddress } from './addressUtils'
+
 // =============================================================================
 // Types
 // =============================================================================
@@ -121,7 +123,7 @@ export function parseValuePath(path: string): PathSegment[] {
  */
 export function extractAddresses(value: any, path: string): string[] {
   // Single string address
-  if (typeof value === 'string' && value.startsWith('eth:')) {
+  if (typeof value === 'string' && isChainAddress(value)) {
     return [value]
   }
 
@@ -129,7 +131,7 @@ export function extractAddresses(value: any, path: string): string[] {
   if (Array.isArray(value)) {
     const addresses: string[] = []
     for (const element of value) {
-      if (typeof element === 'string' && element.startsWith('eth:')) {
+      if (typeof element === 'string' && isChainAddress(element)) {
         addresses.push(element)
       } else if (typeof element === 'object' && element !== null) {
         // Recursively extract from object elements
@@ -146,7 +148,7 @@ export function extractAddresses(value: any, path: string): string[] {
     const addresses: string[] = []
     for (const key in value) {
       const prop = value[key]
-      if (typeof prop === 'string' && prop.startsWith('eth:')) {
+      if (typeof prop === 'string' && isChainAddress(prop)) {
         addresses.push(prop)
       } else if (typeof prop === 'object' && prop !== null) {
         // Recursively extract from nested objects/arrays
@@ -289,13 +291,13 @@ export function resolvePathExpression(
       if (
         !targetContractAddress ||
         typeof targetContractAddress !== 'string' ||
-        !targetContractAddress.startsWith('eth:')
+        !isChainAddress(targetContractAddress)
       ) {
         throw new Error(
           `Field "${fieldName}" not found or is not an address in current contract`,
         )
       }
-    } else if (contractRef.startsWith('eth:')) {
+    } else if (isChainAddress(contractRef)) {
       // Absolute contract address
       targetContractAddress = contractRef
     } else {
@@ -337,12 +339,12 @@ export class DiscoveredDataAccess implements IContractDataAccess {
       throw new Error('No entries found in discovered data')
     }
 
-    const normalized = address.toLowerCase()
+    const normalized = normalizeChainAddress(address)
 
     // Direct lookup by address
     const contract = this.discovered.entries.find(
       (entry: any) =>
-        entry.type === 'Contract' && entry.address.toLowerCase() === normalized,
+        entry.type === 'Contract' && addressesEqual(entry.address, normalized),
     )
     if (contract) return contract
 
@@ -354,7 +356,7 @@ export class DiscoveredDataAccess implements IContractDataAccess {
         entry.type === 'Contract' &&
         entry.implementationNames &&
         Object.keys(entry.implementationNames).some(
-          (implAddr: string) => implAddr.toLowerCase() === normalized,
+          (implAddr: string) => addressesEqual(implAddr, normalized),
         ),
     )
     if (proxy) return proxy
@@ -379,7 +381,7 @@ export class DiscoveredDataAccess implements IContractDataAccess {
     }
 
     // Handle string addresses (most common case)
-    if (typeof value === 'string' && value.startsWith('eth:')) {
+    if (typeof value === 'string' && isChainAddress(value)) {
       return value
     }
 

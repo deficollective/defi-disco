@@ -9,6 +9,7 @@ import type {
   DataColumnFormat,
   DataTableColumn,
 } from '../../../api/types'
+import { normalizeForLookup, stripChainPrefix } from './addressUtils'
 
 // ============================================================================
 // Types
@@ -84,10 +85,10 @@ function isExternalContract(
   contractTags?: ApiContractTagsResponse,
 ): boolean {
   if (!contractTags) return false
-  const normalized = address.replace(/^eth:/, '').toLowerCase()
+  const normalized = normalizeForLookup(address)
   return contractTags.tags.some(
     (t) =>
-      t.contractAddress.replace(/^eth:/, '').toLowerCase() === normalized &&
+      normalizeForLookup(t.contractAddress) === normalized &&
       t.isExternal,
   )
 }
@@ -97,10 +98,10 @@ function isTokenContract(
   contractTags?: ApiContractTagsResponse,
 ): boolean {
   if (!contractTags) return false
-  const normalized = address.replace(/^eth:/, '').toLowerCase()
+  const normalized = normalizeForLookup(address)
   return contractTags.tags.some(
     (t) =>
-      t.contractAddress.replace(/^eth:/, '').toLowerCase() === normalized &&
+      normalizeForLookup(t.contractAddress) === normalized &&
       t.isToken,
   )
 }
@@ -110,7 +111,7 @@ function hasCapitalData(admin: AdminDetail): admin is AdminDetailWithCapital {
 }
 
 function shortenAddress(address: string): string {
-  const addr = address.replace(/^eth:/, '')
+  const addr = stripChainPrefix(address)
   if (addr.length <= 12) return addr
   return `${addr.slice(0, 6)}...${addr.slice(-4)}`
 }
@@ -398,7 +399,7 @@ const fundsContractBalancesSource: DataSourceDefinition = {
       })
       .map(([addr, cfd]) => ({
         contractName:
-          contractNameMap.get(addr.toLowerCase()) ?? shortenAddress(addr),
+          contractNameMap.get(normalizeForLookup(addr)) ?? shortenAddress(addr),
         address: addr,
         balancesTotal: cfd.balances?.totalUsdValue ?? 0,
         positionsTotal: cfd.positions?.totalUsdValue ?? 0,
@@ -481,7 +482,7 @@ const permissionedFunctionsSource: DataSourceDefinition = {
 
         items.push({
           contractName:
-            contractNameMap.get(addr.toLowerCase()) ?? shortenAddress(addr),
+            contractNameMap.get(normalizeForLookup(addr)) ?? shortenAddress(addr),
           contractAddress: addr,
           functionName: func.functionName,
           score: func.score ?? 'unscored',
@@ -512,7 +513,7 @@ function buildContractNameMap(
   if (!entry) return map
   for (const c of [...entry.initialContracts, ...entry.discoveredContracts]) {
     if (c.name) {
-      map.set(c.address.toLowerCase(), c.name)
+      map.set(normalizeForLookup(c.address), c.name)
     }
   }
   return map

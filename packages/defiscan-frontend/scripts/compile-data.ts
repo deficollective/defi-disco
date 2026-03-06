@@ -115,14 +115,14 @@ function main() {
     const fundsDataPath = join(DATA_DIR, slug, 'funds-data.json')
     if (existsSync(fundsDataPath) && review.funds) {
       const fundsData: FundsData = JSON.parse(readFileSync(fundsDataPath, 'utf8'))
-      // Build case-insensitive lookup with eth: prefix normalization
+      // Build case-insensitive lookup with chain prefix normalization
       const fundsLookup = new Map<string, FundsData['contracts'][string]>()
       for (const [addr, data] of Object.entries(fundsData.contracts ?? {})) {
-        fundsLookup.set(addr.replace(/^eth:/i, '').toLowerCase(), data)
+        fundsLookup.set(addr.toLowerCase(), data)
       }
       let patched = 0
       for (const fund of review.funds) {
-        const normalizedAddr = fund.address.replace(/^eth:/i, '').toLowerCase()
+        const normalizedAddr = fund.address.toLowerCase()
         const contractFunds = fundsLookup.get(normalizedAddr)
         if (!contractFunds) continue
         if (contractFunds.balances) {
@@ -201,7 +201,7 @@ function main() {
     // For each dependency, sum capital of admins whose functions use this dependency
     // This avoids attributing the entire protocol TVL to every dependency
     for (const dep of review.dependencies) {
-      const key = dep.address.toLowerCase()
+      const key = dep.address.toLowerCase() // normalized for deduplication across protocols
       // Compute capital controlled by admins that call through this dependency
       const depContractAddresses = new Set(dep.functions.map((f) => f.contractAddress.toLowerCase()))
       let depCapital = 0
