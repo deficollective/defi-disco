@@ -10,6 +10,7 @@ import type {
   ContractFundsData,
   ApiFunctionAnalysisResponse,
   ApiFundsDataResponse,
+  ResourceEntry,
   ReviewConfig,
 } from './types'
 import { computeFunctionAnalysis } from './functionAnalysis'
@@ -51,6 +52,7 @@ export interface CompiledReview {
   funds: CompiledFundHolder[]
   functions: CompiledFunction[]
   contracts: CompiledContract[]
+  resources: CompiledResourceEntry[]
 
   sections: Record<string, unknown>
 }
@@ -133,6 +135,8 @@ export interface CompiledContract {
   entity: string | null
   proxyType: string | null
 }
+
+export type CompiledResourceEntry = ResourceEntry
 
 // ============================================================================
 // Compilation Result
@@ -518,6 +522,7 @@ export class ReviewCompiler {
       funds,
       functions,
       contracts,
+      resources: reviewConfig.resources ?? [],
       sections: reviewConfig.sections ?? {},
     }
   }
