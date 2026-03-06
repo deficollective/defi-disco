@@ -20,10 +20,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
   const hasEOA = humanAdmins.some(
     (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned',
   )
-  const multisigAdmins = humanAdmins.filter((a) => a.adminType === 'Multisig')
   const timelockAdmins = humanAdmins.filter((a) => a.adminType === 'Timelock')
-  const governanceAdmins = humanAdmins.filter((a) => a.isGovernance)
-  const revokedAdmins = admins.filter((a) => a.adminType === 'Revoked')
 
   // Compute the highest capital-at-risk for a single human-controlled admin
   const topAdmin =
@@ -33,19 +30,38 @@ export function OverviewTab({ review }: OverviewTabProps) {
         )
       : null
 
-  // Admin type breakdown (human-controlled + governance only)
+  // Admin type breakdown — each admin in exactly one bucket
+  // Governance-tagged admins that are also a human type (e.g. Multisig+Gov)
+  // stay in their type bucket; only non-human-type governance gets its own bucket
   const adminBreakdown = [
     {
       label: 'EOA',
       count: humanAdmins.filter(
-        (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned',
+        (a) =>
+          (a.adminType === 'EOA' || a.adminType === 'EOAPermissioned') &&
+          !a.isGovernance,
       ).length,
       color: '#EF4444',
     },
-    { label: 'Multisig', count: multisigAdmins.length, color: '#F59E0B' },
-    { label: 'Timelock', count: timelockAdmins.length, color: '#10B981' },
-    { label: 'Governance', count: governanceAdmins.length, color: '#8B5CF6' },
-    { label: 'Revoked', count: revokedAdmins.length, color: '#6B7280' },
+    {
+      label: 'Multisig',
+      count: humanAdmins.filter(
+        (a) => a.adminType === 'Multisig' && !a.isGovernance,
+      ).length,
+      color: '#F59E0B',
+    },
+    {
+      label: 'Timelock',
+      count: humanAdmins.filter(
+        (a) => a.adminType === 'Timelock' && !a.isGovernance,
+      ).length,
+      color: '#10B981',
+    },
+    {
+      label: 'Governance',
+      count: humanAdmins.filter((a) => a.isGovernance).length,
+      color: '#8B5CF6',
+    },
   ].filter((b) => b.count > 0)
 
   const totalAdminCount = adminBreakdown.reduce((s, b) => s + b.count, 0)
