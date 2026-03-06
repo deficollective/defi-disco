@@ -1,6 +1,7 @@
 import type { CompiledReview } from '../../../../types'
 import { formatUsdValue } from '../../../../utils/format'
 import { computeEntityDependencyCount } from '../../../../utils/dependencies'
+import { getHumanAdmins } from '../../../../utils/admins'
 import { CapitalFlowDiagram } from './svg/CapitalFlowDiagram'
 
 interface OverviewTabProps {
@@ -9,46 +10,41 @@ interface OverviewTabProps {
 
 export function OverviewTab({ review }: OverviewTabProps) {
   const { totals, admins, dependencies } = review
+  const humanAdmins = getHumanAdmins(admins)
 
   const vendorCount = new Set(
     dependencies.map((d) => d.entity).filter(Boolean),
   ).size
 
   // Compute key metrics
-  const hasEOA = admins.some(
+  const hasEOA = humanAdmins.some(
     (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned',
   )
-  const multisigAdmins = admins.filter((a) => a.adminType === 'Multisig')
-  const timelockAdmins = admins.filter((a) => a.adminType === 'Timelock')
+  const multisigAdmins = humanAdmins.filter((a) => a.adminType === 'Multisig')
+  const timelockAdmins = humanAdmins.filter((a) => a.adminType === 'Timelock')
+  const governanceAdmins = humanAdmins.filter((a) => a.isGovernance)
   const revokedAdmins = admins.filter((a) => a.adminType === 'Revoked')
-  const immutableAdmins = admins.filter(
-    (a) =>
-      a.adminType === 'Untemplatized' ||
-      a.adminType === 'Diamond' ||
-      a.adminType === 'Immutable' ||
-      a.adminType === 'Upgradeable',
-  )
 
-  // Compute the highest capital-at-risk for a single admin
+  // Compute the highest capital-at-risk for a single human-controlled admin
   const topAdmin =
-    admins.length > 0
-      ? admins.reduce((a, b) =>
+    humanAdmins.length > 0
+      ? humanAdmins.reduce((a, b) =>
           a.totalDirectCapital > b.totalDirectCapital ? a : b,
         )
       : null
 
-  // Admin type breakdown (excludes "Contract" type to focus on human-relevant admins)
+  // Admin type breakdown (human-controlled + governance only)
   const adminBreakdown = [
     {
       label: 'EOA',
-      count: admins.filter(
+      count: humanAdmins.filter(
         (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned',
       ).length,
       color: '#EF4444',
     },
     { label: 'Multisig', count: multisigAdmins.length, color: '#F59E0B' },
     { label: 'Timelock', count: timelockAdmins.length, color: '#10B981' },
-    { label: 'Other', count: immutableAdmins.length, color: '#3B82F6' },
+    { label: 'Governance', count: governanceAdmins.length, color: '#8B5CF6' },
     { label: 'Revoked', count: revokedAdmins.length, color: '#6B7280' },
   ].filter((b) => b.count > 0)
 
@@ -57,7 +53,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
   return (
     <div className="space-y-6">
       {/* Key metrics row */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
         <MetricBox
           label="Funds Locked"
           value={formatUsdValue(totals.totalCapitalAtRisk)}
@@ -74,7 +70,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
         )}
         <MetricBox
           label="Admins"
-          value={String(totals.adminCount)}
+          value={String(humanAdmins.length)}
           sublabel={`controlling ${totals.permissionedFunctionCount} functions`}
         />
         <MetricBox
@@ -87,11 +83,13 @@ export function OverviewTab({ review }: OverviewTabProps) {
           value={String(totals.contractCount)}
           sublabel="analyzed"
         />
-        <MetricBox
-          label="Vendors"
-          value={String(vendorCount)}
-          sublabel="external providers"
-        />
+        {vendorCount > 0 && (
+          <MetricBox
+            label="Vendors"
+            value={String(vendorCount)}
+            sublabel="external providers"
+          />
+        )}
       </div>
 
       {/* Two-column: Admin type breakdown + Key risk indicators */}
@@ -101,7 +99,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
           <h3 className="text-sm font-semibold text-text-primary mb-3">
             Admin Type Distribution
           </h3>
-          {adminBreakdown.length > 0 ? (
+          {humanAdmins.length > 0 ? (
             <>
               <div className="flex h-6 rounded overflow-hidden mb-3">
                 {adminBreakdown.map((b) => (
@@ -132,7 +130,34 @@ export function OverviewTab({ review }: OverviewTabProps) {
               </div>
             </>
           ) : (
-            <p className="text-text-muted text-sm">No admins found.</p>
+            <div>
+              <div className="flex h-6 rounded overflow-hidden mb-3">
+                <div className="w-full bg-status-green/15" />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-status-green/10 text-status-green">
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </span>
+                <span className="text-sm font-semibold text-status-green">
+                  No Admins
+                </span>
+                <span className="text-xs text-text-muted">
+                  All admin roles are revoked or immutable
+                </span>
+              </div>
+            </div>
           )}
         </div>
 
@@ -147,17 +172,25 @@ export function OverviewTab({ review }: OverviewTabProps) {
               status={hasEOA ? 'high' : 'safe'}
               detail={
                 hasEOA
-                  ? `${admins.filter((a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned').length} EOA(s) with direct control`
-                  : 'No EOA admins detected'
+                  ? `${humanAdmins.filter((a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned').length} EOA(s) with direct control`
+                  : 'No control delegated to EOAs'
               }
             />
             <RiskRow
               label="Timelock protection"
-              status={timelockAdmins.length > 0 ? 'safe' : 'medium'}
+              status={
+                humanAdmins.length === 0
+                  ? 'safe'
+                  : timelockAdmins.length > 0
+                    ? 'safe'
+                    : 'medium'
+              }
               detail={
-                timelockAdmins.length > 0
-                  ? `${timelockAdmins.length} timelocked admin(s)`
-                  : 'No timelock protection found'
+                humanAdmins.length === 0
+                  ? 'No timelock needed \u2014 no admin control'
+                  : timelockAdmins.length > 0
+                    ? `${timelockAdmins.length} timelocked admin(s)`
+                    : 'No timelock protection found'
               }
             />
             <RiskRow
@@ -169,7 +202,11 @@ export function OverviewTab({ review }: OverviewTabProps) {
                     ? 'high'
                     : 'medium'
               }
-              detail={`${dependencies.length} external contract${dependencies.length !== 1 ? 's' : ''}`}
+              detail={
+                dependencies.length === 0
+                  ? 'No external dependencies detected'
+                  : `${dependencies.length} external contract${dependencies.length !== 1 ? 's' : ''}`
+              }
             />
             {topAdmin && topAdmin.totalDirectCapital > 0 && (
               <RiskRow
@@ -185,7 +222,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
       {/* Capital Flow Diagram */}
       <div className="rounded-lg border border-border bg-white p-4">
         <h3 className="text-sm font-semibold text-text-primary mb-3">
-          Funds Flow: Admins to Fund Holders
+          Funds under Admin Control
         </h3>
         <CapitalFlowDiagram review={review} />
       </div>
@@ -205,12 +242,12 @@ function MetricBox({
   color?: string
 }) {
   return (
-    <div className="rounded-lg border border-border bg-white p-3">
+    <div className="rounded-lg border border-border bg-white p-2.5">
       <p className="text-xs font-medium text-text-muted uppercase tracking-wide">
         {label}
       </p>
       <p
-        className={`text-xl font-bold tabular-nums mt-0.5 ${color ?? 'text-text-primary'}`}
+        className={`text-lg font-bold tabular-nums mt-0.5 ${color ?? 'text-text-primary'}`}
       >
         {value}
       </p>

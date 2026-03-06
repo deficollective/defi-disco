@@ -3,6 +3,7 @@ import { Badge } from '../../../../components/Badge'
 import { AddressDisplay } from '../../../../components/AddressDisplay'
 import { UsdValue } from '../../../../components/UsdValue'
 import { formatUsdValue } from '../../../../utils/format'
+import { getHumanAdmins } from '../../../../utils/admins'
 import type { CompiledReview, CompiledAdmin } from '../../../../types'
 import { DirectVsReachableDiagram } from './svg/DirectVsReachableDiagram'
 
@@ -21,12 +22,13 @@ type SortDir = 'asc' | 'desc'
 
 export function AdminsTab({ review }: AdminsTabProps) {
   const { admins, totals } = review
+  const humanAdmins = useMemo(() => getHumanAdmins(admins), [admins])
   const [sortField, setSortField] = useState<SortField>('directCapital')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expanded, setExpanded] = useState<Set<string>>(new Set())
 
   const sorted = useMemo(() => {
-    const copy = [...admins]
+    const copy = [...humanAdmins]
     copy.sort((a, b) => {
       let cmp = 0
       switch (sortField) {
@@ -52,7 +54,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
       return sortDir === 'desc' ? -cmp : cmp
     })
     return copy
-  }, [admins, sortField, sortDir])
+  }, [humanAdmins, sortField, sortDir])
 
   function handleSort(field: SortField) {
     if (sortField === field) {
@@ -75,8 +77,17 @@ export function AdminsTab({ review }: AdminsTabProps) {
     })
   }
 
-  if (admins.length === 0) {
-    return <p className="text-text-muted">No admins found.</p>
+  if (humanAdmins.length === 0) {
+    return (
+      <div className="rounded-xl border border-green-200 bg-green-50 px-6 py-5">
+        <p className="text-lg font-semibold text-green-700 mb-1">No Admins</p>
+        <p className="text-sm text-text-secondary leading-relaxed">
+          The protocol's {formatUsdValue(totals.totalCapitalAtRisk)} in locked
+          funds are not subject to any admin control. All contracts are either
+          immutable or controlled by internal protocol logic.
+        </p>
+      </div>
+    )
   }
 
   return (
@@ -85,9 +96,9 @@ export function AdminsTab({ review }: AdminsTabProps) {
       <div className="flex items-center gap-6 mb-4 text-sm">
         <span className="text-text-secondary">
           <span className="font-semibold text-text-primary">
-            {admins.length}
+            {humanAdmins.length}
           </span>{' '}
-          admin{admins.length !== 1 ? 's' : ''}
+          admin{humanAdmins.length !== 1 ? 's' : ''}
         </span>
         <span className="text-text-secondary">
           Funds Locked:{' '}
@@ -214,7 +225,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
         <h3 className="text-sm font-semibold text-text-primary mb-2">
           Direct vs Reachable Funds
         </h3>
-        <DirectVsReachableDiagram admins={admins} />
+        <DirectVsReachableDiagram admins={humanAdmins} />
       </div>
     </div>
   )
