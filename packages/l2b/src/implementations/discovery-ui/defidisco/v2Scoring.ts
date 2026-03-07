@@ -381,7 +381,10 @@ class AdminInventoryModule {
           normalizeChainAddress(eoa.address),
           eoa.name || 'Unknown EOA',
         )
-        contractTypeMap.set(normalizeChainAddress(eoa.address), eoa.type || 'EOA')
+        contractTypeMap.set(
+          normalizeChainAddress(eoa.address),
+          eoa.type || 'EOA',
+        )
       })
     })
 

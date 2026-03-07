@@ -116,8 +116,8 @@ export function PermissionsDisplay({
       (matchingKey
         ? functionsData?.contracts?.[matchingKey]?.functions
         : undefined) || []
-    const localFunctionsForContract = localFunctions.filter(
-      (o) => addressesEqual(o.contractAddress, contractAddress),
+    const localFunctionsForContract = localFunctions.filter((o) =>
+      addressesEqual(o.contractAddress, contractAddress),
     )
 
     // Map contract functions to include contractAddress (functions in contracts don't have it)

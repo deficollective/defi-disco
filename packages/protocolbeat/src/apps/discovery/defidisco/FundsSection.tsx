@@ -665,7 +665,9 @@ export function FundsSection({ project, projectData }: FundsSectionProps) {
                       key={address}
                       contractAddress={address}
                       fundsData={data}
-                      contractName={contractNameMap.get(normalizeForLookup(address))}
+                      contractName={contractNameMap.get(
+                        normalizeForLookup(address),
+                      )}
                       proxyType={proxyTypeMap.get(normalizeForLookup(address))}
                       onSelect={() => usePanelStore.getState().select(address)}
                     />
@@ -686,7 +688,9 @@ export function FundsSection({ project, projectData }: FundsSectionProps) {
                       key={address}
                       contractAddress={address}
                       fundsData={data}
-                      contractName={contractNameMap.get(normalizeForLookup(address))}
+                      contractName={contractNameMap.get(
+                        normalizeForLookup(address),
+                      )}
                       proxyType={proxyTypeMap.get(normalizeForLookup(address))}
                       onSelect={() => usePanelStore.getState().select(address)}
                     />

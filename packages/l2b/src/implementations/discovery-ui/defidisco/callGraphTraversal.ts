@@ -74,7 +74,10 @@ export class CallGraphTraverser {
         // Try case-insensitive lookup
         const contractGraphEntry = Object.entries(
           this.callGraphData.contracts,
-        ).find(([addr]) => normalizeChainAddress(addr) === normalizeChainAddress(contract))
+        ).find(
+          ([addr]) =>
+            normalizeChainAddress(addr) === normalizeChainAddress(contract),
+        )
         if (!contractGraphEntry) continue
         // Use the found contract graph
         const [, foundGraph] = contractGraphEntry

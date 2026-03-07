@@ -29,7 +29,11 @@ import {
   isZeroAddress,
   MIN_TOKEN_USD_VALUE,
 } from '../../../defidisco/scoringShared'
-import { addressesEqual, normalizeForLookup, stripChainPrefix } from './addressUtils'
+import {
+  addressesEqual,
+  normalizeForLookup,
+  stripChainPrefix,
+} from './addressUtils'
 import { useContractTags } from './hooks/useContractTags'
 import { IconCheckFalse } from './IconCheckFalse'
 import { IconCheckTrue } from './IconCheckTrue'
@@ -84,7 +88,9 @@ function collapseChains(
   // Group by contract address sequence
   const groups = new Map<string, TraversalTerminal['chain'][]>()
   for (const chain of chains) {
-    const key = chain.map((s) => normalizeForLookup(s.contractAddress)).join('\u2192')
+    const key = chain
+      .map((s) => normalizeForLookup(s.contractAddress))
+      .join('\u2192')
     const group = groups.get(key)
     if (group) {
       group.push(chain)
@@ -578,9 +584,7 @@ export function FunctionFolder({
       // Address normalization is now handled in the backend when saving
       const contract = projectData.entries
         .flatMap((e) => [...e.initialContracts, ...e.discoveredContracts])
-        .find(
-          (c) => addressesEqual(c.address, tag.contractAddress),
-        )
+        .find((c) => addressesEqual(c.address, tag.contractAddress))
 
       if (contract) {
         contracts.push({
@@ -1471,7 +1475,10 @@ export function FunctionFolder({
                   if (!contractTags?.tags) return false
                   return contractTags.tags.some(
                     (tag) =>
-                      addressesEqual(stripChainPrefix(tag.contractAddress), stripChainPrefix(addr)) && tag.isGovernance,
+                      addressesEqual(
+                        stripChainPrefix(tag.contractAddress),
+                        stripChainPrefix(addr),
+                      ) && tag.isGovernance,
                   )
                 }
                 const isKeyOwner = (owner: GroupedOwner) =>

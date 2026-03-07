@@ -14,7 +14,11 @@
  *   "$self" → current contract itself is the owner
  */
 
-import { addressesEqual, isChainAddress, normalizeChainAddress } from './addressUtils'
+import {
+  addressesEqual,
+  isChainAddress,
+  normalizeChainAddress,
+} from './addressUtils'
 
 // =============================================================================
 // Types
@@ -355,8 +359,8 @@ export class DiscoveredDataAccess implements IContractDataAccess {
       (entry: any) =>
         entry.type === 'Contract' &&
         entry.implementationNames &&
-        Object.keys(entry.implementationNames).some(
-          (implAddr: string) => addressesEqual(implAddr, normalized),
+        Object.keys(entry.implementationNames).some((implAddr: string) =>
+          addressesEqual(implAddr, normalized),
         ),
     )
     if (proxy) return proxy

@@ -1,5 +1,9 @@
 import type { DiscoveryOutput } from '@l2beat/discovery'
-import { addressesEqual, isChainAddress, normalizeChainAddress } from './addressUtils'
+import {
+  addressesEqual,
+  isChainAddress,
+  normalizeChainAddress,
+} from './addressUtils'
 import { extractChainAddresses } from './callGraph'
 import type { ExternalCall, ResolutionCandidate } from './types'
 
@@ -117,8 +121,8 @@ class VariableChainHeuristic implements ResolutionHeuristic {
     const value = contract.values[resolvedVar]
 
     if (typeof value === 'string' && isChainAddress(value)) {
-      const resolvedContract = discovered.entries.find(
-        (e) => addressesEqual(e.address, value),
+      const resolvedContract = discovered.entries.find((e) =>
+        addressesEqual(e.address, value),
       )
 
       return {
@@ -138,8 +142,8 @@ class VariableChainHeuristic implements ResolutionHeuristic {
     if (addresses.length > 0) {
       const validMatches = addresses
         .map((addr) => {
-          const entry = discovered.entries.find(
-            (e) => addressesEqual(e.address, addr),
+          const entry = discovered.entries.find((e) =>
+            addressesEqual(e.address, addr),
           )
           return { address: addr, contractName: entry?.name, entry }
         })

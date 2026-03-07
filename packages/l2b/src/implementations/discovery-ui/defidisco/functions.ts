@@ -1,7 +1,11 @@
 import type { DiscoveryPaths } from '@l2beat/discovery'
 import * as fs from 'fs'
 import * as path from 'path'
-import { addressesEqual, isChainAddress, normalizeChainAddress } from './addressUtils'
+import {
+  addressesEqual,
+  isChainAddress,
+  normalizeChainAddress,
+} from './addressUtils'
 import { DiscoveredDataAccess, resolvePathExpression } from './ownerResolution'
 import type {
   ApiFunctionsResponse,
@@ -251,7 +255,8 @@ export function deleteContractFunctions(
   // Remove the contract entry (case-insensitive key lookup)
   const keyToDelete =
     Object.keys(userContracts).find(
-      (k) => normalizeChainAddress(k) === normalizeChainAddress(contractAddress),
+      (k) =>
+        normalizeChainAddress(k) === normalizeChainAddress(contractAddress),
     ) ?? contractAddress
   delete userContracts[keyToDelete]
 
@@ -596,7 +601,10 @@ function extractAddressesFromValue(value: any, addresses: string[]): void {
   if (!value) return
 
   // If it's an address-like string
-  if (typeof value === 'string' && (isChainAddress(value) || /^0x[a-fA-F0-9]{40}$/.test(value))) {
+  if (
+    typeof value === 'string' &&
+    (isChainAddress(value) || /^0x[a-fA-F0-9]{40}$/.test(value))
+  ) {
     addresses.push(value)
     return
   }

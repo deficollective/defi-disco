@@ -89,10 +89,7 @@ export function getChainPrefix(address: string): string {
  * If it already has one, normalizes the checksumming.
  * If it doesn't, prepends 'eth:' by default.
  */
-export function ensureChainPrefix(
-  address: string,
-  chain = 'eth',
-): string {
+export function ensureChainPrefix(address: string, chain = 'eth'): string {
   const colonIdx = address.indexOf(':')
   if (colonIdx !== -1 && !address.startsWith('0x')) {
     return normalizeChainAddress(address)

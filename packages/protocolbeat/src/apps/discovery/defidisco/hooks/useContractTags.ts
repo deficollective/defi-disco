@@ -39,7 +39,11 @@ export function useIsContractExternal(
 
   // Normalize both addresses for comparison (handle eth: prefix)
   const tag = contractTags?.tags
-    ? findByAddress(contractTags.tags, (t) => t.contractAddress, contractAddress)
+    ? findByAddress(
+        contractTags.tags,
+        (t) => t.contractAddress,
+        contractAddress,
+      )
     : undefined
 
   return tag?.isExternal ?? false
@@ -52,7 +56,11 @@ export function useIsContractGovernance(
   const { data: contractTags } = useContractTags(project)
 
   const tag = contractTags?.tags
-    ? findByAddress(contractTags.tags, (t) => t.contractAddress, contractAddress)
+    ? findByAddress(
+        contractTags.tags,
+        (t) => t.contractAddress,
+        contractAddress,
+      )
     : undefined
 
   return tag?.isGovernance ?? false
@@ -77,7 +85,11 @@ export function useContractTagColor(
   const { data: contractTags } = useContractTags(project)
 
   const tag = contractTags?.tags
-    ? findByAddress(contractTags.tags, (t) => t.contractAddress, contractAddress)
+    ? findByAddress(
+        contractTags.tags,
+        (t) => t.contractAddress,
+        contractAddress,
+      )
     : undefined
 
   if (tag?.isExternal) return { color: oklchColors.aux.orange, isDark: false }

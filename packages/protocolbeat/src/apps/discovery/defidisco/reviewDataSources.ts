@@ -87,9 +87,7 @@ function isExternalContract(
   if (!contractTags) return false
   const normalized = normalizeForLookup(address)
   return contractTags.tags.some(
-    (t) =>
-      normalizeForLookup(t.contractAddress) === normalized &&
-      t.isExternal,
+    (t) => normalizeForLookup(t.contractAddress) === normalized && t.isExternal,
   )
 }
 
@@ -100,9 +98,7 @@ function isTokenContract(
   if (!contractTags) return false
   const normalized = normalizeForLookup(address)
   return contractTags.tags.some(
-    (t) =>
-      normalizeForLookup(t.contractAddress) === normalized &&
-      t.isToken,
+    (t) => normalizeForLookup(t.contractAddress) === normalized && t.isToken,
   )
 }
 
@@ -482,7 +478,8 @@ const permissionedFunctionsSource: DataSourceDefinition = {
 
         items.push({
           contractName:
-            contractNameMap.get(normalizeForLookup(addr)) ?? shortenAddress(addr),
+            contractNameMap.get(normalizeForLookup(addr)) ??
+            shortenAddress(addr),
           contractAddress: addr,
           functionName: func.functionName,
           score: func.score ?? 'unscored',

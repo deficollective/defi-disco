@@ -58,8 +58,7 @@ export function useExternalToggle(
   const hasExternalContract = targets.some((target) => {
     const normalized = normalizeForLookup(target.address)
     const tag = contractTags?.tags.find(
-      (tag) =>
-        normalizeForLookup(tag.contractAddress) === normalized,
+      (tag) => normalizeForLookup(tag.contractAddress) === normalized,
     )
     return tag?.isExternal ?? false
   })
@@ -354,8 +353,8 @@ export function useExternalToggle(
     const newDependencies = externalContracts
       .filter(
         (ext) =>
-          !currentDependencies.some(
-            (dep) => addressesEqual(dep.contractAddress, ext.address),
+          !currentDependencies.some((dep) =>
+            addressesEqual(dep.contractAddress, ext.address),
           ),
       )
       .map((ext) => ({ contractAddress: ext.address }))
@@ -386,9 +385,10 @@ export function useExternalToggle(
 
     // Remove specified external contracts from dependencies
     const newDependencies = currentFunc.dependencies.filter(
-      (dep) => !externalContracts.some((ext) =>
-        addressesEqual(dep.contractAddress, ext.address),
-      ),
+      (dep) =>
+        !externalContracts.some((ext) =>
+          addressesEqual(dep.contractAddress, ext.address),
+        ),
     )
 
     // Update function with filtered dependencies
@@ -503,8 +503,7 @@ export function useExternalToggle(
     if (targets.length === 0) return undefined
     const normalized = normalizeForLookup(targets[0].address)
     const tag = contractTags?.tags.find(
-      (tag) =>
-        normalizeForLookup(tag.contractAddress) === normalized,
+      (tag) => normalizeForLookup(tag.contractAddress) === normalized,
     )
     return tag?.entity
   })()

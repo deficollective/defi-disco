@@ -8,7 +8,11 @@ import { V2ScoringSection } from '../../../defidisco/V2ScoringSection'
 import { usePanelStore } from '../store/panel-store'
 import { FundsSection } from './FundsSection'
 import { formatUsdValue } from '../../../defidisco/scoringShared'
-import { addressesEqual, normalizeForLookup, stripChainPrefix } from './addressUtils'
+import {
+  addressesEqual,
+  normalizeForLookup,
+  stripChainPrefix,
+} from './addressUtils'
 import { useContractTags } from './hooks/useContractTags'
 import { resolvePathExpression, UIContractDataAccess } from './ownerResolution'
 import { ProxyTypeTag } from './ProxyTypeTag'
@@ -53,9 +57,11 @@ export function DeFiScanPanel() {
     contracts: Object.fromEntries(
       Object.entries(functions.contracts || {}).filter(
         ([contractAddress, _]) => {
-          const tag = contractTags.tags.find(
-            (tag: any) =>
-              addressesEqual(stripChainPrefix(tag.contractAddress), stripChainPrefix(contractAddress)),
+          const tag = contractTags.tags.find((tag: any) =>
+            addressesEqual(
+              stripChainPrefix(tag.contractAddress),
+              stripChainPrefix(contractAddress),
+            ),
           )
           return tag?.isExternal !== true
         },
@@ -159,8 +165,8 @@ function StatusOfReviewSection({
 
   allContracts.forEach((contract) => {
     // Check if contract is explicitly marked as external in contract tags
-    const tag = contractTags.tags.find(
-      (tag: any) => addressesEqual(tag.contractAddress, contract.address),
+    const tag = contractTags.tags.find((tag: any) =>
+      addressesEqual(tag.contractAddress, contract.address),
     )
     const isExternal = tag?.isExternal === true
 
@@ -194,8 +200,11 @@ function StatusOfReviewSection({
   // Check for external EOAs and adjust counts
   let externalEoas = 0
   allEoas.forEach((eoa) => {
-    const tag = contractTags.tags.find(
-      (tag: any) => addressesEqual(stripChainPrefix(tag.contractAddress ?? ''), stripChainPrefix(eoa.address)),
+    const tag = contractTags.tags.find((tag: any) =>
+      addressesEqual(
+        stripChainPrefix(tag.contractAddress ?? ''),
+        stripChainPrefix(eoa.address),
+      ),
     )
     if (tag?.isExternal === true) {
       externalEoas++
@@ -640,7 +649,9 @@ function ContractsWithPermissionsTable({
                     {getContractDisplayName(contract)}
                   </span>
                   <ProxyTypeTag
-                    proxyType={proxyTypeMap.get(normalizeForLookup(contract.address))}
+                    proxyType={proxyTypeMap.get(
+                      normalizeForLookup(contract.address),
+                    )}
                   />
                   {hasFunds && (
                     <span className="text-aux-green">

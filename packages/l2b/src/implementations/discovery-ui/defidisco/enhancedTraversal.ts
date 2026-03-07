@@ -532,7 +532,10 @@ function deduplicateTerminals(
   const result: TraversalTerminal[] = []
   for (const terminal of terminals) {
     const chainSig = terminal.chain
-      .map((s) => `${normalizeChainAddress(s.contractAddress)}:${s.functionName ?? ''}`)
+      .map(
+        (s) =>
+          `${normalizeChainAddress(s.contractAddress)}:${s.functionName ?? ''}`,
+      )
       .join('→')
     const key = `${normalizeChainAddress(terminal.address)}|${chainSig}`
     if (seen.has(key)) continue

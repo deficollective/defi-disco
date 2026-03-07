@@ -528,8 +528,8 @@ function getContractSourceHash(
   entryAddress: string,
   slitherAddress: string,
 ): string | undefined {
-  const entry = discovered.entries.find(
-    (e) => addressesEqual(e.address, entryAddress),
+  const entry = discovered.entries.find((e) =>
+    addressesEqual(e.address, entryAddress),
   )
 
   if (!entry?.sourceHashes || entry.sourceHashes.length === 0) {
@@ -573,9 +573,7 @@ function getContractsToAnalyze(
   // Load contract tags to identify external contracts
   const tags = getContractTags(paths, project)
   const externalAddresses = buildAddressSet(
-    tags.tags
-      .filter((tag) => tag.isExternal)
-      .map((tag) => tag.contractAddress),
+    tags.tags.filter((tag) => tag.isExternal).map((tag) => tag.contractAddress),
   )
 
   const contracts: ContractToAnalyze[] = []
@@ -670,9 +668,7 @@ function resolveStorageVariable(
 ): { address: string | undefined; name: string | undefined } {
   // Find the contract in discovered data
   const contract = discovered.entries.find(
-    (e) =>
-      addressesEqual(e.address, contractAddress) &&
-      e.type === 'Contract',
+    (e) => addressesEqual(e.address, contractAddress) && e.type === 'Contract',
   )
 
   if (!contract || !('values' in contract) || !contract.values) {
@@ -684,8 +680,8 @@ function resolveStorageVariable(
 
   if (typeof value === 'string' && isChainAddress(value)) {
     // Find the name of the resolved contract
-    const resolvedContract = discovered.entries.find(
-      (e) => addressesEqual(e.address, value),
+    const resolvedContract = discovered.entries.find((e) =>
+      addressesEqual(e.address, value),
     )
     return {
       address: value,
@@ -698,8 +694,8 @@ function resolveStorageVariable(
   const addresses = extractChainAddresses(value)
   if (addresses.length === 1) {
     const addr = addresses[0]!
-    const resolvedContract = discovered.entries.find(
-      (e) => addressesEqual(e.address, addr),
+    const resolvedContract = discovered.entries.find((e) =>
+      addressesEqual(e.address, addr),
     )
     return {
       address: addr,
@@ -1403,8 +1399,8 @@ export function findContractGraph(
 ) {
   const direct = callGraphData.contracts[contract]
   if (direct) return direct
-  const entry = Object.entries(callGraphData.contracts).find(
-    ([addr]) => addressesEqual(addr, contract),
+  const entry = Object.entries(callGraphData.contracts).find(([addr]) =>
+    addressesEqual(addr, contract),
   )
   return entry ? entry[1] : undefined
 }
@@ -1443,8 +1439,8 @@ export function getCallGraphContractName(
   callGraphData: ApiCallGraphResponse,
   address: string,
 ): string | undefined {
-  const entry = Object.entries(callGraphData.contracts).find(
-    ([key]) => addressesEqual(key, address),
+  const entry = Object.entries(callGraphData.contracts).find(([key]) =>
+    addressesEqual(key, address),
   )
   return entry?.[1]?.name
 }

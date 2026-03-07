@@ -185,8 +185,10 @@ function getEntity(
   contractTags: ApiContractTagsResponse | undefined,
 ): string | undefined {
   if (!contractTags?.tags) return undefined
-  return contractTags.tags.find(
-    (tag) =>
-      addressesEqual(stripChainPrefix(tag.contractAddress), stripChainPrefix(address)),
+  return contractTags.tags.find((tag) =>
+    addressesEqual(
+      stripChainPrefix(tag.contractAddress),
+      stripChainPrefix(address),
+    ),
   )?.entity
 }

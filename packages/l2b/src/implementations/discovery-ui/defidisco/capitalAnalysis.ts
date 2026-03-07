@@ -211,8 +211,8 @@ export class CapitalAnalysisCalculator {
       // Check if we have call graph data for this contract
       const hasCallGraphData =
         this.callGraphData.contracts[func.contractAddress] !== undefined ||
-        Object.keys(this.callGraphData.contracts).some(
-          (addr) => addressesEqual(addr, func.contractAddress),
+        Object.keys(this.callGraphData.contracts).some((addr) =>
+          addressesEqual(addr, func.contractAddress),
         )
 
       if (!hasCallGraphData) {

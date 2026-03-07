@@ -282,10 +282,7 @@ export class ReviewCompiler {
       ApiContractTagsResponse['tags'][number]
     >()
     for (const tag of contractTags.tags ?? []) {
-      tagsByAddress.set(
-        normalizeChainAddress(tag.contractAddress),
-        tag,
-      )
+      tagsByAddress.set(normalizeChainAddress(tag.contractAddress), tag)
     }
 
     // Case-insensitive lookup for funds data with eth: prefix normalization
@@ -298,10 +295,11 @@ export class ReviewCompiler {
     const admins: CompiledAdmin[] = []
     if (v2Score.inventory.admins.breakdown) {
       for (const admin of v2Score.inventory.admins.breakdown) {
-        const desc = getFromAddressRecord(reviewConfig.admins, admin.adminAddress)
-        const tag = tagsByAddress.get(
-          normalizeChainAddress(admin.adminAddress),
+        const desc = getFromAddressRecord(
+          reviewConfig.admins,
+          admin.adminAddress,
         )
+        const tag = tagsByAddress.get(normalizeChainAddress(admin.adminAddress))
 
         const withCapital = admin as AdminDetailWithCapital
         const hasCapital = 'totalDirectCapital' in withCapital
@@ -358,7 +356,10 @@ export class ReviewCompiler {
     if (v2Score.inventory.admins.breakdown) {
       for (const admin of v2Score.inventory.admins.breakdown) {
         for (const fn of admin.functions) {
-          contractNameMap.set(normalizeChainAddress(fn.contractAddress), fn.contractName)
+          contractNameMap.set(
+            normalizeChainAddress(fn.contractAddress),
+            fn.contractName,
+          )
         }
       }
     }
@@ -446,9 +447,7 @@ export class ReviewCompiler {
     // Build fund holders from funds data + review config descriptions
     const funds: CompiledFundHolder[] = []
     for (const [address, desc] of Object.entries(reviewConfig.funds ?? {})) {
-      const contractFunds = fundsLookup.get(
-        normalizeChainAddress(address),
-      )
+      const contractFunds = fundsLookup.get(normalizeChainAddress(address))
 
       funds.push({
         address,

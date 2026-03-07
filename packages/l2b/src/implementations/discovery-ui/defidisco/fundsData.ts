@@ -282,8 +282,7 @@ export async function fetchFundsForContract(
       // discovered.json entries is a flat array of contracts with values
       if (options.discoveredData?.entries) {
         const contract = options.discoveredData.entries.find(
-          (c: any) =>
-            c.address && addressesEqual(c.address, contractAddress),
+          (c: any) => c.address && addressesEqual(c.address, contractAddress),
         )
         if (contract?.values) {
           if (contract.values.totalSupply != null)
@@ -457,8 +456,8 @@ export async function fetchFundsForSingleContract(
   forceRefresh = false,
 ): Promise<ApiFundsDataResponse> {
   const tags = getContractTags(paths, project)
-  const tag = tags.tags.find(
-    (t) => addressesEqual(t.contractAddress, contractAddress),
+  const tag = tags.tags.find((t) =>
+    addressesEqual(t.contractAddress, contractAddress),
   )
 
   if (!tag || (!tag.fetchBalances && !tag.fetchPositions && !tag.isToken)) {
