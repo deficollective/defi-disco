@@ -5,6 +5,11 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+/** Strip chain prefix and lowercase for consistent address comparison */
+function stripChainPrefix(a: string): string {
+  return a.replace(/^[a-z0-9]+:/i, '').toLowerCase()
+}
+
 interface CompiledReview {
   metadata: {
     protocolName: string
@@ -118,11 +123,11 @@ function main() {
       // Build case-insensitive lookup with chain prefix normalization
       const fundsLookup = new Map<string, FundsData['contracts'][string]>()
       for (const [addr, data] of Object.entries(fundsData.contracts ?? {})) {
-        fundsLookup.set(addr.toLowerCase(), data)
+        fundsLookup.set(stripChainPrefix(addr), data)
       }
       let patched = 0
       for (const fund of review.funds) {
-        const normalizedAddr = fund.address.toLowerCase()
+        const normalizedAddr = stripChainPrefix(fund.address)
         const contractFunds = fundsLookup.get(normalizedAddr)
         if (!contractFunds) continue
         if (contractFunds.balances) {
@@ -201,13 +206,13 @@ function main() {
     // For each dependency, sum capital of admins whose functions use this dependency
     // This avoids attributing the entire protocol TVL to every dependency
     for (const dep of review.dependencies) {
-      const key = dep.address.toLowerCase() // normalized for deduplication across protocols
+      const key = stripChainPrefix(dep.address) // normalized for deduplication across protocols
       // Compute capital controlled by admins that call through this dependency
-      const depContractAddresses = new Set(dep.functions.map((f) => f.contractAddress.toLowerCase()))
+      const depContractAddresses = new Set(dep.functions.map((f) => stripChainPrefix(f.contractAddress)))
       let depCapital = 0
       for (const admin of review.admins) {
         const usesThisDep = admin.functions.some(
-          (f) => depContractAddresses.has(f.contractAddress.toLowerCase()),
+          (f) => depContractAddresses.has(stripChainPrefix(f.contractAddress)),
         )
         if (usesThisDep) {
           depCapital += admin.totalDirectCapital

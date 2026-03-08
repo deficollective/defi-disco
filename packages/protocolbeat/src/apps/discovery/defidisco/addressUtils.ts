@@ -48,7 +48,7 @@ export function ensureChainPrefix(address: string, chain = 'eth'): string {
  * Handles addresses with or without chain prefix.
  */
 export function addressesEqual(a: string, b: string): boolean {
-  return a.toLowerCase() === b.toLowerCase()
+  return normalizeForLookup(a) === normalizeForLookup(b)
 }
 
 /**
