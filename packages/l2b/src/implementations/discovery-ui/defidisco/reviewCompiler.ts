@@ -280,7 +280,7 @@ export class ReviewCompiler {
           if (membersField?.value?.type === 'array') {
             for (const v of membersField.value.values ?? []) {
               if (v.type === 'address') {
-                multisigSigners.add(v.address.toLowerCase())
+                multisigSigners.add(normalizeChainAddress(v.address))
               }
             }
           }
@@ -291,7 +291,7 @@ export class ReviewCompiler {
       const adminAddresses = new Set<string>()
       if (v2Score.inventory.admins.breakdown) {
         for (const admin of v2Score.inventory.admins.breakdown) {
-          adminAddresses.add(admin.adminAddress.toLowerCase())
+          adminAddresses.add(normalizeChainAddress(admin.adminAddress))
         }
       }
 
@@ -299,19 +299,18 @@ export class ReviewCompiler {
       const excludedAddresses = new Set<string>()
       for (const tag of contractTags.tags ?? []) {
         if (tag.excludeFromReview) {
-          const norm = tag.contractAddress.replace(/^eth:/i, '').toLowerCase()
-          excludedAddresses.add(norm)
+          excludedAddresses.add(normalizeChainAddress(tag.contractAddress))
         }
       }
 
       // Filter out EOAs that are multisig signers (unless also admins) and excluded contracts
       const discoveryEntries = allProjectContracts.filter((e) => {
-        const norm = e.address.replace(/^eth:/i, '').toLowerCase()
+        const norm = normalizeChainAddress(e.address)
         if (excludedAddresses.has(norm)) return false
         if (
           e.type === 'EOA' &&
-          multisigSigners.has(e.address.toLowerCase()) &&
-          !adminAddresses.has(e.address.toLowerCase())
+          multisigSigners.has(norm) &&
+          !adminAddresses.has(norm)
         )
           return false
         return true
@@ -579,26 +578,20 @@ export class ReviewCompiler {
     ]) {
       for (const [addr, desc] of Object.entries(section ?? {})) {
         if (desc?.name) {
-          configNameMap.set(addr.toLowerCase(), desc.name)
+          configNameMap.set(normalizeChainAddress(addr), desc.name)
         }
       }
     }
 
     const contracts: CompiledContract[] = []
     for (const entry of discoveryEntries) {
-      const addrNorm = entry.address.replace(/^eth:/i, '').toLowerCase()
+      const addrNorm = normalizeChainAddress(entry.address)
       const tag = tagsByAddress.get(addrNorm)
 
       // Resolve name: review-config override > cleaned getProject name > address
-      let name =
-        configNameMap.get(entry.address.toLowerCase()) ??
-        entry.name ??
-        entry.address
+      let name = configNameMap.get(addrNorm) ?? entry.name ?? entry.address
       // Clean up multisig names: "5/8 63% Safe" → "5/8 Multisig"
-      if (
-        entry.proxyType === 'gnosis safe' &&
-        !configNameMap.has(entry.address.toLowerCase())
-      ) {
+      if (entry.proxyType === 'gnosis safe' && !configNameMap.has(addrNorm)) {
         name = name
           .replace(/\s+\d+%/, '') // remove percentage
           .replace(/\b(GnosisSafe|Safe)\b/, 'Multisig') // replace Safe/GnosisSafe with Multisig
