@@ -286,7 +286,7 @@ This repository is a fork of L2BEAT. To maintain easy upstream merges:
    - `packages/l2b/src/implementations/discovery-ui/defidisco/`
    - `packages/discovery/src/discovery/handlers/defidisco/`
 3. **If a PR contains formatting changes to upstream files**, request that the author revert those changes before approval
-4. **Biome is configured project-wide** but should only be enforced on DeFiDisco code to avoid massive diffs with upstream
+4. Use the SKILL /lint to perform the right formatting.
 
 ### Documentation Requirements
 
