@@ -93,6 +93,7 @@ function isFunctionEntryEmpty(func: FunctionEntry): boolean {
     (func.ownerDefinitions !== undefined && func.ownerDefinitions.length > 0) ||
     func.delay !== undefined ||
     (func.dependencies !== undefined && func.dependencies.length > 0) ||
+    (func.mitigations !== undefined && func.mitigations.length > 0) ||
     (func.comments !== undefined && func.comments.length > 0)
 
   return !hasManualOverrides
@@ -187,6 +188,14 @@ export function updateFunction(
           ? updateRequest.dependencies
           : undefined
         : existingFunction?.dependencies,
+    // Handle mitigations: same pattern as dependencies
+    mitigations:
+      updateRequest.mitigations !== undefined
+        ? updateRequest.mitigations !== null &&
+          updateRequest.mitigations.length > 0
+          ? updateRequest.mitigations
+          : undefined
+        : existingFunction?.mitigations,
     timestamp: now,
     lastChangedBy: attribution,
     completedBy,

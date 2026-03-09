@@ -15,6 +15,8 @@ import type {
   FunctionAnalysis,
   FunctionEntry,
   FunctionTraversalResult,
+  Mitigation,
+  MitigationType,
   OwnerDefinition,
   TraversalTerminal,
 } from '../../../api/types'
@@ -300,6 +302,11 @@ interface FunctionFolderProps {
     functionName: string,
     dependencies?: { contractAddress: string }[],
   ) => void
+  onMitigationsUpdate: (
+    contractAddress: string,
+    functionName: string,
+    mitigations: Mitigation[] | null,
+  ) => void
   onAddComment: (
     contractAddress: string,
     functionName: string,
@@ -322,6 +329,7 @@ export function FunctionFolder({
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
   onDependenciesUpdate,
+  onMitigationsUpdate,
   onAddComment,
   researcherGithub,
 }: FunctionFolderProps) {
@@ -649,6 +657,23 @@ export function FunctionFolder({
     fieldName: '',
   })
 
+  // State for managing mitigations
+  const [isAddingMitigation, setIsAddingMitigation] = useState(false)
+  const [editingMitigationIndex, setEditingMitigationIndex] = useState<
+    number | null
+  >(null)
+  const [newMitigation, setNewMitigation] = useState<{
+    type: MitigationType
+    description: string
+    valueRange: { min: string; max: string; unit: string }
+    relativeValue: { maxChangePercent: string }
+  }>({
+    type: 'valueRange',
+    description: '',
+    valueRange: { min: '', max: '', unit: '' },
+    relativeValue: { maxChangePercent: '' },
+  })
+
   // State for managing dependencies
   const [isAddingDependency, setIsAddingDependency] = useState(false)
 
@@ -863,6 +888,98 @@ export function FunctionFolder({
     onDelayUpdate(contractAddress, functionName, null)
   }
 
+  // Mitigation management handlers
+  const resetMitigationForm = () => {
+    setNewMitigation({
+      type: 'valueRange',
+      description: '',
+      valueRange: { min: '', max: '', unit: '' },
+      relativeValue: { maxChangePercent: '' },
+    })
+    setIsAddingMitigation(false)
+    setEditingMitigationIndex(null)
+  }
+
+  const handleAddMitigation = () => {
+    const currentMitigations = currentFunction?.mitigations || []
+    const mitigation: Mitigation = {
+      type: newMitigation.type,
+      description: newMitigation.description,
+    }
+    if (newMitigation.type === 'valueRange') {
+      mitigation.valueRange = {
+        ...(newMitigation.valueRange.min
+          ? { min: newMitigation.valueRange.min }
+          : {}),
+        ...(newMitigation.valueRange.max
+          ? { max: newMitigation.valueRange.max }
+          : {}),
+        ...(newMitigation.valueRange.unit
+          ? { unit: newMitigation.valueRange.unit }
+          : {}),
+      }
+    } else if (newMitigation.type === 'relativeValue') {
+      mitigation.relativeValue = {
+        ...(newMitigation.relativeValue.maxChangePercent
+          ? { maxChangePercent: newMitigation.relativeValue.maxChangePercent }
+          : {}),
+      }
+    }
+
+    let updatedMitigations: Mitigation[]
+    if (editingMitigationIndex !== null) {
+      updatedMitigations = currentMitigations.map((m, i) =>
+        i === editingMitigationIndex ? mitigation : m,
+      )
+    } else {
+      updatedMitigations = [...currentMitigations, mitigation]
+    }
+    onMitigationsUpdate(contractAddress, functionName, updatedMitigations)
+    resetMitigationForm()
+  }
+
+  const handleRemoveMitigation = (index: number) => {
+    const currentMitigations = currentFunction?.mitigations || []
+    const updatedMitigations = currentMitigations.filter((_, i) => i !== index)
+    onMitigationsUpdate(
+      contractAddress,
+      functionName,
+      updatedMitigations.length > 0 ? updatedMitigations : null,
+    )
+  }
+
+  const handleEditMitigation = (index: number) => {
+    const currentMitigations = currentFunction?.mitigations || []
+    const m = currentMitigations[index]
+    if (!m) return
+    setNewMitigation({
+      type: m.type,
+      description: m.description,
+      valueRange: {
+        min: m.valueRange?.min || '',
+        max: m.valueRange?.max || '',
+        unit: m.valueRange?.unit || '',
+      },
+      relativeValue: {
+        maxChangePercent: m.relativeValue?.maxChangePercent || '',
+      },
+    })
+    setEditingMitigationIndex(index)
+    setIsAddingMitigation(true)
+  }
+
+  const isMitigationFormValid = () => {
+    if (!newMitigation.description.trim()) return false
+    if (newMitigation.type === 'valueRange') {
+      return !!(newMitigation.valueRange.min || newMitigation.valueRange.max)
+    }
+    if (newMitigation.type === 'relativeValue') {
+      return !!newMitigation.relativeValue.maxChangePercent
+    }
+    // 'other' type just needs description
+    return true
+  }
+
   const isAddFormValid = () => {
     return newOwnerPath.trim().length > 0
   }
@@ -1051,6 +1168,40 @@ export function FunctionFolder({
                 title={delayTitle}
               >
                 <IconClock />
+              </span>
+            )
+          })()}
+
+          {/* Mitigations Indicator Icon */}
+          {(() => {
+            const mitigationCount =
+              (currentFunction?.mitigations?.length ?? 0) +
+              (currentFunction?.delay ? 1 : 0)
+            const hasMitigations = mitigationCount > 0
+            return (
+              <span
+                className="inline-block text-xs font-bold"
+                style={{
+                  color: hasMitigations ? '#06b6d4' : '#9ca3af', // cyan-500 or gray-400
+                }}
+                title={
+                  hasMitigations
+                    ? `${mitigationCount} mitigation${mitigationCount !== 1 ? 's' : ''}`
+                    : 'No mitigations'
+                }
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
               </span>
             )
           })()}
@@ -2276,6 +2427,281 @@ export function FunctionFolder({
                 >
                   Set Delay
                 </button>
+              </div>
+            )}
+          </div>
+
+          {/* 7b. Mitigations Section */}
+          <div className="border-coffee-700 border-b p-3">
+            <div className="mb-2 flex items-center justify-between">
+              <label className="block text-coffee-300 text-xs">
+                Mitigations
+                {(() => {
+                  const total =
+                    (currentFunction?.mitigations?.length ?? 0) +
+                    (currentFunction?.delay ? 1 : 0)
+                  return total > 0 ? (
+                    <span className="ml-1 text-aux-cyan">({total})</span>
+                  ) : null
+                })()}
+              </label>
+              {!isAddingMitigation && (
+                <button
+                  onClick={() => {
+                    resetMitigationForm()
+                    setIsAddingMitigation(true)
+                  }}
+                  className="rounded bg-coffee-700 px-2 py-1 text-coffee-100 text-xs hover:bg-coffee-600"
+                >
+                  + Add Mitigation
+                </button>
+              )}
+            </div>
+
+            {/* Display existing delay as read-only mitigation */}
+            {currentFunction?.delay && resolvedDelay?.isResolved && (
+              <div className="mb-2 rounded bg-coffee-800 p-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="rounded bg-cyan-800 px-1.5 py-0.5 font-mono text-cyan-200 text-[10px]">
+                      DELAY
+                    </span>
+                    <span className="text-coffee-200 text-xs">
+                      {formatDelay(resolvedDelay.seconds)} via{' '}
+                      {currentFunction.delay.fieldName}
+                    </span>
+                  </div>
+                  <span className="text-coffee-500 text-[10px]">
+                    managed in Delay section
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Display existing mitigations */}
+            {(currentFunction?.mitigations ?? []).map((m, idx) => (
+              <div key={idx} className="mb-2 rounded bg-coffee-800 p-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${
+                        m.type === 'valueRange'
+                          ? 'bg-indigo-800 text-indigo-200'
+                          : m.type === 'relativeValue'
+                            ? 'bg-amber-800 text-amber-200'
+                            : 'bg-coffee-700 text-coffee-300'
+                      }`}
+                    >
+                      {m.type === 'valueRange'
+                        ? 'RANGE'
+                        : m.type === 'relativeValue'
+                          ? 'RELATIVE'
+                          : 'OTHER'}
+                    </span>
+                    <span className="text-coffee-200 text-xs">
+                      {m.type === 'valueRange' && m.valueRange && (
+                        <span className="mr-1 font-mono text-coffee-100">
+                          {m.valueRange.min !== undefined &&
+                            `min: ${m.valueRange.min}`}
+                          {m.valueRange.min !== undefined &&
+                            m.valueRange.max !== undefined &&
+                            ', '}
+                          {m.valueRange.max !== undefined &&
+                            `max: ${m.valueRange.max}`}
+                          {m.valueRange.unit && ` ${m.valueRange.unit}`}
+                        </span>
+                      )}
+                      {m.type === 'relativeValue' && m.relativeValue && (
+                        <span className="mr-1 font-mono text-coffee-100">
+                          max change: {m.relativeValue.maxChangePercent}%
+                        </span>
+                      )}
+                      {m.description}
+                    </span>
+                  </div>
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() => handleEditMitigation(idx)}
+                      className="rounded px-1.5 py-0.5 text-coffee-400 text-xs hover:bg-coffee-700 hover:text-coffee-200"
+                      title="Edit mitigation"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleRemoveMitigation(idx)}
+                      className="rounded px-1.5 py-0.5 text-coffee-400 text-xs hover:bg-red-900 hover:text-red-300"
+                      title="Remove mitigation"
+                    >
+                      x
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* No mitigations message */}
+            {!currentFunction?.delay &&
+              (currentFunction?.mitigations?.length ?? 0) === 0 &&
+              !isAddingMitigation && (
+                <div className="text-coffee-500 text-xs">
+                  No mitigations set for this function
+                </div>
+              )}
+
+            {/* Add/Edit mitigation form */}
+            {isAddingMitigation && (
+              <div className="rounded bg-coffee-800 p-3">
+                <div className="mb-2">
+                  <label className="mb-1 block text-coffee-300 text-xs">
+                    Type:
+                  </label>
+                  <select
+                    value={newMitigation.type}
+                    onChange={(e) =>
+                      setNewMitigation((prev) => ({
+                        ...prev,
+                        type: e.target.value as MitigationType,
+                      }))
+                    }
+                    className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 text-coffee-100 text-xs"
+                  >
+                    <option value="valueRange">Value Range (MIN/MAX)</option>
+                    <option value="relativeValue">
+                      Relative Value (% change)
+                    </option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                {/* Value Range fields */}
+                {newMitigation.type === 'valueRange' && (
+                  <div className="mb-2 flex gap-2">
+                    <div className="flex-1">
+                      <label className="mb-1 block text-coffee-300 text-xs">
+                        Min:
+                      </label>
+                      <input
+                        type="text"
+                        value={newMitigation.valueRange.min}
+                        onChange={(e) =>
+                          setNewMitigation((prev) => ({
+                            ...prev,
+                            valueRange: {
+                              ...prev.valueRange,
+                              min: e.target.value,
+                            },
+                          }))
+                        }
+                        placeholder="e.g. 0"
+                        className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 font-mono text-coffee-100 text-xs"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="mb-1 block text-coffee-300 text-xs">
+                        Max:
+                      </label>
+                      <input
+                        type="text"
+                        value={newMitigation.valueRange.max}
+                        onChange={(e) =>
+                          setNewMitigation((prev) => ({
+                            ...prev,
+                            valueRange: {
+                              ...prev.valueRange,
+                              max: e.target.value,
+                            },
+                          }))
+                        }
+                        placeholder="e.g. 1000"
+                        className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 font-mono text-coffee-100 text-xs"
+                      />
+                    </div>
+                    <div className="w-20">
+                      <label className="mb-1 block text-coffee-300 text-xs">
+                        Unit:
+                      </label>
+                      <input
+                        type="text"
+                        value={newMitigation.valueRange.unit}
+                        onChange={(e) =>
+                          setNewMitigation((prev) => ({
+                            ...prev,
+                            valueRange: {
+                              ...prev.valueRange,
+                              unit: e.target.value,
+                            },
+                          }))
+                        }
+                        placeholder="e.g. ETH"
+                        className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 font-mono text-coffee-100 text-xs"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Relative Value fields */}
+                {newMitigation.type === 'relativeValue' && (
+                  <div className="mb-2">
+                    <label className="mb-1 block text-coffee-300 text-xs">
+                      Max Change (%):
+                    </label>
+                    <input
+                      type="text"
+                      value={newMitigation.relativeValue.maxChangePercent}
+                      onChange={(e) =>
+                        setNewMitigation((prev) => ({
+                          ...prev,
+                          relativeValue: {
+                            maxChangePercent: e.target.value,
+                          },
+                        }))
+                      }
+                      placeholder="e.g. 5"
+                      className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 font-mono text-coffee-100 text-xs"
+                    />
+                  </div>
+                )}
+
+                {/* Description (required for all types) */}
+                <div className="mb-3">
+                  <label className="mb-1 block text-coffee-300 text-xs">
+                    Description:
+                  </label>
+                  <input
+                    type="text"
+                    value={newMitigation.description}
+                    onChange={(e) =>
+                      setNewMitigation((prev) => ({
+                        ...prev,
+                        description: e.target.value,
+                      }))
+                    }
+                    placeholder={
+                      newMitigation.type === 'other'
+                        ? 'Describe the mitigation...'
+                        : 'Explain this constraint...'
+                    }
+                    className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 text-coffee-100 text-xs"
+                  />
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleAddMitigation}
+                    disabled={!isMitigationFormValid()}
+                    className="rounded bg-cyan-700 px-3 py-1 text-white text-xs hover:bg-cyan-600 disabled:bg-coffee-600 disabled:text-coffee-400"
+                  >
+                    {editingMitigationIndex !== null
+                      ? 'Save Mitigation'
+                      : 'Add Mitigation'}
+                  </button>
+                  <button
+                    onClick={resetMitigationForm}
+                    className="rounded bg-coffee-700 px-3 py-1 text-coffee-100 text-xs hover:bg-coffee-600"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             )}
           </div>

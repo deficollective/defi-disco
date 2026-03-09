@@ -7,12 +7,15 @@ import { calculateV2Score, type V2ScoreResult } from './v2Scoring'
 import type {
   AdminDetailWithCapital,
   ApiContractTagsResponse,
+  ApiFunctionsResponse,
   ContractFundsData,
   ApiFunctionAnalysisResponse,
   ApiFundsDataResponse,
+  Mitigation,
   ResourceEntry,
   ReviewConfig,
 } from './types'
+import { getFunctions } from './functions'
 import { computeFunctionAnalysis } from './functionAnalysis'
 import { getFundsData } from './fundsData'
 import { getContractTags } from './contractTags'
@@ -84,6 +87,7 @@ export interface CompiledAdminFunction {
   directFundsUsd: number
   directTokenValueUsd: number
   reachableContracts: CompiledReachableContract[]
+  mitigations?: Mitigation[]
 }
 
 export interface CompiledReachableContract {
@@ -131,6 +135,7 @@ export interface CompiledFunction {
   contractName: string
   functionName: string
   impact: 'critical'
+  mitigations?: Mitigation[]
 }
 
 export interface CompiledContract {
@@ -233,6 +238,9 @@ export class ReviewCompiler {
       // 5. Compute function analysis (rich dependency data with viewOnlyPath)
       const functionAnalysis = computeFunctionAnalysis(this.paths, project)
 
+      // 5b. Read functions data (for mitigations)
+      const functionsData = getFunctions(this.paths, project)
+
       // 6. Build the compiled review
       const compiled = this.buildCompiledReview(
         project,
@@ -241,6 +249,7 @@ export class ReviewCompiler {
         fundsData,
         contractTags,
         functionAnalysis,
+        functionsData,
       )
 
       // 7. Resolve template variables in all description fields
@@ -276,7 +285,47 @@ export class ReviewCompiler {
     fundsData: ApiFundsDataResponse,
     contractTags: ApiContractTagsResponse,
     functionAnalysis: ApiFunctionAnalysisResponse,
+    functionsData: ApiFunctionsResponse,
   ): CompiledReview {
+    // Build mitigations lookup: (contractAddress|functionName) → merged Mitigation[]
+    const mitigationsLookup = new Map<string, Mitigation[]>()
+    if (functionsData?.contracts) {
+      for (const [contractAddr, contractData] of Object.entries(
+        functionsData.contracts,
+      )) {
+        for (const func of contractData.functions) {
+          const mitigations: Mitigation[] = []
+          // Include delay as a delay-type mitigation
+          if (func.delay) {
+            mitigations.push({
+              type: 'delay',
+              description: `Delay via ${func.delay.fieldName}`,
+              delayRef: {
+                contractAddress: func.delay.contractAddress,
+                fieldName: func.delay.fieldName,
+              },
+            })
+          }
+          // Include explicitly stored mitigations
+          if (func.mitigations && func.mitigations.length > 0) {
+            mitigations.push(...func.mitigations)
+          }
+          if (mitigations.length > 0) {
+            const key = `${normalizeChainAddress(contractAddr)}|${func.functionName}`
+            mitigationsLookup.set(key, mitigations)
+          }
+        }
+      }
+    }
+
+    const getMitigationsForFunction = (
+      contractAddress: string,
+      functionName: string,
+    ): Mitigation[] | undefined => {
+      const key = `${normalizeChainAddress(contractAddress)}|${functionName}`
+      return mitigationsLookup.get(key)
+    }
+
     const tagsByAddress = new Map<
       string,
       ApiContractTagsResponse['tags'][number]
@@ -327,6 +376,9 @@ export class ReviewCompiler {
                   tokenValueUsd: r.tokenValueUsd,
                   fundsAtRisk: r.fundsAtRisk,
                 })),
+                mitigations:
+                  f.mitigations ??
+                  getMitigationsForFunction(f.contractAddress, f.functionName),
               }))
             : admin.functions.map((f) => ({
                 contractAddress: f.contractAddress,
@@ -336,6 +388,10 @@ export class ReviewCompiler {
                 directFundsUsd: 0,
                 directTokenValueUsd: 0,
                 reachableContracts: [],
+                mitigations: getMitigationsForFunction(
+                  f.contractAddress,
+                  f.functionName,
+                ),
               })),
           totalDirectCapital: hasCapital ? withCapital.totalDirectCapital : 0,
           totalDirectTokenValue: hasCapital
@@ -479,6 +535,9 @@ export class ReviewCompiler {
           contractName: func.contractName,
           functionName: func.functionName,
           impact: func.impact,
+          mitigations:
+            func.mitigations ??
+            getMitigationsForFunction(func.contractAddress, func.functionName),
         })
       }
     }

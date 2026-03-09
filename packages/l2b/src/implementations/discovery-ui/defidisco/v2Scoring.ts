@@ -34,6 +34,7 @@ import type {
   DependencyDetail,
   FunctionDetail,
   Impact,
+  Mitigation,
 } from './types'
 
 // ============================================================================
@@ -77,6 +78,38 @@ interface ScoringData {
   paths: DiscoveryPaths
   projectName: string
   callGraphData: ApiCallGraphResponse
+}
+
+// ============================================================================
+// Mitigation Helpers
+// ============================================================================
+
+/**
+ * Builds a merged mitigations list for a function.
+ * Combines the existing delay field (as a delay-type mitigation) with
+ * explicitly stored mitigations from functions.json.
+ */
+function buildMergedMitigations(func: any): Mitigation[] | undefined {
+  const mitigations: Mitigation[] = []
+
+  // Include delay as a delay-type mitigation
+  if (func.delay) {
+    mitigations.push({
+      type: 'delay',
+      description: `Delay via ${func.delay.fieldName}`,
+      delayRef: {
+        contractAddress: func.delay.contractAddress,
+        fieldName: func.delay.fieldName,
+      },
+    })
+  }
+
+  // Include explicitly stored mitigations
+  if (func.mitigations && func.mitigations.length > 0) {
+    mitigations.push(...func.mitigations)
+  }
+
+  return mitigations.length > 0 ? mitigations : undefined
 }
 
 // ============================================================================
@@ -139,6 +172,7 @@ class FunctionInventoryModule {
                 contractName,
                 functionName: func.functionName,
                 impact,
+                mitigations: buildMergedMitigations(func),
               })
             }
           })
@@ -456,6 +490,7 @@ class AdminInventoryModule {
                   'Unknown Contract',
                 functionName: func.functionName,
                 impact: 'critical' as Impact,
+                mitigations: buildMergedMitigations(func),
               })
             })
           })

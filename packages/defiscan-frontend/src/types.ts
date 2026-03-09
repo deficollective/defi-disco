@@ -42,10 +42,7 @@ export type CompiledResourceType =
   | 'github'
   | 'x'
   | 'other'
-export type CompiledFrontendSubtype =
-  | 'official'
-  | 'third-party'
-  | 'self-hosted'
+export type CompiledFrontendSubtype = 'official' | 'third-party' | 'self-hosted'
 
 export interface CompiledResourceEntry {
   url: string
@@ -67,6 +64,17 @@ export interface CompiledAdmin {
   totalReachableTokenValue: number
 }
 
+// Mitigation types for permissioned functions
+export type MitigationType = 'delay' | 'valueRange' | 'relativeValue' | 'other'
+
+export interface Mitigation {
+  type: MitigationType
+  description: string
+  delayRef?: { contractAddress: string; fieldName: string }
+  valueRange?: { min?: string; max?: string; unit?: string }
+  relativeValue?: { maxChangePercent?: string }
+}
+
 export interface CompiledAdminFunction {
   contractAddress: string
   contractName: string
@@ -75,6 +83,7 @@ export interface CompiledAdminFunction {
   directFundsUsd: number
   directTokenValueUsd: number
   reachableContracts: CompiledReachableContract[]
+  mitigations?: Mitigation[]
 }
 
 export interface CompiledReachableContract {
@@ -122,6 +131,7 @@ export interface CompiledFunction {
   contractName: string
   functionName: string
   impact: 'critical'
+  mitigations?: Mitigation[]
 }
 
 export interface CompiledContract {

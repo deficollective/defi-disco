@@ -11,6 +11,7 @@ import type {
   ApiAbi,
   ApiAbiEntry,
   FunctionEntry,
+  Mitigation,
   OwnerDefinition,
 } from '../../../api/types'
 import { useCodeStore } from '../../../components/editor/store'
@@ -219,6 +220,16 @@ export function PermissionsDisplay({
     if (!project) return
 
     await updateFunctionEntry(contractAddress, functionName, { dependencies })
+  }
+
+  const handleMitigationsUpdate = async (
+    contractAddress: string,
+    functionName: string,
+    mitigations: Mitigation[] | null,
+  ) => {
+    if (!project) return
+
+    await updateFunctionEntry(contractAddress, functionName, { mitigations })
   }
 
   const handleAddComment = async (
@@ -444,6 +455,7 @@ export function PermissionsDisplay({
               onOwnerDefinitionsUpdate={handleOwnerDefinitionsUpdate}
               onDelayUpdate={handleDelayUpdate}
               onDependenciesUpdate={handleDependenciesUpdate}
+              onMitigationsUpdate={handleMitigationsUpdate}
               onAddComment={handleAddComment}
               researcherGithub={researcherInfo?.githubHandle ?? null}
             />
@@ -468,6 +480,7 @@ function PermissionsCode({
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
   onDependenciesUpdate,
+  onMitigationsUpdate,
   onAddComment,
   researcherGithub,
 }: {
@@ -516,6 +529,11 @@ function PermissionsCode({
     functionName: string,
     dependencies?: { contractAddress: string }[],
   ) => void
+  onMitigationsUpdate: (
+    contractAddress: string,
+    functionName: string,
+    mitigations: Mitigation[] | null,
+  ) => void
   onAddComment: (
     contractAddress: string,
     functionName: string,
@@ -554,6 +572,7 @@ function PermissionsCode({
           onOwnerDefinitionsUpdate={onOwnerDefinitionsUpdate}
           onDelayUpdate={onDelayUpdate}
           onDependenciesUpdate={onDependenciesUpdate}
+          onMitigationsUpdate={onMitigationsUpdate}
           onAddComment={onAddComment}
           researcherGithub={researcherGithub}
         />
@@ -575,6 +594,7 @@ function WritePermissionsCodeEntries({
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
   onDependenciesUpdate,
+  onMitigationsUpdate,
   onAddComment,
   researcherGithub,
 }: {
@@ -621,6 +641,11 @@ function WritePermissionsCodeEntries({
     contractAddress: string,
     functionName: string,
     dependencies?: { contractAddress: string }[],
+  ) => void
+  onMitigationsUpdate: (
+    contractAddress: string,
+    functionName: string,
+    mitigations: Mitigation[] | null,
   ) => void
   onAddComment: (
     contractAddress: string,
@@ -669,6 +694,7 @@ function WritePermissionsCodeEntries({
             onOwnerDefinitionsUpdate={onOwnerDefinitionsUpdate}
             onDelayUpdate={onDelayUpdate}
             onDependenciesUpdate={onDependenciesUpdate}
+            onMitigationsUpdate={onMitigationsUpdate}
             onAddComment={onAddComment}
             researcherGithub={researcherGithub}
           />
