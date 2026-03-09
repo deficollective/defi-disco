@@ -97,7 +97,7 @@ export function LandingPage() {
           Independent security reviews of DeFi protocols.{' '}
           <span className="text-text-muted">
             {indexData.globalTotals.protocolsReviewed} protocols |{' '}
-            {formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)} total funds locked
+            {formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)} total TVL
           </span>
         </p>
       </div>
@@ -109,7 +109,7 @@ export function LandingPage() {
           value={String(indexData.globalTotals.protocolsReviewed)}
         />
         <StatCard
-          label="Total Funds Locked"
+          label="Total TVL"
           value={formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}
         />
       </div>
@@ -121,7 +121,7 @@ export function LandingPage() {
             <tr className="border-b border-border bg-bg-muted">
               <SortHeader label="Protocol" sortKey="name" current={sortKey} asc={sortAsc} onToggle={toggleSort} />
               <th className="text-left px-3 py-3 font-medium text-text-secondary text-xs uppercase tracking-wide">Type</th>
-              <SortHeader label="Funds Locked" sortKey="capital" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
+              <SortHeader label="TVL" sortKey="capital" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <SortHeader label="Protocol Token" sortKey="tokenValue" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <SortHeader label="Admins" sortKey="admins" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-center">Governance</th>

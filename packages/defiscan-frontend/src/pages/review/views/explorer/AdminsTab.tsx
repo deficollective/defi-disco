@@ -91,7 +91,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
       <div className="flex items-center gap-6 mb-4 text-sm">
         <AdminsSummaryLabel admins={humanAdmins} />
         <span className="text-text-secondary">
-          Funds Locked:{' '}
+          TVL:{' '}
           <UsdValue
             value={totals.totalCapitalAtRisk}
             variant="capital"
