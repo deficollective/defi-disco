@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useIndex, useAllReviews } from '../../data/hooks'
 import { formatUsdValue } from '../../utils/format'
+import { adminTypeColor } from '../../utils/colors'
 import { Badge } from '../../components/Badge'
 import { ProtocolTypeBadge } from '../../components/ProtocolTypeBadge'
 import { UsdValue } from '../../components/UsdValue'
@@ -102,7 +103,7 @@ export function LandingPage() {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-2 gap-4 mb-8">
         <StatCard
           label="Protocols Reviewed"
           value={String(indexData.globalTotals.protocolsReviewed)}
@@ -110,18 +111,6 @@ export function LandingPage() {
         <StatCard
           label="Total Funds Locked"
           value={formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}
-        />
-        <StatCard
-          label="Token Value at Risk"
-          value={formatUsdValue(indexData.globalTotals.totalTokenValueAtRisk)}
-        />
-        <StatCard
-          label="Total Token Value"
-          value={formatUsdValue(indexData.globalTotals.totalTokenValue)}
-        />
-        <StatCard
-          label="Shared Dependencies"
-          value={String(indexData.dependencies.length)}
         />
       </div>
 
@@ -133,10 +122,11 @@ export function LandingPage() {
               <SortHeader label="Protocol" sortKey="name" current={sortKey} asc={sortAsc} onToggle={toggleSort} />
               <th className="text-left px-3 py-3 font-medium text-text-secondary text-xs uppercase tracking-wide">Type</th>
               <SortHeader label="Funds Locked" sortKey="capital" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <SortHeader label="Token Value" sortKey="tokenValue" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
+              <SortHeader label="Protocol Token" sortKey="tokenValue" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <SortHeader label="Admins" sortKey="admins" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-center">Gov</th>
-              <SortHeader label="Deps" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
+              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-center">Governance</th>
+              <SortHeader label="Dependencies" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
+              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-left">Admin Types</th>
             </tr>
           </thead>
           <tbody>
@@ -144,6 +134,7 @@ export function LandingPage() {
               const review = reviewMap.get(p.slug)
               const humanAdminCount = review ? computeHumanAdminCount(review) : 0
               const govExists = review ? hasGovernance(review) : false
+              const adminBreakdown = review ? computeAdminBreakdown(review) : {}
 
               return (
                 <tr key={p.slug} className="border-b border-border last:border-0 hover:bg-bg-muted/50 transition-colors">
@@ -165,6 +156,7 @@ export function LandingPage() {
                       : <span title="No governance">No</span>}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">{p.totals.dependencyCount}</td>
+                  <td className="px-3 py-3"><AdminTypeBar breakdown={adminBreakdown} /></td>
                 </tr>
               )
             })}
@@ -176,6 +168,30 @@ export function LandingPage() {
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function computeAdminBreakdown(review: CompiledReview) {
+  const counts: Record<string, number> = {}
+  for (const admin of getHumanAdmins(review.admins)) {
+    const t = admin.isGovernance ? 'Governance' : (admin.adminType || 'Unknown')
+    counts[t] = (counts[t] || 0) + 1
+  }
+  return counts
+}
+
+function AdminTypeBar({ breakdown }: { breakdown: Record<string, number> }) {
+  const total = Object.values(breakdown).reduce((s, n) => s + n, 0)
+  if (total === 0) return <span className="inline-flex items-center gap-1 text-xs text-green-600"><svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>None</span>
+  return (
+    <div className="flex items-center gap-1">
+      {Object.entries(breakdown).map(([type, count]) => (
+        <span key={type} className="inline-flex items-center gap-0.5 text-xs" title={`${count} ${type}`}>
+          <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: adminTypeColor(type) }} />
+          <span className="text-text-secondary">{count}</span>
+        </span>
+      ))}
+    </div>
+  )
+}
 
 function SortHeader({ label, sortKey, current, asc, onToggle, align = 'left' }: {
   label: string; sortKey: SortKey; current: SortKey; asc: boolean; onToggle: (k: SortKey) => void; align?: 'left' | 'right'

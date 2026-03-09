@@ -5,7 +5,6 @@ import { UsdValue } from '../../../../components/UsdValue'
 import { formatUsdValue } from '../../../../utils/format'
 import { getHumanAdmins } from '../../../../utils/admins'
 import type { CompiledReview, CompiledAdmin } from '../../../../types'
-import { DirectVsReachableDiagram } from './svg/DirectVsReachableDiagram'
 
 interface AdminsTabProps {
   review: CompiledReview
@@ -14,7 +13,6 @@ interface AdminsTabProps {
 type SortField =
   | 'name'
   | 'type'
-  | 'directCapital'
   | 'reachableCapital'
   | 'tokenValue'
   | 'functions'
@@ -23,7 +21,7 @@ type SortDir = 'asc' | 'desc'
 export function AdminsTab({ review }: AdminsTabProps) {
   const { admins, totals } = review
   const humanAdmins = useMemo(() => getHumanAdmins(admins), [admins])
-  const [sortField, setSortField] = useState<SortField>('directCapital')
+  const [sortField, setSortField] = useState<SortField>('reachableCapital')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expanded, setExpanded] = useState<Set<string>>(new Set())
 
@@ -37,9 +35,6 @@ export function AdminsTab({ review }: AdminsTabProps) {
           break
         case 'type':
           cmp = a.adminType.localeCompare(b.adminType)
-          break
-        case 'directCapital':
-          cmp = a.totalDirectCapital - b.totalDirectCapital
           break
         case 'reachableCapital':
           cmp = a.totalReachableCapital - b.totalReachableCapital
@@ -135,14 +130,6 @@ export function AdminsTab({ review }: AdminsTabProps) {
                 onClick={handleSort}
               />
               <SortHeader
-                field="directCapital"
-                label="Direct Funds"
-                current={sortField}
-                dir={sortDir}
-                onClick={handleSort}
-                className="text-right"
-              />
-              <SortHeader
                 field="reachableCapital"
                 label="Reachable Funds"
                 current={sortField}
@@ -181,13 +168,6 @@ export function AdminsTab({ review }: AdminsTabProps) {
         </table>
       </div>
 
-      {/* Direct vs Reachable Capital diagram */}
-      <div className="rounded-lg border border-border bg-white p-4 mt-4">
-        <h3 className="text-sm font-semibold text-text-primary mb-2">
-          Direct vs Reachable Funds
-        </h3>
-        <DirectVsReachableDiagram admins={humanAdmins} />
-      </div>
     </div>
   )
 }
@@ -243,17 +223,6 @@ function AdminRow({
           )}
         </td>
         <td className="px-4 py-2.5 text-right tabular-nums">
-          {admin.totalDirectCapital > 0 ? (
-            <UsdValue
-              value={admin.totalDirectCapital}
-              variant="capital"
-              className="text-sm"
-            />
-          ) : (
-            <span className="text-text-muted">-</span>
-          )}
-        </td>
-        <td className="px-4 py-2.5 text-right tabular-nums">
           {admin.totalReachableCapital > 0 ? (
             <UsdValue
               value={admin.totalReachableCapital}
@@ -281,7 +250,7 @@ function AdminRow({
       </tr>
       {isExpanded && (
         <tr>
-          <td colSpan={6} className="px-0 py-0">
+          <td colSpan={5} className="px-0 py-0">
             <ExpandedFunctions admin={admin} />
           </td>
         </tr>
