@@ -72,6 +72,8 @@ export function updateContractTag(
   const newIsToken = updateRequest.isToken ?? existingTag?.isToken ?? false
   const newIsGovernance =
     updateRequest.isGovernance ?? existingTag?.isGovernance ?? false
+  const newExcludeFromReview =
+    updateRequest.excludeFromReview ?? existingTag?.excludeFromReview ?? false
   const newEntity =
     updateRequest.entity !== undefined
       ? updateRequest.entity === null
@@ -85,7 +87,8 @@ export function updateContractTag(
     newIsGovernance ||
     newFetchBalances ||
     newFetchPositions ||
-    newIsToken
+    newIsToken ||
+    newExcludeFromReview
 
   if (hasAnyTagData) {
     // Create or update tag entry
@@ -97,6 +100,7 @@ export function updateContractTag(
       fetchBalances: newFetchBalances || undefined, // Only store if true
       fetchPositions: newFetchPositions || undefined, // Only store if true
       isToken: newIsToken || undefined, // Only store if true
+      excludeFromReview: newExcludeFromReview || undefined, // Only store if true
       timestamp: new Date().toISOString(),
     }
 

@@ -21,6 +21,7 @@ import {
   addressesEqual,
   getFromAddressRecord,
 } from './addressUtils'
+import { getProject } from '../getProject'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -233,7 +234,90 @@ export class ReviewCompiler {
       // 5. Compute function analysis (rich dependency data with viewOnlyPath)
       const functionAnalysis = computeFunctionAnalysis(this.paths, project)
 
-      // 6. Build the compiled review
+      // 6. Load project data for contract names (applies config name overrides + multisig formatting)
+      const projectData = getProject(configReader, templateService, project)
+
+      // Build flat list of contracts with names from getProject
+      const allProjectContracts: {
+        name: string
+        address: string
+        type: string
+        proxyType?: string
+      }[] = []
+      for (const entry of projectData.entries) {
+        for (const contract of [
+          ...(entry.initialContracts ?? []),
+          ...(entry.discoveredContracts ?? []),
+        ]) {
+          allProjectContracts.push({
+            name: contract.name ?? contract.address,
+            address: contract.address,
+            type: contract.type,
+            proxyType: contract.proxyType,
+          })
+        }
+        for (const eoa of entry.eoas ?? []) {
+          allProjectContracts.push({
+            name: eoa.address,
+            address: eoa.address,
+            type: 'EOA',
+            proxyType: 'EOA',
+          })
+        }
+      }
+
+      // Collect multisig signer addresses from gnosis safe contracts
+      const multisigSigners = new Set<string>()
+      for (const entry of projectData.entries) {
+        for (const contract of [
+          ...(entry.initialContracts ?? []),
+          ...(entry.discoveredContracts ?? []),
+        ]) {
+          if (contract.proxyType !== 'gnosis safe') continue
+          const membersField = contract.fields?.find(
+            (f) => f.name === '$members',
+          )
+          if (membersField?.value?.type === 'array') {
+            for (const v of membersField.value.values ?? []) {
+              if (v.type === 'address') {
+                multisigSigners.add(v.address.toLowerCase())
+              }
+            }
+          }
+        }
+      }
+
+      // Collect admin addresses from v2 scoring
+      const adminAddresses = new Set<string>()
+      if (v2Score.inventory.admins.breakdown) {
+        for (const admin of v2Score.inventory.admins.breakdown) {
+          adminAddresses.add(admin.adminAddress.toLowerCase())
+        }
+      }
+
+      // Build excluded address set from contract tags
+      const excludedAddresses = new Set<string>()
+      for (const tag of contractTags.tags ?? []) {
+        if (tag.excludeFromReview) {
+          const norm = tag.contractAddress.replace(/^eth:/i, '').toLowerCase()
+          excludedAddresses.add(norm)
+        }
+      }
+
+      // Filter out EOAs that are multisig signers (unless also admins) and excluded contracts
+      const discoveryEntries = allProjectContracts.filter((e) => {
+        const norm = e.address.replace(/^eth:/i, '').toLowerCase()
+        if (excludedAddresses.has(norm)) return false
+        if (
+          e.type === 'EOA' &&
+          multisigSigners.has(e.address.toLowerCase()) &&
+          !adminAddresses.has(e.address.toLowerCase())
+        )
+          return false
+        return true
+      })
+
+      // 7. Build the compiled review
       const compiled = this.buildCompiledReview(
         project,
         reviewConfig,
@@ -241,6 +325,7 @@ export class ReviewCompiler {
         fundsData,
         contractTags,
         functionAnalysis,
+        discoveryEntries,
       )
 
       // 7. Resolve template variables in all description fields
@@ -276,6 +361,7 @@ export class ReviewCompiler {
     fundsData: ApiFundsDataResponse,
     contractTags: ApiContractTagsResponse,
     functionAnalysis: ApiFunctionAnalysisResponse,
+    discoveryEntries: { name?: string; address: string; proxyType?: string }[],
   ): CompiledReview {
     const tagsByAddress = new Map<
       string,
@@ -483,16 +569,48 @@ export class ReviewCompiler {
       }
     }
 
-    // Build contracts list (stub — uses tag data)
+    // Build contracts list from discovery entries, enriched with tag data
+    // Build review-config name lookup (admins, dependencies, funds all have name overrides)
+    const configNameMap = new Map<string, string>()
+    for (const section of [
+      reviewConfig.admins,
+      reviewConfig.dependencies,
+      reviewConfig.funds,
+    ]) {
+      for (const [addr, desc] of Object.entries(section ?? {})) {
+        if (desc?.name) {
+          configNameMap.set(addr.toLowerCase(), desc.name)
+        }
+      }
+    }
+
     const contracts: CompiledContract[] = []
-    for (const tag of contractTags.tags ?? []) {
+    for (const entry of discoveryEntries) {
+      const addrNorm = entry.address.replace(/^eth:/i, '').toLowerCase()
+      const tag = tagsByAddress.get(addrNorm)
+
+      // Resolve name: review-config override > cleaned getProject name > address
+      let name =
+        configNameMap.get(entry.address.toLowerCase()) ??
+        entry.name ??
+        entry.address
+      // Clean up multisig names: "5/8 63% Safe" → "5/8 Multisig"
+      if (
+        entry.proxyType === 'gnosis safe' &&
+        !configNameMap.has(entry.address.toLowerCase())
+      ) {
+        name = name
+          .replace(/\s+\d+%/, '') // remove percentage
+          .replace(/\b(GnosisSafe|Safe)\b/, 'Multisig') // replace Safe/GnosisSafe with Multisig
+      }
+
       contracts.push({
-        address: tag.contractAddress,
-        name: tag.contractAddress, // Name resolved from discovery if available
-        isExternal: tag.isExternal ?? false,
-        isGovernance: tag.isGovernance ?? false,
-        entity: tag.entity ?? null,
-        proxyType: null,
+        address: entry.address,
+        name,
+        isExternal: tag?.isExternal ?? false,
+        isGovernance: tag?.isGovernance ?? false,
+        entity: tag?.entity ?? null,
+        proxyType: entry.proxyType ?? null,
       })
     }
 

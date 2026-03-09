@@ -407,6 +407,7 @@ export interface ContractTag {
   fetchBalances?: boolean
   fetchPositions?: boolean
   isToken?: boolean
+  excludeFromReview?: boolean
   timestamp: string
 }
 
@@ -418,6 +419,7 @@ export interface ApiContractTagsUpdateRequest {
   fetchBalances?: boolean
   fetchPositions?: boolean
   isToken?: boolean
+  excludeFromReview?: boolean
 }
 
 // Funds data types

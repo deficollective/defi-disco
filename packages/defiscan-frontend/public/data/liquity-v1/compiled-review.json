@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-05T04:56:23.703Z",
+  "compiledAt": "2026-03-09T00:37:48.128Z",
   "project": "liquity-v1",
   "metadata": {
     "protocolName": "Liquity V1",
@@ -11,7 +11,7 @@
     "description": "Liquity V1 is an immutable, governance-free borrowing protocol on Ethereum that issues LUSD stablecoins against ETH collateral at a minimum 110% collateralization ratio. All smart contracts are non-upgradeable with ownership renounced to the zero address, making the protocol fully autonomous. The system relies on Chainlink and Tellor as dual oracle sources for ETH/USD pricing, with an automatic fallback mechanism between the two. The protocol holds $175.61M in total value across its contracts."
   },
   "totals": {
-    "contractCount": 18,
+    "contractCount": 21,
     "permissionedFunctionCount": 17,
     "scoredFunctionCount": 0,
     "adminCount": 4,
@@ -163,7 +163,7 @@
       "address": "eth:0xA39739EF8b0231DbFA0DcdA07d7e29faAbCf4bb2",
       "name": "TroveManager",
       "description": "",
-      "adminType": "Contract",
+      "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
         {
@@ -203,7 +203,7 @@
       "address": "eth:0x24179CD81c9e782A4096035f7eC97fB8B783e007",
       "name": "BorrowerOperations",
       "description": "",
-      "adminType": "Contract",
+      "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
         {
@@ -405,94 +405,183 @@
   "functions": [],
   "contracts": [
     {
-      "address": "eth:0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419",
-      "name": "eth:0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419",
+      "address": "eth:0xDf9Eb223bAFBE5c5271415C75aeCD68C21fE3D7F",
+      "name": "ActivePool (ETH)",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x24179CD81c9e782A4096035f7eC97fB8B783e007",
+      "name": "BorrowerOperations",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x3D7aE7E594f2f2091Ad8798313450130d0Aba3a0",
+      "name": "Chainlink LUSD/USD Price Feed",
       "isExternal": true,
       "isGovernance": false,
       "entity": null,
-      "proxyType": null
+      "proxyType": "immutable"
     },
     {
-      "address": "eth:0x3d7ae7e594f2f2091ad8798313450130d0aba3a0",
-      "name": "eth:0x3d7ae7e594f2f2091ad8798313450130d0aba3a0",
+      "address": "eth:0x3D32e8b97Ed5881324241Cf03b2DA5E2EBcE5521",
+      "name": "CollSurplusPool (ETH)",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xD8c9D9071123a059C6E0A945cF0e0c82b508d816",
+      "name": "CommunityIssuance",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x896a3F03176f05CFbb4f006BfCd8723F2B0D741C",
+      "name": "DefaultPool",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x9555b042F969E561855e5F28cB1230819149A8d9",
+      "name": "GasPool (LUSD)",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xE84251b93D9524E0d2e621Ba7dc7cb3579F997C0",
+      "name": "HintHelpers",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x6DEA81C8171D0bA574754EF6F8b412F2Ed88c54D",
+      "name": "LQTY Token",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x4f9Fbb3f1E99B56e0Fe2892e623Ed36A76Fc605d",
+      "name": "LQTYStaking",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
+      "name": "LUSD Stablecoin Token",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xFc92d0E9Fa35df17E3A6d9F40716ca2cE749922B",
+      "name": "MultiTroveGetter",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x4c517D4e2C851CA76d7eC94B805269Df0f2201De",
+      "name": "PriceFeed",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x8FdD3fbFEb32b28fb73555518f8b361bCeA741A6",
+      "name": "SortedTroves",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x66017D22b0f8556afDd19FC67041899Eb65a21bb",
+      "name": "StabilityPool (LUSD + ETH)",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xAd430500ECDa11E38C9bCB08a702274b94641112",
+      "name": "Tellor Price Feed",
       "isExternal": true,
       "isGovernance": false,
       "entity": null,
-      "proxyType": null
+      "proxyType": "immutable"
     },
     {
-      "address": "eth:0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0",
-      "name": "eth:0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0",
+      "address": "eth:0xA39739EF8b0231DbFA0DcdA07d7e29faAbCf4bb2",
+      "name": "TroveManager",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xb8a9faDA75c6d891fB77a7988Ff9BaD9e485Ca1C",
+      "name": "3/8 Multisig",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "gnosis safe"
+    },
+    {
+      "address": "eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+      "name": "4/9 Multisig",
       "isExternal": true,
       "isGovernance": false,
       "entity": null,
-      "proxyType": null
+      "proxyType": "gnosis safe"
     },
     {
-      "address": "eth:0xad430500ecda11e38c9bcb08a702274b94641112",
-      "name": "eth:0xad430500ecda11e38c9bcb08a702274b94641112",
+      "address": "eth:0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+      "name": "Chainlink ETH/USD Price Feed",
       "isExternal": true,
       "isGovernance": false,
       "entity": null,
-      "proxyType": null
+      "proxyType": "immutable"
     },
     {
-      "address": "eth:0x21f73d42eb58ba49ddb685dc29d3bf5c0f0373ca",
-      "name": "eth:0x21f73d42eb58ba49ddb685dc29d3bf5c0f0373ca",
+      "address": "eth:0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
+      "name": "Tellor Tributes Token",
       "isExternal": true,
       "isGovernance": false,
       "entity": null,
-      "proxyType": null
+      "proxyType": "ZeppelinOS proxy"
     },
     {
-      "address": "eth:0x66017d22b0f8556afdd19fc67041899eb65a21bb",
-      "name": "eth:0x66017d22b0f8556afdd19fc67041899eb65a21bb",
+      "address": "eth:0xD98C3b7f0297f2eD1861893cFD80C4CfA24Fb687",
+      "name": "eth:0xD98C3b7f0297f2eD1861893cFD80C4CfA24Fb687",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
-      "proxyType": null
-    },
-    {
-      "address": "eth:0xdf9eb223bafbe5c5271415c75aecd68c21fe3d7f",
-      "name": "eth:0xdf9eb223bafbe5c5271415c75aecd68c21fe3d7f",
-      "isExternal": false,
-      "isGovernance": false,
-      "entity": null,
-      "proxyType": null
-    },
-    {
-      "address": "eth:0x6dea81c8171d0ba574754ef6f8b412f2ed88c54d",
-      "name": "eth:0x6dea81c8171d0ba574754ef6f8b412f2ed88c54d",
-      "isExternal": false,
-      "isGovernance": false,
-      "entity": null,
-      "proxyType": null
-    },
-    {
-      "address": "eth:0x3d32e8b97ed5881324241cf03b2da5e2ebce5521",
-      "name": "eth:0x3d32e8b97ed5881324241cf03b2da5e2ebce5521",
-      "isExternal": false,
-      "isGovernance": false,
-      "entity": null,
-      "proxyType": null
-    },
-    {
-      "address": "eth:0x9555b042f969e561855e5f28cb1230819149a8d9",
-      "name": "eth:0x9555b042f969e561855e5f28cb1230819149a8d9",
-      "isExternal": false,
-      "isGovernance": false,
-      "entity": null,
-      "proxyType": null
-    },
-    {
-      "address": "eth:0x5f98805a4e8be255a32880fdec7f6728c6568ba0",
-      "name": "eth:0x5f98805a4e8be255a32880fdec7f6728c6568ba0",
-      "isExternal": false,
-      "isGovernance": false,
-      "entity": null,
-      "proxyType": null
+      "proxyType": "EOA"
     }
   ],
+  "resources": [],
   "sections": {
     "codeAndAudits": {
       "title": "Code & Audits",
