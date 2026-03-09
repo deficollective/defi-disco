@@ -10,11 +10,7 @@ import { StatCard } from '../../components/StatCard'
 import type { CompiledReview } from '../../types'
 import { getHumanAdmins } from '../../utils/admins'
 
-type SortKey = 'name' | 'capital' | 'tokenValue' | 'admins' | 'dependencies'
-
-function computeHumanAdminCount(review: CompiledReview): number {
-  return getHumanAdmins(review.admins).length
-}
+type SortKey = 'name' | 'capital' | 'tokenValue' | 'dependencies'
 
 function hasGovernance(review: CompiledReview): boolean {
   return review.admins.some((a) => a.isGovernance)
@@ -53,12 +49,6 @@ export function LandingPage() {
         case 'tokenValue':
           cmp = (a.totals.totalTokenValue ?? a.totals.totalTokenValueAtRisk) - (b.totals.totalTokenValue ?? b.totals.totalTokenValueAtRisk)
           break
-        case 'admins': {
-          const aReview = reviewMap.get(a.slug)
-          const bReview = reviewMap.get(b.slug)
-          cmp = (aReview ? computeHumanAdminCount(aReview) : 0) - (bReview ? computeHumanAdminCount(bReview) : 0)
-          break
-        }
         case 'dependencies':
           cmp = a.totals.dependencyCount - b.totals.dependencyCount
           break
@@ -123,16 +113,14 @@ export function LandingPage() {
               <th className="text-left px-3 py-3 font-medium text-text-secondary text-xs uppercase tracking-wide">Type</th>
               <SortHeader label="TVL" sortKey="capital" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <SortHeader label="Protocol Token" sortKey="tokenValue" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <SortHeader label="Admins" sortKey="admins" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-center">Governance</th>
-              <SortHeader label="Dependencies" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-left">Admin Types</th>
+              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-left whitespace-nowrap w-[1%]">Admins</th>
+              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-center whitespace-nowrap w-[1%]">Governance</th>
+              <SortHeader label="Dependencies" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" shrink />
             </tr>
           </thead>
           <tbody>
             {sorted.map((p) => {
               const review = reviewMap.get(p.slug)
-              const humanAdminCount = review ? computeHumanAdminCount(review) : 0
               const govExists = review ? hasGovernance(review) : false
               const adminBreakdown = review ? computeAdminBreakdown(review) : {}
 
@@ -149,14 +137,13 @@ export function LandingPage() {
                   <td className="px-3 py-3 text-right">
                     {(p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk) > 0 ? <UsdValue value={p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk} variant="token" /> : <span className="text-text-muted">-</span>}
                   </td>
-                  <td className="px-3 py-3 text-right tabular-nums font-medium">{humanAdminCount}</td>
-                  <td className="px-3 py-3 text-center">
+                  <td className="px-3 py-3 whitespace-nowrap"><AdminTypeBar breakdown={adminBreakdown} /></td>
+                  <td className="px-3 py-3 text-center whitespace-nowrap text-xs">
                     {govExists
-                      ? <span title="Has governance">Yes</span>
-                      : <span title="No governance">No</span>}
+                      ? <span className="text-purple-600 font-medium" title="Has governance">Yes</span>
+                      : <span className="text-text-muted" title="No governance">No</span>}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">{p.totals.dependencyCount}</td>
-                  <td className="px-3 py-3"><AdminTypeBar breakdown={adminBreakdown} /></td>
                 </tr>
               )
             })}
@@ -193,13 +180,13 @@ function AdminTypeBar({ breakdown }: { breakdown: Record<string, number> }) {
   )
 }
 
-function SortHeader({ label, sortKey, current, asc, onToggle, align = 'left' }: {
-  label: string; sortKey: SortKey; current: SortKey; asc: boolean; onToggle: (k: SortKey) => void; align?: 'left' | 'right'
+function SortHeader({ label, sortKey, current, asc, onToggle, align = 'left', shrink }: {
+  label: string; sortKey: SortKey; current: SortKey; asc: boolean; onToggle: (k: SortKey) => void; align?: 'left' | 'right'; shrink?: boolean
 }) {
   const active = current === sortKey
   return (
     <th
-      className={`px-3 py-3 font-medium text-text-secondary cursor-pointer select-none hover:text-purple-600 transition-colors text-xs uppercase tracking-wide ${align === 'right' ? 'text-right' : 'text-left'}`}
+      className={`px-3 py-3 font-medium text-text-secondary cursor-pointer select-none hover:text-purple-600 transition-colors text-xs uppercase tracking-wide whitespace-nowrap ${align === 'right' ? 'text-right' : 'text-left'} ${shrink ? 'w-[1%]' : ''}`}
       onClick={() => onToggle(sortKey)}
     >
       {label}
