@@ -79,15 +79,6 @@ export function GovernanceTab({ review }: GovernanceTabProps) {
     )
   }
 
-  const totalReachable = govAdmins.reduce(
-    (s, a) => s + a.totalReachableCapital,
-    0,
-  )
-  const totalTokenValue = govAdmins.reduce(
-    (s, a) => s + a.totalReachableTokenValue,
-    0,
-  )
-
   return (
     <div>
       {/* Summary bar */}
@@ -98,21 +89,19 @@ export function GovernanceTab({ review }: GovernanceTabProps) {
           </span>{' '}
           governance contract{govAdmins.length !== 1 ? 's' : ''}
         </span>
-        {totalReachable > 0 && (
-          <span className="text-text-secondary">
-            TVL:{' '}
-            <UsdValue
-              value={totalReachable}
-              variant="capital"
-              className="text-sm"
-            />
-          </span>
-        )}
-        {totalTokenValue > 0 && (
+        <span className="text-text-secondary">
+          TVL:{' '}
+          <UsdValue
+            value={totals.totalCapitalAtRisk}
+            variant="capital"
+            className="text-sm"
+          />
+        </span>
+        {totals.totalTokenValueAtRisk > 0 && (
           <span className="text-text-secondary">
             Market Cap:{' '}
             <UsdValue
-              value={totalTokenValue}
+              value={totals.totalTokenValueAtRisk}
               variant="token"
               className="text-sm"
             />
