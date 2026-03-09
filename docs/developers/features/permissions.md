@@ -68,7 +68,7 @@
 
 **Automated Change Detection**: Monitors permission changes alongside discovery updates
 
-- **Location**: `packages/backend/src/modules/update-monitor/defidisco/`
+- **Location**: `packages/backend/src/modules/permission-monitor/defidisco/`
 - **Trigger**: Automatically runs when discovery detects changes (`diff.length > 0`)
 - **Components**:
   - **PermissionResolver**: Resolves owner paths and detects changes
@@ -79,17 +79,17 @@
   - `UpdateDiff.details` field: Stores permission change metadata (JSONB)
   - Migration: `20251202000000_add_permission_monitoring`
 - **Change Detection**:
-  - Detects added/removed owner addresses (resolved from paths)
-  - Ignores config changes (manually marked as permissioned)
-  - Ignores manual updates (scores, descriptions, checked status)
+  - ✅ Detects added/removed owner addresses (resolved from paths)
+  - ❌ Ignores config changes (manually marked as permissioned)
+  - ❌ Ignores manual updates (scores, descriptions, checked status)
 - **Discord Notifications**:
   - Sent to INTERNAL channel only
   - Shows added/removed owners with contract names
   - Groups resolution errors at end of message
-  - Format: **Permission Changes Detected: project-name**
+  - Format: 🔒 **Permission Changes Detected: project-name**
 - **Error Handling**: Resolution errors logged but don't stop processing
 - **Performance**: Only re-resolves when discovery changes detected
-- **Documentation**: See `packages/backend/src/modules/update-monitor/defidisco/README.md`
+- **Documentation**: See `packages/backend/src/modules/permission-monitor/defidisco/README.md`
 
 ## Permission Overrides Data Structure
 
