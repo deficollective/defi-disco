@@ -87,7 +87,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
         <MetricBox
           label="Admins"
           value={String(humanAdmins.length)}
-          sublabel={`controlling ${totals.permissionedFunctionCount} functions`}
+          sublabel={humanAdmins.length > 0 ? `controlling ${totals.permissionedFunctionCount} functions` : 'having control'}
         />
         <MetricBox
           label="Dependencies"

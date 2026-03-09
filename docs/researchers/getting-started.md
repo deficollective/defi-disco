@@ -152,6 +152,8 @@ Using 4 panels
 
 You go through the discovered contracts (with list and nodes), see if there are missing links to other system relevant contracts, you mark contract as external if you find oracles/bridges/yield sources etc.
 
+Discovery follows all contract references recursively, which means external contracts' own dependencies (e.g., Chainlink's multisig owners) also appear in the results. If a contract is irrelevant to the protocol being reviewed, select it in the graph view and click the **Exclude** button in the node controls. This sets the `excludeFromReview` tag, which removes the contract from the compiled review output. The tag can be toggled off to re-include the contract.
+
 Then you adapt the `config.jsonc`, once you're satisfied to run another discovery episode, you select the terminal view and you press `Run discovery`.
 
 ## Working with Factory Patterns (Templates)

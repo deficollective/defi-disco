@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-09T00:37:47.891Z",
+  "compiledAt": "2026-03-09T06:55:30.622Z",
   "project": "Steakhouse-USDC",
   "metadata": {
     "protocolName": "Steakhouse USDC",
@@ -13,7 +13,7 @@
   "totals": {
     "contractCount": 23,
     "permissionedFunctionCount": 16,
-    "scoredFunctionCount": 0,
+    "scoredFunctionCount": 16,
     "adminCount": 7,
     "dependencyCount": 8,
     "totalCapitalAtRisk": 169519102.78369424,
@@ -833,7 +833,104 @@
       "tokenInfo": null
     }
   ],
-  "functions": [],
+  "functions": [
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "setCurator",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "setIsAllocator",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "setSkimRecipient",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "submitTimelock",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "setFee",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "setFeeRecipient",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "submitGuardian",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "submitCap",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "submitMarketRemoval",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "setSupplyQueue",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "updateWithdrawQueue",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "reallocate",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "revokePendingTimelock",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "revokePendingGuardian",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "revokePendingCap",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "contractName": "MetaMorpho",
+      "functionName": "revokePendingMarketRemoval",
+      "impact": "critical"
+    }
+  ],
   "contracts": [
     {
       "address": "eth:0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB",

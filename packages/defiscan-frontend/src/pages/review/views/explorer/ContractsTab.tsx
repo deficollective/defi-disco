@@ -6,6 +6,7 @@ import type {
   CompiledContract,
   CompiledFunction,
 } from '../../../../types'
+import { addressesEqual } from '../../../../utils/address'
 
 interface ContractsTabProps {
   review: CompiledReview
@@ -212,7 +213,7 @@ export function ContractsTab({ review }: ContractsTabProps) {
                 contract={contract}
                 fnCount={fnCountByContract.get(contract.address.toLowerCase()) ?? 0}
                 functions={functions.filter(
-                  (f) => f.contractAddress === contract.address,
+                  (f) => addressesEqual(f.contractAddress, contract.address),
                 )}
                 adminsByFunction={adminsByFunction}
               />

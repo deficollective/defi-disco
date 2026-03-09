@@ -266,27 +266,6 @@ export class ReviewCompiler {
         }
       }
 
-      // Collect multisig signer addresses from gnosis safe contracts
-      const multisigSigners = new Set<string>()
-      for (const entry of projectData.entries) {
-        for (const contract of [
-          ...(entry.initialContracts ?? []),
-          ...(entry.discoveredContracts ?? []),
-        ]) {
-          if (contract.proxyType !== 'gnosis safe') continue
-          const membersField = contract.fields?.find(
-            (f) => f.name === '$members',
-          )
-          if (membersField?.value?.type === 'array') {
-            for (const v of membersField.value.values ?? []) {
-              if (v.type === 'address') {
-                multisigSigners.add(normalizeChainAddress(v.address))
-              }
-            }
-          }
-        }
-      }
-
       // Collect admin addresses from v2 scoring
       const adminAddresses = new Set<string>()
       if (v2Score.inventory.admins.breakdown) {
@@ -303,16 +282,11 @@ export class ReviewCompiler {
         }
       }
 
-      // Filter out EOAs that are multisig signers (unless also admins) and excluded contracts
+      // Filter out non-admin EOAs and excluded contracts
       const discoveryEntries = allProjectContracts.filter((e) => {
         const norm = normalizeChainAddress(e.address)
         if (excludedAddresses.has(norm)) return false
-        if (
-          e.type === 'EOA' &&
-          multisigSigners.has(norm) &&
-          !adminAddresses.has(norm)
-        )
-          return false
+        if (e.type === 'EOA' && !adminAddresses.has(norm)) return false
         return true
       })
 
@@ -555,16 +529,25 @@ export class ReviewCompiler {
       })
     }
 
-    // Build functions from v2 scoring breakdown
+    // Build functions from human admin function lists only (EOA, EOAPermissioned,
+    // Multisig, Timelock, or governance-tagged). Contracts that are permission
+    // owners but not "real" admins are excluded.
+    const HUMAN_ADMIN_TYPES = new Set(['EOA', 'EOAPermissioned', 'Multisig', 'Timelock'])
     const functions: CompiledFunction[] = []
-    if (v2Score.inventory.functions.breakdown) {
-      for (const func of v2Score.inventory.functions.breakdown) {
-        functions.push({
-          contractAddress: func.contractAddress,
-          contractName: func.contractName,
-          functionName: func.functionName,
-          impact: func.impact,
-        })
+    const seenFunctions = new Set<string>()
+    for (const admin of admins) {
+      if (!HUMAN_ADMIN_TYPES.has(admin.adminType) && !admin.isGovernance) continue
+      for (const func of admin.functions) {
+        const key = `${func.contractAddress}:${func.functionName}`
+        if (!seenFunctions.has(key)) {
+          seenFunctions.add(key)
+          functions.push({
+            contractAddress: func.contractAddress,
+            contractName: func.contractName,
+            functionName: func.functionName,
+            impact: func.impact,
+          })
+        }
       }
     }
 
@@ -623,8 +606,8 @@ export class ReviewCompiler {
 
       totals: {
         contractCount: v2Score.inventory.contracts.inventory,
-        permissionedFunctionCount: v2Score.inventory.functions.inventory,
-        scoredFunctionCount: v2Score.inventory.functions.breakdown?.length ?? 0,
+        permissionedFunctionCount: functions.length,
+        scoredFunctionCount: functions.length,
         adminCount: v2Score.inventory.admins.inventory,
         dependencyCount: v2Score.inventory.dependencies.inventory,
         totalCapitalAtRisk: v2Score.inventory.admins.totalCapitalAtRisk ?? 0,

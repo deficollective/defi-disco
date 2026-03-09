@@ -138,6 +138,16 @@ git fetch upstream && git merge upstream/main
 - **Backend**: `/defidisco/contractTags.ts` preserves attributes across updates; entity accepts `null` to clear
 - **Address Format**: Normalizes `eth:0x...` → `0x...` when comparing with tags
 
+### Exclude from Review Tag ✅
+
+**Binary tag**: `excludeFromReview` in `contract-tags.json`, hides contracts from compiled review
+
+- **Purpose**: Discovery follows all contract references recursively, so external contracts' dependencies (e.g., Chainlink's multisig owners) end up in `discovered.json`. This tag lets researchers explicitly hide irrelevant contracts from the compiled output.
+- **Behavior**: All contracts are included by default. Researcher explicitly marks ones to exclude via the Exclude button in node controls.
+- **UI**: `ExcludeButton.tsx` (node controls toggle, follows GovernanceButton pattern)
+- **Backend**: `contractTags.ts` handles `excludeFromReview` like other boolean tags
+- **Compiler**: `reviewCompiler.ts` filters out contracts with `excludeFromReview: true` before building the compiled review
+
 ### Governance Contract Tag ✅
 
 **Binary tag**: `isGovernance` in `contract-tags.json`, green in graph view
@@ -687,6 +697,7 @@ packages/
 │   ├── PermissionsDisplay.tsx
 │   ├── FunctionFolder.tsx
 │   ├── ExternalButton.tsx
+│   ├── ExcludeButton.tsx               # Toggle excludeFromReview tag in node controls
 │   ├── GovernanceButton.tsx            # Toggle governance tag in node controls
 │   ├── GovernanceIndicator.tsx         # Inline governance label + toggle in Values panel
 │   ├── V2ScoringSection.tsx          # V2 scoring entry point
@@ -757,7 +768,7 @@ packages/
 - **File Location**: `packages/config/src/projects/{project}/contract-tags.json`
 - **Fields**: `isExternal` (boolean), `isGovernance` (boolean), `entity` (string, groups external contracts by provider)
 - **Update Pattern**: Backend preserves existing attributes when updating individual fields
-- **Cleanup**: When all boolean tag fields (`isExternal`, `isGovernance`, `fetchBalances`, `fetchPositions`, `isToken`) are false, the entry is removed from the file
+- **Cleanup**: When all boolean tag fields (`isExternal`, `isGovernance`, `fetchBalances`, `fetchPositions`, `isToken`, `excludeFromReview`) are false, the entry is removed from the file
 
 ### Permission Overrides Data Structure ✅
 
