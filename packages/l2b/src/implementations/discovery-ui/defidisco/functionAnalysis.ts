@@ -1,4 +1,6 @@
 import type { DiscoveryPaths } from '@l2beat/discovery'
+import * as fs from 'fs'
+import * as path from 'path'
 import { addressesEqual, normalizeChainAddress } from './addressUtils'
 import {
   buildExternalAddressSet,
@@ -20,11 +22,112 @@ import type {
   ContractTag,
   FunctionAnalysis,
   FunctionDependencyEntry,
+  FunctionEntry,
   FunctionImpactEntry,
 } from './types'
 
+// ============================================================================
+// ABI Write Function Extraction
+// ============================================================================
+
+const READ_MARKERS = [' view ', ' pure ']
+const FUNCTION_NAME_REGEX = /^function\s+(\w+)\s*\(/
+
+/**
+ * Extract all write function names from an ABI entry list.
+ * Mirrors the frontend logic in PermissionsDisplay.tsx: filters out
+ * events, errors, and functions containing ' view ' or ' pure '.
+ */
+function extractWriteFunctionNames(abiEntries: string[]): string[] {
+  const names: string[] = []
+  for (const entry of abiEntries) {
+    // Skip non-function entries (events, errors, constructors)
+    if (
+      entry.startsWith('event') ||
+      entry.startsWith('error') ||
+      entry.startsWith('constructor')
+    ) {
+      continue
+    }
+    // Skip view/pure functions
+    if (READ_MARKERS.some((marker) => entry.includes(marker))) continue
+    // Extract function name
+    const match = entry.match(FUNCTION_NAME_REGEX)
+    if (match?.[1]) {
+      names.push(match[1])
+    }
+  }
+  return names
+}
+
+/**
+ * Build the set of all write functions per contract from discovered.json ABIs.
+ * For each contract entry, finds the corresponding ABI (using the contract's
+ * own address, plus implementation addresses for proxies) and extracts write functions.
+ *
+ * Returns Record<contractAddress, Set<functionName>>.
+ */
+function buildWriteFunctionsFromAbis(
+  discoveredPath: string,
+): Record<string, Set<string>> {
+  if (!fs.existsSync(discoveredPath)) {
+    return {}
+  }
+
+  try {
+    const fileContent = fs.readFileSync(discoveredPath, 'utf8')
+    const discovered = JSON.parse(fileContent)
+
+    const abis: Record<string, string[]> = discovered.abis ?? {}
+    const entries: any[] = discovered.entries ?? []
+    const result: Record<string, Set<string>> = {}
+
+    for (const entry of entries) {
+      if (entry.type !== 'Contract') continue
+
+      const contractAddress: string = entry.address
+      const functionNames = new Set<string>()
+
+      // Collect ABI addresses: the contract itself + any implementations
+      const abiAddresses: string[] = [contractAddress]
+      const implValue = entry.values?.$implementation
+      if (typeof implValue === 'string') {
+        abiAddresses.push(implValue)
+      } else if (Array.isArray(implValue)) {
+        abiAddresses.push(...implValue.filter((v: any) => typeof v === 'string'))
+      }
+
+      // Extract write functions from each ABI
+      for (const abiAddr of abiAddresses) {
+        const abiEntries = abis[abiAddr]
+        if (!abiEntries) continue
+        for (const name of extractWriteFunctionNames(abiEntries)) {
+          functionNames.add(name)
+        }
+      }
+
+      if (functionNames.size > 0) {
+        result[contractAddress] = functionNames
+      }
+    }
+
+    return result
+  } catch (error) {
+    console.error('Error reading discovered.json for ABI extraction:', error)
+    return {}
+  }
+}
+
+// ============================================================================
+// Main Analysis
+// ============================================================================
+
 /**
  * Compute per-function impact and dependency analysis for a project.
+ *
+ * Iterates over ALL write functions from discovered.json ABIs (same set shown
+ * in the UI's permissions section). functions.json provides metadata overlay
+ * (isPermissioned, manual dependencies, scores, etc.).
  *
  * - Impact (permissioned functions only): reachable contracts with funds
  * - Dependencies (all functions): auto-detected external + manual
@@ -44,28 +147,45 @@ export function computeFunctionAnalysis(
 
   const contracts: Record<string, Record<string, FunctionAnalysis>> = {}
 
-  if (!functionsData.contracts) {
-    return {
-      version: '1.0',
-      lastModified: new Date().toISOString(),
-      contracts: {},
-    }
-  }
+  // Build the canonical set of write functions from ABIs
+  const discoveredPath = path.join(paths.discovery, projectName, 'discovered.json')
+  const writeFunctionsByContract = buildWriteFunctionsFromAbis(discoveredPath)
 
-  for (const [contractAddress, contractData] of Object.entries(
-    functionsData.contracts,
+  // Build a normalized lookup for functions.json metadata
+  const functionsMetadata = buildFunctionsMetadataLookup(functionsData)
+
+  // Iterate over all write functions from ABIs
+  for (const [contractAddress, functionNames] of Object.entries(
+    writeFunctionsByContract,
   )) {
-    for (const func of contractData.functions) {
+    for (const functionName of functionNames) {
+      // Look up metadata from functions.json (if any)
+      const metadata = lookupFunctionMetadata(
+        functionsMetadata,
+        contractAddress,
+        functionName,
+      )
+
       // Run call graph traversal with path tracking
       const traversalResult = traverseWithPaths(
         callGraphData,
         contractAddress,
-        func.functionName,
+        functionName,
       )
 
-      // --- Impact (permissioned functions only) ---
+      // --- Dependencies (all functions) ---
+      const dependencies = computeDependencies(
+        metadata?.dependencies,
+        contractAddress,
+        traversalResult,
+        externalAddresses,
+        tagsByAddress,
+        callGraphData,
+      )
+
+      // --- Impact (permissioned functions OR functions with dependencies) ---
       let impact: FunctionAnalysis['impact'] = null
-      if (func.isPermissioned) {
+      if (metadata?.isPermissioned || dependencies.entries.length > 0) {
         impact = computeImpact(
           contractAddress,
           traversalResult,
@@ -74,22 +194,12 @@ export function computeFunctionAnalysis(
         )
       }
 
-      // --- Dependencies (all functions) ---
-      const dependencies = computeDependencies(
-        func.dependencies,
-        contractAddress,
-        traversalResult,
-        externalAddresses,
-        tagsByAddress,
-        callGraphData,
-      )
-
       // Only include functions that have impact data or dependencies
       if (impact !== null || dependencies.entries.length > 0) {
         if (!contracts[contractAddress]) {
           contracts[contractAddress] = {}
         }
-        contracts[contractAddress][func.functionName] = {
+        contracts[contractAddress][functionName] = {
           impact,
           dependencies,
         }
@@ -102,6 +212,49 @@ export function computeFunctionAnalysis(
     lastModified: new Date().toISOString(),
     contracts,
   }
+}
+
+// ============================================================================
+// Functions.json Metadata Lookup
+// ============================================================================
+
+type FunctionsMetadataMap = Map<string, Map<string, FunctionEntry>>
+
+/**
+ * Build a normalized lookup: contractAddress -> functionName -> FunctionEntry
+ */
+function buildFunctionsMetadataLookup(
+  functionsData: ApiFunctionsResponse,
+): FunctionsMetadataMap {
+  const lookup: FunctionsMetadataMap = new Map()
+  if (!functionsData.contracts) return lookup
+
+  for (const [contractAddress, contractData] of Object.entries(
+    functionsData.contracts,
+  )) {
+    const normalized = normalizeChainAddress(contractAddress)
+    let funcMap = lookup.get(normalized)
+    if (!funcMap) {
+      funcMap = new Map()
+      lookup.set(normalized, funcMap)
+    }
+    for (const func of contractData.functions) {
+      funcMap.set(func.functionName, func)
+    }
+  }
+  return lookup
+}
+
+/**
+ * Look up function metadata from functions.json by contract address and function name.
+ */
+function lookupFunctionMetadata(
+  metadata: FunctionsMetadataMap,
+  contractAddress: string,
+  functionName: string,
+): FunctionEntry | undefined {
+  const normalized = normalizeChainAddress(contractAddress)
+  return metadata.get(normalized)?.get(functionName)
 }
 
 // ============================================================================
