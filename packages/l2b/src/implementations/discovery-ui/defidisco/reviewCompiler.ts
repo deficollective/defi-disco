@@ -247,11 +247,16 @@ export class ReviewCompiler {
       // 4. Read contract tags
       const contractTags = getContractTags(this.paths, project)
 
-      // 5. Compute function analysis (rich dependency data with viewOnlyPath)
-      const functionAnalysis = computeFunctionAnalysis(this.paths, project)
-
-      // 5b. Read functions data (for mitigations)
+      // 5. Read functions data (for mitigations + passed to function analysis)
       const functionsData = getFunctions(this.paths, project)
+
+      // 6. Compute function analysis (rich dependency data with viewOnlyPath)
+      // Pass pre-loaded data to avoid redundant file I/O
+      const functionAnalysis = computeFunctionAnalysis(this.paths, project, {
+        functionsData,
+        fundsData,
+        contractTagsData: contractTags,
+      })
 
       // 6. Load project data for contract names (applies config name overrides + multisig formatting)
       const projectData = getProject(configReader, templateService, project)
@@ -910,7 +915,9 @@ function getContractFundsFromLookup(
 ): number {
   const data = fundsLookup.get(normalizeChainAddress(contractAddress))
   if (!data) return 0
-  return (data.balances?.totalUsdValue ?? 0) + (data.positions?.totalUsdValue ?? 0)
+  return (
+    (data.balances?.totalUsdValue ?? 0) + (data.positions?.totalUsdValue ?? 0)
+  )
 }
 
 function getContractTokenValueFromLookup(

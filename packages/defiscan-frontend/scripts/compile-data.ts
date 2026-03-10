@@ -6,6 +6,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 
+// Minimal subset of CompiledReview (from src/types.ts) — only fields needed for index aggregation.
+// Keep in sync with the full type when adding new aggregated fields.
 interface CompiledReview {
   metadata: {
     protocolName: string

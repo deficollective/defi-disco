@@ -16,9 +16,11 @@ import { getFunctions } from './functions'
 import { getFundsData } from './fundsData'
 import type {
   ApiCallGraphResponse,
+  ApiContractTagsResponse,
   ApiFunctionAnalysisResponse,
   ApiFunctionsResponse,
   ApiFundsDataResponse,
+  ContractFundsData,
   ContractTag,
   FunctionAnalysis,
   FunctionDependencyEntry,
@@ -94,7 +96,9 @@ function buildWriteFunctionsFromAbis(
       if (typeof implValue === 'string') {
         abiAddresses.push(implValue)
       } else if (Array.isArray(implValue)) {
-        abiAddresses.push(...implValue.filter((v: any) => typeof v === 'string'))
+        abiAddresses.push(
+          ...implValue.filter((v: any) => typeof v === 'string'),
+        )
       }
 
       // Extract write functions from each ABI
@@ -123,36 +127,58 @@ function buildWriteFunctionsFromAbis(
 // ============================================================================
 
 /**
+ * Pre-loaded data that can be passed to avoid redundant file I/O.
+ * When provided, `computeFunctionAnalysis` skips loading these from disk.
+ */
+export interface FunctionAnalysisPreloadedData {
+  functionsData?: ApiFunctionsResponse
+  callGraphData?: ApiCallGraphResponse
+  fundsData?: ApiFundsDataResponse
+  contractTagsData?: ApiContractTagsResponse
+}
+
+/**
  * Compute per-function impact and dependency analysis for a project.
  *
  * Iterates over ALL write functions from discovered.json ABIs (same set shown
  * in the UI's permissions section). functions.json provides metadata overlay
  * (isPermissioned, manual dependencies, scores, etc.).
  *
- * - Impact (permissioned functions only): reachable contracts with funds
+ * - Impact (permissioned functions or functions with dependencies): reachable contracts with funds
  * - Dependencies (all functions): auto-detected external + manual
  */
 export function computeFunctionAnalysis(
   paths: DiscoveryPaths,
   projectName: string,
+  preloaded?: FunctionAnalysisPreloadedData,
 ): ApiFunctionAnalysisResponse {
-  const functionsData = getFunctions(paths, projectName)
-  const callGraphData = getCallGraphData(paths, projectName)
-  const fundsData = getFundsData(paths, projectName)
-  const contractTagsData = getContractTags(paths, projectName)
+  const functionsData =
+    preloaded?.functionsData ?? getFunctions(paths, projectName)
+  const callGraphData =
+    preloaded?.callGraphData ?? getCallGraphData(paths, projectName)
+  const fundsData = preloaded?.fundsData ?? getFundsData(paths, projectName)
+  const contractTagsData =
+    preloaded?.contractTagsData ?? getContractTags(paths, projectName)
 
   // Build lookup maps
   const externalAddresses = buildExternalAddressSet(contractTagsData.tags)
   const tagsByAddress = buildTagsByAddress(contractTagsData.tags)
 
-  const contracts: Record<string, Record<string, FunctionAnalysis>> = {}
-
-  // Build the canonical set of write functions from ABIs
-  const discoveredPath = path.join(paths.discovery, projectName, 'discovered.json')
-  const writeFunctionsByContract = buildWriteFunctionsFromAbis(discoveredPath)
+  // Build normalized funds lookup for O(1) access
+  const fundsLookup = buildFundsLookup(fundsData)
 
   // Build a normalized lookup for functions.json metadata
   const functionsMetadata = buildFunctionsMetadataLookup(functionsData)
+
+  const contracts: Record<string, Record<string, FunctionAnalysis>> = {}
+
+  // Build the canonical set of write functions from ABIs
+  const discoveredPath = path.join(
+    paths.discovery,
+    projectName,
+    'discovered.json',
+  )
+  const writeFunctionsByContract = buildWriteFunctionsFromAbis(discoveredPath)
 
   // Iterate over all write functions from ABIs
   for (const [contractAddress, functionNames] of Object.entries(
@@ -189,8 +215,8 @@ export function computeFunctionAnalysis(
         impact = computeImpact(
           contractAddress,
           traversalResult,
-          fundsData,
-          functionsData,
+          fundsLookup,
+          functionsMetadata,
         )
       }
 
@@ -261,11 +287,13 @@ function lookupFunctionMetadata(
 // Impact Computation
 // ============================================================================
 
+type FundsLookup = Map<string, ContractFundsData>
+
 function computeImpact(
   startContractAddress: string,
   traversalResult: ReturnType<typeof traverseWithPaths>,
-  fundsData: ApiFundsDataResponse,
-  functionsData: ApiFunctionsResponse,
+  fundsLookup: FundsLookup,
+  functionsMetadata: FunctionsMetadataMap,
 ): FunctionAnalysis['impact'] {
   const reachableContracts: FunctionImpactEntry[] = []
 
@@ -273,16 +301,17 @@ function computeImpact(
     // Skip self-reference
     if (addressesEqual(addr, startContractAddress)) continue
 
-    const fundsUsd = getContractFunds(fundsData, addr)
-    const tokenValueUsd = getContractTokenValue(fundsData, addr)
+    const fundsUsd = getFundsFromLookup(fundsLookup, addr)
+    const tokenValueUsd = getTokenValueFromLookup(fundsLookup, addr)
 
     // Only include contracts with funds or token value
     if (fundsUsd <= 0 && tokenValueUsd <= 0) continue
 
     const calledFunctions = Array.from(data.calledFunctions)
-    const permissionedFunctions = calledFunctions.filter((fn) =>
-      isFunctionPermissioned(functionsData, addr, fn),
-    )
+    const permissionedFunctions = calledFunctions.filter((fn) => {
+      const meta = lookupFunctionMetadata(functionsMetadata, addr, fn)
+      return meta?.isPermissioned === true
+    })
 
     reachableContracts.push({
       contractAddress: addr,
@@ -297,9 +326,9 @@ function computeImpact(
   }
 
   // Also check direct contract funds
-  const directFunds = getContractFunds(fundsData, startContractAddress)
-  const directTokenValue = getContractTokenValue(
-    fundsData,
+  const directFunds = getFundsFromLookup(fundsLookup, startContractAddress)
+  const directTokenValue = getTokenValueFromLookup(
+    fundsLookup,
     startContractAddress,
   )
 
@@ -395,51 +424,33 @@ function computeDependencies(
 }
 
 // ============================================================================
-// Helpers (specific to function analysis)
+// Funds Lookup Helpers (O(1) access via pre-built normalized map)
 // ============================================================================
 
-function getContractFunds(
-  fundsData: ApiFundsDataResponse,
+function buildFundsLookup(fundsData: ApiFundsDataResponse): FundsLookup {
+  const lookup: FundsLookup = new Map()
+  for (const [addr, data] of Object.entries(fundsData.contracts ?? {})) {
+    lookup.set(normalizeChainAddress(addr), data)
+  }
+  return lookup
+}
+
+function getFundsFromLookup(
+  fundsLookup: FundsLookup,
   contractAddress: string,
 ): number {
-  if (!fundsData?.contracts) return 0
-  const normalizedAddress = normalizeChainAddress(contractAddress)
-  const fundsEntry = Object.entries(fundsData.contracts).find(
-    ([key]) => normalizeChainAddress(key) === normalizedAddress,
-  )
-  if (!fundsEntry) return 0
-  const funds = fundsEntry[1]
+  const data = fundsLookup.get(normalizeChainAddress(contractAddress))
+  if (!data) return 0
   return (
-    (funds.balances?.totalUsdValue ?? 0) + (funds.positions?.totalUsdValue ?? 0)
+    (data.balances?.totalUsdValue ?? 0) + (data.positions?.totalUsdValue ?? 0)
   )
 }
 
-function getContractTokenValue(
-  fundsData: ApiFundsDataResponse,
+function getTokenValueFromLookup(
+  fundsLookup: FundsLookup,
   contractAddress: string,
 ): number {
-  if (!fundsData?.contracts) return 0
-  const normalizedAddress = normalizeChainAddress(contractAddress)
-  const fundsEntry = Object.entries(fundsData.contracts).find(
-    ([key]) => normalizeChainAddress(key) === normalizedAddress,
-  )
-  if (!fundsEntry) return 0
-  return fundsEntry[1].tokenInfo?.tokenValue ?? 0
-}
-
-function isFunctionPermissioned(
-  functionsData: ApiFunctionsResponse,
-  contractAddress: string,
-  functionName: string,
-): boolean {
-  if (!functionsData.contracts) return false
-  const normalizedAddress = normalizeChainAddress(contractAddress)
-  const contractEntry = Object.entries(functionsData.contracts).find(
-    ([key]) => normalizeChainAddress(key) === normalizedAddress,
-  )
-  if (!contractEntry) return false
-  const func = contractEntry[1].functions.find(
-    (f) => f.functionName === functionName,
-  )
-  return func?.isPermissioned === true
+  const data = fundsLookup.get(normalizeChainAddress(contractAddress))
+  if (!data) return 0
+  return data.tokenInfo?.tokenValue ?? 0
 }

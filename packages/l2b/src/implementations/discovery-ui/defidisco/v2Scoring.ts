@@ -9,9 +9,7 @@ import {
   normalizeChainAddress,
   stripChainPrefix,
 } from './addressUtils'
-import {
-  getCallGraphData,
-} from './callGraph'
+import { getCallGraphData } from './callGraph'
 import { CapitalAnalysisCalculator } from './capitalAnalysis'
 import { getContractTags } from './contractTags'
 import {
@@ -69,7 +67,6 @@ export interface V2ScoreResult {
 
 interface ScoringData {
   projectData: any
-  permissionOverrides: any
   contractTags: any
   functions: any
   paths: DiscoveryPaths
@@ -150,8 +147,8 @@ class FunctionInventoryModule {
     const breakdown: FunctionDetail[] = []
     let functionCount = 0
 
-    if (data.permissionOverrides?.contracts) {
-      Object.entries(data.permissionOverrides.contracts).forEach(
+    if (data.functions?.contracts) {
+      Object.entries(data.functions.contracts).forEach(
         ([contractAddress, contractData]: [string, any]) => {
           contractData.functions?.forEach((func: any) => {
             if (func.isPermissioned === true) {
@@ -564,15 +561,17 @@ export class ScoreCalculator {
       this.templateService,
       projectName,
     )
-    const permissionOverrides = getFunctions(this.paths, projectName)
-    const contractTags = getContractTags(this.paths, projectName)
     const functions = getFunctions(this.paths, projectName)
+    const contractTags = getContractTags(this.paths, projectName)
     const callGraphData = getCallGraphData(this.paths, projectName)
-    const functionAnalysis = computeFunctionAnalysis(this.paths, projectName)
+    const functionAnalysis = computeFunctionAnalysis(this.paths, projectName, {
+      functionsData: functions,
+      callGraphData,
+      contractTagsData: contractTags,
+    })
 
     const data: ScoringData = {
       projectData,
-      permissionOverrides,
       contractTags,
       functions,
       paths: this.paths,
