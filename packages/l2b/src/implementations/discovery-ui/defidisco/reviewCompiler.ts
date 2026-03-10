@@ -523,11 +523,7 @@ export class ReviewCompiler {
     // Build functions from admins data, only including functions controlled by
     // meaningful admins (EOA, Multisig, Governance, Upgradeable)
     // governance is checked with isGovernance flag, not the set
-    const meaningfulAdminTypes = new Set([
-      'EOA',
-      'Multisig',
-      'Upgradeable',
-    ])
+    const meaningfulAdminTypes = new Set(['EOA', 'Multisig', 'Upgradeable'])
     const functions: CompiledFunction[] = []
     const seenFunctions = new Set<string>()
     for (const admin of admins) {

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-10T06:13:57.131Z",
+  "compiledAt": "2026-03-10T08:33:38.745Z",
   "project": "liquity-v2",
   "metadata": {
     "protocolName": "Liquity V2",
@@ -3376,7 +3376,7 @@
     {
       "address": "eth:0x9074D72cc82DaD1e13E454755Aa8f144c479532F",
       "name": "ActivePool (rETH branch)",
-      "description": "Immutable protocol contract holding rETH collateral deposited by borrowers. Authorized to send collateral to the DefaultPool and trigger BOLD reward distributions to the StabilityPool. Controls (N/A) in rETH collateral through internal protocol logic only.",
+      "description": "Immutable protocol contract holding rETH collateral deposited by borrowers. Authorized to send collateral to the DefaultPool and trigger BOLD reward distributions to the StabilityPool. Controls $14.27M in rETH collateral through internal protocol logic only.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -4152,7 +4152,7 @@
     {
       "address": "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
       "name": "Lido wstETH Token",
-      "description": "Wrapped staked ETH token contract used as collateral in the wstETH borrowing branch. The WSTETHPriceFeed contract calls wstETH's exchange rate function to convert between stETH and wstETH values. The ActivePool for this branch holds (N/A) in wstETH deposits.",
+      "description": "Wrapped staked ETH token contract used as collateral in the wstETH borrowing branch. The WSTETHPriceFeed contract calls wstETH's exchange rate function to convert between stETH and wstETH values. The ActivePool for this branch holds $64.14M in wstETH deposits.",
       "entity": "Lido",
       "isAutoDetected": true,
       "viewOnlyPath": false,
@@ -4292,7 +4292,7 @@
     {
       "address": "eth:0xae78736Cd615f374D3085123A210448E74Fc6393",
       "name": "RocketPool rETH Token",
-      "description": "Rocket Pool's liquid staking token used as collateral in the rETH borrowing branch. The RETHPriceFeed contract queries the rETH exchange rate to derive USD pricing. The ActivePool for this branch holds (N/A) in rETH deposits.",
+      "description": "Rocket Pool's liquid staking token used as collateral in the rETH borrowing branch. The RETHPriceFeed contract queries the rETH exchange rate to derive USD pricing. The ActivePool for this branch holds $14.27M in rETH deposits.",
       "entity": "RocketPool",
       "isAutoDetected": true,
       "viewOnlyPath": false,
@@ -4359,9 +4359,9 @@
   ],
   "funds": [
     {
-      "address": "eth:0x531a8f99c70d6a56a7cee02d6b4281650d7919a0",
+      "address": "eth:0x531a8f99c70D6A56A7CEe02d6B4281650d7919a0",
       "name": "ActivePool (wstETH)",
-      "description": "Holds (N/A) in wstETH collateral deposited by borrowers in the wstETH branch. This is the largest collateral pool in the protocol. Collateral is locked here while Troves remain open and is released during closures, liquidations, or redemptions.",
+      "description": "Holds $64.14M in wstETH collateral deposited by borrowers in the wstETH branch. This is the largest collateral pool in the protocol. Collateral is locked here while Troves remain open and is released during closures, liquidations, or redemptions.",
       "balances": {
         "totalUsdValue": 64143216.414889336
       },
@@ -4369,9 +4369,9 @@
       "tokenInfo": null
     },
     {
-      "address": "eth:0x9074d72cc82dad1e13e454755aa8f144c479532f",
+      "address": "eth:0x9074D72cc82DaD1e13E454755Aa8f144c479532F",
       "name": "ActivePool (rETH)",
-      "description": "Holds (N/A) in rETH collateral deposited by borrowers in the rETH branch. Functions identically to the wstETH ActivePool but for Rocket Pool ETH collateral.",
+      "description": "Holds $14.27M in rETH collateral deposited by borrowers in the rETH branch. Functions identically to the wstETH ActivePool but for Rocket Pool ETH collateral.",
       "balances": {
         "totalUsdValue": 14274796.542198261
       },
@@ -4379,9 +4379,9 @@
       "tokenInfo": null
     },
     {
-      "address": "eth:0xeb5a8c825582965f1d84606e078620a84ab16afe",
+      "address": "eth:0xeB5A8C825582965f1d84606E078620a84ab16AfE",
       "name": "ActivePool (WETH)",
-      "description": "Holds (N/A) in WETH collateral deposited by borrowers in the WETH branch. The simplest collateral branch using native wrapped Ether without additional liquid staking token exchange rate dependencies.",
+      "description": "Holds $12.94M in WETH collateral deposited by borrowers in the WETH branch. The simplest collateral branch using native wrapped Ether without additional liquid staking token exchange rate dependencies.",
       "balances": {
         "totalUsdValue": 12936629.251747033
       },
@@ -4389,9 +4389,9 @@
       "tokenInfo": null
     },
     {
-      "address": "eth:0x9502b7c397e9aa22fe9db7ef7daf21cd2aebe56b",
+      "address": "eth:0x9502b7c397E9aa22FE9dB7EF7DAF21cD2AEBe56B",
       "name": "StabilityPool (wstETH)",
-      "description": "Holds (N/A) in BOLD deposits and liquidated wstETH collateral. Depositors provide BOLD to absorb liquidations in the wstETH branch and receive discounted wstETH collateral plus BOLD interest rewards in return.",
+      "description": "Holds $11.14M in BOLD deposits and liquidated wstETH collateral. Depositors provide BOLD to absorb liquidations in the wstETH branch and receive discounted wstETH collateral plus BOLD interest rewards in return.",
       "balances": {
         "totalUsdValue": 11136200.135608597
       },
@@ -4399,9 +4399,9 @@
       "tokenInfo": null
     },
     {
-      "address": "eth:0x5721cbbd64fc7ae3ef44a0a3f9a790a9264cf9bf",
+      "address": "eth:0x5721cbbd64fc7Ae3Ef44A0A3F9a790A9264Cf9BF",
       "name": "StabilityPool (WETH)",
-      "description": "Holds (N/A) in BOLD deposits and liquidated WETH collateral. Depositors provide BOLD to absorb liquidations in the WETH branch and receive discounted WETH collateral plus BOLD interest rewards in return.",
+      "description": "Holds $7.55M in BOLD deposits and liquidated WETH collateral. Depositors provide BOLD to absorb liquidations in the WETH branch and receive discounted WETH collateral plus BOLD interest rewards in return.",
       "balances": {
         "totalUsdValue": 7550908.855270761
       },
@@ -4409,9 +4409,9 @@
       "tokenInfo": null
     },
     {
-      "address": "eth:0xd442e41019b7f5c4dd78f50dc03726c446148695",
+      "address": "eth:0xd442E41019B7F5C4dD78F50dc03726C446148695",
       "name": "StabilityPool (rETH)",
-      "description": "Holds (N/A) in BOLD deposits and liquidated rETH collateral. Depositors provide BOLD to absorb liquidations in the rETH branch and receive discounted rETH collateral plus BOLD interest rewards in return.",
+      "description": "Holds $3.32M in BOLD deposits and liquidated rETH collateral. Depositors provide BOLD to absorb liquidations in the rETH branch and receive discounted rETH collateral plus BOLD interest rewards in return.",
       "balances": {
         "totalUsdValue": 3318423.695828019
       },
@@ -4419,9 +4419,9 @@
       "tokenInfo": null
     },
     {
-      "address": "eth:0x6440f144b7e50d6a8439336510312d2f54beb01d",
+      "address": "eth:0x6440f144b7e50D6a8439336510312d2F54beB01D",
       "name": "BOLD Stablecoin",
-      "description": "The protocol's native stablecoin with a market capitalization of (N/A). BOLD is minted when users open Troves and burned during repayments and Stability Pool liquidation offsets. Ownership is renounced to the zero address, making the token contract immutable with no admin minting capability.",
+      "description": "The protocol's native stablecoin with a market capitalization of $31.33M. BOLD is minted when users open Troves and burned during repayments and Stability Pool liquidation offsets. Ownership is renounced to the zero address, making the token contract immutable with no admin minting capability.",
       "balances": null,
       "positions": null,
       "tokenInfo": {
@@ -4764,7 +4764,7 @@
     },
     {
       "address": "eth:0x5CcA549ca706C39D68156e5E0a72CcBC95f563d0",
-      "name": "",
+      "name": "eth:0x5CcA549ca706C39D68156e5E0a72CcBC95f563d0",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -4772,7 +4772,7 @@
     },
     {
       "address": "eth:0x884Acfa4593a6FdbA0a9373007E48Ea9AF881C42",
-      "name": "",
+      "name": "eth:0x884Acfa4593a6FdbA0a9373007E48Ea9AF881C42",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -4780,7 +4780,7 @@
     },
     {
       "address": "eth:0xf4a3fE99227F6060e4C1c62b557EEE050B6483E4",
-      "name": "",
+      "name": "eth:0xf4a3fE99227F6060e4C1c62b557EEE050B6483E4",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,

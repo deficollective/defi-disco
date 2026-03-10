@@ -1,7 +1,8 @@
 import type { CompiledReview } from '../../../../types'
-import { formatUsdValue } from '../../../../utils/format'
-import { computeEntityDependencyCount } from '../../../../utils/dependencies'
 import { getHumanAdmins } from '../../../../utils/admins'
+import { computeEntityDependencyCount } from '../../../../utils/dependencies'
+import { formatUsdValue } from '../../../../utils/format'
+import { ShareableDiagram } from '../../../../components/ShareableDiagram'
 import { CapitalFlowDiagram } from './svg/CapitalFlowDiagram'
 
 interface OverviewTabProps {
@@ -236,12 +237,14 @@ export function OverviewTab({ review }: OverviewTabProps) {
       </div>
 
       {/* Capital Flow Diagram */}
-      <div className="rounded-lg border border-border bg-white p-4">
-        <h3 className="text-sm font-semibold text-text-primary mb-3">
-          TVL under Admin Control
-        </h3>
+      <ShareableDiagram
+        id="tvl-diagram"
+        title="TVL under Admin Control"
+        linkQuery="?view=explorer"
+        downloadName="tvl-admin-control.png"
+      >
         <CapitalFlowDiagram review={review} />
-      </div>
+      </ShareableDiagram>
     </div>
   )
 }
