@@ -237,7 +237,7 @@ export class ReviewCompiler {
       // 6. Load project data for contract names (applies config name overrides + multisig formatting)
       const projectData = getProject(configReader, templateService, project)
 
-      // Build flat list of contracts with names from getProject
+      // 7. Build flat list of contracts with names from getProject
       const allProjectContracts: {
         name: string
         address: string
@@ -250,7 +250,7 @@ export class ReviewCompiler {
           ...(entry.discoveredContracts ?? []),
         ]) {
           allProjectContracts.push({
-            name: contract.name ?? contract.address,
+            name: contract.name || contract.address,
             address: contract.address,
             type: contract.type,
             proxyType: contract.proxyType,
@@ -266,7 +266,7 @@ export class ReviewCompiler {
         }
       }
 
-      // Collect admin addresses from v2 scoring
+      // 8. Collect admin addresses from v2 scoring
       const adminAddresses = new Set<string>()
       if (v2Score.inventory.admins.breakdown) {
         for (const admin of v2Score.inventory.admins.breakdown) {
@@ -274,14 +274,14 @@ export class ReviewCompiler {
         }
       }
 
-      // Filter out non-admin EOAs
+      // 9. Filter out non-admin EOAs
       const discoveryEntries = allProjectContracts.filter((e) => {
         const norm = normalizeChainAddress(e.address)
         if (e.type === 'EOA' && !adminAddresses.has(norm)) return false
         return true
       })
 
-      // 7. Build the compiled review
+      // 10. Build the compiled review
       const compiled = this.buildCompiledReview(
         project,
         reviewConfig,
@@ -292,13 +292,13 @@ export class ReviewCompiler {
         discoveryEntries,
       )
 
-      // 7. Resolve template variables in all description fields
+      // 11. Resolve template variables in all description fields
       this.resolveTemplateVariables(compiled, reviewConfig.dataKeys, {
         v2Score,
         fundsData,
       })
 
-      // 8. Write compiled-review.json to defiscan-frontend/public/data/<slug>/
+      // 12. Write compiled-review.json to defiscan-frontend/public/data/<slug>/
       const targetDir = outputDir ?? this.getDefaultOutputDir()
       const slug = reviewConfig.protocolSlug
       const slugDir = path.join(targetDir, slug)
@@ -525,7 +525,6 @@ export class ReviewCompiler {
     const meaningfulAdminTypes = new Set([
       'EOA',
       'Multisig',
-      'Contract',
       'Upgradeable',
     ])
     const functions: CompiledFunction[] = []
