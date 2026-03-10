@@ -441,7 +441,7 @@ function MitigationBadge({ mitigation: m }: { mitigation: Mitigation }) {
     tooltip = m.description || label
   } else if (m.type === 'relativeValue') {
     label = 'Relative'
-    tooltip = `Max change: ${m.relativeValue?.maxChangePercent}%`
+    tooltip = `Max change: ${m.relativeValue?.maxChangePercent ?? '?'}%`
     if (m.description) tooltip += ` — ${m.description}`
   } else {
     label =

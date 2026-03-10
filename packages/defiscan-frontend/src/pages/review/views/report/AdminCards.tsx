@@ -143,8 +143,7 @@ export function AdminCards({ review }: AdminCardsProps) {
         <p className="text-lg text-text-secondary leading-relaxed max-w-3xl mb-8">
           Who can change this protocol? We identified{' '}
           <span className="font-semibold text-text-primary">
-            {humanControlled.length + governance.length} admin
-            {humanControlled.length + governance.length !== 1 ? 's' : ''}
+            {humanControlled.length + governance.length} admin{humanControlled.length + governance.length !== 1 ? 's' : ''}
           </span>{' '}
           with permissioned access to{' '}
           <span className="font-semibold text-text-primary">
@@ -395,9 +394,10 @@ function FunctionDetail({ fn }: { fn: CompiledAdminFunction }) {
                   {m.valueRange?.unit && ` ${m.valueRange.unit}`}
                 </>
               )}
-              {m.type === 'relativeValue' && (
-                <>Max: {m.relativeValue?.maxChangePercent}%</>
-              )}
+              {m.type === 'relativeValue' &&
+                m.relativeValue?.maxChangePercent !== undefined && (
+                  <>Max: {m.relativeValue.maxChangePercent}%</>
+                )}
               {m.type === 'other' && <>{m.description}</>}
             </span>
           ))}

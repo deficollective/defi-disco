@@ -320,6 +320,7 @@ export function PermissionsDisplay({
         | 'ownerDefinitions'
         | 'delay'
         | 'dependencies'
+        | 'mitigations'
       >
     >,
   ) => {
@@ -348,6 +349,10 @@ export function PermissionsDisplay({
         updates.dependencies !== undefined
           ? updates.dependencies
           : currentFunction?.dependencies,
+      mitigations:
+        'mitigations' in updates
+          ? (updates.mitigations ?? undefined)
+          : currentFunction?.mitigations,
       timestamp: new Date().toISOString(),
     }
 
