@@ -339,7 +339,8 @@ export function FunctionFolder({
   // Get current function data for this function
   const currentFunction = functions.find(
     (o) =>
-      o.contractAddress === contractAddress && o.functionName === functionName,
+      addressesEqual(o.contractAddress, contractAddress) &&
+      o.functionName === functionName,
   )
 
   // Fetch project data to get available contracts and fields
@@ -449,7 +450,7 @@ export function FunctionFolder({
 
     const contract = projectData.entries
       .flatMap((e) => [...e.initialContracts, ...e.discoveredContracts])
-      .find((c) => c.address === address)
+      .find((c) => addressesEqual(c.address, address))
 
     return contract?.name || address.slice(0, 10) + '...'
   }
@@ -468,8 +469,8 @@ export function FunctionFolder({
           ...entry.initialContracts,
           ...entry.discoveredContracts,
         ]
-        const contract = allContracts.find(
-          (c) => c.address === delayRef.contractAddress,
+        const contract = allContracts.find((c) =>
+          addressesEqual(c.address, delayRef.contractAddress),
         )
 
         if (contract?.fields) {
@@ -530,7 +531,9 @@ export function FunctionFolder({
         .filter((contract) => contract.type === 'Contract')
         .forEach((contract) => {
           // Avoid duplicates
-          if (!contracts.some((c) => c.address === contract.address)) {
+          if (
+            !contracts.some((c) => addressesEqual(c.address, contract.address))
+          ) {
             contracts.push({
               address: contract.address,
               name: contract.name || 'Unknown Contract',
@@ -553,7 +556,9 @@ export function FunctionFolder({
         ...entry.initialContracts,
         ...entry.discoveredContracts,
       ]
-      const contract = allContracts.find((c) => c.address === contractAddr)
+      const contract = allContracts.find((c) =>
+        addressesEqual(c.address, contractAddr),
+      )
 
       if (contract?.fields) {
         return contract.fields
@@ -608,7 +613,7 @@ export function FunctionFolder({
 
   // Helper to get dependency info (name, entity)
   const getDependencyInfo = (address: string) => {
-    return getExternalContracts.find((c) => c.address === address)
+    return getExternalContracts.find((c) => addressesEqual(c.address, address))
   }
 
   // Helper functions for dependency management
@@ -2278,8 +2283,8 @@ export function FunctionFolder({
                       <button
                         key={contract.address}
                         onClick={() => handleAddDependency(contract.address)}
-                        disabled={currentFunction?.dependencies?.some(
-                          (d) => d.contractAddress === contract.address,
+                        disabled={currentFunction?.dependencies?.some((d) =>
+                          addressesEqual(d.contractAddress, contract.address),
                         )}
                         className="w-full rounded bg-coffee-700 p-2 text-left hover:bg-coffee-600 disabled:cursor-not-allowed disabled:bg-coffee-600 disabled:opacity-50"
                       >
@@ -2337,11 +2342,7 @@ export function FunctionFolder({
                 <div className="rounded bg-coffee-800 p-2">
                   <div className="mb-1 font-mono text-coffee-300 text-xs">
                     {currentFunction.delay.fieldName} on{' '}
-                    {availableContracts.find(
-                      (c) =>
-                        c.address === currentFunction.delay?.contractAddress,
-                    )?.name || 'Unknown'}{' '}
-                    ({currentFunction.delay.contractAddress.slice(0, 10)}...)
+                    {getContractName(currentFunction.delay.contractAddress)}
                   </div>
                   {resolvedDelay?.isResolved && (
                     <div className="font-bold text-aux-green text-sm">
