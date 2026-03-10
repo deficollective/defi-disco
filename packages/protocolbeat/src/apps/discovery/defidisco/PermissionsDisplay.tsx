@@ -180,16 +180,6 @@ export function PermissionsDisplay({
     await updateFunctionEntry(contractAddress, functionName, { description })
   }
 
-  const handleConstraintsUpdate = async (
-    contractAddress: string,
-    functionName: string,
-    constraints: string,
-  ) => {
-    if (!project) return
-
-    await updateFunctionEntry(contractAddress, functionName, { constraints })
-  }
-
   const handleOwnerDefinitionsUpdate = async (
     contractAddress: string,
     functionName: string,
@@ -327,7 +317,6 @@ export function PermissionsDisplay({
         | 'checked'
         | 'score'
         | 'description'
-        | 'constraints'
         | 'ownerDefinitions'
         | 'delay'
         | 'dependencies'
@@ -349,7 +338,6 @@ export function PermissionsDisplay({
       checked: updates.checked ?? currentFunction?.checked,
       score: updates.score ?? currentFunction?.score,
       description: updates.description ?? currentFunction?.description,
-      constraints: updates.constraints ?? currentFunction?.constraints,
       ownerDefinitions:
         updates.ownerDefinitions ?? currentFunction?.ownerDefinitions,
       delay:
@@ -450,7 +438,6 @@ export function PermissionsDisplay({
               onCheckedToggle={handleCheckedToggle}
               onScoreToggle={handleScoreToggle}
               onDescriptionUpdate={handleDescriptionUpdate}
-              onConstraintsUpdate={handleConstraintsUpdate}
               onOpenInCode={handleOpenInCode}
               onOwnerDefinitionsUpdate={handleOwnerDefinitionsUpdate}
               onDelayUpdate={handleDelayUpdate}
@@ -475,7 +462,6 @@ function PermissionsCode({
   onCheckedToggle,
   onScoreToggle,
   onDescriptionUpdate,
-  onConstraintsUpdate,
   onOpenInCode,
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
@@ -507,11 +493,6 @@ function PermissionsCode({
     contractAddress: string,
     functionName: string,
     description: string,
-  ) => void
-  onConstraintsUpdate: (
-    contractAddress: string,
-    functionName: string,
-    constraints: string,
   ) => void
   onOpenInCode: (contractAddress: string, functionName: string) => void
   onOwnerDefinitionsUpdate: (
@@ -567,7 +548,6 @@ function PermissionsCode({
           onCheckedToggle={onCheckedToggle}
           onScoreToggle={onScoreToggle}
           onDescriptionUpdate={onDescriptionUpdate}
-          onConstraintsUpdate={onConstraintsUpdate}
           onOpenInCode={onOpenInCode}
           onOwnerDefinitionsUpdate={onOwnerDefinitionsUpdate}
           onDelayUpdate={onDelayUpdate}
@@ -589,7 +569,6 @@ function WritePermissionsCodeEntries({
   onCheckedToggle,
   onScoreToggle,
   onDescriptionUpdate,
-  onConstraintsUpdate,
   onOpenInCode,
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
@@ -620,11 +599,6 @@ function WritePermissionsCodeEntries({
     contractAddress: string,
     functionName: string,
     description: string,
-  ) => void
-  onConstraintsUpdate: (
-    contractAddress: string,
-    functionName: string,
-    constraints: string,
   ) => void
   onOpenInCode: (contractAddress: string, functionName: string) => void
   onOwnerDefinitionsUpdate: (
@@ -689,7 +663,6 @@ function WritePermissionsCodeEntries({
             onCheckedToggle={onCheckedToggle}
             onScoreToggle={onScoreToggle}
             onDescriptionUpdate={onDescriptionUpdate}
-            onConstraintsUpdate={onConstraintsUpdate}
             onOpenInCode={onOpenInCode}
             onOwnerDefinitionsUpdate={onOwnerDefinitionsUpdate}
             onDelayUpdate={onDelayUpdate}

@@ -433,7 +433,6 @@ export interface FunctionEntry {
   score?: 'unscored' | 'critical'
   reason?: string
   description?: string
-  constraints?: string
   timestamp: string
   // Multiple owner definitions using L2BEAT's existing handlers
   ownerDefinitions?: OwnerDefinition[]
@@ -476,7 +475,6 @@ export interface ApiFunctionsUpdateRequest {
   score?: 'unscored' | 'critical'
   reason?: string
   description?: string
-  constraints?: string
   ownerDefinitions?: OwnerDefinition[]
   delay?: {
     contractAddress: string

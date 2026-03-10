@@ -297,7 +297,11 @@ export class ReviewCompiler {
           const mitigations: Mitigation[] = []
           // Include delay as a delay-type mitigation
           if (func.delay) {
-            const resolved = resolveDelayFromDiscovered(this.paths, project, func.delay)
+            const resolved = resolveDelayFromDiscovered(
+              this.paths,
+              project,
+              func.delay,
+            )
             mitigations.push({
               type: 'delay',
               description: 'Delay before execution',

@@ -281,11 +281,6 @@ interface FunctionFolderProps {
     functionName: string,
     description: string,
   ) => void
-  onConstraintsUpdate: (
-    contractAddress: string,
-    functionName: string,
-    constraints: string,
-  ) => void
   onOpenInCode: (contractAddress: string, functionName: string) => void
   onOwnerDefinitionsUpdate: (
     contractAddress: string,
@@ -324,7 +319,6 @@ export function FunctionFolder({
   onCheckedToggle,
   onScoreToggle,
   onDescriptionUpdate,
-  onConstraintsUpdate,
   onOpenInCode,
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
@@ -639,15 +633,10 @@ export function FunctionFolder({
   const checkedStatus = currentFunction?.checked || false
   const scoreStatus = currentFunction?.score || 'unscored'
   const description = currentFunction?.description || ''
-  const constraints = currentFunction?.constraints || ''
 
   // Local state for description input with debouncing
   const [localDescription, setLocalDescription] = useState(description)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-
-  // Local state for constraints input with debouncing
-  const [localConstraints, setLocalConstraints] = useState(constraints)
-  const constraintsTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Local state for owner path editing with debouncing
   const [editedOwnerPaths, setEditedOwnerPaths] = useState<
@@ -703,11 +692,6 @@ export function FunctionFolder({
   useEffect(() => {
     setLocalDescription(description)
   }, [description])
-
-  // Update local constraints when external data changes
-  useEffect(() => {
-    setLocalConstraints(constraints)
-  }, [constraints])
 
   // Update edited owner paths when external data changes
   useEffect(() => {
@@ -787,25 +771,6 @@ export function FunctionFolder({
     }, 500)
   }
 
-  const handleConstraintsChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
-    const newConstraints = event.target.value
-    setLocalConstraints(newConstraints)
-
-    // Clear existing timeout
-    if (constraintsTimeoutRef.current) {
-      clearTimeout(constraintsTimeoutRef.current)
-    }
-
-    // Set new timeout to save after user stops typing (500ms delay)
-    constraintsTimeoutRef.current = setTimeout(() => {
-      if (newConstraints !== constraints) {
-        onConstraintsUpdate(contractAddress, functionName, newConstraints)
-      }
-    }, 500)
-  }
-
   const handleOwnerPathChange = (index: number, newPath: string) => {
     // Update local state immediately for responsive UI
     setEditedOwnerPaths((prev) => ({
@@ -842,9 +807,6 @@ export function FunctionFolder({
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
-      }
-      if (constraintsTimeoutRef.current) {
-        clearTimeout(constraintsTimeoutRef.current)
       }
       if (ownerPathTimeoutRef.current) {
         clearTimeout(ownerPathTimeoutRef.current)
@@ -1179,8 +1141,7 @@ export function FunctionFolder({
 
           {/* Mitigations Indicator Icon */}
           {(() => {
-            const mitigationCount =
-              currentFunction?.mitigations?.length ?? 0
+            const mitigationCount = currentFunction?.mitigations?.length ?? 0
             const hasMitigations = mitigationCount > 0
             return (
               <span
@@ -2437,8 +2398,7 @@ export function FunctionFolder({
               <label className="block text-coffee-300 text-xs">
                 Mitigations
                 {(() => {
-                  const total =
-                    currentFunction?.mitigations?.length ?? 0
+                  const total = currentFunction?.mitigations?.length ?? 0
                   return total > 0 ? (
                     <span className="ml-1 text-aux-cyan">({total})</span>
                   ) : null
@@ -2684,20 +2644,7 @@ export function FunctionFolder({
             )}
           </div>
 
-          {/* 8. Function Constraints Section */}
-          <div className="border-coffee-700 border-b p-3">
-            <label className="mb-2 block text-coffee-300 text-xs">
-              Function Constraints
-            </label>
-            <textarea
-              value={localConstraints}
-              onChange={handleConstraintsChange}
-              placeholder="Add constraints for this function..."
-              className="h-20 w-full resize-none rounded border border-coffee-600 bg-coffee-800 px-2 py-1 font-mono text-coffee-100 text-xs focus:border-coffee-500 focus:outline-none"
-            />
-          </div>
-
-          {/* 9. Comments Section (renamed from Audit Trail) */}
+          {/* 8. Comments Section (renamed from Audit Trail) */}
           <div className="border-coffee-700 border-b p-3">
             <label className="mb-2 block text-coffee-300 text-xs">
               Comments

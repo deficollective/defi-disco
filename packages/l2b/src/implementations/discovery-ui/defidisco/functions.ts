@@ -89,7 +89,6 @@ function isFunctionEntryEmpty(func: FunctionEntry): boolean {
     func.score !== undefined ||
     func.reason !== undefined ||
     func.description !== undefined ||
-    func.constraints !== undefined ||
     (func.ownerDefinitions !== undefined && func.ownerDefinitions.length > 0) ||
     func.delay !== undefined ||
     (func.dependencies !== undefined && func.dependencies.length > 0) ||
@@ -174,7 +173,6 @@ export function updateFunction(
     score: updateRequest.score ?? existingFunction?.score,
     reason: updateRequest.reason ?? existingFunction?.reason,
     description: updateRequest.description ?? existingFunction?.description,
-    constraints: updateRequest.constraints ?? existingFunction?.constraints,
     ownerDefinitions:
       updateRequest.ownerDefinitions ?? existingFunction?.ownerDefinitions,
     delay:

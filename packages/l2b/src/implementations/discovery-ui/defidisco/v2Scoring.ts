@@ -179,7 +179,11 @@ class FunctionInventoryModule {
                 contractName,
                 functionName: func.functionName,
                 impact,
-                mitigations: buildMergedMitigations(func, data.paths, data.projectName),
+                mitigations: buildMergedMitigations(
+                  func,
+                  data.paths,
+                  data.projectName,
+                ),
               })
             }
           })
@@ -497,7 +501,11 @@ class AdminInventoryModule {
                   'Unknown Contract',
                 functionName: func.functionName,
                 impact: 'critical' as Impact,
-                mitigations: buildMergedMitigations(func, data.paths, data.projectName),
+                mitigations: buildMergedMitigations(
+                  func,
+                  data.paths,
+                  data.projectName,
+                ),
               })
             })
           })
