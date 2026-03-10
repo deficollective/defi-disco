@@ -676,48 +676,33 @@ export function resolveDelayFromDiscovered(
       }
     }
 
-    // Look for the field in the contract's fields
-    if (!contractEntry.fields || !Array.isArray(contractEntry.fields)) {
-      return {
-        seconds: 0,
-        isResolved: false,
-        error: `No fields found for contract ${delayRef.contractAddress}`,
-      }
-    }
+    // Look for the field in the contract's fields (enriched format)
+    if (contractEntry.fields && Array.isArray(contractEntry.fields)) {
+      const field = contractEntry.fields.find(
+        (f: any) => f.name === delayRef.fieldName,
+      )
 
-    const field = contractEntry.fields.find(
-      (f: any) => f.name === delayRef.fieldName,
-    )
-
-    if (!field) {
-      return {
-        seconds: 0,
-        isResolved: false,
-        error: `Field ${delayRef.fieldName} not found in contract ${delayRef.contractAddress}`,
-      }
-    }
-
-    // Extract numeric value from field
-    if (field.value && field.value.type === 'number') {
-      // Parse the string value to a number
-      const numValue = Number.parseInt(field.value.value, 10)
-      if (isNaN(numValue)) {
-        return {
-          seconds: 0,
-          isResolved: false,
-          error: `Field ${delayRef.fieldName} contains non-numeric value`,
+      if (field?.value && field.value.type === 'number') {
+        const numValue = Number.parseInt(field.value.value, 10)
+        if (!isNaN(numValue)) {
+          return { seconds: numValue, isResolved: true }
         }
       }
-      return {
-        seconds: numValue,
-        isResolved: true,
+    }
+
+    // Fallback: look in flat values (raw discovered.json format)
+    if (contractEntry.values && delayRef.fieldName in contractEntry.values) {
+      const raw = contractEntry.values[delayRef.fieldName]
+      const numValue = typeof raw === 'number' ? raw : Number(raw)
+      if (!isNaN(numValue)) {
+        return { seconds: numValue, isResolved: true }
       }
     }
 
     return {
       seconds: 0,
       isResolved: false,
-      error: `Field ${delayRef.fieldName} is not a number type`,
+      error: `Field ${delayRef.fieldName} not found or not numeric in contract ${delayRef.contractAddress}`,
     }
   } catch (error) {
     console.error('Error parsing discovered.json:', error)

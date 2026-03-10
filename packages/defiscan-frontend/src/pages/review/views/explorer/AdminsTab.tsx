@@ -395,6 +395,25 @@ function SortHeader({
   )
 }
 
+function formatDelayLabel(seconds: number): string {
+  if (seconds >= 86400) {
+    const days = seconds / 86400
+    const d = days === Math.floor(days) ? `${days}` : `${days.toFixed(1)}`
+    return `${d}-day Delay`
+  }
+  if (seconds >= 3600) {
+    const hours = seconds / 3600
+    const h = hours === Math.floor(hours) ? `${hours}` : `${hours.toFixed(1)}`
+    return `${h}-hour Delay`
+  }
+  if (seconds >= 60) {
+    const minutes = seconds / 60
+    const m = minutes === Math.floor(minutes) ? `${minutes}` : `${minutes.toFixed(1)}`
+    return `${m}-min Delay`
+  }
+  return `${seconds}s Delay`
+}
+
 function MitigationBadge({ mitigation: m }: { mitigation: Mitigation }) {
   const colorClass =
     m.type === 'delay'
@@ -406,26 +425,36 @@ function MitigationBadge({ mitigation: m }: { mitigation: Mitigation }) {
           : 'bg-gray-50 text-gray-600 border-gray-200'
 
   let label: string
+  let tooltip: string
   if (m.type === 'delay') {
-    label = 'Delay'
+    label =
+      m.delaySeconds !== undefined
+        ? formatDelayLabel(m.delaySeconds)
+        : 'Delay'
+    tooltip = m.description
   } else if (m.type === 'valueRange') {
     const parts: string[] = []
     if (m.valueRange?.min !== undefined) parts.push(m.valueRange.min)
     if (m.valueRange?.max !== undefined) parts.push(m.valueRange.max)
-    label = `Range: ${parts.join('–')}${m.valueRange?.unit ? ` ${m.valueRange.unit}` : ''}`
+    const unit = m.valueRange?.unit ? ` ${m.valueRange.unit}` : ''
+    label = `Range: ${parts.join(' to ')}${unit}`
+    tooltip = m.description || label
   } else if (m.type === 'relativeValue') {
-    label = `Max: ${m.relativeValue?.maxChangePercent}%`
+    label = 'Relative'
+    tooltip = `Max change: ${m.relativeValue?.maxChangePercent}%`
+    if (m.description) tooltip += ` — ${m.description}`
   } else {
     label =
       m.description.length > 20
         ? m.description.slice(0, 20) + '…'
         : m.description
+    tooltip = m.description
   }
 
   return (
     <span
       className={`inline-block rounded-full border px-1.5 py-0 text-[10px] font-medium leading-4 ${colorClass}`}
-      title={m.description}
+      title={tooltip}
     >
       {label}
     </span>

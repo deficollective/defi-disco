@@ -15,7 +15,7 @@ import type {
   ResourceEntry,
   ReviewConfig,
 } from './types'
-import { getFunctions } from './functions'
+import { getFunctions, resolveDelayFromDiscovered } from './functions'
 import { computeFunctionAnalysis } from './functionAnalysis'
 import { getFundsData } from './fundsData'
 import { getContractTags } from './contractTags'
@@ -297,13 +297,15 @@ export class ReviewCompiler {
           const mitigations: Mitigation[] = []
           // Include delay as a delay-type mitigation
           if (func.delay) {
+            const resolved = resolveDelayFromDiscovered(this.paths, project, func.delay)
             mitigations.push({
               type: 'delay',
-              description: `Delay via ${func.delay.fieldName}`,
+              description: 'Delay before execution',
               delayRef: {
                 contractAddress: func.delay.contractAddress,
                 fieldName: func.delay.fieldName,
               },
+              delaySeconds: resolved.isResolved ? resolved.seconds : undefined,
             })
           }
           // Include explicitly stored mitigations

@@ -1180,8 +1180,7 @@ export function FunctionFolder({
           {/* Mitigations Indicator Icon */}
           {(() => {
             const mitigationCount =
-              (currentFunction?.mitigations?.length ?? 0) +
-              (currentFunction?.delay ? 1 : 0)
+              currentFunction?.mitigations?.length ?? 0
             const hasMitigations = mitigationCount > 0
             return (
               <span
@@ -2439,8 +2438,7 @@ export function FunctionFolder({
                 Mitigations
                 {(() => {
                   const total =
-                    (currentFunction?.mitigations?.length ?? 0) +
-                    (currentFunction?.delay ? 1 : 0)
+                    currentFunction?.mitigations?.length ?? 0
                   return total > 0 ? (
                     <span className="ml-1 text-aux-cyan">({total})</span>
                   ) : null
@@ -2458,26 +2456,6 @@ export function FunctionFolder({
                 </button>
               )}
             </div>
-
-            {/* Display existing delay as read-only mitigation */}
-            {currentFunction?.delay && resolvedDelay?.isResolved && (
-              <div className="mb-2 rounded bg-coffee-800 p-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="rounded bg-cyan-800 px-1.5 py-0.5 font-mono text-cyan-200 text-[10px]">
-                      DELAY
-                    </span>
-                    <span className="text-coffee-200 text-xs">
-                      {formatDelay(resolvedDelay.seconds)} via{' '}
-                      {currentFunction.delay.fieldName}
-                    </span>
-                  </div>
-                  <span className="text-coffee-500 text-[10px]">
-                    managed in Delay section
-                  </span>
-                </div>
-              </div>
-            )}
 
             {/* Display existing mitigations */}
             {(currentFunction?.mitigations ?? []).map((m, idx) => (
@@ -2541,8 +2519,7 @@ export function FunctionFolder({
             ))}
 
             {/* No mitigations message */}
-            {!currentFunction?.delay &&
-              (currentFunction?.mitigations?.length ?? 0) === 0 &&
+            {(currentFunction?.mitigations?.length ?? 0) === 0 &&
               !isAddingMitigation && (
                 <div className="text-coffee-500 text-xs">
                   No mitigations set for this function

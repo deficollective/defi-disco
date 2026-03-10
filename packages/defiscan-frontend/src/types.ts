@@ -71,6 +71,7 @@ export interface Mitigation {
   type: MitigationType
   description: string
   delayRef?: { contractAddress: string; fieldName: string }
+  delaySeconds?: number
   valueRange?: { min?: string; max?: string; unit?: string }
   relativeValue?: { maxChangePercent?: string }
 }

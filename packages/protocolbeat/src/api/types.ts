@@ -21,6 +21,8 @@ export interface Mitigation {
   description: string
   // For 'delay': reference to a contract field (reuses existing delay pattern)
   delayRef?: { contractAddress: string; fieldName: string }
+  // For 'delay': resolved value in seconds (populated by v2-score API)
+  delaySeconds?: number
   // For 'valueRange': MIN/MAX bounds
   valueRange?: { min?: string; max?: string; unit?: string }
   // For 'relativeValue': percentage of change limit

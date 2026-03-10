@@ -23,6 +23,7 @@ import { getContractTags } from './contractTags'
 import {
   extractAddressesFromResolvedOwners,
   getFunctions,
+  resolveDelayFromDiscovered,
   resolveOwnersFromDiscovered,
 } from './functions'
 import { getFundsData } from './fundsData'
@@ -89,18 +90,24 @@ interface ScoringData {
  * Combines the existing delay field (as a delay-type mitigation) with
  * explicitly stored mitigations from functions.json.
  */
-function buildMergedMitigations(func: any): Mitigation[] | undefined {
+function buildMergedMitigations(
+  func: any,
+  paths: DiscoveryPaths,
+  projectName: string,
+): Mitigation[] | undefined {
   const mitigations: Mitigation[] = []
 
   // Include delay as a delay-type mitigation
   if (func.delay) {
+    const resolved = resolveDelayFromDiscovered(paths, projectName, func.delay)
     mitigations.push({
       type: 'delay',
-      description: `Delay via ${func.delay.fieldName}`,
+      description: 'Delay before execution',
       delayRef: {
         contractAddress: func.delay.contractAddress,
         fieldName: func.delay.fieldName,
       },
+      delaySeconds: resolved.isResolved ? resolved.seconds : undefined,
     })
   }
 
@@ -172,7 +179,7 @@ class FunctionInventoryModule {
                 contractName,
                 functionName: func.functionName,
                 impact,
-                mitigations: buildMergedMitigations(func),
+                mitigations: buildMergedMitigations(func, data.paths, data.projectName),
               })
             }
           })
@@ -490,7 +497,7 @@ class AdminInventoryModule {
                   'Unknown Contract',
                 functionName: func.functionName,
                 impact: 'critical' as Impact,
-                mitigations: buildMergedMitigations(func),
+                mitigations: buildMergedMitigations(func, data.paths, data.projectName),
               })
             })
           })
