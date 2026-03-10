@@ -522,7 +522,12 @@ export class ReviewCompiler {
 
     // Build functions from admins data, only including functions controlled by
     // meaningful admins (EOA, Multisig, Governance, Upgradeable) — not Immutable/Revoked
-    const meaningfulAdminTypes = new Set(['EOA', 'Multisig', 'Contract', 'Upgradeable'])
+    const meaningfulAdminTypes = new Set([
+      'EOA',
+      'Multisig',
+      'Contract',
+      'Upgradeable',
+    ])
     const functions: CompiledFunction[] = []
     const seenFunctions = new Set<string>()
     for (const admin of admins) {
