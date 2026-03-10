@@ -226,7 +226,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
             />
             {topAdmin && topAdmin.totalDirectCapital > 0 && (
               <RiskRow
-                label="Max single-admin funds"
+                label="Max single-admin TVL"
                 status="info"
                 detail={`${topAdmin.name}: ${formatUsdValue(topAdmin.totalDirectCapital)}`}
               />

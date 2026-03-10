@@ -521,7 +521,8 @@ export class ReviewCompiler {
     }
 
     // Build functions from admins data, only including functions controlled by
-    // meaningful admins (EOA, Multisig, Governance, Upgradeable) — not Immutable/Revoked
+    // meaningful admins (EOA, Multisig, Governance, Upgradeable)
+    // governance is checked with isGovernance flag, not the set
     const meaningfulAdminTypes = new Set([
       'EOA',
       'Multisig',
