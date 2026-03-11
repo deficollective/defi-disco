@@ -255,7 +255,7 @@ function ExpandedFunctions({ admin }: { admin: CompiledAdmin }) {
             <tr className="text-text-muted">
               <th className="text-left pb-1 font-medium">Contract</th>
               <th className="text-left pb-1 font-medium">Function</th>
-              <th className="text-right pb-1 font-medium">Direct $</th>
+              <th className="text-right pb-1 font-medium">TVL</th>
               <th className="text-right pb-1 font-medium">
                 Reachable Contracts
               </th>
