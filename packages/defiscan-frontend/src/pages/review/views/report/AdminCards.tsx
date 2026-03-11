@@ -53,7 +53,7 @@ function describeAdminType(adminType: string): string {
   }
 }
 
-/** Sort admins by risk: EOAs first, then Multisigs, then Timelocks, then contracts */
+/** Sort admins by funds at risk (descending), then by admin type as tiebreaker */
 function sortAdminsByRisk(admins: CompiledAdmin[]): CompiledAdmin[] {
   const riskOrder: Record<string, number> = {
     EOA: 0,
@@ -69,11 +69,12 @@ function sortAdminsByRisk(admins: CompiledAdmin[]): CompiledAdmin[] {
   }
 
   return [...admins].sort((a, b) => {
+    const fundsDiff = b.totalDirectCapital - a.totalDirectCapital
+    if (fundsDiff !== 0) return fundsDiff
+    // Tiebreaker: riskier admin types first
     const aOrder = riskOrder[a.adminType] ?? 5
     const bOrder = riskOrder[b.adminType] ?? 5
-    if (aOrder !== bOrder) return aOrder - bOrder
-    // Secondary sort: higher capital first
-    return b.totalDirectCapital - a.totalDirectCapital
+    return aOrder - bOrder
   })
 }
 
