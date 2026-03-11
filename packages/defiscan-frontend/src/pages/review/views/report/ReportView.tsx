@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { flushSync } from 'react-dom'
 import { clsx } from 'clsx'
 import type { CompiledReview } from '../../../../types'
 import { KeyFindings } from './KeyFindings'
@@ -35,11 +36,8 @@ export function ReportView({ review }: ReportViewProps) {
   const observerRef = useRef<IntersectionObserver | null>(null)
 
   function handleExportPdf() {
-    setForceExpanded(true)
-    // Wait for React to re-render with all sections expanded
-    requestAnimationFrame(() => {
-      window.print()
-    })
+    flushSync(() => setForceExpanded(true))
+    window.print()
   }
 
   function getShareUrl() {
