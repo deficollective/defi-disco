@@ -4,16 +4,24 @@
 
 **Manual Detection System**: AI-powered permission analysis with UI button
 
-- **File**: `/defidisco/aiPermissionDetection.ts` - OpenAI (GPT-4) and Claude (Sonnet 3.5) support
+- **File**: `/defidisco/aiPermissionDetection.ts`
+- **Models** (`/defidisco/aiModels.ts`): GPT-4o (OpenAI), Claude Sonnet 4.5, Claude Opus 4.6 (Anthropic). Default: GPT-4o
 - **UI**: "AI Permissions" button in `ValuesPanel.tsx` (once per contract, disabled if permissions exist)
-- **Config**: `.env` file with `AI_PROVIDER` (openai/claude) and `AI_API_KEY`
+- **Config**: `.env` file with `OPENAI_API_KEY` and/or `ANTHROPIC_API_KEY`
 - **Endpoint**: `POST /api/projects/:project/ai-detect-permissions/:address`
 - **Features**:
   - Analyzes contract source code to identify permissioned functions
   - Maps functions to correct addresses (proxy vs implementation via .p.sol naming)
   - Validates against ABI to filter hallucinated functions
   - Saves to `permission-overrides.json` with `aiClassification` field (not currently used in UI)
-- **Prompt Engineering**: Instructs AI to identify owners with `sourceField` (e.g., "owner", "accessControl") and `dataPath` (e.g., "$self", "DEFAULT_ADMIN_ROLE")
+- **Prompt Engineering** (3-step analysis procedure):
+  1. **Step 1**: Identify all external/public non-view/non-pure functions (scope)
+  2. **Step 2**: Check each function for direct access control (modifiers, direct `require(msg.sender == ...)`)
+  3. **Step 3**: If no direct access control found, trace into internal/private function calls and check if those contain `msg.sender` checks against storage variables. The ownerDefinitions come from the actual storage fields compared against `msg.sender` in the internal function body (not inferred from function names)
+  - Handles multiple caller checks with OR logic (each allowed caller becomes a separate ownerDefinition)
+  - Uses unified path format (`$self.fieldName`, `@fieldName.otherField`, etc.)
+- **Source Code Filtering** (`filterSourceCodeForAI`): Strips interfaces and libraries to reduce tokens, but preserves abstract contracts (which often contain internal `_require*` helper functions with `msg.sender` checks)
+- **Model Performance**: Claude Opus 4.6 consistently detects indirect access control patterns (internal helper functions); GPT-4o tends to miss them
 
 ## Interactive Permission Management
 
