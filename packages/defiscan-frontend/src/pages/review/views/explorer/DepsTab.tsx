@@ -1,11 +1,16 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import { clsx } from 'clsx'
 import { Badge } from '../../../../components/Badge'
 import { AddressDisplay } from '../../../../components/AddressDisplay'
 import { UsdValue } from '../../../../components/UsdValue'
 import { formatUsdValue } from '../../../../utils/format'
 import { getDepFunctionFunds } from '../../../../utils/dependencies'
-import type { CompiledReview, CompiledDependency } from '../../../../types'
+import { MitigationBadge } from '../../../../components/MitigationBadge'
+import type {
+  CompiledReview,
+  CompiledDependency,
+  Mitigation,
+} from '../../../../types'
 import { ShareableDiagram } from '../../../../components/ShareableDiagram'
 import { DependencyRiskDiagram } from './svg/DependencyRiskDiagram'
 
@@ -166,6 +171,9 @@ export function DepsTab({ review }: DepsTabProps) {
                 onClick={handleSort}
                 className="text-right"
               />
+              <th className="px-4 py-2 font-medium text-text-secondary text-left">
+                Mitigations
+              </th>
               <SortHeader
                 field="functions"
                 label="Used By"
@@ -258,6 +266,9 @@ function DependencyRow({
             <span className="text-text-muted">-</span>
           )}
         </td>
+        <td className="px-4 py-2.5">
+          <DepMitigationsSummary dep={dep} />
+        </td>
         <td className="px-4 py-2.5 text-right">
           <span className="font-medium text-text-primary">
             {dep.functions.length}
@@ -272,7 +283,7 @@ function DependencyRow({
       {expanded && (
         <tr>
           <td
-            colSpan={5}
+            colSpan={6}
             className="px-0 py-0 bg-bg-muted/50 border-b border-border"
           >
             <ExpandedDependency dep={dep} />
@@ -357,6 +368,7 @@ function FunctionList({
         <tr className="text-text-muted">
           <th className="text-left pb-1 font-medium">Contract</th>
           <th className="text-left pb-1 font-medium">Function</th>
+          <th className="text-left pb-1 font-medium">Mitigations</th>
           <th className="text-right pb-1 font-medium">TVL</th>
         </tr>
       </thead>
@@ -375,6 +387,17 @@ function FunctionList({
                 <span className="font-mono text-text-primary">
                   {fn.functionName}()
                 </span>
+              </td>
+              <td className="py-1.5">
+                {fn.mitigations && fn.mitigations.length > 0 ? (
+                  <div className="flex flex-wrap gap-0.5">
+                    {fn.mitigations.map((m, i) => (
+                      <MitigationBadge key={i} mitigation={m} />
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-text-muted">-</span>
+                )}
               </td>
               <td className="py-1.5 text-right tabular-nums">
                 {capital > 0 ? (
@@ -413,6 +436,92 @@ function WriteBadge() {
       </svg>
       Write
     </span>
+  )
+}
+
+function deduplicateMitigations(mitigations: Mitigation[]): Mitigation[] {
+  const seen = new Set<string>()
+  const result: Mitigation[] = []
+  for (const m of mitigations) {
+    const key = `${m.type}:${m.delaySeconds ?? ''}:${m.valueRange?.min ?? ''}:${m.valueRange?.max ?? ''}:${m.relativeValue?.maxChangePercent ?? ''}:${m.description}`
+    if (!seen.has(key)) {
+      seen.add(key)
+      result.push(m)
+    }
+  }
+  return result
+}
+
+function DepMitigationsSummary({ dep }: { dep: CompiledDependency }) {
+  const allMitigations: Mitigation[] = []
+  for (const fn of dep.functions) {
+    if (fn.mitigations) {
+      allMitigations.push(...fn.mitigations)
+    }
+  }
+
+  const unique = deduplicateMitigations(allMitigations)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [visibleCount, setVisibleCount] = useState(unique.length)
+
+  const measure = useCallback(() => {
+    const container = containerRef.current
+    if (!container) return
+    const children = container.querySelectorAll<HTMLElement>('[data-badge]')
+    const containerRight = container.getBoundingClientRect().right
+    const reservedSpace = unique.length > 1 ? 30 : 0
+    let count = 0
+    for (const child of children) {
+      const childRight = child.getBoundingClientRect().right
+      if (childRight <= containerRight - reservedSpace) {
+        count++
+      } else {
+        break
+      }
+    }
+    setVisibleCount(Math.max(count, unique.length > 0 ? 1 : 0))
+  }, [unique.length])
+
+  useEffect(() => {
+    setVisibleCount(unique.length)
+  }, [unique.length])
+
+  useEffect(() => {
+    measure()
+    const observer = new ResizeObserver(measure)
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+    return () => observer.disconnect()
+  }, [measure])
+
+  if (unique.length === 0) {
+    return <span className="text-text-muted">-</span>
+  }
+
+  const remaining = unique.length - visibleCount
+
+  return (
+    <div ref={containerRef} className="flex flex-nowrap gap-0.5 items-center overflow-hidden w-full">
+      {unique.map((m, i) => (
+        <span
+          key={i}
+          data-badge
+          className="shrink-0"
+          style={i >= visibleCount ? { visibility: 'hidden', position: 'absolute' } : undefined}
+        >
+          <MitigationBadge mitigation={m} />
+        </span>
+      ))}
+      {remaining > 0 && (
+        <span
+          className="shrink-0 text-text-muted text-[10px] leading-4 ml-0.5"
+          title={`${unique.length} unique mitigations total`}
+        >
+          +{remaining}
+        </span>
+      )}
+    </div>
   )
 }
 

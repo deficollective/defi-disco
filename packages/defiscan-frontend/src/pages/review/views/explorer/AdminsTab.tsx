@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
+import { useState, useMemo, useRef, useLayoutEffect, useEffect } from 'react'
 import { Badge } from '../../../../components/Badge'
 import { AddressDisplay } from '../../../../components/AddressDisplay'
 import { UsdValue } from '../../../../components/UsdValue'
@@ -387,42 +387,52 @@ function AdminMitigationsSummary({ admin }: { admin: CompiledAdmin }) {
   }
 
   const unique = deduplicateMitigations(allMitigations)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const measureRef = useRef<HTMLDivElement>(null)
   const [visibleCount, setVisibleCount] = useState(unique.length)
 
-  const measure = useCallback(() => {
-    const container = containerRef.current
-    if (!container) return
-    const children = container.querySelectorAll<HTMLElement>('[data-badge]')
-    const containerRight = container.getBoundingClientRect().right
-    // Reserve space for the "+N" label (~30px)
-    const reservedSpace = unique.length > 1 ? 30 : 0
+  const measure = () => {
+    const measureDiv = measureRef.current
+    if (!measureDiv || unique.length === 0) return
+    const td = measureDiv.closest('td')
+    if (!td) return
+    // Available width = td content width minus padding (px-4 = 16px * 2)
+    const available = td.clientWidth - 32
+    const reservedForLabel = 28
+    const children = Array.from(
+      measureDiv.querySelectorAll<HTMLElement>('[data-measure]'),
+    )
+    let used = 0
     let count = 0
     for (const child of children) {
-      const childRight = child.getBoundingClientRect().right
-      if (childRight <= containerRight - reservedSpace) {
+      used += child.offsetWidth + (count > 0 ? 2 : 0) // 2px gap
+      if (used <= available - reservedForLabel) {
         count++
       } else {
         break
       }
     }
-    // Show at least 1 if there are mitigations
-    setVisibleCount(Math.max(count, unique.length > 0 ? 1 : 0))
-  }, [unique.length])
-
-  useEffect(() => {
-    // Reset to full count so all badges render for measurement
-    setVisibleCount(unique.length)
-  }, [unique.length])
-
-  useEffect(() => {
-    measure()
-    const observer = new ResizeObserver(measure)
-    if (containerRef.current) {
-      observer.observe(containerRef.current)
+    if (count === unique.length) {
+      setVisibleCount(unique.length)
+    } else {
+      setVisibleCount(Math.max(count, 1))
     }
+  }
+
+  // Initial measurement before paint
+  useLayoutEffect(measure, [unique.length])
+
+  // Re-measure when the parent td resizes (zoom, column changes).
+  // Observing the td (not our container) avoids feedback loops since
+  // hiding badges doesn't change the td's width.
+  useEffect(() => {
+    const measureDiv = measureRef.current
+    if (!measureDiv) return
+    const td = measureDiv.closest('td')
+    if (!td) return
+    const observer = new ResizeObserver(measure)
+    observer.observe(td)
     return () => observer.disconnect()
-  }, [measure])
+  }, [unique.length])
 
   if (unique.length === 0) {
     return <span className="text-text-muted">-</span>
@@ -431,25 +441,35 @@ function AdminMitigationsSummary({ admin }: { admin: CompiledAdmin }) {
   const remaining = unique.length - visibleCount
 
   return (
-    <div ref={containerRef} className="flex flex-nowrap gap-0.5 items-center overflow-hidden w-full">
-      {unique.map((m, i) => (
-        <span
-          key={i}
-          data-badge
-          className="shrink-0"
-          style={i >= visibleCount ? { visibility: 'hidden', position: 'absolute' } : undefined}
-        >
-          <MitigationBadge mitigation={m} />
-        </span>
-      ))}
-      {remaining > 0 && (
-        <span
-          className="shrink-0 text-text-muted text-[10px] leading-4 ml-0.5"
-          title={`${unique.length} unique mitigations total`}
-        >
-          +{remaining}
-        </span>
-      )}
+    <div className="relative">
+      {/* Hidden measurement layer — always renders ALL badges for stable measurement */}
+      <div
+        ref={measureRef}
+        aria-hidden
+        className="flex flex-nowrap gap-0.5 items-center invisible absolute top-0 left-0 pointer-events-none"
+      >
+        {unique.map((m, i) => (
+          <span key={i} data-measure className="shrink-0">
+            <MitigationBadge mitigation={m} />
+          </span>
+        ))}
+      </div>
+      {/* Visible badges */}
+      <div className="flex flex-nowrap gap-0.5 items-center">
+        {unique.slice(0, visibleCount).map((m, i) => (
+          <span key={i} className="shrink-0">
+            <MitigationBadge mitigation={m} />
+          </span>
+        ))}
+        {remaining > 0 && (
+          <span
+            className="shrink-0 text-text-muted text-[10px] leading-4 ml-0.5"
+            title={`${unique.length} unique mitigations total`}
+          >
+            +{remaining}
+          </span>
+        )}
+      </div>
     </div>
   )
 }

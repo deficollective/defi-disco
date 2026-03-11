@@ -1,8 +1,13 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import { AddressDisplay } from '../../../../components/AddressDisplay'
 import { UsdValue } from '../../../../components/UsdValue'
 import { formatUsdValue } from '../../../../utils/format'
-import type { CompiledReview, CompiledAdmin } from '../../../../types'
+import { MitigationBadge } from '../../../../components/MitigationBadge'
+import type {
+  CompiledReview,
+  CompiledAdmin,
+  Mitigation,
+} from '../../../../types'
 
 interface GovernanceTabProps {
   review: CompiledReview
@@ -137,6 +142,9 @@ export function GovernanceTab({ review }: GovernanceTabProps) {
                 onClick={handleSort}
                 className="text-right"
               />
+              <th className="px-4 py-2 font-medium text-text-secondary text-left">
+                Mitigations
+              </th>
               <SortHeader
                 field="functions"
                 label="Functions"
@@ -226,13 +234,16 @@ function GovRow({
             <span className="text-text-muted">-</span>
           )}
         </td>
+        <td className="px-4 py-2.5">
+          <GovMitigationsSummary admin={admin} />
+        </td>
         <td className="px-4 py-2.5 text-right font-medium text-text-primary">
           {admin.functions.length}
         </td>
       </tr>
       {isExpanded && (
         <tr>
-          <td colSpan={4} className="px-0 py-0">
+          <td colSpan={6} className="px-0 py-0">
             <ExpandedFunctions admin={admin} />
           </td>
         </tr>
@@ -255,6 +266,7 @@ function ExpandedFunctions({ admin }: { admin: CompiledAdmin }) {
             <tr className="text-text-muted">
               <th className="text-left pb-1 font-medium">Contract</th>
               <th className="text-left pb-1 font-medium">Function</th>
+              <th className="text-left pb-1 font-medium">Mitigations</th>
               <th className="text-right pb-1 font-medium">TVL</th>
               <th className="text-right pb-1 font-medium">
                 Reachable Contracts
@@ -274,6 +286,17 @@ function ExpandedFunctions({ admin }: { admin: CompiledAdmin }) {
                   <span className="font-mono text-text-primary">
                     {fn.functionName}()
                   </span>
+                </td>
+                <td className="py-1.5">
+                  {fn.mitigations && fn.mitigations.length > 0 ? (
+                    <div className="flex flex-wrap gap-0.5">
+                      {fn.mitigations.map((m, i) => (
+                        <MitigationBadge key={i} mitigation={m} />
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-text-muted">-</span>
+                  )}
                 </td>
                 <td className="py-1.5 text-right tabular-nums">
                   {fn.directFundsUsd > 0 ? (
@@ -309,6 +332,92 @@ function ExpandedFunctions({ admin }: { admin: CompiledAdmin }) {
           </tbody>
         </table>
       </div>
+    </div>
+  )
+}
+
+function deduplicateMitigations(mitigations: Mitigation[]): Mitigation[] {
+  const seen = new Set<string>()
+  const result: Mitigation[] = []
+  for (const m of mitigations) {
+    const key = `${m.type}:${m.delaySeconds ?? ''}:${m.valueRange?.min ?? ''}:${m.valueRange?.max ?? ''}:${m.relativeValue?.maxChangePercent ?? ''}:${m.description}`
+    if (!seen.has(key)) {
+      seen.add(key)
+      result.push(m)
+    }
+  }
+  return result
+}
+
+function GovMitigationsSummary({ admin }: { admin: CompiledAdmin }) {
+  const allMitigations: Mitigation[] = []
+  for (const fn of admin.functions) {
+    if (fn.mitigations) {
+      allMitigations.push(...fn.mitigations)
+    }
+  }
+
+  const unique = deduplicateMitigations(allMitigations)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [visibleCount, setVisibleCount] = useState(unique.length)
+
+  const measure = useCallback(() => {
+    const container = containerRef.current
+    if (!container) return
+    const children = container.querySelectorAll<HTMLElement>('[data-badge]')
+    const containerRight = container.getBoundingClientRect().right
+    const reservedSpace = unique.length > 1 ? 30 : 0
+    let count = 0
+    for (const child of children) {
+      const childRight = child.getBoundingClientRect().right
+      if (childRight <= containerRight - reservedSpace) {
+        count++
+      } else {
+        break
+      }
+    }
+    setVisibleCount(Math.max(count, unique.length > 0 ? 1 : 0))
+  }, [unique.length])
+
+  useEffect(() => {
+    setVisibleCount(unique.length)
+  }, [unique.length])
+
+  useEffect(() => {
+    measure()
+    const observer = new ResizeObserver(measure)
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+    return () => observer.disconnect()
+  }, [measure])
+
+  if (unique.length === 0) {
+    return <span className="text-text-muted">-</span>
+  }
+
+  const remaining = unique.length - visibleCount
+
+  return (
+    <div ref={containerRef} className="flex flex-nowrap gap-0.5 items-center overflow-hidden w-full">
+      {unique.map((m, i) => (
+        <span
+          key={i}
+          data-badge
+          className="shrink-0"
+          style={i >= visibleCount ? { visibility: 'hidden', position: 'absolute' } : undefined}
+        >
+          <MitigationBadge mitigation={m} />
+        </span>
+      ))}
+      {remaining > 0 && (
+        <span
+          className="shrink-0 text-text-muted text-[10px] leading-4 ml-0.5"
+          title={`${unique.length} unique mitigations total`}
+        >
+          +{remaining}
+        </span>
+      )}
     </div>
   )
 }
