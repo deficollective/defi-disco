@@ -1,18 +1,14 @@
-import { useState, useMemo, useRef, useLayoutEffect, useEffect } from 'react'
-import { clsx } from 'clsx'
+import { useState, useMemo } from 'react'
 import { Badge } from '../../../../components/Badge'
 import { AddressDisplay } from '../../../../components/AddressDisplay'
 import { UsdValue } from '../../../../components/UsdValue'
 import { formatUsdValue } from '../../../../utils/format'
 import { getDepFunctionFunds } from '../../../../utils/dependencies'
 import { MitigationBadge } from '../../../../components/MitigationBadge'
-import type {
-  CompiledReview,
-  CompiledDependency,
-  Mitigation,
-} from '../../../../types'
+import type { CompiledReview, CompiledDependency } from '../../../../types'
 import { ShareableDiagram } from '../../../../components/ShareableDiagram'
 import { DependencyRiskDiagram } from './svg/DependencyRiskDiagram'
+import { SortHeader, MitigationsSummary } from './shared'
 
 interface DepsTabProps {
   review: CompiledReview
@@ -267,7 +263,7 @@ function DependencyRow({
           )}
         </td>
         <td className="px-4 py-2.5">
-          <DepMitigationsSummary dep={dep} />
+          <MitigationsSummary functions={dep.functions} />
         </td>
         <td className="px-4 py-2.5 text-right">
           <span className="font-medium text-text-primary">
@@ -436,147 +432,5 @@ function WriteBadge() {
       </svg>
       Write
     </span>
-  )
-}
-
-function deduplicateMitigations(mitigations: Mitigation[]): Mitigation[] {
-  const seen = new Set<string>()
-  const result: Mitigation[] = []
-  for (const m of mitigations) {
-    const key = `${m.type}:${m.delaySeconds ?? ''}:${m.valueRange?.min ?? ''}:${m.valueRange?.max ?? ''}:${m.relativeValue?.maxChangePercent ?? ''}:${m.description}`
-    if (!seen.has(key)) {
-      seen.add(key)
-      result.push(m)
-    }
-  }
-  return result
-}
-
-function DepMitigationsSummary({ dep }: { dep: CompiledDependency }) {
-  const allMitigations: Mitigation[] = []
-  for (const fn of dep.functions) {
-    if (fn.mitigations) {
-      allMitigations.push(...fn.mitigations)
-    }
-  }
-
-  const unique = deduplicateMitigations(allMitigations)
-  const measureRef = useRef<HTMLDivElement>(null)
-  const [visibleCount, setVisibleCount] = useState(unique.length)
-
-  const measure = () => {
-    const measureDiv = measureRef.current
-    if (!measureDiv || unique.length === 0) return
-    const td = measureDiv.closest('td')
-    if (!td) return
-    const available = td.clientWidth - 32
-    const reservedForLabel = 28
-    const children = Array.from(
-      measureDiv.querySelectorAll<HTMLElement>('[data-measure]'),
-    )
-    let used = 0
-    let count = 0
-    for (const child of children) {
-      used += child.offsetWidth + (count > 0 ? 2 : 0)
-      if (used <= available - reservedForLabel) {
-        count++
-      } else {
-        break
-      }
-    }
-    if (count === unique.length) {
-      setVisibleCount(unique.length)
-    } else {
-      setVisibleCount(Math.max(count, 1))
-    }
-  }
-
-  useLayoutEffect(measure, [unique.length])
-
-  useEffect(() => {
-    const measureDiv = measureRef.current
-    if (!measureDiv) return
-    const td = measureDiv.closest('td')
-    if (!td) return
-    const observer = new ResizeObserver(measure)
-    observer.observe(td)
-    return () => observer.disconnect()
-  }, [unique.length])
-
-  if (unique.length === 0) {
-    return <span className="text-text-muted">-</span>
-  }
-
-  const remaining = unique.length - visibleCount
-
-  return (
-    <div className="relative">
-      <div
-        ref={measureRef}
-        aria-hidden
-        className="flex flex-nowrap gap-0.5 items-center invisible absolute top-0 left-0 pointer-events-none"
-      >
-        {unique.map((m, i) => (
-          <span key={i} data-measure className="shrink-0">
-            <MitigationBadge mitigation={m} />
-          </span>
-        ))}
-      </div>
-      <div className="flex flex-nowrap gap-0.5 items-center">
-        {unique.slice(0, visibleCount).map((m, i) => (
-          <span key={i} className="shrink-0">
-            <MitigationBadge mitigation={m} />
-          </span>
-        ))}
-        {remaining > 0 && (
-          <span
-            className="shrink-0 text-text-muted text-[10px] leading-4 ml-0.5"
-            title={`${unique.length} unique mitigations total`}
-          >
-            +{remaining}
-          </span>
-        )}
-      </div>
-    </div>
-  )
-}
-
-function SortHeader({
-  field,
-  label,
-  current,
-  dir,
-  onClick,
-  className,
-}: {
-  field: SortField
-  label: string
-  current: SortField
-  dir: SortDir
-  onClick: (f: SortField) => void
-  className?: string
-}) {
-  const isActive = current === field
-  return (
-    <th
-      className={clsx(
-        'px-4 py-2 font-medium text-text-secondary cursor-pointer select-none hover:text-text-primary transition-colors text-left',
-        className,
-      )}
-      onClick={() => onClick(field)}
-    >
-      <span className="inline-flex items-center gap-1">
-        {label}
-        {isActive && (
-          <svg className="w-3 h-3" viewBox="0 0 12 12" fill="currentColor">
-            {dir === 'desc' ? (
-              <path d="M6 8L2 4h8z" />
-            ) : (
-              <path d="M6 4l4 4H2z" />
-            )}
-          </svg>
-        )}
-      </span>
-    </th>
   )
 }
