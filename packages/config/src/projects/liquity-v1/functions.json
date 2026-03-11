@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-03-11T02:41:46.764Z",
+  "lastModified": "2026-03-11T01:53:35.163Z",
   "contracts": {
     "eth:0x4c517d4e2c851ca76d7ec94b805269df0f2201de": {
       "functions": [
@@ -8,16 +8,15 @@
           "functionName": "fetchPrice",
           "isPermissioned": false,
           "checked": true,
-          "ownerDefinitions": [],
           "dependencies": [
             {
               "contractAddress": "eth:0xAd430500ECDa11E38C9bCB08a702274b94641112"
             }
           ],
-          "timestamp": "2026-03-11T02:39:59.657Z",
+          "timestamp": "2026-03-04T12:32:56.511Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:39:59.657Z"
+            "date": "2026-03-04T12:32:56.511Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
@@ -39,7 +38,7 @@
           "description": "Set relationships to co-dependent contracts: priceAggregator, tellorCaller.",
           "ownerDefinitions": [
             {
-              "path": "$self._owner"
+              "path": "$self.owner"
             }
           ],
           "dependencies": [
@@ -47,10 +46,10 @@
               "contractAddress": "eth:0xAd430500ECDa11E38C9bCB08a702274b94641112"
             }
           ],
-          "timestamp": "2026-03-11T02:39:59.656Z",
+          "timestamp": "2026-03-11T00:53:58.555Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:39:59.656Z"
+            "date": "2026-03-11T00:53:58.555Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
@@ -72,51 +71,14 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:40:05.708Z",
+          "timestamp": "2026-03-04T12:50:09.451Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:05.708Z"
+            "date": "2026-03-04T12:50:09.451Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
             "date": "2026-03-04T12:50:09.451Z"
-          }
-        },
-        {
-          "functionName": "sendETH",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            },
-            {
-              "path": "$self.troveManagerAddress"
-            },
-            {
-              "path": "$self.stabilityPoolAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:40:05.708Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:05.708Z"
-          }
-        },
-        {
-          "functionName": "increaseLUSDDebt",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            },
-            {
-              "path": "$self.troveManagerAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:40:05.708Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:05.708Z"
           }
         },
         {
@@ -133,10 +95,47 @@
               "path": "$self.stabilityPoolAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:40:05.708Z",
+          "timestamp": "2026-03-11T01:34:28.050Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:05.708Z"
+            "date": "2026-03-11T01:34:28.050Z"
+          }
+        },
+        {
+          "functionName": "increaseLUSDDebt",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.borrowerOperationsAddress"
+            },
+            {
+              "path": "$self.troveManagerAddress"
+            }
+          ],
+          "timestamp": "2026-03-11T01:19:49.992Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-11T01:19:49.992Z"
+          }
+        },
+        {
+          "functionName": "sendETH",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.stabilityPoolAddress"
+            },
+            {
+              "path": "$self.borrowerOperationsAddress"
+            },
+            {
+              "path": "$self.troveManagerAddress"
+            }
+          ],
+          "timestamp": "2026-03-11T01:35:04.709Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-11T01:35:04.709Z"
           }
         }
       ]
@@ -154,10 +153,10 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:40:19.818Z",
+          "timestamp": "2026-03-04T12:50:25.272Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:19.818Z"
+            "date": "2026-03-04T12:50:25.272Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
@@ -168,11 +167,20 @@
           "functionName": "openTrove",
           "isPermissioned": false,
           "score": "unscored",
-          "ownerDefinitions": [],
-          "timestamp": "2026-03-11T02:40:19.819Z",
+          "timestamp": "2026-03-10T14:05:55.202Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-10T14:05:55.202Z"
+          }
+        },
+        {
+          "functionName": "repayLUSD",
+          "isPermissioned": false,
+          "score": "unscored",
+          "timestamp": "2026-03-11T00:54:21.430Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:19.819Z"
+            "date": "2026-03-11T00:54:21.430Z"
           }
         },
         {
@@ -183,10 +191,10 @@
               "path": "$self.stabilityPoolAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:40:19.819Z",
+          "timestamp": "2026-03-11T01:51:28.531Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:19.819Z"
+            "date": "2026-03-11T01:51:28.531Z"
           }
         },
         {
@@ -227,10 +235,10 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:40:24.809Z",
+          "timestamp": "2026-03-04T12:50:35.256Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:24.809Z"
+            "date": "2026-03-04T12:50:35.256Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
@@ -245,10 +253,10 @@
               "path": "$self.troveManagerAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:40:24.810Z",
+          "timestamp": "2026-03-11T01:36:03.642Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:24.810Z"
+            "date": "2026-03-11T01:36:03.642Z"
           }
         },
         {
@@ -259,10 +267,10 @@
               "path": "$self.borrowerOperationsAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:40:24.811Z",
+          "timestamp": "2026-03-11T01:36:33.676Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:24.811Z"
+            "date": "2026-03-11T01:36:33.676Z"
           }
         }
       ]
@@ -279,10 +287,10 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:40:33.020Z",
+          "timestamp": "2026-03-04T12:50:37.499Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:33.020Z"
+            "date": "2026-03-04T12:50:37.499Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
@@ -297,10 +305,10 @@
               "path": "$self.stabilityPoolAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:40:33.021Z",
+          "timestamp": "2026-03-11T01:37:02.633Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:33.021Z"
+            "date": "2026-03-11T01:37:02.633Z"
           }
         },
         {
@@ -311,10 +319,10 @@
               "path": "$self.stabilityPoolAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:40:33.021Z",
+          "timestamp": "2026-03-11T01:37:32.611Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:33.021Z"
+            "date": "2026-03-11T01:37:32.611Z"
           }
         }
       ]
@@ -331,42 +339,14 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:40:38.256Z",
+          "timestamp": "2026-03-04T12:50:39.461Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:38.256Z"
+            "date": "2026-03-04T12:50:39.461Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
             "date": "2026-03-04T12:50:39.461Z"
-          }
-        },
-        {
-          "functionName": "sendETHToActivePool",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.troveManagerAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:40:38.256Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:38.256Z"
-          }
-        },
-        {
-          "functionName": "increaseLUSDDebt",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.troveManagerAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:40:38.257Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:38.257Z"
           }
         },
         {
@@ -377,10 +357,38 @@
               "path": "$self.troveManagerAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:40:38.257Z",
+          "timestamp": "2026-03-11T01:38:17.691Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:38.257Z"
+            "date": "2026-03-11T01:38:17.691Z"
+          }
+        },
+        {
+          "functionName": "increaseLUSDDebt",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.troveManagerAddress"
+            }
+          ],
+          "timestamp": "2026-03-11T01:38:49.852Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-11T01:38:49.852Z"
+          }
+        },
+        {
+          "functionName": "sendETHToActivePool",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.troveManagerAddress"
+            }
+          ],
+          "timestamp": "2026-03-11T01:39:11.488Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-11T01:39:11.488Z"
           }
         }
       ]
@@ -394,13 +402,13 @@
           "description": "Set relationships to co-dependent contracts: troveManager, sortedTroves.",
           "ownerDefinitions": [
             {
-              "path": "$self._owner"
+              "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:40:46.806Z",
+          "timestamp": "2026-03-04T12:50:43.476Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:46.806Z"
+            "date": "2026-03-04T12:50:43.476Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
@@ -412,6 +420,76 @@
     "eth:0x6dea81c8171d0ba574754ef6f8b412f2ed88c54d": {
       "functions": [
         {
+          "functionName": "transfer",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.multisigAddress"
+            }
+          ],
+          "timestamp": "2026-03-02T12:52:38.228Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-02T12:52:38.228Z"
+          }
+        },
+        {
+          "functionName": "approve",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.multisigAddress"
+            }
+          ],
+          "timestamp": "2026-03-02T12:52:34.617Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-02T12:52:34.617Z"
+          }
+        },
+        {
+          "functionName": "transferFrom",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.multisigAddress"
+            }
+          ],
+          "timestamp": "2026-03-02T12:52:39.226Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-02T12:52:39.226Z"
+          }
+        },
+        {
+          "functionName": "increaseAllowance",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.multisigAddress"
+            }
+          ],
+          "timestamp": "2026-03-02T12:52:36.163Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-02T12:52:36.163Z"
+          }
+        },
+        {
+          "functionName": "decreaseAllowance",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.multisigAddress"
+            }
+          ],
+          "timestamp": "2026-03-02T12:52:35.159Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-02T12:52:35.159Z"
+          }
+        },
+        {
           "functionName": "sendToLQTYStaking",
           "isPermissioned": true,
           "ownerDefinitions": [
@@ -419,10 +497,10 @@
               "path": "$self.lqtyStakingAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:40:58.893Z",
+          "timestamp": "2026-03-11T01:42:24.586Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:40:58.893Z"
+            "date": "2026-03-11T01:42:24.586Z"
           }
         }
       ]
@@ -439,10 +517,10 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:41:05.724Z",
+          "timestamp": "2026-03-04T12:50:47.676Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:05.724Z"
+            "date": "2026-03-04T12:50:47.676Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
@@ -457,10 +535,10 @@
               "path": "$self.troveManagerAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:41:05.725Z",
+          "timestamp": "2026-03-02T12:42:23.395Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:05.725Z"
+            "date": "2026-03-02T12:42:23.395Z"
           }
         },
         {
@@ -471,10 +549,10 @@
               "path": "$self.borrowerOperationsAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:41:05.725Z",
+          "timestamp": "2026-03-02T12:42:23.395Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:05.725Z"
+            "date": "2026-03-02T12:42:23.395Z"
           }
         }
       ]
@@ -489,10 +567,10 @@
               "path": "$self.borrowerOperationsAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:41:13.671Z",
+          "timestamp": "2026-03-02T12:42:27.625Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:13.671Z"
+            "date": "2026-03-02T12:42:27.625Z"
           }
         },
         {
@@ -509,10 +587,10 @@
               "path": "$self.stabilityPoolAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:41:13.672Z",
+          "timestamp": "2026-03-02T12:42:27.625Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:13.672Z"
+            "date": "2026-03-02T12:42:27.625Z"
           }
         },
         {
@@ -523,10 +601,10 @@
               "path": "$self.stabilityPoolAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:41:13.672Z",
+          "timestamp": "2026-03-02T12:42:27.626Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:13.672Z"
+            "date": "2026-03-02T12:42:27.626Z"
           }
         },
         {
@@ -540,10 +618,10 @@
               "path": "$self.stabilityPoolAddress"
             }
           ],
-          "timestamp": "2026-03-11T02:41:13.673Z",
+          "timestamp": "2026-03-02T12:42:27.626Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:13.673Z"
+            "date": "2026-03-02T12:42:27.626Z"
           }
         }
       ]
@@ -557,13 +635,13 @@
           "description": "Set contract relationships and max data size.",
           "ownerDefinitions": [
             {
-              "path": "$self._owner"
+              "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:41:19.935Z",
+          "timestamp": "2026-03-04T12:51:08.439Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:19.935Z"
+            "date": "2026-03-04T12:51:08.439Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
@@ -581,24 +659,10 @@
               "path": "$self.troveManager"
             }
           ],
-          "timestamp": "2026-03-11T02:41:19.936Z",
+          "timestamp": "2026-03-11T01:52:33.223Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:19.936Z"
-          }
-        },
-        {
-          "functionName": "remove",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.troveManager"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:19.936Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:19.936Z"
+            "date": "2026-03-11T01:52:33.223Z"
           }
         },
         {
@@ -612,10 +676,24 @@
               "path": "$self.troveManager"
             }
           ],
-          "timestamp": "2026-03-11T02:41:19.936Z",
+          "timestamp": "2026-03-11T01:53:07.142Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:19.936Z"
+            "date": "2026-03-11T01:53:07.142Z"
+          }
+        },
+        {
+          "functionName": "remove",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.troveManager"
+            }
+          ],
+          "timestamp": "2026-03-11T01:53:35.163Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-11T01:53:35.163Z"
           }
         }
       ]
@@ -629,13 +707,13 @@
           "description": "Set relationships to co-dependent contracts: troveManager, borrowerOperations, activePool, lusdToken, sortedTroves, priceFeed, communityIssuance.",
           "ownerDefinitions": [
             {
-              "path": "$self._owner"
+              "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:41:32.921Z",
+          "timestamp": "2026-03-04T12:51:09.932Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:32.921Z"
+            "date": "2026-03-04T12:51:09.932Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
@@ -650,10 +728,10 @@
               "path": "$self.troveManager"
             }
           ],
-          "timestamp": "2026-03-11T02:41:32.922Z",
+          "timestamp": "2026-03-11T01:41:00.925Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:32.922Z"
+            "date": "2026-03-11T01:41:00.925Z"
           }
         }
       ]
@@ -667,185 +745,17 @@
           "description": "Set relationships to co-dependent contracts: defaultPool, priceFeed, collSurplusPool, lqtyStaking, borrowerOperationsAddress, activePool, gasPoolAddress, lqtyToken, lusdToken, sortedTroves, stabilityPool.",
           "ownerDefinitions": [
             {
-              "path": "$self._owner"
+              "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-11T02:41:46.622Z",
+          "timestamp": "2026-03-04T12:51:12.034Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.622Z"
+            "date": "2026-03-04T12:51:12.034Z"
           },
           "completedBy": {
             "author": "yvesboutellier",
             "date": "2026-03-04T12:51:12.034Z"
-          }
-        },
-        {
-          "functionName": "applyPendingRewards",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.758Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.758Z"
-          }
-        },
-        {
-          "functionName": "updateTroveRewardSnapshots",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.758Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.758Z"
-          }
-        },
-        {
-          "functionName": "removeStake",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.759Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.759Z"
-          }
-        },
-        {
-          "functionName": "updateStakeAndTotalStakes",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.759Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.759Z"
-          }
-        },
-        {
-          "functionName": "closeTrove",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.760Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.760Z"
-          }
-        },
-        {
-          "functionName": "addTroveOwnerToArray",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.760Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.760Z"
-          }
-        },
-        {
-          "functionName": "decayBaseRateFromBorrowing",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.762Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.762Z"
-          }
-        },
-        {
-          "functionName": "setTroveStatus",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.763Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.763Z"
-          }
-        },
-        {
-          "functionName": "increaseTroveColl",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.763Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.763Z"
-          }
-        },
-        {
-          "functionName": "decreaseTroveColl",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.764Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.764Z"
-          }
-        },
-        {
-          "functionName": "increaseTroveDebt",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.764Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.764Z"
-          }
-        },
-        {
-          "functionName": "decreaseTroveDebt",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "$self.borrowerOperationsAddress"
-            }
-          ],
-          "timestamp": "2026-03-11T02:41:46.764Z",
-          "lastChangedBy": {
-            "author": "yvesboutellier",
-            "date": "2026-03-11T02:41:46.764Z"
           }
         }
       ]
