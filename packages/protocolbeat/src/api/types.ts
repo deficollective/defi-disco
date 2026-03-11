@@ -11,7 +11,7 @@ export type json =
   | { [key: string]: json }
 
 // Scoring type aliases
-export type Impact = 'critical'
+export type Impact = 'critical' | 'no-impact'
 
 // Mitigation types for permissioned functions
 export type MitigationType = 'delay' | 'valueRange' | 'relativeValue' | 'other'
