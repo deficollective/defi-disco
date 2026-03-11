@@ -154,8 +154,12 @@ class FunctionInventoryModule {
             if (func.isPermissioned === true) {
               functionCount++
 
-              // Skip if function doesn't have impact (unscored)
-              if (!func.score || func.score === 'unscored') {
+              // Skip if function doesn't have impact (unscored or no-impact)
+              if (
+                !func.score ||
+                func.score === 'unscored' ||
+                func.score === 'no-impact'
+              ) {
                 return
               }
 
@@ -477,13 +481,18 @@ class AdminInventoryModule {
         { funds: number; tokenValue: number }
       >()
       for (const admin of adminsWithCapital) {
-        // Direct contracts (all functions, including those without call graph)
-        for (const func of admin.functions) {
-          const addr = normalizeChainAddress(func.contractAddress)
+        // Direct contracts from per-function capital analysis (respects no-impact)
+        for (const funcAnalysis of admin.functionsWithCapital) {
+          if (
+            funcAnalysis.directFundsUsd <= 0 &&
+            funcAnalysis.directTokenValueUsd <= 0
+          )
+            continue
+          const addr = normalizeChainAddress(funcAnalysis.contractAddress)
           if (!contractCapitalMap.has(addr)) {
             contractCapitalMap.set(addr, {
-              funds: capitalCalculator.getContractFunds(addr),
-              tokenValue: capitalCalculator.getContractTokenValue(addr),
+              funds: funcAnalysis.directFundsUsd,
+              tokenValue: funcAnalysis.directTokenValueUsd,
             })
           }
         }
