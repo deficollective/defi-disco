@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
+import { useState, useMemo, useRef, useLayoutEffect, useEffect } from 'react'
 import { AddressDisplay } from '../../../../components/AddressDisplay'
 import { UsdValue } from '../../../../components/UsdValue'
 import { formatUsdValue } from '../../../../utils/format'
@@ -358,39 +358,47 @@ function GovMitigationsSummary({ admin }: { admin: CompiledAdmin }) {
   }
 
   const unique = deduplicateMitigations(allMitigations)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const measureRef = useRef<HTMLDivElement>(null)
   const [visibleCount, setVisibleCount] = useState(unique.length)
 
-  const measure = useCallback(() => {
-    const container = containerRef.current
-    if (!container) return
-    const children = container.querySelectorAll<HTMLElement>('[data-badge]')
-    const containerRight = container.getBoundingClientRect().right
-    const reservedSpace = unique.length > 1 ? 30 : 0
+  const measure = () => {
+    const measureDiv = measureRef.current
+    if (!measureDiv || unique.length === 0) return
+    const td = measureDiv.closest('td')
+    if (!td) return
+    const available = td.clientWidth - 32
+    const reservedForLabel = 28
+    const children = Array.from(
+      measureDiv.querySelectorAll<HTMLElement>('[data-measure]'),
+    )
+    let used = 0
     let count = 0
     for (const child of children) {
-      const childRight = child.getBoundingClientRect().right
-      if (childRight <= containerRight - reservedSpace) {
+      used += child.offsetWidth + (count > 0 ? 2 : 0)
+      if (used <= available - reservedForLabel) {
         count++
       } else {
         break
       }
     }
-    setVisibleCount(Math.max(count, unique.length > 0 ? 1 : 0))
-  }, [unique.length])
-
-  useEffect(() => {
-    setVisibleCount(unique.length)
-  }, [unique.length])
-
-  useEffect(() => {
-    measure()
-    const observer = new ResizeObserver(measure)
-    if (containerRef.current) {
-      observer.observe(containerRef.current)
+    if (count === unique.length) {
+      setVisibleCount(unique.length)
+    } else {
+      setVisibleCount(Math.max(count, 1))
     }
+  }
+
+  useLayoutEffect(measure, [unique.length])
+
+  useEffect(() => {
+    const measureDiv = measureRef.current
+    if (!measureDiv) return
+    const td = measureDiv.closest('td')
+    if (!td) return
+    const observer = new ResizeObserver(measure)
+    observer.observe(td)
     return () => observer.disconnect()
-  }, [measure])
+  }, [unique.length])
 
   if (unique.length === 0) {
     return <span className="text-text-muted">-</span>
@@ -399,25 +407,33 @@ function GovMitigationsSummary({ admin }: { admin: CompiledAdmin }) {
   const remaining = unique.length - visibleCount
 
   return (
-    <div ref={containerRef} className="flex flex-nowrap gap-0.5 items-center overflow-hidden w-full">
-      {unique.map((m, i) => (
-        <span
-          key={i}
-          data-badge
-          className="shrink-0"
-          style={i >= visibleCount ? { visibility: 'hidden', position: 'absolute' } : undefined}
-        >
-          <MitigationBadge mitigation={m} />
-        </span>
-      ))}
-      {remaining > 0 && (
-        <span
-          className="shrink-0 text-text-muted text-[10px] leading-4 ml-0.5"
-          title={`${unique.length} unique mitigations total`}
-        >
-          +{remaining}
-        </span>
-      )}
+    <div className="relative">
+      <div
+        ref={measureRef}
+        aria-hidden
+        className="flex flex-nowrap gap-0.5 items-center invisible absolute top-0 left-0 pointer-events-none"
+      >
+        {unique.map((m, i) => (
+          <span key={i} data-measure className="shrink-0">
+            <MitigationBadge mitigation={m} />
+          </span>
+        ))}
+      </div>
+      <div className="flex flex-nowrap gap-0.5 items-center">
+        {unique.slice(0, visibleCount).map((m, i) => (
+          <span key={i} className="shrink-0">
+            <MitigationBadge mitigation={m} />
+          </span>
+        ))}
+        {remaining > 0 && (
+          <span
+            className="shrink-0 text-text-muted text-[10px] leading-4 ml-0.5"
+            title={`${unique.length} unique mitigations total`}
+          >
+            +{remaining}
+          </span>
+        )}
+      </div>
     </div>
   )
 }
