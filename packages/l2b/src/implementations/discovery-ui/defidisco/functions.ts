@@ -753,8 +753,9 @@ function manageMitigatedFieldSeverity(
     newMitigations.map(toKey).filter((k): k is string => k !== null),
   )
 
-  // Add severity for newly linked fields
+  // Add severity for newly linked fields (skip already-linked ones)
   for (const key of newFields) {
+    if (oldFields.has(key)) continue
     const [addr, field] = key.split('::') as [string, string]
     try {
       ensureFieldSeverity(paths, project, addr, field, 'HIGH')

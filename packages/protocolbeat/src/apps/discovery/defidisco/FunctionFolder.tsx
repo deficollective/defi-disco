@@ -2634,18 +2634,20 @@ export function FunctionFolder({
                           {m.valueRange.unit && ` ${m.valueRange.unit}`}
                         </span>
                       )}
-                      {m.type === 'relativeValue' && m.relativeValue && (
-                        <span className="font-mono text-coffee-100 text-xs">
-                          max change:{' '}
-                          <MitigationValueDisplay
-                            label=""
-                            val={m.relativeValue.maxChangePercent}
-                            contractAddress={contractAddress}
-                            allContracts={allContracts}
-                          />
-                          %
-                        </span>
-                      )}
+                      {m.type === 'relativeValue' &&
+                        m.relativeValue &&
+                        m.relativeValue.maxChangePercent !== undefined && (
+                          <span className="font-mono text-coffee-100 text-xs">
+                            max change:{' '}
+                            <MitigationValueDisplay
+                              label=""
+                              val={m.relativeValue.maxChangePercent}
+                              contractAddress={contractAddress}
+                              allContracts={allContracts}
+                            />
+                            %
+                          </span>
+                        )}
                       {m.mitigatedField && (
                         <span
                           className="shrink-0 rounded bg-emerald-900/60 px-1.5 py-0.5 font-mono text-[10px] text-emerald-300"
