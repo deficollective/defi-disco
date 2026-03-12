@@ -152,12 +152,20 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
     })
   }
 
-  // Funds locked — always show as info
-  if (totals.totalCapitalAtRisk > 0) {
+  // Funds secured — always show as info
+  const tokenValue = totals.totalTokenValue ?? totals.totalTokenValueAtRisk
+  const tvs = totals.totalCapitalAtRisk + tokenValue
+  if (tvs > 0) {
+    const hasToken = tokenValue > 0
+    const hasTvl = totals.totalCapitalAtRisk > 0
     findings.push({
       type: 'info',
-      title: `${formatUsdValue(totals.totalCapitalAtRisk)} TVL`,
-      detail: 'Total value locked in the protocol across all contracts.',
+      title: `${formatUsdValue(tvs)} TVS`,
+      detail: hasToken && hasTvl
+        ? `Total Value Secured by the protocol: ${formatUsdValue(totals.totalCapitalAtRisk)} in TVL (funds locked in protocol contracts) and ${formatUsdValue(tokenValue)} in protocol token market cap.`
+        : hasTvl
+          ? `Total Value Secured by the protocol, consisting of ${formatUsdValue(totals.totalCapitalAtRisk)} in TVL (tokens held in contracts).`
+          : `Total Value Secured by the protocol, consisting of ${formatUsdValue(tokenValue)} in protocol token market cap.`,
     })
   }
 
