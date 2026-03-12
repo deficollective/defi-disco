@@ -82,11 +82,6 @@ export function FundCards({ review, forceExpanded }: FundCardsProps) {
     (sum, d) => sum + d.tvl + (showTokens ? d.tokenValue : 0),
     0,
   )
-  const maxEntryValue = Math.max(
-    ...unifiedData.map((d) => d.tvl + (showTokens ? d.tokenValue : 0)),
-    0,
-  )
-
   // Token names for intro text
   const tokenNames = funds
     .filter((f) => f.tokenInfo)
@@ -205,10 +200,10 @@ export function FundCards({ review, forceExpanded }: FundCardsProps) {
             const entryTotal =
               entry.tvl + (showTokens ? entry.tokenValue : 0)
             const tvlPct =
-              maxEntryValue > 0 ? (entry.tvl / maxEntryValue) * 100 : 0
+              chartTotal > 0 ? (entry.tvl / chartTotal) * 100 : 0
             const tokenPct =
-              showTokens && maxEntryValue > 0
-                ? (entry.tokenValue / maxEntryValue) * 100
+              showTokens && chartTotal > 0
+                ? (entry.tokenValue / chartTotal) * 100
                 : 0
             const expandKey = `fund-${entry.fund.address}`
             const isExpanded = forceExpanded || expandedFunds.has(expandKey)
