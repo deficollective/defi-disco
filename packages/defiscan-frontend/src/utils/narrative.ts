@@ -1,4 +1,11 @@
-import type { CompiledReview, CompiledAdmin, CompiledDependency } from '../types'
+import type {
+  CompiledReview,
+  CompiledAdmin,
+  CompiledDependency,
+  Mitigation,
+  MitigationType,
+} from '../types'
+import { displayMitigationValue } from '../types'
 import { formatUsdValue } from './format'
 import { computeEntityDependencyCount } from './dependencies'
 
@@ -172,6 +179,63 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
       type: 'warning',
       title: entityLabel,
       detail: `The protocol depends on ${contractCount} external contract${contractCount !== 1 ? 's' : ''} from ${entityCount > 0 ? `${entityCount} vendor${entityCount !== 1 ? 's' : ''}` : 'external sources'}, introducing third-party risk. A failure or compromise in any dependency could affect protocol operations.`,
+    })
+  }
+
+  // Mitigations
+  const allMitigations: Mitigation[] = []
+  let fundsImpactFnCount = 0
+  let mitigatedFnCount = 0
+  for (const admin of admins) {
+    for (const fn of admin.functions) {
+      if (fn.directFundsUsd > 0) {
+        fundsImpactFnCount++
+        if (fn.mitigations && fn.mitigations.length > 0) {
+          mitigatedFnCount++
+        }
+      }
+      if (fn.mitigations) allMitigations.push(...fn.mitigations)
+    }
+  }
+  for (const dep of dependencies) {
+    for (const fn of dep.functions) {
+      if (fn.mitigations) allMitigations.push(...fn.mitigations)
+    }
+  }
+
+  if (allMitigations.length > 0) {
+    // Deduplicate
+    const seen = new Set<string>()
+    const unique: Mitigation[] = []
+    for (const m of allMitigations) {
+      const key = `${m.type}:${m.delaySeconds ?? ''}:${displayMitigationValue(m.valueRange?.min)}:${displayMitigationValue(m.valueRange?.max)}:${displayMitigationValue(m.relativeValue?.maxChangePercent)}:${m.description}`
+      if (!seen.has(key)) {
+        seen.add(key)
+        unique.push(m)
+      }
+    }
+
+    const types = new Set<MitigationType>(unique.map((m) => m.type))
+    const typeLabels: string[] = []
+    if (types.has('delay')) typeLabels.push('time delays')
+    if (types.has('valueRange')) typeLabels.push('value range limits')
+    if (types.has('relativeValue')) typeLabels.push('relative value caps')
+    if (types.has('other')) typeLabels.push('additional safeguards')
+
+    const typeList =
+      typeLabels.length > 1
+        ? `${typeLabels.slice(0, -1).join(', ')} and ${typeLabels[typeLabels.length - 1]}`
+        : typeLabels[0]
+
+    const coverage =
+      fundsImpactFnCount > 0 && mitigatedFnCount >= fundsImpactFnCount
+        ? 'All'
+        : 'Some'
+
+    findings.push({
+      type: 'info',
+      title: `${unique.length} mitigation${unique.length !== 1 ? 's' : ''} in place`,
+      detail: `${coverage} permissioned functions that impact funds implement mitigations such as ${typeList}, constraining the scope of admin changes.`,
     })
   }
 
