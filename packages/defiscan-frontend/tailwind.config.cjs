@@ -75,7 +75,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
-        display: ['"Instrument Serif"', 'Georgia', 'serif'],
+        display: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       fontSize: {
