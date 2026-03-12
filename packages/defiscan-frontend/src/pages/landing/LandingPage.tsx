@@ -84,16 +84,24 @@ export function LandingPage() {
     <div className="mx-auto max-w-6xl px-6 py-12 animate-fade-in">
       {/* Hero section */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-text-primary">
+        <h1 className="text-3xl font-semibold text-text-secondary">
           DeFi Protocol Reviews
         </h1>
-        <p className="mt-3 text-text-secondary">
-          Reviewing{' '}
-          <span className="font-semibold text-capital tabular-nums">{formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}</span>
-          {' '}in TVL across{' '}
-          <span className="font-semibold text-text-primary tabular-nums">{indexData.globalTotals.protocolsReviewed}</span>
-          {' '}protocols.
-        </p>
+        <div className="mt-6 flex items-center gap-8">
+          <div>
+            <span className="text-3xl font-bold text-text-primary tabular-nums">
+              {indexData.globalTotals.protocolsReviewed}
+            </span>
+            <span className="ml-2 text-sm text-text-muted uppercase tracking-wide">protocols</span>
+          </div>
+          <div className="w-px h-8 bg-border" />
+          <div>
+            <span className="text-3xl font-bold text-capital tabular-nums">
+              {formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}
+            </span>
+            <span className="ml-2 text-sm text-text-muted uppercase tracking-wide">total TVL</span>
+          </div>
+        </div>
       </div>
 
       {/* Protocol Table */}
