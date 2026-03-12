@@ -53,7 +53,7 @@ export function ExplorerView({ review }: ExplorerViewProps) {
   return (
     <div>
       {/* Tab navigation */}
-      <nav className="flex gap-0 border-b border-border overflow-x-auto">
+      <nav className="flex gap-0 border-b border-border/60 overflow-x-auto">
         {TABS.map((tab) => {
           const isActive = activeTab === tab.id
           const count = getTabCount(tab.id, review)
@@ -61,16 +61,16 @@ export function ExplorerView({ review }: ExplorerViewProps) {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
+              className={`px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors duration-150 border-b-2 ${
                 isActive
-                  ? 'text-purple-600 border-purple-600'
-                  : 'text-text-secondary border-transparent hover:text-text-primary hover:border-border'
+                  ? 'text-text-primary border-brand-600'
+                  : 'text-text-muted border-transparent hover:text-text-secondary hover:border-border'
               }`}
             >
               {tab.label}
               {count !== null && (
                 <span
-                  className={`ml-1.5 text-xs ${isActive ? 'text-purple-400' : 'text-text-muted'}`}
+                  className={`ml-1.5 text-xs ${isActive ? 'text-text-secondary' : 'text-text-muted'}`}
                 >
                   ({count})
                 </span>

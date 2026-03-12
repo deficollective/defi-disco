@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: rgba(92, 107, 245, 0.15);
+  }
+
+  /* Smooth focus rings */
+  :focus-visible {
+    outline: 2px solid #5C6BF5;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
 @media print {
   /* Force background colors and images to print */
   * {
@@ -84,13 +103,13 @@
   /* Make section headings more prominent with a bottom border */
   section > h2 {
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid #7C3AED;
+    border-bottom: 2px solid #4449E8;
     margin-bottom: 1rem !important;
   }
 
   /* Card borders: use solid consistent borders */
   .rounded-xl {
-    border-color: #E5E1ED !important;
+    border-color: #E7E5E4 !important;
   }
 
   /* Smaller text for expanded content in print */

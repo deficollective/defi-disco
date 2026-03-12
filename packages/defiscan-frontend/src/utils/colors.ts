@@ -2,22 +2,22 @@ export function adminTypeColor(adminType: string): string {
   switch (adminType) {
     case 'EOA':
     case 'EOAPermissioned':
-      return '#EF4444'
+      return '#DC2626'
     case 'Multisig':
-      return '#F59E0B'
+      return '#D97706'
     case 'Timelock':
-      return '#10B981'
+      return '#059669'
     case 'Governance':
-      return '#8B5CF6'
+      return '#5C6BF5'
     case 'Contract':
     case 'Diamond':
     case 'Upgradeable':
-      return '#3B82F6'
+      return '#2563EB'
     case 'Revoked':
     case 'Immutable':
-      return '#10B981'
+      return '#059669'
     default:
-      return '#6B7280'
+      return '#57534E'
   }
 }
 

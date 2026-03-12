@@ -9,7 +9,7 @@ interface MetricCardProps {
 }
 
 const accentStyles: Record<string, string> = {
-  purple: 'border-l-purple-500',
+  purple: 'border-l-brand-500',
   green: 'border-l-capital',
   amber: 'border-l-token',
   red: 'border-l-status-red',
@@ -21,15 +21,15 @@ export function MetricCard({ label, value, sublabel, accent = 'default', classNa
   return (
     <div
       className={clsx(
-        'rounded-xl border border-border bg-white px-4 py-4 shadow-sm border-l-4',
+        'rounded-xl border border-border/60 bg-white px-5 py-4 shadow-card border-l-[3px]',
         accentStyles[accent],
         className,
       )}
     >
-      <p className="text-sm font-medium text-text-secondary whitespace-nowrap">{label}</p>
-      <p className="mt-1 text-xl font-bold text-text-primary">{value}</p>
+      <p className="text-xs font-medium text-text-muted uppercase tracking-wider whitespace-nowrap">{label}</p>
+      <p className="mt-1.5 text-xl font-bold text-text-primary tabular-nums">{value}</p>
       {sublabel && (
-        <p className="mt-1 text-sm text-text-muted">{sublabel}</p>
+        <p className="mt-1 text-sm text-text-secondary">{sublabel}</p>
       )}
     </div>
   )

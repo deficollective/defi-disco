@@ -61,7 +61,7 @@ export function MitigationBadge({ mitigation: m }: { mitigation: Mitigation }) {
 
   return (
     <span
-      className={`inline-block rounded-full border px-1.5 py-0 text-[10px] font-medium leading-4 ${colorClass}`}
+      className={`inline-block rounded-md border px-1.5 py-0.5 text-[10px] font-medium leading-3 ${colorClass}`}
       title={tooltip}
     >
       {label}

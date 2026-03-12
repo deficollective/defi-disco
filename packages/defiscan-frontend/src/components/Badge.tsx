@@ -14,7 +14,7 @@ export function Badge({
   adminType,
   className,
 }: BadgeProps) {
-  const base = 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium'
+  const base = 'inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium tracking-wide'
 
   const variantClass =
     variant === 'admin-type' && adminType
@@ -22,8 +22,8 @@ export function Badge({
       : variant === 'governance'
         ? 'bg-status-green/10 text-status-green'
         : variant === 'purple'
-          ? 'bg-purple-100 text-purple-700'
-          : 'bg-gray-100 text-gray-600'
+          ? 'bg-brand-50 text-brand-700'
+          : 'bg-bg-muted text-text-secondary'
 
   return <span className={clsx(base, variantClass, className)}>{children}</span>
 }

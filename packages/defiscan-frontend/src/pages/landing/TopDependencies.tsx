@@ -10,20 +10,20 @@ interface TopDependenciesProps {
 
 export function TopDependencies({ dependencies }: TopDependenciesProps) {
   return (
-    <div className="rounded-xl border border-border bg-white shadow-sm overflow-hidden">
+    <div className="rounded-xl border border-border/60 bg-white shadow-card overflow-hidden">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-border bg-bg-muted">
-            <th className="text-left px-4 py-3 font-medium text-text-secondary">
+          <tr className="border-b border-border">
+            <th className="text-left px-4 py-3.5 font-medium text-text-muted text-xs uppercase tracking-wider">
               Dependency
             </th>
-            <th className="text-left px-4 py-3 font-medium text-text-secondary">
+            <th className="text-left px-4 py-3.5 font-medium text-text-muted text-xs uppercase tracking-wider">
               Entity
             </th>
-            <th className="text-right px-4 py-3 font-medium text-text-secondary">
+            <th className="text-right px-4 py-3.5 font-medium text-text-muted text-xs uppercase tracking-wider">
               TVL at Risk
             </th>
-            <th className="text-right px-4 py-3 font-medium text-text-secondary">
+            <th className="text-right px-4 py-3.5 font-medium text-text-muted text-xs uppercase tracking-wider">
               Protocols
             </th>
           </tr>
@@ -32,7 +32,7 @@ export function TopDependencies({ dependencies }: TopDependenciesProps) {
           {dependencies.map((dep) => (
             <tr
               key={dep.address}
-              className="border-b border-border last:border-0 hover:bg-bg-muted/50 transition-colors"
+              className="border-b border-border/50 last:border-0 hover:bg-bg-muted/40 transition-colors duration-150"
             >
               <td className="px-4 py-3 font-medium text-text-primary">
                 {dep.name}

@@ -25,11 +25,12 @@ export function ReviewPage() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16">
+      <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="animate-pulse space-y-6">
-          <div className="h-10 w-64 rounded-lg bg-bg-muted" />
+          <div className="h-4 w-24 rounded bg-bg-muted" />
+          <div className="h-12 w-72 rounded-lg bg-bg-muted" />
           <div className="h-4 w-96 rounded bg-bg-muted" />
-          <div className="h-48 rounded-2xl bg-bg-muted" />
+          <div className="h-48 rounded-xl bg-bg-muted" />
           <div className="grid grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="h-24 rounded-xl bg-bg-muted" />
@@ -42,15 +43,15 @@ export function ReviewPage() {
 
   if (error || !review) {
     return (
-      <div className="mx-auto max-w-5xl px-4 py-16">
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
+      <div className="mx-auto max-w-5xl px-6 py-16">
+        <div className="rounded-xl border border-status-red/20 bg-red-50 p-8 text-center">
           <h2 className="text-lg font-semibold text-red-900">Failed to load review</h2>
           <p className="mt-2 text-sm text-red-700">
             The review data for this protocol could not be loaded.
           </p>
           <Link
             to="/"
-            className="mt-4 inline-block text-purple-600 hover:text-purple-800 font-medium"
+            className="mt-4 inline-block text-brand-600 hover:text-brand-700 font-medium transition-colors duration-150"
           >
             Back to all reviews
           </Link>
@@ -60,29 +61,33 @@ export function ReviewPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6">
+    <div className="mx-auto max-w-7xl px-6 py-8 animate-fade-in">
       {/* Back nav + Protocol header + View toggle */}
-      <div className="mb-6 print:hidden">
+      <div className="mb-8 print:hidden">
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-purple-600 transition-colors mb-4 print:hidden"
+          className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text-secondary transition-colors duration-150 mb-6 print:hidden"
         >
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
-          Back to all reviews
+          All reviews
         </Link>
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-text-primary">
+            <h1 className="font-display text-4xl text-text-primary leading-tight">
               {review.metadata.protocolName}
             </h1>
-            <p className="mt-1 text-sm text-text-secondary">
-              {review.metadata.chain} &middot;{' '}
-              {TYPE_LABELS[review.metadata.projectType] ?? review.metadata.projectType}
+            <p className="mt-2 text-sm text-text-secondary flex items-center gap-2">
+              <span>{review.metadata.chain}</span>
+              <span className="text-border">/</span>
+              <span>{TYPE_LABELS[review.metadata.projectType] ?? review.metadata.projectType}</span>
               {review.metadata.tokenName && (
-                <> &middot; {review.metadata.tokenName}</>
+                <>
+                  <span className="text-border">/</span>
+                  <span>{review.metadata.tokenName}</span>
+                </>
               )}
             </p>
           </div>

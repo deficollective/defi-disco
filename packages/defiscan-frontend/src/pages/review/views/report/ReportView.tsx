@@ -139,13 +139,13 @@ export function ReportView({ review }: ReportViewProps) {
   return (
     <article className="max-w-4xl mx-auto">
       {/* Print-only branded header */}
-      <div className="hidden print:block mb-8 pb-4 border-b-2 border-purple-600">
+      <div className="hidden print:block mb-8 pb-4 border-b-2 border-brand-600">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-purple-600 tracking-wide uppercase mb-1">
+            <p className="text-sm font-semibold text-brand-600 tracking-wider uppercase mb-1">
               DeFiScan Decentralization Review
             </p>
-            <h1 className="text-3xl font-bold text-text-primary">
+            <h1 className="font-display text-3xl text-text-primary">
               {review.metadata.protocolName}
             </h1>
             <p className="mt-1 text-sm text-text-secondary">
@@ -258,17 +258,17 @@ export function ReportView({ review }: ReportViewProps) {
       </div>
 
       {/* Sticky section navigation bar */}
-      <nav className="mt-3 sticky top-0 z-40 -mx-4 px-4 py-3 bg-white/90 backdrop-blur-sm border-b border-border print:hidden">
+      <nav className="mt-3 sticky top-14 z-30 -mx-4 px-4 py-3 bg-bg-primary/90 backdrop-blur-sm border-b border-border/60 print:hidden">
         <div className="flex gap-1 overflow-x-auto">
           {SECTIONS.map((section) => (
             <a
               key={section.id}
               href={`#${section.id}`}
               className={clsx(
-                'px-4 py-2 text-sm font-medium rounded-lg transition-colors whitespace-nowrap',
+                'px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 whitespace-nowrap',
                 activeSection === section.id
-                  ? 'text-purple-700 bg-purple-50'
-                  : 'text-text-secondary hover:text-purple-600 hover:bg-purple-50',
+                  ? 'text-text-primary bg-bg-muted'
+                  : 'text-text-muted hover:text-text-secondary hover:bg-bg-muted/50',
               )}
               onClick={(e) => {
                 e.preventDefault()
@@ -292,7 +292,7 @@ export function ReportView({ review }: ReportViewProps) {
           className="scroll-mt-20"
           ref={(el) => registerRef('summary', el)}
         >
-          <h2 className="text-2xl font-bold text-text-primary mb-6">
+          <h2 className="font-display text-3xl text-text-primary mb-6">
             Summary
           </h2>
           {review.metadata.description && (
@@ -308,7 +308,7 @@ export function ReportView({ review }: ReportViewProps) {
           className="scroll-mt-20"
           ref={(el) => registerRef('key-findings', el)}
         >
-          <h2 className="text-2xl font-bold text-text-primary mb-6">
+          <h2 className="font-display text-3xl text-text-primary mb-6">
             Key Findings
           </h2>
           <KeyFindings review={review} />
@@ -320,7 +320,7 @@ export function ReportView({ review }: ReportViewProps) {
           className="scroll-mt-20"
           ref={(el) => registerRef('funds', el)}
         >
-          <h2 className="text-2xl font-bold text-text-primary mb-6">
+          <h2 className="font-display text-3xl text-text-primary mb-6">
             What Is at Stake?
           </h2>
           <FundCards review={review} forceExpanded={forceExpanded} />
@@ -332,7 +332,7 @@ export function ReportView({ review }: ReportViewProps) {
           className="scroll-mt-20"
           ref={(el) => registerRef('admins', el)}
         >
-          <h2 className="text-2xl font-bold text-text-primary mb-6">
+          <h2 className="font-display text-3xl text-text-primary mb-6">
             Who Is in Control?
           </h2>
           <AdminCards review={review} forceExpanded={forceExpanded} />
@@ -344,7 +344,7 @@ export function ReportView({ review }: ReportViewProps) {
           className="scroll-mt-20"
           ref={(el) => registerRef('dependencies', el)}
         >
-          <h2 className="text-2xl font-bold text-text-primary mb-6">
+          <h2 className="font-display text-3xl text-text-primary mb-6">
             What Does It Depend On?
           </h2>
           <DependencyCards review={review} forceExpanded={forceExpanded} />
@@ -356,7 +356,7 @@ export function ReportView({ review }: ReportViewProps) {
           className="scroll-mt-20"
           ref={(el) => registerRef('code', el)}
         >
-          <h2 className="text-2xl font-bold text-text-primary mb-6">
+          <h2 className="font-display text-3xl text-text-primary mb-6">
             More Information
           </h2>
           <CodeSection review={review} />

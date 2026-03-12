@@ -84,7 +84,7 @@ export function ComparePage() {
         <p className="text-status-red">Failed to load data.</p>
         <Link
           to="/"
-          className="mt-4 inline-block text-purple-600 hover:text-purple-800 font-medium"
+          className="mt-4 inline-block text-brand-600 hover:text-brand-700 font-medium transition-colors duration-150"
         >
           Back to Dashboard
         </Link>
@@ -95,10 +95,10 @@ export function ComparePage() {
   const hasComparison = selectedReviews.length >= 2
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
+    <div className="mx-auto max-w-7xl px-6 py-8 animate-fade-in">
       <Link
         to="/"
-        className="inline-flex items-center gap-1 text-sm text-text-secondary hover:text-purple-600 transition-colors mb-6"
+        className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-text-secondary transition-colors duration-150 mb-6"
       >
         <svg
           className="h-4 w-4"
@@ -116,7 +116,7 @@ export function ComparePage() {
         Back to Dashboard
       </Link>
 
-      <h1 className="text-3xl font-bold text-text-primary mb-2">
+      <h1 className="font-display text-4xl text-text-primary mb-2">
         Protocol Comparison
       </h1>
       <p className="text-text-secondary mb-8">
@@ -160,7 +160,7 @@ export function ComparePage() {
                     />
                     <Link
                       to={`/protocol/${r.metadata.protocolSlug}`}
-                      className="text-lg font-bold text-text-primary hover:text-purple-600 transition-colors"
+                      className="text-lg font-bold text-text-primary hover:text-brand-600 transition-colors duration-150"
                     >
                       {r.metadata.protocolName}
                     </Link>
@@ -181,7 +181,7 @@ export function ComparePage() {
           </div>
 
           {/* Tab Navigation */}
-          <div className="border-b border-border mb-8">
+          <div className="border-b border-border/60 mb-8">
             <nav className="flex gap-6">
               {(
                 [
@@ -194,10 +194,10 @@ export function ComparePage() {
                   key={key}
                   onClick={() => setActiveTab(key)}
                   className={clsx(
-                    'pb-3 text-sm font-medium transition-colors border-b-2',
+                    'pb-3 text-sm font-medium transition-colors duration-150 border-b-2',
                     activeTab === key
-                      ? 'border-purple-600 text-purple-600'
-                      : 'border-transparent text-text-secondary hover:text-text-primary hover:border-gray-300',
+                      ? 'border-brand-600 text-text-primary'
+                      : 'border-transparent text-text-muted hover:text-text-secondary hover:border-border',
                   )}
                 >
                   {label}
@@ -247,7 +247,7 @@ function OverviewTab({
       <ProtocolRadarChart data={radarData} metrics={selectedMetrics} />
 
       {/* Key Metrics Comparison Table */}
-      <div className="rounded-xl border border-border bg-white shadow-sm overflow-hidden">
+      <div className="rounded-xl border border-border/60 bg-white shadow-card overflow-hidden">
         <h3 className="text-lg font-semibold text-text-primary p-5 border-b border-border">
           Key Metrics
         </h3>
@@ -343,7 +343,7 @@ function OverviewTab({
       </div>
 
       {/* Admin Comparison */}
-      <div className="rounded-xl border border-border bg-white shadow-sm overflow-hidden">
+      <div className="rounded-xl border border-border/60 bg-white shadow-card overflow-hidden">
         <h3 className="text-lg font-semibold text-text-primary p-5 border-b border-border">
           Admin Comparison
         </h3>
@@ -372,7 +372,7 @@ function OverviewTab({
       </div>
 
       {/* Dependencies Comparison */}
-      <div className="rounded-xl border border-border bg-white shadow-sm overflow-hidden">
+      <div className="rounded-xl border border-border/60 bg-white shadow-card overflow-hidden">
         <h3 className="text-lg font-semibold text-text-primary p-5 border-b border-border">
           Dependencies Comparison
         </h3>
@@ -404,7 +404,7 @@ function OverviewTab({
       </div>
 
       {/* Fund Holders Comparison */}
-      <div className="rounded-xl border border-border bg-white shadow-sm overflow-hidden">
+      <div className="rounded-xl border border-border/60 bg-white shadow-card overflow-hidden">
         <h3 className="text-lg font-semibold text-text-primary p-5 border-b border-border">
           TVL Holders Comparison
         </h3>

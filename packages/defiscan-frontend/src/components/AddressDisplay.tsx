@@ -11,7 +11,7 @@ export function AddressDisplay({ address, className }: AddressDisplayProps) {
       href={etherscanUrl(address)}
       target="_blank"
       rel="noopener noreferrer"
-      className={`font-mono text-sm text-purple-600 hover:text-purple-800 transition-colors ${className ?? ''}`}
+      className={`font-mono text-sm text-brand-600 hover:text-brand-700 transition-colors duration-150 ${className ?? ''}`}
       title={address}
     >
       {truncateAddress(address)}

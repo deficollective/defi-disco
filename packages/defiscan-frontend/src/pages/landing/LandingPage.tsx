@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom'
 import { useIndex, useAllReviews } from '../../data/hooks'
 import { formatUsdValue } from '../../utils/format'
 import { adminTypeColor } from '../../utils/colors'
-import { Badge } from '../../components/Badge'
 import { ProtocolTypeBadge } from '../../components/ProtocolTypeBadge'
 import { UsdValue } from '../../components/UsdValue'
-import { StatCard } from '../../components/StatCard'
 import type { CompiledReview } from '../../types'
 import { getHumanAdmins } from '../../utils/admins'
 
@@ -64,86 +62,99 @@ export function LandingPage() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-12">
-        <p className="text-text-muted">Loading protocols...</p>
+      <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="animate-pulse space-y-6">
+          <div className="h-10 w-72 rounded-lg bg-bg-muted" />
+          <div className="h-4 w-96 rounded bg-bg-muted" />
+          <div className="h-64 rounded-xl bg-bg-muted" />
+        </div>
       </div>
     )
   }
 
   if (!indexData) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-12">
+      <div className="mx-auto max-w-6xl px-6 py-16">
         <p className="text-status-red">Failed to load data.</p>
       </div>
     )
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-text-primary">DeFiScan Reviews</h1>
-        <p className="mt-2 text-text-secondary">
-          Independent security reviews of DeFi protocols.{' '}
-          <span className="text-text-muted">
-            {indexData.globalTotals.protocolsReviewed} protocols |{' '}
-            {formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)} total TVL
-          </span>
+    <div className="mx-auto max-w-6xl px-6 py-12 animate-fade-in">
+      {/* Hero section */}
+      <div className="mb-16">
+        <h1 className="font-display text-5xl text-text-primary leading-tight">
+          DeFi Protocol Reviews
+        </h1>
+        <p className="mt-4 text-lg text-text-secondary max-w-2xl leading-relaxed">
+          Independent centralization analysis of DeFi protocols — evaluating governance, autonomy, and risk across the ecosystem.
         </p>
-      </div>
 
-      {/* Stats row */}
-      <div className="grid grid-cols-2 gap-4 mb-8">
-        <StatCard
-          label="Protocols Reviewed"
-          value={String(indexData.globalTotals.protocolsReviewed)}
-        />
-        <StatCard
-          label="Total TVL"
-          value={formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}
-        />
+        {/* Stats inline */}
+        <div className="mt-8 flex items-center gap-8">
+          <div>
+            <span className="text-3xl font-bold text-text-primary tabular-nums">
+              {indexData.globalTotals.protocolsReviewed}
+            </span>
+            <span className="ml-2 text-sm text-text-muted uppercase tracking-wide">protocols</span>
+          </div>
+          <div className="w-px h-8 bg-border" />
+          <div>
+            <span className="text-3xl font-bold text-capital tabular-nums">
+              {formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}
+            </span>
+            <span className="ml-2 text-sm text-text-muted uppercase tracking-wide">total TVL</span>
+          </div>
+        </div>
       </div>
 
       {/* Protocol Table */}
-      <div className="rounded-xl border border-border bg-white shadow-sm overflow-x-auto">
+      <div className="rounded-xl border border-border bg-white shadow-card overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border bg-bg-muted">
+            <tr className="border-b border-border">
               <SortHeader label="Protocol" sortKey="name" current={sortKey} asc={sortAsc} onToggle={toggleSort} />
-              <th className="text-left px-3 py-3 font-medium text-text-secondary text-xs uppercase tracking-wide">Type</th>
+              <th className="text-left px-4 py-3.5 font-medium text-text-muted text-xs uppercase tracking-wider">Type</th>
               <SortHeader label="TVL" sortKey="capital" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <SortHeader label="Protocol Token" sortKey="tokenValue" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-left whitespace-nowrap w-[1%]">Admins</th>
-              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-center whitespace-nowrap w-[1%]">Governance</th>
-              <SortHeader label="Dependencies" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" shrink />
+              <SortHeader label="Token Value" sortKey="tokenValue" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
+              <th className="px-4 py-3.5 text-xs uppercase tracking-wider font-medium text-text-muted text-left whitespace-nowrap w-[1%]">Admins</th>
+              <th className="px-4 py-3.5 text-xs uppercase tracking-wider font-medium text-text-muted text-center whitespace-nowrap w-[1%]">Gov</th>
+              <SortHeader label="Deps" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" shrink />
             </tr>
           </thead>
           <tbody>
-            {sorted.map((p) => {
+            {sorted.map((p, i) => {
               const review = reviewMap.get(p.slug)
               const govExists = review ? hasGovernance(review) : false
               const adminBreakdown = review ? computeAdminBreakdown(review) : {}
 
               return (
-                <tr key={p.slug} className="border-b border-border last:border-0 hover:bg-bg-muted/50 transition-colors">
-                  <td className="px-3 py-3">
-                    <Link to={`/protocol/${p.slug}`} className="font-medium text-purple-600 hover:text-purple-800 transition-colors">
+                <tr
+                  key={p.slug}
+                  className="border-b border-border/50 last:border-0 hover:bg-bg-muted/40 transition-colors duration-150"
+                  style={{ animationDelay: `${i * 20}ms` }}
+                >
+                  <td className="px-4 py-3.5">
+                    <Link to={`/protocol/${p.slug}`} className="font-semibold text-text-primary hover:text-brand-600 transition-colors duration-150">
                       {p.name}
                     </Link>
                     <div className="text-xs text-text-muted mt-0.5">{p.chain}</div>
                   </td>
-                  <td className="px-3 py-3"><ProtocolTypeBadge type={p.projectType} /></td>
-                  <td className="px-3 py-3 text-right"><UsdValue value={p.totals.totalCapitalAtRisk} variant="capital" /></td>
-                  <td className="px-3 py-3 text-right">
-                    {(p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk) > 0 ? <UsdValue value={p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk} variant="token" /> : <span className="text-text-muted">-</span>}
+                  <td className="px-4 py-3.5"><ProtocolTypeBadge type={p.projectType} /></td>
+                  <td className="px-4 py-3.5 text-right"><UsdValue value={p.totals.totalCapitalAtRisk} variant="capital" /></td>
+                  <td className="px-4 py-3.5 text-right">
+                    {(p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk) > 0 ? <UsdValue value={p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk} variant="token" /> : <span className="text-text-muted">—</span>}
                   </td>
-                  <td className="px-3 py-3 whitespace-nowrap"><AdminTypeBar breakdown={adminBreakdown} /></td>
-                  <td className="px-3 py-3 text-center whitespace-nowrap text-xs">
+                  <td className="px-4 py-3.5 whitespace-nowrap"><AdminTypeBar breakdown={adminBreakdown} /></td>
+                  <td className="px-4 py-3.5 text-center whitespace-nowrap text-xs">
                     {govExists
-                      ? <span className="text-purple-600 font-medium" title="Has governance">Yes</span>
-                      : <span className="text-text-muted" title="No governance">No</span>}
+                      ? <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-50 text-brand-600" title="Has governance">
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                        </span>
+                      : <span className="text-text-muted" title="No governance">—</span>}
                   </td>
-                  <td className="px-3 py-3 text-right tabular-nums">{p.totals.dependencyCount}</td>
+                  <td className="px-4 py-3.5 text-right tabular-nums text-text-secondary">{p.totals.dependencyCount}</td>
                 </tr>
               )
             })}
@@ -167,11 +178,11 @@ function computeAdminBreakdown(review: CompiledReview) {
 
 function AdminTypeBar({ breakdown }: { breakdown: Record<string, number> }) {
   const total = Object.values(breakdown).reduce((s, n) => s + n, 0)
-  if (total === 0) return <span className="inline-flex items-center gap-1 text-xs text-green-600"><svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>None</span>
+  if (total === 0) return <span className="inline-flex items-center gap-1.5 text-xs text-status-green"><svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>None</span>
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1.5">
       {Object.entries(breakdown).map(([type, count]) => (
-        <span key={type} className="inline-flex items-center gap-0.5 text-xs" title={`${count} ${type}`}>
+        <span key={type} className="inline-flex items-center gap-1 text-xs" title={`${count} ${type}`}>
           <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: adminTypeColor(type) }} />
           <span className="text-text-secondary">{count}</span>
         </span>
@@ -186,11 +197,11 @@ function SortHeader({ label, sortKey, current, asc, onToggle, align = 'left', sh
   const active = current === sortKey
   return (
     <th
-      className={`px-3 py-3 font-medium text-text-secondary cursor-pointer select-none hover:text-purple-600 transition-colors text-xs uppercase tracking-wide whitespace-nowrap ${align === 'right' ? 'text-right' : 'text-left'} ${shrink ? 'w-[1%]' : ''}`}
+      className={`px-4 py-3.5 font-medium cursor-pointer select-none transition-colors duration-150 text-xs uppercase tracking-wider whitespace-nowrap ${active ? 'text-brand-600' : 'text-text-muted hover:text-text-secondary'} ${align === 'right' ? 'text-right' : 'text-left'} ${shrink ? 'w-[1%]' : ''}`}
       onClick={() => onToggle(sortKey)}
     >
       {label}
-      {active && <span className="ml-1">{asc ? '\u25B2' : '\u25BC'}</span>}
+      {active && <span className="ml-1 text-brand-400">{asc ? '\u25B2' : '\u25BC'}</span>}
     </th>
   )
 }

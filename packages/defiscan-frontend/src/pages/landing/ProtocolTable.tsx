@@ -55,7 +55,7 @@ export function ProtocolTable({ protocols }: ProtocolTableProps) {
     const active = sortKey === sortKeyValue
     return (
       <th
-        className={`px-4 py-3 font-medium text-text-secondary cursor-pointer select-none hover:text-purple-600 transition-colors ${
+        className={`px-4 py-3.5 font-medium text-text-muted cursor-pointer select-none hover:text-text-secondary transition-colors duration-150 text-xs uppercase tracking-wider ${
           align === 'right' ? 'text-right' : 'text-left'
         }`}
         onClick={() => toggleSort(sortKeyValue)}
@@ -69,15 +69,15 @@ export function ProtocolTable({ protocols }: ProtocolTableProps) {
   }
 
   return (
-    <div className="rounded-xl border border-border bg-white shadow-sm overflow-hidden">
+    <div className="rounded-xl border border-border/60 bg-white shadow-card overflow-hidden">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-border bg-bg-muted">
+          <tr className="border-b border-border">
             <SortHeader label="Protocol" sortKeyValue="name" />
-            <th className="text-left px-4 py-3 font-medium text-text-secondary">
+            <th className="text-left px-4 py-3.5 font-medium text-text-muted text-xs uppercase tracking-wider">
               Chain
             </th>
-            <th className="text-left px-4 py-3 font-medium text-text-secondary">
+            <th className="text-left px-4 py-3.5 font-medium text-text-muted text-xs uppercase tracking-wider">
               Type
             </th>
             <SortHeader
@@ -101,12 +101,12 @@ export function ProtocolTable({ protocols }: ProtocolTableProps) {
           {sorted.map((p) => (
             <tr
               key={p.slug}
-              className="border-b border-border last:border-0 hover:bg-bg-muted/50 transition-colors"
+              className="border-b border-border/50 last:border-0 hover:bg-bg-muted/40 transition-colors duration-150"
             >
               <td className="px-4 py-3">
                 <Link
                   to={`/protocol/${p.slug}`}
-                  className="font-medium text-purple-600 hover:text-purple-800 transition-colors"
+                  className="font-semibold text-text-primary hover:text-brand-600 transition-colors duration-150"
                 >
                   {p.name}
                 </Link>

@@ -32,7 +32,7 @@ const modes: { value: ViewMode; label: string; description: string; icon: React.
 
 export function ViewModeToggle({ current, onChange }: ViewModeToggleProps) {
   return (
-    <div className="flex items-center gap-1 p-1 bg-bg-muted rounded-xl border border-border">
+    <div className="flex items-center gap-0.5 p-0.5 bg-bg-muted rounded-lg border border-border/60">
       {modes.map((mode) => (
         <button
           key={mode.value}
@@ -40,10 +40,10 @@ export function ViewModeToggle({ current, onChange }: ViewModeToggleProps) {
           onClick={() => onChange(mode.value)}
           title={mode.description}
           className={clsx(
-            'flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all',
+            'flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200',
             current === mode.value
-              ? 'bg-white text-purple-700 shadow-sm'
-              : 'text-text-secondary hover:text-purple-600',
+              ? 'bg-white text-text-primary shadow-card'
+              : 'text-text-muted hover:text-text-secondary',
           )}
         >
           {mode.icon}
