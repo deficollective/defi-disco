@@ -237,9 +237,7 @@ export function FundCards({ review, forceExpanded }: FundCardsProps) {
                       </span>
                       {displayName}
                     </span>
-                    <span
-                      className="font-semibold shrink-0 text-capital"
-                    >
+                    <span className="font-semibold shrink-0 text-capital">
                       {formatUsdValue(entryTotal)}
                     </span>
                   </div>
