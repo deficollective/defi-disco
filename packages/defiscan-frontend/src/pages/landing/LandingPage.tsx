@@ -83,44 +83,31 @@ export function LandingPage() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-12 animate-fade-in">
       {/* Hero section */}
-      <div className="mb-16">
-        <h1 className="font-display text-5xl text-text-primary leading-tight">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-text-primary">
           DeFi Protocol Reviews
         </h1>
-        <p className="mt-4 text-lg text-text-secondary max-w-2xl leading-relaxed">
-          Independent centralization analysis of DeFi protocols — evaluating governance, autonomy, and risk across the ecosystem.
+        <p className="mt-3 text-text-secondary">
+          Reviewing{' '}
+          <span className="font-semibold text-capital tabular-nums">{formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}</span>
+          {' '}in TVL across{' '}
+          <span className="font-semibold text-text-primary tabular-nums">{indexData.globalTotals.protocolsReviewed}</span>
+          {' '}protocols.
         </p>
-
-        {/* Stats inline */}
-        <div className="mt-8 flex items-center gap-8">
-          <div>
-            <span className="text-3xl font-bold text-text-primary tabular-nums">
-              {indexData.globalTotals.protocolsReviewed}
-            </span>
-            <span className="ml-2 text-sm text-text-muted uppercase tracking-wide">protocols</span>
-          </div>
-          <div className="w-px h-8 bg-border" />
-          <div>
-            <span className="text-3xl font-bold text-capital tabular-nums">
-              {formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}
-            </span>
-            <span className="ml-2 text-sm text-text-muted uppercase tracking-wide">total TVL</span>
-          </div>
-        </div>
       </div>
 
       {/* Protocol Table */}
-      <div className="rounded-xl border border-border bg-white shadow-card overflow-x-auto">
+      <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border">
+            <tr className="border-t border-b border-border">
               <SortHeader label="Protocol" sortKey="name" current={sortKey} asc={sortAsc} onToggle={toggleSort} />
-              <th className="text-left px-4 py-3.5 font-medium text-text-muted text-xs uppercase tracking-wider">Type</th>
+              <th className="text-left px-4 py-3 font-medium text-text-muted text-xs">Type</th>
               <SortHeader label="TVL" sortKey="capital" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
               <SortHeader label="Token Value" sortKey="tokenValue" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <th className="px-4 py-3.5 text-xs uppercase tracking-wider font-medium text-text-muted text-left whitespace-nowrap w-[1%]">Admins</th>
-              <th className="px-4 py-3.5 text-xs uppercase tracking-wider font-medium text-text-muted text-center whitespace-nowrap w-[1%]">Gov</th>
-              <SortHeader label="Deps" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" shrink />
+              <th className="px-4 py-3 text-xs font-medium text-text-muted text-left whitespace-nowrap w-[1%]">Admins</th>
+              <th className="px-4 py-3 text-xs font-medium text-text-muted text-center whitespace-nowrap w-[1%]">Gov</th>
+              <SortHeader label="Dependencies" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" shrink />
             </tr>
           </thead>
           <tbody>
@@ -133,28 +120,27 @@ export function LandingPage() {
                 <tr
                   key={p.slug}
                   className="border-b border-border/50 last:border-0 hover:bg-bg-muted/40 transition-colors duration-150"
-                  style={{ animationDelay: `${i * 20}ms` }}
                 >
-                  <td className="px-4 py-3.5">
-                    <Link to={`/protocol/${p.slug}`} className="font-semibold text-text-primary hover:text-brand-600 transition-colors duration-150">
+                  <td className="px-4 py-3">
+                    <Link to={`/protocol/${p.slug}`} className="font-semibold text-text-primary hover:text-brand-600 hover:underline decoration-brand-200 underline-offset-2 transition-colors duration-150">
                       {p.name}
                     </Link>
                     <div className="text-xs text-text-muted mt-0.5">{p.chain}</div>
                   </td>
-                  <td className="px-4 py-3.5"><ProtocolTypeBadge type={p.projectType} /></td>
-                  <td className="px-4 py-3.5 text-right"><UsdValue value={p.totals.totalCapitalAtRisk} variant="capital" /></td>
-                  <td className="px-4 py-3.5 text-right">
+                  <td className="px-4 py-3"><ProtocolTypeBadge type={p.projectType} /></td>
+                  <td className="px-4 py-3 text-right"><UsdValue value={p.totals.totalCapitalAtRisk} variant="capital" /></td>
+                  <td className="px-4 py-3 text-right">
                     {(p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk) > 0 ? <UsdValue value={p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk} variant="token" /> : <span className="text-text-muted">—</span>}
                   </td>
-                  <td className="px-4 py-3.5 whitespace-nowrap"><AdminTypeBar breakdown={adminBreakdown} /></td>
-                  <td className="px-4 py-3.5 text-center whitespace-nowrap text-xs">
+                  <td className="px-4 py-3 whitespace-nowrap"><AdminTypeBar breakdown={adminBreakdown} /></td>
+                  <td className="px-4 py-3 text-center whitespace-nowrap text-xs">
                     {govExists
                       ? <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-50 text-brand-600" title="Has governance">
                           <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                         </span>
                       : <span className="text-text-muted" title="No governance">—</span>}
                   </td>
-                  <td className="px-4 py-3.5 text-right tabular-nums text-text-secondary">{p.totals.dependencyCount}</td>
+                  <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{p.totals.dependencyCount}</td>
                 </tr>
               )
             })}
@@ -197,7 +183,7 @@ function SortHeader({ label, sortKey, current, asc, onToggle, align = 'left', sh
   const active = current === sortKey
   return (
     <th
-      className={`px-4 py-3.5 font-medium cursor-pointer select-none transition-colors duration-150 text-xs uppercase tracking-wider whitespace-nowrap ${active ? 'text-brand-600' : 'text-text-muted hover:text-text-secondary'} ${align === 'right' ? 'text-right' : 'text-left'} ${shrink ? 'w-[1%]' : ''}`}
+      className={`px-4 py-3 font-medium cursor-pointer select-none transition-colors duration-150 text-xs whitespace-nowrap ${active ? 'text-brand-600' : 'text-text-muted hover:text-text-secondary'} ${align === 'right' ? 'text-right' : 'text-left'} ${shrink ? 'w-[1%]' : ''}`}
       onClick={() => onToggle(sortKey)}
     >
       {label}
