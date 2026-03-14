@@ -514,11 +514,15 @@ export async function fetchAllFundsForProject(
           `Token: $${val.toLocaleString()} (${fetchResult.data.tokenInfo.symbol} @ $${fetchResult.data.tokenInfo.price})`,
         )
       }
-      if (contract.fetchAggregate && fetchResult.data.aggregate) {
-        const agg = fetchResult.data.aggregate
-        parts.push(
-          `Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`,
-        )
+      if (contract.fetchAggregate) {
+        if (fetchResult.data.aggregate) {
+          const agg = fetchResult.data.aggregate
+          parts.push(
+            `Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`,
+          )
+        } else {
+          parts.push('Aggregate: FAILED (no data returned)')
+        }
       }
       onProgress?.(`  ${parts.join(', ')}`)
     }
@@ -651,11 +655,15 @@ export async function fetchFundsForSingleContract(
         `Token: $${val.toLocaleString()} (${fetchResult.data.tokenInfo.symbol} @ $${fetchResult.data.tokenInfo.price})`,
       )
     }
-    if (tag.fetchAggregate && fetchResult.data.aggregate) {
-      const agg = fetchResult.data.aggregate
-      parts.push(
-        `Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`,
-      )
+    if (tag.fetchAggregate) {
+      if (fetchResult.data.aggregate) {
+        const agg = fetchResult.data.aggregate
+        parts.push(
+          `Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`,
+        )
+      } else {
+        parts.push('Aggregate: FAILED (no data returned)')
+      }
     }
     onProgress?.(parts.join(', '))
   }
