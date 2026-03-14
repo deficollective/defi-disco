@@ -137,6 +137,8 @@ export interface FetchResult {
   data: ContractFundsData
   balancesCached: boolean
   positionsCached: boolean
+  tokenFetched: boolean
+  aggregateFetched: boolean
 }
 
 export async function fetchFundsForContract(
@@ -149,6 +151,8 @@ export async function fetchFundsForContract(
 
   let balancesCached = false
   let positionsCached = false
+  let tokenFetched = false
+  let aggregateFetched = false
 
   // Normalize address - remove eth: prefix for API calls
   const cleanAddress = stripChainPrefix(contractAddress)
@@ -325,6 +329,7 @@ export async function fetchFundsForContract(
         timestamp: new Date().toISOString(),
         source: 'debank',
       }
+      tokenFetched = true
     }
 
     if (options.fetchAggregate) {
@@ -361,6 +366,7 @@ export async function fetchFundsForContract(
               timestamp: new Date().toISOString(),
               source: aggregateData.source ?? options.aggregateHandler,
             }
+            aggregateFetched = true
           } else {
             console.warn(
               `Aggregate API returned ${aggregateResponse.status} for ${contractAddress} (handler: ${options.aggregateHandler})`,
@@ -379,7 +385,7 @@ export async function fetchFundsForContract(
     console.error(`Error fetching funds for ${contractAddress}:`, error)
   }
 
-  return { data: result, balancesCached, positionsCached }
+  return { data: result, balancesCached, positionsCached, tokenFetched, aggregateFetched }
 }
 
 export async function fetchAllFundsForProject(
@@ -487,11 +493,24 @@ export async function fetchAllFundsForProject(
     if (fetchResult.data.error) {
       onProgress?.(`  ERROR: ${fetchResult.data.error}`)
     } else {
-      const balanceValue = fetchResult.data.balances?.totalUsdValue ?? 0
-      const positionsValue = fetchResult.data.positions?.totalUsdValue ?? 0
-      onProgress?.(
-        `  Balances: ${balancesStatus} ($${balanceValue.toLocaleString()}), Positions: ${positionsStatus} ($${positionsValue.toLocaleString()})`,
-      )
+      const parts: string[] = []
+      if (contract.fetchBalances) {
+        const val = fetchResult.data.balances?.totalUsdValue ?? 0
+        parts.push(`Balances: ${balancesStatus} ($${val.toLocaleString()})`)
+      }
+      if (contract.fetchPositions) {
+        const val = fetchResult.data.positions?.totalUsdValue ?? 0
+        parts.push(`Positions: ${positionsStatus} ($${val.toLocaleString()})`)
+      }
+      if (contract.isToken && fetchResult.data.tokenInfo) {
+        const val = fetchResult.data.tokenInfo.tokenValue ?? 0
+        parts.push(`Token: $${val.toLocaleString()} (${fetchResult.data.tokenInfo.symbol} @ $${fetchResult.data.tokenInfo.price})`)
+      }
+      if (contract.fetchAggregate && fetchResult.data.aggregate) {
+        const agg = fetchResult.data.aggregate
+        parts.push(`Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`)
+      }
+      onProgress?.(`  ${parts.join(', ')}`)
     }
   }
 
@@ -602,26 +621,29 @@ export async function fetchFundsForSingleContract(
 
   saveFundsData(paths, project, result)
 
-  // Log cache status
-  const balancesStatus = tag.fetchBalances
-    ? fetchResult.balancesCached
-      ? 'CACHED'
-      : 'FETCHED'
-    : 'N/A'
-  const positionsStatus = tag.fetchPositions
-    ? fetchResult.positionsCached
-      ? 'CACHED'
-      : 'FETCHED'
-    : 'N/A'
-
   if (fetchResult.data.error) {
     onProgress?.(`ERROR: ${fetchResult.data.error}`)
   } else {
-    const balanceValue = fetchResult.data.balances?.totalUsdValue ?? 0
-    const positionsValue = fetchResult.data.positions?.totalUsdValue ?? 0
-    onProgress?.(
-      `Balances: ${balancesStatus} ($${balanceValue.toLocaleString()}), Positions: ${positionsStatus} ($${positionsValue.toLocaleString()})`,
-    )
+    const parts: string[] = []
+    if (tag.fetchBalances) {
+      const status = fetchResult.balancesCached ? 'CACHED' : 'FETCHED'
+      const val = fetchResult.data.balances?.totalUsdValue ?? 0
+      parts.push(`Balances: ${status} ($${val.toLocaleString()})`)
+    }
+    if (tag.fetchPositions) {
+      const status = fetchResult.positionsCached ? 'CACHED' : 'FETCHED'
+      const val = fetchResult.data.positions?.totalUsdValue ?? 0
+      parts.push(`Positions: ${status} ($${val.toLocaleString()})`)
+    }
+    if (tag.isToken && fetchResult.data.tokenInfo) {
+      const val = fetchResult.data.tokenInfo.tokenValue ?? 0
+      parts.push(`Token: $${val.toLocaleString()} (${fetchResult.data.tokenInfo.symbol} @ $${fetchResult.data.tokenInfo.price})`)
+    }
+    if (tag.fetchAggregate && fetchResult.data.aggregate) {
+      const agg = fetchResult.data.aggregate
+      parts.push(`Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`)
+    }
+    onProgress?.(parts.join(', '))
   }
 
   onProgress?.('Funds data saved successfully')

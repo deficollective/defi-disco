@@ -107,7 +107,7 @@ export function createDefiscanServer(
     config.cache.balancesTTL,
   )
   const aggregateService = new AggregateService(
-    [new UniswapV2FactoryHandler()],
+    [new UniswapV2FactoryHandler(config.thegraph.apiKey)],
     aggregateCache,
     logger.for('AggregateService'),
   )
