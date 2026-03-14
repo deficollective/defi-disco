@@ -385,7 +385,13 @@ export async function fetchFundsForContract(
     console.error(`Error fetching funds for ${contractAddress}:`, error)
   }
 
-  return { data: result, balancesCached, positionsCached, tokenFetched, aggregateFetched }
+  return {
+    data: result,
+    balancesCached,
+    positionsCached,
+    tokenFetched,
+    aggregateFetched,
+  }
 }
 
 export async function fetchAllFundsForProject(
@@ -504,11 +510,15 @@ export async function fetchAllFundsForProject(
       }
       if (contract.isToken && fetchResult.data.tokenInfo) {
         const val = fetchResult.data.tokenInfo.tokenValue ?? 0
-        parts.push(`Token: $${val.toLocaleString()} (${fetchResult.data.tokenInfo.symbol} @ $${fetchResult.data.tokenInfo.price})`)
+        parts.push(
+          `Token: $${val.toLocaleString()} (${fetchResult.data.tokenInfo.symbol} @ $${fetchResult.data.tokenInfo.price})`,
+        )
       }
       if (contract.fetchAggregate && fetchResult.data.aggregate) {
         const agg = fetchResult.data.aggregate
-        parts.push(`Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`)
+        parts.push(
+          `Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`,
+        )
       }
       onProgress?.(`  ${parts.join(', ')}`)
     }
@@ -637,11 +647,15 @@ export async function fetchFundsForSingleContract(
     }
     if (tag.isToken && fetchResult.data.tokenInfo) {
       const val = fetchResult.data.tokenInfo.tokenValue ?? 0
-      parts.push(`Token: $${val.toLocaleString()} (${fetchResult.data.tokenInfo.symbol} @ $${fetchResult.data.tokenInfo.price})`)
+      parts.push(
+        `Token: $${val.toLocaleString()} (${fetchResult.data.tokenInfo.symbol} @ $${fetchResult.data.tokenInfo.price})`,
+      )
     }
     if (tag.fetchAggregate && fetchResult.data.aggregate) {
       const agg = fetchResult.data.aggregate
-      parts.push(`Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`)
+      parts.push(
+        `Aggregate: $${agg.totalUsdValue.toLocaleString()} (${agg.contractCount} contracts, ${agg.source})`,
+      )
     }
     onProgress?.(parts.join(', '))
   }
