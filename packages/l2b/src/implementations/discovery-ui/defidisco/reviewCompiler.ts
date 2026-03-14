@@ -634,12 +634,13 @@ export class ReviewCompiler {
     // Build fund holders from funds data + review config descriptions
     const funds: CompiledFundHolder[] = []
     for (const [address, desc] of Object.entries(reviewConfig.funds ?? {})) {
-      const contractFunds = fundsLookup.get(normalizeChainAddress(address))
+      const normalizedAddr = normalizeChainAddress(address)
+      const contractFunds = fundsLookup.get(normalizedAddr)
 
-      const tag = tagsByAddress.get(normalizeChainAddress(address))
+      const tag = tagsByAddress.get(normalizedAddr)
 
       funds.push({
-        address,
+        address: normalizedAddr,
         name: desc.name ?? address,
         description: desc.description ?? '',
         balances: contractFunds?.balances

@@ -47,16 +47,9 @@ export class AggregateService {
 
     const aggregateHandler = this.handlers.get(handler)
     if (!aggregateHandler) {
-      this.logger.warn('Unknown aggregate handler requested', { handler })
-      const empty: AggregateResponse = {
-        contract_address: contractAddress.toString(),
-        total_usd_value: 0,
-        contract_count: 0,
-        breakdown: [],
-        timestamp: new Date().toISOString(),
-        source: handler,
-      }
-      return { data: empty, cached: false }
+      throw new Error(
+        `Unknown aggregate handler: "${handler}". Available handlers: ${this.getHandlerNames().join(', ')}`,
+      )
     }
 
     this.logger.info('FETCHING - Getting aggregate data', {
