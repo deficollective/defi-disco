@@ -52,6 +52,12 @@ interface CompiledReview {
       totalSupply: string
       tokenValue: number
     } | null
+    aggregate?: {
+      totalUsdValue: number
+      contractCount: number
+      handlerName: string
+      label?: string
+    } | null
   }[]
 }
 
@@ -64,6 +70,11 @@ interface FundsData {
       price: number
       totalSupply: string
       tokenValue: number
+    }
+    aggregate?: {
+      totalUsdValue: number
+      contractCount: number
+      handlerName: string
     }
   }>
 }
@@ -140,6 +151,14 @@ function main() {
             price: contractFunds.tokenInfo.price,
             totalSupply: contractFunds.tokenInfo.totalSupply,
             tokenValue: contractFunds.tokenInfo.tokenValue,
+          }
+        }
+        if (contractFunds.aggregate) {
+          fund.aggregate = {
+            totalUsdValue: contractFunds.aggregate.totalUsdValue,
+            contractCount: contractFunds.aggregate.contractCount,
+            handlerName: contractFunds.aggregate.handlerName,
+            label: fund.aggregate?.label,
           }
         }
         patched++

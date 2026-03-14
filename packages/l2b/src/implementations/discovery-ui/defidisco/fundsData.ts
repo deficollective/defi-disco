@@ -100,16 +100,26 @@ export function getContractsToFetch(
   fetchBalances: boolean
   fetchPositions: boolean
   isToken: boolean
+  fetchAggregate: boolean
+  aggregateHandler?: string
 }[] {
   const tags = getContractTags(paths, project)
 
   return tags.tags
-    .filter((tag) => tag.fetchBalances || tag.fetchPositions || tag.isToken)
+    .filter(
+      (tag) =>
+        tag.fetchBalances ||
+        tag.fetchPositions ||
+        tag.isToken ||
+        tag.fetchAggregate,
+    )
     .map((tag) => ({
       address: tag.contractAddress,
       fetchBalances: tag.fetchBalances ?? false,
       fetchPositions: tag.fetchPositions ?? false,
       isToken: tag.isToken ?? false,
+      fetchAggregate: tag.fetchAggregate ?? false,
+      aggregateHandler: tag.aggregateHandler,
     }))
 }
 
@@ -117,6 +127,8 @@ interface FetchOptions {
   fetchBalances?: boolean
   fetchPositions?: boolean
   isToken?: boolean
+  fetchAggregate?: boolean
+  aggregateHandler?: string
   discoveredData?: any
   forceRefresh?: boolean
 }
@@ -314,6 +326,54 @@ export async function fetchFundsForContract(
         source: 'debank',
       }
     }
+
+    if (options.fetchAggregate) {
+      if (!options.aggregateHandler) {
+        console.warn(
+          `Contract ${contractAddress} has fetchAggregate=true but no aggregateHandler specified — skipping aggregate fetch`,
+        )
+      } else {
+        try {
+          const aggregateUrl = `${DEFISCAN_ENDPOINTS_URL}/aggregate?contract_address=${cleanAddress}&chain_id=eth&handler=${options.aggregateHandler}${forceRefreshParam}`
+          const aggregateResponse = await fetch(aggregateUrl)
+
+          if (aggregateResponse.ok) {
+            const aggregateData = (await aggregateResponse.json()) as {
+              total_usd_value?: number
+              contract_count?: number
+              breakdown?: Array<{
+                address: string
+                name?: string
+                usd_value: number
+              }>
+              source?: string
+            }
+
+            result.aggregate = {
+              totalUsdValue: aggregateData.total_usd_value ?? 0,
+              contractCount: aggregateData.contract_count ?? 0,
+              handlerName: options.aggregateHandler,
+              breakdown: aggregateData.breakdown?.map((b) => ({
+                address: b.address,
+                name: b.name,
+                usdValue: b.usd_value,
+              })),
+              timestamp: new Date().toISOString(),
+              source: aggregateData.source ?? options.aggregateHandler,
+            }
+          } else {
+            console.warn(
+              `Aggregate API returned ${aggregateResponse.status} for ${contractAddress} (handler: ${options.aggregateHandler})`,
+            )
+          }
+        } catch (aggregateError) {
+          console.warn(
+            `Aggregate fetch failed for ${contractAddress}:`,
+            aggregateError,
+          )
+        }
+      }
+    }
   } catch (error) {
     result.error = error instanceof Error ? error.message : 'Unknown error'
     console.error(`Error fetching funds for ${contractAddress}:`, error)
@@ -366,13 +426,15 @@ export async function fetchAllFundsForProject(
     const contract = contractsToFetch[i]
 
     onProgress?.(
-      `[${i + 1}/${contractsToFetch.length}] Requesting ${contract.address}${contract.isToken ? ' (token)' : ''}...`,
+      `[${i + 1}/${contractsToFetch.length}] Requesting ${contract.address}${contract.isToken ? ' (token)' : ''}${contract.fetchAggregate ? ' (aggregate)' : ''}...`,
     )
 
     const fetchResult = await fetchFundsForContract(contract.address, {
       fetchBalances: contract.fetchBalances,
       fetchPositions: contract.fetchPositions,
       isToken: contract.isToken,
+      fetchAggregate: contract.fetchAggregate,
+      aggregateHandler: contract.aggregateHandler,
       discoveredData,
       forceRefresh,
     })
@@ -387,7 +449,8 @@ export async function fetchAllFundsForProject(
         existingData &&
         (existingData.balances ||
           existingData.positions ||
-          existingData.tokenInfo)
+          existingData.tokenInfo ||
+          existingData.aggregate)
       ) {
         contracts[contract.address] = {
           ...existingData,
@@ -460,7 +523,13 @@ export async function fetchFundsForSingleContract(
     addressesEqual(t.contractAddress, contractAddress),
   )
 
-  if (!tag || (!tag.fetchBalances && !tag.fetchPositions && !tag.isToken)) {
+  if (
+    !tag ||
+    (!tag.fetchBalances &&
+      !tag.fetchPositions &&
+      !tag.isToken &&
+      !tag.fetchAggregate)
+  ) {
     onProgress?.(`Contract ${contractAddress} is not marked for funds fetching`)
     return getFundsData(paths, project)
   }
@@ -483,13 +552,15 @@ export async function fetchFundsForSingleContract(
   }
 
   onProgress?.(
-    `Requesting ${contractAddress}${tag.isToken ? ' (token)' : ''}${forceRefresh ? ' (force refresh)' : ''}...`,
+    `Requesting ${contractAddress}${tag.isToken ? ' (token)' : ''}${tag.fetchAggregate ? ' (aggregate)' : ''}${forceRefresh ? ' (force refresh)' : ''}...`,
   )
 
   const fetchResult = await fetchFundsForContract(contractAddress, {
     fetchBalances: tag.fetchBalances,
     fetchPositions: tag.fetchPositions,
     isToken: tag.isToken,
+    fetchAggregate: tag.fetchAggregate,
+    aggregateHandler: tag.aggregateHandler,
     discoveredData,
     forceRefresh,
   })
@@ -505,7 +576,8 @@ export async function fetchFundsForSingleContract(
     existingContractData &&
     (existingContractData.balances ||
       existingContractData.positions ||
-      existingContractData.tokenInfo)
+      existingContractData.tokenInfo ||
+      existingContractData.aggregate)
   ) {
     // Preserve existing data but update the error field and timestamp
     newContractData = {
