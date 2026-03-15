@@ -29,9 +29,13 @@ export function FundsTab({ review }: FundsTabProps) {
     const copy = [...funds]
     copy.sort((a, b) => {
       const aTotal =
-        (a.balances?.totalUsdValue ?? 0) + (a.positions?.totalUsdValue ?? 0)
+        (a.balances?.totalUsdValue ?? 0) +
+        (a.positions?.totalUsdValue ?? 0) +
+        (a.aggregate?.totalUsdValue ?? 0)
       const bTotal =
-        (b.balances?.totalUsdValue ?? 0) + (b.positions?.totalUsdValue ?? 0)
+        (b.balances?.totalUsdValue ?? 0) +
+        (b.positions?.totalUsdValue ?? 0) +
+        (b.aggregate?.totalUsdValue ?? 0)
       let cmp = 0
       switch (sortField) {
         case 'name':
@@ -66,12 +70,15 @@ export function FundsTab({ review }: FundsTabProps) {
   }
 
   if (funds.length === 0) {
-    return <p className="text-text-muted">No fund data available.</p>
+    return <p className="text-text-muted">No TVL data available.</p>
   }
 
   const totalCapital = funds.reduce(
     (s, f) =>
-      s + (f.balances?.totalUsdValue ?? 0) + (f.positions?.totalUsdValue ?? 0),
+      s +
+      (f.balances?.totalUsdValue ?? 0) +
+      (f.positions?.totalUsdValue ?? 0) +
+      (f.aggregate?.totalUsdValue ?? 0),
     0,
   )
   const totalTokenValue = funds.reduce(
@@ -79,13 +86,15 @@ export function FundsTab({ review }: FundsTabProps) {
     0,
   )
 
-  // Chart data: TVL (balances + positions) and Market Cap (tokenInfo.tokenValue)
+  // Chart data: TVL (balances + positions + aggregate) and Market Cap (tokenInfo.tokenValue)
   const chartData = funds
     .map((f) => ({
       name:
         f.name.length > 20 ? `${f.name.slice(0, 18)}...` : f.name,
       tvl:
-        (f.balances?.totalUsdValue ?? 0) + (f.positions?.totalUsdValue ?? 0),
+        (f.balances?.totalUsdValue ?? 0) +
+        (f.positions?.totalUsdValue ?? 0) +
+        (f.aggregate?.totalUsdValue ?? 0),
       marketCap: f.tokenInfo?.tokenValue ?? 0,
     }))
     .filter((d) => d.tvl > 0 || d.marketCap > 0)
@@ -97,7 +106,7 @@ export function FundsTab({ review }: FundsTabProps) {
       <div className="flex items-center gap-6 mb-4 text-sm flex-wrap">
         <FundsSummaryLabel funds={funds} />
         <span className="text-text-secondary">
-          Total:{' '}
+          TVL:{' '}
           <UsdValue
             value={totalCapital}
             variant="capital"
@@ -106,7 +115,7 @@ export function FundsTab({ review }: FundsTabProps) {
         </span>
         {totalTokenValue > 0 && (
           <span className="text-text-secondary">
-            Market Cap:{' '}
+            Token:{' '}
             <UsdValue
               value={totalTokenValue}
               variant="token"
@@ -120,7 +129,7 @@ export function FundsTab({ review }: FundsTabProps) {
       {chartData.length > 0 && (
         <div className="rounded-lg border border-border bg-white p-4 mb-4">
           <h3 className="text-sm font-semibold text-text-primary mb-3">
-            Fund Distribution (Market Cap vs Total Value Locked)
+            TVL Distribution
           </h3>
           <ResponsiveContainer
             width="100%"
@@ -156,7 +165,7 @@ export function FundsTab({ review }: FundsTabProps) {
                 dataKey="tvl"
                 stackId="total"
                 fill="#10B981"
-                name="Total Value Locked (TVL)"
+                name="TVL"
                 radius={[0, 0, 0, 0]}
               />
               <Bar
@@ -170,8 +179,7 @@ export function FundsTab({ review }: FundsTabProps) {
           </ResponsiveContainer>
           <div className="flex gap-4 mt-2 text-xs text-text-muted">
             <span className="flex items-center gap-1">
-              <span className="w-3 h-3 rounded-sm bg-status-green" /> Total
-              Value Locked (TVL)
+              <span className="w-3 h-3 rounded-sm bg-status-green" /> TVL
             </span>
             <span className="flex items-center gap-1">
               <span className="w-3 h-3 rounded-sm bg-amber-500" /> Market Cap
@@ -213,7 +221,7 @@ export function FundsTab({ review }: FundsTabProps) {
               />
               <SortHeader
                 field="total"
-                label="Total"
+                label="TVL"
                 current={sortField}
                 dir={sortDir}
                 onClick={handleSort}
@@ -285,7 +293,8 @@ function FundRow({ fund }: { fund: CompiledFundHolder }) {
   const [expanded, setExpanded] = useState(false)
   const total =
     (fund.balances?.totalUsdValue ?? 0) +
-    (fund.positions?.totalUsdValue ?? 0)
+    (fund.positions?.totalUsdValue ?? 0) +
+    (fund.aggregate?.totalUsdValue ?? 0)
 
   const balPct =
     total > 0
@@ -314,6 +323,11 @@ function FundRow({ fund }: { fund: CompiledFundHolder }) {
               />
             </svg>
             <span className="font-medium text-text-primary">{fund.name}</span>
+            {fund.aggregate && (
+              <Badge variant="governance">
+                Aggregate ({fund.aggregate.contractCount})
+              </Badge>
+            )}
           </div>
         </td>
         <td className="px-4 py-2.5">
@@ -376,6 +390,14 @@ function FundRow({ fund }: { fund: CompiledFundHolder }) {
                 {fund.description}
               </p>
             )}
+            {fund.aggregate && (
+              <p className="text-sm text-text-secondary mb-2">
+                {fund.aggregate.label || fund.aggregate.handlerName}
+                {' \u2014 '}
+                {formatUsdValue(fund.aggregate.totalUsdValue)} across{' '}
+                {fund.aggregate.contractCount} contracts
+              </p>
+            )}
             {total > 0 && (
               <div className="flex items-center gap-2">
                 <div className="flex-1 h-2 bg-gray-200 rounded overflow-hidden">
@@ -401,12 +423,13 @@ function FundsSummaryLabel({ funds }: { funds: CompiledFundHolder[] }) {
   const tvlCount = funds.filter(
     (f) =>
       (f.balances?.totalUsdValue ?? 0) > 0 ||
-      (f.positions?.totalUsdValue ?? 0) > 0,
+      (f.positions?.totalUsdValue ?? 0) > 0 ||
+      (f.aggregate?.totalUsdValue ?? 0) > 0,
   ).length
   const tokenCount = funds.filter((f) => f.tokenInfo != null).length
 
   if (tvlCount === 0 && tokenCount === 0) {
-    return <span className="text-text-muted">No fund data</span>
+    return <span className="text-text-muted">No TVL data</span>
   }
 
   return (

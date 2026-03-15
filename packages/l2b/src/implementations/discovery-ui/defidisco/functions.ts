@@ -1,6 +1,15 @@
 import type { DiscoveryPaths } from '@l2beat/discovery'
 import * as fs from 'fs'
 import * as path from 'path'
+import {
+  addressesEqual,
+  isChainAddress,
+  normalizeChainAddress,
+} from './addressUtils'
+import {
+  ensureFieldSeverity,
+  removeFieldSeverityIfAutoOnly,
+} from './configSeverity'
 import { DiscoveredDataAccess, resolvePathExpression } from './ownerResolution'
 import type {
   ApiFunctionsResponse,
@@ -8,6 +17,7 @@ import type {
   ContractFunctions,
   FunctionComment,
   FunctionEntry,
+  Mitigation,
   OwnerDefinition,
 } from './types'
 
@@ -84,10 +94,10 @@ function isFunctionEntryEmpty(func: FunctionEntry): boolean {
     func.score !== undefined ||
     func.reason !== undefined ||
     func.description !== undefined ||
-    func.constraints !== undefined ||
     (func.ownerDefinitions !== undefined && func.ownerDefinitions.length > 0) ||
     func.delay !== undefined ||
     (func.dependencies !== undefined && func.dependencies.length > 0) ||
+    (func.mitigations !== undefined && func.mitigations.length > 0) ||
     (func.comments !== undefined && func.comments.length > 0)
 
   return !hasManualOverrides
@@ -117,7 +127,7 @@ export function updateFunction(
 
   // Get or create contract entry (case-insensitive key lookup, preserve original case)
   const existingKey = Object.keys(userContracts).find(
-    (k) => k.toLowerCase() === contractAddress.toLowerCase(),
+    (k) => normalizeChainAddress(k) === normalizeChainAddress(contractAddress),
   )
   if (!existingKey) {
     userContracts[contractAddress] = { functions: [] }
@@ -163,12 +173,15 @@ export function updateFunction(
   const newFunction: FunctionEntry = {
     functionName: updateRequest.functionName,
     isPermissioned:
-      updateRequest.isPermissioned ?? existingFunction?.isPermissioned ?? false,
+      updateRequest.isPermissioned ??
+      (updateRequest.ownerDefinitions &&
+      updateRequest.ownerDefinitions.length > 0
+        ? true
+        : (existingFunction?.isPermissioned ?? false)),
     checked: updateRequest.checked ?? existingFunction?.checked,
     score: updateRequest.score ?? existingFunction?.score,
     reason: updateRequest.reason ?? existingFunction?.reason,
     description: updateRequest.description ?? existingFunction?.description,
-    constraints: updateRequest.constraints ?? existingFunction?.constraints,
     ownerDefinitions:
       updateRequest.ownerDefinitions ?? existingFunction?.ownerDefinitions,
     delay:
@@ -182,6 +195,14 @@ export function updateFunction(
           ? updateRequest.dependencies
           : undefined
         : existingFunction?.dependencies,
+    // Handle mitigations: same pattern as dependencies
+    mitigations:
+      updateRequest.mitigations !== undefined
+        ? updateRequest.mitigations !== null &&
+          updateRequest.mitigations.length > 0
+          ? updateRequest.mitigations
+          : undefined
+        : existingFunction?.mitigations,
     timestamp: now,
     lastChangedBy: attribution,
     completedBy,
@@ -226,6 +247,16 @@ export function updateFunction(
 
   // Write updated data
   fs.writeFileSync(functionsPath, JSON.stringify(updatedData, null, 2))
+
+  // Auto-severity: manage HIGH severity in config.jsonc for mitigated fields
+  if (updateRequest.mitigations !== undefined) {
+    manageMitigatedFieldSeverity(
+      paths,
+      project,
+      existingFunction?.mitigations ?? [],
+      newFunction.mitigations ?? [],
+    )
+  }
 }
 
 export function deleteContractFunctions(
@@ -250,7 +281,8 @@ export function deleteContractFunctions(
   // Remove the contract entry (case-insensitive key lookup)
   const keyToDelete =
     Object.keys(userContracts).find(
-      (k) => k.toLowerCase() === contractAddress.toLowerCase(),
+      (k) =>
+        normalizeChainAddress(k) === normalizeChainAddress(contractAddress),
     ) ?? contractAddress
   delete userContracts[keyToDelete]
 
@@ -372,7 +404,7 @@ function mergeContractFunctions(
   // Build case-insensitive lookup for user contracts
   const userLookup = new Map<string, ContractFunctions>()
   for (const [addr, contract] of Object.entries(userContracts)) {
-    userLookup.set(addr.toLowerCase(), contract)
+    userLookup.set(normalizeChainAddress(addr), contract)
   }
 
   // Track which discovered addresses we've processed (lowercase)
@@ -382,7 +414,7 @@ function mergeContractFunctions(
   for (const [contractAddress, discoveredContract] of Object.entries(
     discoveredContracts,
   )) {
-    const normalizedAddr = contractAddress.toLowerCase()
+    const normalizedAddr = normalizeChainAddress(contractAddress)
     discoveredAddrsLower.add(normalizedAddr)
     const userContract = userLookup.get(normalizedAddr)
 
@@ -416,7 +448,7 @@ function mergeContractFunctions(
 
   // Add user-only contracts (contracts that have user functions but no discovered data)
   for (const [contractAddress, userContract] of Object.entries(userContracts)) {
-    if (!discoveredAddrsLower.has(contractAddress.toLowerCase())) {
+    if (!discoveredAddrsLower.has(normalizeChainAddress(contractAddress))) {
       result[contractAddress] = { functions: [...userContract.functions] }
     }
   }
@@ -595,7 +627,10 @@ function extractAddressesFromValue(value: any, addresses: string[]): void {
   if (!value) return
 
   // If it's an address-like string
-  if (typeof value === 'string' && value.match(/^(eth:)?0x[a-fA-F0-9]{40}$/)) {
+  if (
+    typeof value === 'string' &&
+    (isChainAddress(value) || /^0x[a-fA-F0-9]{40}$/.test(value))
+  ) {
     addresses.push(value)
     return
   }
@@ -647,7 +682,7 @@ export function resolveDelayFromDiscovered(
     const contractEntry = discovered.entries.find(
       (entry: any) =>
         entry.type === 'Contract' &&
-        entry.address.toLowerCase() === delayRef.contractAddress.toLowerCase(),
+        addressesEqual(entry.address, delayRef.contractAddress),
     )
 
     if (!contractEntry) {
@@ -658,48 +693,33 @@ export function resolveDelayFromDiscovered(
       }
     }
 
-    // Look for the field in the contract's fields
-    if (!contractEntry.fields || !Array.isArray(contractEntry.fields)) {
-      return {
-        seconds: 0,
-        isResolved: false,
-        error: `No fields found for contract ${delayRef.contractAddress}`,
-      }
-    }
+    // Look for the field in the contract's fields (enriched format)
+    if (contractEntry.fields && Array.isArray(contractEntry.fields)) {
+      const field = contractEntry.fields.find(
+        (f: any) => f.name === delayRef.fieldName,
+      )
 
-    const field = contractEntry.fields.find(
-      (f: any) => f.name === delayRef.fieldName,
-    )
-
-    if (!field) {
-      return {
-        seconds: 0,
-        isResolved: false,
-        error: `Field ${delayRef.fieldName} not found in contract ${delayRef.contractAddress}`,
-      }
-    }
-
-    // Extract numeric value from field
-    if (field.value && field.value.type === 'number') {
-      // Parse the string value to a number
-      const numValue = Number.parseInt(field.value.value, 10)
-      if (isNaN(numValue)) {
-        return {
-          seconds: 0,
-          isResolved: false,
-          error: `Field ${delayRef.fieldName} contains non-numeric value`,
+      if (field?.value && field.value.type === 'number') {
+        const numValue = Number.parseInt(field.value.value, 10)
+        if (!isNaN(numValue)) {
+          return { seconds: numValue, isResolved: true }
         }
       }
-      return {
-        seconds: numValue,
-        isResolved: true,
+    }
+
+    // Fallback: look in flat values (raw discovered.json format)
+    if (contractEntry.values && delayRef.fieldName in contractEntry.values) {
+      const raw = contractEntry.values[delayRef.fieldName]
+      const numValue = typeof raw === 'number' ? raw : Number(raw)
+      if (!isNaN(numValue)) {
+        return { seconds: numValue, isResolved: true }
       }
     }
 
     return {
       seconds: 0,
       isResolved: false,
-      error: `Field ${delayRef.fieldName} is not a number type`,
+      error: `Field ${delayRef.fieldName} not found or not numeric in contract ${delayRef.contractAddress}`,
     }
   } catch (error) {
     console.error('Error parsing discovered.json:', error)
@@ -707,6 +727,52 @@ export function resolveDelayFromDiscovered(
       seconds: 0,
       isResolved: false,
       error: 'Failed to parse discovered.json',
+    }
+  }
+}
+
+/**
+ * Manages HIGH severity in config.jsonc based on mitigatedField changes.
+ * Adds severity for newly linked fields, removes for unlinked fields (if auto-only).
+ */
+function manageMitigatedFieldSeverity(
+  paths: DiscoveryPaths,
+  project: string,
+  oldMitigations: Mitigation[],
+  newMitigations: Mitigation[],
+): void {
+  const toKey = (m: Mitigation) =>
+    m.mitigatedField
+      ? `${normalizeChainAddress(m.mitigatedField.contractAddress)}::${m.mitigatedField.fieldName}`
+      : null
+
+  const oldFields = new Set(
+    oldMitigations.map(toKey).filter((k): k is string => k !== null),
+  )
+  const newFields = new Set(
+    newMitigations.map(toKey).filter((k): k is string => k !== null),
+  )
+
+  // Add severity for newly linked fields (skip already-linked ones)
+  for (const key of newFields) {
+    if (oldFields.has(key)) continue
+    const [addr, field] = key.split('::') as [string, string]
+    try {
+      ensureFieldSeverity(paths, project, addr, field, 'HIGH')
+    } catch (error) {
+      console.error(`Failed to set severity for ${addr}.${field}:`, error)
+    }
+  }
+
+  // Remove severity for fields that were unlinked
+  for (const key of oldFields) {
+    if (!newFields.has(key)) {
+      const [addr, field] = key.split('::') as [string, string]
+      try {
+        removeFieldSeverityIfAutoOnly(paths, project, addr, field)
+      } catch (error) {
+        console.error(`Failed to remove severity for ${addr}.${field}:`, error)
+      }
     }
   }
 }

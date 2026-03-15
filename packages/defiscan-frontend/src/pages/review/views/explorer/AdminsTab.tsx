@@ -5,7 +5,11 @@ import { UsdValue } from '../../../../components/UsdValue'
 import { formatUsdValue } from '../../../../utils/format'
 import { getHumanAdmins } from '../../../../utils/admins'
 import type { CompiledReview, CompiledAdmin } from '../../../../types'
-import { DirectVsReachableDiagram } from './svg/DirectVsReachableDiagram'
+import {
+  SortHeader,
+  MitigationsSummary,
+  ExpandedAdminFunctions,
+} from './shared'
 
 interface AdminsTabProps {
   review: CompiledReview
@@ -14,7 +18,6 @@ interface AdminsTabProps {
 type SortField =
   | 'name'
   | 'type'
-  | 'directCapital'
   | 'reachableCapital'
   | 'tokenValue'
   | 'functions'
@@ -22,8 +25,11 @@ type SortDir = 'asc' | 'desc'
 
 export function AdminsTab({ review }: AdminsTabProps) {
   const { admins, totals } = review
-  const humanAdmins = useMemo(() => getHumanAdmins(admins), [admins])
-  const [sortField, setSortField] = useState<SortField>('directCapital')
+  const humanAdmins = useMemo(
+    () => getHumanAdmins(admins).filter((a) => !a.isGovernance),
+    [admins],
+  )
+  const [sortField, setSortField] = useState<SortField>('reachableCapital')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expanded, setExpanded] = useState<Set<string>>(new Set())
 
@@ -37,9 +43,6 @@ export function AdminsTab({ review }: AdminsTabProps) {
           break
         case 'type':
           cmp = a.adminType.localeCompare(b.adminType)
-          break
-        case 'directCapital':
-          cmp = a.totalDirectCapital - b.totalDirectCapital
           break
         case 'reachableCapital':
           cmp = a.totalReachableCapital - b.totalReachableCapital
@@ -96,7 +99,7 @@ export function AdminsTab({ review }: AdminsTabProps) {
       <div className="flex items-center gap-6 mb-4 text-sm">
         <AdminsSummaryLabel admins={humanAdmins} />
         <span className="text-text-secondary">
-          Funds Locked:{' '}
+          TVL:{' '}
           <UsdValue
             value={totals.totalCapitalAtRisk}
             variant="capital"
@@ -135,16 +138,8 @@ export function AdminsTab({ review }: AdminsTabProps) {
                 onClick={handleSort}
               />
               <SortHeader
-                field="directCapital"
-                label="Direct Funds"
-                current={sortField}
-                dir={sortDir}
-                onClick={handleSort}
-                className="text-right"
-              />
-              <SortHeader
                 field="reachableCapital"
-                label="Reachable Funds"
+                label="TVL"
                 current={sortField}
                 dir={sortDir}
                 onClick={handleSort}
@@ -158,6 +153,9 @@ export function AdminsTab({ review }: AdminsTabProps) {
                 onClick={handleSort}
                 className="text-right"
               />
+              <th className="px-4 py-2 font-medium text-text-secondary text-left">
+                Mitigations
+              </th>
               <SortHeader
                 field="functions"
                 label="Functions"
@@ -179,14 +177,6 @@ export function AdminsTab({ review }: AdminsTabProps) {
             ))}
           </tbody>
         </table>
-      </div>
-
-      {/* Direct vs Reachable Capital diagram */}
-      <div className="rounded-lg border border-border bg-white p-4 mt-4">
-        <h3 className="text-sm font-semibold text-text-primary mb-2">
-          Direct vs Reachable Funds
-        </h3>
-        <DirectVsReachableDiagram admins={humanAdmins} />
       </div>
     </div>
   )
@@ -234,24 +224,9 @@ function AdminRow({
           </div>
         </td>
         <td className="px-4 py-2.5">
-          {admin.isGovernance ? (
-            <Badge variant="governance">Governance</Badge>
-          ) : (
-            <Badge variant="admin-type" adminType={admin.adminType}>
-              {admin.adminType}
-            </Badge>
-          )}
-        </td>
-        <td className="px-4 py-2.5 text-right tabular-nums">
-          {admin.totalDirectCapital > 0 ? (
-            <UsdValue
-              value={admin.totalDirectCapital}
-              variant="capital"
-              className="text-sm"
-            />
-          ) : (
-            <span className="text-text-muted">-</span>
-          )}
+          <Badge variant="admin-type" adminType={admin.adminType}>
+            {admin.adminType}
+          </Badge>
         </td>
         <td className="px-4 py-2.5 text-right tabular-nums">
           {admin.totalReachableCapital > 0 ? (
@@ -275,6 +250,9 @@ function AdminRow({
             <span className="text-text-muted">-</span>
           )}
         </td>
+        <td className="px-4 py-2.5">
+          <MitigationsSummary functions={admin.functions} />
+        </td>
         <td className="px-4 py-2.5 text-right font-medium text-text-primary">
           {admin.functions.length}
         </td>
@@ -282,7 +260,7 @@ function AdminRow({
       {isExpanded && (
         <tr>
           <td colSpan={6} className="px-0 py-0">
-            <ExpandedFunctions admin={admin} />
+            <ExpandedAdminFunctions admin={admin} />
           </td>
         </tr>
       )}
@@ -290,145 +268,15 @@ function AdminRow({
   )
 }
 
-function ExpandedFunctions({ admin }: { admin: CompiledAdmin }) {
-  return (
-    <div className="bg-bg-muted/50 border-t border-border">
-      {admin.description && (
-        <p className="px-6 py-3 text-sm text-text-secondary border-b border-border/50 leading-relaxed">
-          {admin.description}
-        </p>
-      )}
-      <div className="px-6 py-3">
-        <table className="w-full text-xs">
-          <thead>
-            <tr className="text-text-muted">
-              <th className="text-left pb-1 font-medium">Contract</th>
-              <th className="text-left pb-1 font-medium">Function</th>
-              <th className="text-right pb-1 font-medium">Direct $</th>
-              <th className="text-right pb-1 font-medium">
-                Reachable Contracts
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {admin.functions.map((fn) => (
-              <tr
-                key={`${fn.contractAddress}-${fn.functionName}`}
-                className="border-t border-border/30"
-              >
-                <td className="py-1.5 text-text-secondary">
-                  {fn.contractName}
-                </td>
-                <td className="py-1.5">
-                  <span className="font-mono text-text-primary">
-                    {fn.functionName}()
-                  </span>
-                </td>
-                <td className="py-1.5 text-right tabular-nums">
-                  {fn.directFundsUsd > 0 ? (
-                    <span className="text-capital font-medium">
-                      {formatUsdValue(fn.directFundsUsd)}
-                    </span>
-                  ) : (
-                    <span className="text-text-muted">-</span>
-                  )}
-                </td>
-                <td className="py-1.5 text-right">
-                  {fn.reachableContracts.length > 0 ? (
-                    <span className="text-text-primary">
-                      {fn.reachableContracts.length}
-                      {fn.reachableContracts.some((rc) => rc.fundsAtRisk) && (
-                        <span className="ml-1 text-capital">
-                          (
-                          {formatUsdValue(
-                            fn.reachableContracts
-                              .filter((rc) => rc.fundsAtRisk)
-                              .reduce((s, rc) => s + rc.fundsUsd, 0),
-                          )}
-                          )
-                        </span>
-                      )}
-                    </span>
-                  ) : (
-                    <span className="text-text-muted">-</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  )
-}
-
 function AdminsSummaryLabel({ admins }: { admins: CompiledAdmin[] }) {
-  const adminCount = admins.filter((a) => !a.isGovernance).length
-  const govCount = admins.filter((a) => a.isGovernance).length
-
-  const parts: React.ReactNode[] = []
-  if (adminCount > 0) {
-    parts.push(
-      <span key="admins" className="text-text-secondary">
-        <span className="font-semibold text-text-primary">{adminCount}</span>
-        {' '}admin{adminCount !== 1 ? 's' : ''}
-      </span>,
-    )
-  }
-  if (govCount > 0) {
-    parts.push(
-      <span key="gov" className="text-text-secondary">
-        <span className="font-semibold text-text-primary">{govCount}</span>
-        {' '}governance contract{govCount !== 1 ? 's' : ''}
-      </span>,
-    )
-  }
-
-  if (parts.length === 0) {
+  if (admins.length === 0) {
     return <span className="text-text-muted">No admins</span>
   }
 
   return (
     <span className="text-text-secondary">
-      {parts[0]}
-      {parts.length > 1 && <>, {parts[1]}</>}
+      <span className="font-semibold text-text-primary">{admins.length}</span>{' '}
+      admin{admins.length !== 1 ? 's' : ''}
     </span>
-  )
-}
-
-function SortHeader({
-  field,
-  label,
-  current,
-  dir,
-  onClick,
-  className,
-}: {
-  field: SortField
-  label: string
-  current: SortField
-  dir: SortDir
-  onClick: (f: SortField) => void
-  className?: string
-}) {
-  const isActive = current === field
-  return (
-    <th
-      className={`px-4 py-2 font-medium text-text-secondary cursor-pointer select-none hover:text-text-primary transition-colors text-left ${className ?? ''}`}
-      onClick={() => onClick(field)}
-    >
-      <span className="inline-flex items-center gap-1">
-        {label}
-        {isActive && (
-          <svg className="w-3 h-3" viewBox="0 0 12 12" fill="currentColor">
-            {dir === 'desc' ? (
-              <path d="M6 8L2 4h8z" />
-            ) : (
-              <path d="M6 4l4 4H2z" />
-            )}
-          </svg>
-        )}
-      </span>
-    </th>
   )
 }

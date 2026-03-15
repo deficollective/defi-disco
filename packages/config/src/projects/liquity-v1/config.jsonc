@@ -28,12 +28,17 @@
     "eth:0xAd430500ECDa11E38C9bCB08a702274b94641112" // Tellor USD feed
   ],
   "names": {
-    "eth:0x3D7aE7E594f2f2091Ad8798313450130d0Aba3a0": "Chainlink LUSD/USD Price Feed",
     "eth:0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419": "Chainlink ETH/USD Price Feed",
     "eth:0xAd430500ECDa11E38C9bCB08a702274b94641112": "Tellor Price Feed"
   },
   "overrides": {
+    "eth:0x3D7aE7E594f2f2091Ad8798313450130d0Aba3a0": {
+      "ignoreDiscovery": true
+    },
     "eth:0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f": {
+      "ignoreDiscovery": true
+    },
+    "eth:0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0": {
       "ignoreDiscovery": true
     },
     "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2": {
@@ -70,7 +75,11 @@
         "totalStakesSnapshot",
         "MINUTE_DECAY_FACTOR",
         "lastFeeOperationTime",
-        "getTroveOwnersCount"
+        "getTroveOwnersCount",
+        "getBorrowingRate",
+        "getBorrowingRateWithDecay",
+        "getRedemptionRate",
+        "getRedemptionRateWithDecay"
       ]
     },
     "eth:0x8FdD3fbFEb32b28fb73555518f8b361bCeA741A6": {
@@ -86,20 +95,6 @@
         "isOwner"
       ]
     },
-    "eth:0x3D7aE7E594f2f2091Ad8798313450130d0Aba3a0": {
-      "ignoreMethods": [
-        "aggregator"
-      ],
-      "ignoreInWatchMode": [
-        "getAnswer",
-        "getTimestamp",
-        "latestRoundData",
-        "latestTimestamp",
-        "latestAnswer",
-        "latestRound",
-        "proposedLatestRoundData"
-      ]
-    },
     "eth:0xDf9Eb223bAFBE5c5271415C75aeCD68C21fE3D7F": {
       "ignoreInWatchMode": [
         "getETH",
@@ -113,7 +108,16 @@
       ],
       "ignoreMethods": [
         "getCompositeDebt"
-      ]
+      ],
+      "fields": {
+        "stabilityPoolAddress": {
+          "handler": {
+            "type": "storage",
+            "slot": 5,
+            "returnType": "address"
+          }
+        }
+      }
     },
     "eth:0x3D32e8b97Ed5881324241Cf03b2DA5E2EBcE5521": {
       "ignoreInWatchMode": [
@@ -145,15 +149,16 @@
         "getTellorCurrentValue"
       ]
     },
-    "eth:0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0": {
+    "eth:0x4f9Fbb3f1E99B56e0Fe2892e623Ed36A76Fc605d": {
       "ignoreInWatchMode": [
-        "currentMiners",
-        "disputesById",
-        "getLastNewValueById",
-        "getNewCurrentVariables",
-        "newValueTimestamps",
-        "totalSupply",
-        "getNewValueCountbyRequestId"
+        "F_ETH",
+        "F_LUSD",
+        "totalLQTYStaked"
+      ]
+    },
+    "eth:0xD8c9D9071123a059C6E0A945cF0e0c82b508d816": {
+      "ignoreInWatchMode": [
+        "totalLQTYIssued"
       ]
     }
   }

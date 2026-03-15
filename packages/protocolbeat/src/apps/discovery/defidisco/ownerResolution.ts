@@ -1,3 +1,5 @@
+import { isChainAddress } from './addressUtils'
+
 /**
  * Shared owner resolution logic for DeFiDisco
  *
@@ -119,7 +121,7 @@ export function parseValuePath(path: string): PathSegment[] {
  */
 export function extractAddresses(value: any, path: string): string[] {
   // Single string address
-  if (typeof value === 'string' && value.startsWith('eth:')) {
+  if (typeof value === 'string' && isChainAddress(value)) {
     return [value]
   }
 
@@ -127,7 +129,7 @@ export function extractAddresses(value: any, path: string): string[] {
   if (Array.isArray(value)) {
     const addresses: string[] = []
     for (const element of value) {
-      if (typeof element === 'string' && element.startsWith('eth:')) {
+      if (typeof element === 'string' && isChainAddress(element)) {
         addresses.push(element)
       } else if (typeof element === 'object' && element !== null) {
         // Recursively extract from object elements
@@ -144,7 +146,7 @@ export function extractAddresses(value: any, path: string): string[] {
     const addresses: string[] = []
     for (const key in value) {
       const prop = value[key]
-      if (typeof prop === 'string' && prop.startsWith('eth:')) {
+      if (typeof prop === 'string' && isChainAddress(prop)) {
         addresses.push(prop)
       } else if (typeof prop === 'object' && prop !== null) {
         // Recursively extract from nested objects/arrays
@@ -287,13 +289,13 @@ export function resolvePathExpression(
       if (
         !targetContractAddress ||
         typeof targetContractAddress !== 'string' ||
-        !targetContractAddress.startsWith('eth:')
+        !isChainAddress(targetContractAddress)
       ) {
         throw new Error(
           `Field "${fieldName}" not found or is not an address in current contract`,
         )
       }
-    } else if (contractRef.startsWith('eth:')) {
+    } else if (isChainAddress(contractRef)) {
       // Absolute contract address
       targetContractAddress = contractRef
     } else {
@@ -315,6 +317,111 @@ export function resolvePathExpression(
     return {
       addresses: [],
       structuredValue: null,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }
+  }
+}
+
+/**
+ * Resolves a path expression to a raw value (not necessarily an address).
+ * Used for mitigation field references where the value may be a number, string, etc.
+ *
+ * Same contract-ref resolution as resolvePathExpression, but returns the raw
+ * navigated value without requiring it to contain addresses.
+ */
+export function resolveFieldValue(
+  dataAccess: IContractDataAccess,
+  currentContractAddress: string,
+  pathExpression: string,
+): { value: unknown; error?: string } {
+  try {
+    if (pathExpression === '$self') {
+      return { value: currentContractAddress }
+    }
+
+    const firstDotIndex = pathExpression.indexOf('.')
+    if (firstDotIndex === -1) {
+      throw new Error(
+        `Invalid path expression "${pathExpression}": must include contract reference and value path`,
+      )
+    }
+
+    const contractRef = pathExpression.substring(0, firstDotIndex)
+    const valuePath = pathExpression.substring(firstDotIndex + 1)
+
+    // Resolve contract reference (same logic as resolvePathExpression)
+    let targetContractAddress: string
+    if (contractRef === '$self') {
+      targetContractAddress = currentContractAddress
+    } else if (contractRef.startsWith('@')) {
+      const fieldName = contractRef.substring(1)
+      const currentContract = dataAccess.findContract(currentContractAddress)
+      if (!currentContract) throw new Error('Current contract not found')
+      targetContractAddress = dataAccess.getFieldValue(
+        currentContract,
+        fieldName,
+      )
+      if (
+        !targetContractAddress ||
+        typeof targetContractAddress !== 'string' ||
+        !isChainAddress(targetContractAddress)
+      ) {
+        throw new Error(
+          `Field "${fieldName}" not found or is not an address in current contract`,
+        )
+      }
+    } else if (isChainAddress(contractRef)) {
+      targetContractAddress = contractRef
+    } else {
+      throw new Error(
+        `Invalid contract reference "${contractRef}": must be $self, @fieldName, or eth:0xAddress`,
+      )
+    }
+
+    const targetContract = dataAccess.findContract(targetContractAddress)
+    if (!targetContract) {
+      throw new Error(`Contract ${targetContractAddress} not found`)
+    }
+
+    // Navigate the value path but return raw value instead of extracting addresses
+    const valuesObject = dataAccess.getValuesObject(targetContract)
+    if (!valuesObject || typeof valuesObject !== 'object') {
+      throw new Error('Contract has no values')
+    }
+
+    let currentValue: any = valuesObject
+    const segments = parseValuePath(valuePath)
+
+    for (let i = 0; i < segments.length; i++) {
+      const segment = segments[i]!
+      if (segment.type === 'property') {
+        if (typeof currentValue !== 'object' || currentValue === null) {
+          throw new Error(
+            `Cannot access property "${segment.value}" on non-object at path segment ${i}`,
+          )
+        }
+        currentValue = currentValue[segment.value]
+        if (currentValue === undefined) {
+          throw new Error(`Property "${segment.value}" not found`)
+        }
+      } else if (segment.type === 'index') {
+        if (!Array.isArray(currentValue)) {
+          throw new Error(`Cannot index non-array at path segment ${i}`)
+        }
+        const index = segment.value as number
+        if (index >= currentValue.length) {
+          throw new Error(
+            `Index ${index} out of bounds (length: ${currentValue.length})`,
+          )
+        }
+        currentValue = currentValue[index]
+      }
+    }
+
+    return { value: currentValue }
+  } catch (error) {
+    return {
+      value: undefined,
       error: error instanceof Error ? error.message : 'Unknown error',
     }
   }
@@ -465,7 +572,7 @@ export class DiscoveredDataAccess implements IContractDataAccess {
     }
 
     // Handle string addresses (most common case)
-    if (typeof value === 'string' && value.startsWith('eth:')) {
+    if (typeof value === 'string' && isChainAddress(value)) {
       return value
     }
 

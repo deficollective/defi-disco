@@ -1,4 +1,11 @@
-import type { CompiledReview, CompiledAdmin, CompiledDependency } from '../types'
+import type {
+  CompiledReview,
+  CompiledAdmin,
+  CompiledDependency,
+  Mitigation,
+  MitigationType,
+} from '../types'
+import { displayMitigationValue } from '../types'
 import { formatUsdValue } from './format'
 import { computeEntityDependencyCount } from './dependencies'
 
@@ -11,7 +18,7 @@ export function generateExecutiveSummary(review: CompiledReview): string {
   const parts: string[] = []
 
   parts.push(
-    `${metadata.protocolName} has ${capitalStr} in funds locked across ${totals.contractCount} contracts`,
+    `${metadata.protocolName} has ${capitalStr} in TVL across ${totals.contractCount} contracts`,
   )
 
   if (totals.adminCount > 0) {
@@ -71,7 +78,7 @@ function humanAdminType(type: string): string {
 /** Generate human-readable admin narrative */
 export function generateAdminNarrative(admin: CompiledAdmin): string {
   const capitalStr = admin.totalDirectCapital > 0
-    ? ` with access to ${formatUsdValue(admin.totalDirectCapital)} in locked funds`
+    ? ` with access to ${formatUsdValue(admin.totalDirectCapital)} in TVL`
     : ''
 
   const funcCount = admin.functions.length
@@ -118,7 +125,7 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
       type: 'positive',
       title: 'Fully immutable protocol',
       detail:
-        'All admin controls resolve to immutable contracts or revoked addresses. No human entity can modify protocol behavior after deployment.',
+        'All admin controls resolve to immutable contracts or revoked addresses. No admin can modify protocol behavior after deployment.',
     })
   }
 
@@ -130,8 +137,8 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
     const maxCapital = Math.max(...eoas.map((e) => e.totalDirectCapital))
     findings.push({
       type: 'critical',
-      title: `${eoas.length} EOA${eoas.length > 1 ? 's' : ''} with admin access`,
-      detail: `Externally owned account${eoas.length > 1 ? 's' : ''} can execute critical functions affecting up to ${formatUsdValue(maxCapital)} in locked funds. A single compromised private key could impact user funds.`,
+      title: `${eoas.length} EOA${eoas.length > 1 ? 's' : ''} with permissioned access`,
+      detail: `Externally owned account${eoas.length > 1 ? 's' : ''} can execute critical functions affecting up to ${formatUsdValue(maxCapital)} in TVL.`,
     })
   }
 
@@ -145,12 +152,20 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
     })
   }
 
-  // Funds locked — always show as info
-  if (totals.totalCapitalAtRisk > 0) {
+  // Funds secured — always show as info
+  const tokenValue = totals.totalTokenValue ?? totals.totalTokenValueAtRisk
+  const tvs = totals.totalCapitalAtRisk + tokenValue
+  if (tvs > 0) {
+    const hasToken = tokenValue > 0
+    const hasTvl = totals.totalCapitalAtRisk > 0
     findings.push({
       type: 'info',
-      title: `${formatUsdValue(totals.totalCapitalAtRisk)} in funds locked`,
-      detail: 'Total value of funds locked in the protocol across all contracts.',
+      title: `${formatUsdValue(tvs)} TVS`,
+      detail: hasToken && hasTvl
+        ? `Total Value Secured by the protocol: ${formatUsdValue(totals.totalCapitalAtRisk)} in TVL (funds locked in protocol contracts) and ${formatUsdValue(tokenValue)} in protocol token market cap.`
+        : hasTvl
+          ? `Total Value Secured by the protocol, consisting of ${formatUsdValue(totals.totalCapitalAtRisk)} in TVL (tokens held in contracts).`
+          : `Total Value Secured by the protocol, consisting of ${formatUsdValue(tokenValue)} in protocol token market cap.`,
     })
   }
 
@@ -175,6 +190,63 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
     })
   }
 
+  // Mitigations
+  const allMitigations: Mitigation[] = []
+  let fundsImpactFnCount = 0
+  let mitigatedFnCount = 0
+  for (const admin of admins) {
+    for (const fn of admin.functions) {
+      if (fn.directFundsUsd > 0) {
+        fundsImpactFnCount++
+        if (fn.mitigations && fn.mitigations.length > 0) {
+          mitigatedFnCount++
+        }
+      }
+      if (fn.mitigations) allMitigations.push(...fn.mitigations)
+    }
+  }
+  for (const dep of dependencies) {
+    for (const fn of dep.functions) {
+      if (fn.mitigations) allMitigations.push(...fn.mitigations)
+    }
+  }
+
+  if (allMitigations.length > 0) {
+    // Deduplicate
+    const seen = new Set<string>()
+    const unique: Mitigation[] = []
+    for (const m of allMitigations) {
+      const key = `${m.type}:${m.delaySeconds ?? ''}:${displayMitigationValue(m.valueRange?.min)}:${displayMitigationValue(m.valueRange?.max)}:${displayMitigationValue(m.relativeValue?.maxChangePercent)}:${m.description}`
+      if (!seen.has(key)) {
+        seen.add(key)
+        unique.push(m)
+      }
+    }
+
+    const types = new Set<MitigationType>(unique.map((m) => m.type))
+    const typeLabels: string[] = []
+    if (types.has('delay')) typeLabels.push('time delays')
+    if (types.has('valueRange')) typeLabels.push('value range limits')
+    if (types.has('relativeValue')) typeLabels.push('relative value caps')
+    if (types.has('other')) typeLabels.push('additional safeguards')
+
+    const typeList =
+      typeLabels.length > 1
+        ? `${typeLabels.slice(0, -1).join(', ')} and ${typeLabels[typeLabels.length - 1]}`
+        : typeLabels[0]
+
+    const coverage =
+      fundsImpactFnCount > 0 && mitigatedFnCount >= fundsImpactFnCount
+        ? 'All'
+        : 'Some'
+
+    findings.push({
+      type: 'info',
+      title: `${unique.length} mitigation${unique.length !== 1 ? 's' : ''} in place`,
+      detail: `${coverage} permissioned functions that impact funds implement mitigations such as ${typeList}, constraining the scope of admin changes.`,
+    })
+  }
+
   return findings
 }
 
@@ -185,7 +257,7 @@ export const GLOSSARY: Record<string, string> = {
   Timelock: 'A smart contract mechanism that enforces a mandatory waiting period before changes take effect, giving users time to react.',
   Proxy: 'A contract pattern that allows upgrading the underlying logic while keeping the same address. Users interact with the proxy, which delegates to an implementation.',
   'Permissioned Function': 'A smart contract function that can only be called by specific addresses (admins), not by the general public.',
-  'Funds Locked': 'The total USD value of funds locked in the protocol that could be affected if an admin key is compromised or misused.',
+  TVL: 'Total Value Locked — the total USD value of funds in the protocol that could be affected if an admin key is compromised or misused.',
   Immutable: 'A contract that cannot be changed after deployment — its code and behavior are permanently fixed on the blockchain.',
   CDP: 'Collateralized Debt Position — a mechanism where users lock collateral to borrow assets, commonly used in stablecoin protocols.',
   Oracle: 'A service that brings external data (like asset prices) onto the blockchain for smart contracts to use.',

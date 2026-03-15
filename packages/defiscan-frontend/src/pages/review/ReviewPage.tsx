@@ -6,10 +6,9 @@ import { TYPE_LABELS } from '../../components/ProtocolTypeBadge'
 
 const ReportView = lazy(() => import('./views/report/ReportView').then((m) => ({ default: m.ReportView })))
 const ExplorerView = lazy(() => import('./views/explorer/ExplorerView').then((m) => ({ default: m.ExplorerView })))
-const DashboardView = lazy(() => import('./views/dashboard/DashboardView').then((m) => ({ default: m.DashboardView })))
 
 function isValidView(v: string | null): v is ViewMode {
-  return v === 'report' || v === 'explorer' || v === 'dashboard'
+  return v === 'report' || v === 'explorer'
 }
 
 export function ReviewPage() {
@@ -63,10 +62,10 @@ export function ReviewPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
       {/* Back nav + Protocol header + View toggle */}
-      <div className="mb-6">
+      <div className="mb-6 print:hidden">
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-purple-600 transition-colors mb-4"
+          className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-purple-600 transition-colors mb-4 print:hidden"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -87,7 +86,9 @@ export function ReviewPage() {
               )}
             </p>
           </div>
-          <ViewModeToggle current={view} onChange={handleViewChange} />
+          <div className="print:hidden">
+            <ViewModeToggle current={view} onChange={handleViewChange} />
+          </div>
         </div>
       </div>
 
@@ -99,24 +100,8 @@ export function ReviewPage() {
       >
         {view === 'report' && <ReportView review={review} />}
         {view === 'explorer' && <ExplorerView review={review} />}
-        {view === 'dashboard' && <DashboardView review={review} />}
       </Suspense>
 
-      {/* Review metadata footer */}
-      <div className="mt-16 pt-6 border-t border-border text-center">
-        <p className="text-xs text-text-muted">
-          This review was compiled on{' '}
-          {new Date(review.compiledAt).toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            timeZoneName: 'short',
-          })}
-          . Protocol data may have changed since then. Always verify current on-chain state before making financial decisions.
-        </p>
-      </div>
     </div>
   )
 }

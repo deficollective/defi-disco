@@ -22,11 +22,15 @@ The discovery process is mostly untouched from the initial [l2beat deployment](h
 
 Funds data in the backend relies on the [defiscan endpoint](). It calls this endpoint to fetch the data for the given addresses. Note that the service has to be running (separately). It stores the data locally in a `funds-data.json` file linked to the project.
 
-We support fetching information regarding all balances and DeFi positions a contract might hold, as well as token price and market cap of token contracts.
+We support fetching information regarding all balances and DeFi positions a contract might hold, token price and market cap of token contracts, and aggregate TVL for factory contracts (via The Graph subgraphs).
+
+For implementation details, see [Infrastructure: Funds Tracking](features/infrastructure.md#funds-tracking).
 
 ### Callgraph
 
 The callgraph is a tool that deterministically detects all possible external contract calls made by each function of a contract. It then attempts to maps those calls to known contracts in the discovery. This resolution to known contracts can only be done usually for 10-30% of cases because the contracts called might not be deterministic. Detecting those calls is made using Slither's slitherir feature, which we then parse in `/packages/l2b/src/implementations/discovery-ui/defidisco/callGraph.ts` and store in `call-graph-data.json`.
+
+For implementation details, see [Call Graph Analysis](features/call-graph-analysis.md).
 
 ### Permissions
 
@@ -42,9 +46,13 @@ In addition to detecting permissions, the AI resolves the permission owner where
 
  This data is stored in `functions.json` for each project, it's grouped by contract. The data can be overriden manually by reviewers in the frontend.
 
+For implementation details, see [Permissions](features/permissions.md).
+
 ### Contract Tags
 
 Contract tags are specified by the reviewer/researcher and can only be changed manually. They improve the review by specifying which contract is external to the project, and whether or note we should fetch funds/positions data for the contracts. This is stored in `contracts-tag.json` for each project.
+
+For implementation details, see [Infrastructure: External Contract Attributes](features/infrastructure.md#external-contract-attributes).
 
 ### Review Builder
 
@@ -62,6 +70,8 @@ The Review Builder stores all review configuration in a single `review-config.js
 
 **Resources**: The `resources` field is a flat array of `ResourceEntry` objects (`{ url, type, label?, frontendSubtype? }`). Resource types: `frontend` (with subtype: official/third-party/self-hosted), `docs`, `source-code`, `github`, `x`, `other`. Resources are compiled as-is into `compiled-review.json` and rendered in the frontend's "More Information" section.
 
+For implementation details, see [Scoring & Review: Review Builder](features/scoring-and-review.md#review-builder).
+
 ### Continuous Monitoring Service
 
 The monitoring service is a standalone background process that continuously watches DeFi protocols for smart contract changes, refreshes live financial data, and compiles publishable review artifacts. It runs as a **GitHub Actions cron job** (daily at 8:00 CET), not as a long-running server.
@@ -73,7 +83,7 @@ The monitoring service is a standalone background process that continuously watc
 1. **Discovery** — runs the L2Beat discovery engine (`DiscoveryRunner`)
 2. **Diffing** — compares against the previous discovery snapshot stored in PostgreSQL
 3. **Notification** — sends Discord messages when contract changes are detected
-4. **Funds Refresh** — fetches live token balances and DeFi positions via DeBank API
+4. **Funds Refresh** — fetches live token balances, DeFi positions via DeBank API, and aggregate TVL via defiscan-endpoints (The Graph subgraphs). Warnings (e.g. failed aggregate fetches) are reported to Discord.
 5. **Review Compilation** — produces a self-contained `compiled-review.json` per project
 
 After all projects are processed, a cycle summary is posted to Discord with project count, duration, and change count.
@@ -102,4 +112,188 @@ The public-facing review website is a separate package at `packages/defiscan-fro
 
 **Pages**: Landing (protocol table + global stats), Review (Report / Explorer / Dashboard views), Compare (side-by-side protocol comparison with charts).
 
-See `packages/defiscan-frontend/README.md` for detailed documentation.
+See `packages/defiscan-frontend/README.md` for detailed documentation, and [Infrastructure: DeFiScan Frontend](features/infrastructure.md#defiscan-frontend) for implementation reference.
+
+---
+
+## Data Pipeline: From Discovery to Frontend
+
+This section documents the end-to-end data transformation pipeline. Each stage reads input data, transforms it, and produces output consumed by the next stage.
+
+### Pipeline Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         SOURCE DATA (per project)                   │
+│  discovered.json  functions.json  call-graph-data.json  funds-data  │
+│                   contract-tags.json  review-config.json            │
+└───────────────┬─────────────────────────────────────────────────────┘
+                │
+                ▼
+┌───────────────────────────────────────────────────┐
+│  STAGE 1: Function Analysis (functionAnalysis.ts) │
+│  Per-function: impact + dependencies              │
+│  Output: ApiFunctionAnalysisResponse              │
+└───────────────┬───────────────────────────────────┘
+                │
+                ▼
+┌───────────────────────────────────────────────────┐
+│  STAGE 2: V2 Scoring (v2Scoring.ts)               │
+│  Inventory: admins[], dependencies[],             │
+│             functions[], contracts[]              │
+│  Capital analysis joins funds to admins           │
+│  Output: V2ScoreResult                            │
+└───────────────┬───────────────────────────────────┘
+                │
+                ▼
+┌───────────────────────────────────────────────────┐
+│  STAGE 3: Review Compiler (reviewCompiler.ts)     │
+│  Merges: scoring + funds + tags + descriptions    │
+│  Computes dependency funds (deduplicated)         │
+│  Output: compiled-review.json                     │
+└───────────────┬───────────────────────────────────┘
+                │
+                ▼
+┌───────────────────────────────────────────────────┐
+│  STAGE 4: Index Aggregation (compile-data.ts)     │
+│  Cross-protocol totals and dependency sums        │
+│  Output: index.json                               │
+└───────────────┬───────────────────────────────────┘
+                │
+                ▼
+┌───────────────────────────────────────────────────┐
+│  STAGE 5: Frontend (defiscan-frontend)            │
+│  Static rendering from compiled JSON              │
+│  Types: src/types.ts                              │
+└───────────────────────────────────────────────────┘
+```
+
+### Source Data Files
+
+| File | Location | Content | Written by |
+|------|----------|---------|------------|
+| `discovered.json` | `packages/config/src/projects/{project}/` | Contracts, ABIs, values, proxy relationships | L2Beat discovery engine |
+| `functions.json` | same | Permissioned functions, owner paths, scores, manual dependencies | AI detection + researcher overrides |
+| `call-graph-data.json` | same | Slither-based external call graph per contract/function | `callGraph.ts` |
+| `funds-data.json` | same | Balances, DeFi positions, token market cap per contract | DeBank API via `fundsData.ts` |
+| `contract-tags.json` | same | External/governance flags, entity names per contract | Researcher via UI |
+| `review-config.json` | same | Protocol metadata, entity descriptions, resources | AI generation + researcher editing |
+
+### Stage 1: Function Analysis
+
+**File:** `functionAnalysis.ts` — **Output:** `ApiFunctionAnalysisResponse`
+
+Iterates ALL write functions from `discovered.json` ABIs (not just `functions.json` entries). For each function:
+
+- **Dependencies**: BFS traversal of call graph → filter external contracts (`isExternal` tag) + merge manual deps from `functions.json`
+- **Impact**: For permissioned functions or functions with dependencies → reachable contracts with funds (direct + via call graph)
+
+```
+Per function → FunctionAnalysis { impact, dependencies }
+  impact:        { reachableContracts[], totalFundsAtRisk, totalTokenValueAtRisk }
+  dependencies:  { entries[]: { contractAddress, contractName, viewOnlyPath, calledFunctions[], entity } }
+```
+
+### Stage 2: V2 Scoring
+
+**File:** `v2Scoring.ts` — **Output:** `V2ScoreResult`
+
+Four inventory modules aggregate function-level data into per-entity inventories:
+
+| Module | Input | Aggregation | Output |
+|--------|-------|-------------|--------|
+| **AdminInventoryModule** | `functions.json` permissioned functions + owner resolution | Group by resolved admin address | `AdminDetail[]` — admin → functions they control |
+| **DependencyInventoryModule** | `ApiFunctionAnalysisResponse` | Group by dependency contract address | `DependencyDetail[]` — dependency → functions that use it |
+| **FunctionInventoryModule** | `functions.json` permissioned + scored functions | Filter and map | `FunctionDetail[]` — scored functions with impact |
+| **ContractInventoryModule** | `discovered.json` entries | Count and categorize | Contract totals |
+
+**Capital Analysis** (optional, runs when call graph + funds exist): `CapitalAnalysisCalculator` enriches `AdminDetail` → `AdminDetailWithCapital` by joining admin functions with funds data via call graph traversal.
+
+**Admin capital computation:**
+```
+totalDirectCapital   = Σ (balances + positions) for each contract where admin has permissions
+totalReachableCapital = totalDirectCapital + Σ reachable contract funds (where fundsAtRisk=true)
+```
+
+`fundsAtRisk` is true only if at least one called function on that contract has an impact score (not 'unscored').
+
+### Stage 3: Review Compiler
+
+**File:** `reviewCompiler.ts` — **Output:** `compiled-review.json`
+
+Merges all analysis data with human-written descriptions into a self-contained JSON. Three entity types have distinct compilation paths:
+
+#### Admins Pipeline
+```
+V2ScoreResult.admins.breakdown (AdminDetailWithCapital[])
+  + review-config.json admins descriptions
+  + contract-tags.json governance flag
+  + functions.json mitigations (MitigationValue: hardcoded or field-referenced)
+  + configSeverity.ts auto-severity (mitigatedField → config.jsonc HIGH severity)
+  → CompiledAdmin[]
+```
+Each `CompiledAdmin` carries: address, name, description, adminType, isGovernance, functions (with per-function capital), and totals (totalDirectCapital, totalReachableCapital, totalDirectTokenValue, totalReachableTokenValue).
+
+**Mitigation values** can be hardcoded strings or field references using the same path syntax as owner definitions (`$self.field`, `@ref.field`, `eth:0xAddr.field`). Field references are resolved at display time via `resolveFieldValue()` in `ownerResolution.ts`. When a mitigation specifies a `mitigatedField` (contract + field name), `configSeverity.ts` auto-writes `severity: "HIGH"` to `config.jsonc`, ensuring the monitoring service sends priority Discord alerts when that field changes on-chain.
+
+#### Dependencies Pipeline
+```
+ApiFunctionAnalysisResponse (per-function dependencies)
+  + V2ScoreResult.dependencies.breakdown (for inventory list)
+  + review-config.json dependency descriptions
+  + funds-data.json (for per-function direct funds)
+  → CompiledDependency[]
+```
+The compiler iterates all functions → their dependencies, building a deduplicated map keyed by dependency contract address. For each dependency:
+- Collects all calling functions as `CompiledDependencyFunction[]` (with `directFundsUsd`, `reachableContracts[]`, `mitigations?`)
+- Computes `totalFundsAtRisk` using `Math.max()` per reachable contract address to avoid double-counting when multiple functions reach the same contract
+
+#### Funds Pipeline
+```
+review-config.json funds addresses + descriptions
+  + funds-data.json (balances, positions, tokenInfo, aggregate)
+  + contract-tags.json (fetchAggregate tags → auto-included even without review-config entry)
+  → CompiledFundHolder[]
+```
+Pass-through of raw funds data enriched with human descriptions. Aggregate-tagged contracts are included automatically even without a `review-config.json` funds entry.
+
+### Stage 4: Index Aggregation
+
+**File:** `defiscan-frontend/scripts/compile-data.ts` — **Output:** `index.json`
+
+Reads all `compiled-review.json` files and produces cross-protocol aggregations:
+- Protocol list with totals (capital, functions, admins, dependencies)
+- Aggregate fund values (`aggregate.totalUsdValue`) are summed into per-protocol `totalCapitalAtRisk` — they count as TVL
+- Token values are computed from `funds[].tokenInfo.tokenValue`
+- Global dependency map: sums `totalFundsAtRisk` across protocols for the same dependency address
+- Global stats (protocols reviewed, total capital)
+
+Uses a minimal hand-written subset of `CompiledReview` types (not imported from `src/types.ts`).
+
+### Stage 5: Frontend
+
+**File:** `defiscan-frontend/src/types.ts` — mirrors compiler output types exactly
+
+Frontend reads `compiled-review.json` (per protocol) and `index.json` (cross-protocol) as static JSON. No client-side data joining — all computation is pre-baked by the compiler. The only client-side computation is `getDepFunctionFunds()` for per-function funds display in dependency detail views.
+
+### Key Concept: Funds vs Token Value
+
+Two distinct value types flow through the entire pipeline:
+
+| Concept | Source | Computation | Display color |
+|---------|--------|-------------|---------------|
+| **Funds** (Capital at risk) | `balances.totalUsdValue + positions.totalUsdValue + aggregate.totalUsdValue` | Token holdings + DeFi positions + factory aggregate TVL | Green (`text-green-400`) |
+| **Token Value** (Market cap) | `tokenInfo.tokenValue` = totalSupply × price | Only for token contracts | Yellow (`text-aux-yellow`) |
+
+These are always tracked separately (never summed together) through all pipeline stages. Aggregate funds (from factory contracts like Uniswap V2) are treated as regular TVL — they are included in `totalCapitalAtRisk` at the index aggregation stage.
+
+### Deduplication Rules
+
+Capital and funds are deduplicated at different stages to prevent double-counting:
+
+| Stage | Entity | Dedup Strategy |
+|-------|--------|----------------|
+| Capital Analysis | Admin → contracts | Set of unique contract addresses per admin |
+| Review Compiler | Dependency → reachable contracts | `Math.max(existing, new)` per contract address across functions |
+| Index Aggregation | Dependency across protocols | Sum per dependency address (protocols are independent) |
+| V2 Scoring header totals | Admins → total capital | `computeDeduplicatedCapital()` across all admins |

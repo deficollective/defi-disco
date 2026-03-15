@@ -5,14 +5,18 @@ import { UsdValue } from '../../../../components/UsdValue'
 import { GlossaryTooltip } from '../../../../components/GlossaryTooltip'
 import { generateAdminNarrative } from '../../../../utils/narrative'
 import { formatUsdValue } from '../../../../utils/format'
-import type {
-  CompiledReview,
-  CompiledAdmin,
-  CompiledAdminFunction,
+import {
+  type CompiledReview,
+  type CompiledAdmin,
+  type CompiledAdminFunction,
+  type Mitigation,
 } from '../../../../types'
+import { MitigationBadge } from '../../../../components/MitigationBadge'
+import { deduplicateMitigations } from '../explorer/shared'
 
 interface AdminCardsProps {
   review: CompiledReview
+  forceExpanded?: boolean
 }
 
 const ADMIN_BAR_COLORS = [
@@ -51,7 +55,7 @@ function describeAdminType(adminType: string): string {
   }
 }
 
-/** Sort admins by risk: EOAs first, then Multisigs, then Timelocks, then contracts */
+/** Sort admins by funds at risk (descending), then by admin type as tiebreaker */
 function sortAdminsByRisk(admins: CompiledAdmin[]): CompiledAdmin[] {
   const riskOrder: Record<string, number> = {
     EOA: 0,
@@ -67,15 +71,16 @@ function sortAdminsByRisk(admins: CompiledAdmin[]): CompiledAdmin[] {
   }
 
   return [...admins].sort((a, b) => {
+    const fundsDiff = b.totalDirectCapital - a.totalDirectCapital
+    if (fundsDiff !== 0) return fundsDiff
+    // Tiebreaker: riskier admin types first
     const aOrder = riskOrder[a.adminType] ?? 5
     const bOrder = riskOrder[b.adminType] ?? 5
-    if (aOrder !== bOrder) return aOrder - bOrder
-    // Secondary sort: higher capital first
-    return b.totalDirectCapital - a.totalDirectCapital
+    return aOrder - bOrder
   })
 }
 
-export function AdminCards({ review }: AdminCardsProps) {
+export function AdminCards({ review, forceExpanded }: AdminCardsProps) {
   const { admins, totals } = review
   const [expandedAdmins, setExpandedAdmins] = useState<Set<string>>(new Set())
 
@@ -107,8 +112,7 @@ export function AdminCards({ review }: AdminCardsProps) {
   )
   const governance = sorted.filter((a) => a.isGovernance)
 
-  const noHumanControl =
-    humanControlled.length === 0 && governance.length === 0
+  const noHumanControl = humanControlled.length === 0 && governance.length === 0
 
   function toggleAdmin(key: string) {
     setExpandedAdmins((prev) => {
@@ -126,16 +130,15 @@ export function AdminCards({ review }: AdminCardsProps) {
     (sum, a) => sum + a.totalDirectCapital,
     0,
   )
-  const govTotal = governance.reduce(
-    (sum, a) => sum + a.totalDirectCapital,
-    0,
-  )
+  const govTotal = governance.reduce((sum, a) => sum + a.totalDirectCapital, 0)
 
   return (
     <div>
       {noHumanControl ? (
         <div className="rounded-xl border border-status-green/30 bg-status-green/5 px-6 py-5 mb-8 max-w-3xl">
-          <p className="text-lg font-semibold text-status-green mb-1">No Admins</p>
+          <p className="text-lg font-semibold text-status-green mb-1">
+            No Admins
+          </p>
           <p className="text-sm text-text-secondary leading-relaxed">
             All admin controls resolve to immutable contracts or revoked
             addresses. No permissioned functions can affect user funds.
@@ -152,15 +155,13 @@ export function AdminCards({ review }: AdminCardsProps) {
             {totals.permissionedFunctionCount} functions
           </span>
           , controlling{' '}
-          <UsdValue value={totals.totalCapitalAtRisk} variant="capital" />
-          {' '}in locked funds
+          <UsdValue value={totals.totalCapitalAtRisk} variant="capital" /> in
+          TVL
           {totals.totalTokenValueAtRisk > 0 && (
             <>
-              {' '}and{' '}
-              <UsdValue
-                value={totals.totalTokenValueAtRisk}
-                variant="token"
-              />{' '}
+              {' '}
+              and{' '}
+              <UsdValue value={totals.totalTokenValueAtRisk} variant="token" />{' '}
               in protocol tokens
             </>
           )}
@@ -172,11 +173,12 @@ export function AdminCards({ review }: AdminCardsProps) {
       {humanControlled.length > 0 && (
         <AdminDistributionChart
           title="Admins"
-          subtitle="These are the entities that a person or group of people can directly control. They represent the most significant centralization vectors."
+          subtitle="These are the entities that a person or group of people can directly control."
           admins={humanControlled}
           totalCapital={humanTotal}
           expandedSet={expandedAdmins}
           onToggle={toggleAdmin}
+          forceExpanded={forceExpanded}
         />
       )}
 
@@ -185,11 +187,12 @@ export function AdminCards({ review }: AdminCardsProps) {
         <div className={humanControlled.length > 0 ? 'mt-6' : ''}>
           <AdminDistributionChart
             title="Governance"
-            subtitle="These are on-chain governance contracts that manage protocol changes through decentralized voting or proposal mechanisms."
+            subtitle="These are onchain governance contracts that manage protocol changes through different voting mechanisms."
             admins={governance}
             totalCapital={govTotal}
             expandedSet={expandedAdmins}
             onToggle={toggleAdmin}
+            forceExpanded={forceExpanded}
           />
         </div>
       )}
@@ -204,6 +207,7 @@ function AdminDistributionChart({
   totalCapital,
   expandedSet,
   onToggle,
+  forceExpanded,
 }: {
   title: string
   subtitle: string
@@ -211,6 +215,7 @@ function AdminDistributionChart({
   totalCapital: number
   expandedSet: Set<string>
   onToggle: (key: string) => void
+  forceExpanded?: boolean
 }) {
   const maxCapital = Math.max(...admins.map((a) => a.totalDirectCapital), 0)
 
@@ -223,11 +228,9 @@ function AdminDistributionChart({
       <div className="space-y-3">
         {admins.map((admin, index) => {
           const percentage =
-            maxCapital > 0
-              ? (admin.totalDirectCapital / maxCapital) * 100
-              : 0
+            maxCapital > 0 ? (admin.totalDirectCapital / maxCapital) * 100 : 0
           const expandKey = `admin-${admin.address}`
-          const isExpanded = expandedSet.has(expandKey)
+          const isExpanded = forceExpanded || expandedSet.has(expandKey)
 
           return (
             <div key={expandKey} id={expandKey}>
@@ -236,16 +239,13 @@ function AdminDistributionChart({
                 onClick={() => onToggle(expandKey)}
                 className="w-full text-left cursor-pointer group"
               >
-                <div className="flex items-center justify-between text-sm mb-1">
-                  <span className="text-text-primary font-medium truncate mr-4 flex items-center gap-1.5">
-                    <span className="text-text-muted text-xs">
+                <div className="flex items-center justify-between text-sm mb-1 gap-2">
+                  <span className="text-text-primary font-medium truncate flex items-center gap-1.5">
+                    <span className="text-text-muted text-xs" data-print-hide>
                       {isExpanded ? '\u25BC' : '\u25B6'}
                     </span>
                     <GlossaryTooltip term={admin.adminType}>
-                      <Badge
-                        variant="admin-type"
-                        adminType={admin.adminType}
-                      >
+                      <Badge variant="admin-type" adminType={admin.adminType}>
                         {admin.adminType}
                       </Badge>
                     </GlossaryTooltip>
@@ -255,6 +255,16 @@ function AdminDistributionChart({
                       </GlossaryTooltip>
                     )}
                     {admin.name}
+                    {(() => {
+                      const all: Mitigation[] = []
+                      for (const fn of admin.functions) {
+                        if (fn.mitigations) all.push(...fn.mitigations)
+                      }
+                      const unique = deduplicateMitigations(all)
+                      return unique.map((m, i) => (
+                        <MitigationBadge key={i} mitigation={m} />
+                      ))
+                    })()}
                   </span>
                   {admin.totalDirectCapital > 0 && (
                     <span className="font-semibold shrink-0 text-capital">
@@ -304,8 +314,7 @@ function AdminExpandedContent({ admin }: { admin: CompiledAdmin }) {
       {/* Risk narrative */}
       <div>
         <p className="text-sm text-text-secondary leading-relaxed">
-          {describeAdminType(admin.adminType)}{' '}
-          {generateAdminNarrative(admin)}
+          {describeAdminType(admin.adminType)} {generateAdminNarrative(admin)}
         </p>
       </div>
 
@@ -362,6 +371,15 @@ function FunctionDetail({ fn }: { fn: CompiledAdminFunction }) {
         </div>
       </div>
 
+      {/* Mitigations */}
+      {fn.mitigations && fn.mitigations.length > 0 && (
+        <div className="mt-1.5 flex flex-wrap gap-1">
+          {fn.mitigations.map((m, i) => (
+            <MitigationBadge key={i} mitigation={m} />
+          ))}
+        </div>
+      )}
+
       {/* Narrative of impact */}
       {(fn.directFundsUsd > 0 || riskyContracts.length > 0) && (
         <p className="mt-2 text-xs text-text-secondary leading-relaxed">
@@ -379,7 +397,7 @@ function FunctionDetail({ fn }: { fn: CompiledAdminFunction }) {
           {riskyContracts.length > 0 && (
             <>
               It can also reach {riskyContracts.length} additional contract
-              {riskyContracts.length !== 1 ? 's' : ''} with funds at risk.
+              {riskyContracts.length !== 1 ? 's' : ''} with TVL at risk.
             </>
           )}
         </p>
@@ -425,4 +443,3 @@ function FunctionDetail({ fn }: { fn: CompiledAdminFunction }) {
     </div>
   )
 }
-

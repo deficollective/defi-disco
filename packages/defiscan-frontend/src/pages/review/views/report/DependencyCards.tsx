@@ -1,17 +1,20 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { Badge } from '../../../../components/Badge'
 import { AddressDisplay } from '../../../../components/AddressDisplay'
 import { GlossaryTooltip } from '../../../../components/GlossaryTooltip'
 import { formatUsdValue } from '../../../../utils/format'
-import {
-  buildFunctionContractFundsMap,
-  computeDepFundsAtRisk,
-  getFunctionFunds,
-} from '../../../../utils/dependencies'
-import type { CompiledReview, CompiledDependency } from '../../../../types'
+import { getDepFunctionFunds } from '../../../../utils/dependencies'
+import { MitigationBadge } from '../../../../components/MitigationBadge'
+import type {
+  CompiledReview,
+  CompiledDependency,
+  Mitigation,
+} from '../../../../types'
+import { deduplicateMitigations } from '../explorer/shared'
 
 interface DependencyCardsProps {
   review: CompiledReview
+  forceExpanded?: boolean
 }
 
 const DEP_BAR_COLORS = [
@@ -23,13 +26,9 @@ const DEP_BAR_COLORS = [
   '#10B981',
 ]
 
-export function DependencyCards({ review }: DependencyCardsProps) {
+export function DependencyCards({ review, forceExpanded }: DependencyCardsProps) {
   const { dependencies } = review
   const [expandedDeps, setExpandedDeps] = useState<Set<string>>(new Set())
-  const fnContractMap = useMemo(
-    () => buildFunctionContractFundsMap(review),
-    [review],
-  )
 
   if (dependencies.length === 0) {
     return (
@@ -129,7 +128,7 @@ export function DependencyCards({ review }: DependencyCardsProps) {
           // Sort deps by funds at risk descending within each group
           const depsWithFunds = deps.map((dep) => ({
             dep,
-            fundsAtRisk: computeDepFundsAtRisk(dep, fnContractMap),
+            fundsAtRisk: dep.totalFundsAtRisk,
           }))
           depsWithFunds.sort((a, b) => b.fundsAtRisk - a.fundsAtRisk)
           const groupTotal = depsWithFunds.reduce(
@@ -149,7 +148,7 @@ export function DependencyCards({ review }: DependencyCardsProps) {
               groupTotal={groupTotal}
               expandedSet={expandedDeps}
               onToggle={toggleDep}
-              fnContractMap={fnContractMap}
+              forceExpanded={forceExpanded}
             />
           )
         })}
@@ -164,14 +163,14 @@ function DepDistributionChart({
   groupTotal,
   expandedSet,
   onToggle,
-  fnContractMap,
+  forceExpanded,
 }: {
   title: string | undefined
   deps: { dep: CompiledDependency; fundsAtRisk: number }[]
   groupTotal: number
   expandedSet: Set<string>
   onToggle: (key: string) => void
-  fnContractMap: Map<string, Map<string, number>>
+  forceExpanded?: boolean
 }) {
   const maxFunds = Math.max(...deps.map((d) => d.fundsAtRisk), 0)
 
@@ -187,7 +186,7 @@ function DepDistributionChart({
           const percentage =
             maxFunds > 0 ? (fundsAtRisk / maxFunds) * 100 : 0
           const expandKey = `dep-${dep.address}`
-          const isExpanded = expandedSet.has(expandKey)
+          const isExpanded = forceExpanded || expandedSet.has(expandKey)
 
           return (
             <div key={expandKey}>
@@ -196,9 +195,9 @@ function DepDistributionChart({
                 onClick={() => onToggle(expandKey)}
                 className="w-full text-left cursor-pointer group"
               >
-                <div className="flex items-center justify-between text-sm mb-1">
-                  <span className="text-text-primary font-medium truncate mr-4 flex items-center gap-1.5">
-                    <span className="text-text-muted text-xs">
+                <div className="flex items-center justify-between text-sm mb-1 gap-2">
+                  <span className="text-text-primary font-medium truncate flex items-center gap-1.5">
+                    <span className="text-text-muted text-xs" data-print-hide>
                       {isExpanded ? '\u25BC' : '\u25B6'}
                     </span>
                     {dep.entity && (
@@ -218,6 +217,16 @@ function DepDistributionChart({
                       </GlossaryTooltip>
                     )}
                     {dep.name}
+                    {(() => {
+                      const all: Mitigation[] = []
+                      for (const fn of dep.functions) {
+                        if (fn.mitigations) all.push(...fn.mitigations)
+                      }
+                      const unique = deduplicateMitigations(all)
+                      return unique.map((m, i) => (
+                        <MitigationBadge key={i} mitigation={m} />
+                      ))
+                    })()}
                   </span>
                   {fundsAtRisk > 0 && (
                     <span className="font-semibold shrink-0 text-capital">
@@ -239,12 +248,7 @@ function DepDistributionChart({
                 )}
               </button>
 
-              {isExpanded && (
-                <DepExpandedContent
-                  dep={dep}
-                  fnContractMap={fnContractMap}
-                />
-              )}
+              {isExpanded && <DepExpandedContent dep={dep} />}
             </div>
           )
         })}
@@ -253,13 +257,7 @@ function DepDistributionChart({
   )
 }
 
-function DepExpandedContent({
-  dep,
-  fnContractMap,
-}: {
-  dep: CompiledDependency
-  fnContractMap: Map<string, Map<string, number>>
-}) {
+function DepExpandedContent({ dep }: { dep: CompiledDependency }) {
   const readFns = dep.functions.filter((f) => f.viewOnlyPath)
   const writeFns = dep.functions.filter((f) => !f.viewOnlyPath)
 
@@ -310,33 +308,36 @@ function DepExpandedContent({
           </p>
           <div className="space-y-1">
             {dep.functions.map((fn) => {
-              const fnFunds = getFunctionFunds(
-                fn.contractAddress,
-                fn.functionName,
-                fnContractMap,
-              )
+              const fnFunds = getDepFunctionFunds(fn)
               return (
                 <div
                   key={`${fn.contractAddress}-${fn.functionName}`}
-                  className="flex items-center justify-between text-sm"
+                  className="text-sm"
                 >
-                  <div className="flex items-center gap-2">
-                    {fn.viewOnlyPath ? (
-                      <span className="text-status-blue text-xs">R</span>
-                    ) : (
-                      <span className="text-status-amber text-xs">W</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {fn.viewOnlyPath ? (
+                        <span className="text-status-blue text-xs">R</span>
+                      ) : (
+                        <span className="text-status-amber text-xs">W</span>
+                      )}
+                      <span className="text-text-muted">{fn.contractName}</span>
+                      <span className="text-text-primary font-medium font-mono">
+                        .{fn.functionName}()
+                      </span>
+                    </div>
+                    {fnFunds > 0 && (
+                      <span className="text-capital text-xs font-medium tabular-nums">
+                        {formatUsdValue(fnFunds)}
+                      </span>
                     )}
-                    <span className="text-text-muted">
-                      {fn.contractName}
-                    </span>
-                    <span className="text-text-primary font-medium font-mono">
-                      .{fn.functionName}()
-                    </span>
                   </div>
-                  {fnFunds > 0 && (
-                    <span className="text-capital text-xs font-medium tabular-nums">
-                      {formatUsdValue(fnFunds)}
-                    </span>
+                  {fn.mitigations && fn.mitigations.length > 0 && (
+                    <div className="mt-1 flex flex-wrap gap-1 ml-5">
+                      {fn.mitigations.map((m, i) => (
+                        <MitigationBadge key={i} mitigation={m} />
+                      ))}
+                    </div>
                   )}
                 </div>
               )

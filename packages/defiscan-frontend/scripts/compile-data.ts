@@ -5,6 +5,9 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+
+// Minimal subset of CompiledReview (from src/types.ts) — only fields needed for index aggregation.
+// Keep in sync with the full type when adding new aggregated fields.
 interface CompiledReview {
   metadata: {
     protocolName: string
@@ -34,6 +37,7 @@ interface CompiledReview {
     address: string
     name: string
     entity: string | null
+    totalFundsAtRisk: number
     functions: { contractAddress: string; contractName: string; functionName: string }[]
   }[]
   funds: {
@@ -48,6 +52,12 @@ interface CompiledReview {
       totalSupply: string
       tokenValue: number
     } | null
+    aggregate?: {
+      totalUsdValue: number
+      contractCount: number
+      handlerName: string
+      label?: string
+    } | null
   }[]
 }
 
@@ -60,6 +70,11 @@ interface FundsData {
       price: number
       totalSupply: string
       tokenValue: number
+    }
+    aggregate?: {
+      totalUsdValue: number
+      contractCount: number
+      handlerName: string
     }
   }>
 }
@@ -115,15 +130,14 @@ function main() {
     const fundsDataPath = join(DATA_DIR, slug, 'funds-data.json')
     if (existsSync(fundsDataPath) && review.funds) {
       const fundsData: FundsData = JSON.parse(readFileSync(fundsDataPath, 'utf8'))
-      // Build case-insensitive lookup with eth: prefix normalization
+      // Build lookup from funds-data.json (addresses already normalized in compiled review)
       const fundsLookup = new Map<string, FundsData['contracts'][string]>()
       for (const [addr, data] of Object.entries(fundsData.contracts ?? {})) {
-        fundsLookup.set(addr.replace(/^eth:/i, '').toLowerCase(), data)
+        fundsLookup.set(addr, data)
       }
       let patched = 0
       for (const fund of review.funds) {
-        const normalizedAddr = fund.address.replace(/^eth:/i, '').toLowerCase()
-        const contractFunds = fundsLookup.get(normalizedAddr)
+        const contractFunds = fundsLookup.get(fund.address)
         if (!contractFunds) continue
         if (contractFunds.balances) {
           fund.balances = { totalUsdValue: contractFunds.balances.totalUsdValue }
@@ -137,6 +151,14 @@ function main() {
             price: contractFunds.tokenInfo.price,
             totalSupply: contractFunds.tokenInfo.totalSupply,
             tokenValue: contractFunds.tokenInfo.tokenValue,
+          }
+        }
+        if (contractFunds.aggregate) {
+          fund.aggregate = {
+            totalUsdValue: contractFunds.aggregate.totalUsdValue,
+            contractCount: contractFunds.aggregate.contractCount,
+            handlerName: contractFunds.aggregate.handlerName,
+            label: fund.aggregate?.label,
           }
         }
         patched++
@@ -168,7 +190,13 @@ function main() {
         ? computedTokenValue
         : (review.totals.totalTokenValue ?? 0)
 
-    // Add to protocol list
+    // Compute aggregate funds value (counts as TVL)
+    const totalAggregateValue = review.funds
+      ? review.funds.reduce((sum, f) => sum + (f.aggregate?.totalUsdValue ?? 0), 0)
+      : 0
+
+    // Add to protocol list (aggregate funds count as TVL)
+    const protocolCapitalAtRisk = review.totals.totalCapitalAtRisk + totalAggregateValue
     protocols.push({
       slug: review.metadata.protocolSlug,
       name: review.metadata.protocolName,
@@ -177,13 +205,14 @@ function main() {
       tokenName: review.metadata.tokenName,
       totals: {
         ...review.totals,
+        totalCapitalAtRisk: protocolCapitalAtRisk,
         totalTokenValue: totalTokenValueForProtocol,
         adminCount: activeAdminCount,
         dependencyCount: depEntities.size + ungroupedDeps,
       },
     })
 
-    totalCapitalAtRisk += review.totals.totalCapitalAtRisk
+    totalCapitalAtRisk += protocolCapitalAtRisk
     const protocolTokenValue = totalTokenValueForProtocol > 0
       ? totalTokenValueForProtocol
       : (review.totals.totalTokenValueAtRisk ?? 0)
@@ -197,32 +226,18 @@ function main() {
       totalTokenValueAtRisk += protocolTokenValue
     }
 
-    // Aggregate dependencies across protocols
-    // For each dependency, sum capital of admins whose functions use this dependency
-    // This avoids attributing the entire protocol TVL to every dependency
+    // Aggregate dependencies across protocols using pre-computed funds
     for (const dep of review.dependencies) {
-      const key = dep.address.toLowerCase()
-      // Compute capital controlled by admins that call through this dependency
-      const depContractAddresses = new Set(dep.functions.map((f) => f.contractAddress.toLowerCase()))
-      let depCapital = 0
-      for (const admin of review.admins) {
-        const usesThisDep = admin.functions.some(
-          (f) => depContractAddresses.has(f.contractAddress.toLowerCase()),
-        )
-        if (usesThisDep) {
-          depCapital += admin.totalDirectCapital
-        }
-      }
-
+      const key = dep.address
       const existing = depMap.get(key)
       if (existing) {
         existing.protocols.push({ slug, name: review.metadata.protocolName })
-        existing.totalFundsAtRisk += depCapital
+        existing.totalFundsAtRisk += dep.totalFundsAtRisk
       } else {
         depMap.set(key, {
           name: dep.name,
           entity: dep.entity,
-          totalFundsAtRisk: depCapital,
+          totalFundsAtRisk: dep.totalFundsAtRisk,
           protocols: [{ slug, name: review.metadata.protocolName }],
         })
       }

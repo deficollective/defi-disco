@@ -11,10 +11,12 @@ import type {
   ApiAbi,
   ApiAbiEntry,
   FunctionEntry,
+  Mitigation,
   OwnerDefinition,
 } from '../../../api/types'
 import { useCodeStore } from '../../../components/editor/store'
 import { partition } from '../../../utils/partition'
+import { addressesEqual, normalizeForLookup } from './addressUtils'
 import { useMultiViewStore } from '../multi-view/store'
 import { Folder } from '../panel-values/Folder'
 import { usePanelStore } from '../store/panel-store'
@@ -107,16 +109,16 @@ export function PermissionsDisplay({
 
   // Get functions for the specific contracts we're displaying (case-insensitive lookup)
   const getFunctionsForContract = (contractAddress: string) => {
-    const normalizedAddr = contractAddress.toLowerCase()
+    const normalizedAddr = normalizeForLookup(contractAddress)
     const matchingKey = Object.keys(functionsData?.contracts || {}).find(
-      (k) => k.toLowerCase() === normalizedAddr,
+      (k) => normalizeForLookup(k) === normalizedAddr,
     )
     const contractFunctions =
       (matchingKey
         ? functionsData?.contracts?.[matchingKey]?.functions
         : undefined) || []
-    const localFunctionsForContract = localFunctions.filter(
-      (o) => o.contractAddress.toLowerCase() === normalizedAddr,
+    const localFunctionsForContract = localFunctions.filter((o) =>
+      addressesEqual(o.contractAddress, contractAddress),
     )
 
     // Map contract functions to include contractAddress (functions in contracts don't have it)
@@ -157,11 +159,17 @@ export function PermissionsDisplay({
   const handleScoreToggle = async (
     contractAddress: string,
     functionName: string,
-    currentScore: 'unscored' | 'critical',
+    currentScore: 'unscored' | 'critical' | 'no-impact',
   ) => {
     if (!project) return
 
-    const newScore = currentScore === 'critical' ? 'unscored' : 'critical'
+    // Cycle: unscored → critical → no-impact → unscored
+    const newScore =
+      currentScore === 'unscored'
+        ? 'critical'
+        : currentScore === 'critical'
+          ? 'no-impact'
+          : 'unscored'
 
     await updateFunctionEntry(contractAddress, functionName, {
       score: newScore,
@@ -176,16 +184,6 @@ export function PermissionsDisplay({
     if (!project) return
 
     await updateFunctionEntry(contractAddress, functionName, { description })
-  }
-
-  const handleConstraintsUpdate = async (
-    contractAddress: string,
-    functionName: string,
-    constraints: string,
-  ) => {
-    if (!project) return
-
-    await updateFunctionEntry(contractAddress, functionName, { constraints })
   }
 
   const handleOwnerDefinitionsUpdate = async (
@@ -218,6 +216,16 @@ export function PermissionsDisplay({
     if (!project) return
 
     await updateFunctionEntry(contractAddress, functionName, { dependencies })
+  }
+
+  const handleMitigationsUpdate = async (
+    contractAddress: string,
+    functionName: string,
+    mitigations: Mitigation[] | null,
+  ) => {
+    if (!project) return
+
+    await updateFunctionEntry(contractAddress, functionName, { mitigations })
   }
 
   const handleAddComment = async (
@@ -315,10 +323,10 @@ export function PermissionsDisplay({
         | 'checked'
         | 'score'
         | 'description'
-        | 'constraints'
         | 'ownerDefinitions'
         | 'delay'
         | 'dependencies'
+        | 'mitigations'
       >
     >,
   ) => {
@@ -337,7 +345,6 @@ export function PermissionsDisplay({
       checked: updates.checked ?? currentFunction?.checked,
       score: updates.score ?? currentFunction?.score,
       description: updates.description ?? currentFunction?.description,
-      constraints: updates.constraints ?? currentFunction?.constraints,
       ownerDefinitions:
         updates.ownerDefinitions ?? currentFunction?.ownerDefinitions,
       delay:
@@ -348,6 +355,10 @@ export function PermissionsDisplay({
         updates.dependencies !== undefined
           ? updates.dependencies
           : currentFunction?.dependencies,
+      mitigations:
+        'mitigations' in updates
+          ? (updates.mitigations ?? undefined)
+          : currentFunction?.mitigations,
       timestamp: new Date().toISOString(),
     }
 
@@ -438,11 +449,11 @@ export function PermissionsDisplay({
               onCheckedToggle={handleCheckedToggle}
               onScoreToggle={handleScoreToggle}
               onDescriptionUpdate={handleDescriptionUpdate}
-              onConstraintsUpdate={handleConstraintsUpdate}
               onOpenInCode={handleOpenInCode}
               onOwnerDefinitionsUpdate={handleOwnerDefinitionsUpdate}
               onDelayUpdate={handleDelayUpdate}
               onDependenciesUpdate={handleDependenciesUpdate}
+              onMitigationsUpdate={handleMitigationsUpdate}
               onAddComment={handleAddComment}
               researcherGithub={researcherInfo?.githubHandle ?? null}
             />
@@ -462,11 +473,11 @@ function PermissionsCode({
   onCheckedToggle,
   onScoreToggle,
   onDescriptionUpdate,
-  onConstraintsUpdate,
   onOpenInCode,
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
   onDependenciesUpdate,
+  onMitigationsUpdate,
   onAddComment,
   researcherGithub,
 }: {
@@ -487,17 +498,12 @@ function PermissionsCode({
   onScoreToggle: (
     contractAddress: string,
     functionName: string,
-    currentScore: 'unscored' | 'critical',
+    currentScore: 'unscored' | 'critical' | 'no-impact',
   ) => void
   onDescriptionUpdate: (
     contractAddress: string,
     functionName: string,
     description: string,
-  ) => void
-  onConstraintsUpdate: (
-    contractAddress: string,
-    functionName: string,
-    constraints: string,
   ) => void
   onOpenInCode: (contractAddress: string, functionName: string) => void
   onOwnerDefinitionsUpdate: (
@@ -514,6 +520,11 @@ function PermissionsCode({
     contractAddress: string,
     functionName: string,
     dependencies?: { contractAddress: string }[],
+  ) => void
+  onMitigationsUpdate: (
+    contractAddress: string,
+    functionName: string,
+    mitigations: Mitigation[] | null,
   ) => void
   onAddComment: (
     contractAddress: string,
@@ -548,11 +559,11 @@ function PermissionsCode({
           onCheckedToggle={onCheckedToggle}
           onScoreToggle={onScoreToggle}
           onDescriptionUpdate={onDescriptionUpdate}
-          onConstraintsUpdate={onConstraintsUpdate}
           onOpenInCode={onOpenInCode}
           onOwnerDefinitionsUpdate={onOwnerDefinitionsUpdate}
           onDelayUpdate={onDelayUpdate}
           onDependenciesUpdate={onDependenciesUpdate}
+          onMitigationsUpdate={onMitigationsUpdate}
           onAddComment={onAddComment}
           researcherGithub={researcherGithub}
         />
@@ -569,11 +580,11 @@ function WritePermissionsCodeEntries({
   onCheckedToggle,
   onScoreToggle,
   onDescriptionUpdate,
-  onConstraintsUpdate,
   onOpenInCode,
   onOwnerDefinitionsUpdate,
   onDelayUpdate,
   onDependenciesUpdate,
+  onMitigationsUpdate,
   onAddComment,
   researcherGithub,
 }: {
@@ -593,17 +604,12 @@ function WritePermissionsCodeEntries({
   onScoreToggle: (
     contractAddress: string,
     functionName: string,
-    currentScore: 'unscored' | 'critical',
+    currentScore: 'unscored' | 'critical' | 'no-impact',
   ) => void
   onDescriptionUpdate: (
     contractAddress: string,
     functionName: string,
     description: string,
-  ) => void
-  onConstraintsUpdate: (
-    contractAddress: string,
-    functionName: string,
-    constraints: string,
   ) => void
   onOpenInCode: (contractAddress: string, functionName: string) => void
   onOwnerDefinitionsUpdate: (
@@ -620,6 +626,11 @@ function WritePermissionsCodeEntries({
     contractAddress: string,
     functionName: string,
     dependencies?: { contractAddress: string }[],
+  ) => void
+  onMitigationsUpdate: (
+    contractAddress: string,
+    functionName: string,
+    mitigations: Mitigation[] | null,
   ) => void
   onAddComment: (
     contractAddress: string,
@@ -663,11 +674,11 @@ function WritePermissionsCodeEntries({
             onCheckedToggle={onCheckedToggle}
             onScoreToggle={onScoreToggle}
             onDescriptionUpdate={onDescriptionUpdate}
-            onConstraintsUpdate={onConstraintsUpdate}
             onOpenInCode={onOpenInCode}
             onOwnerDefinitionsUpdate={onOwnerDefinitionsUpdate}
             onDelayUpdate={onDelayUpdate}
             onDependenciesUpdate={onDependenciesUpdate}
+            onMitigationsUpdate={onMitigationsUpdate}
             onAddComment={onAddComment}
             researcherGithub={researcherGithub}
           />

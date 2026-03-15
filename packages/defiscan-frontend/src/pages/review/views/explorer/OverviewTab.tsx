@@ -1,7 +1,8 @@
 import type { CompiledReview } from '../../../../types'
-import { formatUsdValue } from '../../../../utils/format'
-import { computeEntityDependencyCount } from '../../../../utils/dependencies'
 import { getHumanAdmins } from '../../../../utils/admins'
+import { computeEntityDependencyCount } from '../../../../utils/dependencies'
+import { formatUsdValue } from '../../../../utils/format'
+import { ShareableDiagram } from '../../../../components/ShareableDiagram'
 import { CapitalFlowDiagram } from './svg/CapitalFlowDiagram'
 
 interface OverviewTabProps {
@@ -71,7 +72,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
       {/* Key metrics row */}
       <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
         <MetricBox
-          label="Funds Locked"
+          label="TVL"
           value={formatUsdValue(totals.totalCapitalAtRisk)}
           sublabel="in protocol"
           color="text-capital"
@@ -87,7 +88,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
         <MetricBox
           label="Admins"
           value={String(humanAdmins.length)}
-          sublabel={`controlling ${totals.permissionedFunctionCount} functions`}
+          sublabel={humanAdmins.length === 0 ? 'no admin control found' : `controlling ${totals.permissionedFunctionCount} functions`}
         />
         <MetricBox
           label="Dependencies"
@@ -226,7 +227,7 @@ export function OverviewTab({ review }: OverviewTabProps) {
             />
             {topAdmin && topAdmin.totalDirectCapital > 0 && (
               <RiskRow
-                label="Max single-admin funds"
+                label="Max single-admin TVL"
                 status="info"
                 detail={`${topAdmin.name}: ${formatUsdValue(topAdmin.totalDirectCapital)}`}
               />
@@ -236,12 +237,14 @@ export function OverviewTab({ review }: OverviewTabProps) {
       </div>
 
       {/* Capital Flow Diagram */}
-      <div className="rounded-lg border border-border bg-white p-4">
-        <h3 className="text-sm font-semibold text-text-primary mb-3">
-          Funds under Admin Control
-        </h3>
+      <ShareableDiagram
+        id="tvl-diagram"
+        title="TVL under Admin Control"
+        linkQuery="?view=explorer"
+        downloadName="tvl-admin-control.png"
+      >
         <CapitalFlowDiagram review={review} />
-      </div>
+      </ShareableDiagram>
     </div>
   )
 }

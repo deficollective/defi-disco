@@ -3,7 +3,44 @@
 import type { ChainSpecificAddress } from '@l2beat/shared-pure'
 
 // Scoring type aliases
-export type Impact = 'critical'
+export type Impact = 'critical' | 'no-impact'
+
+// Mitigation types for permissioned functions
+export type MitigationType = 'delay' | 'valueRange' | 'relativeValue' | 'other'
+
+// A mitigation value can be either a hardcoded literal or a reference to a contract field
+export interface MitigationValue {
+  mode: 'hardcoded' | 'fieldRef'
+  // For 'hardcoded': the literal string value
+  value?: string
+  // For 'fieldRef': path expression using same format as owner definitions
+  // e.g., "$self.maxBorrowRate", "@configurator.supplyCapLimit"
+  fieldPath?: string
+}
+
+// Backward compat: old mitigations stored min/max/% as plain strings
+export function normalizeMitigationValue(
+  val: string | MitigationValue | undefined,
+): MitigationValue | undefined {
+  if (val === undefined) return undefined
+  if (typeof val === 'string') return { mode: 'hardcoded', value: val }
+  return val
+}
+
+export interface Mitigation {
+  type: MitigationType
+  description: string
+  // For 'delay': reference to a contract field (reuses existing delay pattern)
+  delayRef?: { contractAddress: string; fieldName: string }
+  // For 'delay': resolved value in seconds (populated by v2-score API)
+  delaySeconds?: number
+  // For 'valueRange': MIN/MAX bounds (MitigationValue supports hardcoded or field ref)
+  valueRange?: { min?: MitigationValue; max?: MitigationValue; unit?: string }
+  // For 'relativeValue': percentage of change limit
+  relativeValue?: { maxChangePercent?: MitigationValue }
+  // Which contract field this mitigation constrains (triggers auto HIGH severity)
+  mitigatedField?: { contractAddress: string; fieldName: string }
+}
 
 // Function detail for scoring breakdown
 export interface FunctionDetail {
@@ -11,6 +48,7 @@ export interface FunctionDetail {
   contractName: string
   functionName: string
   impact: Impact
+  mitigations?: Mitigation[]
 }
 
 // Dependency detail for dependency scoring breakdown
@@ -36,6 +74,7 @@ export interface AdminDetail {
     contractName: string
     functionName: string
     impact: Impact
+    mitigations?: Mitigation[]
   }[]
 }
 
@@ -65,6 +104,7 @@ export interface FunctionCapitalAnalysis {
   contractName: string
   functionName: string
   impact: Impact
+  mitigations?: Mitigation[]
   // Direct funds in the contract containing this function
   directFundsUsd: number
   // Token market cap if the function's contract IS a token
@@ -331,10 +371,9 @@ export interface FunctionEntry {
   functionName: string
   isPermissioned: boolean
   checked?: boolean
-  score?: 'unscored' | 'critical'
+  score?: 'unscored' | 'critical' | 'no-impact'
   reason?: string
   description?: string
-  constraints?: string
   timestamp: string
   // Multiple owner definitions using L2BEAT's existing handlers
   ownerDefinitions?: OwnerDefinition[]
@@ -347,6 +386,8 @@ export interface FunctionEntry {
   dependencies?: {
     contractAddress: string
   }[]
+  // Mitigations (valueRange, relativeValue, other — delay is stored separately in `delay` field)
+  mitigations?: Mitigation[]
   // Attribution tracking
   lastChangedBy?: FunctionAttribution
   completedBy?: FunctionAttribution
@@ -372,10 +413,9 @@ export interface ApiFunctionsUpdateRequest {
   functionName: string
   isPermissioned?: boolean
   checked?: boolean
-  score?: 'unscored' | 'critical'
+  score?: 'unscored' | 'critical' | 'no-impact'
   reason?: string
   description?: string
-  constraints?: string
   ownerDefinitions?: OwnerDefinition[]
   delay?: {
     contractAddress: string
@@ -384,6 +424,8 @@ export interface ApiFunctionsUpdateRequest {
   dependencies?: {
     contractAddress: string
   }[]
+  // Mitigations (valueRange, relativeValue, other — delay mitigations derived from `delay` field)
+  mitigations?: Mitigation[] | null
   // Frontend sends only the text; backend stamps author + date
   newComment?: { text: string }
 }
@@ -407,6 +449,9 @@ export interface ContractTag {
   fetchBalances?: boolean
   fetchPositions?: boolean
   isToken?: boolean
+  fetchAggregate?: boolean
+  aggregateHandler?: string
+  aggregateLabel?: string
   timestamp: string
 }
 
@@ -418,6 +463,9 @@ export interface ApiContractTagsUpdateRequest {
   fetchBalances?: boolean
   fetchPositions?: boolean
   isToken?: boolean
+  fetchAggregate?: boolean
+  aggregateHandler?: string | null
+  aggregateLabel?: string | null
 }
 
 // Funds data types
@@ -447,6 +495,14 @@ export interface ContractFundsData {
     price: number
     totalSupply: string
     tokenValue: number
+    timestamp: string
+    source: string
+  }
+  aggregate?: {
+    totalUsdValue: number
+    contractCount: number
+    handlerName: string
+    breakdown?: Array<{ address: string; name?: string; usdValue: number }>
     timestamp: string
     source: string
   }
@@ -668,6 +724,7 @@ export interface EntityDescription {
 
 export type ResourceType =
   | 'frontend'
+  | 'website'
   | 'docs'
   | 'source-code'
   | 'github'

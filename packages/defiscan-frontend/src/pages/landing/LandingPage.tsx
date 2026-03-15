@@ -2,18 +2,15 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useIndex, useAllReviews } from '../../data/hooks'
 import { formatUsdValue } from '../../utils/format'
+import { adminTypeColor } from '../../utils/colors'
 import { Badge } from '../../components/Badge'
 import { ProtocolTypeBadge } from '../../components/ProtocolTypeBadge'
-import { UsdValue } from '../../components/UsdValue'
+
 import { StatCard } from '../../components/StatCard'
 import type { CompiledReview } from '../../types'
 import { getHumanAdmins } from '../../utils/admins'
 
-type SortKey = 'name' | 'capital' | 'tokenValue' | 'admins' | 'dependencies'
-
-function computeHumanAdminCount(review: CompiledReview): number {
-  return getHumanAdmins(review.admins).length
-}
+type SortKey = 'name' | 'tvs' | 'dependencies'
 
 function hasGovernance(review: CompiledReview): boolean {
   return review.admins.some((a) => a.isGovernance)
@@ -23,7 +20,7 @@ export function LandingPage() {
   const { data: indexData, isLoading: indexLoading } = useIndex()
   const { data: allReviews, isLoading: reviewsLoading } = useAllReviews()
 
-  const [sortKey, setSortKey] = useState<SortKey>('capital')
+  const [sortKey, setSortKey] = useState<SortKey>('tvs')
   const [sortAsc, setSortAsc] = useState(false)
 
   const isLoading = indexLoading || reviewsLoading
@@ -46,16 +43,10 @@ export function LandingPage() {
         case 'name':
           cmp = a.name.localeCompare(b.name)
           break
-        case 'capital':
-          cmp = a.totals.totalCapitalAtRisk - b.totals.totalCapitalAtRisk
-          break
-        case 'tokenValue':
-          cmp = (a.totals.totalTokenValue ?? a.totals.totalTokenValueAtRisk) - (b.totals.totalTokenValue ?? b.totals.totalTokenValueAtRisk)
-          break
-        case 'admins': {
-          const aReview = reviewMap.get(a.slug)
-          const bReview = reviewMap.get(b.slug)
-          cmp = (aReview ? computeHumanAdminCount(aReview) : 0) - (bReview ? computeHumanAdminCount(bReview) : 0)
+        case 'tvs': {
+          const aTvs = a.totals.totalCapitalAtRisk + (a.totals.totalTokenValue ?? a.totals.totalTokenValueAtRisk)
+          const bTvs = b.totals.totalCapitalAtRisk + (b.totals.totalTokenValue ?? b.totals.totalTokenValueAtRisk)
+          cmp = aTvs - bTvs
           break
         }
         case 'dependencies':
@@ -96,32 +87,20 @@ export function LandingPage() {
           Independent security reviews of DeFi protocols.{' '}
           <span className="text-text-muted">
             {indexData.globalTotals.protocolsReviewed} protocols |{' '}
-            {formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)} total funds locked
+            {formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)} total TVL
           </span>
         </p>
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-2 gap-4 mb-8">
         <StatCard
           label="Protocols Reviewed"
           value={String(indexData.globalTotals.protocolsReviewed)}
         />
         <StatCard
-          label="Total Funds Locked"
+          label="Total TVL"
           value={formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}
-        />
-        <StatCard
-          label="Token Value at Risk"
-          value={formatUsdValue(indexData.globalTotals.totalTokenValueAtRisk)}
-        />
-        <StatCard
-          label="Total Token Value"
-          value={formatUsdValue(indexData.globalTotals.totalTokenValue)}
-        />
-        <StatCard
-          label="Shared Dependencies"
-          value={String(indexData.dependencies.length)}
         />
       </div>
 
@@ -132,18 +111,17 @@ export function LandingPage() {
             <tr className="border-b border-border bg-bg-muted">
               <SortHeader label="Protocol" sortKey="name" current={sortKey} asc={sortAsc} onToggle={toggleSort} />
               <th className="text-left px-3 py-3 font-medium text-text-secondary text-xs uppercase tracking-wide">Type</th>
-              <SortHeader label="Funds Locked" sortKey="capital" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <SortHeader label="Token Value" sortKey="tokenValue" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <SortHeader label="Admins" sortKey="admins" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
-              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-center">Gov</th>
-              <SortHeader label="Deps" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" />
+              <SortHeader label="TVS (TVL + Token)" sortKey="tvs" current={sortKey} asc={sortAsc} onToggle={toggleSort} />
+              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-left whitespace-nowrap w-[1%]">Admins</th>
+              <th className="px-3 py-3 text-xs uppercase tracking-wide font-medium text-text-secondary text-center whitespace-nowrap w-[1%]">Governance</th>
+              <SortHeader label="Dependencies" sortKey="dependencies" current={sortKey} asc={sortAsc} onToggle={toggleSort} align="right" shrink />
             </tr>
           </thead>
           <tbody>
             {sorted.map((p) => {
               const review = reviewMap.get(p.slug)
-              const humanAdminCount = review ? computeHumanAdminCount(review) : 0
               const govExists = review ? hasGovernance(review) : false
+              const adminBreakdown = review ? computeAdminBreakdown(review) : {}
 
               return (
                 <tr key={p.slug} className="border-b border-border last:border-0 hover:bg-bg-muted/50 transition-colors">
@@ -154,15 +132,28 @@ export function LandingPage() {
                     <div className="text-xs text-text-muted mt-0.5">{p.chain}</div>
                   </td>
                   <td className="px-3 py-3"><ProtocolTypeBadge type={p.projectType} /></td>
-                  <td className="px-3 py-3 text-right"><UsdValue value={p.totals.totalCapitalAtRisk} variant="capital" /></td>
-                  <td className="px-3 py-3 text-right">
-                    {(p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk) > 0 ? <UsdValue value={p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk} variant="token" /> : <span className="text-text-muted">-</span>}
+                  <td className="px-3 py-3">
+                    {(() => {
+                      const tvl = p.totals.totalCapitalAtRisk
+                      const token = p.totals.totalTokenValue ?? p.totals.totalTokenValueAtRisk
+                      const tvs = tvl + token
+                      return (
+                        <span className="tabular-nums">
+                          <span className="font-semibold text-capital">{formatUsdValue(tvs)}</span>
+                          {tvl > 0 && token > 0 && (
+                            <span className="text-text-muted text-xs ml-1">
+                              ({formatUsdValue(tvl)} + {formatUsdValue(token)})
+                            </span>
+                          )}
+                        </span>
+                      )
+                    })()}
                   </td>
-                  <td className="px-3 py-3 text-right tabular-nums font-medium">{humanAdminCount}</td>
-                  <td className="px-3 py-3 text-center">
+                  <td className="px-3 py-3 whitespace-nowrap"><AdminTypeBar breakdown={adminBreakdown} /></td>
+                  <td className="px-3 py-3 text-center whitespace-nowrap text-xs">
                     {govExists
-                      ? <span title="Has governance">Yes</span>
-                      : <span title="No governance">No</span>}
+                      ? <span className="text-purple-600 font-medium" title="Has governance">Yes</span>
+                      : <span className="text-text-muted" title="No governance">No</span>}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">{p.totals.dependencyCount}</td>
                 </tr>
@@ -177,13 +168,37 @@ export function LandingPage() {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function SortHeader({ label, sortKey, current, asc, onToggle, align = 'left' }: {
-  label: string; sortKey: SortKey; current: SortKey; asc: boolean; onToggle: (k: SortKey) => void; align?: 'left' | 'right'
+function computeAdminBreakdown(review: CompiledReview) {
+  const counts: Record<string, number> = {}
+  for (const admin of getHumanAdmins(review.admins)) {
+    const t = admin.isGovernance ? 'Governance' : (admin.adminType || 'Unknown')
+    counts[t] = (counts[t] || 0) + 1
+  }
+  return counts
+}
+
+function AdminTypeBar({ breakdown }: { breakdown: Record<string, number> }) {
+  const total = Object.values(breakdown).reduce((s, n) => s + n, 0)
+  if (total === 0) return <span className="inline-flex items-center gap-1 text-xs text-green-600"><svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>None</span>
+  return (
+    <div className="flex items-center gap-1">
+      {Object.entries(breakdown).map(([type, count]) => (
+        <span key={type} className="inline-flex items-center gap-0.5 text-xs" title={`${count} ${type}`}>
+          <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: adminTypeColor(type) }} />
+          <span className="text-text-secondary">{count}</span>
+        </span>
+      ))}
+    </div>
+  )
+}
+
+function SortHeader({ label, sortKey, current, asc, onToggle, align = 'left', shrink }: {
+  label: string; sortKey: SortKey; current: SortKey; asc: boolean; onToggle: (k: SortKey) => void; align?: 'left' | 'right' | 'center'; shrink?: boolean
 }) {
   const active = current === sortKey
   return (
     <th
-      className={`px-3 py-3 font-medium text-text-secondary cursor-pointer select-none hover:text-purple-600 transition-colors text-xs uppercase tracking-wide ${align === 'right' ? 'text-right' : 'text-left'}`}
+      className={`px-3 py-3 font-medium text-text-secondary cursor-pointer select-none hover:text-purple-600 transition-colors text-xs uppercase tracking-wide whitespace-nowrap ${align === 'right' ? 'text-right' : align === 'center' ? 'text-center' : 'text-left'} ${shrink ? 'w-[1%]' : ''}`}
       onClick={() => onToggle(sortKey)}
     >
       {label}

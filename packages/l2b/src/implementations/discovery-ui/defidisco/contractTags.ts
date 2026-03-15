@@ -1,6 +1,7 @@
 import type { DiscoveryPaths } from '@l2beat/discovery'
 import * as fs from 'fs'
 import * as path from 'path'
+import { addressesEqual, ensureChainPrefix } from './addressUtils'
 import type {
   ApiContractTagsResponse,
   ApiContractTagsUpdateRequest,
@@ -39,11 +40,8 @@ export function updateContractTag(
 ): void {
   const tagsPath = getContractTagsPath(paths, project)
 
-  // Ensure eth: prefix, preserve original case
-  const addressWithPrefix = updateRequest.contractAddress.startsWith('eth:')
-    ? updateRequest.contractAddress
-    : `eth:${updateRequest.contractAddress}`
-  const normalizedForLookup = addressWithPrefix.toLowerCase()
+  // Normalize address: ensure chain prefix and checksummed format
+  const normalizedAddress = ensureChainPrefix(updateRequest.contractAddress)
 
   // Load existing contract tags
   let contractTags: ContractTag[] = []
@@ -57,15 +55,10 @@ export function updateContractTag(
     }
   }
 
-  // Find existing tag for the same contract (case-insensitive comparison)
-  const existingTagIndex = contractTags.findIndex((tag) => {
-    const existingNormalized = (
-      tag.contractAddress.startsWith('eth:')
-        ? tag.contractAddress
-        : `eth:${tag.contractAddress}`
-    ).toLowerCase()
-    return existingNormalized === normalizedForLookup
-  })
+  // Find existing tag for the same contract (chain-aware comparison)
+  const existingTagIndex = contractTags.findIndex((tag) =>
+    addressesEqual(ensureChainPrefix(tag.contractAddress), normalizedAddress),
+  )
 
   // Determine the new values for all tag fields
   const existingTag =
@@ -79,12 +72,28 @@ export function updateContractTag(
   const newIsToken = updateRequest.isToken ?? existingTag?.isToken ?? false
   const newIsGovernance =
     updateRequest.isGovernance ?? existingTag?.isGovernance ?? false
+  const newFetchAggregate =
+    updateRequest.fetchAggregate ?? existingTag?.fetchAggregate ?? false
   const newEntity =
     updateRequest.entity !== undefined
       ? updateRequest.entity === null
         ? undefined
         : updateRequest.entity
       : existingTag?.entity
+  const newAggregateHandler = newFetchAggregate
+    ? updateRequest.aggregateHandler !== undefined
+      ? updateRequest.aggregateHandler === null
+        ? undefined
+        : updateRequest.aggregateHandler
+      : existingTag?.aggregateHandler
+    : undefined
+  const newAggregateLabel = newFetchAggregate
+    ? updateRequest.aggregateLabel !== undefined
+      ? updateRequest.aggregateLabel === null
+        ? undefined
+        : updateRequest.aggregateLabel
+      : existingTag?.aggregateLabel
+    : undefined
 
   // Check if any meaningful tag data exists
   const hasAnyTagData =
@@ -92,18 +101,22 @@ export function updateContractTag(
     newIsGovernance ||
     newFetchBalances ||
     newFetchPositions ||
-    newIsToken
+    newIsToken ||
+    newFetchAggregate
 
   if (hasAnyTagData) {
     // Create or update tag entry
     const newTag: ContractTag = {
-      contractAddress: existingTag?.contractAddress ?? addressWithPrefix,
+      contractAddress: existingTag?.contractAddress ?? normalizedAddress,
       isExternal: newIsExternal,
       isGovernance: newIsGovernance || undefined, // Only store if true
       entity: newEntity || undefined,
       fetchBalances: newFetchBalances || undefined, // Only store if true
       fetchPositions: newFetchPositions || undefined, // Only store if true
       isToken: newIsToken || undefined, // Only store if true
+      fetchAggregate: newFetchAggregate || undefined, // Only store if true
+      aggregateHandler: newAggregateHandler || undefined,
+      aggregateLabel: newAggregateLabel || undefined,
       timestamp: new Date().toISOString(),
     }
 

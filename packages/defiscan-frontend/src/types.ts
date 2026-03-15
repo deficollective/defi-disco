@@ -37,15 +37,13 @@ export interface CompiledReview {
 
 export type CompiledResourceType =
   | 'frontend'
+  | 'website'
   | 'docs'
   | 'source-code'
   | 'github'
   | 'x'
   | 'other'
-export type CompiledFrontendSubtype =
-  | 'official'
-  | 'third-party'
-  | 'self-hosted'
+export type CompiledFrontendSubtype = 'official' | 'third-party' | 'self-hosted'
 
 export interface CompiledResourceEntry {
   url: string
@@ -67,14 +65,46 @@ export interface CompiledAdmin {
   totalReachableTokenValue: number
 }
 
+// Mitigation types for permissioned functions
+export type MitigationType = 'delay' | 'valueRange' | 'relativeValue' | 'other'
+
+export interface MitigationValue {
+  mode: 'hardcoded' | 'fieldRef'
+  value?: string
+  fieldPath?: string
+}
+
+/** Format a MitigationValue (or legacy string) for display */
+export function displayMitigationValue(
+  val: MitigationValue | string | undefined,
+): string {
+  if (val === undefined) return ''
+  if (typeof val === 'string') return val
+  if (val.mode === 'fieldRef') return val.fieldPath ?? ''
+  return val.value ?? ''
+}
+
+export interface Mitigation {
+  type: MitigationType
+  description: string
+  delayRef?: { contractAddress: string; fieldName: string }
+  delaySeconds?: number
+  valueRange?: { min?: MitigationValue; max?: MitigationValue; unit?: string }
+  relativeValue?: { maxChangePercent?: MitigationValue }
+  mitigatedField?: { contractAddress: string; fieldName: string }
+}
+
+export type Impact = 'critical' | 'no-impact'
+
 export interface CompiledAdminFunction {
   contractAddress: string
   contractName: string
   functionName: string
-  impact: 'critical'
+  impact: Impact
   directFundsUsd: number
   directTokenValueUsd: number
   reachableContracts: CompiledReachableContract[]
+  mitigations?: Mitigation[]
 }
 
 export interface CompiledReachableContract {
@@ -87,6 +117,17 @@ export interface CompiledReachableContract {
   fundsAtRisk: boolean
 }
 
+export interface CompiledDependencyFunction {
+  contractAddress: string
+  contractName: string
+  functionName: string
+  viewOnlyPath: boolean
+  directFundsUsd: number
+  directTokenValueUsd: number
+  reachableContracts: CompiledReachableContract[]
+  mitigations?: Mitigation[]
+}
+
 export interface CompiledDependency {
   address: string
   name: string
@@ -95,12 +136,9 @@ export interface CompiledDependency {
   isAutoDetected: boolean
   viewOnlyPath: boolean
   calledFunctions: string[]
-  functions: {
-    contractAddress: string
-    contractName: string
-    functionName: string
-    viewOnlyPath: boolean
-  }[]
+  functions: CompiledDependencyFunction[]
+  totalFundsAtRisk: number
+  totalTokenValueAtRisk: number
 }
 
 export interface CompiledFundHolder {
@@ -115,13 +153,20 @@ export interface CompiledFundHolder {
     totalSupply: string
     tokenValue: number
   } | null
+  aggregate?: {
+    totalUsdValue: number
+    contractCount: number
+    handlerName: string
+    label?: string
+  } | null
 }
 
 export interface CompiledFunction {
   contractAddress: string
   contractName: string
   functionName: string
-  impact: 'critical'
+  impact: Impact
+  mitigations?: Mitigation[]
 }
 
 export interface CompiledContract {

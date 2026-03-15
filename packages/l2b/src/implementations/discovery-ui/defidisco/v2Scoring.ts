@@ -5,30 +5,31 @@ import type {
 } from '@l2beat/discovery'
 import { getProject } from '../getProject'
 import {
-  buildExternalAddressSet,
-  buildTagsByAddress,
-  findTag,
-  getCallGraphContractName,
-  getCallGraphData,
-  isExternalAddress,
-  traverseWithPaths,
-} from './callGraph'
+  addressesEqual,
+  normalizeChainAddress,
+  stripChainPrefix,
+} from './addressUtils'
+import { getCallGraphData } from './callGraph'
 import { CapitalAnalysisCalculator } from './capitalAnalysis'
 import { getContractTags } from './contractTags'
 import {
   extractAddressesFromResolvedOwners,
   getFunctions,
+  resolveDelayFromDiscovered,
   resolveOwnersFromDiscovered,
 } from './functions'
+import { computeFunctionAnalysis } from './functionAnalysis'
 import { getFundsData } from './fundsData'
 import type {
   AdminDetail,
   AdminDetailWithCapital,
   ApiAddressType,
+  ApiFunctionAnalysisResponse,
   ApiCallGraphResponse,
   DependencyDetail,
   FunctionDetail,
   Impact,
+  Mitigation,
 } from './types'
 
 // ============================================================================
@@ -66,12 +67,50 @@ export interface V2ScoreResult {
 
 interface ScoringData {
   projectData: any
-  permissionOverrides: any
   contractTags: any
   functions: any
   paths: DiscoveryPaths
   projectName: string
   callGraphData: ApiCallGraphResponse
+  functionAnalysis: ApiFunctionAnalysisResponse
+}
+
+// ============================================================================
+// Mitigation Helpers
+// ============================================================================
+
+/**
+ * Builds a merged mitigations list for a function.
+ * Combines the existing delay field (as a delay-type mitigation) with
+ * explicitly stored mitigations from functions.json.
+ */
+function buildMergedMitigations(
+  func: any,
+  paths: DiscoveryPaths,
+  projectName: string,
+): Mitigation[] | undefined {
+  const mitigations: Mitigation[] = []
+
+  // Include delay as a delay-type mitigation
+  if (func.delay) {
+    const resolved = resolveDelayFromDiscovered(paths, projectName, func.delay)
+    mitigations.push({
+      type: 'delay',
+      description: 'Delay before execution',
+      delayRef: {
+        contractAddress: func.delay.contractAddress,
+        fieldName: func.delay.fieldName,
+      },
+      delaySeconds: resolved.isResolved ? resolved.seconds : undefined,
+    })
+  }
+
+  // Include explicitly stored mitigations
+  if (func.mitigations && func.mitigations.length > 0) {
+    mitigations.push(...func.mitigations)
+  }
+
+  return mitigations.length > 0 ? mitigations : undefined
 }
 
 // ============================================================================
@@ -108,20 +147,20 @@ class FunctionInventoryModule {
     const breakdown: FunctionDetail[] = []
     let functionCount = 0
 
-    if (data.permissionOverrides?.contracts) {
-      Object.entries(data.permissionOverrides.contracts).forEach(
+    if (data.functions?.contracts) {
+      Object.entries(data.functions.contracts).forEach(
         ([contractAddress, contractData]: [string, any]) => {
           contractData.functions?.forEach((func: any) => {
             if (func.isPermissioned === true) {
               functionCount++
 
-              // Skip if function doesn't have impact (unscored)
+              // Skip unscored functions (not yet reviewed)
               if (!func.score || func.score === 'unscored') {
                 return
               }
 
-              // All scored functions are treated as critical (binary scoring)
-              const impact: Impact = 'critical'
+              const impact: Impact =
+                func.score === 'no-impact' ? 'no-impact' : 'critical'
 
               // Resolve contract name from projectData
               const contractName = this.getContractName(
@@ -134,6 +173,11 @@ class FunctionInventoryModule {
                 contractName,
                 functionName: func.functionName,
                 impact,
+                mitigations: buildMergedMitigations(
+                  func,
+                  data.paths,
+                  data.projectName,
+                ),
               })
             }
           })
@@ -150,8 +194,8 @@ class FunctionInventoryModule {
   private getContractName(projectData: any, contractAddress: string): string {
     if (!projectData?.entries) return contractAddress
 
-    // Normalize address for comparison (remove eth: prefix, lowercase for case-insensitive match)
-    const normalizedAddress = contractAddress.replace('eth:', '').toLowerCase()
+    // Normalize address for comparison (remove eth: prefix, checksummed for case-insensitive match)
+    const normalizedAddress = stripChainPrefix(contractAddress)
 
     for (const entry of projectData.entries) {
       // Check both initialContracts and discoveredContracts
@@ -161,8 +205,8 @@ class FunctionInventoryModule {
       ]
 
       for (const contract of contracts) {
-        const entryAddress = contract.address.replace('eth:', '').toLowerCase()
-        if (entryAddress === normalizedAddress) {
+        const entryAddress = stripChainPrefix(contract.address)
+        if (addressesEqual(entryAddress, normalizedAddress)) {
           return contract.name || contractAddress
         }
       }
@@ -174,14 +218,13 @@ class FunctionInventoryModule {
 
 /**
  * Dependency Inventory Module
- * Analyzes functions that depend on external contracts using call graph BFS
- * and manual dependencies from functions.json.
+ * Consumes pre-computed function analysis to group dependencies by external contract.
  */
 class DependencyInventoryModule {
   name = 'dependencies'
 
   calculate(data: ScoringData): DependencyModuleScore {
-    // Build contract name lookup map (lowercase keys for case-insensitive lookup)
+    // Build contract name lookup map (normalized keys for case-insensitive lookup)
     const contractNameMap = new Map<string, string>()
     data.projectData.entries?.forEach((entry: any) => {
       const allContracts = [
@@ -190,70 +233,70 @@ class DependencyInventoryModule {
       ]
       allContracts.forEach((contract: any) => {
         contractNameMap.set(
-          contract.address.toLowerCase(),
+          normalizeChainAddress(contract.address),
           contract.name || 'Unknown Contract',
         )
       })
     })
 
-    // Build external address set and tag lookup from contract tags
-    const tags = data.contractTags?.tags ?? []
-    const externalAddresses = buildExternalAddressSet(tags)
-    const tagsByAddress = buildTagsByAddress(tags)
+    // Build a lookup for function scores from functions.json
+    const getFunctionScore = (
+      contractAddr: string,
+      funcName: string,
+    ): Impact => {
+      const normalizedAddr = normalizeChainAddress(contractAddr)
+      const contractEntry = Object.entries(
+        data.functions?.contracts ?? {},
+      ).find(([key]) => normalizeChainAddress(key) === normalizedAddr)
+      if (!contractEntry) return 'critical'
+      const contractFunctions = contractEntry[1] as any
+      const func = contractFunctions.functions.find(
+        (f: any) => f.functionName === funcName,
+      )
+      return func?.score === 'no-impact' ? 'no-impact' : 'critical'
+    }
 
-    // Process dependencies: group by external contract
+    // Group dependencies from pre-computed function analysis by external contract
     const dependenciesMap = new Map<string, DependencyDetail>()
 
-    if (data.functions?.contracts) {
-      Object.entries(data.functions.contracts).forEach(
-        ([contractAddress, contractData]: [string, any]) => {
-          contractData.functions.forEach((func: any) => {
-            // Process all functions for dependency detection (not just scored ones)
-            // Dependencies are structural — they exist regardless of score status
+    for (const [contractAddress, functions] of Object.entries(
+      data.functionAnalysis.contracts,
+    )) {
+      for (const [functionName, analysis] of Object.entries(functions)) {
+        if (!analysis.dependencies?.entries) continue
 
-            // Run BFS traversal from this function through the call graph
-            const traversalResult = traverseWithPaths(
-              data.callGraphData,
+        for (const dep of analysis.dependencies.entries) {
+          const normalizedDep = normalizeChainAddress(dep.contractAddress)
+
+          // Get or create dependency entry
+          if (!dependenciesMap.has(normalizedDep)) {
+            dependenciesMap.set(normalizedDep, {
+              dependencyAddress: dep.contractAddress,
+              dependencyName: dep.contractName || 'Unknown Contract',
+              entity: dep.entity,
+              functions: [],
+            })
+          }
+
+          // Add function to dependency (avoid duplicates)
+          const depData = dependenciesMap.get(normalizedDep)!
+          const alreadyAdded = depData.functions.some(
+            (f) =>
+              addressesEqual(f.contractAddress, contractAddress) &&
+              f.functionName === functionName,
+          )
+          if (!alreadyAdded) {
+            depData.functions.push({
               contractAddress,
-              func.functionName,
-            )
-
-            // 1. Auto-detected: external contracts reachable via call graph
-            for (const [addr] of traversalResult.reachableContracts) {
-              if (addr.toLowerCase() === contractAddress.toLowerCase()) continue
-              if (!isExternalAddress(addr, externalAddresses)) continue
-
-              this.addDependency(
-                dependenciesMap,
-                addr,
-                contractNameMap,
-                tagsByAddress,
-                data.callGraphData,
-                contractAddress,
-                func.functionName,
-              )
-            }
-
-            // 2. Manual dependencies from functions.json
-            if (func.dependencies && func.dependencies.length > 0) {
-              for (const dep of func.dependencies) {
-                const depAddress = dep.contractAddress
-                if (!isExternalAddress(depAddress, externalAddresses)) continue
-
-                this.addDependency(
-                  dependenciesMap,
-                  depAddress,
-                  contractNameMap,
-                  tagsByAddress,
-                  data.callGraphData,
-                  contractAddress,
-                  func.functionName,
-                )
-              }
-            }
-          })
-        },
-      )
+              contractName:
+                contractNameMap.get(normalizeChainAddress(contractAddress)) ||
+                'Unknown Contract',
+              functionName,
+              impact: getFunctionScore(contractAddress, functionName),
+            })
+          }
+        }
+      }
     }
 
     const breakdown = Array.from(dependenciesMap.values())
@@ -261,50 +304,6 @@ class DependencyInventoryModule {
     return {
       inventory: breakdown.length,
       breakdown,
-    }
-  }
-
-  private addDependency(
-    dependenciesMap: Map<string, DependencyDetail>,
-    depAddress: string,
-    contractNameMap: Map<string, string>,
-    tagsByAddress: Map<string, import('./types').ContractTag>,
-    callGraphData: ApiCallGraphResponse,
-    callerContractAddress: string,
-    callerFunctionName: string,
-  ) {
-    const normalizedDep = depAddress.toLowerCase()
-
-    // Get or create dependency entry
-    if (!dependenciesMap.has(normalizedDep)) {
-      const tag = findTag(tagsByAddress, depAddress)
-      dependenciesMap.set(normalizedDep, {
-        dependencyAddress: depAddress,
-        dependencyName:
-          contractNameMap.get(normalizedDep) ||
-          getCallGraphContractName(callGraphData, depAddress) ||
-          'Unknown Contract',
-        entity: tag?.entity,
-        functions: [],
-      })
-    }
-
-    // Add function to dependency (avoid duplicates)
-    const depData = dependenciesMap.get(normalizedDep)!
-    const alreadyAdded = depData.functions.some(
-      (f) =>
-        f.contractAddress === callerContractAddress &&
-        f.functionName === callerFunctionName,
-    )
-    if (!alreadyAdded) {
-      depData.functions.push({
-        contractAddress: callerContractAddress,
-        contractName:
-          contractNameMap.get(callerContractAddress.toLowerCase()) ||
-          'Unknown Contract',
-        functionName: callerFunctionName,
-        impact: 'critical' as Impact,
-      })
     }
   }
 }
@@ -322,8 +321,8 @@ function mapAdminType(
   normalizedAddress: string,
   proxyTypeMap: Map<string, string>,
 ): ApiAddressType {
-  // Strip eth: prefix for zero address comparison
-  const bareAddress = normalizedAddress.replace(/^eth:/i, '')
+  // Strip chain prefix for zero address comparison
+  const bareAddress = stripChainPrefix(normalizedAddress)
   if (bareAddress === ZERO_ADDRESS) {
     return 'Revoked'
   }
@@ -351,7 +350,7 @@ class AdminInventoryModule {
   name = 'admins'
 
   calculate(data: ScoringData): AdminModuleScore {
-    // Build contract name, type, and proxy type lookup maps (lowercase keys for case-insensitive lookup)
+    // Build contract name, type, and proxy type lookup maps (normalized keys for case-insensitive lookup)
     const contractNameMap = new Map<string, string>()
     const contractTypeMap = new Map<string, ApiAddressType>()
     const proxyTypeMap = new Map<string, string>()
@@ -362,7 +361,7 @@ class AdminInventoryModule {
         ...(entry.discoveredContracts || []),
       ]
       allContracts.forEach((contract: any) => {
-        const addr = contract.address.toLowerCase()
+        const addr = normalizeChainAddress(contract.address)
         contractNameMap.set(addr, contract.name || 'Unknown Contract')
         contractTypeMap.set(addr, contract.type || 'Contract')
         if (contract.proxyType) {
@@ -373,10 +372,13 @@ class AdminInventoryModule {
       // Also add EOAs
       entry.eoas?.forEach((eoa: any) => {
         contractNameMap.set(
-          eoa.address.toLowerCase(),
+          normalizeChainAddress(eoa.address),
           eoa.name || 'Unknown EOA',
         )
-        contractTypeMap.set(eoa.address.toLowerCase(), eoa.type || 'EOA')
+        contractTypeMap.set(
+          normalizeChainAddress(eoa.address),
+          eoa.type || 'EOA',
+        )
       })
     })
 
@@ -420,7 +422,7 @@ class AdminInventoryModule {
 
             // Process each admin address
             adminAddresses.forEach((adminAddr: string) => {
-              const normalizedAdmin = adminAddr.toLowerCase()
+              const normalizedAdmin = normalizeChainAddress(adminAddr)
               // Get or create admin entry
               if (!adminsMap.has(adminAddr)) {
                 const rawType =
@@ -441,13 +443,20 @@ class AdminInventoryModule {
               const admin = adminsMap.get(adminAddr)!
 
               // Add function to admin's list
+              const funcImpact: Impact =
+                func.score === 'no-impact' ? 'no-impact' : 'critical'
               admin.functions.push({
                 contractAddress,
                 contractName:
-                  contractNameMap.get(contractAddress.toLowerCase()) ||
+                  contractNameMap.get(normalizeChainAddress(contractAddress)) ||
                   'Unknown Contract',
                 functionName: func.functionName,
-                impact: 'critical' as Impact,
+                impact: funcImpact,
+                mitigations: buildMergedMitigations(
+                  func,
+                  data.paths,
+                  data.projectName,
+                ),
               })
             })
           })
@@ -487,13 +496,18 @@ class AdminInventoryModule {
         { funds: number; tokenValue: number }
       >()
       for (const admin of adminsWithCapital) {
-        // Direct contracts (all functions, including those without call graph)
-        for (const func of admin.functions) {
-          const addr = func.contractAddress.toLowerCase()
+        // Direct contracts from per-function capital analysis (respects no-impact)
+        for (const funcAnalysis of admin.functionsWithCapital) {
+          if (
+            funcAnalysis.directFundsUsd <= 0 &&
+            funcAnalysis.directTokenValueUsd <= 0
+          )
+            continue
+          const addr = normalizeChainAddress(funcAnalysis.contractAddress)
           if (!contractCapitalMap.has(addr)) {
             contractCapitalMap.set(addr, {
-              funds: capitalCalculator.getContractFunds(addr),
-              tokenValue: capitalCalculator.getContractTokenValue(addr),
+              funds: funcAnalysis.directFundsUsd,
+              tokenValue: funcAnalysis.directTokenValueUsd,
             })
           }
         }
@@ -501,7 +515,7 @@ class AdminInventoryModule {
         for (const funcAnalysis of admin.functionsWithCapital) {
           for (const rc of funcAnalysis.reachableContracts) {
             if (!rc.fundsAtRisk) continue
-            const addr = rc.contractAddress.toLowerCase()
+            const addr = normalizeChainAddress(rc.contractAddress)
             if (!contractCapitalMap.has(addr)) {
               contractCapitalMap.set(addr, {
                 funds: rc.fundsUsd,
@@ -571,19 +585,23 @@ export class ScoreCalculator {
       this.templateService,
       projectName,
     )
-    const permissionOverrides = getFunctions(this.paths, projectName)
-    const contractTags = getContractTags(this.paths, projectName)
     const functions = getFunctions(this.paths, projectName)
+    const contractTags = getContractTags(this.paths, projectName)
     const callGraphData = getCallGraphData(this.paths, projectName)
+    const functionAnalysis = computeFunctionAnalysis(this.paths, projectName, {
+      functionsData: functions,
+      callGraphData,
+      contractTagsData: contractTags,
+    })
 
     const data: ScoringData = {
       projectData,
-      permissionOverrides,
       contractTags,
       functions,
       paths: this.paths,
       projectName,
       callGraphData,
+      functionAnalysis,
     }
 
     // Calculate each module score
