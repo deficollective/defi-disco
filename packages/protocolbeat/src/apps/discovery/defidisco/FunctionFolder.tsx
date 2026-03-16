@@ -2296,7 +2296,9 @@ export function FunctionFolder({
                                 >
                                   {dep.contractName}
                                 </button>
-                                <span className={`rounded px-1 py-0.5 text-[10px] ${dep.dependencyType === 'write' ? 'bg-aux-orange/20 text-aux-orange' : 'bg-coffee-600 text-coffee-300'}`}>
+                                <span
+                                  className={`rounded px-1 py-0.5 text-[10px] ${dep.dependencyType === 'write' ? 'bg-aux-orange/20 text-aux-orange' : 'bg-coffee-600 text-coffee-300'}`}
+                                >
                                   {dep.dependencyType === 'write'
                                     ? 'write'
                                     : 'auto'}

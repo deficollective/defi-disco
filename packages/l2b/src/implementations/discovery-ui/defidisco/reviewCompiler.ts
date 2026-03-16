@@ -848,7 +848,10 @@ export class ReviewCompiler {
       } else {
         // Infer format from variable name: "Count" suffix → plain integer
         const isCount = /count$/i.test(varName)
-        resolved.set(varName, isCount ? String(Math.round(value)) : formatUsdValue(value))
+        resolved.set(
+          varName,
+          isCount ? String(Math.round(value)) : formatUsdValue(value),
+        )
       }
     }
 

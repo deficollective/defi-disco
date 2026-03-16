@@ -93,9 +93,7 @@ function buildWriteFunctionsFromParsed(
     if (typeof implValue === 'string') {
       abiAddresses.push(implValue)
     } else if (Array.isArray(implValue)) {
-      abiAddresses.push(
-        ...implValue.filter((v: any) => typeof v === 'string'),
-      )
+      abiAddresses.push(...implValue.filter((v: any) => typeof v === 'string'))
     }
 
     // Extract write functions from each ABI
