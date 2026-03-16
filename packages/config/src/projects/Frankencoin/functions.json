@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-01-29T16:36:12.327Z",
+  "lastModified": "2026-03-16T08:35:14.177Z",
   "contracts": {
     "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB": {
       "functions": [
@@ -297,12 +297,17 @@
         {
           "functionName": "clone",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self"
             }
           ],
-          "timestamp": "2026-01-29T10:31:12.973Z"
+          "timestamp": "2026-03-16T08:35:14.177Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T08:35:14.177Z"
+          }
         },
         {
           "functionName": "challenge",
@@ -333,20 +338,6 @@
             }
           ],
           "timestamp": "2026-01-29T10:31:12.975Z"
-        }
-      ]
-    },
-    "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6": {
-      "functions": [
-        {
-          "functionName": "roll",
-          "isPermissioned": true,
-          "ownerDefinitions": [
-            {
-              "path": "@pos.owner"
-            }
-          ],
-          "timestamp": "2026-01-29T10:31:14.883Z"
         }
       ]
     },
@@ -827,6 +818,40 @@
             }
           ],
           "timestamp": "2026-01-29T10:32:21.791Z"
+        }
+      ]
+    },
+    "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6": {
+      "functions": [
+        {
+          "functionName": "roll",
+          "isPermissioned": false,
+          "score": "no-impact",
+          "timestamp": "2026-03-15T16:18:00.524Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-15T16:18:00.524Z"
+          }
+        },
+        {
+          "functionName": "rollFully",
+          "isPermissioned": false,
+          "score": "no-impact",
+          "timestamp": "2026-03-16T07:41:09.761Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T07:41:09.761Z"
+          }
+        },
+        {
+          "functionName": "rollFullyWithExpiration",
+          "isPermissioned": false,
+          "score": "no-impact",
+          "timestamp": "2026-03-16T07:41:10.507Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T07:41:10.507Z"
+          }
         }
       ]
     }

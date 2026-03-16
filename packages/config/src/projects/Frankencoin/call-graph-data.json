@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-01-29T16:36:50.335Z",
+  "lastModified": "2026-03-15T09:02:23.320Z",
   "contracts": {
     "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2": {
       "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
@@ -127,7 +127,7 @@
           "isViewCall": true
         }
       ],
-      "generatedAt": "2026-01-29T16:36:36.367Z"
+      "generatedAt": "2026-03-15T09:01:58.116Z"
     },
     "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38": {
       "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
@@ -394,7 +394,7 @@
           "isViewCall": false
         }
       ],
-      "generatedAt": "2026-01-29T16:36:38.269Z"
+      "generatedAt": "2026-03-15T09:01:59.490Z"
     },
     "eth:0x3B71ba73299F925a837836160c3E1Fec74340403": {
       "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
@@ -477,7 +477,7 @@
           "isViewCall": false
         }
       ],
-      "generatedAt": "2026-01-29T16:36:39.583Z"
+      "generatedAt": "2026-03-15T09:02:03.952Z"
     },
     "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE": {
       "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
@@ -491,8 +491,8 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "interface-name",
-          "resolutionConfidence": 90,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -503,13 +503,13 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "interface-name",
-          "resolutionConfidence": 90,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
           "callerFunction": "adjust",
-          "storageVariable": "TMP_49",
+          "storageVariable": "msg.sender",
           "interfaceType": "IFrankencoin",
           "calledFunction": "coverLoss",
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -527,8 +527,8 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "interface-name",
-          "resolutionConfidence": 90,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -539,6 +539,18 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "deterministic",
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "adjust",
+          "storageVariable": "owner",
+          "interfaceType": "IFrankencoin",
+          "calledFunction": "coverLoss",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
           "isViewCall": false
         },
         {
@@ -559,8 +571,8 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "interface-name",
-          "resolutionConfidence": 90,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -575,7 +587,7 @@
         },
         {
           "callerFunction": "refreshBalance",
-          "storageVariable": "TMP_49",
+          "storageVariable": "owner",
           "interfaceType": "IFrankencoin",
           "calledFunction": "coverLoss",
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -593,13 +605,13 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "interface-name",
-          "resolutionConfidence": 90,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
           "callerFunction": "refreshMyBalance",
-          "storageVariable": "TMP_49",
+          "storageVariable": "owner",
           "interfaceType": "IFrankencoin",
           "calledFunction": "coverLoss",
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -617,8 +629,8 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "interface-name",
-          "resolutionConfidence": 90,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -633,7 +645,7 @@
         },
         {
           "callerFunction": "save",
-          "storageVariable": "TMP_49",
+          "storageVariable": "owner",
           "interfaceType": "IFrankencoin",
           "calledFunction": "coverLoss",
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -651,8 +663,8 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "interface-name",
-          "resolutionConfidence": 90,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -667,7 +679,7 @@
         },
         {
           "callerFunction": "save",
-          "storageVariable": "TMP_49",
+          "storageVariable": "owner",
           "interfaceType": "IFrankencoin",
           "calledFunction": "coverLoss",
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -685,8 +697,8 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "interface-name",
-          "resolutionConfidence": 90,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -701,7 +713,7 @@
         },
         {
           "callerFunction": "withdraw",
-          "storageVariable": "TMP_49",
+          "storageVariable": "msg.sender",
           "interfaceType": "IFrankencoin",
           "calledFunction": "coverLoss",
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -719,12 +731,12 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "interface-name",
-          "resolutionConfidence": 90,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         }
       ],
-      "generatedAt": "2026-01-29T16:36:41.228Z"
+      "generatedAt": "2026-03-15T09:02:06.175Z"
     },
     "eth:0x7546762fdb1a6d9146b33960545C3f6394265219": {
       "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
@@ -763,33 +775,11 @@
           "storageVariable": "TMP_116",
           "interfaceType": "IERC20",
           "calledFunction": "transfer",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -803,33 +793,11 @@
           "storageVariable": "TMP_122",
           "interfaceType": "IERC20",
           "calledFunction": "transfer",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -915,33 +883,11 @@
           "storageVariable": "TMP_62",
           "interfaceType": "IERC20",
           "calledFunction": "transferFrom",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -1027,33 +973,11 @@
           "storageVariable": "TMP_45",
           "interfaceType": "IERC20",
           "calledFunction": "transferFrom",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -1093,29 +1017,11 @@
           "storageVariable": "TMP_9",
           "interfaceType": "IERC20",
           "calledFunction": "decimals",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -1149,33 +1055,11 @@
           "storageVariable": "TMP_26",
           "interfaceType": "IERC20",
           "calledFunction": "transferFrom",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -1183,29 +1067,11 @@
           "storageVariable": "TMP_9",
           "interfaceType": "IERC20",
           "calledFunction": "decimals",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -1239,33 +1105,11 @@
           "storageVariable": "TMP_26",
           "interfaceType": "IERC20",
           "calledFunction": "transferFrom",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -1281,37 +1125,15 @@
           "storageVariable": "TMP_137",
           "interfaceType": "IERC20",
           "calledFunction": "transfer",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         }
       ],
-      "generatedAt": "2026-01-29T16:36:42.890Z"
+      "generatedAt": "2026-03-15T09:02:09.626Z"
     },
     "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF": {
       "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
@@ -1398,7 +1220,7 @@
           "isViewCall": false
         }
       ],
-      "generatedAt": "2026-01-29T16:36:44.091Z"
+      "generatedAt": "2026-03-15T09:02:09.636Z"
     },
     "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6": {
       "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -1492,6 +1314,10 @@
               "contractName": "ARMProxy"
             },
             {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
+            },
+            {
               "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
               "contractName": "BurnMintTokenPool"
             },
@@ -1540,6 +1366,10 @@
               "contractName": "ChainLink Token"
             },
             {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
+            },
+            {
               "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
               "contractName": "CryptoFranc"
             },
@@ -1578,6 +1408,10 @@
             {
               "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
               "contractName": "ChainLink Token"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
@@ -1628,6 +1462,10 @@
               "contractName": "StablecoinBridge"
             },
             {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
+            },
+            {
               "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
               "contractName": "StablecoinBridge"
             },
@@ -1668,6 +1506,10 @@
             {
               "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
               "contractName": "ARMProxy"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
@@ -1740,6 +1582,10 @@
             {
               "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
               "contractName": "ChainLink Token"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
@@ -1858,6 +1704,10 @@
               "contractName": "ARMProxy"
             },
             {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
+            },
+            {
               "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
               "contractName": "BurnMintTokenPool"
             },
@@ -1906,6 +1756,10 @@
               "contractName": "ChainLink Token"
             },
             {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
+            },
+            {
               "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
               "contractName": "CryptoFranc"
             },
@@ -1944,6 +1798,10 @@
             {
               "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
               "contractName": "ChainLink Token"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
@@ -1994,6 +1852,10 @@
               "contractName": "StablecoinBridge"
             },
             {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
+            },
+            {
               "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
               "contractName": "StablecoinBridge"
             },
@@ -2034,6 +1896,10 @@
             {
               "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
               "contractName": "ARMProxy"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
@@ -2106,6 +1972,10 @@
             {
               "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
               "contractName": "ChainLink Token"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
@@ -2224,6 +2094,10 @@
               "contractName": "ARMProxy"
             },
             {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
+            },
+            {
               "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
               "contractName": "BurnMintTokenPool"
             },
@@ -2272,6 +2146,10 @@
               "contractName": "ChainLink Token"
             },
             {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
+            },
+            {
               "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
               "contractName": "CryptoFranc"
             },
@@ -2310,6 +2188,10 @@
             {
               "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
               "contractName": "ChainLink Token"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
@@ -2360,6 +2242,10 @@
               "contractName": "StablecoinBridge"
             },
             {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
+            },
+            {
               "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
               "contractName": "StablecoinBridge"
             },
@@ -2400,6 +2286,10 @@
             {
               "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
               "contractName": "ARMProxy"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
@@ -2437,7 +2327,7 @@
           "isViewCall": true
         }
       ],
-      "generatedAt": "2026-01-29T16:36:45.624Z"
+      "generatedAt": "2026-03-15T09:02:18.288Z"
     },
     "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB": {
       "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -2464,7 +2354,7 @@
           "isViewCall": true
         }
       ],
-      "generatedAt": "2026-01-29T16:36:48.233Z"
+      "generatedAt": "2026-03-15T09:02:18.301Z"
     },
     "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557": {
       "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
@@ -2503,33 +2393,11 @@
           "storageVariable": "TMP_119",
           "interfaceType": "IERC20",
           "calledFunction": "transfer",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -2543,33 +2411,11 @@
           "storageVariable": "TMP_125",
           "interfaceType": "IERC20",
           "calledFunction": "transfer",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -2629,29 +2475,11 @@
           "storageVariable": "TMP_165",
           "interfaceType": "IERC20",
           "calledFunction": "balanceOf",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -2735,33 +2563,11 @@
           "storageVariable": "TMP_65",
           "interfaceType": "IERC20",
           "calledFunction": "transferFrom",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -2784,8 +2590,8 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 99,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -2815,33 +2621,11 @@
           "storageVariable": "collateral",
           "interfaceType": "IERC20",
           "calledFunction": "transferFrom",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -2849,29 +2633,11 @@
           "storageVariable": "child",
           "interfaceType": "IPosition",
           "calledFunction": "mint",
-          "resolvedAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-          "resolvedContractName": "StablecoinBridge",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-              "contractName": "StablecoinBridge"
-            },
-            {
-              "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
-              "contractName": "StablecoinBridge"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -2888,6 +2654,10 @@
             {
               "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
               "contractName": "ARMProxy"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
@@ -2926,8 +2696,8 @@
           "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
           "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 99,
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -2957,33 +2727,11 @@
           "storageVariable": "collateral",
           "interfaceType": "IERC20",
           "calledFunction": "transferFrom",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -2991,29 +2739,11 @@
           "storageVariable": "child",
           "interfaceType": "IPosition",
           "calledFunction": "mint",
-          "resolvedAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-          "resolvedContractName": "StablecoinBridge",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-              "contractName": "StablecoinBridge"
-            },
-            {
-              "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
-              "contractName": "StablecoinBridge"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -3030,6 +2760,10 @@
             {
               "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
               "contractName": "ARMProxy"
+            },
+            {
+              "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+              "contractName": "VNXCToken"
             },
             {
               "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
@@ -3101,29 +2835,11 @@
           "storageVariable": "TMP_10",
           "interfaceType": "IERC20",
           "calledFunction": "decimals",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -3131,29 +2847,11 @@
           "storageVariable": "TMP_14",
           "interfaceType": "IERC20",
           "calledFunction": "totalSupply",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": true
         },
         {
@@ -3161,33 +2859,11 @@
           "storageVariable": "TMP_17",
           "interfaceType": "IERC20",
           "calledFunction": "transfer",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -3221,33 +2897,11 @@
           "storageVariable": "TMP_34",
           "interfaceType": "IERC20",
           "calledFunction": "transferFrom",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -3263,37 +2917,15 @@
           "storageVariable": "TMP_140",
           "interfaceType": "IERC20",
           "calledFunction": "transfer",
-          "resolvedAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "resolvedContractName": "Equity",
+          "resolvedAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "resolvedContractName": "Frankencoin",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "contractName": "Equity"
-            },
-            {
-              "address": "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA",
-              "contractName": "ChainLink Token"
-            },
-            {
-              "address": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-              "contractName": "CryptoFranc"
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "contractName": "Frankencoin"
-            },
-            {
-              "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
-              "contractName": "TransferReference"
-            }
-          ],
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
           "isViewCall": false
         }
       ],
-      "generatedAt": "2026-01-29T16:36:50.334Z"
+      "generatedAt": "2026-03-15T09:02:23.318Z"
     }
   }
 }
