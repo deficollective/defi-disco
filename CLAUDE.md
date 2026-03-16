@@ -107,6 +107,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - Contract Tags data structure (`contract-tags.json`, cleanup rules)
 - Funds Tracking (DeBank API, Morpho vault onchain positions, `funds-data.json`, aggregate funds via The Graph subgraphs)
 - DeFiScan Frontend (static React app, Vercel deployment, shareable report view, TVS metric, mitigation badges in report cards)
+- Activity Feed (contract upgrade timeline from `$pastUpgrades`, third top-level view in defiscan-frontend)
 - Continuous Monitoring Service (GitHub Actions cron, discovery + diff + funds + compile)
 
 ---
@@ -269,6 +270,7 @@ packages/
 │   ├── scripts/compile-data.ts       # Build-time data aggregation
 │   └── src/
 │       ├── components/MitigationBadge.tsx  # Mitigation badge display (delay, valueRange, relativeValue, other)
+│       ├── pages/review/views/ActivityView.tsx  # Activity feed (upgrade timeline, top-level view)
 │       └── pages/review/views/explorer/shared.tsx  # Shared explorer tab components (SortHeader, MitigationsSummary, ExpandedAdminFunctions)
 ├── backend/src/modules/defi-update-monitor/defidisco/
 │   ├── DefidiscoMonitorApplication.ts  # Monitor orchestrator
