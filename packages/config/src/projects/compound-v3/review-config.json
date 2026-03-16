@@ -1,41 +1,66 @@
 {
   "version": "1.0",
-  "lastModified": "2026-03-16T13:00:00.000Z",
+  "lastModified": "2026-03-16T18:00:00.000Z",
   "protocolSlug": "compound-v3",
   "protocolName": "Compound V3",
   "tokenName": "COMP",
   "chain": "Ethereum",
   "projectType": "lending",
-  "description": "Compound V3 (Comet) is an isolated lending protocol where each market (USDC, USDT, WETH) operates as an independent EIP1967 proxy contract with a single borrowable asset and multiple collateral types. All market proxies are controlled by CometProxyAdmin, which is owned by a governance Timelock with a 48-hour delay \u2014 upgrades require a successful COMP token holder vote via CompoundGovernor followed by a two-day waiting period. The protocol depends on Chainlink price feeds and a ConstantPriceFeed for collateral valuation, liquidation triggers, and account health calculations. Circle's USDC serves as the base asset for the largest market, introducing an external dependency on Circle's freeze and blacklist capabilities.",
+  "description": "Compound V3 (Comet) is a lending protocol where each market is a standalone contract that accepts a single base asset for lending and multiple collateral assets for borrowing. The protocol is governed by COMP token holders through the CompoundGovernor contract, with all governance actions subject to a 48-hour Timelock delay. Market proxies (cUSDCv3, cUSDTv3, cWETHv3) are upgradeable via EIP-1967 proxies administered by CometProxyAdmin, which is itself owned by the Timelock. The protocol relies on Chainlink price feeds for collateral valuation, liquidation, and transfer checks, and depends on Circle's USDC contract for its largest market.",
   "admins": {
     "eth:0x1ec63b5883c3481134fd50d5daebc83ecd2e8779": {
-      "name": "CometProxyAdmin (Governance Timelock, 48h)",
-      "description": "Immutable admin contract that can upgrade all Comet market implementations (cUSDCv3, cUSDTv3, cWETHv3) and change their proxy admins. Owned by the governance Timelock with a 48-hour delay, which is controlled by CompoundGovernor. Upgrades require a successful COMP token holder vote followed by a two-day waiting period. The ownership chain terminates at on-chain governance with no EOA or multisig having direct control."
+      "name": "CometProxyAdmin",
+      "description": "Immutable admin contract that controls proxy upgrades and admin changes on the cUSDCv3 and cWETHv3 market contracts. Owned by the Governance Timelock. Can call changeAdmin, upgradeTo, and upgradeToAndCall on both markets, affecting {{cometProxyAdminCapital}} in direct capital across 2 contracts."
+    },
+    "eth:0x6d903f6003cca6255d85cca4d3b5e5146dc33925": {
+      "name": "Governance Timelock (48h)",
+      "description": "Immutable timelock contract with a 48-hour minimum delay. Controlled by CompoundGovernor. Owns CometProxyAdmin and the Configurator (0xcFC1...DF4F). Through the Configurator, it can modify all market parameters: interest rate curves (supply/borrow kink and slopes), collateral factors, liquidation factors, supply caps, price feeds, asset listings, reward speeds, pause guardian, and extension delegate. Can also change its own delay and pending admin."
+    },
+    "eth:0x0000000000000000000000000000000000000000": {
+      "name": "Zero Address (Renounced)",
+      "description": "The pendingAdmin slot on the Timelock is set to the zero address, meaning there is no pending admin transfer in progress. The acceptAdmin function is effectively disabled."
+    },
+    "eth:0x309a862bbc1a00e45506cb8a802d1ff10004c8c0": {
+      "name": "CompoundGovernor",
+      "description": "Upgradeable on-chain governance contract (EIP-1967 proxy). Acts as the admin of the Timelock and can queue, cancel, and execute timelocked transactions. Governance proposals are voted on by COMP token holders. The governor contract itself is upgradeable via a separate ProxyAdmin owned by the same Timelock, creating a circular dependency where governance controls its own upgradeability."
     }
   },
   "dependencies": {
     "eth:0x8fffffd4afb6115b954bd326cbe7b4ba576818f6": {
       "name": "Chainlink USDC/USD Price Feed",
-      "description": "Chainlink EACAggregatorProxy providing the USDC/USD price for the cUSDCv3 market. Used in liquidation calculations (absorb), collateral purchases (buyCollateral), and all transfer and withdrawal operations to determine account solvency. Owned by a Chainlink-operated 4/9 multisig."
+      "description": "Chainlink EACAggregatorProxy providing the USDC/USD price feed for the cUSDCv3 market. Used for collateral valuation in absorb (liquidation), buyCollateral, and all transfer/withdrawal operations. A stale or manipulated price could affect liquidation thresholds and collateral valuations across the USDC market."
     },
     "eth:0xd72ac1bce9177cfe7aeb5d0516a38c88a64ce0ab": {
       "name": "ConstantPriceFeed",
-      "description": "Immutable price feed returning a fixed price value, used by the cUSDTv3 market for base asset pricing. Affects liquidation (absorb), collateral purchases (buyCollateral), and all transfer and withdrawal operations on the USDT market. Cannot be changed or manipulated since the contract is immutable."
+      "description": "Immutable price feed contract returning a fixed price, used by the cUSDTv3 market. Referenced in absorb, buyCollateral, transfer, and withdrawal functions for USDT base token pricing."
     },
     "eth:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48": {
-      "name": "USDC (Circle)",
-      "description": "Circle-issued USD Coin serving as the base borrowable asset in the cUSDCv3 market. Required for supply, withdraw, transfer, and reserve withdrawal operations. USDC is an upgradeable proxy token controlled by Circle, which retains the ability to freeze addresses, blacklist holders, and upgrade the token implementation."
+      "name": "Circle USDC Token",
+      "description": "Circle's USDC stablecoin contract, the base asset of the cUSDCv3 market. Used in supply, withdraw, buyCollateral, approveThis, and withdrawReserves operations. USDC is an upgradeable (ZeppelinOS proxy) centrally-issued token \u2014 Circle can freeze or blacklist addresses, which would directly impact the USDC market's ability to process deposits and withdrawals."
     },
     "eth:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2": {
-      "name": "Wrapped Ether (WETH)",
-      "description": "Wrapped Ether token used as collateral in the cUSDTv3 market. Required for supply, withdrawal, collateral purchase, and reserve withdrawal operations. WETH is an immutable contract with no admin controls or upgrade capability."
+      "name": "WETH Token",
+      "description": "Wrapped Ether token contract, the base asset of the cWETHv3 market and a collateral asset in the cUSDTv3 market. Used in supply, withdraw, buyCollateral, and withdrawReserves operations on the USDT market."
     },
     "eth:0x21f73d42eb58ba49ddb685dc29d3bf5c0f0373ca": {
       "name": "Chainlink 4/9 Multisig",
-      "description": "Gnosis Safe multisig with a 4-of-9 signing threshold that owns the Chainlink EACAggregatorProxy price feed. Can update the underlying aggregator implementation and configure feed parameters. Also serves as a signer on the 5/8 GnosisSafe used in Compound protocol operations."
+      "description": "A 4-of-9 Gnosis Safe multisig that owns the Chainlink EACAggregatorProxy. Chainlink uses this multisig to manage aggregator updates for the USDC/USD price feed. Its execTransaction and signature validation functions are dependencies of the 5/8 multisig's operations."
     }
   },
-  "funds": {},
+  "funds": {
+    "eth:0xc3d688b66703497daa19211eedff47f25384cdc3": {
+      "name": "cUSDCv3 (USDC Market)",
+      "description": "The main Compound V3 USDC lending market. Holds {{cusdcv3Balance}} in total token balances, including USDC base asset deposits, WBTC, WETH, wstETH, LINK, and other collateral assets deposited by borrowers."
+    },
+    "eth:0xa17581a9e3356d9a858b789d68b4d866e593ae94": {
+      "name": "cUSDTv3 (USDT Market)",
+      "description": "The Compound V3 USDT lending market. Holds {{cusdtv3Balance}} in total token balances, including ezETH, WETH, wstETH, rsETH, tETH, and other collateral assets."
+    },
+    "eth:0xc00e94cb662c3520282e6f5717214004a7f26888": {
+      "name": "COMP Token",
+      "description": "The Compound governance token used for voting on protocol proposals. Has a total market cap of {{compTokenValue}}."
+    }
+  },
   "sections": {
     "codeAndAudits": {
       "title": "Code & Audits",
@@ -81,7 +106,12 @@
       ]
     }
   },
-  "dataKeys": {},
+  "dataKeys": {
+    "cometProxyAdminCapital": "v2score.inventory.admins.breakdown[\"eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779\"].totalDirectCapital",
+    "cusdcv3Balance": "fundsdata.contracts[\"eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3\"].balances.totalUsdValue",
+    "cusdtv3Balance": "fundsdata.contracts[\"eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94\"].balances.totalUsdValue",
+    "compTokenValue": "fundsdata.contracts[\"eth:0xc00e94Cb662C3520282E6f5717214004A7f26888\"].tokenInfo.tokenValue"
+  },
   "resources": [
     {
       "url": "https://github.com/compound-finance/palisade",
