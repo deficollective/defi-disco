@@ -1,0 +1,106 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-03-16T13:00:00.000Z",
+  "protocolSlug": "compound-v3",
+  "protocolName": "Compound V3",
+  "tokenName": "COMP",
+  "chain": "Ethereum",
+  "projectType": "lending",
+  "description": "Compound V3 (Comet) is an isolated lending protocol where each market (USDC, USDT, WETH) operates as an independent EIP1967 proxy contract with a single borrowable asset and multiple collateral types. All market proxies are controlled by CometProxyAdmin, which is owned by a governance Timelock with a 48-hour delay \u2014 upgrades require a successful COMP token holder vote via CompoundGovernor followed by a two-day waiting period. The protocol depends on Chainlink price feeds and a ConstantPriceFeed for collateral valuation, liquidation triggers, and account health calculations. Circle's USDC serves as the base asset for the largest market, introducing an external dependency on Circle's freeze and blacklist capabilities.",
+  "admins": {
+    "eth:0x1ec63b5883c3481134fd50d5daebc83ecd2e8779": {
+      "name": "CometProxyAdmin (Governance Timelock, 48h)",
+      "description": "Immutable admin contract that can upgrade all Comet market implementations (cUSDCv3, cUSDTv3, cWETHv3) and change their proxy admins. Owned by the governance Timelock with a 48-hour delay, which is controlled by CompoundGovernor. Upgrades require a successful COMP token holder vote followed by a two-day waiting period. The ownership chain terminates at on-chain governance with no EOA or multisig having direct control."
+    }
+  },
+  "dependencies": {
+    "eth:0x8fffffd4afb6115b954bd326cbe7b4ba576818f6": {
+      "name": "Chainlink USDC/USD Price Feed",
+      "description": "Chainlink EACAggregatorProxy providing the USDC/USD price for the cUSDCv3 market. Used in liquidation calculations (absorb), collateral purchases (buyCollateral), and all transfer and withdrawal operations to determine account solvency. Owned by a Chainlink-operated 4/9 multisig."
+    },
+    "eth:0xd72ac1bce9177cfe7aeb5d0516a38c88a64ce0ab": {
+      "name": "ConstantPriceFeed",
+      "description": "Immutable price feed returning a fixed price value, used by the cUSDTv3 market for base asset pricing. Affects liquidation (absorb), collateral purchases (buyCollateral), and all transfer and withdrawal operations on the USDT market. Cannot be changed or manipulated since the contract is immutable."
+    },
+    "eth:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48": {
+      "name": "USDC (Circle)",
+      "description": "Circle-issued USD Coin serving as the base borrowable asset in the cUSDCv3 market. Required for supply, withdraw, transfer, and reserve withdrawal operations. USDC is an upgradeable proxy token controlled by Circle, which retains the ability to freeze addresses, blacklist holders, and upgrade the token implementation."
+    },
+    "eth:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2": {
+      "name": "Wrapped Ether (WETH)",
+      "description": "Wrapped Ether token used as collateral in the cUSDTv3 market. Required for supply, withdrawal, collateral purchase, and reserve withdrawal operations. WETH is an immutable contract with no admin controls or upgrade capability."
+    },
+    "eth:0x21f73d42eb58ba49ddb685dc29d3bf5c0f0373ca": {
+      "name": "Chainlink 4/9 Multisig",
+      "description": "Gnosis Safe multisig with a 4-of-9 signing threshold that owns the Chainlink EACAggregatorProxy price feed. Can update the underlying aggregator implementation and configure feed parameters. Also serves as a signer on the 5/8 GnosisSafe used in Compound protocol operations."
+    }
+  },
+  "funds": {},
+  "sections": {
+    "codeAndAudits": {
+      "title": "Code & Audits",
+      "description": "Smart contract analysis and audit history",
+      "subsections": [
+        {
+          "title": "Contracts",
+          "content": [
+            {
+              "type": "dataTable",
+              "dataSource": "project.contracts",
+              "columns": [
+                {
+                  "field": "name",
+                  "header": "Name"
+                },
+                {
+                  "field": "address",
+                  "header": "Address",
+                  "format": "address"
+                },
+                {
+                  "field": "proxyType",
+                  "header": "Proxy Type",
+                  "format": "badge"
+                }
+              ],
+              "filters": {
+                "excludeExternal": true
+              }
+            }
+          ]
+        },
+        {
+          "title": "Audits",
+          "content": [
+            {
+              "type": "text",
+              "content": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "dataKeys": {},
+  "resources": [
+    {
+      "url": "https://github.com/compound-finance/palisade",
+      "type": "frontend",
+      "label": "IPFS Instructions",
+      "frontendSubtype": "third-party"
+    },
+    {
+      "url": "https://compound.finance/",
+      "type": "website"
+    },
+    {
+      "url": "https://docs.compound.finance/",
+      "type": "docs"
+    },
+    {
+      "url": "https://app.compound.finance/?market=usdc-mainnet",
+      "type": "frontend",
+      "frontendSubtype": "official"
+    }
+  ]
+}

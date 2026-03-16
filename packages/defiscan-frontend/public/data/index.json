@@ -36,6 +36,23 @@
       }
     },
     {
+      "slug": "compound-v3",
+      "name": "Compound V3",
+      "chain": "Ethereum",
+      "projectType": "lending",
+      "tokenName": "COMP",
+      "totals": {
+        "contractCount": 22,
+        "permissionedFunctionCount": 21,
+        "scoredFunctionCount": 8,
+        "adminCount": 0,
+        "dependencyCount": 5,
+        "totalCapitalAtRisk": 0,
+        "totalTokenValueAtRisk": 0,
+        "totalTokenValue": 0
+      }
+    },
+    {
       "slug": "liquity-v1",
       "name": "Liquity V1",
       "chain": "Ethereum",
@@ -91,7 +108,7 @@
     "totalCapitalAtRisk": 1366324673.8290327,
     "totalTokenValueAtRisk": 62519898.70934528,
     "totalTokenValue": 119608033.68725039,
-    "protocolsReviewed": 5
+    "protocolsReviewed": 6
   },
   "dependencies": [
     {
@@ -335,6 +352,10 @@
         {
           "slug": "Steakhouse-USDC",
           "name": "Steakhouse USDC"
+        },
+        {
+          "slug": "compound-v3",
+          "name": "Compound V3"
         }
       ]
     },
@@ -419,6 +440,54 @@
         {
           "slug": "Steakhouse-USDC",
           "name": "Steakhouse USDC"
+        }
+      ]
+    },
+    {
+      "address": "eth:0xD72ac1bCE9177CFe7aEb5d0516a38c88a64cE0AB",
+      "name": "ConstantPriceFeed",
+      "entity": null,
+      "totalFundsAtRisk": 0,
+      "protocols": [
+        {
+          "slug": "compound-v3",
+          "name": "Compound V3"
+        }
+      ]
+    },
+    {
+      "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+      "name": "Wrapped Ether (WETH)",
+      "entity": null,
+      "totalFundsAtRisk": 0,
+      "protocols": [
+        {
+          "slug": "compound-v3",
+          "name": "Compound V3"
+        }
+      ]
+    },
+    {
+      "address": "eth:0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
+      "name": "Chainlink USDC/USD Price Feed",
+      "entity": "Chainlink",
+      "totalFundsAtRisk": 0,
+      "protocols": [
+        {
+          "slug": "compound-v3",
+          "name": "Compound V3"
+        }
+      ]
+    },
+    {
+      "address": "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      "name": "USDC (Circle)",
+      "entity": "Circle USDC",
+      "totalFundsAtRisk": 0,
+      "protocols": [
+        {
+          "slug": "compound-v3",
+          "name": "Compound V3"
         }
       ]
     }

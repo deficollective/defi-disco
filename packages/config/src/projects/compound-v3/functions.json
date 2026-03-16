@@ -1,17 +1,7 @@
 {
   "version": "1.0",
-  "lastModified": "2025-10-30T17:38:22.674Z",
+  "lastModified": "2026-03-16T12:58:19.788Z",
   "contracts": {
-    "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925": {
-      "functions": [
-        {
-          "functionName": "acceptAdmin",
-          "isPermissioned": true,
-          "timestamp": "2025-09-16T18:01:56.876Z",
-          "reason": "Test permission toggle"
-        }
-      ]
-    },
     "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2": {
       "functions": [
         {
@@ -208,12 +198,533 @@
         }
       ]
     },
+    "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925": {
+      "functions": [
+        {
+          "functionName": "setDelay",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self"
+            }
+          ],
+          "timestamp": "2026-03-16T12:54:00.766Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:54:00.766Z"
+          }
+        },
+        {
+          "functionName": "acceptAdmin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingAdmin"
+            }
+          ],
+          "timestamp": "2026-03-16T12:54:00.767Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:54:00.767Z"
+          }
+        },
+        {
+          "functionName": "setPendingAdmin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self"
+            }
+          ],
+          "timestamp": "2026-03-16T12:54:00.771Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:54:00.771Z"
+          }
+        },
+        {
+          "functionName": "queueTransaction",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "timestamp": "2026-03-16T12:54:00.772Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:54:00.772Z"
+          }
+        },
+        {
+          "functionName": "cancelTransaction",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "timestamp": "2026-03-16T12:54:00.773Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:54:00.773Z"
+          }
+        },
+        {
+          "functionName": "executeTransaction",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "timestamp": "2026-03-16T12:54:00.774Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:54:00.774Z"
+          }
+        }
+      ]
+    },
     "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3": {
       "functions": [
         {
-          "functionName": "admin",
+          "functionName": "changeAdmin",
           "isPermissioned": true,
-          "timestamp": "2025-09-23T16:18:18.029Z"
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.765Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.765Z"
+          }
+        },
+        {
+          "functionName": "upgradeTo",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.765Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.765Z"
+          }
+        },
+        {
+          "functionName": "upgradeToAndCall",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.766Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.766Z"
+          }
+        }
+      ]
+    },
+    "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F": {
+      "functions": [
+        {
+          "functionName": "setFactory",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.766Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.766Z"
+          }
+        },
+        {
+          "functionName": "setConfiguration",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.767Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.767Z"
+          }
+        },
+        {
+          "functionName": "setGovernor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.767Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.767Z"
+          }
+        },
+        {
+          "functionName": "setPauseGuardian",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.768Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.768Z"
+          }
+        },
+        {
+          "functionName": "setBaseTokenPriceFeed",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.768Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.768Z"
+          }
+        },
+        {
+          "functionName": "setExtensionDelegate",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.769Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.769Z"
+          }
+        },
+        {
+          "functionName": "setSupplyKink",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.769Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.769Z"
+          }
+        },
+        {
+          "functionName": "setSupplyPerYearInterestRateSlopeLow",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.770Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.770Z"
+          }
+        },
+        {
+          "functionName": "setSupplyPerYearInterestRateSlopeHigh",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.770Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.770Z"
+          }
+        },
+        {
+          "functionName": "setSupplyPerYearInterestRateBase",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.771Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.771Z"
+          }
+        },
+        {
+          "functionName": "setBorrowKink",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.771Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.771Z"
+          }
+        },
+        {
+          "functionName": "setBorrowPerYearInterestRateSlopeLow",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.772Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.772Z"
+          }
+        },
+        {
+          "functionName": "setBorrowPerYearInterestRateSlopeHigh",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.773Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.773Z"
+          }
+        },
+        {
+          "functionName": "setBorrowPerYearInterestRateBase",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.774Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.774Z"
+          }
+        },
+        {
+          "functionName": "setStoreFrontPriceFactor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.774Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.774Z"
+          }
+        },
+        {
+          "functionName": "setBaseTrackingSupplySpeed",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.775Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.775Z"
+          }
+        },
+        {
+          "functionName": "setBaseTrackingBorrowSpeed",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.776Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.776Z"
+          }
+        },
+        {
+          "functionName": "setBaseMinForRewards",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.776Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.776Z"
+          }
+        },
+        {
+          "functionName": "setBaseBorrowMin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.777Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.777Z"
+          }
+        },
+        {
+          "functionName": "setTargetReserves",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.781Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.781Z"
+          }
+        },
+        {
+          "functionName": "addAsset",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.782Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.782Z"
+          }
+        },
+        {
+          "functionName": "updateAsset",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.783Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.783Z"
+          }
+        },
+        {
+          "functionName": "updateAssetPriceFeed",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.784Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.784Z"
+          }
+        },
+        {
+          "functionName": "updateAssetBorrowCollateralFactor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.785Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.785Z"
+          }
+        },
+        {
+          "functionName": "updateAssetLiquidateCollateralFactor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.786Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.786Z"
+          }
+        },
+        {
+          "functionName": "updateAssetLiquidationFactor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.787Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.787Z"
+          }
+        },
+        {
+          "functionName": "updateAssetSupplyCap",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.787Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.787Z"
+          }
+        },
+        {
+          "functionName": "transferGovernor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-16T12:58:19.788Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T12:58:19.788Z"
+          }
         }
       ]
     }

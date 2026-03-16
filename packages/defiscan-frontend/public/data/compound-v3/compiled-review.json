@@ -1,0 +1,740 @@
+{
+  "version": "1.0",
+  "compiledAt": "2026-03-16T12:47:58.234Z",
+  "project": "compound-v3",
+  "metadata": {
+    "protocolName": "Compound V3",
+    "protocolSlug": "compound-v3",
+    "chain": "Ethereum",
+    "projectType": "lending",
+    "tokenName": "COMP",
+    "description": "Compound V3 (Comet) is an isolated lending protocol where each market (USDC, USDT, WETH) operates as an independent EIP1967 proxy contract with a single borrowable asset and multiple collateral types. All market proxies are controlled by CometProxyAdmin, which is owned by a governance Timelock with a 48-hour delay — upgrades require a successful COMP token holder vote via CompoundGovernor followed by a two-day waiting period. The protocol depends on Chainlink price feeds and a ConstantPriceFeed for collateral valuation, liquidation triggers, and account health calculations. Circle's USDC serves as the base asset for the largest market, introducing an external dependency on Circle's freeze and blacklist capabilities."
+  },
+  "totals": {
+    "contractCount": 22,
+    "permissionedFunctionCount": 21,
+    "scoredFunctionCount": 8,
+    "adminCount": 1,
+    "dependencyCount": 5,
+    "totalCapitalAtRisk": 735580375.3835825,
+    "totalTokenValueAtRisk": 0,
+    "totalTokenValue": 0
+  },
+  "admins": [
+    {
+      "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+      "name": "CometProxyAdmin (Governance Timelock, 48h)",
+      "description": "Immutable admin contract that can upgrade all Comet market implementations (cUSDCv3, cUSDTv3, cWETHv3) and change their proxy admins. Owned by the governance Timelock with a 48-hour delay, which is controlled by CompoundGovernor. Upgrades require a successful COMP token holder vote followed by a two-day waiting period. The ownership chain terminates at on-chain governance with no EOA or multisig having direct control.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "changeAdmin",
+          "impact": "critical",
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 735580375.3835825,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 735580375.3835825,
+      "totalReachableTokenValue": 0
+    }
+  ],
+  "dependencies": [
+    {
+      "address": "eth:0xD72ac1bCE9177CFe7aEb5d0516a38c88a64cE0AB",
+      "name": "ConstantPriceFeed",
+      "description": "Immutable price feed returning a fixed price value, used by the cUSDTv3 market for base asset pricing. Affects liquidation (absorb), collateral purchases (buyCollateral), and all transfer and withdrawal operations on the USDT market. Cannot be changed or manipulated since the contract is immutable.",
+      "entity": null,
+      "isAutoDetected": true,
+      "viewOnlyPath": true,
+      "calledFunctions": [
+        "latestRoundData"
+      ],
+      "functions": [
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "absorb",
+          "viewOnlyPath": true,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "buyCollateral",
+          "viewOnlyPath": true,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "transfer",
+          "viewOnlyPath": true,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "transferAsset",
+          "viewOnlyPath": true,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "transferAssetFrom",
+          "viewOnlyPath": true,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "transferFrom",
+          "viewOnlyPath": true,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "withdraw",
+          "viewOnlyPath": true,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "withdrawFrom",
+          "viewOnlyPath": true,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "withdrawTo",
+          "viewOnlyPath": true,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalFundsAtRisk": 126483552.05331646,
+      "totalTokenValueAtRisk": 0,
+      "dependencyType": "callgraph"
+    },
+    {
+      "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+      "name": "Wrapped Ether (WETH)",
+      "description": "Wrapped Ether token used as collateral in the cUSDTv3 market. Required for supply, withdrawal, collateral purchase, and reserve withdrawal operations. WETH is an immutable contract with no admin controls or upgrade capability.",
+      "entity": null,
+      "isAutoDetected": true,
+      "viewOnlyPath": false,
+      "calledFunctions": [
+        "balanceOf",
+        "transferFrom",
+        "transfer"
+      ],
+      "functions": [
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "buyCollateral",
+          "viewOnlyPath": false,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "supply",
+          "viewOnlyPath": false,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "supplyFrom",
+          "viewOnlyPath": false,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "supplyTo",
+          "viewOnlyPath": false,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "withdraw",
+          "viewOnlyPath": false,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "withdrawFrom",
+          "viewOnlyPath": false,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "withdrawReserves",
+          "viewOnlyPath": false,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "withdrawTo",
+          "viewOnlyPath": false,
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalFundsAtRisk": 126483552.05331646,
+      "totalTokenValueAtRisk": 0,
+      "dependencyType": "callgraph"
+    },
+    {
+      "address": "eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+      "name": "Chainlink 4/9 Multisig",
+      "description": "Gnosis Safe multisig with a 4-of-9 signing threshold that owns the Chainlink EACAggregatorProxy price feed. Can update the underlying aggregator implementation and configure feed parameters. Also serves as a signer on the 5/8 GnosisSafe used in Compound protocol operations.",
+      "entity": null,
+      "isAutoDetected": true,
+      "viewOnlyPath": false,
+      "calledFunctions": [
+        "isValidSignature"
+      ],
+      "functions": [
+        {
+          "contractAddress": "eth:0xbbf3f1421D886E9b2c5D716B5192aC998af2012c",
+          "contractName": "5/8 63% GnosisSafe",
+          "functionName": "execTransaction",
+          "viewOnlyPath": false,
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xbbf3f1421D886E9b2c5D716B5192aC998af2012c",
+          "contractName": "5/8 63% GnosisSafe",
+          "functionName": "isValidSignature",
+          "viewOnlyPath": false,
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xeB5f68394c0C9dCcD99BFfbAC1B5f90002D43627",
+          "contractName": "2/7 29% Safe",
+          "functionName": "checkNSignatures",
+          "viewOnlyPath": false,
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xeB5f68394c0C9dCcD99BFfbAC1B5f90002D43627",
+          "contractName": "2/7 29% Safe",
+          "functionName": "checkSignatures",
+          "viewOnlyPath": false,
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xeB5f68394c0C9dCcD99BFfbAC1B5f90002D43627",
+          "contractName": "2/7 29% Safe",
+          "functionName": "execTransaction",
+          "viewOnlyPath": false,
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalFundsAtRisk": 0,
+      "totalTokenValueAtRisk": 0,
+      "dependencyType": "callgraph"
+    },
+    {
+      "address": "eth:0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
+      "name": "Chainlink USDC/USD Price Feed",
+      "description": "Chainlink EACAggregatorProxy providing the USDC/USD price for the cUSDCv3 market. Used in liquidation calculations (absorb), collateral purchases (buyCollateral), and all transfer and withdrawal operations to determine account solvency. Owned by a Chainlink-operated 4/9 multisig.",
+      "entity": "Chainlink",
+      "isAutoDetected": true,
+      "viewOnlyPath": true,
+      "calledFunctions": [
+        "latestRoundData"
+      ],
+      "functions": [
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "absorb",
+          "viewOnlyPath": true,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "buyCollateral",
+          "viewOnlyPath": true,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "transfer",
+          "viewOnlyPath": true,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "transferAsset",
+          "viewOnlyPath": true,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "transferAssetFrom",
+          "viewOnlyPath": true,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "transferFrom",
+          "viewOnlyPath": true,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "withdraw",
+          "viewOnlyPath": true,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "withdrawFrom",
+          "viewOnlyPath": true,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "withdrawTo",
+          "viewOnlyPath": true,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalFundsAtRisk": 735580375.3835825,
+      "totalTokenValueAtRisk": 0,
+      "dependencyType": "callgraph"
+    },
+    {
+      "address": "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      "name": "USDC (Circle)",
+      "description": "Circle-issued USD Coin serving as the base borrowable asset in the cUSDCv3 market. Required for supply, withdraw, transfer, and reserve withdrawal operations. USDC is an upgradeable proxy token controlled by Circle, which retains the ability to freeze addresses, blacklist holders, and upgrade the token implementation.",
+      "entity": "Circle USDC",
+      "isAutoDetected": true,
+      "viewOnlyPath": false,
+      "calledFunctions": [
+        "approve",
+        "balanceOf",
+        "transferFrom",
+        "transfer"
+      ],
+      "functions": [
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "approveThis",
+          "viewOnlyPath": false,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "buyCollateral",
+          "viewOnlyPath": false,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "supply",
+          "viewOnlyPath": false,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "supplyFrom",
+          "viewOnlyPath": false,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "supplyTo",
+          "viewOnlyPath": false,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "withdraw",
+          "viewOnlyPath": false,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "withdrawFrom",
+          "viewOnlyPath": false,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "withdrawReserves",
+          "viewOnlyPath": false,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "withdrawTo",
+          "viewOnlyPath": false,
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalFundsAtRisk": 735580375.3835825,
+      "totalTokenValueAtRisk": 0,
+      "dependencyType": "callgraph"
+    }
+  ],
+  "funds": [],
+  "functions": [],
+  "contracts": [
+    {
+      "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+      "name": "cUSDCv3",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "EIP1967 proxy"
+    },
+    {
+      "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+      "name": "cUSDTv3",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "EIP1967 proxy"
+    },
+    {
+      "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+      "name": "cWETHv3",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "EIP1967 proxy"
+    },
+    {
+      "address": "eth:0xeB5f68394c0C9dCcD99BFfbAC1B5f90002D43627",
+      "name": "2/7 Multisig",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "gnosis safe"
+    },
+    {
+      "address": "eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+      "name": "Chainlink 4/9 Multisig",
+      "isExternal": true,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "gnosis safe"
+    },
+    {
+      "address": "eth:0xbbf3f1421D886E9b2c5D716B5192aC998af2012c",
+      "name": "5/8 Multisig",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "gnosis safe"
+    },
+    {
+      "address": "eth:0x1c06f5089053a5909F6a9a369BEF938a713fF614",
+      "name": "AssetList",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xA9367093737b97747Fab3964cEEc83Dc93188fae",
+      "name": "AssetList",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x3fF744cF6078714bB9d3c4fE5Ab37fA6d05dEC4E",
+      "name": "AssetListFactory",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xEA2a6E7B41505d62d404F927F991Edc9E45883c2",
+      "name": "AssetListFactory",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x16F3532e6AF45A2C51B6C77b1267cEF34A9cf3B3",
+      "name": "CometExtAssetList",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xA70a0227028aD005F4Fc9376a82cd1462e3AAedC",
+      "name": "CometExtAssetList",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+      "name": "CometProxyAdmin (Governance Timelock, 48h)",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xc00e94Cb662C3520282E6f5717214004A7f26888",
+      "name": "Compound Token",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x309a862bbC1A00e45506cB8A802D1ff10004c8C0",
+      "name": "CompoundGovernor",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "EIP1967 proxy"
+    },
+    {
+      "address": "eth:0x2e1B5a40Edc922bCE489668b11749B8eAbd67f6b",
+      "name": "ConfirmedTransactionModule",
+      "isExternal": true,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xD72ac1bCE9177CFe7aEb5d0516a38c88a64cE0AB",
+      "name": "ConstantPriceFeed",
+      "isExternal": true,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
+      "name": "Chainlink USDC/USD Price Feed",
+      "isExternal": true,
+      "isGovernance": false,
+      "entity": "Chainlink",
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x725ED7F44F0888aeC1b7630AB1ACdced91E0591A",
+      "name": "ProxyAdmin",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+      "name": "Timelock",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      "name": "USDC (Circle)",
+      "isExternal": true,
+      "isGovernance": false,
+      "entity": "Circle USDC",
+      "proxyType": "ZeppelinOS proxy"
+    },
+    {
+      "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+      "name": "Wrapped Ether (WETH)",
+      "isExternal": true,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    }
+  ],
+  "resources": [
+    {
+      "url": "https://github.com/compound-finance/palisade",
+      "type": "frontend",
+      "label": "IPFS Instructions",
+      "frontendSubtype": "third-party"
+    },
+    {
+      "url": "https://compound.finance/",
+      "type": "website"
+    },
+    {
+      "url": "https://docs.compound.finance/",
+      "type": "docs"
+    },
+    {
+      "url": "https://app.compound.finance/?market=usdc-mainnet",
+      "type": "frontend",
+      "frontendSubtype": "official"
+    }
+  ],
+  "sections": {
+    "codeAndAudits": {
+      "title": "Code & Audits",
+      "description": "Smart contract analysis and audit history",
+      "subsections": [
+        {
+          "title": "Contracts",
+          "content": [
+            {
+              "type": "dataTable",
+              "dataSource": "project.contracts",
+              "columns": [
+                {
+                  "field": "name",
+                  "header": "Name"
+                },
+                {
+                  "field": "address",
+                  "header": "Address",
+                  "format": "address"
+                },
+                {
+                  "field": "proxyType",
+                  "header": "Proxy Type",
+                  "format": "badge"
+                }
+              ],
+              "filters": {
+                "excludeExternal": true
+              }
+            }
+          ]
+        },
+        {
+          "title": "Audits",
+          "content": [
+            {
+              "type": "text",
+              "content": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
