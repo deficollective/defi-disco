@@ -4,6 +4,12 @@ import type { AggregateHandler } from './types'
 
 const FRANKENCOIN_API = 'https://api.frankencoin.com'
 
+// Map MintingHub contract addresses to their position version
+const MINTINGHUB_VERSION: Record<string, number> = {
+  '0x7546762fdb1a6d9146b33960545c3f6394265219': 1, // MintingHub V1
+  '0xde12b620a8a714476a97efd14e6f7180ca653557': 2, // MintingHub V2
+}
+
 interface FrankencoinPosition {
   version: number
   position: string
@@ -65,9 +71,14 @@ export class FrankencoinMintinghubHandler implements AggregateHandler {
     const breakdown: Array<{ address: string; name?: string; usd_value: number }> = []
     let totalUsdValue = 0
 
+    // Filter by MintingHub version if the contract address matches a known hub
+    const versionFilter =
+      MINTINGHUB_VERSION[contractAddress.toString().toLowerCase()]
+
     for (const addr of positions.addresses) {
       const pos = positions.map[addr]
       if (!pos || pos.denied || pos.closed) continue
+      if (versionFilter !== undefined && pos.version !== versionFilter) continue
 
       // Look up collateral price (prices mapping uses lowercase keys)
       const priceEntry = priceMap[pos.collateral.toLowerCase()]
