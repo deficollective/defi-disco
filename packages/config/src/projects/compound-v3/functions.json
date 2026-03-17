@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-03-16T12:58:19.788Z",
+  "lastModified": "2026-03-16T19:12:54.306Z",
   "contracts": {
     "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2": {
       "functions": [
@@ -117,8 +117,16 @@
         {
           "functionName": "upgradeToAndCall",
           "isPermissioned": true,
-          "timestamp": "2025-09-17T16:09:02.745Z",
-          "checked": true
+          "checked": true,
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-16T19:12:54.306Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T19:12:54.306Z"
+          }
         },
         {
           "functionName": "changeAdmin",
@@ -142,12 +150,16 @@
         {
           "functionName": "upgradeTo",
           "isPermissioned": true,
-          "timestamp": "2025-09-30T15:21:54.826Z",
           "checked": true,
           "score": "critical",
           "delay": {
             "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
             "fieldName": "delay"
+          },
+          "timestamp": "2026-03-16T18:33:43.404Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T18:33:43.404Z"
           }
         },
         {
@@ -296,10 +308,14 @@
               "path": "$self.$admin"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.765Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-16T19:12:35.412Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.765Z"
+            "date": "2026-03-16T19:12:35.412Z"
           }
         },
         {
@@ -724,6 +740,80 @@
           "lastChangedBy": {
             "author": "unknown",
             "date": "2026-03-16T12:58:19.788Z"
+          }
+        }
+      ]
+    },
+    "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779": {
+      "functions": [
+        {
+          "functionName": "changeProxyAdmin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-16T18:31:50.142Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T18:31:50.142Z"
+          }
+        },
+        {
+          "functionName": "upgrade",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-16T18:31:50.143Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T18:31:50.143Z"
+          }
+        },
+        {
+          "functionName": "upgradeAndCall",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-16T18:31:50.144Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T18:31:50.144Z"
+          }
+        },
+        {
+          "functionName": "deployAndUpgradeTo",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-16T18:31:50.146Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T18:31:50.146Z"
+          }
+        },
+        {
+          "functionName": "deployUpgradeToAndCall",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-16T18:31:50.147Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-16T18:31:50.147Z"
           }
         }
       ]
