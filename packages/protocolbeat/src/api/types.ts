@@ -925,13 +925,8 @@ export interface TraversalTerminal {
   isUnresolved?: boolean
 }
 
-/** Auto-detected timelock delay from ownership chain analysis */
-export interface DetectedTimelockDelay {
-  contractAddress: string
-  contractName: string
-  fieldName: string
-  seconds: number
-}
+// DetectedTimelockDelay is defined in defidisco/types.ts — re-export for convenience
+export type { DetectedTimelockDelay } from '../apps/discovery/defidisco/types'
 
 /** Enhanced traversal result for a single function */
 export interface FunctionTraversalResult {
@@ -944,7 +939,7 @@ export interface FunctionTraversalResult {
   /** True if resolution hit the depth limit */
   depthLimitReached: boolean
   /** Auto-detected timelock delay (present when no manual delay is set and a timelock is in the chain) */
-  suggestedDelay?: DetectedTimelockDelay
+  suggestedDelay?: import('../apps/discovery/defidisco/types').DetectedTimelockDelay
 }
 
 /** API response for the enhanced traversal endpoint */

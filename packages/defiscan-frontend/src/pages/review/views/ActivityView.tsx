@@ -28,9 +28,25 @@ function formatTime(iso: string): string {
   })
 }
 
-function etherscanTxUrl(txHash: string): string {
+const CHAIN_EXPLORERS: Record<string, string> = {
+  ethereum: 'https://etherscan.io',
+  arbitrum: 'https://arbiscan.io',
+  base: 'https://basescan.org',
+  optimism: 'https://optimistic.etherscan.io',
+  polygon: 'https://polygonscan.com',
+  avalanche: 'https://snowtrace.io',
+  bsc: 'https://bscscan.com',
+  gnosis: 'https://gnosisscan.io',
+  zksync: 'https://explorer.zksync.io',
+  linea: 'https://lineascan.build',
+  scroll: 'https://scrollscan.com',
+  blast: 'https://blastscan.io',
+}
+
+function explorerTxUrl(txHash: string, chain?: string): string {
   const raw = txHash.startsWith('0x') ? txHash : `0x${txHash}`
-  return `https://etherscan.io/tx/${raw}`
+  const base = CHAIN_EXPLORERS[chain?.toLowerCase() ?? ''] ?? CHAIN_EXPLORERS.ethereum!
+  return `${base}/tx/${raw}`
 }
 
 export function ActivityView({ review }: ActivityViewProps) {
@@ -124,11 +140,10 @@ export function ActivityView({ review }: ActivityViewProps) {
             Activity Feed
           </h2>
           <p className="text-sm text-text-secondary">
-            {events.length} upgrade{events.length !== 1 ? 's' : ''} across{' '}
-            {new Set(events.map((e) => e.contractAddress)).size} contract
-            {new Set(events.map((e) => e.contractAddress)).size !== 1
-              ? 's'
-              : ''}
+            {(() => {
+              const contractCount = new Set(events.map((e) => e.contractAddress)).size
+              return `${events.length} upgrade${events.length !== 1 ? 's' : ''} across ${contractCount} contract${contractCount !== 1 ? 's' : ''}`
+            })()}
           </p>
         </div>
         <button
@@ -164,6 +179,7 @@ export function ActivityView({ review }: ActivityViewProps) {
                 <UpgradeRow
                   key={event._idx}
                   event={event}
+                  chain={review.metadata.chain}
                   isExpanded={expanded.has(event._idx)}
                   onToggle={() => toggleExpand(event._idx)}
                 />
@@ -178,10 +194,12 @@ export function ActivityView({ review }: ActivityViewProps) {
 
 function UpgradeRow({
   event,
+  chain,
   isExpanded,
   onToggle,
 }: {
   event: ActivityEvent & { _idx: number }
+  chain?: string
   isExpanded: boolean
   onToggle: () => void
 }) {
@@ -245,7 +263,7 @@ function UpgradeRow({
             {/* Transaction */}
             <span className="text-text-muted">Transaction</span>
             <a
-              href={etherscanTxUrl(event.txHash)}
+              href={explorerTxUrl(event.txHash, chain)}
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-sm text-purple-600 hover:text-purple-800 transition-colors truncate"

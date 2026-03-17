@@ -594,12 +594,7 @@ export function FunctionFolder({
         return contract.fields
           .filter((field) => {
             const isNumeric = field.value?.type === 'number'
-            const hasDelayName =
-              field.name?.toLowerCase().includes('delay') ||
-              field.name?.toLowerCase().includes('timelock') ||
-              field.name?.toLowerCase().includes('period') ||
-              field.name?.toLowerCase().includes('duration')
-            return isNumeric && (hasDelayName || true) // Accept all numeric fields, but prefer delay-related ones
+            return isNumeric
           })
           .map((field) => ({
             name: field.name,
