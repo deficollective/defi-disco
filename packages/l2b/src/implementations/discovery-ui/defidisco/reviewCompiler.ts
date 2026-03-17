@@ -869,10 +869,7 @@ export class ReviewCompiler {
         dependencyCount: v2Score.inventory.dependencies.inventory,
         totalCapitalAtRisk:
           (v2Score.inventory.admins.totalCapitalAtRisk ?? 0) +
-          funds.reduce(
-            (sum, f) => sum + (f.aggregate?.totalUsdValue ?? 0),
-            0,
-          ),
+          funds.reduce((sum, f) => sum + (f.aggregate?.totalUsdValue ?? 0), 0),
         totalTokenValueAtRisk:
           v2Score.inventory.admins.totalTokenValueAtRisk ?? 0,
         totalTokenValue: funds.reduce(
