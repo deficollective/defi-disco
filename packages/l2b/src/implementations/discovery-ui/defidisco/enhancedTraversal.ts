@@ -14,6 +14,7 @@ import {
   resolveOwnersWithDataAccess,
 } from './functions'
 import { DiscoveredDataAccess } from './ownerResolution'
+import { detectTimelockInChain } from './timelockDetection'
 import type {
   ApiAddressType,
   ApiCallGraphResponse,
@@ -699,13 +700,26 @@ export function resolveEnhancedTraversal(
           contracts[contractAddress] = {}
         }
 
-        contracts[contractAddress][func.functionName] = {
+        const traversalResult: FunctionTraversalResult = {
           contractAddress,
           functionName: func.functionName,
           terminals,
           errors: allErrors,
           depthLimitReached: result.depthLimitReached,
         }
+
+        // Auto-detect timelock delay from ownership chains
+        if (func.delay === undefined && terminals.length > 0) {
+          for (const terminal of terminals) {
+            const detected = detectTimelockInChain(terminal.chain, dataAccess)
+            if (detected) {
+              traversalResult.suggestedDelay = detected
+              break
+            }
+          }
+        }
+
+        contracts[contractAddress][func.functionName] = traversalResult
       }
     }
   }
