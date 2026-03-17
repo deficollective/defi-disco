@@ -111,11 +111,7 @@ function enrichFundsWithImplementations(
   paths: DiscoveryPaths,
   project: string,
 ): ApiFundsDataResponse {
-  const discoveredPath = path.join(
-    paths.discovery,
-    project,
-    'discovered.json',
-  )
+  const discoveredPath = path.join(paths.discovery, project, 'discovered.json')
   if (!fs.existsSync(discoveredPath)) return data
 
   let discovered: any
