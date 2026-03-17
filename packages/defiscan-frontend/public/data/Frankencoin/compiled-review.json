@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-17T09:01:57.383Z",
+  "compiledAt": "2026-03-17T16:53:18.798Z",
   "project": "Frankencoin",
   "metadata": {
     "protocolName": "Frankencoin",
@@ -685,7 +685,26 @@
       "description": "The zero address holds the newOwner role on CryptoFranc (acceptOwnership) and the migrationFromContract reference (migrateFrom). These permissions are effectively renounced and cannot be exercised.",
       "adminType": "Revoked",
       "isGovernance": false,
-      "functions": [],
+      "functions": [
+        {
+          "contractAddress": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
+          "contractName": "CryptoFranc",
+          "functionName": "acceptOwnership",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
+          "contractName": "CryptoFranc",
+          "functionName": "migrateFrom",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
       "totalDirectCapital": 0,
       "totalDirectTokenValue": 0,
       "totalReachableCapital": 0,
@@ -705,7 +724,19 @@
           "impact": "critical",
           "directFundsUsd": 13923431.96265291,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [
+            {
+              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+              "name": "Frankencoin",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "equity"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 25724637.771031145,
+              "fundsAtRisk": false
+            }
+          ]
         },
         {
           "contractAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
@@ -746,31 +777,17 @@
                 "transfer",
                 "registerPosition",
                 "collectProfits",
-                "transferFrom"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
-              "fundsAtRisk": false
-            }
-          ]
-        },
-        {
-          "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
-          "contractName": "MintingHub",
-          "functionName": "clone",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "initialize",
-                "registerPosition",
                 "transferFrom",
-                "mint"
+                "mintWithReserve",
+                "mint",
+                "burnFrom",
+                "burnWithoutReserve",
+                "burnWithReserve",
+                "burnFromWithReserve",
+                "coverLoss",
+                "initialize",
+                "balanceOf",
+                "equity"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 25724637.771031145,
@@ -792,13 +809,25 @@
               "name": "Equity",
               "viewOnlyPath": false,
               "calledFunctions": [
-                "totalSupply"
+                "price",
+                "totalSupply",
+                "kamikaze",
+                "restructureCapTable"
               ],
               "fundsUsd": 13923431.96265291,
               "tokenValueUsd": 0,
               "fundsAtRisk": false
             }
           ]
+        },
+        {
+          "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+          "contractName": "MintingHub",
+          "functionName": "clone",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
         },
         {
           "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
@@ -811,9 +840,12 @@
             {
               "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
               "name": "Equity",
-              "viewOnlyPath": true,
+              "viewOnlyPath": false,
               "calledFunctions": [
-                "price"
+                "price",
+                "kamikaze",
+                "restructureCapTable",
+                "totalSupply"
               ],
               "fundsUsd": 13923431.96265291,
               "tokenValueUsd": 0,
@@ -825,10 +857,35 @@
               "viewOnlyPath": false,
               "calledFunctions": [
                 "transferFrom",
-                "equity"
+                "registerPosition",
+                "mintWithReserve",
+                "mint",
+                "burnFrom",
+                "burnWithoutReserve",
+                "burnWithReserve",
+                "burnFromWithReserve",
+                "coverLoss",
+                "collectProfits",
+                "equity",
+                "decimals",
+                "totalSupply",
+                "transfer",
+                "initialize",
+                "balanceOf"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 25724637.771031145,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
+              "name": "ARMProxy",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "transferOwnership"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
               "fundsAtRisk": false
             }
           ]
@@ -850,10 +907,46 @@
                 "transfer",
                 "collectProfits",
                 "coverLoss",
-                "burnWithoutReserve"
+                "burnWithoutReserve",
+                "registerPosition",
+                "mintWithReserve",
+                "mint",
+                "burnFrom",
+                "burnWithReserve",
+                "burnFromWithReserve",
+                "decimals",
+                "totalSupply",
+                "initialize",
+                "balanceOf",
+                "equity"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 25724637.771031145,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
+              "name": "ARMProxy",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "transferOwnership"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
+              "name": "Equity",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "price",
+                "totalSupply",
+                "kamikaze",
+                "restructureCapTable"
+              ],
+              "fundsUsd": 13923431.96265291,
+              "tokenValueUsd": 0,
               "fundsAtRisk": false
             }
           ]
@@ -869,10 +962,24 @@
             {
               "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
               "name": "Frankencoin",
-              "viewOnlyPath": true,
+              "viewOnlyPath": false,
               "calledFunctions": [
                 "balanceOf",
-                "equity"
+                "registerPosition",
+                "mintWithReserve",
+                "mint",
+                "burnFrom",
+                "burnWithoutReserve",
+                "burnWithReserve",
+                "burnFromWithReserve",
+                "coverLoss",
+                "collectProfits",
+                "equity",
+                "decimals",
+                "totalSupply",
+                "transfer",
+                "transferFrom",
+                "initialize"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 25724637.771031145,
@@ -881,15 +988,128 @@
             {
               "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
               "name": "Equity",
-              "viewOnlyPath": true,
+              "viewOnlyPath": false,
               "calledFunctions": [
-                "price"
+                "price",
+                "kamikaze",
+                "restructureCapTable",
+                "totalSupply"
               ],
               "fundsUsd": 13923431.96265291,
               "tokenValueUsd": 0,
               "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
+              "name": "ARMProxy",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "transferOwnership"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
             }
           ]
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "setMinterRole",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "setAssetProtectionRole",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "changeTransferProvider",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "mint",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "configureMinter",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "removeMinter",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "burn",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "freeze",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "unFreeze",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "pause",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+          "contractName": "VNXCToken",
+          "functionName": "unpause",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
         }
       ],
       "totalDirectCapital": 13923431.96265291,
@@ -1002,48 +1222,7 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "mint",
-                "burnFrom",
-                "getPositionParent",
-                "registerPosition",
-                "transferFrom",
-                "equity"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "transferFrom",
-                "approve",
-                "price"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-              "name": "StablecoinBridge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "mint"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -1052,51 +1231,7 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "calculateFreedAmount",
-                "mint",
-                "burnFrom",
-                "getPositionParent",
-                "equity",
-                "registerPosition",
-                "transferFrom"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "balanceOf",
-                "price",
-                "transferFrom",
-                "approve"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-              "name": "StablecoinBridge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "minted",
-                "mint"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -1105,51 +1240,7 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "calculateFreedAmount",
-                "mint",
-                "burnFrom",
-                "getPositionParent",
-                "equity",
-                "registerPosition",
-                "transferFrom"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "balanceOf",
-                "price",
-                "transferFrom",
-                "approve"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-              "name": "StablecoinBridge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "minted",
-                "mint"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ]
+          "reachableContracts": []
         }
       ],
       "totalFundsAtRisk": 503838.1609304662,
@@ -1376,48 +1467,7 @@
           "viewOnlyPath": true,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "mint",
-                "burnFrom",
-                "getPositionParent",
-                "registerPosition",
-                "transferFrom",
-                "equity"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "transferFrom",
-                "approve",
-                "price"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-              "name": "StablecoinBridge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "mint"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -1426,51 +1476,7 @@
           "viewOnlyPath": true,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "calculateFreedAmount",
-                "mint",
-                "burnFrom",
-                "getPositionParent",
-                "equity",
-                "registerPosition",
-                "transferFrom"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "balanceOf",
-                "price",
-                "transferFrom",
-                "approve"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-              "name": "StablecoinBridge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "minted",
-                "mint"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -1479,51 +1485,7 @@
           "viewOnlyPath": true,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "calculateFreedAmount",
-                "mint",
-                "burnFrom",
-                "getPositionParent",
-                "equity",
-                "registerPosition",
-                "transferFrom"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "balanceOf",
-                "price",
-                "transferFrom",
-                "approve"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-              "name": "StablecoinBridge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "minted",
-                "mint"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
@@ -1532,33 +1494,7 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "initialize",
-                "registerPosition",
-                "transferFrom",
-                "mint"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "totalSupply"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ]
+          "reachableContracts": []
         }
       ],
       "totalFundsAtRisk": 0,
