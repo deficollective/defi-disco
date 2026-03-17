@@ -135,21 +135,26 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
   )
   if (eoas.length > 0) {
     const maxCapital = Math.max(...eoas.map((e) => e.totalDirectCapital))
-    findings.push({
-      type: 'critical',
-      title: `${eoas.length} EOA${eoas.length > 1 ? 's' : ''} with permissioned access`,
-      detail: `Externally owned account${eoas.length > 1 ? 's' : ''} can execute critical functions affecting up to ${formatUsdValue(maxCapital)} in TVL.`,
-    })
+    if (maxCapital > 0) {
+      findings.push({
+        type: 'critical',
+        title: `${eoas.length} EOA${eoas.length > 1 ? 's' : ''} with permissioned access`,
+        detail: `Externally owned account${eoas.length > 1 ? 's' : ''} can execute critical functions affecting up to ${formatUsdValue(maxCapital)} in TVL.`,
+      })
+    }
   }
 
   // Check for multisig
   const multisigs = admins.filter((a) => a.adminType === 'Multisig')
   if (multisigs.length > 0) {
-    findings.push({
-      type: 'warning',
-      title: `${multisigs.length} multisig${multisigs.length > 1 ? 's' : ''} governing the protocol`,
-      detail: `Multisig wallets provide distributed control but still require trust in a known group of signers. ${multisigs.map((m) => m.name).join(', ')}.`,
-    })
+    const maxMultisigCapital = Math.max(...multisigs.map((m) => m.totalDirectCapital))
+    if (maxMultisigCapital > 0) {
+      findings.push({
+        type: 'warning',
+        title: `${multisigs.length} multisig${multisigs.length > 1 ? 's' : ''} governing the protocol`,
+        detail: `Multisig wallets provide distributed control but still require trust in a known group of signers. ${multisigs.map((m) => m.name).join(', ')}.`,
+      })
+    }
   }
 
   // Funds secured — always show as info
