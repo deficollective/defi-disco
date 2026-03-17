@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-17T09:02:05.562Z",
+  "compiledAt": "2026-03-17T15:13:59.691Z",
   "project": "compound-v3",
   "metadata": {
     "protocolName": "Compound V3",
@@ -8,15 +8,15 @@
     "chain": "Ethereum",
     "projectType": "lending",
     "tokenName": "COMP",
-    "description": "Compound V3 (Comet) is a lending protocol where each market is a standalone contract that accepts a single base asset for lending and multiple collateral assets for borrowing. The protocol is governed by COMP token holders through the CompoundGovernor contract, with all governance actions subject to a 48-hour Timelock delay. Market proxies (cUSDCv3, cUSDTv3, cWETHv3) are upgradeable via EIP-1967 proxies administered by CometProxyAdmin, which is itself owned by the Timelock. The protocol relies on Chainlink price feeds for collateral valuation, liquidation, and transfer checks, and depends on Circle's USDC contract for its largest market."
+    "description": "Compound V3 (Comet) is a lending protocol that operates isolated markets for individual base assets (USDC, USDT, WETH), each accepting a curated set of collateral tokens. Unlike Compound V2's shared-pool model, V3 isolates risk per market: suppliers lend a single base asset and borrowers post collateral against it. All three Ethereum markets are upgradeable EIP-1967 proxies controlled by a Compound governance Timelock with a 48-hour delay, with $862.06M in total capital at risk across all admin-controlled contracts. The protocol depends on Chainlink price feeds and a ConstantPriceFeed for USDT pricing."
   },
   "totals": {
     "contractCount": 22,
-    "permissionedFunctionCount": 61,
-    "scoredFunctionCount": 8,
-    "adminCount": 4,
+    "permissionedFunctionCount": 67,
+    "scoredFunctionCount": 11,
+    "adminCount": 5,
     "dependencyCount": 5,
-    "totalCapitalAtRisk": 735580375.3835825,
+    "totalCapitalAtRisk": 862063927.436899,
     "totalTokenValueAtRisk": 0,
     "totalTokenValue": 194400000
   },
@@ -24,7 +24,7 @@
     {
       "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
       "name": "CometProxyAdmin",
-      "description": "Immutable admin contract that controls proxy upgrades and admin changes on the cUSDCv3 and cWETHv3 market contracts. Owned by the Governance Timelock. Can call changeAdmin, upgradeTo, and upgradeToAndCall on both markets, affecting $735.58M in direct capital across 2 contracts.",
+      "description": "Immutable proxy admin contract owned by the Governance Timelock. Can upgrade, deploy-and-upgrade, and change the admin of the three market proxy contracts (cUSDCv3, cUSDTv3, cWETHv3) via upgrade, upgradeAndCall, deployAndUpgradeTo, deployUpgradeToAndCall, and changeProxyAdmin. Controls $862.06M in direct capital across the three market contracts.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -35,7 +35,18 @@
           "impact": "critical",
           "directFundsUsd": 735580375.3835825,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
         },
         {
           "contractAddress": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
@@ -64,7 +75,18 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
         },
         {
           "contractAddress": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
@@ -73,18 +95,129 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "admin",
+          "impact": "critical",
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "implementation",
+          "impact": "critical",
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "changeAdmin",
+          "impact": "critical",
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "upgradeTo",
+          "impact": "critical",
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+          "contractName": "cUSDTv3",
+          "functionName": "upgradeToAndCall",
+          "impact": "critical",
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
         }
       ],
-      "totalDirectCapital": 735580375.3835825,
+      "totalDirectCapital": 862063927.436899,
       "totalDirectTokenValue": 0,
-      "totalReachableCapital": 735580375.3835825,
+      "totalReachableCapital": 862063927.436899,
       "totalReachableTokenValue": 0
     },
     {
       "address": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
-      "name": "Governance Timelock (48h)",
-      "description": "Immutable timelock contract with a 48-hour minimum delay. Controlled by CompoundGovernor. Owns CometProxyAdmin and the Configurator (0xcFC1...DF4F). Through the Configurator, it can modify all market parameters: interest rate curves (supply/borrow kink and slopes), collateral factors, liquidation factors, supply caps, price feeds, asset listings, reward speeds, pause guardian, and extension delegate. Can also change its own delay and pending admin.",
+      "name": "Compound Governance Timelock (48h)",
+      "description": "Central admin of the protocol with a 48-hour execution delay. Controls 40 permissioned functions across 10 contracts, including all market parameter changes (interest rates, collateral factors, supply caps, reserve targets), asset listing via addAsset/updateAsset, price feed configuration, factory and extension delegate settings, governor transfer, and reserve withdrawals via withdrawReserves and approveThis. Also owns the CometProxyAdmin, giving it indirect upgrade authority over all three market proxies. Governed by CompoundGovernor, which routes COMP token holder votes through this timelock. Controls $862.06M in direct capital exposure.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -95,7 +228,120 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setFactory",
+                "setConfiguration",
+                "setGovernor",
+                "setPauseGuardian",
+                "setBaseTokenPriceFeed",
+                "setExtensionDelegate",
+                "setSupplyKink",
+                "setSupplyPerYearInterestRateSlopeLow",
+                "setSupplyPerYearInterestRateSlopeHigh",
+                "setSupplyPerYearInterestRateBase",
+                "setBorrowKink",
+                "setBorrowPerYearInterestRateSlopeLow",
+                "setBorrowPerYearInterestRateSlopeHigh",
+                "setBorrowPerYearInterestRateBase",
+                "setStoreFrontPriceFactor",
+                "setBaseTrackingSupplySpeed",
+                "setBaseTrackingBorrowSpeed",
+                "setBaseMinForRewards",
+                "setBaseBorrowMin",
+                "setTargetReserves",
+                "addAsset",
+                "updateAsset",
+                "updateAssetPriceFeed",
+                "updateAssetBorrowCollateralFactor",
+                "updateAssetLiquidateCollateralFactor",
+                "updateAssetLiquidationFactor",
+                "updateAssetSupplyCap",
+                "transferGovernor",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall",
+                "deploy"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+              "name": "CometProxyAdmin",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeProxyAdmin",
+                "upgrade",
+                "upgradeAndCall",
+                "deployAndUpgradeTo",
+                "deployUpgradeToAndCall"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "pause",
+                "withdrawReserves",
+                "approveThis",
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "approveThis",
+                "withdrawReserves",
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin",
+                "upgradeTo"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeToAndCall",
+                "proxiableUUID"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
         },
         {
           "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
@@ -104,7 +350,680 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setFactory",
+                "setConfiguration",
+                "setGovernor",
+                "setPauseGuardian",
+                "setBaseTokenPriceFeed",
+                "setExtensionDelegate",
+                "setSupplyKink",
+                "setSupplyPerYearInterestRateSlopeLow",
+                "setSupplyPerYearInterestRateSlopeHigh",
+                "setSupplyPerYearInterestRateBase",
+                "setBorrowKink",
+                "setBorrowPerYearInterestRateSlopeLow",
+                "setBorrowPerYearInterestRateSlopeHigh",
+                "setBorrowPerYearInterestRateBase",
+                "setStoreFrontPriceFactor",
+                "setBaseTrackingSupplySpeed",
+                "setBaseTrackingBorrowSpeed",
+                "setBaseMinForRewards",
+                "setBaseBorrowMin",
+                "setTargetReserves",
+                "addAsset",
+                "updateAsset",
+                "updateAssetPriceFeed",
+                "updateAssetBorrowCollateralFactor",
+                "updateAssetLiquidateCollateralFactor",
+                "updateAssetLiquidationFactor",
+                "updateAssetSupplyCap",
+                "transferGovernor",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall",
+                "deploy"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+              "name": "CometProxyAdmin",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeProxyAdmin",
+                "upgrade",
+                "upgradeAndCall",
+                "deployAndUpgradeTo",
+                "deployUpgradeToAndCall"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "pause",
+                "withdrawReserves",
+                "approveThis",
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "approveThis",
+                "withdrawReserves",
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin",
+                "upgradeTo"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeToAndCall",
+                "proxiableUUID"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setFactory",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setConfiguration",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setGovernor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setPauseGuardian",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setBaseTokenPriceFeed",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setExtensionDelegate",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setSupplyKink",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setSupplyPerYearInterestRateSlopeLow",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setSupplyPerYearInterestRateSlopeHigh",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setSupplyPerYearInterestRateBase",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setBorrowKink",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setBorrowPerYearInterestRateSlopeLow",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setBorrowPerYearInterestRateSlopeHigh",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setBorrowPerYearInterestRateBase",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setStoreFrontPriceFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setBaseTrackingSupplySpeed",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setBaseTrackingBorrowSpeed",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setBaseMinForRewards",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setBaseBorrowMin",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "setTargetReserves",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "addAsset",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "updateAsset",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "updateAssetPriceFeed",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "updateAssetBorrowCollateralFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "updateAssetLiquidateCollateralFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "updateAssetLiquidationFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "updateAssetSupplyCap",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xcFC1fA6b7ca982176529899D99af6473aD80DF4F",
+          "contractName": "cWETHv3",
+          "functionName": "transferGovernor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
         },
         {
           "contractAddress": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
@@ -116,7 +1035,7 @@
           "reachableContracts": [
             {
               "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
-              "name": "TokenMessengerV2",
+              "name": "Unknown",
               "viewOnlyPath": false,
               "calledFunctions": [
                 "changeAdmin"
@@ -124,6 +1043,56 @@
               "fundsUsd": 0,
               "tokenValueUsd": 0,
               "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
             }
           ]
         },
@@ -137,7 +1106,7 @@
           "reachableContracts": [
             {
               "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
-              "name": "TokenMessengerV2",
+              "name": "Unknown",
               "viewOnlyPath": false,
               "calledFunctions": [
                 "upgradeTo"
@@ -145,6 +1114,56 @@
               "fundsUsd": 0,
               "tokenValueUsd": 0,
               "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
             }
           ]
         },
@@ -158,7 +1177,7 @@
           "reachableContracts": [
             {
               "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
-              "name": "GatewayMinter",
+              "name": "Unknown",
               "viewOnlyPath": false,
               "calledFunctions": [
                 "upgradeToAndCall",
@@ -167,6 +1186,56 @@
               "fundsUsd": 0,
               "tokenValueUsd": 0,
               "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
             }
           ]
         },
@@ -183,7 +1252,10 @@
               "name": "cWETHv3",
               "viewOnlyPath": false,
               "calledFunctions": [
-                "deploy"
+                "deploy",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -191,7 +1263,7 @@
             },
             {
               "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
-              "name": "TokenMessengerV2",
+              "name": "Unknown",
               "viewOnlyPath": false,
               "calledFunctions": [
                 "upgradeTo"
@@ -199,6 +1271,43 @@
               "fundsUsd": 0,
               "tokenValueUsd": 0,
               "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
             }
           ]
         },
@@ -215,7 +1324,10 @@
               "name": "cWETHv3",
               "viewOnlyPath": false,
               "calledFunctions": [
-                "deploy"
+                "deploy",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -223,7 +1335,268 @@
             },
             {
               "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
-              "name": "GatewayMinter",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeToAndCall",
+                "proxiableUUID"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0x2BEa101d992b58DA3F52C4c2aaeb49d33f7DCE14",
+          "contractName": "cUSDTv3",
+          "functionName": "pause",
+          "impact": "critical",
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0x2BEa101d992b58DA3F52C4c2aaeb49d33f7DCE14",
+          "contractName": "cUSDTv3",
+          "functionName": "withdrawReserves",
+          "impact": "critical",
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0x2BEa101d992b58DA3F52C4c2aaeb49d33f7DCE14",
+          "contractName": "cUSDTv3",
+          "functionName": "approveThis",
+          "impact": "critical",
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xA0332AaFD9E9164A95b1fA521f8a479125573451",
+          "contractName": "cUSDCv3",
+          "functionName": "approveThis",
+          "impact": "critical",
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xA0332AaFD9E9164A95b1fA521f8a479125573451",
+          "contractName": "cUSDCv3",
+          "functionName": "withdrawReserves",
+          "impact": "critical",
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        }
+      ],
+      "totalDirectCapital": 862063927.436899,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 862063927.436899,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "eth:0x0000000000000000000000000000000000000000",
+      "name": "Zero Address (Renounced)",
+      "description": "The zero address appears as pendingAdmin on the Timelock, indicating no pending admin transfer is in progress. This permission is effectively inactive.",
+      "adminType": "Revoked",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+          "contractName": "Timelock",
+          "functionName": "acceptAdmin",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setFactory",
+                "setConfiguration",
+                "setGovernor",
+                "setPauseGuardian",
+                "setBaseTokenPriceFeed",
+                "setExtensionDelegate",
+                "setSupplyKink",
+                "setSupplyPerYearInterestRateSlopeLow",
+                "setSupplyPerYearInterestRateSlopeHigh",
+                "setSupplyPerYearInterestRateBase",
+                "setBorrowKink",
+                "setBorrowPerYearInterestRateSlopeLow",
+                "setBorrowPerYearInterestRateSlopeHigh",
+                "setBorrowPerYearInterestRateBase",
+                "setStoreFrontPriceFactor",
+                "setBaseTrackingSupplySpeed",
+                "setBaseTrackingBorrowSpeed",
+                "setBaseMinForRewards",
+                "setBaseBorrowMin",
+                "setTargetReserves",
+                "addAsset",
+                "updateAsset",
+                "updateAssetPriceFeed",
+                "updateAssetBorrowCollateralFactor",
+                "updateAssetLiquidateCollateralFactor",
+                "updateAssetLiquidationFactor",
+                "updateAssetSupplyCap",
+                "transferGovernor",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall",
+                "deploy"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+              "name": "CometProxyAdmin",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeProxyAdmin",
+                "upgrade",
+                "upgradeAndCall",
+                "deployAndUpgradeTo",
+                "deployUpgradeToAndCall"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "pause",
+                "withdrawReserves",
+                "approveThis",
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "approveThis",
+                "withdrawReserves",
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin",
+                "upgradeTo"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
+              "name": "Unknown",
               "viewOnlyPath": false,
               "calledFunctions": [
                 "upgradeToAndCall",
@@ -238,35 +1611,13 @@
       ],
       "totalDirectCapital": 0,
       "totalDirectTokenValue": 0,
-      "totalReachableCapital": 0,
-      "totalReachableTokenValue": 0
-    },
-    {
-      "address": "eth:0x0000000000000000000000000000000000000000",
-      "name": "Zero Address (Renounced)",
-      "description": "The pendingAdmin slot on the Timelock is set to the zero address, meaning there is no pending admin transfer in progress. The acceptAdmin function is effectively disabled.",
-      "adminType": "Revoked",
-      "isGovernance": false,
-      "functions": [
-        {
-          "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
-          "contractName": "Timelock",
-          "functionName": "acceptAdmin",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        }
-      ],
-      "totalDirectCapital": 0,
-      "totalDirectTokenValue": 0,
-      "totalReachableCapital": 0,
+      "totalReachableCapital": 735580375.3835825,
       "totalReachableTokenValue": 0
     },
     {
       "address": "eth:0x309a862bbC1A00e45506cB8A802D1ff10004c8C0",
       "name": "CompoundGovernor",
-      "description": "Upgradeable on-chain governance contract (EIP-1967 proxy). Acts as the admin of the Timelock and can queue, cancel, and execute timelocked transactions. Governance proposals are voted on by COMP token holders. The governor contract itself is upgradeable via a separate ProxyAdmin owned by the same Timelock, creating a circular dependency where governance controls its own upgradeability.",
+      "description": "Upgradeable on-chain governance contract (EIP-1967 proxy) that serves as the admin of the Timelock. COMP token holders submit and vote on proposals, which are then queued and executed through the Timelock with a 48-hour delay. The governor contract itself is upgradeable via a separate ProxyAdmin also owned by the Timelock, meaning governance can upgrade its own governor implementation.",
       "adminType": "Upgradeable",
       "isGovernance": true,
       "functions": [
@@ -274,19 +1625,245 @@
           "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
           "contractName": "Timelock",
           "functionName": "queueTransaction",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setFactory",
+                "setConfiguration",
+                "setGovernor",
+                "setPauseGuardian",
+                "setBaseTokenPriceFeed",
+                "setExtensionDelegate",
+                "setSupplyKink",
+                "setSupplyPerYearInterestRateSlopeLow",
+                "setSupplyPerYearInterestRateSlopeHigh",
+                "setSupplyPerYearInterestRateBase",
+                "setBorrowKink",
+                "setBorrowPerYearInterestRateSlopeLow",
+                "setBorrowPerYearInterestRateSlopeHigh",
+                "setBorrowPerYearInterestRateBase",
+                "setStoreFrontPriceFactor",
+                "setBaseTrackingSupplySpeed",
+                "setBaseTrackingBorrowSpeed",
+                "setBaseMinForRewards",
+                "setBaseBorrowMin",
+                "setTargetReserves",
+                "addAsset",
+                "updateAsset",
+                "updateAssetPriceFeed",
+                "updateAssetBorrowCollateralFactor",
+                "updateAssetLiquidateCollateralFactor",
+                "updateAssetLiquidationFactor",
+                "updateAssetSupplyCap",
+                "transferGovernor",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall",
+                "deploy"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+              "name": "CometProxyAdmin",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeProxyAdmin",
+                "upgrade",
+                "upgradeAndCall",
+                "deployAndUpgradeTo",
+                "deployUpgradeToAndCall"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "pause",
+                "withdrawReserves",
+                "approveThis",
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "approveThis",
+                "withdrawReserves",
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin",
+                "upgradeTo"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeToAndCall",
+                "proxiableUUID"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
         },
         {
           "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
           "contractName": "Timelock",
           "functionName": "cancelTransaction",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setFactory",
+                "setConfiguration",
+                "setGovernor",
+                "setPauseGuardian",
+                "setBaseTokenPriceFeed",
+                "setExtensionDelegate",
+                "setSupplyKink",
+                "setSupplyPerYearInterestRateSlopeLow",
+                "setSupplyPerYearInterestRateSlopeHigh",
+                "setSupplyPerYearInterestRateBase",
+                "setBorrowKink",
+                "setBorrowPerYearInterestRateSlopeLow",
+                "setBorrowPerYearInterestRateSlopeHigh",
+                "setBorrowPerYearInterestRateBase",
+                "setStoreFrontPriceFactor",
+                "setBaseTrackingSupplySpeed",
+                "setBaseTrackingBorrowSpeed",
+                "setBaseMinForRewards",
+                "setBaseBorrowMin",
+                "setTargetReserves",
+                "addAsset",
+                "updateAsset",
+                "updateAssetPriceFeed",
+                "updateAssetBorrowCollateralFactor",
+                "updateAssetLiquidateCollateralFactor",
+                "updateAssetLiquidationFactor",
+                "updateAssetSupplyCap",
+                "transferGovernor",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall",
+                "deploy"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+              "name": "CometProxyAdmin",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeProxyAdmin",
+                "upgrade",
+                "upgradeAndCall",
+                "deployAndUpgradeTo",
+                "deployUpgradeToAndCall"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "pause",
+                "withdrawReserves",
+                "approveThis",
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "approveThis",
+                "withdrawReserves",
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin",
+                "upgradeTo"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeToAndCall",
+                "proxiableUUID"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
         },
         {
           "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
@@ -295,20 +1872,175 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setFactory",
+                "setConfiguration",
+                "setGovernor",
+                "setPauseGuardian",
+                "setBaseTokenPriceFeed",
+                "setExtensionDelegate",
+                "setSupplyKink",
+                "setSupplyPerYearInterestRateSlopeLow",
+                "setSupplyPerYearInterestRateSlopeHigh",
+                "setSupplyPerYearInterestRateBase",
+                "setBorrowKink",
+                "setBorrowPerYearInterestRateSlopeLow",
+                "setBorrowPerYearInterestRateSlopeHigh",
+                "setBorrowPerYearInterestRateBase",
+                "setStoreFrontPriceFactor",
+                "setBaseTrackingSupplySpeed",
+                "setBaseTrackingBorrowSpeed",
+                "setBaseMinForRewards",
+                "setBaseBorrowMin",
+                "setTargetReserves",
+                "addAsset",
+                "updateAsset",
+                "updateAssetPriceFeed",
+                "updateAssetBorrowCollateralFactor",
+                "updateAssetLiquidateCollateralFactor",
+                "updateAssetLiquidationFactor",
+                "updateAssetSupplyCap",
+                "transferGovernor",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall",
+                "deploy"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+              "name": "CometProxyAdmin",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeProxyAdmin",
+                "upgrade",
+                "upgradeAndCall",
+                "deployAndUpgradeTo",
+                "deployUpgradeToAndCall"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+              "name": "cUSDTv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "pause",
+                "withdrawReserves",
+                "approveThis",
+                "admin",
+                "implementation",
+                "changeAdmin",
+                "upgradeTo",
+                "upgradeToAndCall"
+              ],
+              "fundsUsd": 126483552.05331646,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+              "name": "cUSDCv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "approveThis",
+                "withdrawReserves",
+                "changeAdmin"
+              ],
+              "fundsUsd": 735580375.3835825,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin",
+                "upgradeTo"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeToAndCall",
+                "proxiableUUID"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
       "totalDirectTokenValue": 0,
-      "totalReachableCapital": 0,
+      "totalReachableCapital": 735580375.3835825,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "eth:0xbbf3f1421D886E9b2c5D716B5192aC998af2012c",
+      "name": "Pause Guardian 5/8 Multisig",
+      "description": "A 5-of-8 Gnosis Safe multisig that serves as the pause guardian for the cUSDCv3 and cUSDTv3 markets. Can call pause to halt supply, transfer, withdraw, absorb, and buyCollateral operations without timelock delay. One of its 8 signers is itself a 2/7 multisig (0xeB5f...d627). Controls $862.06M in direct capital exposure. Cannot unpause markets or modify any other parameters.",
+      "adminType": "Multisig",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "eth:0x2BEa101d992b58DA3F52C4c2aaeb49d33f7DCE14",
+          "contractName": "cUSDTv3",
+          "functionName": "pause",
+          "impact": "critical",
+          "directFundsUsd": 126483552.05331646,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xA0332AaFD9E9164A95b1fA521f8a479125573451",
+          "contractName": "cUSDCv3",
+          "functionName": "pause",
+          "impact": "critical",
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 862063927.436899,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 862063927.436899,
       "totalReachableTokenValue": 0
     }
   ],
   "dependencies": [
     {
       "address": "eth:0xD72ac1bCE9177CFe7aEb5d0516a38c88a64cE0AB",
-      "name": "ConstantPriceFeed",
-      "description": "Immutable price feed contract returning a fixed price, used by the cUSDTv3 market. Referenced in absorb, buyCollateral, transfer, and withdrawal functions for USDT base token pricing.",
+      "name": "ConstantPriceFeed (USDT)",
+      "description": "An immutable contract that returns a constant price, used as the base token price feed for the cUSDTv3 market. Referenced by 9 functions including absorb, buyCollateral, transfer, supply, and withdraw. Since USDT is the base asset, a constant $1 price avoids oracle dependency for the base token itself.",
       "entity": null,
       "isAutoDetected": true,
       "viewOnlyPath": true,
@@ -404,8 +2136,8 @@
     },
     {
       "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "name": "WETH Token",
-      "description": "Wrapped Ether token contract, the base asset of the cWETHv3 market and a collateral asset in the cUSDTv3 market. Used in supply, withdraw, buyCollateral, and withdrawReserves operations on the USDT market.",
+      "name": "Wrapped Ether (WETH)",
+      "description": "The WETH token contract, used as collateral in the cUSDTv3 market. Referenced by 8 functions including buyCollateral, supply, supplyFrom, and withdraw. WETH is immutable and has no admin controls.",
       "entity": null,
       "isAutoDetected": true,
       "viewOnlyPath": false,
@@ -495,7 +2227,7 @@
     {
       "address": "eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
       "name": "Chainlink 4/9 Multisig",
-      "description": "A 4-of-9 Gnosis Safe multisig that owns the Chainlink EACAggregatorProxy. Chainlink uses this multisig to manage aggregator updates for the USDC/USD price feed. Its execTransaction and signature validation functions are dependencies of the 5/8 multisig's operations.",
+      "description": "A 4-of-9 Gnosis Safe that owns the Chainlink EACAggregatorProxy. Can change the underlying aggregator address, which would affect all price-dependent operations in the cUSDCv3 market. This is a standard Chainlink operations multisig.",
       "entity": null,
       "isAutoDetected": true,
       "viewOnlyPath": false,
@@ -555,8 +2287,8 @@
     },
     {
       "address": "eth:0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
-      "name": "Chainlink USDC/USD Price Feed",
-      "description": "Chainlink EACAggregatorProxy providing the USDC/USD price feed for the cUSDCv3 market. Used for collateral valuation in absorb (liquidation), buyCollateral, and all transfer/withdrawal operations. A stale or manipulated price could affect liquidation thresholds and collateral valuations across the USDC market.",
+      "name": "EACAggregatorProxy",
+      "description": "",
       "entity": "Chainlink",
       "isAutoDetected": true,
       "viewOnlyPath": true,
@@ -653,7 +2385,7 @@
     {
       "address": "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       "name": "Circle USDC Token",
-      "description": "Circle's USDC stablecoin contract, the base asset of the cUSDCv3 market. Used in supply, withdraw, buyCollateral, approveThis, and withdrawReserves operations. USDC is an upgradeable (ZeppelinOS proxy) centrally-issued token — Circle can freeze or blacklist addresses, which would directly impact the USDC market's ability to process deposits and withdrawals.",
+      "description": "The USDC stablecoin contract, which is the base asset of the cUSDCv3 market. It is an upgradeable ZeppelinOS proxy controlled by Circle. Used in 9 functions including approveThis, buyCollateral, supply, and withdraw. Circle can freeze, blacklist, or upgrade the USDC contract, which would directly impact the cUSDCv3 market.",
       "entity": "Circle USDC",
       "isAutoDetected": true,
       "viewOnlyPath": false,
@@ -754,8 +2486,8 @@
   "funds": [
     {
       "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
-      "name": "cUSDCv3 (USDC Market)",
-      "description": "The main Compound V3 USDC lending market. Holds $735.58M in total token balances, including USDC base asset deposits, WBTC, WETH, wstETH, LINK, and other collateral assets deposited by borrowers.",
+      "name": "cUSDCv3 Market",
+      "description": "The main Compound V3 USDC lending market. Holds $735.58M in deposited assets including USDC (base), WBTC, wstETH, WETH, LINK, UNI, COMP, cbBTC, weETH, tBTC, and rsETH collateral. This is the largest Compound V3 market by TVL.",
       "balances": {
         "totalUsdValue": 735580375.3835825
       },
@@ -765,8 +2497,8 @@
     },
     {
       "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
-      "name": "cUSDTv3 (USDT Market)",
-      "description": "The Compound V3 USDT lending market. Holds $126.48M in total token balances, including ezETH, WETH, wstETH, rsETH, tETH, and other collateral assets.",
+      "name": "cUSDTv3 Market",
+      "description": "The Compound V3 USDT lending market. Holds $126.48M in deposited assets including USDT (base), wstETH, ezETH, WETH, rsETH, weETH, tETH, and other ETH-derivative collateral tokens.",
       "balances": {
         "totalUsdValue": 126483552.05331646
       },
@@ -776,8 +2508,8 @@
     },
     {
       "address": "eth:0xc00e94Cb662C3520282E6f5717214004A7f26888",
-      "name": "COMP Token",
-      "description": "The Compound governance token used for voting on protocol proposals. Has a total market cap of $194.40M.",
+      "name": "COMP Governance Token",
+      "description": "The Compound governance token used for voting in CompoundGovernor proposals. Has a market capitalization of $194.40M.",
       "balances": null,
       "positions": null,
       "tokenInfo": {
@@ -794,25 +2526,48 @@
       "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
       "contractName": "Timelock",
       "functionName": "queueTransaction",
-      "impact": "critical"
+      "impact": "no-impact"
     },
     {
       "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
       "contractName": "Timelock",
       "functionName": "cancelTransaction",
-      "impact": "critical"
+      "impact": "no-impact"
     },
     {
       "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
       "contractName": "Timelock",
       "functionName": "executeTransaction",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "delay",
+          "description": "Delay before execution",
+          "delayRef": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "delaySeconds": 172800
+        }
+      ]
+    },
+    {
+      "contractAddress": "eth:0x2BEa101d992b58DA3F52C4c2aaeb49d33f7DCE14",
+      "contractName": "cUSDTv3",
+      "functionName": "pause",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "eth:0xA0332AaFD9E9164A95b1fA521f8a479125573451",
+      "contractName": "cUSDCv3",
+      "functionName": "pause",
       "impact": "critical"
     }
   ],
   "contracts": [
     {
       "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
-      "name": "cUSDCv3 (USDC Market)",
+      "name": "cUSDCv3 Market",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -820,7 +2575,7 @@
     },
     {
       "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
-      "name": "cUSDTv3 (USDT Market)",
+      "name": "cUSDTv3 Market",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -852,7 +2607,7 @@
     },
     {
       "address": "eth:0xbbf3f1421D886E9b2c5D716B5192aC998af2012c",
-      "name": "5/8 Multisig",
+      "name": "Pause Guardian 5/8 Multisig",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -916,7 +2671,7 @@
     },
     {
       "address": "eth:0xc00e94Cb662C3520282E6f5717214004A7f26888",
-      "name": "COMP Token",
+      "name": "COMP Governance Token",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -940,7 +2695,7 @@
     },
     {
       "address": "eth:0xD72ac1bCE9177CFe7aEb5d0516a38c88a64cE0AB",
-      "name": "ConstantPriceFeed",
+      "name": "ConstantPriceFeed (USDT)",
       "isExternal": true,
       "isGovernance": false,
       "entity": null,
@@ -948,7 +2703,7 @@
     },
     {
       "address": "eth:0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
-      "name": "Chainlink USDC/USD Price Feed",
+      "name": "EACAggregatorProxy",
       "isExternal": true,
       "isGovernance": false,
       "entity": "Chainlink",
@@ -964,7 +2719,7 @@
     },
     {
       "address": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
-      "name": "Governance Timelock (48h)",
+      "name": "Compound Governance Timelock (48h)",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -980,7 +2735,7 @@
     },
     {
       "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "name": "WETH Token",
+      "name": "Wrapped Ether (WETH)",
       "isExternal": true,
       "isGovernance": false,
       "entity": null,

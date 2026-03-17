@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-03-16T19:12:54.306Z",
+  "lastModified": "2026-03-17T15:11:57.437Z",
   "contracts": {
     "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2": {
       "functions": [
@@ -131,14 +131,22 @@
         {
           "functionName": "changeAdmin",
           "isPermissioned": true,
-          "timestamp": "2025-10-01T19:09:44.175Z",
           "checked": true,
           "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.$admin"
             }
-          ]
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T09:54:49.906Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T09:54:49.906Z"
+          }
         },
         {
           "functionName": "implementation",
@@ -170,43 +178,6 @@
           "score": "critical",
           "description": "This function is a simple getter on the current admin address.",
           "ownerDefinitions": []
-        }
-      ]
-    },
-    "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94": {
-      "functions": [
-        {
-          "functionName": "admin",
-          "isPermissioned": true,
-          "timestamp": "2025-09-18T22:07:55.636Z",
-          "checked": true,
-          "score": "critical"
-        },
-        {
-          "functionName": "upgradeTo",
-          "isPermissioned": true,
-          "timestamp": "2025-09-18T22:08:37.444Z",
-          "score": "critical"
-        },
-        {
-          "functionName": "upgradeToAndCall",
-          "isPermissioned": true,
-          "timestamp": "2025-09-18T22:08:38.899Z",
-          "score": "critical"
-        },
-        {
-          "functionName": "implementation",
-          "isPermissioned": true,
-          "timestamp": "2025-09-22T23:05:27.892Z",
-          "checked": false,
-          "score": "critical"
-        },
-        {
-          "functionName": "changeAdmin",
-          "isPermissioned": true,
-          "timestamp": "2025-09-22T23:05:28.567Z",
-          "checked": false,
-          "score": "critical"
         }
       ]
     },
@@ -257,29 +228,31 @@
         {
           "functionName": "queueTransaction",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.admin"
             }
           ],
-          "timestamp": "2026-03-16T12:54:00.772Z",
+          "timestamp": "2026-03-17T15:11:37.225Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:54:00.772Z"
+            "date": "2026-03-17T15:11:37.225Z"
           }
         },
         {
           "functionName": "cancelTransaction",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.admin"
             }
           ],
-          "timestamp": "2026-03-16T12:54:00.773Z",
+          "timestamp": "2026-03-17T15:11:48.858Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:54:00.773Z"
+            "date": "2026-03-17T15:11:48.858Z"
           }
         },
         {
@@ -290,10 +263,14 @@
               "path": "$self.admin"
             }
           ],
-          "timestamp": "2026-03-16T12:54:00.774Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T15:11:57.437Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:54:00.774Z"
+            "date": "2026-03-17T15:11:57.437Z"
           }
         }
       ]
@@ -326,10 +303,14 @@
               "path": "$self.$admin"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.765Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:01:03.808Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.765Z"
+            "date": "2026-03-17T11:01:03.808Z"
           }
         },
         {
@@ -340,10 +321,14 @@
               "path": "$self.$admin"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.766Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:01:08.770Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.766Z"
+            "date": "2026-03-17T11:01:08.770Z"
           }
         }
       ]
@@ -358,10 +343,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.766Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:17.556Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.766Z"
+            "date": "2026-03-17T11:04:17.556Z"
           }
         },
         {
@@ -372,10 +361,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.767Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:06.800Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.767Z"
+            "date": "2026-03-17T11:04:06.800Z"
           }
         },
         {
@@ -386,10 +379,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.767Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:22.342Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.767Z"
+            "date": "2026-03-17T11:04:22.342Z"
           }
         },
         {
@@ -400,10 +397,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.768Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:26.898Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.768Z"
+            "date": "2026-03-17T11:04:26.898Z"
           }
         },
         {
@@ -414,10 +415,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.768Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:03:34.547Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.768Z"
+            "date": "2026-03-17T11:03:34.547Z"
           }
         },
         {
@@ -428,10 +433,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.769Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:11.491Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.769Z"
+            "date": "2026-03-17T11:04:11.491Z"
           }
         },
         {
@@ -442,10 +451,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.769Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:37.375Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.769Z"
+            "date": "2026-03-17T11:04:37.375Z"
           }
         },
         {
@@ -456,10 +469,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.770Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:50.150Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.770Z"
+            "date": "2026-03-17T11:04:50.150Z"
           }
         },
         {
@@ -470,10 +487,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.770Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:46.107Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.770Z"
+            "date": "2026-03-17T11:04:46.107Z"
           }
         },
         {
@@ -484,10 +505,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.771Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:42.203Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.771Z"
+            "date": "2026-03-17T11:04:42.203Z"
           }
         },
         {
@@ -498,10 +523,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.771Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:03:46.870Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.771Z"
+            "date": "2026-03-17T11:03:46.870Z"
           }
         },
         {
@@ -512,10 +541,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.772Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:00.404Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.772Z"
+            "date": "2026-03-17T11:04:00.404Z"
           }
         },
         {
@@ -526,10 +559,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.773Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:03:55.386Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.773Z"
+            "date": "2026-03-17T11:03:55.386Z"
           }
         },
         {
@@ -540,10 +577,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.774Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:03:51.615Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.774Z"
+            "date": "2026-03-17T11:03:51.615Z"
           }
         },
         {
@@ -554,10 +595,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.774Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:33.829Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.774Z"
+            "date": "2026-03-17T11:04:33.829Z"
           }
         },
         {
@@ -568,10 +613,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.775Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:03:43.719Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.775Z"
+            "date": "2026-03-17T11:03:43.719Z"
           }
         },
         {
@@ -582,10 +631,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.776Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:03:38.853Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.776Z"
+            "date": "2026-03-17T11:03:38.853Z"
           }
         },
         {
@@ -596,10 +649,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.776Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:03:27.910Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.776Z"
+            "date": "2026-03-17T11:03:27.910Z"
           }
         },
         {
@@ -610,10 +667,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.777Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:03:18.491Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.777Z"
+            "date": "2026-03-17T11:03:18.491Z"
           }
         },
         {
@@ -624,10 +685,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.781Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:04:54.920Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.781Z"
+            "date": "2026-03-17T11:04:54.920Z"
           }
         },
         {
@@ -638,10 +703,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.782Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:03:09.104Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.782Z"
+            "date": "2026-03-17T11:03:09.104Z"
           }
         },
         {
@@ -652,10 +721,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.783Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:05:05.140Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.783Z"
+            "date": "2026-03-17T11:05:05.140Z"
           }
         },
         {
@@ -666,10 +739,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.784Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:05:22.016Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.784Z"
+            "date": "2026-03-17T11:05:22.016Z"
           }
         },
         {
@@ -680,10 +757,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.785Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:05:10.518Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.785Z"
+            "date": "2026-03-17T11:05:10.518Z"
           }
         },
         {
@@ -694,10 +775,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.786Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:05:14.207Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.786Z"
+            "date": "2026-03-17T11:05:14.207Z"
           }
         },
         {
@@ -708,10 +793,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.787Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:05:18.070Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.787Z"
+            "date": "2026-03-17T11:05:18.070Z"
           }
         },
         {
@@ -722,10 +811,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.787Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:05:26.166Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.787Z"
+            "date": "2026-03-17T11:05:26.166Z"
           }
         },
         {
@@ -736,10 +829,14 @@
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-16T12:58:19.788Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T11:05:00.675Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T12:58:19.788Z"
+            "date": "2026-03-17T11:05:00.675Z"
           }
         }
       ]
@@ -754,10 +851,14 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-16T18:31:50.142Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:14:51.548Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T18:31:50.142Z"
+            "date": "2026-03-17T10:14:51.548Z"
           }
         },
         {
@@ -768,10 +869,14 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-16T18:31:50.143Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:15:05.542Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T18:31:50.143Z"
+            "date": "2026-03-17T10:15:05.542Z"
           }
         },
         {
@@ -782,10 +887,14 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-16T18:31:50.144Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:15:08.957Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T18:31:50.144Z"
+            "date": "2026-03-17T10:15:08.957Z"
           }
         },
         {
@@ -796,10 +905,14 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-16T18:31:50.146Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:14:56.476Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T18:31:50.146Z"
+            "date": "2026-03-17T10:14:56.476Z"
           }
         },
         {
@@ -810,10 +923,225 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-16T18:31:50.147Z",
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:15:01.317Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-16T18:31:50.147Z"
+            "date": "2026-03-17T10:15:01.317Z"
+          }
+        }
+      ]
+    },
+    "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94": {
+      "functions": [
+        {
+          "functionName": "admin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:20:12.476Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:20:12.476Z"
+          }
+        },
+        {
+          "functionName": "implementation",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:20:21.726Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:20:21.726Z"
+          }
+        },
+        {
+          "functionName": "changeAdmin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:20:17.507Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:20:17.507Z"
+          }
+        },
+        {
+          "functionName": "upgradeTo",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:20:25.484Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:20:25.484Z"
+          }
+        },
+        {
+          "functionName": "upgradeToAndCall",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:20:29.755Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:20:29.755Z"
+          }
+        }
+      ]
+    },
+    "eth:0x2BEa101d992b58DA3F52C4c2aaeb49d33f7DCE14": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            },
+            {
+              "path": "$self.pauseGuardian"
+            }
+          ],
+          "timestamp": "2026-03-17T10:22:47.610Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:22:47.610Z"
+          }
+        },
+        {
+          "functionName": "withdrawReserves",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:21:51.819Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:21:51.819Z"
+          }
+        },
+        {
+          "functionName": "approveThis",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:22:42.133Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:22:42.133Z"
+          }
+        }
+      ]
+    },
+    "eth:0xA0332AaFD9E9164A95b1fA521f8a479125573451": {
+      "functions": [
+        {
+          "functionName": "approveThis",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:29:19.762Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:29:19.762Z"
+          }
+        },
+        {
+          "functionName": "withdrawReserves",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-03-17T10:29:25.822Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:29:25.822Z"
+          }
+        },
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pauseGuardian"
+            }
+          ],
+          "timestamp": "2026-03-17T10:29:01.311Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-17T10:29:01.311Z"
           }
         }
       ]
