@@ -266,12 +266,25 @@ export class CapitalAnalysisCalculator {
     // Get direct funds and token value in the contract containing this function
     // If function is explicitly marked no-impact, zero out direct funds
     const isNoImpact = this.functionIsNoImpact(contractAddress, functionName)
-    const directFundsUsd = isNoImpact
-      ? 0
-      : this.getContractFunds(contractAddress)
-    const directTokenValueUsd = isNoImpact
-      ? 0
-      : this.getContractTokenValue(contractAddress)
+
+    // If function is explicitly marked no-impact, skip traversal entirely
+    if (isNoImpact) {
+      return {
+        contractAddress,
+        contractName,
+        functionName,
+        impact,
+        directFundsUsd: 0,
+        directTokenValueUsd: 0,
+        reachableContracts: [],
+        totalReachableFundsUsd: 0,
+        totalReachableTokenValueUsd: 0,
+        unresolvedCallsCount: 0,
+      }
+    }
+
+    const directFundsUsd = this.getContractFunds(contractAddress)
+    const directTokenValueUsd = this.getContractTokenValue(contractAddress)
 
     // Traverse enhanced graph (call graph + permission edges) from this function
     const traversalResult = this.traverseForward(contractAddress, functionName)
