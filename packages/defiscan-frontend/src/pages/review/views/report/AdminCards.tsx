@@ -266,11 +266,9 @@ function AdminDistributionChart({
                       ))
                     })()}
                   </span>
-                  {admin.totalDirectCapital > 0 && (
-                    <span className="font-semibold shrink-0 text-capital">
-                      {formatUsdValue(admin.totalDirectCapital)}
-                    </span>
-                  )}
+                  <span className="font-semibold shrink-0 text-capital">
+                    {formatUsdValue(admin.totalDirectCapital)}
+                  </span>
                 </div>
                 {totalCapital > 0 && (
                   <div className="h-3 rounded-full bg-bg-muted overflow-hidden">

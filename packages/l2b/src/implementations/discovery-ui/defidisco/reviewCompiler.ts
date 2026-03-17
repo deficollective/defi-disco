@@ -867,7 +867,12 @@ export class ReviewCompiler {
         scoredFunctionCount: v2Score.inventory.functions.breakdown?.length ?? 0,
         adminCount: v2Score.inventory.admins.inventory,
         dependencyCount: v2Score.inventory.dependencies.inventory,
-        totalCapitalAtRisk: v2Score.inventory.admins.totalCapitalAtRisk ?? 0,
+        totalCapitalAtRisk:
+          (v2Score.inventory.admins.totalCapitalAtRisk ?? 0) +
+          funds.reduce(
+            (sum, f) => sum + (f.aggregate?.totalUsdValue ?? 0),
+            0,
+          ),
         totalTokenValueAtRisk:
           v2Score.inventory.admins.totalTokenValueAtRisk ?? 0,
         totalTokenValue: funds.reduce(
