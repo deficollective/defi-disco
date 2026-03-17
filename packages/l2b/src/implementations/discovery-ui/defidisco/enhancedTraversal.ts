@@ -36,7 +36,7 @@ const MAX_DEPTH = 10
  * - Call graph: caller → callee
  * - Permission: owner → owned function
  */
-interface EnhancedEdge {
+export interface EnhancedEdge {
   /** Caller contract (call graph) or owner contract (permission) */
   sourceContract: string
   /** Specific function on source (call graph only, undefined for permission) */
@@ -54,7 +54,7 @@ interface EnhancedEdge {
  * - Forward index: "what does this contract call/own?"
  * - Backward index: "who calls/owns functions on this contract?"
  */
-interface EnhancedGraph {
+export interface EnhancedGraph {
   forwardIndex: Map<string, EnhancedEdge[]>
   backwardIndex: Map<string, EnhancedEdge[]>
 }
@@ -68,7 +68,7 @@ interface EnhancedGraph {
  * Edges stay in natural direction (caller→callee, owner→function).
  * Permission resolution happens here upfront (single pass over discovered.json).
  */
-function buildEnhancedGraph(
+export function buildEnhancedGraph(
   callGraphData: ApiCallGraphResponse,
   functionsData: ApiFunctionsResponse,
   dataAccess: DiscoveredDataAccess,
@@ -147,7 +147,7 @@ function buildEnhancedGraph(
 /**
  * Build both forward and backward indices from the same edge array.
  */
-function buildIndices(edges: EnhancedEdge[]): EnhancedGraph {
+export function buildIndices(edges: EnhancedEdge[]): EnhancedGraph {
   const forwardIndex = new Map<string, EnhancedEdge[]>()
   const backwardIndex = new Map<string, EnhancedEdge[]>()
 

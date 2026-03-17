@@ -77,8 +77,8 @@ function humanAdminType(type: string): string {
 
 /** Generate human-readable admin narrative */
 export function generateAdminNarrative(admin: CompiledAdmin): string {
-  const capitalStr = admin.totalDirectCapital > 0
-    ? ` with access to ${formatUsdValue(admin.totalDirectCapital)} in TVL`
+  const capitalStr = admin.totalReachableCapital > 0
+    ? ` with access to ${formatUsdValue(admin.totalReachableCapital)} in TVL`
     : ''
 
   const funcCount = admin.functions.length
@@ -134,7 +134,7 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
     (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned',
   )
   if (eoas.length > 0) {
-    const maxCapital = Math.max(...eoas.map((e) => e.totalDirectCapital))
+    const maxCapital = Math.max(...eoas.map((e) => e.totalReachableCapital))
     if (maxCapital > 0) {
       findings.push({
         type: 'critical',
@@ -147,7 +147,7 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
   // Check for multisig
   const multisigs = admins.filter((a) => a.adminType === 'Multisig')
   if (multisigs.length > 0) {
-    const maxMultisigCapital = Math.max(...multisigs.map((m) => m.totalDirectCapital))
+    const maxMultisigCapital = Math.max(...multisigs.map((m) => m.totalReachableCapital))
     if (maxMultisigCapital > 0) {
       findings.push({
         type: 'warning',

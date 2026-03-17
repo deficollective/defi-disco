@@ -508,6 +508,8 @@ export interface ContractFundsData {
   }
   lastFetched: string
   error?: string
+  /** When set, this entry inherits funds from the given proxy address (implementation contract). */
+  proxyAddress?: string
 }
 
 export interface FundsTokenBalance {

@@ -25,6 +25,7 @@ import {
   normalizeChainAddress,
   addressesEqual,
   getFromAddressRecord,
+  buildImplementationToProxyMap,
 } from './addressUtils'
 import { getProject } from '../getProject'
 import * as fs from 'fs'
@@ -521,6 +522,18 @@ export class ReviewCompiler {
     for (const entry of discoveryEntries) {
       if (entry.name) {
         contractNameMap.set(normalizeChainAddress(entry.address), entry.name)
+      }
+    }
+
+    // Map implementation addresses to their proxy's name so that
+    // functions keyed by implementation address resolve correctly
+    const implToProxy = buildImplementationToProxyMap(discovery)
+    for (const [implAddr, proxyAddr] of implToProxy) {
+      if (!contractNameMap.has(implAddr)) {
+        const proxyName = contractNameMap.get(proxyAddr)
+        if (proxyName) {
+          contractNameMap.set(implAddr, proxyName)
+        }
       }
     }
 

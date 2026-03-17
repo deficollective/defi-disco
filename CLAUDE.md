@@ -90,12 +90,12 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 
 ### Call Graph Analysis — `docs/developers/features/call-graph-analysis.md`
 - Slither-based external call detection (SlithIR parsing, heuristic resolution engine)
-- Enhanced Traversal (backward BFS for governance chains)
+- Enhanced Traversal (unified graph: call graph + permission edges, backward BFS for governance chains, forward BFS for capital analysis)
 - Function Analysis (forward BFS for impact + dependency detection)
 - Shared traversal helpers (`traverseWithPaths`, `findContractGraph`, `extractChainAddresses`)
 
 ### Scoring & Review — `docs/developers/features/scoring-and-review.md`
-- V2 Scoring UI (inventory sections, shared `scoringShared.tsx` module, capital display)
+- V2 Scoring UI (inventory sections, shared `scoringShared.tsx` module, capital display, enhanced graph capital analysis)
 - Review Builder (`review-config.json`, entity descriptions, resources, templates)
 - Review Generation Agent (`/generate-review` Claude Code skill)
 - Review Compiler (`compiled-review.json`, template variable resolution)
@@ -262,7 +262,8 @@ packages/
 │   ├── generatePermissionsReport.ts
 │   ├── callGraph.ts                  # Slither-based external call detection
 │   ├── callGraphHeuristics.ts        # Heuristic engine for variable-to-address resolution
-│   ├── enhancedTraversal.ts          # Backward BFS governance chains
+│   ├── enhancedTraversal.ts          # Enhanced graph (call graph + permission edges), backward BFS governance chains, exports graph builders for capital analysis
+│   ├── capitalAnalysis.ts            # Capital computation via enhanced graph forward BFS
 │   ├── functionAnalysis.ts           # Forward BFS impact & dependencies
 │   ├── configSeverity.ts            # Auto-severity for mitigated fields in config.jsonc
 │   └── addressUtils.ts              # Backend address utilities (stripChainPrefix, ensureChainPrefix, addressesEqual, isChainAddress)
