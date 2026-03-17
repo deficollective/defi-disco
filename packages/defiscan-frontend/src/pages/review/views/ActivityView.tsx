@@ -52,6 +52,28 @@ export function ActivityView({ review }: ActivityViewProps) {
     setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))
   }
 
+  // Group events by year-month for the timeline
+  const grouped = useMemo(() => {
+    const groups: {
+      label: string
+      events: (ActivityEvent & { _idx: number })[]
+    }[] = []
+    let currentLabel = ''
+    for (const event of sorted) {
+      const d = new Date(event.timestamp)
+      const label = d.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+      })
+      if (label !== currentLabel) {
+        currentLabel = label
+        groups.push({ label, events: [] })
+      }
+      groups[groups.length - 1]!.events.push(event)
+    }
+    return groups
+  }, [sorted])
+
   function toggleExpand(idx: number) {
     setExpanded((prev) => {
       const next = new Set(prev)
@@ -92,25 +114,6 @@ export function ActivityView({ review }: ActivityViewProps) {
       </div>
     )
   }
-
-  // Group events by year-month for the timeline
-  const grouped = useMemo(() => {
-    const groups: { label: string; events: (ActivityEvent & { _idx: number })[] }[] = []
-    let currentLabel = ''
-    for (const event of sorted) {
-      const d = new Date(event.timestamp)
-      const label = d.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-      })
-      if (label !== currentLabel) {
-        currentLabel = label
-        groups.push({ label, events: [] })
-      }
-      groups[groups.length - 1].events.push(event)
-    }
-    return groups
-  }, [sorted])
 
   return (
     <div>
