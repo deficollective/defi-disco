@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-16T17:37:43.253Z",
+  "compiledAt": "2026-03-17T09:02:05.562Z",
   "project": "compound-v3",
   "metadata": {
     "protocolName": "Compound V3",
@@ -12,7 +12,7 @@
   },
   "totals": {
     "contractCount": 22,
-    "permissionedFunctionCount": 56,
+    "permissionedFunctionCount": 61,
     "scoredFunctionCount": 8,
     "adminCount": 4,
     "dependencyCount": 5,
@@ -44,7 +44,18 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
         },
         {
           "contractAddress": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
@@ -94,6 +105,135 @@
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+          "contractName": "CometProxyAdmin",
+          "functionName": "changeProxyAdmin",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
+              "name": "TokenMessengerV2",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "changeAdmin"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+          "contractName": "CometProxyAdmin",
+          "functionName": "upgrade",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
+              "name": "TokenMessengerV2",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeTo"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+          "contractName": "CometProxyAdmin",
+          "functionName": "upgradeAndCall",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
+              "name": "GatewayMinter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeToAndCall",
+                "proxiableUUID"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+          "contractName": "CometProxyAdmin",
+          "functionName": "deployAndUpgradeTo",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "deploy"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d",
+              "name": "TokenMessengerV2",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeTo"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
+          "contractName": "CometProxyAdmin",
+          "functionName": "deployUpgradeToAndCall",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
+              "name": "cWETHv3",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "deploy"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "eth:0x2222222d7164433c4C09B0b0D809a9b52C04C205",
+              "name": "GatewayMinter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "upgradeToAndCall",
+                "proxiableUUID"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
