@@ -1,0 +1,91 @@
+{
+  "$schema": "../../../../discovery/schemas/config.v2.schema.json",
+  "name": "aerodrome",
+  "import": ["../globalConfig.jsonc"],
+  "maxAddresses": 55,
+  "initialAddresses": ["base:0x940181a94A35A4569E4529A3CDfB74e38FD98631"],
+  "names": {
+    "base:0x7766Eb408B671BE8bc237639b20A0eC45e2750C7": "Redistributor Keeper"
+  },
+  "overrides": {
+    "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5": {
+      "ignoreMethods": [
+        "calculateGrowth",
+        "epochCount",
+        "proposals",
+        "activePeriod",
+        "weekly",
+        "WEEKLY_DECAY",
+        "WEEKLY_GROWTH",
+        "TAIL_START",
+        "tailEmissionRate",
+        "teamRate"
+      ]
+    },
+    "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4": {
+      "ignoreMethods": [
+        "balanceOfNFT",
+        "deactivated",
+        "idToManaged",
+        "locked",
+        "pointHistory",
+        "supply",
+        "slopeChanges",
+        "totalSupplyAt",
+        "totalSupply",
+        "userPointEpoch",
+        "voted",
+        "tokenURI",
+        "numCheckpoints",
+        "delegates"
+      ]
+    },
+    "base:0x227f65131A261548b057215bB1D5Ab2997964C7d": {
+      "ignoreMethods": [
+        "timeCursorOf",
+        "tokenLastBalance",
+        "tokensPerWeek",
+        "startTime",
+        "WEEK",
+        "claimable",
+        "lastTokenTime"
+      ]
+    },
+    "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5": {
+      "ignoreMethods": [
+        "epochVoteEnd",
+        "epochVoteStart",
+        "isWhitelistedNFT",
+        "lastVoted",
+        "usedWeights",
+        "pools",
+        "epochStart",
+        "epochNext"
+      ]
+    },
+    "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631": {
+      "ignoreMethods": ["totalSupply"]
+    },
+    "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4": {
+      "ignoreMethods": ["activePeriod", "totalEmissions", "totalWeight"]
+    },
+    "base:0xd4C6eDDBE963aFA2D7b1562d0F2F3F9462E6525b": {
+      "ignoreDiscovery": true
+    },
+    "base:0xDB45818A6db280ecfeB33cbeBd445423d0216b5D": {
+      "ignoreDiscovery": true
+    },
+    "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a": {
+      "ignoreMethods": ["allPools", "allPoolsLength", "tickSpacings"]
+    },
+    "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A": {
+      "ignoreMethods": ["allPools", "allPoolsLength", "tickSpacings"]
+    },
+    "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da": {
+      "ignoreMethods": ["allPools"]
+    },
+    "base:0xE28Adc50c7551CFf69FCF32D45d037e5F6554264": {
+      "ignoreMethods": ["i_LINK"]
+    }
+  }
+}
