@@ -217,8 +217,12 @@ function ResourceEntryRow({
                     type === 'frontend'
                       ? (localEntry.frontendSubtype ?? 'official')
                       : undefined,
-                  label: type === 'license' ? (localEntry.label ?? 'MIT') : localEntry.label,
-                  licenseScope: type === 'license' ? localEntry.licenseScope : undefined,
+                  label:
+                    type === 'license'
+                      ? (localEntry.label ?? 'MIT')
+                      : localEntry.label,
+                  licenseScope:
+                    type === 'license' ? localEntry.licenseScope : undefined,
                 })
               }}
               className="rounded border border-coffee-600 bg-coffee-800 px-2 py-0.5 text-xs text-coffee-100 focus:border-autumn-300 focus:outline-none"
@@ -382,7 +386,10 @@ function AddResourceForm({
       type,
       label: label.trim() || undefined,
       frontendSubtype: type === 'frontend' ? frontendSubtype : undefined,
-      licenseScope: type === 'license' && licenseScope.trim() ? licenseScope.trim() : undefined,
+      licenseScope:
+        type === 'license' && licenseScope.trim()
+          ? licenseScope.trim()
+          : undefined,
     })
   }, [url, type, label, frontendSubtype, licenseScope, isValid, onSave])
 
