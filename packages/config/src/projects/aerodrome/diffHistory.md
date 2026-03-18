@@ -1,9 +1,9 @@
-Generated with discovered.json: 0x4f08bdb86662e2fc7473fd0ef29924fa4ca590f6
+Generated with discovered.json: 0x9328d9d37f0f1451b92cdea422926ba22d237fa7
 
-# Diff at Wed, 18 Mar 2026 08:21:21 GMT:
+# Diff at Wed, 18 Mar 2026 10:47:30 GMT:
 
 - author: unknown (<unknown>)
-- current timestamp: 1773821890
+- current timestamp: 1773830655
 
 ## Description
 
@@ -55,19 +55,25 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Wrapped Ether Token (base:0x4200000000000000000000000000000000000006)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract PoolFactory (base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
-    contract RedistributeUpkeepManagerV2_3 (base:0x4B364C2B5fe67B8566CDe8D0C5335F791030bECC)
+    contract VotingRewardsFactory (base:0x45cA74858C579E717ee29A86042E0d53B252B504)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
-    contract GnosisSafeL2 (base:0x51E171d2FDe9b37BBBb624A53Ef54959422388E4)
+    contract RedistributeUpkeepManagerV2_3 (base:0x4B364C2B5fe67B8566CDe8D0C5335F791030bECC)
     +++ description: None
 ```
 
@@ -91,12 +97,6 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract GnosisSafeL2 (base:0x834C0DA026d5F933C2c18Fa9F8Ba7f1f792fDa52)
-    +++ description: None
-```
-
-```diff
-+   Status: CREATED
     contract LinkToken (base:0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196)
     +++ description: None
 ```
@@ -115,7 +115,7 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract GnosisSafeL2 (base:0x99249b10593fCa1Ae9DAE6D4819F1A6dae5C013D)
+    contract Emergency Council (base:0x99249b10593fCa1Ae9DAE6D4819F1A6dae5C013D)
     +++ description: None
 ```
 
@@ -145,7 +145,7 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract GnosisSafeL2 (base:0xBDE0c70BdC242577c52dFAD53389F82fd149EA5a)
+    contract Aerodrome Foundation and Incentives (base:0xBDE0c70BdC242577c52dFAD53389F82fd149EA5a)
     +++ description: None
 ```
 
@@ -169,6 +169,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Router (base:0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract CLGaugeFactory (base:0xD30677bd8dd15132F251Cb54CbDA552d2A05Fb08)
     +++ description: None
 ```
@@ -181,7 +187,7 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract GnosisSafeL2 (base:0xE6A41fE61E7a1996B59d508661e3f524d6A32075)
+    contract Undeclared Multisig (base:0xE6A41fE61E7a1996B59d508661e3f524d6A32075)
     +++ description: None
 ```
 
@@ -206,6 +212,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract CLPool (base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CustomSwapFeeModule (base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00)
     +++ description: None
 ```
 
