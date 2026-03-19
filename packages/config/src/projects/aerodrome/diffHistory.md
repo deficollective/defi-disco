@@ -1,9 +1,9 @@
-Generated with discovered.json: 0x9328d9d37f0f1451b92cdea422926ba22d237fa7
+Generated with discovered.json: 0xbca223156994fcb1ea329f747c0e6e77cfcbf8d3
 
-# Diff at Wed, 18 Mar 2026 10:47:30 GMT:
+# Diff at Thu, 19 Mar 2026 02:16:06 GMT:
 
 - author: unknown (<unknown>)
-- current timestamp: 1773830655
+- current timestamp: 1773886504
 
 ## Description
 
@@ -97,12 +97,6 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract LinkToken (base:0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196)
-    +++ description: None
-```
-
-```diff
-+   Status: CREATED
     contract Aerodrome Token (base:0x940181a94A35A4569E4529A3CDfB74e38FD98631)
     +++ description: None
 ```
@@ -127,7 +121,7 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract  (base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F)
+    contract NonfungiblePositionManager (base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F)
     +++ description: None
 ```
 
@@ -157,7 +151,7 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract  (base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497)
+    contract SimpleEpochGovernor (base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497)
     +++ description: None
 ```
 

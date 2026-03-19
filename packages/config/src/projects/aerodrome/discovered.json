@@ -1,7 +1,7 @@
 {
   "name": "aerodrome",
-  "timestamp": 1773830655,
-  "configHash": "0xaf8a2fef6025f51b516ce5b30adf3cb68a36edc739cc713482b444c736ace1cb",
+  "timestamp": 1773886504,
+  "configHash": "0x8bff600f92fc7745ff6d28a1b795172f05d2b6d258ee1e9e7d62bd9c390d53e4",
   "entries": [
     {
       "name": "DynamicSwapFeeModule",
@@ -128,10 +128,8 @@
         "factoryRegistry": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
         "forwarder": "base:0x15e62707FCA7352fbE35F51a8D6b0F8066A05DCc",
         "governor": "base:0xE6A41fE61E7a1996B59d508661e3f524d6A32075",
-        "length": 1682,
         "maxVotingNum": 60,
         "minter": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-        "totalWeight": "964133914534501179635935219",
         "ve": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4"
       },
       "implementationNames": {
@@ -213,7 +211,7 @@
         "decimals": 18,
         "name": "Wrapped Ether",
         "symbol": "WETH",
-        "totalSupply": "230536126766918531166576"
+        "totalSupply": "241027071489340935970195"
       },
       "implementationNames": {
         "base:0x4200000000000000000000000000000000000006": "WETH9"
@@ -280,31 +278,11 @@
         "factoryRegistry": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
         "gaugeCount": 660,
         "keeperRegistry": "base:0xf4bAb6A129164aBa9B113cB96BA4266dF49f8743",
-        "linkToken": "base:0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196",
         "newUpkeepFundAmount": "18000000000000000000",
         "newUpkeepGasLimit": 5000000,
         "owner": "base:0x6a4a3D794FBA1895e311CEdf3F2C49aB76B0Ebf3",
         "upkeepBalanceMonitor": "base:0xe9970892455e54Bab465A398fa575Fef2B187546",
-        "upkeepCount": 7,
-        "upkeepIds": [
-          "88031630444558918519958049349479759178104980828839346136160903051136198867985",
-          "83764907631898057518315564781269722982496999129670594070618936176411023787031",
-          "87676850972472656341278849175108094174213361255425972923923011199685405039917",
-          "5212771605163177387613165327927133353779159765836516284724367428244461818557",
-          "67266156574705292515102783698862750603240120619006837843871535187914289923714"
-        ],
-        "upkeepIdToAddress": [
-          "base:0x0000000000000000000000000000000000000000",
-          "base:0x0000000000000000000000000000000000000000",
-          "base:0x0000000000000000000000000000000000000000",
-          "base:0x0000000000000000000000000000000000000000",
-          "base:0x0000000000000000000000000000000000000000"
-        ],
         "voter": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5"
-      },
-      "errors": {
-        "upkeepIds": "Processing error occurred.",
-        "upkeepIdToAddress": "Processing error occurred."
       },
       "implementationNames": {
         "base:0x4B364C2B5fe67B8566CDe8D0C5335F791030bECC": "RedistributeUpkeepManagerV2_3"
@@ -418,39 +396,6 @@
       "proxyType": "EOA"
     },
     {
-      "name": "LinkToken",
-      "address": "base:0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196",
-      "type": "Contract",
-      "sourceHashes": [
-        "0x76084317314416f7af4f9f20a1c54f249aecb46bfbd5f2a82c525af5c47140d3"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1692023889,
-      "sinceBlock": 2617271,
-      "values": {
-        "$immutable": true,
-        "decimals": 18,
-        "getBurners": [
-          "base:0x1568A4131760231712E59778DAB9EFE67911f4ff",
-          "base:0x0A995a72D8346683c97514990F802F4778B7ac72",
-          "base:0xBA148bAF60CCc4d7D86aED4fCff04D5b3265cAd4"
-        ],
-        "getMinters": [
-          "base:0x1568A4131760231712E59778DAB9EFE67911f4ff",
-          "base:0x0A995a72D8346683c97514990F802F4778B7ac72",
-          "base:0xBA148bAF60CCc4d7D86aED4fCff04D5b3265cAd4"
-        ],
-        "maxSupply": "1000000000000000000000000000",
-        "name": "ChainLink Token",
-        "owner": "base:0x7B0328745A01634c32eFAf041d91432a075B308D",
-        "symbol": "LINK",
-        "totalSupply": "169468105873790759485826"
-      },
-      "implementationNames": {
-        "base:0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196": "LinkToken"
-      }
-    },
-    {
       "address": "base:0x8daeEB5963dA2d8Ae37214020ff08d957DcCeCbE",
       "type": "EOA",
       "proxyType": "EOA"
@@ -463,6 +408,7 @@
         "0x946b55c9f46ef7de8e403bbf4ecd6c2f7328fc2a79bd361ade638afaac5b1bc3"
       ],
       "proxyType": "immutable",
+      "ignoreInWatchMode": ["totalSupply"],
       "sinceTimestamp": 1693190447,
       "sinceBlock": 3200550,
       "values": {
@@ -480,7 +426,8 @@
         },
         "minter": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
         "name": "Aerodrome",
-        "symbol": "AERO"
+        "symbol": "AERO",
+        "totalSupply": "1857446325276151742530681825"
       },
       "implementationNames": {
         "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631": "Aero"
@@ -588,7 +535,7 @@
         "currentCumulativePrices": {
           "reserve0Cumulative": 0,
           "reserve1Cumulative": 0,
-          "blockTimestamp": 1773830603
+          "blockTimestamp": 1773839719
         },
         "decimals": 18,
         "DOMAIN_SEPARATOR": "0x92f73ceb4d20761a35aaeeac8587c5805fc0329c5f16b4ab68866001e57c83f7",
@@ -642,16 +589,53 @@
       }
     },
     {
-      "name": "",
+      "name": "NonfungiblePositionManager",
       "address": "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F",
       "type": "Contract",
-      "unverified": true,
+      "sourceHashes": [
+        "0xcfcdc190b759b4ee386fa15ea2c261f66f241842b2634a098c452f01081fd92f"
+      ],
       "proxyType": "immutable",
       "sinceTimestamp": 1760697283,
       "sinceBlock": 36953968,
-      "values": { "$immutable": true },
+      "values": {
+        "$immutable": true,
+        "baseURI": "",
+        "DOMAIN_SEPARATOR": "0x67f95b43716b9ad6658600282062e15b64efec0d7cb3a112996e42910a9ae595",
+        "factory": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+        "getApproved": ["base:0x0000000000000000000000000000000000000000"],
+        "name": "Slipstream Position NFT v1",
+        "owner": "base:0xE6A41fE61E7a1996B59d508661e3f524d6A32075",
+        "ownerOf": ["base:0x5Dfc48F7CbD32333e7B1335211fEA55278D70914"],
+        "PERMIT_TYPEHASH": "0x49ecf333e5b8c95c40fdafc95c1ad136e8914a8fb55e9dc8bb01eaa83a2df9ad",
+        "positions": [
+          [
+            0,
+            "base:0x0000000000000000000000000000000000000000",
+            "base:0x4200000000000000000000000000000000000006",
+            "base:0xF732A566121Fa6362E9E0FBdd6D66E5c8C925E49",
+            200,
+            105400,
+            105600,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "symbol": "AERO-CL-POS",
+        "tokenByIndex": [3, 738014, 23655, 373197, 6],
+        "tokenDescriptor": "base:0xf632031B94D72deE0D99DeF846c9b6211041337f",
+        "tokenURI": [
+          "data:application/json;base64,eyJuYW1lIjoiQ0wgLSBMSVRLRVkvRVRIIC0gMzc3Nzg8PjM4NTQxIiwgImRlc2NyaXB0aW9uIjoiVGhpcyBORlQgcmVwcmVzZW50cyBhIGxpcXVpZGl0eSBwb3NpdGlvbiBpbiBhbiBBZXJvZHJvbWUgRmluYW5jZSBMSVRLRVktRVRIIHBvb2wuIFRoZSBvd25lciBvZiB0aGlzIE5GVCBjYW4gbW9kaWZ5IG9yIHJlZGVlbSB0aGUgcG9zaXRpb24uXG5cblBvb2wgQWRkcmVzczogMHhjZDFmOTc3NzU3MTQ5M2FlYWNiN2VhZTQ1Y2QzMGEyMjZkM2U2MTJkXG5MSVRLRVkgQWRkcmVzczogMHhmNzMyYTU2NjEyMWZhNjM2MmU5ZTBmYmRkNmQ2NmU1YzhjOTI1ZTQ5XG5FVEggQWRkcmVzczogMHg0MjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA2XG5UaWNrIFNwYWNpbmc6IDIwMFxuVG9rZW4gSUQ6IDNcblxu4pqg77iPIERJU0NMQUlNRVI6IER1ZSBkaWxpZ2VuY2UgaXMgaW1wZXJhdGl2ZSB3aGVuIGFzc2Vzc2luZyB0aGlzIE5GVC4gTWFrZSBzdXJlIHRva2VuIGFkZHJlc3NlcyBtYXRjaCB0aGUgZXhwZWN0ZWQgdG9rZW5zLCBhcyB0b2tlbiBzeW1ib2xzIG1heSBiZSBpbWl0YXRlZC4iLCAiaW1hZ2UiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpT0RBd0lpQm9aV2xuYUhROUlqZ3dNQ0lnZG1sbGQwSnZlRDBpTUNBd0lEZ3dNQ0E0TURBaUlHWnBiR3c5SW01dmJtVWlJSGh0Ykc1elBTSm9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5SStQR2NnYVdROUlrNUdWQ0JCWlhKdklpQmpiR2x3TFhCaGRHZzlJblZ5YkNnalkyeHBjREJmTVRBNU9GODRNakFwSWo0OGNtVmpkQ0IzYVdSMGFEMGlPREF3SWlCb1pXbG5hSFE5SWpnd01DSWdabWxzYkQwaUl6STFNalV5TlNJdlBqeG5JR2xrUFNKemFHRmtiM2NpUGp4bklHbGtQU0pIY205MWNDQTBOalVpUGp4d1lYUm9JR2xrUFNKU1pXTjBZVzVuYkdVZ01UY3pJaUJrUFNKTk16azBJREl6TkV3ek9UUWdOVFkyVEMwd0xqQXdNREV4TnpNM01pQTFOalpNTFRBdU1EQXdNVEl5TURjZ01qTTBURE01TkNBeU16UmFJaUJtYVd4c1BTSjFjbXdvSTNCaGFXNTBNRjlzYVc1bFlYSmZNVEE1T0Y4NE1qQXBJaTgrUEM5blBqd3ZaejQ4WnlCcFpEMGlRMHd5TURBdFRFbFVTMFZaTDBWVVNFbEVJQ016SWo0OGRHVjRkQ0JtYVd4c1BTSWpSak5HTkVZMklpQjRiV3c2YzNCaFkyVTlJbkJ5WlhObGNuWmxJaUJ6ZEhsc1pUMGlkMmhwZEdVdGMzQmhZMlU2SUhCeVpTSWdabTl1ZEMxbVlXMXBiSGs5SWtGeWFXRnNJaUJtYjI1MExYTnBlbVU5SWpNeUlpQm1iMjUwTFhkbGFXZG9kRDBpWW05c1pDSWdiR1YwZEdWeUxYTndZV05wYm1jOUlqQmxiU0krUEhSemNHRnVJSGc5SWpVMklpQjVQU0k0TlM0MU9UTTRJajVEVERJd01DMU1TVlJMUlZrdlJWUklQQzkwYzNCaGJqNDhMM1JsZUhRK1BDOW5QangwWlhoMElHbGtQU0pKUkNBak1USXlNeUlnWm1sc2JEMGlJMFl6UmpSR05pSWdlRzFzT25Od1lXTmxQU0p3Y21WelpYSjJaU0lnYzNSNWJHVTlJbmRvYVhSbExYTndZV05sT2lCd2NtVWlJR1p2Ym5RdFptRnRhV3g1UFNKQmNtbGhiQ0lnWm05dWRDMXphWHBsUFNJeU1DSWdiR1YwZEdWeUxYTndZV05wYm1jOUlqQmxiU0krUEhSemNHRnVJSGc5SWpVMklpQjVQU0l4TWpndU9URXpJajVKUkNBak16d3ZkSE53WVc0K1BDOTBaWGgwUGp4amFYSmpiR1VnYVdROUltTnBjbU5zWlNJZ1kzZzlJalF3TUNJZ1kzazlJak01T1M0NE16Y2lJSEk5SWpFMk5TNDRNemNpSUdacGJHdzlJaU13TkRSR1JVSWlMejQ4WnlCcFpEMGlZV1Z5YnlJK1BHY2dhV1E5SWtGRlVrOUVVazlOUlNJK1BIQmhkR2dnWkQwaVRUTXdOUzQyT0RVZ05EQTVMamMwTmt3ek1ETXVPVGcySURRd05TNDROamhJTWprekxqYzJOVXd5T1RJdU1EWTJJRFF3T1M0M05EWklNamcxTGpFNE5rd3lPVFF1TkRFMklETTRPUzQ1TWpkSU16QXpMak16TlV3ek1USXVOVE0zSURRd09TNDNORFpJTXpBMUxqWTROVnBOTWprMUxqYzBOeUEwTURFdU16azBTRE13TWk0d01EUk1Nams0TGpnNUlETTVOQzR5T0RoTU1qazFMamMwTnlBME1ERXVNemswV2lJZ1ptbHNiRDBpZDJocGRHVWlMejQ4Y0dGMGFDQmtQU0pOTXpNMExqTTNOQ0F6T1RRdU56WTVTRE14T1M0Mk5USldNemszTGpjeE0wZ3pNelF1TXpjMFZqUXdNUzQ1Tmtnek1Ua3VOalV5VmpRd05DNDVNRFZJTXpNMExqTTNORlkwTURrdU56UTJTRE14TXk0ME1qTldNemc1TGpreU4wZ3pNelF1TXpjMFZqTTVOQzQzTmpsYUlpQm1hV3hzUFNKM2FHbDBaU0l2UGp4d1lYUm9JR1E5SWswek5UZ3VPRFk0SURNNU55NHpORFZETXpVNExqZzJPQ0EwTURBdU5EQXpJRE0xTnk0ek9UWWdOREF5TGpneElETTFOQzQ1T0RrZ05EQXpMamszTVV3ek5UZ3VOVFUzSURRd09TNDNORFpJTXpVeExqRTVOVXd6TkRndU1qVXhJRFF3TkM0M09USklNelF4TGprek4xWTBNRGt1TnpRMlNETXpOUzQzTURoV016ZzVMamt5TjBnek5URXVNamhETXpVMUxqYzRNaUF6T0RrdU9USTNJRE0xT0M0NE5qZ2dNemt5TGpreU9TQXpOVGd1T0RZNElETTVOeTR6TkRWYVRUTTBNUzQ1TXpjZ016azFMakU1TkZZek9Ua3VOVEkxU0RNME9TNDROalZETXpVeExqQXlOaUF6T1RrdU5USTFJRE0xTWk0Mk16a2dNems1TGpVeU5TQXpOVEl1TmpNNUlETTVOeTR6TkRWRE16VXlMall6T1NBek9UVXVNVGswSURNMU1TNHdNallnTXprMUxqRTVOQ0F6TkRrdU9EWTFJRE01TlM0eE9UUklNelF4TGprek4xb2lJR1pwYkd3OUluZG9hWFJsSWk4K1BIQmhkR2dnWkQwaVRUTTNNaTR5T1RjZ05ERXdMakF6UXpNMk15NDFOemNnTkRFd0xqQXpJRE0xT1M0NE16a2dOREEyTGpVME55QXpOVGt1T0RNNUlETTVPUzQ0TURsRE16VTVMamd6T1NBek9UTXVNRGs0SURNMk15NDFOemNnTXpnNUxqWTBOQ0F6TnpJdU1qazNJRE00T1M0Mk5EUkRNemd3TGprNE9TQXpPRGt1TmpRMElETTROQzQzTlRVZ016a3pMakV5TnlBek9EUXVOelUxSURNNU9TNDRNRGxETXpnMExqYzFOU0EwTURZdU5URTVJRE00TUM0NU9Ea2dOREV3TGpBeklETTNNaTR5T1RjZ05ERXdMakF6V2swek56SXVNamszSURRd05DNDNOak5ETXpjM0xqRXpPU0EwTURRdU56WXpJRE0zT0M0MU1qWWdOREF5TGpnMk5pQXpOemd1TlRJMklETTVPUzQ0TURsRE16YzRMalV5TmlBek9UWXVOemM1SURNM055NHhOamNnTXprMExqa3hJRE0zTWk0eU9UY2dNemswTGpreFF6TTJOeTQwTlRZZ016azBMamt4SURNMk5pNHdOamdnTXprMkxqYzFNU0F6TmpZdU1EWTRJRE01T1M0NE1EbERNelkyTGpBMk9DQTBNREl1T0RrMUlETTJOeTQwT0RRZ05EQTBMamMyTXlBek56SXVNamszSURRd05DNDNOak5hSWlCbWFXeHNQU0ozYUdsMFpTSXZQanh3WVhSb0lHUTlJazAwTURBdU5qWTJJRE00T1M0NU1qZEROREExTGpVNU15QXpPRGt1T1RJM0lEUXhNQzR3T1RVZ016a3pMakE1T0NBME1UQXVNRGsxSURNNU9TNDRNemRETkRFd0xqQTVOU0EwTURZdU5UYzFJRFF3TlM0MU9UTWdOREE1TGpjME5pQTBNREF1TmpZMklEUXdPUzQzTkRaSU16ZzJMakE0TlZZek9Ea3VPVEkzU0RRd01DNDJOalphVFRNNU9DNDFORE1nTkRBMExqUTRRelF3TVM0eU5qRWdOREEwTGpRNElEUXdNeTQ0TmpZZ05EQTBMakE0TkNBME1ETXVPRFkySURNNU9TNDRNemRETkRBekxqZzJOaUF6T1RVdU5Ua2dOREF4TGpJMk1TQXpPVFV1TVRrMElETTVPQzQxTkRNZ016azFMakU1TkVnek9USXVNekUwVmpRd05DNDBPRWd6T1RndU5UUXpXaUlnWm1sc2JEMGlkMmhwZEdVaUx6NDhjR0YwYUNCa1BTSk5ORE0wTGpZZ016azNMak0wTlVNME16UXVOaUEwTURBdU5EQXpJRFF6TXk0eE1qY2dOREF5TGpneElEUXpNQzQzTWpFZ05EQXpMamszTVV3ME16UXVNamc0SURRd09TNDNORFpJTkRJMkxqa3lOMHcwTWpNdU9UZ3lJRFF3TkM0M09USklOREUzTGpZMk9GWTBNRGt1TnpRMlNEUXhNUzQwTkZZek9Ea3VPVEkzU0RReU55NHdNVEpETkRNeExqVXhNeUF6T0RrdU9USTNJRFF6TkM0MklETTVNaTQ1TWprZ05ETTBMallnTXprM0xqTTBOVnBOTkRFM0xqWTJPQ0F6T1RVdU1UazBWak01T1M0MU1qVklOREkxTGpVNU5rTTBNall1TnpVM0lETTVPUzQxTWpVZ05ESTRMak0zTVNBek9Ua3VOVEkxSURReU9DNHpOekVnTXprM0xqTTBOVU0wTWpndU16Y3hJRE01TlM0eE9UUWdOREkyTGpjMU55QXpPVFV1TVRrMElEUXlOUzQxT1RZZ016azFMakU1TkVnME1UY3VOalk0V2lJZ1ptbHNiRDBpZDJocGRHVWlMejQ4Y0dGMGFDQmtQU0pOTkRRNExqQXlPQ0EwTVRBdU1ETkRORE01TGpNd09DQTBNVEF1TURNZ05ETTFMalUzTVNBME1EWXVOVFEzSURRek5TNDFOekVnTXprNUxqZ3dPVU0wTXpVdU5UY3hJRE01TXk0d09UZ2dORE01TGpNd09DQXpPRGt1TmpRMElEUTBPQzR3TWpnZ016ZzVMalkwTkVNME5UWXVOeklnTXpnNUxqWTBOQ0EwTmpBdU5EZzJJRE01TXk0eE1qY2dORFl3TGpRNE5pQXpPVGt1T0RBNVF6UTJNQzQwT0RZZ05EQTJMalV4T1NBME5UWXVOeklnTkRFd0xqQXpJRFEwT0M0d01qZ2dOREV3TGpBeldrMDBORGd1TURJNElEUXdOQzQzTmpORE5EVXlMamczSURRd05DNDNOak1nTkRVMExqSTFOeUEwTURJdU9EWTJJRFExTkM0eU5UY2dNems1TGpnd09VTTBOVFF1TWpVM0lETTVOaTQzTnprZ05EVXlMamc1T0NBek9UUXVPVEVnTkRRNExqQXlPQ0F6T1RRdU9URkRORFF6TGpFNE55QXpPVFF1T1RFZ05EUXhMamdnTXprMkxqYzFNU0EwTkRFdU9DQXpPVGt1T0RBNVF6UTBNUzQ0SURRd01pNDRPVFVnTkRRekxqSXhOU0EwTURRdU56WXpJRFEwT0M0d01qZ2dOREEwTGpjMk0xb2lJR1pwYkd3OUluZG9hWFJsSWk4K1BIQmhkR2dnWkQwaVRUUTVNaTR4TmpnZ016ZzVMamt5TjFZME1Ea3VOelEyU0RRNE5TNDVNemxXTXprNExqRTVOVXcwTnprdU1URTJJRFF3T1M0M05EWklORGMwTGpnMk9VdzBOamd1TURRMUlETTVPQzR4TmpaV05EQTVMamMwTmtnME5qRXVPREUzVmpNNE9TNDVNamRJTkRZNUxqZ3dNVXcwTnpjdU1ESXhJRFF3TWk0MU9ETk1ORGcwTGpJeE1pQXpPRGt1T1RJM1NEUTVNaTR4TmpoYUlpQm1hV3hzUFNKM2FHbDBaU0l2UGp4d1lYUm9JR1E5SWswMU1UUXVPREUwSURNNU5DNDNOamxJTlRBd0xqQTVNVll6T1RjdU56RXpTRFV4TkM0NE1UUldOREF4TGprMlNEVXdNQzR3T1RGV05EQTBMamt3TlVnMU1UUXVPREUwVmpRd09TNDNORFpJTkRrekxqZzJNbFl6T0RrdU9USTNTRFV4TkM0NE1UUldNemswTGpjMk9Wb2lJR1pwYkd3OUluZG9hWFJsSWk4K1BDOW5Qand2Wno0OGRHVjRkQ0JwWkQwaU1DNHdNREF3TUNCTVNWUkxSVmtnZmlBd0xqQXdNREF3SUVWVVNDSWdabWxzYkQwaUkwWXpSalJHTmlJZ2VHMXNPbk53WVdObFBTSndjbVZ6WlhKMlpTSWdjM1I1YkdVOUluZG9hWFJsTFhOd1lXTmxPaUJ3Y21VaUlHWnZiblF0Wm1GdGFXeDVQU0pCY21saGJDSWdabTl1ZEMxemFYcGxQU0l6TWlJZ1ptOXVkQzEzWldsbmFIUTlJbUp2YkdRaUlHeGxkSFJsY2kxemNHRmphVzVuUFNJd1pXMGlQangwYzNCaGJpQjRQU0kxTmlJZ2VUMGlOamMyTGpVNU5DSStNQzR3TURBd01DQk1TVlJMUlZrZ2ZpQXdMakF3TURBd0lFVlVTRHd2ZEhOd1lXNCtQQzkwWlhoMFBqeHlaV04wSUdsa1BTSnNhVzVsSWlCdmNHRmphWFI1UFNJd0xqQTFJaUI0UFNJMU5pSWdlVDBpTnpBd0lpQjNhV1IwYUQwaU5qa3pJaUJvWldsbmFIUTlJaklpSUdacGJHdzlJaU5FT1VRNVJEa2lMejQ4ZEdWNGRDQnBaRDBpTVRBMU5EQXdJRXh2ZHlBbUl6SXlOanNtSXpFeU9Ec21JekUwT0RzZ01UQTFOakF3SUVocFoyZ2dJaUJtYVd4c1BTSWpSak5HTkVZMklpQjRiV3c2YzNCaFkyVTlJbkJ5WlhObGNuWmxJaUJ6ZEhsc1pUMGlkMmhwZEdVdGMzQmhZMlU2SUhCeVpTSWdabTl1ZEMxbVlXMXBiSGs5SWtGeWFXRnNJaUJtYjI1MExYTnBlbVU5SWpJd0lpQnNaWFIwWlhJdGMzQmhZMmx1WnowaU1HVnRJajQ4ZEhOd1lXNGdlRDBpTlRZaUlIazlJamN6Tmk0ME16UWlQakV3TlRRd01DQk1iM2NnSmlONE1qQXhORHNnTVRBMU5qQXdJRWhwWjJnZ1BDOTBjM0JoYmo0OEwzUmxlSFErUEM5blBqeGtaV1p6UGp4c2FXNWxZWEpIY21Ga2FXVnVkQ0JwWkQwaWNHRnBiblF3WDJ4cGJtVmhjbDh4TURrNFh6Z3lNQ0lnZURFOUlqUTVNU0lnZVRFOUlqVTJOaUlnZURJOUlqSTJMakl4TURFaUlIa3lQU0kxTmpZaUlHZHlZV1JwWlc1MFZXNXBkSE05SW5WelpYSlRjR0ZqWlU5dVZYTmxJajQ4YzNSdmNDQnZabVp6WlhROUlqQXVNVFF5SWlCemRHOXdMV052Ykc5eVBTSjNhR2wwWlNJZ2MzUnZjQzF2Y0dGamFYUjVQU0l3TGpJaUx6NDhjM1J2Y0NCdlptWnpaWFE5SWpFaUlITjBiM0F0YjNCaFkybDBlVDBpTUNJdlBqd3ZiR2x1WldGeVIzSmhaR2xsYm5RK1BHTnNhWEJRWVhSb0lHbGtQU0pqYkdsd01GOHhNRGs0WHpneU1DSStQSEpsWTNRZ2QybGtkR2c5SWpnd01DSWdhR1ZwWjJoMFBTSTRNREFpSUdacGJHdzlJbmRvYVhSbElpOCtQQzlqYkdsd1VHRjBhRDQ4TDJSbFpuTStQQzl6ZG1jKyJ9"
+        ],
+        "totalSupply": 2804027,
+        "WETH9": "base:0x4200000000000000000000000000000000000006"
+      },
+      "errors": { "tokenByIndex": "Processing error occurred." },
       "implementationNames": {
-        "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F": ""
+        "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F": "NonfungiblePositionManager"
       }
     },
     {
@@ -791,16 +775,23 @@
       "proxyType": "EOA"
     },
     {
-      "name": "",
+      "name": "SimpleEpochGovernor",
       "address": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
       "type": "Contract",
-      "unverified": true,
+      "sourceHashes": [
+        "0xa4a78687dcb04057695a7e1be6a923b9b9d3e9e109bf3247aa9cb7ffab3a24a2"
+      ],
       "proxyType": "immutable",
       "sinceTimestamp": 1733832385,
       "sinceBlock": 23521519,
-      "values": { "$immutable": true },
+      "values": {
+        "$immutable": true,
+        "minter": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+        "result": 6,
+        "voter": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5"
+      },
       "implementationNames": {
-        "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497": ""
+        "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497": "SimpleEpochGovernor"
       }
     },
     {
@@ -952,32 +943,8 @@
           "maxIterations": 25
         },
         "getUnderfundedUpkeeps": [[], []],
-        "getWatchList": [
-          "47022288143158576808774294343947662458492265755745118687291898258666603973154",
-          "32654785546916124375714808210338785644424362604729203424443160003048438076051",
-          "94464649999316694596445213316772212590308891556884756302030359875060038579964",
-          "77692177461366695865364996264890329125078896014853123473256313482371536603694",
-          "50857323868353768353319644341193866056583480277500733714102684756202059043440",
-          "40859798254112163828758635923546952791573451724940950638572274436375426389480",
-          "55543038167835057572876116014961166783548463300289162531016459194397126695601",
-          "250579493897298293077930518396454827831806960844286005447799304195231131638",
-          "9148988091080025284759820016795966887041443199456780853698281532567797082576",
-          "87074842750420569353939238466977079664924870504150970692474012183243747154405",
-          "92938251203997453355312688006160227969064455559140176701123754104785294100949",
-          "9450608991765919850766847762832634977234891494916100204843526759015525467675",
-          "88031630444558918519958049349479759178104980828839346136160903051136198867985",
-          "83764907631898057518315564781269722982496999129670594070618936176411023787031",
-          "87676850972472656341278849175108094174213361255425972923923011199685405039917",
-          "5212771605163177387613165327927133353779159765836516284724367428244461818557",
-          "67266156574705292515102783698862750603240120619006837843871535187914289923714",
-          "10563159179690958530032616647685354931708901578536558646248267226688821575641",
-          "6915365298649208268880230878283308854242483532246213344788192217421952207680",
-          "69823646591333763453223647606915312018501717711612648839950189878223199584132",
-          "106495797605315765810306181712195603804640767547284171029170017743313623042027"
-        ],
         "getWatchListLength": 21,
         "keeperRegistry": "base:0xf4bAb6A129164aBa9B113cB96BA4266dF49f8743",
-        "linkToken": "base:0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196",
         "owner": "base:0x6a4a3D794FBA1895e311CEdf3F2C49aB76B0Ebf3",
         "paused": false
       },
@@ -997,7 +964,10 @@
       "sinceBlock": 3200617,
       "values": {
         "$immutable": true,
+        "activePeriod": 1773273600,
         "aero": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "calculateGrowth": [0, 0, 0, 0, 0],
+        "epochCount": 133,
         "initialized": true,
         "MAX_BPS": 10000,
         "MAXIMUM_TAIL_RATE": 100,
@@ -1005,11 +975,26 @@
         "MINIMUM_TAIL_RATE": 1,
         "NUDGE": 1,
         "pendingTeam": "base:0x0000000000000000000000000000000000000000",
+        "proposals": [false, false, false, false, false],
         "rewardsDistributor": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+        "TAIL_START": "8969150000000000000000000",
+        "tailEmissionRate": 21,
         "team": "base:0xBDE0c70BdC242577c52dFAD53389F82fd149EA5a",
+        "teamRate": 228,
         "ve": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
         "voter": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
-        "WEEK": 604800
+        "WEEK": 604800,
+        "weekly": "8969149540107574558747588",
+        "WEEKLY_DECAY": 9900,
+        "WEEKLY_GROWTH": 10300
+      },
+      "errors": {
+        "calculateGrowth": "Processing error occurred.",
+        "proposals": "Processing error occurred."
+      },
+      "fieldMeta": {
+        "MAX_BPS": { "severity": "HIGH" },
+        "MAXIMUM_TEAM_RATE": { "severity": "HIGH" }
       },
       "implementationNames": {
         "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5": "Minter"
@@ -1029,21 +1014,21 @@
         "$immutable": true,
         "allowedManager": "base:0xE6A41fE61E7a1996B59d508661e3f524d6A32075",
         "artProxy": "base:0xd4C6eDDBE963aFA2D7b1562d0F2F3F9462E6525b",
-        "clock": 1773830603,
+        "clock": 1773839719,
         "CLOCK_MODE": "mode=timestamp",
         "decimals": 18,
         "DELEGATION_TYPEHASH": "0x9947d5709c1682eaa3946b2d84115c9c0d1c946b149d76e69b457458b42ea29e",
         "distributor": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
         "DOMAIN_TYPEHASH": "0x8cad95687ba82c2ce50e74f7b754645e5117c3a5bec8151c0726d5857980a866",
-        "epoch": 752738,
+        "epoch": 752803,
         "factoryRegistry": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
         "forwarder": "base:0x15e62707FCA7352fbE35F51a8D6b0F8066A05DCc",
         "name": "veNFT",
-        "permanentLockBalance": "933090893458306768010049991",
+        "permanentLockBalance": "933095300036421616288695074",
         "symbol": "veNFT",
         "team": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
         "token": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-        "tokenId": 115406,
+        "tokenId": 115417,
         "version": "2.0.0",
         "voter": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5"
       },
@@ -1147,7 +1132,7 @@
         "latestConfigDigestAndEpoch": {
           "scanLogs": false,
           "configDigest": "0x00019f1b866095976f1f9227dc3fec72c724718df342710853b5ffc15ba62ef8",
-          "epoch": 21877373
+          "epoch": 21886160
         },
         "owner": "base:0xcEf2893e396d530bdECB1F1467e69F7B994eC5Ad",
         "typeAndVersion": "AutomationRegistry 2.3.0"
@@ -1617,53 +1602,6 @@
       "function validateUserOp(tuple(address sender, uint256 nonce, bytes initCode, bytes callData, bytes32 accountGasLimits, uint256 preVerificationGas, bytes32 gasFees, bytes paymasterAndData, bytes signature) _userOp, bytes32, uint256 _missingAccountFunds) returns (uint256 validationData_)",
       "function withdrawDeposit(address _withdrawAddress, uint256 _withdrawAmount)"
     ],
-    "base:0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196": [
-      "constructor()",
-      "error MaxSupplyExceeded(uint256 supplyAfterMint)",
-      "error SenderNotBurner(address sender)",
-      "error SenderNotMinter(address sender)",
-      "event Approval(address indexed owner, address indexed spender, uint256 value)",
-      "event BurnAccessGranted(address indexed burner)",
-      "event BurnAccessRevoked(address indexed burner)",
-      "event MintAccessGranted(address indexed minter)",
-      "event MintAccessRevoked(address indexed minter)",
-      "event OwnershipTransferRequested(address indexed from, address indexed to)",
-      "event OwnershipTransferred(address indexed from, address indexed to)",
-      "event Transfer(address indexed from, address indexed to, uint256 value)",
-      "event Transfer(address indexed from, address indexed to, uint256 value, bytes data)",
-      "function acceptOwnership()",
-      "function allowance(address owner, address spender) view returns (uint256)",
-      "function approve(address spender, uint256 amount) returns (bool)",
-      "function balanceOf(address account) view returns (uint256)",
-      "function burn(uint256 amount)",
-      "function burn(address account, uint256 amount)",
-      "function burnFrom(address account, uint256 amount)",
-      "function decimals() view returns (uint8)",
-      "function decreaseAllowance(address spender, uint256 subtractedValue) returns (bool)",
-      "function decreaseApproval(address spender, uint256 subtractedValue) returns (bool success)",
-      "function getBurners() view returns (address[])",
-      "function getMinters() view returns (address[])",
-      "function grantBurnRole(address burner)",
-      "function grantMintAndBurnRoles(address burnAndMinter)",
-      "function grantMintRole(address minter)",
-      "function increaseAllowance(address spender, uint256 addedValue) returns (bool)",
-      "function increaseApproval(address spender, uint256 addedValue)",
-      "function isBurner(address burner) view returns (bool)",
-      "function isMinter(address minter) view returns (bool)",
-      "function maxSupply() view returns (uint256)",
-      "function mint(address account, uint256 amount)",
-      "function name() view returns (string)",
-      "function owner() view returns (address)",
-      "function revokeBurnRole(address burner)",
-      "function revokeMintRole(address minter)",
-      "function supportsInterface(bytes4 interfaceId) pure returns (bool)",
-      "function symbol() view returns (string)",
-      "function totalSupply() view returns (uint256)",
-      "function transfer(address to, uint256 amount) returns (bool)",
-      "function transferAndCall(address to, uint256 amount, bytes data) returns (bool success)",
-      "function transferFrom(address from, address to, uint256 amount) returns (bool)",
-      "function transferOwnership(address to)"
-    ],
     "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631": [
       "constructor()",
       "error NotMinter()",
@@ -1826,6 +1764,60 @@
       "function transfer(address to, uint256 amount) returns (bool)",
       "function transferFrom(address from, address to, uint256 amount) returns (bool)"
     ],
+    "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F": [
+      "constructor(address _factory, address _WETH9, address _tokenDescriptor, string name, string symbol)",
+      "event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)",
+      "event ApprovalForAll(address indexed owner, address indexed operator, bool approved)",
+      "event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId)",
+      "event Collect(uint256 indexed tokenId, address recipient, uint256 amount0, uint256 amount1)",
+      "event DecreaseLiquidity(uint256 indexed tokenId, uint128 liquidity, uint256 amount0, uint256 amount1)",
+      "event IncreaseLiquidity(uint256 indexed tokenId, uint128 liquidity, uint256 amount0, uint256 amount1)",
+      "event MetadataUpdate(uint256 _tokenId)",
+      "event TokenDescriptorChanged(address indexed tokenDescriptor)",
+      "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
+      "event TransferOwnership(address indexed owner)",
+      "function DOMAIN_SEPARATOR() view returns (bytes32)",
+      "function PERMIT_TYPEHASH() view returns (bytes32)",
+      "function WETH9() view returns (address)",
+      "function approve(address to, uint256 tokenId)",
+      "function balanceOf(address owner) view returns (uint256)",
+      "function baseURI() pure returns (string)",
+      "function burn(uint256 tokenId) payable",
+      "function collect(tuple(uint256 tokenId, address recipient, uint128 amount0Max, uint128 amount1Max) params) payable returns (uint256 amount0, uint256 amount1)",
+      "function decreaseLiquidity(tuple(uint256 tokenId, uint128 liquidity, uint256 amount0Min, uint256 amount1Min, uint256 deadline) params) payable returns (uint256 amount0, uint256 amount1)",
+      "function factory() view returns (address)",
+      "function getApproved(uint256 tokenId) view returns (address)",
+      "function increaseLiquidity(tuple(uint256 tokenId, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, uint256 deadline) params) payable returns (uint128 liquidity, uint256 amount0, uint256 amount1)",
+      "function isApprovedForAll(address owner, address operator) view returns (bool)",
+      "function mint(tuple(address token0, address token1, int24 tickSpacing, int24 tickLower, int24 tickUpper, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address recipient, uint256 deadline, uint160 sqrtPriceX96) params) payable returns (uint256 tokenId, uint128 liquidity, uint256 amount0, uint256 amount1)",
+      "function multicall(bytes[] data) payable returns (bytes[] results)",
+      "function name() view returns (string)",
+      "function owner() view returns (address)",
+      "function ownerOf(uint256 tokenId) view returns (address)",
+      "function permit(address spender, uint256 tokenId, uint256 deadline, uint8 v, bytes32 r, bytes32 s) payable",
+      "function positions(uint256 tokenId) view returns (uint96 nonce, address operator, address token0, address token1, int24 tickSpacing, int24 tickLower, int24 tickUpper, uint128 liquidity, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, uint128 tokensOwed0, uint128 tokensOwed1)",
+      "function refundETH() payable",
+      "function safeTransferFrom(address from, address to, uint256 tokenId)",
+      "function safeTransferFrom(address from, address to, uint256 tokenId, bytes _data)",
+      "function selfPermit(address token, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) payable",
+      "function selfPermitAllowed(address token, uint256 nonce, uint256 expiry, uint8 v, bytes32 r, bytes32 s) payable",
+      "function selfPermitAllowedIfNecessary(address token, uint256 nonce, uint256 expiry, uint8 v, bytes32 r, bytes32 s) payable",
+      "function selfPermitIfNecessary(address token, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) payable",
+      "function setApprovalForAll(address operator, bool approved)",
+      "function setOwner(address _owner)",
+      "function setTokenDescriptor(address _tokenDescriptor)",
+      "function supportsInterface(bytes4 interfaceId) view returns (bool)",
+      "function sweepToken(address token, uint256 amountMinimum, address recipient) payable",
+      "function symbol() view returns (string)",
+      "function tokenByIndex(uint256 index) view returns (uint256)",
+      "function tokenDescriptor() view returns (address)",
+      "function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)",
+      "function tokenURI(uint256 tokenId) view returns (string)",
+      "function totalSupply() view returns (uint256)",
+      "function transferFrom(address from, address to, uint256 tokenId)",
+      "function uniswapV3MintCallback(uint256 amount0Owed, uint256 amount1Owed, bytes data)",
+      "function unwrapWETH9(uint256 amountMinimum, address recipient) payable"
+    ],
     "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a": [
       "constructor(address _voter, address _clFactory, address _poolImplementation)",
       "event DefaultUnstakedFeeChanged(uint24 indexed oldUnstakedFee, uint24 indexed newUnstakedFee)",
@@ -1940,6 +1932,18 @@
       "function token1() view returns (address)",
       "function voter() view returns (address)",
       "function withdraw(uint256 tokenId)"
+    ],
+    "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497": [
+      "constructor(address _minter, address _voter)",
+      "error InvalidState()",
+      "error NotGovernor()",
+      "event NudgeExecuted(uint8 indexed result)",
+      "event ResultSet(uint8 indexed state)",
+      "function executeNudge()",
+      "function minter() view returns (address)",
+      "function result() view returns (uint8)",
+      "function setResult(uint8 _state)",
+      "function voter() view returns (address)"
     ],
     "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35": [
       "constructor(address _factory)",
@@ -2525,6 +2529,6 @@
   "usedTemplates": {
     "GnosisSafe": "0x12db59bec64fa8de67bbeb6a6e913f6c5ff1598c0a5fba90282afaf08e2a748c"
   },
-  "usedBlockNumbers": { "base": 43520628 },
-  "permissionsConfigHash": "0xde8aca0fc6cf9dbe375cc79cbe8d14c9c6786b186cc39ba905d25315b7edffc0"
+  "usedBlockNumbers": { "base": 43525186 },
+  "permissionsConfigHash": "0x9f262fca3aac09b13ab6419afc52ef8c8367da6a6afc87e554e6582522bd6fed"
 }

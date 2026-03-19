@@ -1,0 +1,2299 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-03-19T06:50:18.855Z",
+  "contracts": {
+    "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4": {
+      "functions": [
+        {
+          "functionName": "createManagedLockFor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.allowedManager"
+            },
+            {
+              "path": "@voter.governor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.294Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.294Z"
+          }
+        },
+        {
+          "functionName": "depositManaged",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.295Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.295Z"
+          }
+        },
+        {
+          "functionName": "withdrawManaged",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.296Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.296Z"
+          }
+        },
+        {
+          "functionName": "setAllowedManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@voter.governor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.297Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.297Z"
+          }
+        },
+        {
+          "functionName": "setManagedState",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@voter.emergencyCouncil"
+            },
+            {
+              "path": "@voter.governor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.297Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.297Z"
+          }
+        },
+        {
+          "functionName": "setTeam",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.team"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.298Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.298Z"
+          }
+        },
+        {
+          "functionName": "setArtProxy",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.team"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.298Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.298Z"
+          }
+        },
+        {
+          "functionName": "depositFor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.distributor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.301Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.301Z"
+          }
+        },
+        {
+          "functionName": "toggleSplit",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.team"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.305Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.305Z"
+          }
+        },
+        {
+          "functionName": "setVoterAndDistributor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.306Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.306Z"
+          }
+        },
+        {
+          "functionName": "voting",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:04.307Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:04.307Z"
+          }
+        }
+      ]
+    },
+    "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.minter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.871Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.871Z"
+          }
+        },
+        {
+          "functionName": "setGovernor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.872Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.872Z"
+          }
+        },
+        {
+          "functionName": "setEpochGovernor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.873Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.873Z"
+          }
+        },
+        {
+          "functionName": "setEmergencyCouncil",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.emergencyCouncil"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.873Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.873Z"
+          }
+        },
+        {
+          "functionName": "setMaxVotingNum",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.874Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.874Z"
+          }
+        },
+        {
+          "functionName": "whitelistToken",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.877Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.877Z"
+          }
+        },
+        {
+          "functionName": "whitelistNFT",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.877Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.877Z"
+          }
+        },
+        {
+          "functionName": "killGauge",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.emergencyCouncil"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.878Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.878Z"
+          }
+        },
+        {
+          "functionName": "reviveGauge",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.emergencyCouncil"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.879Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.879Z"
+          }
+        },
+        {
+          "functionName": "notifyRewardAmount",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.minter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:24.879Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:24.879Z"
+          }
+        }
+      ]
+    },
+    "base:0xe9970892455e54Bab465A398fa575Fef2B187546": {
+      "functions": [
+        {
+          "functionName": "topUp",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.forwarderAddress"
+            },
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.085Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.085Z"
+          }
+        },
+        {
+          "functionName": "performUpkeep",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.forwarderAddress"
+            },
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.086Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.086Z"
+          }
+        },
+        {
+          "functionName": "withdraw",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.087Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.087Z"
+          }
+        },
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.087Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.087Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.088Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.088Z"
+          }
+        },
+        {
+          "functionName": "setTrustedForwarder",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.088Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.088Z"
+          }
+        },
+        {
+          "functionName": "grantWatchlistManagerRole",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.089Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.089Z"
+          }
+        },
+        {
+          "functionName": "revokeWatchlistManagerRole",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.089Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.089Z"
+          }
+        },
+        {
+          "functionName": "addToWatchList",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            },
+            {
+              "path": "$self.accessControl.WATCHLIST_MANAGER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.090Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.090Z"
+          }
+        },
+        {
+          "functionName": "addMultipleToWatchList",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.090Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.090Z"
+          }
+        },
+        {
+          "functionName": "removeFromWatchList",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            },
+            {
+              "path": "$self.accessControl.WATCHLIST_MANAGER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.091Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.091Z"
+          }
+        },
+        {
+          "functionName": "removeMultipleFromWatchList",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.091Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.091Z"
+          }
+        },
+        {
+          "functionName": "setConfig",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.092Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.092Z"
+          }
+        },
+        {
+          "functionName": "grantRole",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.093Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.093Z"
+          }
+        },
+        {
+          "functionName": "revokeRole",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.DEFAULT_ADMIN_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.093Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.093Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.094Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.094Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:40.095Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:40.095Z"
+          }
+        }
+      ]
+    },
+    "base:0x227f65131A261548b057215bB1D5Ab2997964C7d": {
+      "functions": [
+        {
+          "functionName": "checkpointToken",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.minter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:45.314Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:45.314Z"
+          }
+        },
+        {
+          "functionName": "setMinter",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.minter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:45.316Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:45.316Z"
+          }
+        }
+      ]
+    },
+    "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4": {
+      "functions": [
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:54.902Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:54.902Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:54.903Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:54.903Z"
+          }
+        },
+        {
+          "functionName": "notifyRewardWithoutClaim",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:54.904Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:54.904Z"
+          }
+        },
+        {
+          "functionName": "setUpkeepManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:54.905Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:54.905Z"
+          }
+        },
+        {
+          "functionName": "setKeeper",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:54.905Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:54.905Z"
+          }
+        },
+        {
+          "functionName": "setArtProxy",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:54.906Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:54.906Z"
+          }
+        },
+        {
+          "functionName": "toggleSplit",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:54.908Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:54.908Z"
+          }
+        },
+        {
+          "functionName": "transferPermissions",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:07:54.910Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:07:54.910Z"
+          }
+        }
+      ]
+    },
+    "base:0x4B364C2B5fe67B8566CDe8D0C5335F791030bECC": {
+      "functions": [
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.429Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.429Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.430Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.430Z"
+          }
+        },
+        {
+          "functionName": "performUpkeep",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.trustedForwarder"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.431Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.431Z"
+          }
+        },
+        {
+          "functionName": "registerGauges",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.432Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.432Z"
+          }
+        },
+        {
+          "functionName": "deregisterGauges",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.432Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.432Z"
+          }
+        },
+        {
+          "functionName": "withdrawCancelledUpkeeps",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.433Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.433Z"
+          }
+        },
+        {
+          "functionName": "withdrawLinkBalance",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.433Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.433Z"
+          }
+        },
+        {
+          "functionName": "setNewUpkeepGasLimit",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.434Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.434Z"
+          }
+        },
+        {
+          "functionName": "setNewUpkeepFundAmount",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.434Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.434Z"
+          }
+        },
+        {
+          "functionName": "setBatchSize",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.435Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.435Z"
+          }
+        },
+        {
+          "functionName": "setTrustedForwarder",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.435Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.435Z"
+          }
+        },
+        {
+          "functionName": "setUpkeepBalanceMonitor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.436Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.436Z"
+          }
+        },
+        {
+          "functionName": "setExcludedGaugeFactory",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:11.436Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:11.436Z"
+          }
+        }
+      ]
+    },
+    "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da": {
+      "functions": [
+        {
+          "functionName": "setVoter",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:18.537Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:18.537Z"
+          }
+        },
+        {
+          "functionName": "setPauser",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.pauser"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:18.537Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:18.537Z"
+          }
+        },
+        {
+          "functionName": "setPauseState",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.pauser"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:18.538Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:18.538Z"
+          }
+        },
+        {
+          "functionName": "setFeeManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.feeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:18.539Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:18.539Z"
+          }
+        },
+        {
+          "functionName": "setFee",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.feeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:18.539Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:18.539Z"
+          }
+        },
+        {
+          "functionName": "setCustomFee",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.feeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:18.540Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:18.540Z"
+          }
+        }
+      ]
+    },
+    "base:0xA4e46b4f701c62e14DF11B48dCe76A7d793CD6d7": {
+      "functions": [
+        {
+          "functionName": "setName",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@_voter.emergencyCouncil"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:34.624Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:34.624Z"
+          }
+        },
+        {
+          "functionName": "setSymbol",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@_voter.emergencyCouncil"
+            }
+          ],
+          "timestamp": "2026-03-18T11:08:34.624Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:08:34.624Z"
+          }
+        }
+      ]
+    },
+    "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": false,
+          "checked": true,
+          "score": "no-impact",
+          "description": "already initialized",
+          "ownerDefinitions": [],
+          "timestamp": "2026-03-19T06:37:43.909Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:37:43.909Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:37:43.909Z"
+          }
+        },
+        {
+          "functionName": "setTeam",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Allows to change the ownership.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.team"
+            }
+          ],
+          "timestamp": "2026-03-19T06:38:53.892Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:38:53.892Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:38:53.892Z"
+          }
+        },
+        {
+          "functionName": "acceptTeam",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Concludes the of ownership.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingTeam"
+            }
+          ],
+          "timestamp": "2026-03-19T06:37:39.805Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:37:39.805Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:37:39.805Z"
+          }
+        },
+        {
+          "functionName": "setTeamRate",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Changes the emission rate for the team.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.team"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "How many tokens are minted to the team (bps of weekly minted)",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "fieldRef",
+                  "fieldPath": "$self.MAXIMUM_TEAM_RATE"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+                "fieldName": "MAXIMUM_TEAM_RATE"
+              }
+            }
+          ],
+          "timestamp": "2026-03-19T06:46:41.769Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:46:41.769Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:46:39.186Z"
+          }
+        },
+        {
+          "functionName": "nudge",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "This function allows to change the tail emission by 1bps per week.",
+          "ownerDefinitions": [
+            {
+              "path": "@voter.epochGovernor"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Nudging only allowed once per epoch"
+            },
+            {
+              "type": "valueRange",
+              "description": "Change at maximum 1bps",
+              "valueRange": {
+                "max": {
+                  "mode": "fieldRef",
+                  "fieldPath": "$self.MAXIMUM_TAIL_RATE"
+                },
+                "unit": "bps"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Max Change per nudge is 1 bps"
+            }
+          ],
+          "timestamp": "2026-03-19T06:38:26.143Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:38:26.143Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:38:26.143Z"
+          }
+        },
+        {
+          "functionName": "updatePeriod",
+          "isPermissioned": false,
+          "checked": true,
+          "score": "no-impact",
+          "description": "A permissionless function that allows anyone to mint the weekly emissions and transfer it to the team, rewardsDistributor and voter contract.",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Rate limited: once per week",
+              "mitigatedField": {
+                "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+                "fieldName": "WEEK"
+              }
+            },
+            {
+              "type": "other",
+              "description": "_emission = (_totalSupply * tailEmissionRate) / MAX_BPS",
+              "mitigatedField": {
+                "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+                "fieldName": "MAX_BPS"
+              }
+            }
+          ],
+          "timestamp": "2026-03-19T06:50:18.855Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:50:18.855Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:50:18.855Z"
+          }
+        }
+      ]
+    },
+    "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0": {
+      "functions": [
+        {
+          "functionName": "approve",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self._owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:09.117Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:09.117Z"
+          }
+        },
+        {
+          "functionName": "unapprove",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self._owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:09.118Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:09.118Z"
+          }
+        },
+        {
+          "functionName": "setManagedRewardsFactory",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self._owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:09.119Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:09.119Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self._owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:09.119Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:09.119Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self._owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:09.120Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:09.120Z"
+          }
+        }
+      ]
+    },
+    "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef": {
+      "functions": [
+        {
+          "functionName": "setCustomFee",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.764Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.764Z"
+          }
+        },
+        {
+          "functionName": "setDefaultScalingFactor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.765Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.765Z"
+          }
+        },
+        {
+          "functionName": "setDefaultFeeCap",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.766Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.766Z"
+          }
+        },
+        {
+          "functionName": "setScalingFactor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.766Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.766Z"
+          }
+        },
+        {
+          "functionName": "setFeeCap",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.767Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.767Z"
+          }
+        },
+        {
+          "functionName": "resetDynamicFee",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.767Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.767Z"
+          }
+        },
+        {
+          "functionName": "setSecondsAgo",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.768Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.768Z"
+          }
+        },
+        {
+          "functionName": "registerDiscounted",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.769Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.769Z"
+          }
+        },
+        {
+          "functionName": "deregisterDiscounted",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.769Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.769Z"
+          }
+        },
+        {
+          "functionName": "bulkUpdateFees",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:18.770Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:18.770Z"
+          }
+        }
+      ]
+    },
+    "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35": {
+      "functions": [
+        {
+          "functionName": "setCustomFee",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:28.638Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:28.638Z"
+          }
+        }
+      ]
+    },
+    "base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68": {
+      "functions": [
+        {
+          "functionName": "setCustomFee",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factory.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:38.156Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:38.156Z"
+          }
+        }
+      ]
+    },
+    "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831": {
+      "functions": [
+        {
+          "functionName": "stake",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:56.393Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:56.393Z"
+          }
+        },
+        {
+          "functionName": "updateRewardsGrowthGlobal",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:56.395Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:56.395Z"
+          }
+        },
+        {
+          "functionName": "syncReward",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:56.395Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:56.395Z"
+          }
+        },
+        {
+          "functionName": "collectFees",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:56.396Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:56.396Z"
+          }
+        },
+        {
+          "functionName": "setGaugeAndPositionManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factoryRegistry.factoriesToPoolFactory(factory).gaugeFactory"
+            }
+          ],
+          "timestamp": "2026-03-18T11:09:56.397Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:09:56.397Z"
+          }
+        }
+      ]
+    },
+    "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16": {
+      "functions": [
+        {
+          "functionName": "stake",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:14.852Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:14.852Z"
+          }
+        },
+        {
+          "functionName": "updateRewardsGrowthGlobal",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:14.854Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:14.854Z"
+          }
+        },
+        {
+          "functionName": "syncReward",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:14.855Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:14.855Z"
+          }
+        },
+        {
+          "functionName": "collectFees",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:14.855Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:14.855Z"
+          }
+        },
+        {
+          "functionName": "setGaugeAndPositionManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@factoryRegistry.factoriesToPoolFactory(factory).gaugeFactory"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:14.856Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:14.856Z"
+          }
+        }
+      ]
+    },
+    "base:0xD30677bd8dd15132F251Cb54CbDA552d2A05Fb08": {
+      "functions": [
+        {
+          "functionName": "setNotifyAdmin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.notifyAdmin"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:20.134Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:20.134Z"
+          }
+        },
+        {
+          "functionName": "setNonfungiblePositionManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:20.135Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:20.135Z"
+          }
+        },
+        {
+          "functionName": "createGauge",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:20.135Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:20.135Z"
+          }
+        }
+      ]
+    },
+    "base:0xB630227a79707D517320b6c0f885806389dFcbB3": {
+      "functions": [
+        {
+          "functionName": "setEmissionAdmin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.emissionAdmin"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:31.959Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:31.959Z"
+          }
+        },
+        {
+          "functionName": "setNotifyAdmin",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.notifyAdmin"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:31.960Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:31.960Z"
+          }
+        },
+        {
+          "functionName": "setNonfungiblePositionManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:31.961Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:31.961Z"
+          }
+        },
+        {
+          "functionName": "setEmissionCap",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.emissionAdmin"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:31.962Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:31.962Z"
+          }
+        },
+        {
+          "functionName": "setRedistributor",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.emissionAdmin"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:31.963Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:31.963Z"
+          }
+        },
+        {
+          "functionName": "setDefaultCap",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.emissionAdmin"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:31.963Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:31.963Z"
+          }
+        },
+        {
+          "functionName": "createGauge",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:31.964Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:31.964Z"
+          }
+        }
+      ]
+    },
+    "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8": {
+      "functions": [
+        {
+          "functionName": "notifyRewardAmount",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:53.016Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:53.016Z"
+          }
+        },
+        {
+          "functionName": "notifyRewardWithoutClaim",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@gaugeFactory.notifyAdmin"
+            },
+            {
+              "path": "@gaugeFactory.redistributor"
+            }
+          ],
+          "timestamp": "2026-03-18T11:10:53.017Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:10:53.017Z"
+          }
+        }
+      ]
+    },
+    "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a": {
+      "functions": [
+        {
+          "functionName": "setOwner",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:00.320Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:00.320Z"
+          }
+        },
+        {
+          "functionName": "setSwapFeeManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:00.321Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:00.321Z"
+          }
+        },
+        {
+          "functionName": "setUnstakedFeeManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:00.321Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:00.321Z"
+          }
+        },
+        {
+          "functionName": "setSwapFeeModule",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:00.322Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:00.322Z"
+          }
+        },
+        {
+          "functionName": "setUnstakedFeeModule",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:00.322Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:00.322Z"
+          }
+        },
+        {
+          "functionName": "setDefaultUnstakedFee",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:00.323Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:00.323Z"
+          }
+        },
+        {
+          "functionName": "enableTickSpacing",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:00.324Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:00.324Z"
+          }
+        }
+      ]
+    },
+    "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A": {
+      "functions": [
+        {
+          "functionName": "setOwner",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:07.732Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:07.732Z"
+          }
+        },
+        {
+          "functionName": "setSwapFeeManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:07.734Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:07.734Z"
+          }
+        },
+        {
+          "functionName": "setUnstakedFeeManager",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:07.735Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:07.735Z"
+          }
+        },
+        {
+          "functionName": "setSwapFeeModule",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:07.736Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:07.736Z"
+          }
+        },
+        {
+          "functionName": "setUnstakedFeeModule",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:07.737Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:07.737Z"
+          }
+        },
+        {
+          "functionName": "setDefaultUnstakedFee",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:07.738Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:07.738Z"
+          }
+        },
+        {
+          "functionName": "enableTickSpacing",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:07.739Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:07.739Z"
+          }
+        }
+      ]
+    },
+    "base:0xf4bAb6A129164aBa9B113cB96BA4266dF49f8743": {
+      "functions": [
+        {
+          "functionName": "transmit",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_transmitters"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:22.825Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:22.825Z"
+          }
+        },
+        {
+          "functionName": "setConfig",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:22.826Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:22.826Z"
+          }
+        },
+        {
+          "functionName": "setConfigTypeSafe",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:22.827Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:22.827Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:22.828Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:22.828Z"
+          }
+        },
+        {
+          "functionName": "acceptOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_pendingOwner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:22.828Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:22.828Z"
+          }
+        }
+      ]
+    },
+    "base:0xE28Adc50c7551CFf69FCF32D45d037e5F6554264": {
+      "functions": [
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:32.876Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:32.876Z"
+          }
+        },
+        {
+          "functionName": "acceptOwnership",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_pendingOwner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:32.878Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:32.878Z"
+          }
+        },
+        {
+          "functionName": "approve",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:32.879Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:32.879Z"
+          }
+        },
+        {
+          "functionName": "cancel",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_pendingRequests.admin"
+            },
+            {
+              "path": "$self.s_owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:32.880Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:32.880Z"
+          }
+        },
+        {
+          "functionName": "setConfig",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:32.880Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:32.880Z"
+          }
+        },
+        {
+          "functionName": "setTriggerConfig",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:32.881Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:32.881Z"
+          }
+        },
+        {
+          "functionName": "setAutoApproveAllowedSender",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.s_owner"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:32.881Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:32.881Z"
+          }
+        },
+        {
+          "functionName": "onTokenTransfer",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "$self.i_LINK"
+            }
+          ],
+          "timestamp": "2026-03-18T11:11:32.882Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:32.882Z"
+          }
+        }
+      ]
+    },
+    "base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00": {
+      "functions": [
+        {
+          "functionName": "setCustomFee",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Sets a custom fee for a specific pool.",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Prevents too high swap fees",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "fieldRef",
+                  "fieldPath": "$self.MAX_FEE"
+                },
+                "unit": "bps*100"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00",
+                "fieldName": "MAX_FEE"
+              }
+            }
+          ],
+          "timestamp": "2026-03-19T06:32:18.928Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:32:18.928Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:32:18.928Z"
+          }
+        }
+      ]
+    },
+    "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631": {
+      "functions": [
+        {
+          "functionName": "setMinter",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.minter"
+            }
+          ],
+          "timestamp": "2026-03-19T00:55:36.278Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T00:55:36.278Z"
+          }
+        },
+        {
+          "functionName": "mint",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.minter"
+            }
+          ],
+          "timestamp": "2026-03-19T00:55:31.169Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T00:55:31.169Z"
+          }
+        }
+      ]
+    },
+    "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497": {
+      "functions": [
+        {
+          "functionName": "executeNudge",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "",
+          "ownerDefinitions": [
+            {
+              "path": "@voter.governor"
+            }
+          ],
+          "timestamp": "2026-03-19T06:34:43.349Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T06:34:43.349Z"
+          }
+        },
+        {
+          "functionName": "setResult",
+          "isPermissioned": true,
+          "ownerDefinitions": [
+            {
+              "path": "@voter.governor"
+            }
+          ],
+          "timestamp": "2026-03-19T02:36:21.122Z",
+          "lastChangedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T02:36:21.122Z"
+          }
+        }
+      ]
+    }
+  }
+}
