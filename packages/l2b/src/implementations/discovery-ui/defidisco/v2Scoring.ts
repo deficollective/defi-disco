@@ -483,11 +483,7 @@ class AdminInventoryModule {
                 functionName: func.functionName,
                 impact: funcImpact,
                 mitigations: filterMitigationsForOwner(
-                  buildMergedMitigations(
-                    func,
-                    data.paths,
-                    data.projectName,
-                  ),
+                  buildMergedMitigations(func, data.paths, data.projectName),
                   adminAddr,
                   'admin',
                 ),

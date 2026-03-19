@@ -211,9 +211,10 @@ function buildMergedMitigations(
  * Collapse chains that share the same contract-address sequence.
  * Groups function names per step. Same logic as FunctionFolder.tsx collapseChains.
  */
-function collapseChains(
-  terminals: TraversalTerminal[],
-): { chains: CollapsedChain[]; hasPublicFunction: boolean } {
+function collapseChains(terminals: TraversalTerminal[]): {
+  chains: CollapsedChain[]
+  hasPublicFunction: boolean
+} {
   // Group terminals by their contract-address sequence
   const groups = new Map<
     string,
@@ -443,10 +444,7 @@ export class ProjectAnalysis {
     if (!this._tagsByAddress) {
       this._tagsByAddress = new Map()
       for (const tag of this.contractTags.tags ?? []) {
-        this._tagsByAddress.set(
-          normalizeChainAddress(tag.contractAddress),
-          tag,
-        )
+        this._tagsByAddress.set(normalizeChainAddress(tag.contractAddress), tag)
       }
     }
     return this._tagsByAddress
@@ -691,8 +689,7 @@ export class ProjectAnalysis {
     // Step 3: Run capital analysis and build AdminEntry[]
     const hasCallGraphData =
       Object.keys(this.callGraphData.contracts).length > 0
-    const hasFundsData =
-      Object.keys(this.fundsData?.contracts ?? {}).length > 0
+    const hasFundsData = Object.keys(this.fundsData?.contracts ?? {}).length > 0
     const canDoCapital = hasCallGraphData && hasFundsData
 
     const admins: AdminEntry[] = []
@@ -761,7 +758,8 @@ export class ProjectAnalysis {
           directTokenValueUsd: capitalFunc?.directTokenValueUsd ?? 0,
           reachableContracts: capitalFunc?.reachableContracts ?? [],
           totalReachableFundsUsd: capitalFunc?.totalReachableFundsUsd ?? 0,
-          totalReachableTokenValueUsd: capitalFunc?.totalReachableTokenValueUsd ?? 0,
+          totalReachableTokenValueUsd:
+            capitalFunc?.totalReachableTokenValueUsd ?? 0,
           unresolvedCallsCount: capitalFunc?.unresolvedCallsCount ?? 0,
         }
       })
@@ -777,8 +775,7 @@ export class ProjectAnalysis {
         totalDirectCapital: capitalData?.totalDirectCapital ?? 0,
         totalDirectTokenValue: capitalData?.totalDirectTokenValue ?? 0,
         totalReachableCapital: capitalData?.totalReachableCapital ?? 0,
-        totalReachableTokenValue:
-          capitalData?.totalReachableTokenValue ?? 0,
+        totalReachableTokenValue: capitalData?.totalReachableTokenValue ?? 0,
         uniqueContractsAffected: capitalData?.uniqueContractsAffected ?? 0,
       })
     }
@@ -801,9 +798,7 @@ export class ProjectAnalysis {
 
     // Build funds lookup
     const fundsLookup = new Map<string, any>()
-    for (const [addr, data] of Object.entries(
-      this.fundsData.contracts ?? {},
-    )) {
+    for (const [addr, data] of Object.entries(this.fundsData.contracts ?? {})) {
       fundsLookup.set(normalizeChainAddress(addr), data)
     }
 
@@ -877,9 +872,8 @@ export class ProjectAnalysis {
             existing.functions.push({
               contractAddress: contractAddr,
               contractName:
-                this.contractNameMap.get(
-                  normalizeChainAddress(contractAddr),
-                ) ?? 'Unknown Contract',
+                this.contractNameMap.get(normalizeChainAddress(contractAddr)) ??
+                'Unknown Contract',
               functionName: funcName,
               impact: this.getFunctionImpact(contractAddr, funcName),
               viewOnlyPath: dep.viewOnlyPath,
@@ -1192,10 +1186,7 @@ export class ProjectAnalysis {
   /**
    * Get function impact from functions.json.
    */
-  private getFunctionImpact(
-    contractAddr: string,
-    funcName: string,
-  ): Impact {
+  private getFunctionImpact(contractAddr: string, funcName: string): Impact {
     const normalizedAddr = normalizeChainAddress(contractAddr)
     const contractEntry = Object.entries(
       this.functionsData?.contracts ?? {},
@@ -1206,5 +1197,4 @@ export class ProjectAnalysis {
     )
     return func?.score === 'no-impact' ? 'no-impact' : 'critical'
   }
-
 }

@@ -33,10 +33,7 @@ import {
   isZeroAddress,
   MIN_TOKEN_USD_VALUE,
 } from '../../../defidisco/scoringShared'
-import {
-  addressesEqual,
-  normalizeForLookup,
-} from './addressUtils'
+import { addressesEqual, normalizeForLookup } from './addressUtils'
 import { useContractTags } from './hooks/useContractTags'
 import { IconCheckFalse } from './IconCheckFalse'
 import { IconCheckTrue } from './IconCheckTrue'
@@ -1661,7 +1658,9 @@ export function FunctionFolder({
                 const filteredAdmins = showAllContracts
                   ? functionAdmins
                   : functionAdmins.filter(isKeyOwner)
-                const hasHiddenOwners = functionAdmins.some((a) => !isKeyOwner(a))
+                const hasHiddenOwners = functionAdmins.some(
+                  (a) => !isKeyOwner(a),
+                )
                 return (
                   <div className="space-y-2">
                     {hasHiddenOwners && (
@@ -1688,9 +1687,7 @@ export function FunctionFolder({
                           f.functionName === functionName,
                       )
                       const chains = adminFunc?.chains ?? []
-                      const hasChains = chains.some(
-                        (c) => c.steps.length > 0,
-                      )
+                      const hasChains = chains.some((c) => c.steps.length > 0)
                       const hasPublicFunction = chains.some(
                         (c) => c.hasPublicFunction,
                       )
@@ -1775,8 +1772,7 @@ export function FunctionFolder({
                               // Step 0 = owner (already in header), grab its functions
                               const ownerFns = reversed[0]?.functionNames ?? []
                               const viaSteps = reversed.slice(1)
-                              const isLast =
-                                chainIdx === chains.length - 1
+                              const isLast = chainIdx === chains.length - 1
 
                               return (
                                 <div
@@ -1841,12 +1837,13 @@ export function FunctionFolder({
                     })}
 
                     {/* Errors from traversal metadata */}
-                    {functionTraversal && functionTraversal.errors.length > 0 && (
-                      <div className="mt-1 text-red-400/70 text-xs">
-                        {functionTraversal.errors.length} resolution error
-                        {functionTraversal.errors.length !== 1 ? 's' : ''}
-                      </div>
-                    )}
+                    {functionTraversal &&
+                      functionTraversal.errors.length > 0 && (
+                        <div className="mt-1 text-red-400/70 text-xs">
+                          {functionTraversal.errors.length} resolution error
+                          {functionTraversal.errors.length !== 1 ? 's' : ''}
+                        </div>
+                      )}
                     {functionTraversal?.depthLimitReached && (
                       <div className="mt-1 text-yellow-400 text-xs">
                         Depth limit reached — chain may be incomplete
@@ -1988,62 +1985,55 @@ export function FunctionFolder({
                     Reachable Contracts with Funds
                   </div>
                   <div className="space-y-1">
-                    {functionCapital.reachableContracts.map(
-                      (entry, idx) => {
-                        return (
-                          <div
-                            key={idx}
-                            className="rounded bg-coffee-800 p-2"
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                    usePanelStore
-                                      .getState()
-                                      .select(entry.contractAddress)
-                                  }}
-                                  className="font-mono text-aux-cyan text-xs hover:text-aux-cyan-light"
-                                >
-                                  {entry.contractName}
-                                </button>
-                                {entry.viewOnlyPath && (
-                                  <span className="rounded bg-coffee-600 px-1 py-0.5 text-coffee-300 text-[10px]">
-                                    view only
-                                  </span>
-                                )}
-                              </div>
-                              <div className="flex items-center gap-2">
-                                {entry.fundsUsd > 0 && (
-                                  <span className="text-green-400 text-xs">
-                                    {formatUsdValue(entry.fundsUsd)}
-                                  </span>
-                                )}
-                                {entry.tokenValueUsd > 0 && (
-                                  <span className="text-aux-yellow text-xs">
-                                    {formatUsdValue(entry.tokenValueUsd)}
-                                  </span>
-                                )}
-                              </div>
+                    {functionCapital.reachableContracts.map((entry, idx) => {
+                      return (
+                        <div key={idx} className="rounded bg-coffee-800 p-2">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  usePanelStore
+                                    .getState()
+                                    .select(entry.contractAddress)
+                                }}
+                                className="font-mono text-aux-cyan text-xs hover:text-aux-cyan-light"
+                              >
+                                {entry.contractName}
+                              </button>
+                              {entry.viewOnlyPath && (
+                                <span className="rounded bg-coffee-600 px-1 py-0.5 text-coffee-300 text-[10px]">
+                                  view only
+                                </span>
+                              )}
                             </div>
-                            {entry.calledFunctions.length > 0 && (
-                              <div className="mt-1 text-coffee-500 text-[10px]">
-                                calls: {entry.calledFunctions.join(', ')}
-                              </div>
-                            )}
+                            <div className="flex items-center gap-2">
+                              {entry.fundsUsd > 0 && (
+                                <span className="text-green-400 text-xs">
+                                  {formatUsdValue(entry.fundsUsd)}
+                                </span>
+                              )}
+                              {entry.tokenValueUsd > 0 && (
+                                <span className="text-aux-yellow text-xs">
+                                  {formatUsdValue(entry.tokenValueUsd)}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        )
-                      },
-                    )}
+                          {entry.calledFunctions.length > 0 && (
+                            <div className="mt-1 text-coffee-500 text-[10px]">
+                              calls: {entry.calledFunctions.join(', ')}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
                   </div>
                   {(functionCapital.unresolvedCallsCount ?? 0) > 0 && (
                     <div className="text-yellow-400 text-xs">
-                      {functionCapital.unresolvedCallsCount} unresolved
-                      external call
-                      {functionCapital.unresolvedCallsCount > 1
-                        ? 's'
-                        : ''}
+                      {functionCapital.unresolvedCallsCount} unresolved external
+                      call
+                      {functionCapital.unresolvedCallsCount > 1 ? 's' : ''}
                     </div>
                   )}
                   <div className="flex items-center justify-between border-coffee-600 border-t pt-1 text-xs">
@@ -2100,71 +2090,66 @@ export function FunctionFolder({
 
             {/* Auto-detected dependencies from call graph */}
             {functionDeps.filter((d) => d.isAutoDetected).length > 0 && (
-                <div className="mb-3">
-                  <div className="mb-1 text-coffee-400 text-xs">
-                    Auto-detected (
-                    {functionDeps.filter((d) => d.isAutoDetected).length}
-                    ):
-                  </div>
-                  <div className="space-y-2">
-                    {functionDeps
-                      .filter((d) => d.isAutoDetected)
-                      .map((dep, idx) => {
-                        return (
-                          <div
-                            key={idx}
-                            className="rounded bg-coffee-800 p-2"
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                    usePanelStore
-                                      .getState()
-                                      .select(dep.address)
-                                  }}
-                                  className="font-mono text-aux-cyan text-xs hover:text-aux-cyan-light"
-                                  title={`Select ${dep.address}`}
-                                >
-                                  {dep.name}
-                                </button>
-                                <span
-                                  className={`rounded px-1 py-0.5 text-[10px] ${dep.dependencyType === 'write' ? 'bg-aux-orange/20 text-aux-orange' : 'bg-coffee-600 text-coffee-300'}`}
-                                >
-                                  {dep.dependencyType === 'write'
-                                    ? 'write'
-                                    : 'auto'}
-                                </span>
-                                {dep.viewOnlyPath && (
-                                  <span className="rounded bg-coffee-600 px-1 py-0.5 text-coffee-300 text-[10px]">
-                                    view only
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            {dep.calledFunctions.length > 0 && (
-                              <div className="mt-1 text-coffee-500 text-[10px]">
-                                {dep.dependencyType === 'write'
-                                  ? 'owns'
-                                  : 'calls'}
-                                : {dep.calledFunctions.join(', ')}
-                              </div>
-                            )}
-                            {dep.entity && (
-                              <div className="mt-1 flex items-center gap-1 text-xs">
-                                <span className="text-coffee-400">Entity:</span>
-                                <span className="font-semibold text-coffee-200">
-                                  {dep.entity}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        )
-                      })}
-                  </div>
+              <div className="mb-3">
+                <div className="mb-1 text-coffee-400 text-xs">
+                  Auto-detected (
+                  {functionDeps.filter((d) => d.isAutoDetected).length}
+                  ):
                 </div>
-              )}
+                <div className="space-y-2">
+                  {functionDeps
+                    .filter((d) => d.isAutoDetected)
+                    .map((dep, idx) => {
+                      return (
+                        <div key={idx} className="rounded bg-coffee-800 p-2">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  usePanelStore.getState().select(dep.address)
+                                }}
+                                className="font-mono text-aux-cyan text-xs hover:text-aux-cyan-light"
+                                title={`Select ${dep.address}`}
+                              >
+                                {dep.name}
+                              </button>
+                              <span
+                                className={`rounded px-1 py-0.5 text-[10px] ${dep.dependencyType === 'write' ? 'bg-aux-orange/20 text-aux-orange' : 'bg-coffee-600 text-coffee-300'}`}
+                              >
+                                {dep.dependencyType === 'write'
+                                  ? 'write'
+                                  : 'auto'}
+                              </span>
+                              {dep.viewOnlyPath && (
+                                <span className="rounded bg-coffee-600 px-1 py-0.5 text-coffee-300 text-[10px]">
+                                  view only
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          {dep.calledFunctions.length > 0 && (
+                            <div className="mt-1 text-coffee-500 text-[10px]">
+                              {dep.dependencyType === 'write'
+                                ? 'owns'
+                                : 'calls'}
+                              : {dep.calledFunctions.join(', ')}
+                            </div>
+                          )}
+                          {dep.entity && (
+                            <div className="mt-1 flex items-center gap-1 text-xs">
+                              <span className="text-coffee-400">Entity:</span>
+                              <span className="font-semibold text-coffee-200">
+                                {dep.entity}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                </div>
+              </div>
+            )}
 
             {/* Manual dependencies */}
             {currentFunction?.dependencies &&

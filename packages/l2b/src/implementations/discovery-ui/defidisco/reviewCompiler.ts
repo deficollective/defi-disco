@@ -470,7 +470,8 @@ export class ReviewCompiler {
             tokenValueUsd: r.tokenValueUsd,
             fundsAtRisk: r.fundsAtRisk,
           })),
-          mitigations: f.mitigations ??
+          mitigations:
+            f.mitigations ??
             getMitigationsForFunction(f.contractAddress, f.functionName),
         })),
         totalDirectCapital: admin.totalDirectCapital,
@@ -529,7 +530,8 @@ export class ReviewCompiler {
             tokenValueUsd: r.tokenValueUsd,
             fundsAtRisk: r.fundsAtRisk,
           })),
-          mitigations: f.mitigations ??
+          mitigations:
+            f.mitigations ??
             getMitigationsForFunction(f.contractAddress, f.functionName),
         })),
         totalFundsAtRisk: dep.totalFundsAtRisk,
@@ -738,15 +740,15 @@ export class ReviewCompiler {
 
       totals: {
         contractCount: this.countContracts(discoveryEntries),
-        permissionedFunctionCount: this.countPermissionedFunctions(functionsData),
+        permissionedFunctionCount:
+          this.countPermissionedFunctions(functionsData),
         scoredFunctionCount: this.countScoredFunctions(functionsData),
         adminCount: adminsResult.totals.adminCount,
         dependencyCount: depsResult.totals.dependencyCount,
         totalCapitalAtRisk:
           (adminsResult.totals.totalCapitalAtRisk ?? 0) +
           funds.reduce((sum, f) => sum + (f.aggregate?.totalUsdValue ?? 0), 0),
-        totalTokenValueAtRisk:
-          adminsResult.totals.totalTokenValueAtRisk ?? 0,
+        totalTokenValueAtRisk: adminsResult.totals.totalTokenValueAtRisk ?? 0,
         totalTokenValue: funds.reduce(
           (sum, f) => sum + (f.tokenInfo?.tokenValue ?? 0),
           0,
@@ -774,7 +776,10 @@ export class ReviewCompiler {
   private resolveTemplateVariables(
     compiled: CompiledReview,
     dataKeys: Record<string, string>,
-    sources: { adminsResult: ApiAdminsResponse; fundsData: ApiFundsDataResponse },
+    sources: {
+      adminsResult: ApiAdminsResponse
+      fundsData: ApiFundsDataResponse
+    },
   ): void {
     if (!dataKeys || Object.keys(dataKeys).length === 0) return
 
@@ -831,7 +836,10 @@ export class ReviewCompiler {
    */
   private resolveDataPath(
     dataPath: string,
-    sources: { adminsResult: ApiAdminsResponse; fundsData: ApiFundsDataResponse },
+    sources: {
+      adminsResult: ApiAdminsResponse
+      fundsData: ApiFundsDataResponse
+    },
   ): number | null {
     try {
       let root: any
@@ -912,7 +920,9 @@ export class ReviewCompiler {
     return discoveryEntries.filter((e) => e.proxyType !== 'EOA').length
   }
 
-  private countPermissionedFunctions(functionsData: ApiFunctionsResponse): number {
+  private countPermissionedFunctions(
+    functionsData: ApiFunctionsResponse,
+  ): number {
     let count = 0
     if (functionsData?.contracts) {
       for (const contractData of Object.values(functionsData.contracts)) {
@@ -929,7 +939,8 @@ export class ReviewCompiler {
     if (functionsData?.contracts) {
       for (const contractData of Object.values(functionsData.contracts)) {
         for (const func of contractData.functions) {
-          if (func.isPermissioned && func.score && func.score !== 'unscored') count++
+          if (func.isPermissioned && func.score && func.score !== 'unscored')
+            count++
         }
       }
     }

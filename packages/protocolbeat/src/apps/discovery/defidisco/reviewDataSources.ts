@@ -231,9 +231,7 @@ const adminsSource: DataSourceDefinition = {
         if (filters.excludeExternal && admin.isExternal) return false
         if (
           filters.excludeImmutable &&
-          admin.address.includes(
-            '0x0000000000000000000000000000000000000000',
-          )
+          admin.address.includes('0x0000000000000000000000000000000000000000')
         )
           return false
         return true
