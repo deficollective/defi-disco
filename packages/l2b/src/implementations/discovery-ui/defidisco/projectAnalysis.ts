@@ -620,7 +620,9 @@ export class ProjectAnalysis {
           }
 
           // Resolve owners with caching
-          const cacheKey = JSON.stringify(func.ownerDefinitions)
+          // Cache key must include contractAddress because $self paths
+          // resolve differently per contract
+          const cacheKey = `${contractAddress}|${JSON.stringify(func.ownerDefinitions)}`
           let adminAddresses = ownerResolutionCache.get(cacheKey)
           if (!adminAddresses) {
             const resolved = resolveOwnersFromDiscovered(
@@ -646,7 +648,7 @@ export class ProjectAnalysis {
 
           for (const adminAddr of adminAddresses) {
             const normalizedAdmin = normalizeChainAddress(adminAddr)
-            if (!adminsMap.has(adminAddr)) {
+            if (!adminsMap.has(normalizedAdmin)) {
               const rawType =
                 this.contractTypeMap.get(normalizedAdmin) || 'Unknown'
               const adminType = mapAdminType(
@@ -654,16 +656,16 @@ export class ProjectAnalysis {
                 normalizedAdmin,
                 this.proxyTypeMap,
               )
-              adminsMap.set(adminAddr, {
-                adminAddress: adminAddr,
+              adminsMap.set(normalizedAdmin, {
+                adminAddress: normalizedAdmin,
                 adminName:
-                  this.contractNameMap.get(normalizedAdmin) || adminAddr,
+                  this.contractNameMap.get(normalizedAdmin) || normalizedAdmin,
                 adminType,
                 functions: [],
               })
             }
 
-            adminsMap.get(adminAddr)!.functions.push({
+            adminsMap.get(normalizedAdmin)!.functions.push({
               contractAddress,
               contractName:
                 this.contractNameMap.get(
@@ -673,7 +675,7 @@ export class ProjectAnalysis {
               impact: funcImpact,
               mitigations: filterMitigationsForOwner(
                 mergedMitigations,
-                adminAddr,
+                normalizedAdmin,
                 'admin',
               ),
             })
