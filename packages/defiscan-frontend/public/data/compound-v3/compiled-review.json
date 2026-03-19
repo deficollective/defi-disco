@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-18T10:01:56.882Z",
+  "compiledAt": "2026-03-19T11:31:46.895Z",
   "project": "compound-v3",
   "metadata": {
     "protocolName": "Compound V3",
@@ -31,7 +31,47 @@
         {
           "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
           "contractName": "cUSDCv3",
+          "functionName": "upgradeToAndCall",
+          "impact": "critical",
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
           "functionName": "changeAdmin",
+          "impact": "critical",
+          "directFundsUsd": 735580375.3835825,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+          "contractName": "cUSDCv3",
+          "functionName": "upgradeTo",
           "impact": "critical",
           "directFundsUsd": 735580375.3835825,
           "directTokenValueUsd": 0,
@@ -311,7 +351,9 @@
               "calledFunctions": [
                 "approveThis",
                 "withdrawReserves",
-                "changeAdmin"
+                "upgradeToAndCall",
+                "changeAdmin",
+                "upgradeTo"
               ],
               "fundsUsd": 735580375.3835825,
               "tokenValueUsd": 0,
@@ -433,7 +475,9 @@
               "calledFunctions": [
                 "approveThis",
                 "withdrawReserves",
-                "changeAdmin"
+                "upgradeToAndCall",
+                "changeAdmin",
+                "upgradeTo"
               ],
               "fundsUsd": 735580375.3835825,
               "tokenValueUsd": 0,
@@ -1049,7 +1093,9 @@
               "name": "cUSDCv3",
               "viewOnlyPath": false,
               "calledFunctions": [
-                "changeAdmin"
+                "upgradeToAndCall",
+                "changeAdmin",
+                "upgradeTo"
               ],
               "fundsUsd": 735580375.3835825,
               "tokenValueUsd": 0,
@@ -1120,7 +1166,9 @@
               "name": "cUSDCv3",
               "viewOnlyPath": false,
               "calledFunctions": [
-                "changeAdmin"
+                "upgradeToAndCall",
+                "changeAdmin",
+                "upgradeTo"
               ],
               "fundsUsd": 735580375.3835825,
               "tokenValueUsd": 0,
@@ -1192,7 +1240,9 @@
               "name": "cUSDCv3",
               "viewOnlyPath": false,
               "calledFunctions": [
-                "changeAdmin"
+                "upgradeToAndCall",
+                "changeAdmin",
+                "upgradeTo"
               ],
               "fundsUsd": 735580375.3835825,
               "tokenValueUsd": 0,
@@ -1277,7 +1327,9 @@
               "name": "cUSDCv3",
               "viewOnlyPath": false,
               "calledFunctions": [
-                "changeAdmin"
+                "upgradeToAndCall",
+                "changeAdmin",
+                "upgradeTo"
               ],
               "fundsUsd": 735580375.3835825,
               "tokenValueUsd": 0,
@@ -1350,7 +1402,9 @@
               "name": "cUSDCv3",
               "viewOnlyPath": false,
               "calledFunctions": [
-                "changeAdmin"
+                "upgradeToAndCall",
+                "changeAdmin",
+                "upgradeTo"
               ],
               "fundsUsd": 735580375.3835825,
               "tokenValueUsd": 0,
@@ -1576,7 +1630,9 @@
               "calledFunctions": [
                 "approveThis",
                 "withdrawReserves",
-                "changeAdmin"
+                "upgradeToAndCall",
+                "changeAdmin",
+                "upgradeTo"
               ],
               "fundsUsd": 735580375.3835825,
               "tokenValueUsd": 0,
@@ -1729,7 +1785,9 @@
               "calledFunctions": [
                 "approveThis",
                 "withdrawReserves",
-                "changeAdmin"
+                "upgradeToAndCall",
+                "changeAdmin",
+                "upgradeTo"
               ],
               "fundsUsd": 735580375.3835825,
               "tokenValueUsd": 0,

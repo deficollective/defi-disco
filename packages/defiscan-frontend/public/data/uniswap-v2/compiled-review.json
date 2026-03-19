@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-18T10:02:17.099Z",
+  "compiledAt": "2026-03-19T13:32:40.962Z",
   "project": "uniswap-v2",
   "metadata": {
     "protocolName": "Uniswap V2",
@@ -14,13 +14,36 @@
     "contractCount": 9,
     "permissionedFunctionCount": 0,
     "scoredFunctionCount": 0,
-    "adminCount": 0,
+    "adminCount": 1,
     "dependencyCount": 0,
     "totalCapitalAtRisk": 748597271.7224443,
     "totalTokenValueAtRisk": 0,
     "totalTokenValue": 0
   },
-  "admins": [],
+  "admins": [
+    {
+      "address": "eth:0x408ED6354d4973f66138C91495F2f2FCbd8724C3",
+      "name": "GovernorBravo Governance",
+      "description": "On-chain governance contract (GovernorBravoDelegator) that proposes and votes on changes to the Timelock. UNI token holders vote on proposals that, if passed, are queued in the 48-hour Timelock. In practice, the only meaningful action available is controlling the protocol fee switch — all core contracts are immutable.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "eth:0x1a9C8182C09F50C8318d769245beA52c32BE35BC",
+          "contractName": "Timelock",
+          "functionName": "executeTransaction",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    }
+  ],
   "dependencies": [],
   "funds": [
     {

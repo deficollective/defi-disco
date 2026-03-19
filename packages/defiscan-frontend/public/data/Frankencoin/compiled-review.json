@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-18T09:43:35.170Z",
+  "compiledAt": "2026-03-19T11:46:41.570Z",
   "project": "Frankencoin",
   "metadata": {
     "protocolName": "Frankencoin",
@@ -14,7 +14,7 @@
     "contractCount": 24,
     "permissionedFunctionCount": 73,
     "scoredFunctionCount": 1,
-    "adminCount": 16,
+    "adminCount": 19,
     "dependencyCount": 12,
     "totalCapitalAtRisk": 83050119.92069063,
     "totalTokenValueAtRisk": 25724637.771031145,
@@ -53,7 +53,21 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -147,7 +161,21 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -241,7 +269,21 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -335,7 +377,21 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -429,335 +485,75 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnFrom",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnWithoutReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnWithReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnFromWithReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "coverLoss",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "collectProfits",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        }
-      ],
-      "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25724637.771031145,
-      "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25724637.771031145
-    },
-    {
-      "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-      "name": "StablecoinBridge (VCHF)",
-      "description": "Immutable bridge contract enabling 1:1 conversion between VCHF (VNX Franc) and ZCHF. Registered as an active minter, holding $503.84K in VCHF reserves. If the VCHF token is paused, frozen, or upgraded by VNX, this bridge's minting and burning would be affected.",
-      "adminType": "Immutable",
-      "isGovernance": false,
-      "functions": [
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "registerPosition",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "mintWithReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "mint",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnFrom",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnWithoutReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnWithReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnFromWithReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "coverLoss",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "collectProfits",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        }
-      ],
-      "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25724637.771031145,
-      "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25724637.771031145
-    },
-    {
-      "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
-      "name": "Savings (Current)",
-      "description": "Immutable current Savings contract where users deposit ZCHF to earn interest. Registered as an active minter, holding $10.22M in ZCHF. Interest rate parameters can be changed by qualified FPS holders via proposeChange.",
-      "adminType": "Immutable",
-      "isGovernance": false,
-      "functions": [
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "registerPosition",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "mintWithReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "mint",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnFrom",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnWithoutReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnWithReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "burnFromWithReserve",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "coverLoss",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-          "contractName": "Frankencoin",
-          "functionName": "collectProfits",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
-        }
-      ],
-      "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25724637.771031145,
-      "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25724637.771031145
-    },
-    {
-      "address": "eth:0x0000000000000000000000000000000000000000",
-      "name": "Zero Address (Renounced)",
-      "description": "The zero address holds the newOwner role on CryptoFranc (acceptOwnership) and the migrationFromContract reference (migrateFrom). These permissions are effectively renounced and cannot be exercised.",
-      "adminType": "Revoked",
-      "isGovernance": false,
-      "functions": [
-        {
-          "contractAddress": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-          "contractName": "CryptoFranc",
-          "functionName": "acceptOwnership",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
-          "contractName": "CryptoFranc",
-          "functionName": "migrateFrom",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        }
-      ],
-      "totalDirectCapital": 0,
-      "totalDirectTokenValue": 0,
-      "totalReachableCapital": 0,
-      "totalReachableTokenValue": 0
-    },
-    {
-      "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-      "name": "Equity (FPS Token)",
-      "description": "The Frankencoin governance token contract. FPS holders who meet qualification criteria can call openPosition, challenge, bid, and buyExpiredCollateral on the MintingHub. The Equity contract itself can call kamikaze (self-destruct of shares) and restructureCapTable. It also controls functions on an unknown contract (0xf72e...6Ba6) including setMinterRole, mint, freeze, pause, and setAssetProtectionRole. Holds $13.92M in reserves.",
-      "adminType": "Immutable",
-      "isGovernance": false,
-      "functions": [
-        {
-          "contractAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "contractName": "Equity",
-          "functionName": "kamikaze",
-          "impact": "critical",
-          "directFundsUsd": 13923431.96265291,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "equity"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
-              "fundsAtRisk": false
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
             }
           ]
         },
         {
-          "contractAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-          "contractName": "Equity",
-          "functionName": "restructureCapTable",
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnFrom",
           "impact": "critical",
-          "directFundsUsd": 13923431.96265291,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "equity"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
-              "fundsAtRisk": false
-            }
-          ]
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnWithoutReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnWithReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnFromWithReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "coverLoss",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "collectProfits",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
         },
         {
           "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
@@ -1011,7 +807,322 @@
               "fundsAtRisk": false
             }
           ]
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 25724637.771031145,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 25724637.771031145
+    },
+    {
+      "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+      "name": "StablecoinBridge (VCHF)",
+      "description": "Immutable bridge contract enabling 1:1 conversion between VCHF (VNX Franc) and ZCHF. Registered as an active minter, holding $503.84K in VCHF reserves. If the VCHF token is paused, frozen, or upgraded by VNX, this bridge's minting and burning would be affected.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "registerPosition",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
         },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "mintWithReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "mint",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnFrom",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnWithoutReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnWithReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnFromWithReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "coverLoss",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "collectProfits",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 25724637.771031145,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 25724637.771031145
+    },
+    {
+      "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+      "name": "Savings (Current)",
+      "description": "Immutable current Savings contract where users deposit ZCHF to earn interest. Registered as an active minter, holding $10.22M in ZCHF. Interest rate parameters can be changed by qualified FPS holders via proposeChange.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "registerPosition",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "mintWithReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "mint",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnFrom",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnWithoutReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnWithReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "burnFromWithReserve",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "coverLoss",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+          "contractName": "Frankencoin",
+          "functionName": "collectProfits",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 25724637.771031145,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 25724637.771031145
+    },
+    {
+      "address": "eth:0x0000000000000000000000000000000000000000",
+      "name": "Zero Address (Renounced)",
+      "description": "The zero address holds the newOwner role on CryptoFranc (acceptOwnership) and the migrationFromContract reference (migrateFrom). These permissions are effectively renounced and cannot be exercised.",
+      "adminType": "Revoked",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
+          "contractName": "CryptoFranc",
+          "functionName": "acceptOwnership",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0xB4272071eCAdd69d933AdcD19cA99fe80664fc08",
+          "contractName": "CryptoFranc",
+          "functionName": "migrateFrom",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
+      "name": "Equity (FPS Token)",
+      "description": "The Frankencoin governance token contract. FPS holders who meet qualification criteria can call openPosition, challenge, bid, and buyExpiredCollateral on the MintingHub. The Equity contract itself can call kamikaze (self-destruct of shares) and restructureCapTable. It also controls functions on an unknown contract (0xf72e...6Ba6) including setMinterRole, mint, freeze, pause, and setAssetProtectionRole. Holds $13.92M in reserves.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
+          "contractName": "Equity",
+          "functionName": "kamikaze",
+          "impact": "critical",
+          "directFundsUsd": 13923431.96265291,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+              "name": "Frankencoin",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "equity"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 25724637.771031145,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
+          "contractName": "Equity",
+          "functionName": "restructureCapTable",
+          "impact": "critical",
+          "directFundsUsd": 13923431.96265291,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+              "name": "Frankencoin",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "equity"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 25724637.771031145,
+              "fundsAtRisk": false
+            }
+          ]
+        }
+      ],
+      "totalDirectCapital": 13923431.96265291,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 13923431.96265291,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
+      "name": "VNXCToken",
+      "description": "",
+      "adminType": "Unknown",
+      "isGovernance": false,
+      "functions": [
         {
           "contractAddress": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
           "contractName": "VNXCToken",
@@ -1112,9 +1223,9 @@
           "reachableContracts": []
         }
       ],
-      "totalDirectCapital": 13923431.96265291,
+      "totalDirectCapital": 0,
       "totalDirectTokenValue": 0,
-      "totalReachableCapital": 13923431.96265291,
+      "totalReachableCapital": 0,
       "totalReachableTokenValue": 0
     }
   ],
@@ -1726,7 +1837,21 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1831,7 +1956,21 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1936,7 +2075,21 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 25724637.771031145,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
