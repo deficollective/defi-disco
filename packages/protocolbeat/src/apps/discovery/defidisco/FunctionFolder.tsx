@@ -5,23 +5,21 @@ import {
   getAdmins,
   getDependencies,
   getFundsData,
-  getFunctionAnalysis,
   getProject,
   getEnhancedTraversal,
 } from '../../../api/api'
 import type {
+  AdminEntry,
+  AdminFunctionEntry,
   ApiAbiEntry,
   ApiAddressType,
-  CallPathStep,
   ContractFundsData,
-  FunctionAnalysis,
   FunctionEntry,
   FunctionTraversalResult,
   Mitigation,
   MitigationType,
   MitigationValue,
   OwnerDefinition,
-  TraversalTerminal,
 } from '../../../api/types'
 import { normalizeMitigationValue } from '../../../api/types'
 import * as solidity from '../../../components/editor/languages/solidity'
@@ -38,7 +36,6 @@ import {
 import {
   addressesEqual,
   normalizeForLookup,
-  stripChainPrefix,
 } from './addressUtils'
 import { useContractTags } from './hooks/useContractTags'
 import { IconCheckFalse } from './IconCheckFalse'
@@ -67,110 +64,6 @@ function displayType(type: ApiAddressType): string {
   return type
 }
 
-/** A step in a collapsed chain — groups all functions at the same position */
-interface CollapsedChainStep {
-  contractAddress: string
-  contractName: string
-  contractType: ApiAddressType
-  edgeType: 'permission' | 'callgraph'
-  functionNames: string[]
-}
-
-/** Group traversal terminals by address, then collapse chains sharing the same contract sequence */
-interface GroupedOwner {
-  address: string
-  name: string
-  type: ApiAddressType
-  hasPublicFunction: boolean
-  /** True if resolution stopped due to incomplete data */
-  isUnresolved: boolean
-  /** Collapsed chains — chains with the same contract sequence are merged */
-  collapsedChains: CollapsedChainStep[][]
-}
-
-/**
- * Collapse multiple chains that share the same sequence of contract addresses
- * into a single chain with all function names grouped per step.
- * e.g. 12 paths (2 functions × 6 functions) → 1 collapsed chain with 2 steps.
- */
-function collapseChains(
-  chains: TraversalTerminal['chain'][],
-): CollapsedChainStep[][] {
-  // Group by contract address sequence
-  const groups = new Map<string, TraversalTerminal['chain'][]>()
-  for (const chain of chains) {
-    const key = chain
-      .map((s) => normalizeForLookup(s.contractAddress))
-      .join('\u2192')
-    const group = groups.get(key)
-    if (group) {
-      group.push(chain)
-    } else {
-      groups.set(key, [chain])
-    }
-  }
-
-  const result: CollapsedChainStep[][] = []
-  for (const group of groups.values()) {
-    const template = group[0]
-    const collapsed: CollapsedChainStep[] = template.map((step, i) => {
-      const fnSet = new Set<string>()
-      for (const chain of group) {
-        if (chain[i]?.functionName) fnSet.add(chain[i].functionName!)
-      }
-      return {
-        contractAddress: step.contractAddress,
-        contractName: step.contractName,
-        contractType: step.contractType,
-        edgeType: step.edgeType,
-        functionNames: Array.from(fnSet).sort(),
-      }
-    })
-    result.push(collapsed)
-  }
-  return result
-}
-
-function groupOwnersByAddress(owners: TraversalTerminal[]): GroupedOwner[] {
-  const grouped = new Map<
-    string,
-    {
-      address: string
-      name: string
-      type: ApiAddressType
-      hasPublicFunction: boolean
-      isUnresolved: boolean
-      chains: TraversalTerminal['chain'][]
-    }
-  >()
-  for (const owner of owners) {
-    const key = normalizeForLookup(owner.address)
-    const existing = grouped.get(key)
-    if (existing) {
-      existing.chains.push(owner.chain)
-      if (owner.hasPublicFunction) existing.hasPublicFunction = true
-      if (owner.isUnresolved) existing.isUnresolved = true
-    } else {
-      grouped.set(key, {
-        address: owner.address,
-        name: owner.name,
-        type: owner.type,
-        hasPublicFunction: owner.hasPublicFunction,
-        isUnresolved: owner.isUnresolved ?? false,
-        chains: [owner.chain],
-      })
-    }
-  }
-  return Array.from(grouped.values()).map((g) => ({
-    address: g.address,
-    name: g.name,
-    type: g.type,
-    hasPublicFunction: g.hasPublicFunction,
-    isUnresolved: g.isUnresolved,
-    collapsedChains: collapseChains(g.chains),
-  }))
-}
-
 function formatFunctionNames(names: string[]): string {
   if (names.length <= 3) {
     return '.' + names.map((fn) => `${fn}()`).join(', .')
@@ -185,79 +78,21 @@ function formatFunctionNames(names: string[]): string {
   )
 }
 
-function getAdminIconColor(owners: FunctionTraversalResult | null): string {
-  if (!owners || owners.terminals.length === 0) return '#9ca3af' // gray - unresolved
-
-  const hasEOA = owners.terminals.some(
-    (o) => o.type === 'EOA' || o.type === 'EOAPermissioned',
+function getAdminIconColor(admins: AdminEntry[]): string {
+  if (admins.length === 0) return '#9ca3af' // gray - unresolved
+  const hasEOA = admins.some(
+    (a) => a.type === 'EOA' || a.type === 'EOAPermissioned',
   )
-  const hasMultisig = owners.terminals.some((o) => o.type === 'Multisig')
-
+  const hasMultisig = admins.some((a) => a.type === 'Multisig')
   if (hasEOA) return '#f87171' // red
   if (hasMultisig) return '#fbbf24' // amber
   return '#10b981' // green - only contracts/timelocks
 }
 
-function getAdminIconTitle(owners: FunctionTraversalResult | null): string {
-  if (!owners || owners.terminals.length === 0)
-    return 'Admin (not yet resolved)'
-  const types = [...new Set(owners.terminals.map((o) => o.type))]
-  return `Terminals: ${types.join(', ')} (${owners.terminals.length} total)`
-}
-
-/** Renders a call path as an indented tree when expanded */
-function CallPathDisplay({ path }: { path: CallPathStep[] }) {
-  if (path.length === 0) return null
-  return (
-    <div className="mt-1 border-coffee-700 border-t pt-1">
-      <div className="text-coffee-500 text-[10px] mb-1">Call path:</div>
-      {path.map((step, idx) => (
-        <div
-          key={idx}
-          className="flex items-center gap-1 text-[10px]"
-          style={{ paddingLeft: `${idx * 12}px` }}
-        >
-          <span className="text-coffee-600">
-            {idx === path.length - 1 ? '\u2514' : '\u251C'}
-          </span>
-          <button
-            onClick={() =>
-              usePanelStore.getState().select(step.contractAddress)
-            }
-            className="text-aux-cyan hover:underline"
-          >
-            {step.contractName}
-          </button>
-          <span className="text-coffee-500">.{step.functionName}()</span>
-          {step.isViewCall && <span className="text-coffee-600">[view]</span>}
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function CollapsibleErrors({ errors }: { errors: string[] }) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  return (
-    <div className="mt-1">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 text-red-400/70 text-xs hover:text-red-400"
-      >
-        <span>{isOpen ? '▼' : '▶'}</span>
-        {errors.length} resolution error{errors.length !== 1 ? 's' : ''}
-      </button>
-      {isOpen && (
-        <div className="mt-0.5 ml-3 space-y-0.5">
-          {errors.map((err, i) => (
-            <div key={i} className="text-red-400/70 text-xs">
-              {err}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  )
+function getAdminIconTitle(admins: AdminEntry[]): string {
+  if (admins.length === 0) return 'Admin (not yet resolved)'
+  const types = [...new Set(admins.map((a) => a.type))]
+  return `Terminals: ${types.join(', ')} (${admins.length} total)`
 }
 
 // Extended type for local display with contractAddress
@@ -390,21 +225,56 @@ export function FunctionFolder({
       return contractEntry?.[1]?.[functionName] ?? null
     }, [traversalData, contractAddress, functionName])
 
-  // Fetch function analysis data (impact + dependencies from call graph)
-  const { data: analysisData } = useQuery({
-    queryKey: ['function-analysis', project],
-    queryFn: () => (project ? getFunctionAnalysis(project) : null),
+  // Fetch pre-computed admin data for this contract
+  const { data: adminsData } = useQuery({
+    queryKey: ['admins', project, contractAddress],
+    queryFn: () => (project ? getAdmins(project, contractAddress) : null),
     enabled: !!project,
   })
 
-  const functionAnalysis: FunctionAnalysis | null = React.useMemo(() => {
-    if (!analysisData?.contracts) return null
-    const normalizedAddr = normalizeForLookup(contractAddress)
-    const contractEntry = Object.entries(analysisData.contracts).find(
-      ([key]) => normalizeForLookup(key) === normalizedAddr,
+  // Fetch pre-computed dependency data for this contract
+  const { data: depsData } = useQuery({
+    queryKey: ['dependencies', project, contractAddress],
+    queryFn: () => (project ? getDependencies(project, contractAddress) : null),
+    enabled: !!project,
+  })
+
+  // Admins that own this specific function
+  const functionAdmins = React.useMemo(() => {
+    if (!adminsData) return []
+    return adminsData.admins.filter((admin) =>
+      admin.functions.some(
+        (f) =>
+          addressesEqual(f.contractAddress, contractAddress) &&
+          f.functionName === functionName,
+      ),
     )
-    return contractEntry?.[1]?.[functionName] ?? null
-  }, [analysisData, contractAddress, functionName])
+  }, [adminsData, contractAddress, functionName])
+
+  // Capital data for this function (same across admins)
+  const functionCapital: AdminFunctionEntry | null = React.useMemo(() => {
+    for (const admin of functionAdmins) {
+      const func = admin.functions.find(
+        (f) =>
+          addressesEqual(f.contractAddress, contractAddress) &&
+          f.functionName === functionName,
+      )
+      if (func) return func
+    }
+    return null
+  }, [functionAdmins, contractAddress, functionName])
+
+  // Dependencies for this function
+  const functionDeps = React.useMemo(() => {
+    if (!depsData) return []
+    return depsData.dependencies.filter((dep) =>
+      dep.functions.some(
+        (f) =>
+          addressesEqual(f.contractAddress, contractAddress) &&
+          f.functionName === functionName,
+      ),
+    )
+  }, [depsData, contractAddress, functionName])
 
   // All contracts from project data (used by owner resolution and mitigation display)
   const allContracts = React.useMemo(() => {
@@ -510,311 +380,6 @@ export function FunctionFolder({
       }
     }
   }, [currentFunction?.delay, projectData])
-
-  // ===========================================================================
-  // A/B Comparison: New /admins endpoint vs existing client-side computation
-  // Set to false to disable comparison logging
-  // ===========================================================================
-  const ENABLE_AB_COMPARISON = true
-
-  const { data: newAdminsData } = useQuery({
-    queryKey: ['admins', project, contractAddress],
-    queryFn: () =>
-      project ? getAdmins(project, contractAddress) : null,
-    enabled: !!project && ENABLE_AB_COMPARISON,
-  })
-
-  const { data: newDepsData } = useQuery({
-    queryKey: ['dependencies', project, contractAddress],
-    queryFn: () =>
-      project ? getDependencies(project, contractAddress) : null,
-    enabled: !!project && ENABLE_AB_COMPARISON,
-  })
-
-  // Compare old (client-side) vs new (server-side) admin data
-  React.useEffect(() => {
-    if (!ENABLE_AB_COMPARISON || !newAdminsData || !resolvedOwners) return
-    if (!currentFunction) return
-
-    // Compare resolved owner addresses
-    const oldOwnerAddrs = resolvedOwners
-      .filter((o) => o.isResolved && o.address !== 'NO_ADDRESSES')
-      .flatMap((o) => o.allAddresses ?? [o.address])
-      .map((a) => normalizeForLookup(a))
-      .sort()
-
-    // Collect admin addresses from new endpoint that have this function
-    const newOwnerAddrs = newAdminsData.admins
-      .filter((admin) =>
-        admin.functions.some(
-          (f) =>
-            addressesEqual(f.contractAddress, contractAddress) &&
-            f.functionName === functionName,
-        ),
-      )
-      .map((admin) => normalizeForLookup(admin.address))
-      .sort()
-
-    if (JSON.stringify(oldOwnerAddrs) !== JSON.stringify(newOwnerAddrs)) {
-      console.warn('[A/B DIFF] owners', functionName, {
-        old: oldOwnerAddrs,
-        new: newOwnerAddrs,
-      })
-    }
-
-    // Compare capital data if available
-    // Skip comparison for functions without owner definitions — they won't
-    // appear in the /admins response (which groups by admin), so the
-    // comparison would always show a false positive diff.
-    const hasOwners =
-      currentFunction?.ownerDefinitions &&
-      currentFunction.ownerDefinitions.length > 0
-    if (
-      functionAnalysis?.impact &&
-      newAdminsData.admins.length > 0 &&
-      hasOwners
-    ) {
-      const oldTotal =
-        (functionAnalysis.impact.totalFundsAtRisk ?? 0) +
-        (functionAnalysis.impact.totalTokenValueAtRisk ?? 0)
-
-      // Sum capital from new endpoint for this function across all admins
-      let newTotal = 0
-      for (const admin of newAdminsData.admins) {
-        const func = admin.functions.find(
-          (f) =>
-            addressesEqual(f.contractAddress, contractAddress) &&
-            f.functionName === functionName,
-        )
-        if (func) {
-          newTotal = func.totalReachableFundsUsd + func.totalReachableTokenValueUsd
-          break // Same function, same capital regardless of admin
-        }
-      }
-
-      if (Math.abs(oldTotal - newTotal) > 0.01) {
-        console.warn('[A/B DIFF] capital', functionName, {
-          old: oldTotal,
-          new: newTotal,
-        })
-      }
-
-      // Compare reachable contracts count and per-contract funds
-      const oldReachable = functionAnalysis.impact.reachableContracts ?? []
-      // Find the function in the new endpoint to get reachable contracts
-      let newReachable: { contractAddress: string; fundsUsd: number; tokenValueUsd: number }[] = []
-      for (const admin of newAdminsData.admins) {
-        const func = admin.functions.find(
-          (f) =>
-            addressesEqual(f.contractAddress, contractAddress) &&
-            f.functionName === functionName,
-        )
-        if (func) {
-          newReachable = func.reachableContracts
-          break
-        }
-      }
-
-      if (oldReachable.length !== newReachable.length) {
-        console.warn('[A/B DIFF] reachableContracts count', functionName, {
-          old: oldReachable.length,
-          new: newReachable.length,
-        })
-      } else if (oldReachable.length > 0) {
-        // Compare per-contract funds (sorted by address for stable comparison)
-        const toComparable = (r: { contractAddress: string; fundsUsd: number; tokenValueUsd: number }) => ({
-          addr: normalizeForLookup(r.contractAddress),
-          funds: r.fundsUsd,
-          token: r.tokenValueUsd,
-        })
-        const sortedOld = oldReachable.map(toComparable).sort((a, b) => a.addr.localeCompare(b.addr))
-        const sortedNew = newReachable.map(toComparable).sort((a, b) => a.addr.localeCompare(b.addr))
-        for (let i = 0; i < sortedOld.length; i++) {
-          const o = sortedOld[i]!
-          const n = sortedNew[i]!
-          if (
-            o.addr !== n.addr ||
-            Math.abs(o.funds - n.funds) > 0.01 ||
-            Math.abs(o.token - n.token) > 0.01
-          ) {
-            console.warn(
-              '[A/B DIFF] reachableContracts detail',
-              functionName,
-              { old: sortedOld, new: sortedNew },
-            )
-            break
-          }
-        }
-      }
-
-      // Compare unresolvedCallsCount
-      const oldUnresolved = functionAnalysis.impact.unresolvedCallsCount ?? 0
-      let newUnresolved = 0
-      for (const admin of newAdminsData.admins) {
-        const func = admin.functions.find(
-          (f) =>
-            addressesEqual(f.contractAddress, contractAddress) &&
-            f.functionName === functionName,
-        )
-        if (func) {
-          newUnresolved = func.unresolvedCallsCount
-          break
-        }
-      }
-      if (oldUnresolved !== newUnresolved) {
-        console.warn('[A/B DIFF] unresolvedCallsCount', functionName, {
-          old: oldUnresolved,
-          new: newUnresolved,
-        })
-      }
-    }
-
-    // Compare ownership chains (old: enhanced traversal → new: /admins chains)
-    if (functionTraversal && hasOwners) {
-      const oldGrouped = groupOwnersByAddress(functionTraversal.terminals ?? [])
-      for (const oldOwner of oldGrouped) {
-        const adminAddr = normalizeForLookup(oldOwner.address)
-        const newAdmin = newAdminsData.admins.find(
-          (a) => normalizeForLookup(a.address) === adminAddr,
-        )
-        if (!newAdmin) continue
-
-        const newFunc = newAdmin.functions.find(
-          (f) =>
-            addressesEqual(f.contractAddress, contractAddress) &&
-            f.functionName === functionName,
-        )
-        if (!newFunc) continue
-
-        // Compare chain count
-        if (oldOwner.collapsedChains.length !== newFunc.chains.length) {
-          console.warn('[A/B DIFF] chain count', functionName, {
-            admin: adminAddr,
-            old: oldOwner.collapsedChains.length,
-            new: newFunc.chains.length,
-          })
-        } else {
-          // Compare chain contract sequences
-          const oldSeqs = oldOwner.collapsedChains
-            .map((c) =>
-              c.map((s) => normalizeForLookup(s.contractAddress)).join('→'),
-            )
-            .sort()
-          const newSeqs = newFunc.chains
-            .map((c) =>
-              c.steps
-                .map((s) => normalizeForLookup(s.contractAddress))
-                .join('→'),
-            )
-            .sort()
-          if (JSON.stringify(oldSeqs) !== JSON.stringify(newSeqs)) {
-            console.warn('[A/B DIFF] chain paths', functionName, {
-              admin: adminAddr,
-              old: oldSeqs,
-              new: newSeqs,
-            })
-          }
-        }
-
-        // Compare hasPublicFunction
-        const newHasPublic = newFunc.chains.some((c) => c.hasPublicFunction)
-        if (oldOwner.hasPublicFunction !== newHasPublic) {
-          console.warn('[A/B DIFF] hasPublicFunction', functionName, {
-            admin: adminAddr,
-            old: oldOwner.hasPublicFunction,
-            new: newHasPublic,
-          })
-        }
-      }
-    }
-  }, [
-    newAdminsData,
-    resolvedOwners,
-    functionAnalysis,
-    functionTraversal,
-    contractAddress,
-    functionName,
-    currentFunction,
-  ])
-
-  // Compare dependencies
-  React.useEffect(() => {
-    if (!ENABLE_AB_COMPARISON || !newDepsData || !functionAnalysis) return
-
-    const oldDepAddrs = (functionAnalysis.dependencies?.entries ?? [])
-      .map((d) => normalizeForLookup(d.contractAddress))
-      .sort()
-
-    // New deps: find entries that have this function
-    const newDepAddrs = newDepsData.dependencies
-      .filter((dep) =>
-        dep.functions.some(
-          (f) =>
-            addressesEqual(f.contractAddress, contractAddress) &&
-            f.functionName === functionName,
-        ),
-      )
-      .map((dep) => normalizeForLookup(dep.address))
-      .sort()
-
-    if (JSON.stringify(oldDepAddrs) !== JSON.stringify(newDepAddrs)) {
-      console.warn('[A/B DIFF] dependencies', functionName, {
-        old: oldDepAddrs,
-        new: newDepAddrs,
-      })
-    }
-
-    // Compare dependency details (viewOnlyPath, calledFunctions, dependencyType)
-    const oldDeps = functionAnalysis.dependencies?.entries ?? []
-    const newDeps = newDepsData.dependencies.filter((dep) =>
-      dep.functions.some(
-        (f) =>
-          addressesEqual(f.contractAddress, contractAddress) &&
-          f.functionName === functionName,
-      ),
-    )
-    for (const oldDep of oldDeps) {
-      const oldAddr = normalizeForLookup(oldDep.contractAddress)
-      const newDep = newDeps.find(
-        (d) => normalizeForLookup(d.address) === oldAddr,
-      )
-      if (!newDep) continue // Already flagged by address comparison above
-
-      if (oldDep.viewOnlyPath !== newDep.viewOnlyPath) {
-        console.warn('[A/B DIFF] dep viewOnlyPath', functionName, {
-          dep: oldAddr,
-          old: oldDep.viewOnlyPath,
-          new: newDep.viewOnlyPath,
-        })
-      }
-
-      // Compare per-function calledFunctions from the dependency's function entry
-      const newDepFunc = newDep.functions.find(
-        (f) =>
-          addressesEqual(f.contractAddress, contractAddress) &&
-          f.functionName === functionName,
-      )
-      if (newDepFunc) {
-        const oldCalled = [...oldDep.calledFunctions].sort()
-        const newCalled = [...newDepFunc.calledFunctions].sort()
-        if (JSON.stringify(oldCalled) !== JSON.stringify(newCalled)) {
-          console.warn('[A/B DIFF] dep calledFunctions', functionName, {
-            dep: oldAddr,
-            old: oldCalled,
-            new: newCalled,
-          })
-        }
-      }
-
-      if (oldDep.dependencyType !== newDep.dependencyType) {
-        console.warn('[A/B DIFF] dep dependencyType', functionName, {
-          dep: oldAddr,
-          old: oldDep.dependencyType,
-          new: newDep.dependencyType,
-        })
-      }
-    }
-  }, [newDepsData, functionAnalysis, contractAddress, functionName])
 
   // State for managing owner definitions (unified path approach)
   const [isAddingOwner, setIsAddingOwner] = useState(false)
@@ -1129,10 +694,10 @@ export function FunctionFolder({
       return true
     }
 
-    // Check if all resolved owners are zero address (revoked)
+    // Check if all admins are zero address (revoked)
     const allOwnersRevoked =
-      resolvedOwners.length > 0 &&
-      resolvedOwners.every((o) => o.isResolved && isZeroAddress(o.address))
+      functionAdmins.length > 0 &&
+      functionAdmins.every((a) => isZeroAddress(a.address))
 
     // If ownership is revoked, only require description
     if (allOwnersRevoked) {
@@ -1145,8 +710,8 @@ export function FunctionFolder({
 
     // Has funds at risk → require score
     const hasFundsAtRisk =
-      (functionAnalysis?.impact?.totalFundsAtRisk ?? 0) > 0 ||
-      (functionAnalysis?.impact?.totalTokenValueAtRisk ?? 0) > 0 ||
+      (functionCapital?.totalReachableFundsUsd ?? 0) > 0 ||
+      (functionCapital?.totalReachableTokenValueUsd ?? 0) > 0 ||
       contractFunds !== null
     const hasValidScore = !hasFundsAtRisk || scoreStatus !== 'unscored'
 
@@ -1525,8 +1090,8 @@ export function FunctionFolder({
           {/* Admin Key Icon */}
           <span
             className="inline-block"
-            style={{ color: getAdminIconColor(functionTraversal) }}
-            title={getAdminIconTitle(functionTraversal)}
+            style={{ color: getAdminIconColor(functionAdmins) }}
+            title={getAdminIconTitle(functionAdmins)}
           >
             <IconKey />
           </span>
@@ -1534,8 +1099,8 @@ export function FunctionFolder({
           {/* Score / Impact Icon */}
           {(() => {
             const hasImpactData =
-              (functionAnalysis?.impact?.totalFundsAtRisk ?? 0) > 0 ||
-              (functionAnalysis?.impact?.totalTokenValueAtRisk ?? 0) > 0
+              (functionCapital?.totalReachableFundsUsd ?? 0) > 0 ||
+              (functionCapital?.totalReachableTokenValueUsd ?? 0) > 0
             const impactColor =
               scoreStatus !== 'unscored'
                 ? getScoreColor(scoreStatus)
@@ -1549,7 +1114,7 @@ export function FunctionFolder({
                   ? '#fcd34d' // amber-300
                   : '#d1d5db' // gray-300
             const impactTitle = hasImpactData
-              ? `Score: ${scoreStatus}. Funds at risk: ${formatUsdValue((functionAnalysis?.impact?.totalFundsAtRisk ?? 0) + (functionAnalysis?.impact?.totalTokenValueAtRisk ?? 0))}. Click to toggle: unscored → critical → no-impact`
+              ? `Score: ${scoreStatus}. Funds at risk: ${formatUsdValue((functionCapital?.totalReachableFundsUsd ?? 0) + (functionCapital?.totalReachableTokenValueUsd ?? 0))}. Click to toggle: unscored → critical → no-impact`
               : `Current score: ${scoreStatus}. Click to toggle: unscored → critical → no-impact`
             return (
               <button
@@ -1581,14 +1146,14 @@ export function FunctionFolder({
             style={{
               color:
                 (currentFunction?.dependencies?.length ?? 0) > 0 ||
-                (functionAnalysis?.dependencies?.entries?.length ?? 0) > 0
+                functionDeps.length > 0
                   ? '#f97316' // orange-500 (has dependencies)
                   : '#9ca3af', // gray-400 (no dependencies)
             }}
             title={
               (currentFunction?.dependencies?.length ?? 0) > 0 ||
-              (functionAnalysis?.dependencies?.entries?.length ?? 0) > 0
-                ? `Has ${(currentFunction?.dependencies?.length ?? 0) + (functionAnalysis?.dependencies?.entries?.filter((d) => d.isAutoDetected).length ?? 0)} external dependency/dependencies`
+              functionDeps.length > 0
+                ? `Has ${(currentFunction?.dependencies?.length ?? 0) + functionDeps.filter((d) => d.isAutoDetected).length} external dependency/dependencies`
                 : 'No external dependencies'
             }
           >
@@ -2047,7 +1612,7 @@ export function FunctionFolder({
               <label className="flex items-center gap-1 text-coffee-300 text-xs">
                 <span
                   style={{
-                    color: getAdminIconColor(functionTraversal),
+                    color: getAdminIconColor(functionAdmins),
                   }}
                 >
                   <IconKey />
@@ -2084,32 +1649,19 @@ export function FunctionFolder({
               Terminal entities that can trigger this permissioned function
             </div>
 
-            {!traversalData ? (
+            {!adminsData ? (
               <div className="text-coffee-500 text-xs">Loading...</div>
-            ) : functionTraversal && functionTraversal.terminals.length > 0 ? (
+            ) : functionAdmins.length > 0 ? (
               (() => {
-                const allOwners = groupOwnersByAddress(
-                  functionTraversal.terminals,
-                )
-                const isGovernanceAddress = (addr: string) => {
-                  if (!contractTags?.tags) return false
-                  return contractTags.tags.some(
-                    (tag) =>
-                      addressesEqual(
-                        stripChainPrefix(tag.contractAddress),
-                        stripChainPrefix(addr),
-                      ) && tag.isGovernance,
-                  )
-                }
-                const isKeyOwner = (owner: GroupedOwner) =>
-                  owner.type === 'EOA' ||
-                  owner.type === 'EOAPermissioned' ||
-                  owner.type === 'Multisig' ||
-                  isGovernanceAddress(owner.address)
-                const filteredOwners = showAllContracts
-                  ? allOwners
-                  : allOwners.filter(isKeyOwner)
-                const hasHiddenOwners = allOwners.some((o) => !isKeyOwner(o))
+                const isKeyOwner = (admin: AdminEntry) =>
+                  admin.type === 'EOA' ||
+                  admin.type === 'EOAPermissioned' ||
+                  admin.type === 'Multisig' ||
+                  admin.isGovernance
+                const filteredAdmins = showAllContracts
+                  ? functionAdmins
+                  : functionAdmins.filter(isKeyOwner)
+                const hasHiddenOwners = functionAdmins.some((a) => !isKeyOwner(a))
                 return (
                   <div className="space-y-2">
                     {hasHiddenOwners && (
@@ -2123,15 +1675,24 @@ export function FunctionFolder({
                           className="h-3 w-3 cursor-pointer accent-coffee-500"
                         />
                         Show all contracts (
-                        {allOwners.length - filteredOwners.length} hidden)
+                        {functionAdmins.length - filteredAdmins.length} hidden)
                       </label>
                     )}
-                    {filteredOwners.map((owner, idx) => {
-                      const revoked = isZeroAddress(owner.address)
+                    {filteredAdmins.map((admin, idx) => {
+                      const revoked = isZeroAddress(admin.address)
                       const adminKey = `admin-${idx}`
                       const isAdminExpanded = expandedPaths.has(adminKey)
-                      const hasChains = owner.collapsedChains.some(
-                        (c) => c.length > 0,
+                      const adminFunc = admin.functions.find(
+                        (f) =>
+                          addressesEqual(f.contractAddress, contractAddress) &&
+                          f.functionName === functionName,
+                      )
+                      const chains = adminFunc?.chains ?? []
+                      const hasChains = chains.some(
+                        (c) => c.steps.length > 0,
+                      )
+                      const hasPublicFunction = chains.some(
+                        (c) => c.hasPublicFunction,
                       )
                       return (
                         <div
@@ -2163,30 +1724,19 @@ export function FunctionFolder({
                               >
                                 Revoked
                               </span>
-                            ) : owner.isUnresolved ? (
-                              <span
-                                className="rounded border px-1 text-xs font-semibold"
-                                style={{
-                                  color: '#9ca3af',
-                                  borderColor: '#9ca3af40',
-                                  backgroundColor: 'rgba(156, 163, 175, 0.1)',
-                                }}
-                              >
-                                Unresolved
-                              </span>
                             ) : (
                               <span
                                 className="rounded border px-1 text-xs font-semibold"
                                 style={{
-                                  color: getAdminTypeColor(owner.type),
+                                  color: getAdminTypeColor(admin.type),
                                   borderColor:
-                                    getAdminTypeColor(owner.type) + '40',
+                                    getAdminTypeColor(admin.type) + '40',
                                 }}
                               >
-                                {displayType(owner.type)}
+                                {displayType(admin.type)}
                               </span>
                             )}
-                            {isGovernanceAddress(owner.address) && (
+                            {admin.isGovernance && (
                               <span
                                 className="rounded border px-1 text-xs font-semibold"
                                 style={{
@@ -2202,14 +1752,14 @@ export function FunctionFolder({
                               onClick={(e) => {
                                 e.stopPropagation()
                                 if (!revoked)
-                                  usePanelStore.getState().select(owner.address)
+                                  usePanelStore.getState().select(admin.address)
                               }}
                               className={`font-mono text-xs ${revoked ? 'cursor-default text-coffee-400' : 'hover:underline'}`}
                               style={revoked ? undefined : { color: '#67e8f9' }}
                             >
-                              {revoked ? '0x0000...0000' : owner.name}
+                              {revoked ? '0x0000...0000' : admin.name}
                             </button>
-                            {owner.hasPublicFunction && (
+                            {hasPublicFunction && (
                               <span className="rounded bg-orange-900/30 px-1 text-orange-400 text-xs">
                                 public fn in path
                               </span>
@@ -2218,15 +1768,15 @@ export function FunctionFolder({
 
                           {/* Chain tree: each collapsed chain = a branch (shown when expanded) */}
                           {isAdminExpanded &&
-                            owner.collapsedChains.map((chain, chainIdx) => {
-                              if (chain.length === 0) return null
+                            chains.map((chain, chainIdx) => {
+                              if (chain.steps.length === 0) return null
                               // Reverse to owner→target order
-                              const reversed = [...chain].reverse()
+                              const reversed = [...chain.steps].reverse()
                               // Step 0 = owner (already in header), grab its functions
                               const ownerFns = reversed[0]?.functionNames ?? []
                               const viaSteps = reversed.slice(1)
                               const isLast =
-                                chainIdx === owner.collapsedChains.length - 1
+                                chainIdx === chains.length - 1
 
                               return (
                                 <div
@@ -2290,11 +1840,14 @@ export function FunctionFolder({
                       )
                     })}
 
-                    {/* Errors — collapsible */}
-                    {functionTraversal.errors.length > 0 && (
-                      <CollapsibleErrors errors={functionTraversal.errors} />
+                    {/* Errors from traversal metadata */}
+                    {functionTraversal && functionTraversal.errors.length > 0 && (
+                      <div className="mt-1 text-red-400/70 text-xs">
+                        {functionTraversal.errors.length} resolution error
+                        {functionTraversal.errors.length !== 1 ? 's' : ''}
+                      </div>
                     )}
-                    {functionTraversal.depthLimitReached && (
+                    {functionTraversal?.depthLimitReached && (
                       <div className="mt-1 text-yellow-400 text-xs">
                         Depth limit reached — chain may be incomplete
                       </div>
@@ -2428,37 +1981,22 @@ export function FunctionFolder({
             )}
 
             {/* Reachable contracts with funds (from call graph) */}
-            {functionAnalysis?.impact &&
-              functionAnalysis.impact.reachableContracts.length > 0 && (
+            {functionCapital &&
+              (functionCapital.reachableContracts ?? []).length > 0 && (
                 <div className="mt-3 space-y-2">
                   <div className="text-coffee-400 text-xs font-semibold">
                     Reachable Contracts with Funds
                   </div>
                   <div className="space-y-1">
-                    {functionAnalysis.impact.reachableContracts.map(
+                    {functionCapital.reachableContracts.map(
                       (entry, idx) => {
-                        const pathKey = `impact-${idx}`
-                        const isExpanded = expandedPaths.has(pathKey)
-                        const hasPath = entry.callPath.length > 0
                         return (
                           <div
                             key={idx}
-                            className={`rounded bg-coffee-800 p-2 ${hasPath ? 'cursor-pointer' : ''}`}
-                            onClick={
-                              hasPath ? () => togglePath(pathKey) : undefined
-                            }
+                            className="rounded bg-coffee-800 p-2"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
-                                {hasPath && (
-                                  <span className="text-coffee-500 text-[10px]">
-                                    {isExpanded ? (
-                                      <IconChevronDown />
-                                    ) : (
-                                      <IconChevronRight />
-                                    )}
-                                  </span>
-                                )}
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation()
@@ -2473,11 +2011,6 @@ export function FunctionFolder({
                                 {entry.viewOnlyPath && (
                                   <span className="rounded bg-coffee-600 px-1 py-0.5 text-coffee-300 text-[10px]">
                                     view only
-                                  </span>
-                                )}
-                                {entry.permissionedFunctions.length > 0 && (
-                                  <span className="rounded bg-orange-900 px-1 py-0.5 text-orange-300 text-[10px]">
-                                    permissioned
                                   </span>
                                 )}
                               </div>
@@ -2499,19 +2032,16 @@ export function FunctionFolder({
                                 calls: {entry.calledFunctions.join(', ')}
                               </div>
                             )}
-                            {isExpanded && (
-                              <CallPathDisplay path={entry.callPath} />
-                            )}
                           </div>
                         )
                       },
                     )}
                   </div>
-                  {functionAnalysis.impact.unresolvedCallsCount > 0 && (
+                  {(functionCapital.unresolvedCallsCount ?? 0) > 0 && (
                     <div className="text-yellow-400 text-xs">
-                      {functionAnalysis.impact.unresolvedCallsCount} unresolved
+                      {functionCapital.unresolvedCallsCount} unresolved
                       external call
-                      {functionAnalysis.impact.unresolvedCallsCount > 1
+                      {functionCapital.unresolvedCallsCount > 1
                         ? 's'
                         : ''}
                     </div>
@@ -2519,17 +2049,17 @@ export function FunctionFolder({
                   <div className="flex items-center justify-between border-coffee-600 border-t pt-1 text-xs">
                     <span className="text-coffee-400">Total at risk</span>
                     <div className="flex items-center gap-2">
-                      {functionAnalysis.impact.totalFundsAtRisk > 0 && (
+                      {functionCapital.totalReachableFundsUsd > 0 && (
                         <span className="text-green-400">
                           {formatUsdValue(
-                            functionAnalysis.impact.totalFundsAtRisk,
+                            functionCapital.totalReachableFundsUsd,
                           )}
                         </span>
                       )}
-                      {functionAnalysis.impact.totalTokenValueAtRisk > 0 && (
+                      {functionCapital.totalReachableTokenValueUsd > 0 && (
                         <span className="text-aux-yellow">
                           {formatUsdValue(
-                            functionAnalysis.impact.totalTokenValueAtRisk,
+                            functionCapital.totalReachableTokenValueUsd,
                           )}
                         </span>
                       )}
@@ -2547,7 +2077,7 @@ export function FunctionFolder({
                   style={{
                     color:
                       (currentFunction?.dependencies?.length ?? 0) > 0 ||
-                      (functionAnalysis?.dependencies?.entries?.length ?? 0) > 0
+                      functionDeps.length > 0
                         ? '#f97316'
                         : '#9ca3af',
                   }}
@@ -2569,57 +2099,35 @@ export function FunctionFolder({
             </div>
 
             {/* Auto-detected dependencies from call graph */}
-            {functionAnalysis?.dependencies?.entries &&
-              functionAnalysis.dependencies.entries.filter(
-                (d) => d.isAutoDetected,
-              ).length > 0 && (
+            {functionDeps.filter((d) => d.isAutoDetected).length > 0 && (
                 <div className="mb-3">
                   <div className="mb-1 text-coffee-400 text-xs">
                     Auto-detected (
-                    {
-                      functionAnalysis.dependencies.entries.filter(
-                        (d) => d.isAutoDetected,
-                      ).length
-                    }
+                    {functionDeps.filter((d) => d.isAutoDetected).length}
                     ):
                   </div>
                   <div className="space-y-2">
-                    {functionAnalysis.dependencies.entries
+                    {functionDeps
                       .filter((d) => d.isAutoDetected)
                       .map((dep, idx) => {
-                        const pathKey = `dep-auto-${idx}`
-                        const isExpanded = expandedPaths.has(pathKey)
-                        const hasPath = dep.callPath.length > 0
                         return (
                           <div
                             key={idx}
-                            className={`rounded bg-coffee-800 p-2 ${hasPath ? 'cursor-pointer' : ''}`}
-                            onClick={
-                              hasPath ? () => togglePath(pathKey) : undefined
-                            }
+                            className="rounded bg-coffee-800 p-2"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
-                                {hasPath && (
-                                  <span className="text-coffee-500 text-[10px]">
-                                    {isExpanded ? (
-                                      <IconChevronDown />
-                                    ) : (
-                                      <IconChevronRight />
-                                    )}
-                                  </span>
-                                )}
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation()
                                     usePanelStore
                                       .getState()
-                                      .select(dep.contractAddress)
+                                      .select(dep.address)
                                   }}
                                   className="font-mono text-aux-cyan text-xs hover:text-aux-cyan-light"
-                                  title={`Select ${dep.contractAddress}`}
+                                  title={`Select ${dep.address}`}
                                 >
-                                  {dep.contractName}
+                                  {dep.name}
                                 </button>
                                 <span
                                   className={`rounded px-1 py-0.5 text-[10px] ${dep.dependencyType === 'write' ? 'bg-aux-orange/20 text-aux-orange' : 'bg-coffee-600 text-coffee-300'}`}
@@ -2650,9 +2158,6 @@ export function FunctionFolder({
                                   {dep.entity}
                                 </span>
                               </div>
-                            )}
-                            {isExpanded && (
-                              <CallPathDisplay path={dep.callPath} />
                             )}
                           </div>
                         )
@@ -2731,10 +2236,7 @@ export function FunctionFolder({
             {/* No dependencies message */}
             {(!currentFunction?.dependencies ||
               currentFunction.dependencies.length === 0) &&
-              (!functionAnalysis?.dependencies?.entries ||
-                functionAnalysis.dependencies.entries.filter(
-                  (d) => d.isAutoDetected,
-                ).length === 0) && (
+              functionDeps.filter((d) => d.isAutoDetected).length === 0 && (
                 <div className="mb-3 text-coffee-500 text-xs">
                   No dependencies detected
                 </div>
