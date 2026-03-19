@@ -20,6 +20,29 @@ import type {
 const DEFISCAN_ENDPOINTS_URL =
   process.env.DEFISCAN_ENDPOINTS_URL || 'http://localhost:3001'
 
+// Map discovery chain prefixes to DeBank chain IDs
+// DeBank docs: https://docs.open.debank.com/en/reference/api-pro-reference/chain#get-supported-chain-list
+const DISCOVERY_TO_DEBANK_CHAIN: Record<string, string> = {
+  eth: 'eth',
+  base: 'base',
+  arb1: 'arb',
+  oeth: 'op',
+  polygon: 'matic',
+  gnosis: 'xdai',
+  avax: 'avax',
+  linea: 'linea',
+  blast: 'blast',
+  scroll: 'scrl',
+  zksync: 'era',
+  // Add more as needed
+}
+
+/** Extract DeBank chain ID from a chain-prefixed address like "base:0x..." */
+function getDebankChainId(chainPrefixedAddress: string): string {
+  const prefix = chainPrefixedAddress.split(':')[0] || 'eth'
+  return DISCOVERY_TO_DEBANK_CHAIN[prefix] || prefix
+}
+
 export interface TokenInfo {
   id: string
   chain: string
@@ -213,13 +236,14 @@ export async function fetchFundsForContract(
   let tokenFetched = false
   let aggregateFetched = false
 
-  // Normalize address - remove eth: prefix for API calls
+  // Normalize address - extract chain and remove prefix for API calls
   const cleanAddress = stripChainPrefix(contractAddress)
+  const debankChain = getDebankChainId(contractAddress)
   const forceRefreshParam = options.forceRefresh ? '&force_refresh=true' : ''
 
   try {
     if (options.fetchBalances) {
-      const balancesUrl = `${DEFISCAN_ENDPOINTS_URL}/balances?contract_address=${cleanAddress}&chain_id=eth${forceRefreshParam}`
+      const balancesUrl = `${DEFISCAN_ENDPOINTS_URL}/balances?contract_address=${cleanAddress}&chain_id=${debankChain}${forceRefreshParam}`
       const balancesResponse = await fetch(balancesUrl)
 
       if (!balancesResponse.ok) {
@@ -264,7 +288,7 @@ export async function fetchFundsForContract(
     }
 
     if (options.fetchPositions) {
-      const positionsUrl = `${DEFISCAN_ENDPOINTS_URL}/positions?address=${cleanAddress}&chain_id=eth${forceRefreshParam}`
+      const positionsUrl = `${DEFISCAN_ENDPOINTS_URL}/positions?address=${cleanAddress}&chain_id=${debankChain}${forceRefreshParam}`
       const positionsResponse = await fetch(positionsUrl)
 
       // Get cached status and source from headers
@@ -348,7 +372,7 @@ export async function fetchFundsForContract(
     }
 
     if (options.isToken) {
-      const tokenData = await fetchTokenInfo('eth', cleanAddress)
+      const tokenData = await fetchTokenInfo(debankChain, cleanAddress)
 
       // Look up totalSupply and decimals from discovered.json
       let totalSupply: string | undefined
@@ -398,7 +422,7 @@ export async function fetchFundsForContract(
         )
       } else {
         try {
-          const aggregateUrl = `${DEFISCAN_ENDPOINTS_URL}/aggregate?contract_address=${cleanAddress}&chain_id=eth&handler=${options.aggregateHandler}${forceRefreshParam}`
+          const aggregateUrl = `${DEFISCAN_ENDPOINTS_URL}/aggregate?contract_address=${cleanAddress}&chain_id=${debankChain}&handler=${options.aggregateHandler}${forceRefreshParam}`
           const aggregateResponse = await fetch(aggregateUrl)
 
           if (aggregateResponse.ok) {

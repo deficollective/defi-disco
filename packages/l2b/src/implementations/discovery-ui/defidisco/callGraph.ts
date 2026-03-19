@@ -39,6 +39,25 @@ const SLITHER_PATH =
   process.env.SLITHER_PATH || path.join(SLITHER_VENV_PATH, 'bin', 'slither')
 const SLITHIR_CACHE_FOLDER = 'slithir-cache'
 
+// Map from discovery chain prefix to Slither network name
+// Slither supports NETWORK:0x.. format natively for many chains
+// See: slither --help for supported networks
+const CHAIN_TO_SLITHER_NETWORK: Record<string, string> = {
+  eth: 'mainnet',
+  base: 'base',
+  arb1: 'arbi',
+  oeth: 'optim',
+  polygon: 'poly',
+  gnosis: 'gno',
+  scroll: 'scroll',
+  linea: 'linea',
+  blast: 'blast',
+  zksync: 'era.zksync',
+  avax: 'avax',
+  celo: 'celo',
+  // Add more as needed — run `slither --help` for full list
+}
+
 // =============================================================================
 // Slithir Cache Types
 // =============================================================================
@@ -145,19 +164,28 @@ export async function generateCallGraph(
   onProgress?: (message: string) => void,
   verbose = false,
 ): Promise<ApiCallGraphResponse> {
+  // Load discovered.json once for all operations
+  const discovered = configReader.readDiscovery(project)
+
+  // Determine chain from discovered.json entries
+  const chain =
+    discovered.entries?.[0]?.address?.split(':')[0] || 'eth'
+
   // Get Etherscan API key from environment
   const etherscanApiKey =
     process.env.ETHERSCAN_API_KEY_FOR_DISCOVERY ||
     process.env.L2B_ETHERSCAN_API_KEY
 
-  if (!etherscanApiKey) {
+  // Slither requires --etherscan-apikey for all chains, but non-Etherscan
+  // explorers (e.g. Blockscout for Base) don't actually need a real key
+  const needsRealKey = chain === 'eth'
+  if (!etherscanApiKey && needsRealKey) {
     throw new Error(
       'ETHERSCAN_API_KEY_FOR_DISCOVERY or L2B_ETHERSCAN_API_KEY not configured in environment',
     )
   }
 
-  // Load discovered.json once for all operations
-  const discovered = configReader.readDiscovery(project)
+  const apiKey = etherscanApiKey || 'no-key-needed'
 
   // Get contracts to analyze (non-external only)
   const contracts = getContractsToAnalyze(
@@ -219,7 +247,8 @@ export async function generateCallGraph(
       // runs on implementation address for proxies (since interested in business logic of the contract, not proxy logic)
       const slitherResult = await runSlitherOnContract(
         contract.slitherAddress,
-        etherscanApiKey,
+        apiKey,
+        chain,
         onProgress,
       )
 
@@ -1180,6 +1209,7 @@ function parseSlithirForContract(
 async function runSlitherOnContract(
   address: string,
   etherscanApiKey: string,
+  chain: string,
   onProgress?: (message: string) => void,
 ): Promise<{ output: string; error?: string }> {
   return new Promise((resolve) => {
@@ -1192,10 +1222,15 @@ async function runSlitherOnContract(
       return
     }
 
-    // Clean address - remove eth: prefix
+    // Build Slither target address: NETWORK:0x.. for non-mainnet chains
     const cleanAddress = stripChainPrefix(address)
+    const slitherNetwork = CHAIN_TO_SLITHER_NETWORK[chain]
+    const slitherTarget =
+      !slitherNetwork || slitherNetwork === 'mainnet'
+        ? cleanAddress
+        : `${slitherNetwork}:${cleanAddress}`
 
-    onProgress?.(`Running slither on ${cleanAddress}...`)
+    onProgress?.(`Running slither on ${slitherTarget}...`)
 
     // Set up environment with slither venv bin path (contains solc wrapper from solc-select)
     const slitherVenvBin = path.join(SLITHER_VENV_PATH, 'bin')
@@ -1205,10 +1240,10 @@ async function runSlitherOnContract(
       SOLC_VERSION: '', // Let crytic-compile auto-detect
     }
 
-    // Always fetch from Etherscan - the crytic-export cache format doesn't work with slither directly
-    // Slither will use its own internal caching mechanism
+    // Slither fetches source from the chain's block explorer
+    // For non-mainnet chains, the NETWORK:0x.. format routes to the right explorer
     const args = [
-      cleanAddress,
+      slitherTarget,
       '--print',
       'slithir',
       '--etherscan-apikey',
