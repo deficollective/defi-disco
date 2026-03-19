@@ -743,6 +743,7 @@ export function FunctionFolder({
       contractAddress: string
       fieldName: string
     }
+    scopedTo: { address: string; type: '' | 'admin' | 'dependency' }
   }>({
     type: 'valueRange',
     description: '',
@@ -752,6 +753,7 @@ export function FunctionFolder({
       contractAddress: defaultContractAddress,
       fieldName: '',
     },
+    scopedTo: { address: '', type: '' },
   })
 
   // Sync mitigated field default contract when availableContracts loads
@@ -978,6 +980,7 @@ export function FunctionFolder({
         contractAddress: defaultContractAddress,
         fieldName: '',
       },
+      scopedTo: { address: '', type: '' },
     })
     setIsAddingMitigation(false)
     setEditingMitigationIndex(null)
@@ -1027,6 +1030,18 @@ export function FunctionFolder({
       mitigation.mitigatedField = {
         contractAddress: newMitigation.mitigatedField.contractAddress,
         fieldName: newMitigation.mitigatedField.fieldName.trim(),
+      }
+    }
+
+    // Add scope if a specific admin or dependency is selected
+    if (
+      newMitigation.scopedTo.address &&
+      (newMitigation.scopedTo.type === 'admin' ||
+        newMitigation.scopedTo.type === 'dependency')
+    ) {
+      mitigation.scopedTo = {
+        address: newMitigation.scopedTo.address,
+        type: newMitigation.scopedTo.type,
       }
     }
 
@@ -1092,6 +1107,9 @@ export function FunctionFolder({
             contractAddress: defaultContractAddress,
             fieldName: '',
           },
+      scopedTo: m.scopedTo
+        ? { address: m.scopedTo.address, type: m.scopedTo.type }
+        : { address: '', type: '' },
     })
     setEditingMitigationIndex(index)
     setIsAddingMitigation(true)
@@ -2721,6 +2739,23 @@ export function FunctionFolder({
                           monitors: {m.mitigatedField.fieldName}
                         </span>
                       )}
+                      {m.scopedTo && (
+                        <span
+                          className="shrink-0 rounded bg-purple-900/60 px-1.5 py-0.5 font-mono text-[10px] text-purple-300"
+                          title={`Scoped to ${m.scopedTo.type}: ${m.scopedTo.address}`}
+                        >
+                          {m.scopedTo.type === 'admin' ? 'admin' : 'dep'}:{' '}
+                          {(() => {
+                            const info = availableContracts.find((c) =>
+                              addressesEqual(c.address, m.scopedTo!.address),
+                            )
+                            return (
+                              info?.name ||
+                              m.scopedTo!.address.slice(0, 12) + '...'
+                            )
+                          })()}
+                        </span>
+                      )}
                     </div>
                     {/* Second line: description */}
                     {m.description && (
@@ -2951,6 +2986,92 @@ export function FunctionFolder({
                     }
                     className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 text-coffee-100 text-xs"
                   />
+                </div>
+
+                {/* Scope (optional) */}
+                <div className="mb-3">
+                  <label className="mb-1 block text-coffee-300 text-xs">
+                    Scope{' '}
+                    <span className="text-coffee-500">
+                      (optional — leave global for all callers)
+                    </span>
+                  </label>
+                  <select
+                    value={
+                      newMitigation.scopedTo.address
+                        ? `${newMitigation.scopedTo.type}:${newMitigation.scopedTo.address}`
+                        : ''
+                    }
+                    onChange={(e) => {
+                      const val = e.target.value
+                      if (!val) {
+                        setNewMitigation((prev) => ({
+                          ...prev,
+                          scopedTo: { address: '', type: '' },
+                        }))
+                      } else {
+                        const colonIdx = val.indexOf(':')
+                        const scopeType = val.slice(0, colonIdx) as
+                          | 'admin'
+                          | 'dependency'
+                        const addr = val.slice(colonIdx + 1)
+                        setNewMitigation((prev) => ({
+                          ...prev,
+                          scopedTo: { address: addr, type: scopeType },
+                        }))
+                      }
+                    }}
+                    className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 text-coffee-100 text-xs"
+                  >
+                    <option value="">Global (applies to all callers)</option>
+                    {resolvedOwners.length > 0 && (
+                      <optgroup label="Admins">
+                        {resolvedOwners
+                          .filter((o) => o.isResolved)
+                          .flatMap((o) =>
+                            (o.allAddresses ?? [o.address])
+                              .filter(
+                                (addr) =>
+                                  addr !== 'NO_ADDRESSES' &&
+                                  addr !== 'RESOLUTION_FAILED',
+                              )
+                              .map((addr) => {
+                                const info = availableContracts.find((c) =>
+                                  addressesEqual(c.address, addr),
+                                )
+                                return (
+                                  <option
+                                    key={`admin:${addr}`}
+                                    value={`admin:${addr}`}
+                                  >
+                                    {info?.name ?? addr.slice(0, 12) + '...'} (
+                                    {addr.slice(0, 10)}...)
+                                  </option>
+                                )
+                              }),
+                          )}
+                      </optgroup>
+                    )}
+                    {(currentFunction?.dependencies?.length ?? 0) > 0 && (
+                      <optgroup label="Dependencies">
+                        {(currentFunction?.dependencies ?? []).map((dep) => {
+                          const info = availableContracts.find((c) =>
+                            addressesEqual(c.address, dep.contractAddress),
+                          )
+                          return (
+                            <option
+                              key={`dependency:${dep.contractAddress}`}
+                              value={`dependency:${dep.contractAddress}`}
+                            >
+                              {info?.name ??
+                                dep.contractAddress.slice(0, 12) + '...'}{' '}
+                              ({dep.contractAddress.slice(0, 10)}...)
+                            </option>
+                          )
+                        })}
+                      </optgroup>
+                    )}
+                  </select>
                 </div>
 
                 <div className="flex gap-2">

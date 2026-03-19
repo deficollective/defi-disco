@@ -24,6 +24,7 @@ import { getContractTags } from './contractTags'
 import {
   normalizeChainAddress,
   addressesEqual,
+  filterMitigationsForOwner,
   getFromAddressRecord,
   buildImplementationToProxyMap,
 } from './addressUtils'
@@ -486,9 +487,15 @@ export class ReviewCompiler {
                   tokenValueUsd: r.tokenValueUsd,
                   fundsAtRisk: r.fundsAtRisk,
                 })),
-                mitigations:
+                mitigations: filterMitigationsForOwner(
                   f.mitigations ??
-                  getMitigationsForFunction(f.contractAddress, f.functionName),
+                    getMitigationsForFunction(
+                      f.contractAddress,
+                      f.functionName,
+                    ),
+                  admin.adminAddress,
+                  'admin',
+                ),
               }))
             : admin.functions.map((f) => ({
                 contractAddress: f.contractAddress,
@@ -498,9 +505,10 @@ export class ReviewCompiler {
                 directFundsUsd: 0,
                 directTokenValueUsd: 0,
                 reachableContracts: [],
-                mitigations: getMitigationsForFunction(
-                  f.contractAddress,
-                  f.functionName,
+                mitigations: filterMitigationsForOwner(
+                  getMitigationsForFunction(f.contractAddress, f.functionName),
+                  admin.adminAddress,
+                  'admin',
                 ),
               })),
           totalDirectCapital: hasCapital ? withCapital.totalDirectCapital : 0,
@@ -611,7 +619,11 @@ export class ReviewCompiler {
                   fundsAtRisk: r.fundsUsd > 0 || r.tokenValueUsd > 0,
                 }),
               ),
-              mitigations: getMitigationsForFunction(contractAddr, funcName),
+              mitigations: filterMitigationsForOwner(
+                getMitigationsForFunction(contractAddr, funcName),
+                dep.contractAddress,
+                'dependency',
+              ),
             })
           }
         }

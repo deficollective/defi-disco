@@ -206,7 +206,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 
 ### Key Data Structures
 
-**Permission Overrides** (`permission-overrides.json`): Contract-grouped format with `contracts[address].functions[]`. Each function has `functionName`, `userClassification`, `checked`, `score` (`'unscored' | 'critical' | 'no-impact'`), `description`, `ownerDefinitions`, `delay`, `aiClassification`, `timestamp`. `'no-impact'` means the researcher confirmed the function has no fund impact — its capital is zeroed in analysis and scoring. Full schema in `docs/developers/features/permissions.md`.
+**Permission Overrides** (`permission-overrides.json`): Contract-grouped format with `contracts[address].functions[]`. Each function has `functionName`, `userClassification`, `checked`, `score` (`'unscored' | 'critical' | 'no-impact'`), `description`, `ownerDefinitions`, `delay`, `aiClassification`, `timestamp`. `'no-impact'` means the researcher confirmed the function has no fund impact — its capital is zeroed in analysis and scoring. Each mitigation in `mitigations[]` can have `scopedTo?: { address: string, type: 'admin' | 'dependency' }` to limit it to a specific caller — mitigations without `scopedTo` are global. `filterMitigationsForOwner()` in `addressUtils.ts` handles scope filtering. Full schema in `docs/developers/features/permissions.md`.
 
 **Owner Path Format**: `<contractRef>.<valuePath>` where contractRef is `$self`, `@fieldName`, or `eth:0xAddress`. Examples:
 - `{ "path": "$self.owner" }` - owner field in current contract
