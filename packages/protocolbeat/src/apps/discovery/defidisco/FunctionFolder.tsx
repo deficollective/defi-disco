@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
+  getAdmins,
+  getDependencies,
   getFundsData,
   getFunctionAnalysis,
   getProject,
@@ -508,6 +510,311 @@ export function FunctionFolder({
       }
     }
   }, [currentFunction?.delay, projectData])
+
+  // ===========================================================================
+  // A/B Comparison: New /admins endpoint vs existing client-side computation
+  // Set to false to disable comparison logging
+  // ===========================================================================
+  const ENABLE_AB_COMPARISON = true
+
+  const { data: newAdminsData } = useQuery({
+    queryKey: ['admins', project, contractAddress],
+    queryFn: () =>
+      project ? getAdmins(project, contractAddress) : null,
+    enabled: !!project && ENABLE_AB_COMPARISON,
+  })
+
+  const { data: newDepsData } = useQuery({
+    queryKey: ['dependencies', project, contractAddress],
+    queryFn: () =>
+      project ? getDependencies(project, contractAddress) : null,
+    enabled: !!project && ENABLE_AB_COMPARISON,
+  })
+
+  // Compare old (client-side) vs new (server-side) admin data
+  React.useEffect(() => {
+    if (!ENABLE_AB_COMPARISON || !newAdminsData || !resolvedOwners) return
+    if (!currentFunction) return
+
+    // Compare resolved owner addresses
+    const oldOwnerAddrs = resolvedOwners
+      .filter((o) => o.isResolved && o.address !== 'NO_ADDRESSES')
+      .flatMap((o) => o.allAddresses ?? [o.address])
+      .map((a) => normalizeForLookup(a))
+      .sort()
+
+    // Collect admin addresses from new endpoint that have this function
+    const newOwnerAddrs = newAdminsData.admins
+      .filter((admin) =>
+        admin.functions.some(
+          (f) =>
+            addressesEqual(f.contractAddress, contractAddress) &&
+            f.functionName === functionName,
+        ),
+      )
+      .map((admin) => normalizeForLookup(admin.address))
+      .sort()
+
+    if (JSON.stringify(oldOwnerAddrs) !== JSON.stringify(newOwnerAddrs)) {
+      console.warn('[A/B DIFF] owners', functionName, {
+        old: oldOwnerAddrs,
+        new: newOwnerAddrs,
+      })
+    }
+
+    // Compare capital data if available
+    // Skip comparison for functions without owner definitions — they won't
+    // appear in the /admins response (which groups by admin), so the
+    // comparison would always show a false positive diff.
+    const hasOwners =
+      currentFunction?.ownerDefinitions &&
+      currentFunction.ownerDefinitions.length > 0
+    if (
+      functionAnalysis?.impact &&
+      newAdminsData.admins.length > 0 &&
+      hasOwners
+    ) {
+      const oldTotal =
+        (functionAnalysis.impact.totalFundsAtRisk ?? 0) +
+        (functionAnalysis.impact.totalTokenValueAtRisk ?? 0)
+
+      // Sum capital from new endpoint for this function across all admins
+      let newTotal = 0
+      for (const admin of newAdminsData.admins) {
+        const func = admin.functions.find(
+          (f) =>
+            addressesEqual(f.contractAddress, contractAddress) &&
+            f.functionName === functionName,
+        )
+        if (func) {
+          newTotal = func.totalReachableFundsUsd + func.totalReachableTokenValueUsd
+          break // Same function, same capital regardless of admin
+        }
+      }
+
+      if (Math.abs(oldTotal - newTotal) > 0.01) {
+        console.warn('[A/B DIFF] capital', functionName, {
+          old: oldTotal,
+          new: newTotal,
+        })
+      }
+
+      // Compare reachable contracts count and per-contract funds
+      const oldReachable = functionAnalysis.impact.reachableContracts ?? []
+      // Find the function in the new endpoint to get reachable contracts
+      let newReachable: { contractAddress: string; fundsUsd: number; tokenValueUsd: number }[] = []
+      for (const admin of newAdminsData.admins) {
+        const func = admin.functions.find(
+          (f) =>
+            addressesEqual(f.contractAddress, contractAddress) &&
+            f.functionName === functionName,
+        )
+        if (func) {
+          newReachable = func.reachableContracts
+          break
+        }
+      }
+
+      if (oldReachable.length !== newReachable.length) {
+        console.warn('[A/B DIFF] reachableContracts count', functionName, {
+          old: oldReachable.length,
+          new: newReachable.length,
+        })
+      } else if (oldReachable.length > 0) {
+        // Compare per-contract funds (sorted by address for stable comparison)
+        const toComparable = (r: { contractAddress: string; fundsUsd: number; tokenValueUsd: number }) => ({
+          addr: normalizeForLookup(r.contractAddress),
+          funds: r.fundsUsd,
+          token: r.tokenValueUsd,
+        })
+        const sortedOld = oldReachable.map(toComparable).sort((a, b) => a.addr.localeCompare(b.addr))
+        const sortedNew = newReachable.map(toComparable).sort((a, b) => a.addr.localeCompare(b.addr))
+        for (let i = 0; i < sortedOld.length; i++) {
+          const o = sortedOld[i]!
+          const n = sortedNew[i]!
+          if (
+            o.addr !== n.addr ||
+            Math.abs(o.funds - n.funds) > 0.01 ||
+            Math.abs(o.token - n.token) > 0.01
+          ) {
+            console.warn(
+              '[A/B DIFF] reachableContracts detail',
+              functionName,
+              { old: sortedOld, new: sortedNew },
+            )
+            break
+          }
+        }
+      }
+
+      // Compare unresolvedCallsCount
+      const oldUnresolved = functionAnalysis.impact.unresolvedCallsCount ?? 0
+      let newUnresolved = 0
+      for (const admin of newAdminsData.admins) {
+        const func = admin.functions.find(
+          (f) =>
+            addressesEqual(f.contractAddress, contractAddress) &&
+            f.functionName === functionName,
+        )
+        if (func) {
+          newUnresolved = func.unresolvedCallsCount
+          break
+        }
+      }
+      if (oldUnresolved !== newUnresolved) {
+        console.warn('[A/B DIFF] unresolvedCallsCount', functionName, {
+          old: oldUnresolved,
+          new: newUnresolved,
+        })
+      }
+    }
+
+    // Compare ownership chains (old: enhanced traversal → new: /admins chains)
+    if (functionTraversal && hasOwners) {
+      const oldGrouped = groupOwnersByAddress(functionTraversal.terminals ?? [])
+      for (const oldOwner of oldGrouped) {
+        const adminAddr = normalizeForLookup(oldOwner.address)
+        const newAdmin = newAdminsData.admins.find(
+          (a) => normalizeForLookup(a.address) === adminAddr,
+        )
+        if (!newAdmin) continue
+
+        const newFunc = newAdmin.functions.find(
+          (f) =>
+            addressesEqual(f.contractAddress, contractAddress) &&
+            f.functionName === functionName,
+        )
+        if (!newFunc) continue
+
+        // Compare chain count
+        if (oldOwner.collapsedChains.length !== newFunc.chains.length) {
+          console.warn('[A/B DIFF] chain count', functionName, {
+            admin: adminAddr,
+            old: oldOwner.collapsedChains.length,
+            new: newFunc.chains.length,
+          })
+        } else {
+          // Compare chain contract sequences
+          const oldSeqs = oldOwner.collapsedChains
+            .map((c) =>
+              c.map((s) => normalizeForLookup(s.contractAddress)).join('→'),
+            )
+            .sort()
+          const newSeqs = newFunc.chains
+            .map((c) =>
+              c.steps
+                .map((s) => normalizeForLookup(s.contractAddress))
+                .join('→'),
+            )
+            .sort()
+          if (JSON.stringify(oldSeqs) !== JSON.stringify(newSeqs)) {
+            console.warn('[A/B DIFF] chain paths', functionName, {
+              admin: adminAddr,
+              old: oldSeqs,
+              new: newSeqs,
+            })
+          }
+        }
+
+        // Compare hasPublicFunction
+        const newHasPublic = newFunc.chains.some((c) => c.hasPublicFunction)
+        if (oldOwner.hasPublicFunction !== newHasPublic) {
+          console.warn('[A/B DIFF] hasPublicFunction', functionName, {
+            admin: adminAddr,
+            old: oldOwner.hasPublicFunction,
+            new: newHasPublic,
+          })
+        }
+      }
+    }
+  }, [
+    newAdminsData,
+    resolvedOwners,
+    functionAnalysis,
+    functionTraversal,
+    contractAddress,
+    functionName,
+    currentFunction,
+  ])
+
+  // Compare dependencies
+  React.useEffect(() => {
+    if (!ENABLE_AB_COMPARISON || !newDepsData || !functionAnalysis) return
+
+    const oldDepAddrs = (functionAnalysis.dependencies?.entries ?? [])
+      .map((d) => normalizeForLookup(d.contractAddress))
+      .sort()
+
+    // New deps: find entries that have this function
+    const newDepAddrs = newDepsData.dependencies
+      .filter((dep) =>
+        dep.functions.some(
+          (f) =>
+            addressesEqual(f.contractAddress, contractAddress) &&
+            f.functionName === functionName,
+        ),
+      )
+      .map((dep) => normalizeForLookup(dep.address))
+      .sort()
+
+    if (JSON.stringify(oldDepAddrs) !== JSON.stringify(newDepAddrs)) {
+      console.warn('[A/B DIFF] dependencies', functionName, {
+        old: oldDepAddrs,
+        new: newDepAddrs,
+      })
+    }
+
+    // Compare dependency details (viewOnlyPath, calledFunctions, dependencyType)
+    const oldDeps = functionAnalysis.dependencies?.entries ?? []
+    const newDeps = newDepsData.dependencies.filter((dep) =>
+      dep.functions.some(
+        (f) =>
+          addressesEqual(f.contractAddress, contractAddress) &&
+          f.functionName === functionName,
+      ),
+    )
+    for (const oldDep of oldDeps) {
+      const oldAddr = normalizeForLookup(oldDep.contractAddress)
+      const newDep = newDeps.find(
+        (d) => normalizeForLookup(d.address) === oldAddr,
+      )
+      if (!newDep) continue // Already flagged by address comparison above
+
+      if (oldDep.viewOnlyPath !== newDep.viewOnlyPath) {
+        console.warn('[A/B DIFF] dep viewOnlyPath', functionName, {
+          dep: oldAddr,
+          old: oldDep.viewOnlyPath,
+          new: newDep.viewOnlyPath,
+        })
+      }
+
+      // Compare per-function calledFunctions from the dependency's function entry
+      const newDepFunc = newDep.functions.find(
+        (f) =>
+          addressesEqual(f.contractAddress, contractAddress) &&
+          f.functionName === functionName,
+      )
+      if (newDepFunc) {
+        const oldCalled = [...oldDep.calledFunctions].sort()
+        const newCalled = [...newDepFunc.calledFunctions].sort()
+        if (JSON.stringify(oldCalled) !== JSON.stringify(newCalled)) {
+          console.warn('[A/B DIFF] dep calledFunctions', functionName, {
+            dep: oldAddr,
+            old: oldCalled,
+            new: newCalled,
+          })
+        }
+      }
+
+      if (oldDep.dependencyType !== newDep.dependencyType) {
+        console.warn('[A/B DIFF] dep dependencyType', functionName, {
+          dep: oldAddr,
+          old: oldDep.dependencyType,
+          new: newDep.dependencyType,
+        })
+      }
+    }
+  }, [newDepsData, functionAnalysis, contractAddress, functionName])
 
   // State for managing owner definitions (unified path approach)
   const [isAddingOwner, setIsAddingOwner] = useState(false)
