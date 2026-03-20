@@ -97,7 +97,8 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 ### Scoring & Review — `docs/developers/features/scoring-and-review.md`
 - ProjectAnalysis API (`/admins`, `/dependencies` endpoints — single source of truth for admin/dependency computation)
 - Scoring UI (inventory sections, shared `scoringShared.tsx` module, capital display, enhanced graph capital analysis)
-- Review Builder (`review-config.json`, entity descriptions, resources, templates)
+- Review Builder (`review-config.json`, entity descriptions, templates)
+- Resources (`resources.json` — separate per-project file, auto-saves independently)
 - Review Generation Agent (`/generate-review` Claude Code skill)
 - Review Compiler (`compiled-review.json` — thin assembly layer over ProjectAnalysis, template variable resolution)
 - Mitigations Display (badges in explorer tabs + report cards, key findings card, `deduplicateMitigations`)
@@ -173,6 +174,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - **Project Data**: Use `useQuery` with `getProject(project)` from `api.ts`
 - **Contract Tags**: Use `useContractTags(project)` hook — note: `isExternal`/`isGovernance`/`entity` are already included in admin/dependency API responses, so new components rarely need this hook directly
 - **Permission Overrides**: Use `useQuery` with `getPermissionOverrides(project)` directly (no hook exists)
+- **Resources**: Use `useQuery` with `getResources(project)` — auto-saves on mutation via `updateResources()`, no panel Save button needed. Stored in `resources.json` (separate from review-config)
 - **EOA Counting**: EOAs stored separately in `entry.eoas[]` array, not mixed with contracts
 
 ### Address Handling
@@ -264,6 +266,7 @@ packages/
 │   ├── contractTags.ts
 │   ├── projectAnalysis.ts            # Central computation class (getAdmins, getDependencies, getSummary)
 │   ├── reviewConfig.ts              # Review config CRUD
+│   ├── resources.ts                  # Resources CRUD (resources.json, with legacy review-config fallback)
 │   ├── reviewCompiler.ts            # Compiled review builder (thin layer over ProjectAnalysis)
 │   ├── generatePermissionsReport.ts
 │   ├── callGraph.ts                  # Slither-based external call detection

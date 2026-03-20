@@ -17,6 +17,7 @@ import type {
 import { getFunctions, resolveDelayFromDiscovered } from './functions'
 import { getFundsData } from './fundsData'
 import { getContractTags } from './contractTags'
+import { getResources } from './resources'
 import {
   normalizeChainAddress,
   addressesEqual,
@@ -276,8 +277,9 @@ export class ReviewCompiler {
       // 3. Read funds data
       const fundsData = getFundsData(this.paths, project)
 
-      // 4. Read contract tags
+      // 4. Read contract tags and resources
       const contractTags = getContractTags(this.paths, project)
+      const resources = getResources(this.paths, project)
 
       // 5. Read functions data (for mitigations)
       const functionsData = getFunctions(this.paths, project)
@@ -341,6 +343,7 @@ export class ReviewCompiler {
         functionsData,
         discoveryEntries,
         discovery,
+        resources,
       )
 
       // 11. Resolve template variables in all description fields
@@ -379,6 +382,7 @@ export class ReviewCompiler {
     functionsData: ApiFunctionsResponse,
     discoveryEntries: { name?: string; address: string; proxyType?: string }[],
     discovery: DiscoveryOutput,
+    resources: ResourceEntry[],
   ): CompiledReview {
     // Build mitigations lookup: (contractAddress|functionName) → merged Mitigation[]
     const mitigationsLookup = new Map<string, Mitigation[]>()
@@ -760,7 +764,7 @@ export class ReviewCompiler {
       funds,
       functions,
       contracts,
-      resources: reviewConfig.resources ?? [],
+      resources,
       activity: activity.length > 0 ? activity : undefined,
       sections: reviewConfig.sections ?? {},
     }
