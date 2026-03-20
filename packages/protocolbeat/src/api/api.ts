@@ -462,6 +462,21 @@ export async function compileReview(
   return await res.json()
 }
 
+export async function compileAllReviews(): Promise<{
+  results: Array<{
+    project: string
+    status: string
+    path?: string
+    reason?: string
+  }>
+}> {
+  const res = await fetch('/api/compile-all-reviews', { method: 'POST' })
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+  return await res.json()
+}
+
 export async function getFundsData(project: string): Promise<ApiFundsDataResponse> {
   const res = await fetch(`/api/projects/${project}/funds-data`)
   if (!res.ok) {

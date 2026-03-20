@@ -9,11 +9,12 @@ import {
   useState,
 } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { getProjects } from '../../api/api'
+import { compileAllReviews, getProjects } from '../../api/api'
 import type { ApiProjectEntry } from '../../api/types'
 import { ErrorState } from '../../components/ErrorState'
 import { Title } from '../../components/Title'
 import { IS_READONLY } from '../../config/readonly'
+import { IconRefresh } from '../../icons/IconRefresh'
 import { IconStarEmpty } from '../../icons/IconStarEmpty'
 import { IconStarFull } from '../../icons/IconStarFull'
 
@@ -21,11 +22,31 @@ export function HomePage() {
   const [search, setSearch] = useState('')
   const deferredSearch = useDeferredValue(search)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [compiling, setCompiling] = useState(false)
 
   // Autofocus the input when the component mounts
   useEffect(() => {
     inputRef.current?.focus()
   }, [])
+
+  function handleCompileAll() {
+    setCompiling(true)
+    compileAllReviews()
+      .then((data) => {
+        const compiled = data.results.filter((r) => r.status === 'success')
+        const failed = data.results.filter((r) => r.status === 'error')
+        alert(
+          `Compiled ${compiled.length} review${compiled.length !== 1 ? 's' : ''}` +
+            (failed.length > 0
+              ? `, ${failed.length} failed: ${failed.map((f) => f.project).join(', ')}`
+              : ''),
+        )
+      })
+      .catch((err) => {
+        alert(`Failed to compile reviews: ${err.message}`)
+      })
+      .finally(() => setCompiling(false))
+  }
 
   return (
     <>
@@ -47,11 +68,23 @@ export function HomePage() {
             onChange={(e) => setSearch(e.target.value)}
           />
           {!IS_READONLY && (
-            <Link to="/ui/new">
-              <button className="items-center justify-center border border-coffee-600 px-4 py-2 text-coffee-400 transition-colors duration-100 hover:cursor-pointer hover:bg-coffee-600">
-                +
+            <>
+              <Link to="/ui/new" className="flex self-stretch">
+                <button className="flex items-center justify-center border border-coffee-600 px-4 text-coffee-400 transition-colors duration-100 hover:cursor-pointer hover:bg-coffee-600">
+                  +
+                </button>
+              </Link>
+              <button
+                className="flex items-center justify-center self-stretch border border-coffee-600 px-4 text-coffee-400 transition-colors duration-100 hover:cursor-pointer hover:bg-coffee-600 disabled:opacity-50"
+                disabled={compiling}
+                onClick={handleCompileAll}
+                title="Recompile all reviews"
+              >
+                <IconRefresh
+                  className={compiling ? 'animate-spin' : undefined}
+                />
               </button>
-            </Link>
+            </>
           )}
         </div>
         <AllProjects search={deferredSearch} />

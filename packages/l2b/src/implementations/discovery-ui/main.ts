@@ -657,6 +657,29 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
     }
   })
 
+  // Compile all reviews endpoint
+  app.post('/api/compile-all-reviews', (_req, res) => {
+    if (readonly) {
+      res.status(403).json({ error: 'Server is in readonly mode' })
+      return
+    }
+    try {
+      const allProjects = getProjects(configReader, readonly)
+      const defiProjects = filterDefiProjects(allProjects, 'name')
+      const compiler = new ReviewCompiler(paths)
+      const results = defiProjects
+        .map((p) => ({
+          project: p.name,
+          ...compiler.compile(p.name),
+        }))
+        .filter((r) => r.status !== 'skipped')
+      res.json({ results })
+    } catch (error) {
+      console.error('Error compiling all reviews:', error)
+      res.status(500).json({ error: 'Failed to compile reviews' })
+    }
+  })
+
   // Compile review endpoint
   app.post('/api/projects/:project/compile-review', (req, res) => {
     if (readonly) {
