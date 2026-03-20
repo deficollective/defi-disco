@@ -895,7 +895,11 @@ export class ProjectAnalysis {
                   calledFunctions: r.calledFunctions,
                   fundsUsd: r.fundsUsd,
                   tokenValueUsd: r.tokenValueUsd,
-                  fundsAtRisk: r.fundsUsd > 0 || r.tokenValueUsd > 0,
+                  fundsAtRisk: r.calledFunctions.some(
+                    (fn) =>
+                      this.getFunctionImpact(r.contractAddress, fn) !==
+                      'no-impact',
+                  ),
                 }),
               ),
             })

@@ -178,7 +178,7 @@ const projectContractsSource: DataSourceDefinition = {
 // ============================================================================
 
 const adminsSource: DataSourceDefinition = {
-  id: 'v2score.admins',
+  id: 'admins.breakdown',
   label: 'Protocol Actors',
   description: 'Admin and owner addresses',
   relevantSections: ['actors'],
@@ -259,7 +259,7 @@ const adminsSource: DataSourceDefinition = {
 // ============================================================================
 
 const dependenciesSource: DataSourceDefinition = {
-  id: 'v2score.dependencies',
+  id: 'dependencies.breakdown',
   label: 'Dependencies',
   description: 'External dependencies',
   relevantSections: ['dependencies'],

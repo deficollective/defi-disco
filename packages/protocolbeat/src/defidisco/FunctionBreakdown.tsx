@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { getFunctions } from '../api/api'
+import { useMemo, useState } from 'react'
+import { getFunctions, getProject } from '../api/api'
 import type { Impact } from '../api/types'
 import { usePanelStore } from '../apps/discovery/store/panel-store'
+import { normalizeForLookup } from '../apps/discovery/defidisco/addressUtils'
 import { getImpactColor } from './scoringShared'
 
 interface FunctionBreakdownProps {
@@ -28,6 +29,27 @@ export function FunctionBreakdown({ project }: FunctionBreakdownProps) {
     queryFn: () => getFunctions(project),
   })
 
+  const { data: projectData } = useQuery({
+    queryKey: ['projects', project],
+    queryFn: () => getProject(project),
+  })
+
+  const contractNameMap = useMemo(() => {
+    const map = new Map<string, string>()
+    if (!projectData?.entries) return map
+    for (const chain of projectData.entries) {
+      for (const c of [
+        ...chain.initialContracts,
+        ...chain.discoveredContracts,
+      ]) {
+        if (c.name) {
+          map.set(normalizeForLookup(c.address), c.name)
+        }
+      }
+    }
+    return map
+  }, [projectData])
+
   // Count permissioned functions and build scored list
   let permissionedCount = 0
   const scoredFunctions: ScoredFunction[] = []
@@ -42,7 +64,9 @@ export function FunctionBreakdown({ project }: FunctionBreakdownProps) {
           if (func.score && func.score !== 'unscored') {
             scoredFunctions.push({
               contractAddress,
-              contractName: contractAddress, // Will be resolved from project data if needed
+              contractName:
+                contractNameMap.get(normalizeForLookup(contractAddress)) ??
+                contractAddress,
               functionName: func.functionName,
               impact: func.score === 'no-impact' ? 'no-impact' : 'critical',
             })
