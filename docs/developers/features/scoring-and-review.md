@@ -226,6 +226,7 @@ Protocol links (frontends, docs, GitHub, X, source code, licenses, etc.) stored 
 - **Compiler**: Pass-through to `compiled-review.json` as `resources: CompiledResourceEntry[]`
 - **Auto-save**: Each add/edit/delete triggers an immediate save (not tied to review config Save button)
 - **Legacy fallback**: If `resources.json` doesn't exist, reads from `review-config.json` `resources` field; on first save, migrates to `resources.json` and strips from review-config
+- **Gathering skill**: `/gather-resources <project> <url>` — Claude Code skill that web-searches for official resources (website, frontends, docs, GitHub, X, licenses, DeFiScan V1), verifies each URL, and saves via the resources API. Merges with existing entries (additive only). Defined in `.claude/skills/gather-resources/SKILL.md`.
 
 ### Design Decisions
 

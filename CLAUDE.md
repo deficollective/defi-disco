@@ -99,6 +99,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - Scoring UI (inventory sections, shared `scoringShared.tsx` module, capital display, enhanced graph capital analysis)
 - Review Builder (`review-config.json`, entity descriptions, templates)
 - Resources (`resources.json` — separate per-project file, auto-saves independently)
+- Resource Gathering Agent (`/gather-resources` Claude Code skill — web search + verify for official links, licenses, socials)
 - Review Generation Agent (`/generate-review` Claude Code skill)
 - Review Compiler (`compiled-review.json` — thin assembly layer over ProjectAnalysis, template variable resolution)
 - Mitigations Display (badges in explorer tabs + report cards, key findings card, `deduplicateMitigations`)
