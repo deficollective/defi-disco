@@ -39,7 +39,7 @@ export function FeedbackButton() {
     if (window.Tally) {
       window.Tally.openPopup(TALLY_FORM_ID, {
         layout: 'modal',
-        width: 500,
+        width: 700,
         overlay: true,
         hideTitle: false,
       })
