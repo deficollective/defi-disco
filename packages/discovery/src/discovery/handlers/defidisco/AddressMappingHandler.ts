@@ -74,11 +74,9 @@ export class AddressMappingHandler implements Handler {
         ? candidate.split(':').slice(1).join(':')
         : candidate
       try {
-        const result = await provider.callMethod<boolean>(
-          address,
-          fragment,
-          [rawAddress],
-        )
+        const result = await provider.callMethod<boolean>(address, fragment, [
+          rawAddress,
+        ])
         if (result === true) {
           results.push(
             ChainSpecificAddress.from(

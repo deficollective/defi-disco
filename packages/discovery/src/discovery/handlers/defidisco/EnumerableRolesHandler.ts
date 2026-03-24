@@ -36,9 +36,7 @@ const ROLE_CONSTANT_REGEX =
  * definitions that use keccak256("..."). Computes the hash and builds a
  * hash→name map so we can label roles discovered from events.
  */
-function scanFlatSourcesForRoleNames(
-  flatDir: string,
-): Map<string, string> {
+function scanFlatSourcesForRoleNames(flatDir: string): Map<string, string> {
   const hashToName = new Map<string, string>()
 
   let entries: string[]
@@ -148,10 +146,7 @@ export class EnumerableRolesHandler implements Handler {
             [bytes32Hash],
           )
           roles[name] = (holders ?? []).map((h) =>
-            ChainSpecificAddress.from(
-              chain,
-              EthereumAddress(h),
-            ).toString(),
+            ChainSpecificAddress.from(chain, EthereumAddress(h)).toString(),
           )
         } catch {
           roles[name] = []
