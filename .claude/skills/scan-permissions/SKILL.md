@@ -153,7 +153,16 @@ Look for these access control patterns:
 For each permissioned function, record:
 - **Function name** (must match the ABI exactly — check against the contract's ABI from the project data)
 - **Source file name** (for proxy/implementation address mapping in Step 4)
-- **Access control mechanism** (which modifier/check is used, and which storage variable it references)
+- **ALL access control mechanisms** (every modifier/check and which storage variable each references)
+
+**Multiple owners (OR logic):** A function can have multiple independent callers. `ownerDefinitions` is an **array** — each entry is an alternative owner that can call the function. Common patterns:
+
+- **Multiple require checks with OR**: `require(msg.sender == owner || msg.sender == guardian)` → two ownerDefinitions: `$self.owner` and `$self.guardian`
+- **Multiple modifiers/checks in sequence with OR branching**: If a function checks `hasRole(ADMIN_ROLE) || hasRole(OPERATOR_ROLE)` → two ownerDefinitions for each role
+- **Fallthrough logic**: `if (msg.sender != fastCaller) { require(msg.sender == slowCaller) }` → two ownerDefinitions
+- **External ACL + direct check**: A function that allows both an ACL role AND a direct owner → include both paths
+
+Always express every independent caller as a separate entry in `ownerDefinitions`. Do NOT collapse them or report that "multi-caller functions couldn't be expressed" — the array format exists precisely for this.
 
 Also identify functions that are clearly **NOT permissioned** (public functions anyone can call). You will save these as `isPermissioned: false`.
 
@@ -170,13 +179,14 @@ Also identify functions that are clearly **NOT permissioned** (public functions 
 
 This is the critical step. For each permissioned function identified in Step 2:
 
-### 3a. Determine the access control variable
+### 3a. Determine ALL access control variables
 
-From the source code, identify which storage variable or mechanism controls access. Examples:
-- `onlyOwner` modifier typically checks `owner` state variable
-- `onlyRole(MINTER_ROLE)` checks OpenZeppelin AccessControl
-- `require(msg.sender == governance)` checks `governance` state variable
-- External ACL call checks an address field pointing to another contract
+From the source code, identify **every** storage variable or mechanism that grants access. A single function may have multiple independent callers. Collect them all — each becomes a separate `ownerDefinitions` entry. Examples:
+- `onlyOwner` modifier → `owner` state variable → one ownerDefinition
+- `onlyRole(MINTER_ROLE)` → OpenZeppelin AccessControl → one ownerDefinition
+- `require(msg.sender == governance)` → `governance` state variable → one ownerDefinition
+- `require(msg.sender == owner || msg.sender == guardian)` → **two** ownerDefinitions: `owner` AND `guardian`
+- External ACL call → address field pointing to another contract → one ownerDefinition
 
 ### 3b. Map to a path expression
 
@@ -238,15 +248,42 @@ After the user adds the handler and re-runs discovery (`pnpm run discover <proje
 
 ---
 
-## Step 4: Map Functions to Correct Addresses
+## Step 4: Map Functions to Correct Contract Addresses
 
-For proxy contracts, functions belong to different addresses based on their source file:
+**This is critical for proxy contracts.** The UI displays functions grouped by ABI address. If you save a function under the wrong address, it won't appear in the UI.
 
-- Files ending with **`.p.sol`** → functions belong to the **proxy address** (the address you queried)
-- Files ending with **`.0.sol`, `.1.sol`**, etc. → functions belong to the **implementation address** at that index in `$implementations`
-- Regular files (no suffix) → functions belong to the **first implementation address** (or the contract address itself if not a proxy)
+### 4a. Build the source-file-to-address mapping
 
-Use the `$implementations` array from discovered.json and the `implementationNames` map to determine the correct target address for each function.
+When you fetched source code in Step 2a, note the filename of each source. When you extracted ABI addresses in Step 1b, you got the list of addresses the contract has ABIs for.
+
+For proxy contracts with `$implementations`:
+
+```bash
+# Extract $implementations array
+jq '[.entries[] | [.initialContracts[], .discoveredContracts[]] | .[] | select(.address == "<PROXY_ADDRESS>")] | .[0] | .fields[] | select(.name == "$implementations") | .value' /tmp/scan-project.json
+```
+
+Then build the mapping:
+
+| Source file pattern | Save function under |
+|---|---|
+| `ContractName.p.sol` | The **proxy address** (the address you queried) |
+| `ContractName.sol` (no suffix) | The **first implementation address** from `$implementations` |
+| `ContractName.0.sol` | `$implementations[0]` |
+| `ContractName.1.sol` | `$implementations[1]` |
+| No `$implementations` exists | The contract address itself |
+
+### 4b. Apply the mapping
+
+For each function identified in Step 2c, look at which source file it was defined in, and determine the correct `contractAddress` to use when saving in Step 5.
+
+**Example**: You queried proxy `eth:0xProxy`. It has `$implementations: ["eth:0xImpl"]`. Source files are `LiquidityPool.p.sol` and `LiquidityPool.sol`.
+- `proxy__upgradeTo` found in `LiquidityPool.p.sol` → save under `eth:0xProxy`
+- `deposit` found in `LiquidityPool.sol` → save under `eth:0xImpl`
+
+### 4c. Note: owner path `$self` still resolves against the proxy
+
+Even though the function is saved under the implementation address, when the owner path uses `$self.fieldName`, it refers to the **proxy contract's fields** — because that's where discovery stores the values. This is already handled by the UI resolution logic; you just need to make sure the field actually exists on the proxy (which is what you verified in Step 3).
 
 ---
 
