@@ -1,0 +1,3201 @@
+{
+  "version": "1.0",
+  "compiledAt": "2026-03-24T07:45:16.431Z",
+  "project": "aerodrome",
+  "metadata": {
+    "protocolName": "Aerodrome Finance",
+    "protocolSlug": "aerodrome",
+    "chain": "Base",
+    "projectType": "dex",
+    "tokenName": "AERO",
+    "description": "Aerodrome is a ve(3,3) decentralized exchange on Base, forked from Velodrome V2. It combines concentrated and volatile/stable AMM liquidity pools with a vote-escrow governance model where AERO token holders lock tokens as veNFTs to direct weekly emissions to gauges. All core contracts are immutable, but protocol parameters (swap fees, emission caps, factory registrations) are controlled by a 3/7 multisig acting as governor. The AERO token has a market cap of $570.97M."
+  },
+  "totals": {
+    "contractCount": 29,
+    "permissionedFunctionCount": 144,
+    "scoredFunctionCount": 91,
+    "adminCount": 8,
+    "dependencyCount": 0,
+    "totalCapitalAtRisk": 307960533.9536741,
+    "totalTokenValueAtRisk": 0,
+    "totalTokenValue": 570970485.7378225
+  },
+  "admins": [
+    {
+      "address": "base:0xE6A41fE61E7a1996B59d508661e3f524d6A32075",
+      "name": "Aerodrome Governor 3/7 Multisig",
+      "description": "Primary protocol admin controlling 17 contracts. Can set the governor and epoch governor on Voter, manage factory registrations via FactoryRegistry (approve, unapprove, setManagedRewardsFactory, transferOwnership), configure swap fees on CLFactory and PoolFactory (setSwapFeeManager, setUnstakedFeeManager, setSwapFeeModule, setUnstakedFeeModule), pause the v1 PoolFactory, whitelist tokens and NFTs for voting, set the maximum voting number, and manage the Redistributor (transferOwnership, setUpkeepManager, setKeeper). Also controls NonfungiblePositionManager ownership. Swap fee changes are bounded by on-chain maximums (3% base fee, 5% fee cap, 50% unstaked fee) but the multisig can replace the fee module contract entirely.",
+      "adminType": "Multisig",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "createManagedLockFor",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "setAllowedManager",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address or to the current address"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "setManagedState",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+              "name": "Voter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "emergencyCouncil",
+                "governor",
+                "initialize",
+                "notifyRewardAmount",
+                "isGauge",
+                "totalWeight",
+                "poolForGauge",
+                "weights"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+              "name": "PoolFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setVoter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "earned",
+                "getReward",
+                "token0",
+                "token1",
+                "tickSpacing",
+                "initialize",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setGaugeAndPositionManager",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "lastUpdated",
+                "rewardGrowthGlobalX128",
+                "rewardReserve",
+                "stakedLiquidity",
+                "positions",
+                "getRewardGrowthInside",
+                "updateRewardsGrowthGlobal",
+                "WETH9",
+                "calculateMaxEmissions",
+                "redistributor",
+                "collectFees",
+                "rollover",
+                "syncReward"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+              "name": "FactoryRegistry",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "factoriesToPoolFactory"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+              "name": "Minter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptTeam"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+              "name": "RewardsDistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "checkpointToken",
+                "setMinter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+              "name": "Aerodrome Token",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setMinter",
+                "mint",
+                "balanceOf",
+                "allowance"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 570970485.7378225,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "name": "Redistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "deposit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Target must be a MANAGED type NFT"
+            },
+            {
+              "type": "other",
+              "description": "Cannot set to the same state (already active/inactive)"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "setGovernor",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "setEpochGovernor",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "setMaxVotingNum",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "whitelistToken",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "whitelistNFT",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+          "contractName": "PoolFactory",
+          "functionName": "setPauser",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address — revert ZeroAddress()"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+          "contractName": "PoolFactory",
+          "functionName": "setPauseState",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+          "contractName": "PoolFactory",
+          "functionName": "setFeeManager",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address — revert ZeroAddress()"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+          "contractName": "PoolFactory",
+          "functionName": "setFee",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee must be > 0 and <= MAX_FEE (300 = 3%)",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+                  "fieldName": "MAX_FEE"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+          "contractName": "PoolFactory",
+          "functionName": "setCustomFee",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee must be <= MAX_FEE (300 = 3%) or ZERO_FEE_INDICATOR (420)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+                  "fieldName": "MAX_FEE"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "description": "Pool must be a valid factory pool — revert InvalidPool()"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+          "contractName": "FactoryRegistry",
+          "functionName": "approve",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot approve a poolFactory that is already approved"
+            },
+            {
+              "type": "other",
+              "description": "Re-approval must use the same gauge and votingRewards factories originally set"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+          "contractName": "FactoryRegistry",
+          "functionName": "unapprove",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot unapprove the fallback (core) pool factory"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+          "contractName": "FactoryRegistry",
+          "functionName": "setManagedRewardsFactory",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address or to the current address"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+          "contractName": "FactoryRegistry",
+          "functionName": "renounceOwnership",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+          "contractName": "FactoryRegistry",
+          "functionName": "transferOwnership",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot transfer ownership to the zero address"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setCustomFee",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Base fee cannot exceed MAX_BASE_FEE (3%) or must be ZERO_FEE_INDICATOR",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "pips"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setDefaultScalingFactor",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setDefaultFeeCap",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Default fee cap cannot exceed MAX_FEE_CAP (5%)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "pips"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setScalingFactor",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "description": "Requires feeCap to be already set on the pool before scaling factor can be configured"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setFeeCap",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee cap must be > 0 and cannot exceed MAX_FEE_CAP (5%)",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "pips"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "resetDynamicFee",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setSecondsAgo",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "TWAP lookback must be >= MIN_SECONDS_AGO (2s) and < MAX_SECONDS_AGO (131070s)",
+              "valueRange": {
+                "min": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MIN_SECONDS_AGO"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_SECONDS_AGO"
+                },
+                "unit": "seconds"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "registerDiscounted",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Discount cannot exceed MAX_DISCOUNT (50%)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_DISCOUNT"
+                },
+                "unit": "pips"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "deregisterDiscounted",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "bulkUpdateFees",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35",
+          "contractName": "CustomUnstakedFeeModule",
+          "functionName": "setCustomFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "unstakedFeeManager",
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68",
+          "contractName": "CustomUnstakedFeeModule",
+          "functionName": "setCustomFee",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee must be <= MAX_FEE (500000 = 50%) or ZERO_FEE_INDICATOR (420)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68",
+                  "fieldName": "MAX_FEE"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "description": "Pool must be a valid factory pool — require(factory.isPool(pool))"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setEmissionAdmin",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setEmissionCap",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Emission cap cannot exceed MAX_BPS (10000 bps)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setRedistributor",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setDefaultCap",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Default cap must be between 1 and MAX_BPS (10000)",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+                "fieldName": "MAX_BPS"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+          "contractName": "CLFactory",
+          "functionName": "setSwapFeeManager",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+          "contractName": "CLFactory",
+          "functionName": "setUnstakedFeeManager",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+          "contractName": "CLFactory",
+          "functionName": "setSwapFeeModule",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+          "contractName": "CLFactory",
+          "functionName": "setUnstakedFeeModule",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+          "contractName": "CLFactory",
+          "functionName": "setDefaultUnstakedFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Unstaked Fee cannot exceed 5000 bps",
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "5000"
+                },
+                "unit": "bps"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+          "contractName": "CLFactory",
+          "functionName": "setSwapFeeManager",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+          "contractName": "CLFactory",
+          "functionName": "setUnstakedFeeManager",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+          "contractName": "CLFactory",
+          "functionName": "setSwapFeeModule",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+          "contractName": "CLFactory",
+          "functionName": "setUnstakedFeeModule",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+          "contractName": "CLFactory",
+          "functionName": "setDefaultUnstakedFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Unstaked Fee cannot exceed 5000 bps",
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "5000"
+                },
+                "unit": "bps"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00",
+          "contractName": "CustomSwapFeeModule",
+          "functionName": "setCustomFee",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Prevents too high swap fees",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "fieldRef",
+                  "fieldPath": "$self.MAX_FEE"
+                },
+                "unit": "bps*100"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00",
+                "fieldName": "MAX_FEE"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
+          "contractName": "SimpleEpochGovernor",
+          "functionName": "executeNudge",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
+          "contractName": "SimpleEpochGovernor",
+          "functionName": "setResult",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+              "name": "Voter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "governor",
+                "epochGovernor",
+                "initialize",
+                "notifyRewardAmount",
+                "isGauge",
+                "totalWeight",
+                "poolForGauge",
+                "weights"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+              "name": "Minter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "nudge",
+                "acceptTeam"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "depositManaged",
+                "withdrawManaged",
+                "setVoterAndDistributor",
+                "voting",
+                "depositFor",
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+              "name": "PoolFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setVoter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+              "name": "RewardsDistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "checkpointToken",
+                "setMinter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+              "name": "Aerodrome Token",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setMinter",
+                "mint",
+                "balanceOf",
+                "allowance"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 570970485.7378225,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "earned",
+                "getReward",
+                "token0",
+                "token1",
+                "tickSpacing",
+                "initialize",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setGaugeAndPositionManager",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "lastUpdated",
+                "rewardGrowthGlobalX128",
+                "rewardReserve",
+                "stakedLiquidity",
+                "positions",
+                "getRewardGrowthInside",
+                "updateRewardsGrowthGlobal",
+                "WETH9",
+                "calculateMaxEmissions",
+                "redistributor",
+                "collectFees",
+                "rollover",
+                "syncReward"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+              "name": "FactoryRegistry",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "factoriesToPoolFactory"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "name": "Redistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "deposit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "name": "Voter",
+      "description": "Immutable protocol contract that serves as the central coordination point. Can set the voter and distributor addresses on VotingEscrow (setVoterAndDistributor), set the voter on PoolFactory, and create gauges. These are internal protocol operations triggered by governance actions or epoch transitions, not direct human-controlled permissions.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "depositManaged",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "withdrawManaged",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "setVoterAndDistributor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "voting",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+          "contractName": "PoolFactory",
+          "functionName": "setVoter",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xD30677bd8dd15132F251Cb54CbDA552d2A05Fb08",
+          "contractName": "Unknown Contract",
+          "functionName": "createGauge",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+          "contractName": "CLGaugeFactory",
+          "functionName": "createGauge",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+          "contractName": "CLGauge",
+          "functionName": "notifyRewardAmount",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "base:0x99249b10593fCa1Ae9DAE6D4819F1A6dae5C013D",
+      "name": "Emergency Council 3/5 Multisig",
+      "description": "Emergency role that can kill and revive gauges on the Voter contract, deactivate managed veNFTs via setManagedState on VotingEscrow, and transfer the emergency council role to a new address. Killing a gauge stops its emissions but does not affect LP funds in pools.",
+      "adminType": "Multisig",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "setManagedState",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+              "name": "Voter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "emergencyCouncil",
+                "governor",
+                "initialize",
+                "notifyRewardAmount",
+                "isGauge",
+                "totalWeight",
+                "poolForGauge",
+                "weights"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+              "name": "PoolFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setVoter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "earned",
+                "getReward",
+                "token0",
+                "token1",
+                "tickSpacing",
+                "initialize",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setGaugeAndPositionManager",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "lastUpdated",
+                "rewardGrowthGlobalX128",
+                "rewardReserve",
+                "stakedLiquidity",
+                "positions",
+                "getRewardGrowthInside",
+                "updateRewardsGrowthGlobal",
+                "WETH9",
+                "calculateMaxEmissions",
+                "redistributor",
+                "collectFees",
+                "rollover",
+                "syncReward"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+              "name": "FactoryRegistry",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "factoriesToPoolFactory"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+              "name": "Minter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptTeam"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+              "name": "RewardsDistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "checkpointToken",
+                "setMinter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+              "name": "Aerodrome Token",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setMinter",
+                "mint",
+                "balanceOf",
+                "allowance"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 570970485.7378225,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "name": "Redistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "deposit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Target must be a MANAGED type NFT"
+            },
+            {
+              "type": "other",
+              "description": "Cannot set to the same state (already active/inactive)"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "setEmergencyCouncil",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "killGauge",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "depositManaged",
+                "withdrawManaged",
+                "setVoterAndDistributor",
+                "voting",
+                "depositFor",
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+              "name": "PoolFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setVoter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "earned",
+                "getReward",
+                "token0",
+                "token1",
+                "tickSpacing",
+                "initialize",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setGaugeAndPositionManager",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "lastUpdated",
+                "rewardGrowthGlobalX128",
+                "rewardReserve",
+                "stakedLiquidity",
+                "positions",
+                "getRewardGrowthInside",
+                "updateRewardsGrowthGlobal",
+                "WETH9",
+                "calculateMaxEmissions",
+                "redistributor",
+                "collectFees",
+                "rollover",
+                "syncReward"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+              "name": "FactoryRegistry",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "factoriesToPoolFactory"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+              "name": "Minter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptTeam"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+              "name": "RewardsDistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "checkpointToken",
+                "setMinter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+              "name": "Aerodrome Token",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setMinter",
+                "mint",
+                "balanceOf",
+                "allowance"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 570970485.7378225,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "name": "Redistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "deposit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "reviveGauge",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+      "name": "Redistributor",
+      "description": "Immutable contract that handles excess gauge emissions exceeding per-gauge caps. Holds the VotingEscrow team role and can transfer it. Controlled by the Governor multisig (ownership) and a keeper EOA for automated redistribution operations.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "setTeam",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "setArtProxy",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "toggleSplit",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+          "contractName": "Minter",
+          "functionName": "setTeam",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+          "contractName": "Minter",
+          "functionName": "setTeamRate",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "How many tokens are minted to the team (bps of weekly minted)",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "fieldRef",
+                  "fieldPath": "$self.MAXIMUM_TEAM_RATE"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+                "fieldName": "MAXIMUM_TEAM_RATE"
+              }
+            }
+          ]
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+      "name": "RewardsDistributor",
+      "description": "Immutable contract that distributes AERO rebases to veNFT holders. Its only permissioned function (checkpointToken) is called by the Minter during epoch transitions. No human-controlled admin.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+          "contractName": "VotingEscrow",
+          "functionName": "depositFor",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+      "name": "Minter",
+      "description": "Immutable contract that manages weekly AERO token emissions. Can initialize the Voter, notify reward amounts to the Voter for distribution, checkpoint the RewardsDistributor for rebase calculations, and set itself as minter on the RewardsDistributor. These are automated epoch-based operations.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "initialize",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+          "contractName": "Voter",
+          "functionName": "notifyRewardAmount",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+          "contractName": "RewardsDistributor",
+          "functionName": "checkpointToken",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+              "name": "Aerodrome Token",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "balanceOf",
+                "allowance",
+                "setMinter",
+                "mint"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 570970485.7378225,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "depositFor",
+                "depositManaged",
+                "withdrawManaged",
+                "setVoterAndDistributor",
+                "voting",
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+              "name": "Voter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "notifyRewardAmount",
+                "initialize",
+                "isGauge",
+                "totalWeight",
+                "poolForGauge",
+                "weights"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+              "name": "PoolFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setVoter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "earned",
+                "getReward",
+                "token0",
+                "token1",
+                "tickSpacing",
+                "initialize",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setGaugeAndPositionManager",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "lastUpdated",
+                "rewardGrowthGlobalX128",
+                "rewardReserve",
+                "stakedLiquidity",
+                "positions",
+                "getRewardGrowthInside",
+                "updateRewardsGrowthGlobal",
+                "WETH9",
+                "calculateMaxEmissions",
+                "redistributor",
+                "collectFees",
+                "rollover",
+                "syncReward"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+              "name": "FactoryRegistry",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "factoriesToPoolFactory"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+              "name": "Minter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptTeam"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "name": "Redistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "deposit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+          "contractName": "RewardsDistributor",
+          "functionName": "setMinter",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "depositFor",
+                "depositManaged",
+                "withdrawManaged",
+                "setVoterAndDistributor",
+                "voting",
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+              "name": "Voter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "notifyRewardAmount",
+                "initialize",
+                "isGauge",
+                "totalWeight",
+                "poolForGauge",
+                "weights"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+              "name": "Aerodrome Token",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "allowance",
+                "setMinter",
+                "mint",
+                "balanceOf"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 570970485.7378225,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+              "name": "PoolFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setVoter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "earned",
+                "getReward",
+                "token0",
+                "token1",
+                "tickSpacing",
+                "initialize",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setGaugeAndPositionManager",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "lastUpdated",
+                "rewardGrowthGlobalX128",
+                "rewardReserve",
+                "stakedLiquidity",
+                "positions",
+                "getRewardGrowthInside",
+                "updateRewardsGrowthGlobal",
+                "WETH9",
+                "calculateMaxEmissions",
+                "redistributor",
+                "collectFees",
+                "rollover",
+                "syncReward"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+              "name": "FactoryRegistry",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "factoriesToPoolFactory"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+              "name": "Minter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptTeam"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "name": "Redistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "deposit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+          "contractName": "Aerodrome Token",
+          "functionName": "setMinter",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+          "contractName": "Aerodrome Token",
+          "functionName": "mint",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "base:0x0000000000000000000000000000000000000000",
+      "name": "base:0x0000000000000000000000000000000000000000",
+      "description": "",
+      "adminType": "Revoked",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+          "contractName": "Minter",
+          "functionName": "acceptTeam",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+          "contractName": "CLPool",
+          "functionName": "stake",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+          "contractName": "CLPool",
+          "functionName": "updateRewardsGrowthGlobal",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+          "contractName": "CLPool",
+          "functionName": "syncReward",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+          "contractName": "CLPool",
+          "functionName": "collectFees",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Fees collected are limited to accumulated gaugeFees — cannot extract more than what was accrued from swap fees"
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+          "contractName": "CLPool",
+          "functionName": "stake",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+          "contractName": "CLPool",
+          "functionName": "updateRewardsGrowthGlobal",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+          "contractName": "CLPool",
+          "functionName": "syncReward",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+          "contractName": "CLPool",
+          "functionName": "collectFees",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    },
+    {
+      "address": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
+      "name": "SimpleEpochGovernor",
+      "description": "Immutable contract that can call the Minter's nudge function once per epoch to adjust the tail emission rate. The nudge is bounded to a maximum change of 1 bps per epoch. No human-controlled admin; operates via on-chain governance voting.",
+      "adminType": "Immutable",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+          "contractName": "Minter",
+          "functionName": "nudge",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Nudging only allowed once per epoch"
+            },
+            {
+              "type": "valueRange",
+              "description": "Change at maximum 1bps",
+              "valueRange": {
+                "max": {
+                  "mode": "fieldRef",
+                  "fieldPath": "$self.MAXIMUM_TAIL_RATE"
+                },
+                "unit": "bps"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Max Change per nudge is 1 bps"
+            }
+          ]
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
+    }
+  ],
+  "dependencies": [],
+  "funds": [
+    {
+      "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "name": "Aerodrome Token (AERO)",
+      "description": "The AERO governance and utility token with a market cap of $570.97M. Used for vote-escrow locking (veNFTs), gauge emissions, and LP incentives. Weekly emissions are managed by the Minter contract with a decaying schedule transitioning to tail emissions.",
+      "balances": null,
+      "positions": null,
+      "tokenInfo": {
+        "symbol": "AERO",
+        "price": 0.3066437727660669,
+        "totalSupply": "1861999285318622174082019405",
+        "tokenValue": 570970485.7378225
+      },
+      "aggregate": null
+    },
+    {
+      "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "name": "CL Factory TVL",
+      "description": "",
+      "balances": null,
+      "positions": null,
+      "tokenInfo": null,
+      "aggregate": {
+        "totalUsdValue": 191365139.78452158,
+        "contractCount": 4848,
+        "handlerName": "aerodrome-cl-factory",
+        "label": "CL Factory TVL"
+      }
+    },
+    {
+      "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "name": "V2 Factory TVL",
+      "description": "",
+      "balances": null,
+      "positions": null,
+      "tokenInfo": null,
+      "aggregate": {
+        "totalUsdValue": 116595394.1691525,
+        "contractCount": 20083,
+        "handlerName": "aerodrome-v2-factory",
+        "label": "V2 Factory TVL"
+      }
+    }
+  ],
+  "functions": [
+    {
+      "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+      "contractName": "VotingEscrow",
+      "functionName": "createManagedLockFor",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+      "contractName": "VotingEscrow",
+      "functionName": "setAllowedManager",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Cannot set to zero address or to the current address"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+      "contractName": "VotingEscrow",
+      "functionName": "setManagedState",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Target must be a MANAGED type NFT"
+        },
+        {
+          "type": "other",
+          "description": "Cannot set to the same state (already active/inactive)"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "contractName": "Voter",
+      "functionName": "setGovernor",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "contractName": "Voter",
+      "functionName": "setEpochGovernor",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "contractName": "Voter",
+      "functionName": "setMaxVotingNum",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "contractName": "Voter",
+      "functionName": "whitelistToken",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "contractName": "Voter",
+      "functionName": "whitelistNFT",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "contractName": "PoolFactory",
+      "functionName": "setPauser",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Cannot set to zero address — revert ZeroAddress()"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "contractName": "PoolFactory",
+      "functionName": "setPauseState",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "contractName": "PoolFactory",
+      "functionName": "setFeeManager",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Cannot set to zero address — revert ZeroAddress()"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "contractName": "PoolFactory",
+      "functionName": "setFee",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Fee must be > 0 and <= MAX_FEE (300 = 3%)",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "1"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+              "fieldName": "MAX_FEE"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "contractName": "PoolFactory",
+      "functionName": "setCustomFee",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Fee must be <= MAX_FEE (300 = 3%) or ZERO_FEE_INDICATOR (420)",
+          "valueRange": {
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+              "fieldName": "MAX_FEE"
+            }
+          }
+        },
+        {
+          "type": "other",
+          "description": "Pool must be a valid factory pool — revert InvalidPool()"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+      "contractName": "FactoryRegistry",
+      "functionName": "approve",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Cannot approve a poolFactory that is already approved"
+        },
+        {
+          "type": "other",
+          "description": "Re-approval must use the same gauge and votingRewards factories originally set"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+      "contractName": "FactoryRegistry",
+      "functionName": "unapprove",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Cannot unapprove the fallback (core) pool factory"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+      "contractName": "FactoryRegistry",
+      "functionName": "setManagedRewardsFactory",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Cannot set to zero address or to the current address"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+      "contractName": "FactoryRegistry",
+      "functionName": "renounceOwnership",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+      "contractName": "FactoryRegistry",
+      "functionName": "transferOwnership",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Cannot transfer ownership to the zero address"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setCustomFee",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Base fee cannot exceed MAX_BASE_FEE (3%) or must be ZERO_FEE_INDICATOR",
+          "valueRange": {
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+              "fieldName": "MAX_BASE_FEE"
+            },
+            "unit": "pips"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setDefaultScalingFactor",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
+          "valueRange": {
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+              "fieldName": "MAX_SCALING_FACTOR"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setDefaultFeeCap",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Default fee cap cannot exceed MAX_FEE_CAP (5%)",
+          "valueRange": {
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "pips"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setScalingFactor",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
+          "valueRange": {
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+              "fieldName": "MAX_SCALING_FACTOR"
+            }
+          }
+        },
+        {
+          "type": "other",
+          "description": "Requires feeCap to be already set on the pool before scaling factor can be configured"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setFeeCap",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Fee cap must be > 0 and cannot exceed MAX_FEE_CAP (5%)",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "1"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "pips"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "resetDynamicFee",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setSecondsAgo",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "TWAP lookback must be >= MIN_SECONDS_AGO (2s) and < MAX_SECONDS_AGO (131070s)",
+          "valueRange": {
+            "min": {
+              "mode": "discovered",
+              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+              "fieldName": "MIN_SECONDS_AGO"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+              "fieldName": "MAX_SECONDS_AGO"
+            },
+            "unit": "seconds"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "registerDiscounted",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Discount cannot exceed MAX_DISCOUNT (50%)",
+          "valueRange": {
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+              "fieldName": "MAX_DISCOUNT"
+            },
+            "unit": "pips"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "deregisterDiscounted",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "bulkUpdateFees",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35",
+      "contractName": "CustomUnstakedFeeModule",
+      "functionName": "setCustomFee",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68",
+      "contractName": "CustomUnstakedFeeModule",
+      "functionName": "setCustomFee",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Fee must be <= MAX_FEE (500000 = 50%) or ZERO_FEE_INDICATOR (420)",
+          "valueRange": {
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68",
+              "fieldName": "MAX_FEE"
+            }
+          }
+        },
+        {
+          "type": "other",
+          "description": "Pool must be a valid factory pool — require(factory.isPool(pool))"
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setEmissionAdmin",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setEmissionCap",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Emission cap cannot exceed MAX_BPS (10000 bps)",
+          "valueRange": {
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+              "fieldName": "MAX_BPS"
+            },
+            "unit": "bps"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setRedistributor",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setDefaultCap",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Default cap must be between 1 and MAX_BPS (10000)",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "1"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+              "fieldName": "MAX_BPS"
+            },
+            "unit": "bps"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+            "fieldName": "MAX_BPS"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+      "contractName": "CLFactory",
+      "functionName": "setSwapFeeManager",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+      "contractName": "CLFactory",
+      "functionName": "setUnstakedFeeManager",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+      "contractName": "CLFactory",
+      "functionName": "setSwapFeeModule",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+      "contractName": "CLFactory",
+      "functionName": "setUnstakedFeeModule",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+      "contractName": "CLFactory",
+      "functionName": "setDefaultUnstakedFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Unstaked Fee cannot exceed 5000 bps",
+          "valueRange": {
+            "max": {
+              "mode": "hardcoded",
+              "value": "5000"
+            },
+            "unit": "bps"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "contractName": "CLFactory",
+      "functionName": "setSwapFeeManager",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "contractName": "CLFactory",
+      "functionName": "setUnstakedFeeManager",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "contractName": "CLFactory",
+      "functionName": "setSwapFeeModule",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "contractName": "CLFactory",
+      "functionName": "setUnstakedFeeModule",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "contractName": "CLFactory",
+      "functionName": "setDefaultUnstakedFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Unstaked Fee cannot exceed 5000 bps",
+          "valueRange": {
+            "max": {
+              "mode": "hardcoded",
+              "value": "5000"
+            },
+            "unit": "bps"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00",
+      "contractName": "CustomSwapFeeModule",
+      "functionName": "setCustomFee",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Prevents too high swap fees",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "fieldRef",
+              "fieldPath": "$self.MAX_FEE"
+            },
+            "unit": "bps*100"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00",
+            "fieldName": "MAX_FEE"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
+      "contractName": "SimpleEpochGovernor",
+      "functionName": "executeNudge",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
+      "contractName": "SimpleEpochGovernor",
+      "functionName": "setResult",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "contractName": "Voter",
+      "functionName": "setEmergencyCouncil",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "contractName": "Voter",
+      "functionName": "killGauge",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "contractName": "Voter",
+      "functionName": "reviveGauge",
+      "impact": "no-impact"
+    }
+  ],
+  "contracts": [
+    {
+      "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "name": "Aerodrome Token (AERO)",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00",
+      "name": "CustomSwapFeeModule",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+      "name": "Router",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
+      "name": "SimpleEpochGovernor",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x45cA74858C579E717ee29A86042E0d53B252B504",
+      "name": "VotingRewardsFactory",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x99249b10593fCa1Ae9DAE6D4819F1A6dae5C013D",
+      "name": "Emergency Council 3/5 Multisig",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "gnosis safe"
+    },
+    {
+      "address": "base:0xE6A41fE61E7a1996B59d508661e3f524d6A32075",
+      "name": "Aerodrome Governor 3/7 Multisig",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "gnosis safe"
+    },
+    {
+      "address": "base:0xBDE0c70BdC242577c52dFAD53389F82fd149EA5a",
+      "name": "Aerodrome Foundation 4/7 Multisig",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "gnosis safe"
+    },
+    {
+      "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "name": "CLFactory",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+      "name": "CLFactory",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+      "name": "CLGauge",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+      "name": "CLGaugeFactory",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+      "name": "CLPool",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+      "name": "CLPool",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68",
+      "name": "CustomUnstakedFeeModule",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35",
+      "name": "CustomUnstakedFeeModule",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "name": "DynamicSwapFeeModule",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+      "name": "FactoryRegistry",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x15e62707FCA7352fbE35F51a8D6b0F8066A05DCc",
+      "name": "Forwarder",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+      "name": "Minter",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F",
+      "name": "NonfungiblePositionManager",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xf632031B94D72deE0D99DeF846c9b6211041337f",
+      "name": "NonfungibleTokenPositionDescriptor",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x3ab1A16622bc5BDd1619d427fb1a6f73c71bE23D",
+      "name": "PatchedManagedRewardsFactory",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xA4e46b4f701c62e14DF11B48dCe76A7d793CD6d7",
+      "name": "Pool",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+      "name": "PoolFactory",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+      "name": "Redistributor",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+      "name": "RewardsDistributor",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+      "name": "Voter",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+      "name": "VotingEscrow",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    }
+  ],
+  "resources": [],
+  "sections": {
+    "codeAndAudits": {
+      "title": "Code & Audits",
+      "description": "Smart contract analysis and audit history",
+      "subsections": [
+        {
+          "title": "Contracts",
+          "content": [
+            {
+              "type": "dataTable",
+              "dataSource": "project.contracts",
+              "columns": [
+                {
+                  "field": "name",
+                  "header": "Name"
+                },
+                {
+                  "field": "address",
+                  "header": "Address",
+                  "format": "address"
+                },
+                {
+                  "field": "proxyType",
+                  "header": "Proxy Type",
+                  "format": "badge"
+                }
+              ],
+              "filters": {
+                "excludeExternal": true
+              }
+            }
+          ]
+        },
+        {
+          "title": "Audits",
+          "content": [
+            {
+              "type": "text",
+              "content": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

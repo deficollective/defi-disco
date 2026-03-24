@@ -1,9 +1,9 @@
-Generated with discovered.json: 0xbca223156994fcb1ea329f747c0e6e77cfcbf8d3
+Generated with discovered.json: 0x5965d68ae4b29d01a7bd9b2f8c7bdc1ca9c89d2c
 
-# Diff at Thu, 19 Mar 2026 02:16:06 GMT:
+# Diff at Tue, 24 Mar 2026 06:38:33 GMT:
 
 - author: unknown (<unknown>)
-- current timestamp: 1773886504
+- current timestamp: 1774334190
 
 ## Description
 
@@ -55,12 +55,6 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract Wrapped Ether Token (base:0x4200000000000000000000000000000000000006)
-    +++ description: None
-```
-
-```diff
-+   Status: CREATED
     contract PoolFactory (base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da)
     +++ description: None
 ```
@@ -73,25 +67,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract RedistributeUpkeepManagerV2_3 (base:0x4B364C2B5fe67B8566CDe8D0C5335F791030bECC)
-    +++ description: None
-```
-
-```diff
-+   Status: CREATED
     contract FactoryRegistry (base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
-    contract CLFactory (base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A)
+    EOA  (base:0x5Dfc48F7CbD32333e7B1335211fEA55278D70914)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
-    EOA  (base:0x6a4a3D794FBA1895e311CEdf3F2C49aB76B0Ebf3)
+    contract CLFactory (base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A)
     +++ description: None
 ```
 
@@ -169,25 +157,7 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract CLGaugeFactory (base:0xD30677bd8dd15132F251Cb54CbDA552d2A05Fb08)
-    +++ description: None
-```
-
-```diff
-+   Status: CREATED
-    contract AutomationRegistrar2_3 (base:0xE28Adc50c7551CFf69FCF32D45d037e5F6554264)
-    +++ description: None
-```
-
-```diff
-+   Status: CREATED
     contract Undeclared Multisig (base:0xE6A41fE61E7a1996B59d508661e3f524d6A32075)
-    +++ description: None
-```
-
-```diff
-+   Status: CREATED
-    contract UpkeepBalanceMonitorV2_3 (base:0xe9970892455e54Bab465A398fa575Fef2B187546)
     +++ description: None
 ```
 
@@ -217,6 +187,6 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract AutomationRegistry2_3 (base:0xf4bAb6A129164aBa9B113cB96BA4266dF49f8743)
+    contract NonfungibleTokenPositionDescriptor (base:0xf632031B94D72deE0D99DeF846c9b6211041337f)
     +++ description: None
 ```

@@ -1,12 +1,13 @@
 {
   "version": "1.0",
-  "lastModified": "2026-03-19T06:50:18.855Z",
+  "lastModified": "2026-03-24T07:53:30.856Z",
   "contracts": {
     "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4": {
       "functions": [
         {
           "functionName": "createManagedLockFor",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.allowedManager"
@@ -24,6 +25,7 @@
         {
           "functionName": "depositManaged",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.voter"
@@ -38,6 +40,7 @@
         {
           "functionName": "withdrawManaged",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.voter"
@@ -52,6 +55,13 @@
         {
           "functionName": "setAllowedManager",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address or to the current address"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@voter.governor"
@@ -66,6 +76,17 @@
         {
           "functionName": "setManagedState",
           "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Target must be a MANAGED type NFT"
+            },
+            {
+              "type": "other",
+              "description": "Cannot set to the same state (already active/inactive)"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@voter.emergencyCouncil"
@@ -83,6 +104,13 @@
         {
           "functionName": "setTeam",
           "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "$self.team"
@@ -97,6 +125,7 @@
         {
           "functionName": "setArtProxy",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.team"
@@ -111,6 +140,7 @@
         {
           "functionName": "depositFor",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.distributor"
@@ -125,6 +155,7 @@
         {
           "functionName": "toggleSplit",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.team"
@@ -139,6 +170,7 @@
         {
           "functionName": "setVoterAndDistributor",
           "isPermissioned": true,
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.voter"
@@ -153,6 +185,7 @@
         {
           "functionName": "voting",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.voter"
@@ -171,141 +204,161 @@
         {
           "functionName": "initialize",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "One-time init, already called. Sets whitelisted tokens and minter address.",
           "ownerDefinitions": [
             {
               "path": "$self.minter"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.871Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.871Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         },
         {
           "functionName": "setGovernor",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Changes governor address. Pure access-control swap, no fund flows depend on it.",
           "ownerDefinitions": [
             {
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.872Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.872Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         },
         {
           "functionName": "setEpochGovernor",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Changes epochGovernor address. Only read as access control for Minter.nudge().",
           "ownerDefinitions": [
             {
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.873Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.873Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         },
         {
           "functionName": "setEmergencyCouncil",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Changes emergencyCouncil address. Pure access-control swap for killGauge/reviveGauge.",
           "ownerDefinitions": [
             {
               "path": "$self.emergencyCouncil"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.873Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.873Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         },
         {
           "functionName": "setMaxVotingNum",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Changes max pools per vote. Only read in vote(), doesn't affect existing votes or rewards.",
           "ownerDefinitions": [
             {
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.874Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.874Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         },
         {
           "functionName": "whitelistToken",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Toggles token whitelist for gauge creation. Doesn't affect existing gauges or funds.",
           "ownerDefinitions": [
             {
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.877Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.877Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         },
         {
           "functionName": "whitelistNFT",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Toggles late-voting privilege for a veNFT. No effect on accrued rewards or positions.",
           "ownerDefinitions": [
             {
               "path": "$self.governor"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.877Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.877Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         },
         {
           "functionName": "killGauge",
           "isPermissioned": true,
+          "score": "critical",
+          "description": "Kills a gauge: sets isAlive=false and claws back undistributed claimable rewards to minter. LPs in the gauge lose pending epoch rewards. Already-distributed rewards inside the gauge are unaffected.",
           "ownerDefinitions": [
             {
               "path": "$self.emergencyCouncil"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.878Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.878Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         },
         {
           "functionName": "reviveGauge",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Re-enables a killed gauge for future voting and distribution. Does not restore clawed-back rewards.",
           "ownerDefinitions": [
             {
               "path": "$self.emergencyCouncil"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.879Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.879Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         },
         {
           "functionName": "notifyRewardAmount",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Adds new AERO emissions to global index. Only allocates new tokens proportionally; existing distributed rewards unaffected.",
           "ownerDefinitions": [
             {
               "path": "$self.minter"
             }
           ],
-          "timestamp": "2026-03-18T11:07:24.879Z",
+          "timestamp": "2026-03-24T12:00:00.000Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:24.879Z"
+            "date": "2026-03-24T12:00:00.000Z"
           }
         }
       ]
@@ -583,15 +636,16 @@
         {
           "functionName": "setMinter",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.minter"
             }
           ],
-          "timestamp": "2026-03-18T11:07:45.316Z",
+          "timestamp": "2026-03-24T07:53:30.856Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:07:45.316Z"
+            "date": "2026-03-24T07:53:30.856Z"
           }
         }
       ]
@@ -601,6 +655,7 @@
         {
           "functionName": "renounceOwnership",
           "isPermissioned": true,
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
@@ -615,6 +670,13 @@
         {
           "functionName": "transferOwnership",
           "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot transfer to zero address"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "$self.owner"
@@ -629,6 +691,13 @@
         {
           "functionName": "notifyRewardWithoutClaim",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Amount must be non-zero and gauge must be valid — require(_amount != 0) and require(voter.isGauge(_gauge))"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "$self.owner"
@@ -643,6 +712,13 @@
         {
           "functionName": "setUpkeepManager",
           "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "$self.owner"
@@ -657,6 +733,13 @@
         {
           "functionName": "setKeeper",
           "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "$self.owner"
@@ -671,6 +754,7 @@
         {
           "functionName": "setArtProxy",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
@@ -685,6 +769,7 @@
         {
           "functionName": "toggleSplit",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
@@ -699,6 +784,13 @@
         {
           "functionName": "transferPermissions",
           "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot transfer to zero address"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "$self.owner"
@@ -903,34 +995,43 @@
         {
           "functionName": "setVoter",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.voter"
             }
           ],
-          "timestamp": "2026-03-18T11:08:18.537Z",
+          "timestamp": "2026-03-23T08:11:28.205Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:08:18.537Z"
+            "date": "2026-03-23T08:11:28.205Z"
           }
         },
         {
           "functionName": "setPauser",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.pauser"
             }
           ],
-          "timestamp": "2026-03-18T11:08:18.537Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address — revert ZeroAddress()"
+            }
+          ],
+          "timestamp": "2026-03-23T08:11:21.629Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:08:18.537Z"
+            "date": "2026-03-23T08:11:21.629Z"
           }
         },
         {
           "functionName": "setPauseState",
           "isPermissioned": true,
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.pauser"
@@ -945,20 +1046,45 @@
         {
           "functionName": "setFeeManager",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.feeManager"
             }
           ],
-          "timestamp": "2026-03-18T11:08:18.539Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address — revert ZeroAddress()"
+            }
+          ],
+          "timestamp": "2026-03-23T08:11:16.001Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:08:18.539Z"
+            "date": "2026-03-23T08:11:16.001Z"
           }
         },
         {
           "functionName": "setFee",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee must be > 0 and <= MAX_FEE (300 = 3%)",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+                  "fieldName": "MAX_FEE"
+                }
+              }
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "$self.feeManager"
@@ -973,6 +1099,24 @@
         {
           "functionName": "setCustomFee",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee must be <= MAX_FEE (300 = 3%) or ZERO_FEE_INDICATOR (420)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+                  "fieldName": "MAX_FEE"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "description": "Pool must be a valid factory pool — revert InvalidPool()"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "$self.feeManager"
@@ -1204,71 +1348,104 @@
         {
           "functionName": "approve",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self._owner"
             }
           ],
-          "timestamp": "2026-03-18T11:09:09.117Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot approve a poolFactory that is already approved"
+            },
+            {
+              "type": "other",
+              "description": "Re-approval must use the same gauge and votingRewards factories originally set"
+            }
+          ],
+          "timestamp": "2026-03-24T06:32:37.611Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:09:09.117Z"
+            "date": "2026-03-24T06:32:37.611Z"
           }
         },
         {
           "functionName": "unapprove",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self._owner"
             }
           ],
-          "timestamp": "2026-03-18T11:09:09.118Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot unapprove the fallback (core) pool factory"
+            }
+          ],
+          "timestamp": "2026-03-24T06:57:34.052Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:09:09.118Z"
+            "date": "2026-03-24T06:57:34.052Z"
           }
         },
         {
           "functionName": "setManagedRewardsFactory",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self._owner"
             }
           ],
-          "timestamp": "2026-03-18T11:09:09.119Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address or to the current address"
+            }
+          ],
+          "timestamp": "2026-03-24T06:57:22.345Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:09:09.119Z"
+            "date": "2026-03-24T06:57:22.345Z"
           }
         },
         {
           "functionName": "renounceOwnership",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self._owner"
             }
           ],
-          "timestamp": "2026-03-18T11:09:09.119Z",
+          "timestamp": "2026-03-24T06:56:19.788Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:09:09.119Z"
+            "date": "2026-03-24T06:56:19.788Z"
           }
         },
         {
           "functionName": "transferOwnership",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self._owner"
             }
           ],
-          "timestamp": "2026-03-18T11:09:09.120Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot transfer ownership to the zero address"
+            }
+          ],
+          "timestamp": "2026-03-24T06:57:25.204Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:09:09.120Z"
+            "date": "2026-03-24T06:57:25.204Z"
           }
         }
       ]
@@ -1278,6 +1455,21 @@
         {
           "functionName": "setCustomFee",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Base fee cannot exceed MAX_BASE_FEE (3%) or must be ZERO_FEE_INDICATOR",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "pips"
+              }
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
@@ -1292,6 +1484,20 @@
         {
           "functionName": "setDefaultScalingFactor",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                }
+              }
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
@@ -1306,6 +1512,21 @@
         {
           "functionName": "setDefaultFeeCap",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Default fee cap cannot exceed MAX_FEE_CAP (5%)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "pips"
+              }
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
@@ -1320,6 +1541,24 @@
         {
           "functionName": "setScalingFactor",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "description": "Requires feeCap to be already set on the pool before scaling factor can be configured"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
@@ -1334,6 +1573,25 @@
         {
           "functionName": "setFeeCap",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee cap must be > 0 and cannot exceed MAX_FEE_CAP (5%)",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "pips"
+              }
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
@@ -1348,6 +1606,7 @@
         {
           "functionName": "resetDynamicFee",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
@@ -1362,6 +1621,26 @@
         {
           "functionName": "setSecondsAgo",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "TWAP lookback must be >= MIN_SECONDS_AGO (2s) and < MAX_SECONDS_AGO (131070s)",
+              "valueRange": {
+                "min": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MIN_SECONDS_AGO"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_SECONDS_AGO"
+                },
+                "unit": "seconds"
+              }
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
@@ -1376,6 +1655,21 @@
         {
           "functionName": "registerDiscounted",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Discount cannot exceed MAX_DISCOUNT (50%)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+                  "fieldName": "MAX_DISCOUNT"
+                },
+                "unit": "pips"
+              }
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
@@ -1390,6 +1684,7 @@
         {
           "functionName": "deregisterDiscounted",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
@@ -1404,15 +1699,16 @@
         {
           "functionName": "bulkUpdateFees",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "@factory.swapFeeManager"
             }
           ],
-          "timestamp": "2026-03-18T11:09:18.770Z",
+          "timestamp": "2026-03-20T06:39:22.944Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:09:18.770Z"
+            "date": "2026-03-20T06:39:22.944Z"
           }
         }
       ]
@@ -1440,6 +1736,24 @@
         {
           "functionName": "setCustomFee",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee must be <= MAX_FEE (500000 = 50%) or ZERO_FEE_INDICATOR (420)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68",
+                  "fieldName": "MAX_FEE"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "description": "Pool must be a valid factory pool — require(factory.isPool(pool))"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@factory.unstakedFeeManager"
@@ -1458,6 +1772,7 @@
         {
           "functionName": "stake",
           "isPermissioned": true,
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.gauge"
@@ -1472,6 +1787,7 @@
         {
           "functionName": "updateRewardsGrowthGlobal",
           "isPermissioned": true,
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.gauge"
@@ -1486,6 +1802,7 @@
         {
           "functionName": "syncReward",
           "isPermissioned": true,
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.gauge"
@@ -1500,6 +1817,13 @@
         {
           "functionName": "collectFees",
           "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Fees collected are limited to accumulated gaugeFees — cannot extract more than what was accrued from swap fees"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "$self.gauge"
@@ -1514,6 +1838,13 @@
         {
           "functionName": "setGaugeAndPositionManager",
           "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Can only be called once — requires gauge == address(0)"
+            }
+          ],
           "ownerDefinitions": [
             {
               "path": "@factoryRegistry.factoriesToPoolFactory(factory).gaugeFactory"
@@ -1532,6 +1863,7 @@
         {
           "functionName": "stake",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.gauge"
@@ -1546,6 +1878,7 @@
         {
           "functionName": "updateRewardsGrowthGlobal",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.gauge"
@@ -1560,6 +1893,7 @@
         {
           "functionName": "syncReward",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.gauge"
@@ -1574,6 +1908,7 @@
         {
           "functionName": "collectFees",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.gauge"
@@ -1588,6 +1923,7 @@
         {
           "functionName": "setGaugeAndPositionManager",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "@factoryRegistry.factoriesToPoolFactory(factory).gaugeFactory"
@@ -1652,100 +1988,168 @@
         {
           "functionName": "setEmissionAdmin",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.emissionAdmin"
             }
           ],
-          "timestamp": "2026-03-18T11:10:31.959Z",
+          "timestamp": "2026-03-20T05:43:17.674Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:10:31.959Z"
+            "date": "2026-03-20T05:43:17.674Z"
           }
         },
         {
           "functionName": "setNotifyAdmin",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "New administrator that will be able to call `notifyRewardWithoutClaim` on gauges.",
           "ownerDefinitions": [
             {
               "path": "$self.notifyAdmin"
             }
           ],
-          "timestamp": "2026-03-18T11:10:31.960Z",
+          "timestamp": "2026-03-20T05:45:29.015Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:10:31.960Z"
+            "date": "2026-03-20T05:45:29.015Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-20T05:45:14.413Z"
           }
         },
         {
           "functionName": "setNonfungiblePositionManager",
           "isPermissioned": true,
+          "checked": true,
+          "description": "Only callable once",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-18T11:10:31.961Z",
+          "timestamp": "2026-03-20T05:36:57.167Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:10:31.961Z"
+            "date": "2026-03-20T05:36:57.167Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-20T05:36:57.167Z"
           }
         },
         {
           "functionName": "setEmissionCap",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Sets the emission cap for a Gauge",
           "ownerDefinitions": [
             {
               "path": "$self.emissionAdmin"
             }
           ],
-          "timestamp": "2026-03-18T11:10:31.962Z",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Emission cap cannot exceed MAX_BPS (10000 bps)",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              }
+            }
+          ],
+          "timestamp": "2026-03-20T05:55:34.815Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:10:31.962Z"
+            "date": "2026-03-20T05:55:34.815Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-20T05:55:34.815Z"
           }
         },
         {
           "functionName": "setRedistributor",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.emissionAdmin"
             }
           ],
-          "timestamp": "2026-03-18T11:10:31.963Z",
+          "timestamp": "2026-03-20T06:04:02.169Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:10:31.963Z"
+            "date": "2026-03-20T06:04:02.169Z"
           }
         },
         {
           "functionName": "setDefaultCap",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Sets the default emission cap for the gauge.",
           "ownerDefinitions": [
             {
               "path": "$self.emissionAdmin"
             }
           ],
-          "timestamp": "2026-03-18T11:10:31.963Z",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Default cap must be between 1 and MAX_BPS (10000)",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+                "fieldName": "MAX_BPS"
+              }
+            }
+          ],
+          "timestamp": "2026-03-20T05:43:54.690Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:10:31.963Z"
+            "date": "2026-03-20T05:43:54.690Z"
           }
         },
         {
           "functionName": "createGauge",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.voter"
             }
           ],
-          "timestamp": "2026-03-18T11:10:31.964Z",
+          "timestamp": "2026-03-20T05:13:02.834Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:10:31.964Z"
-          }
+            "date": "2026-03-20T05:13:02.834Z"
+          },
+          "comments": [
+            {
+              "author": "yvesboutellier",
+              "date": "2026-03-20T05:13:02.834Z",
+              "text": "admins are just to bypass additional whitelist checks"
+            }
+          ]
         }
       ]
     },
@@ -1754,6 +2158,7 @@
         {
           "functionName": "notifyRewardAmount",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.voter"
@@ -1768,6 +2173,7 @@
         {
           "functionName": "notifyRewardWithoutClaim",
           "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "@gaugeFactory.notifyAdmin"
@@ -1789,99 +2195,176 @@
         {
           "functionName": "setOwner",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Changes the owner of the contract.",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-18T11:11:00.320Z",
+          "timestamp": "2026-03-19T07:56:41.997Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:00.320Z"
+            "date": "2026-03-19T07:56:41.997Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T07:56:41.997Z"
           }
         },
         {
           "functionName": "setSwapFeeManager",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "The new `swapFeeManager` can update the swapFeeModule.",
           "ownerDefinitions": [
             {
               "path": "$self.swapFeeManager"
             }
           ],
-          "timestamp": "2026-03-18T11:11:00.321Z",
+          "timestamp": "2026-03-19T07:56:43.137Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:00.321Z"
+            "date": "2026-03-19T07:56:43.137Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T07:56:43.137Z"
           }
         },
         {
           "functionName": "setUnstakedFeeManager",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "unstakedFeeManager can set defaultUnstakedFee and unstakedFeeModule.",
           "ownerDefinitions": [
             {
               "path": "$self.unstakedFeeManager"
             }
           ],
-          "timestamp": "2026-03-18T11:11:00.321Z",
+          "timestamp": "2026-03-19T08:01:13.508Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:00.321Z"
+            "date": "2026-03-19T08:01:13.508Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T08:00:23.363Z"
           }
         },
         {
           "functionName": "setSwapFeeModule",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Sets the fee module which is queried by pools. The getSwapFee function enforces the mitigation. It cannot be higher than 1000bps (10%).",
           "ownerDefinitions": [
             {
               "path": "$self.swapFeeManager"
             }
           ],
-          "timestamp": "2026-03-18T11:11:00.322Z",
+          "timestamp": "2026-03-19T07:56:46.160Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:00.322Z"
+            "date": "2026-03-19T07:56:46.160Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T07:56:46.160Z"
           }
         },
         {
           "functionName": "setUnstakedFeeModule",
           "isPermissioned": true,
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.unstakedFeeManager"
             }
           ],
-          "timestamp": "2026-03-18T11:11:00.322Z",
+          "timestamp": "2026-03-19T08:01:19.905Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:00.322Z"
+            "date": "2026-03-19T08:01:19.905Z"
           }
         },
         {
           "functionName": "setDefaultUnstakedFee",
           "isPermissioned": true,
+          "score": "critical",
+          "description": "Sets the amount of the collected fees that are redistributed from unstaked to staked LPs (staked in Gauges).",
           "ownerDefinitions": [
             {
               "path": "$self.unstakedFeeManager"
             }
           ],
-          "timestamp": "2026-03-18T11:11:00.323Z",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Unstaked Fee cannot exceed 5000 bps",
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "5000"
+                },
+                "unit": "bps"
+              }
+            }
+          ],
+          "timestamp": "2026-03-19T07:56:36.359Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:00.323Z"
+            "date": "2026-03-19T07:56:36.359Z"
           }
         },
         {
           "functionName": "enableTickSpacing",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Allow new tick spacing.",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-18T11:11:00.324Z",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee for the tick spacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "100000"
+                },
+                "unit": "bps*100"
+              }
+            },
+            {
+              "type": "valueRange",
+              "description": "TickSpacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "16384"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-03-19T07:56:33.534Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:00.324Z"
+            "date": "2026-03-19T07:56:33.534Z"
           }
         }
       ]
@@ -1891,34 +2374,51 @@
         {
           "functionName": "setOwner",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Changes the owner of the contract.",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-18T11:11:07.732Z",
+          "timestamp": "2026-03-19T07:27:59.243Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:07.732Z"
+            "date": "2026-03-19T07:27:59.243Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T07:27:59.243Z"
           }
         },
         {
           "functionName": "setSwapFeeManager",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "The new `swapFeeManager` can update the swapFeeModule.",
           "ownerDefinitions": [
             {
               "path": "$self.swapFeeManager"
             }
           ],
-          "timestamp": "2026-03-18T11:11:07.734Z",
+          "timestamp": "2026-03-19T07:32:19.178Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:07.734Z"
+            "date": "2026-03-19T07:32:19.178Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T07:32:17.366Z"
           }
         },
         {
           "functionName": "setUnstakedFeeManager",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "unstakedFeeManager can set defaultUnstakedFee and unstakedFeeModule.",
           "ownerDefinitions": [
             {
               "path": "$self.unstakedFeeManager"
@@ -1928,11 +2428,18 @@
           "lastChangedBy": {
             "author": "yvesboutellier",
             "date": "2026-03-18T11:11:07.735Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:07.735Z"
           }
         },
         {
           "functionName": "setSwapFeeModule",
           "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Sets the fee module which is queried by pools. The getSwapFee function enforces the mitigation. It cannot be higher than 1000bps (10%).",
           "ownerDefinitions": [
             {
               "path": "$self.swapFeeManager"
@@ -1942,11 +2449,16 @@
           "lastChangedBy": {
             "author": "yvesboutellier",
             "date": "2026-03-18T11:11:07.736Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-18T11:11:07.736Z"
           }
         },
         {
           "functionName": "setUnstakedFeeModule",
           "isPermissioned": true,
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.unstakedFeeManager"
@@ -1961,29 +2473,77 @@
         {
           "functionName": "setDefaultUnstakedFee",
           "isPermissioned": true,
+          "score": "critical",
+          "description": "Sets the amount of the collected fees that are redistributed from unstaked to staked LPs (staked in Gauges).",
           "ownerDefinitions": [
             {
               "path": "$self.unstakedFeeManager"
             }
           ],
-          "timestamp": "2026-03-18T11:11:07.738Z",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Unstaked Fee cannot exceed 5000 bps",
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "5000"
+                },
+                "unit": "bps"
+              }
+            }
+          ],
+          "timestamp": "2026-03-19T07:26:12.349Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:07.738Z"
+            "date": "2026-03-19T07:26:12.349Z"
           }
         },
         {
           "functionName": "enableTickSpacing",
           "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Allow new tick spacing.",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-03-18T11:11:07.739Z",
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee for the tick spacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "100000"
+                },
+                "unit": "bps*100"
+              }
+            },
+            {
+              "type": "valueRange",
+              "description": "TickSpacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "16384"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-03-19T07:14:51.444Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-18T11:11:07.739Z"
+            "date": "2026-03-19T07:14:51.444Z"
           }
         }
       ]
@@ -2232,31 +2792,43 @@
         {
           "functionName": "setMinter",
           "isPermissioned": true,
-          "score": "critical",
+          "checked": true,
+          "score": "no-impact",
+          "description": "This function was executd once, Minter contract does not have any function to call this and is the only allowed caller.",
           "ownerDefinitions": [
             {
               "path": "$self.minter"
             }
           ],
-          "timestamp": "2026-03-19T00:55:36.278Z",
+          "timestamp": "2026-03-19T07:10:49.649Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-19T00:55:36.278Z"
+            "date": "2026-03-19T07:10:49.649Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T07:10:49.649Z"
           }
         },
         {
           "functionName": "mint",
           "isPermissioned": true,
-          "score": "critical",
+          "checked": true,
+          "score": "no-impact",
+          "description": "Mitigations on minting amount are on the Minter contract.",
           "ownerDefinitions": [
             {
               "path": "$self.minter"
             }
           ],
-          "timestamp": "2026-03-19T00:55:31.169Z",
+          "timestamp": "2026-03-19T07:52:06.347Z",
           "lastChangedBy": {
             "author": "yvesboutellier",
-            "date": "2026-03-19T00:55:31.169Z"
+            "date": "2026-03-19T07:52:06.347Z"
+          },
+          "completedBy": {
+            "author": "yvesboutellier",
+            "date": "2026-03-19T07:08:36.036Z"
           }
         }
       ]
