@@ -14,14 +14,13 @@ import type {
   ResourceEntry,
   ReviewConfig,
 } from './types'
-import { getFunctions, resolveDelayFromDiscovered } from './functions'
+import { getFunctions } from './functions'
 import { getFundsData } from './fundsData'
 import { getContractTags } from './contractTags'
 import { getResources } from './resources'
 import {
   normalizeChainAddress,
   addressesEqual,
-  filterMitigationsForOwner,
   getFromAddressRecord,
   buildImplementationToProxyMap,
 } from './addressUtils'
@@ -384,51 +383,6 @@ export class ReviewCompiler {
     discovery: DiscoveryOutput,
     resources: ResourceEntry[],
   ): CompiledReview {
-    // Build mitigations lookup: (contractAddress|functionName) → merged Mitigation[]
-    const mitigationsLookup = new Map<string, Mitigation[]>()
-    if (functionsData?.contracts) {
-      for (const [contractAddr, contractData] of Object.entries(
-        functionsData.contracts,
-      )) {
-        for (const func of contractData.functions) {
-          const mitigations: Mitigation[] = []
-          // Include delay as a delay-type mitigation
-          if (func.delay) {
-            const resolved = resolveDelayFromDiscovered(
-              this.paths,
-              project,
-              func.delay,
-            )
-            mitigations.push({
-              type: 'delay',
-              description: 'Delay before execution',
-              delayRef: {
-                contractAddress: func.delay.contractAddress,
-                fieldName: func.delay.fieldName,
-              },
-              delaySeconds: resolved.isResolved ? resolved.seconds : undefined,
-            })
-          }
-          // Include explicitly stored mitigations
-          if (func.mitigations && func.mitigations.length > 0) {
-            mitigations.push(...func.mitigations)
-          }
-          if (mitigations.length > 0) {
-            const key = `${normalizeChainAddress(contractAddr)}|${func.functionName}`
-            mitigationsLookup.set(key, mitigations)
-          }
-        }
-      }
-    }
-
-    const getMitigationsForFunction = (
-      contractAddress: string,
-      functionName: string,
-    ): Mitigation[] | undefined => {
-      const key = `${normalizeChainAddress(contractAddress)}|${functionName}`
-      return mitigationsLookup.get(key)
-    }
-
     const tagsByAddress = new Map<
       string,
       ApiContractTagsResponse['tags'][number]
@@ -474,9 +428,7 @@ export class ReviewCompiler {
             tokenValueUsd: r.tokenValueUsd,
             fundsAtRisk: r.fundsAtRisk,
           })),
-          mitigations:
-            f.mitigations ??
-            getMitigationsForFunction(f.contractAddress, f.functionName),
+          mitigations: f.mitigations,
         })),
         totalDirectCapital: admin.totalDirectCapital,
         totalDirectTokenValue: admin.totalDirectTokenValue,
@@ -534,9 +486,7 @@ export class ReviewCompiler {
             tokenValueUsd: r.tokenValueUsd,
             fundsAtRisk: r.fundsAtRisk,
           })),
-          mitigations:
-            f.mitigations ??
-            getMitigationsForFunction(f.contractAddress, f.functionName),
+          mitigations: f.mitigations,
         })),
         totalFundsAtRisk: dep.totalFundsAtRisk,
         totalTokenValueAtRisk: dep.totalTokenValueAtRisk,
@@ -642,9 +592,7 @@ export class ReviewCompiler {
             contractName: fn.contractName,
             functionName: fn.functionName,
             impact: fn.impact,
-            mitigations:
-              fn.mitigations ??
-              getMitigationsForFunction(fn.contractAddress, fn.functionName),
+            mitigations: fn.mitigations,
           })
         }
       }
