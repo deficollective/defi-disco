@@ -2,6 +2,23 @@
   "totalDefiTvl": 100000000000,
   "protocols": [
     {
+      "slug": "EtherFi-Stake",
+      "name": "EtherFi Staking",
+      "chain": "Ethereum",
+      "projectType": "liquid-staking",
+      "tokenName": "eETH",
+      "totals": {
+        "contractCount": 64,
+        "permissionedFunctionCount": 495,
+        "scoredFunctionCount": 0,
+        "adminCount": 39,
+        "dependencyCount": 7,
+        "totalCapitalAtRisk": 21034.733974295774,
+        "totalTokenValueAtRisk": 0,
+        "totalTokenValue": 6622303027.540147
+      }
+    },
+    {
       "slug": "Frankencoin",
       "name": "Frankencoin",
       "chain": "Ethereum",
@@ -50,6 +67,23 @@
         "totalCapitalAtRisk": 862063927.436899,
         "totalTokenValueAtRisk": 0,
         "totalTokenValue": 194400000
+      }
+    },
+    {
+      "slug": "lido",
+      "name": "Lido",
+      "chain": "Ethereum",
+      "projectType": "liquid-staking",
+      "tokenName": "stETH",
+      "totals": {
+        "contractCount": 69,
+        "permissionedFunctionCount": 463,
+        "scoredFunctionCount": 199,
+        "adminCount": 40,
+        "dependencyCount": 1,
+        "totalCapitalAtRisk": 519726443.69491196,
+        "totalTokenValueAtRisk": 0,
+        "totalTokenValue": 0
       }
     },
     {
@@ -105,12 +139,72 @@
     }
   ],
   "globalTotals": {
-    "totalCapitalAtRisk": 2152200270.0587993,
-    "totalTokenValueAtRisk": 254803451.70080653,
-    "totalTokenValue": 311853474.72530407,
-    "protocolsReviewed": 6
+    "totalCapitalAtRisk": 2671947748.487685,
+    "totalTokenValueAtRisk": 6877106479.240953,
+    "totalTokenValue": 6934156502.265451,
+    "protocolsReviewed": 8
   },
   "dependencies": [
+    {
+      "address": "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
+      "name": "Lido stETH Token",
+      "entity": "Lido stETH",
+      "totalFundsAtRisk": 7821675896.9351845,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
+    {
+      "address": "eth:0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A",
+      "name": "EigenLayer DelegationManager",
+      "entity": "EigenLayer",
+      "totalFundsAtRisk": 1584015965.8100178,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
+    {
+      "address": "eth:0x889edC2eDab5f40e902b864aD4d7AdE8E412F9B1",
+      "name": "Lido WithdrawalQueueERC721",
+      "entity": "Lido",
+      "totalFundsAtRisk": 1584015965.8100178,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
+    {
+      "address": "eth:0x858646372CC42E1A627fcE94aa7A7033e7CF075A",
+      "name": "EigenLayer StrategyManager",
+      "entity": "EigenLayer",
+      "totalFundsAtRisk": 1537075196.6361413,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
+    {
+      "address": "eth:0x7750d328b314EfFa365A0402CcfD489B80B0adda",
+      "name": "EigenLayer RewardsCoordinator",
+      "entity": "EigenLayer",
+      "totalFundsAtRisk": 1537075196.6361413,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
     {
       "address": "eth:0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
       "name": "EACAggregatorProxy",
@@ -248,6 +342,82 @@
       ]
     },
     {
+      "address": "eth:0x00000000219ab540356cBB839Cbe05303d7705Fa",
+      "name": "Ethereum Beacon Chain Deposit Contract",
+      "entity": "Ethereum",
+      "totalFundsAtRisk": 65523113.84638362,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        },
+        {
+          "slug": "lido",
+          "name": "Lido"
+        }
+      ]
+    },
+    {
+      "address": "eth:0x91E677b07F7AF907ec9a428aafA9fc14a0d3A338",
+      "name": "EigenLayer EigenPodManager",
+      "entity": "EigenLayer",
+      "totalFundsAtRisk": 46940769.17387663,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
+    {
+      "address": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+      "name": "Curve WrapTokenV3ETH (wstETH/ETH)",
+      "entity": "Curve",
+      "totalFundsAtRisk": 46940769.17387663,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
+    {
+      "address": "eth:0x5FAE7E604FC3e24fd43A72867ceBaC94c65b404A",
+      "name": "Curve Pool (view-only)",
+      "entity": "Curve",
+      "totalFundsAtRisk": 46940769.17387663,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
+    {
+      "address": "eth:0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
+      "name": "Coinbase cbETH Token",
+      "entity": "Coinbase cbETH",
+      "totalFundsAtRisk": 46940769.17387663,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
+    {
+      "address": "eth:0x1a44076050125825900e736c501f859c50fE728c",
+      "name": "LayerZero EndpointV2",
+      "entity": "LayerZero",
+      "totalFundsAtRisk": 46940769.17387663,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
+        }
+      ]
+    },
+    {
       "address": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
       "name": "VNXCToken (VCHF)",
       "entity": "VCHF",
@@ -256,6 +426,18 @@
         {
           "slug": "Frankencoin",
           "name": "Frankencoin"
+        }
+      ]
+    },
+    {
+      "address": "eth:0xBe010A7e3686FdF65E93344ab664D065A0B02478",
+      "name": "LayerZero Endpoint Owner",
+      "entity": "LayerZero",
+      "totalFundsAtRisk": 0,
+      "protocols": [
+        {
+          "slug": "EtherFi-Stake",
+          "name": "EtherFi Staking"
         }
       ]
     },
