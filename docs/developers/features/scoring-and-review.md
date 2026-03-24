@@ -273,7 +273,8 @@ Protocol links (frontends, docs, GitHub, X, source code, licenses, etc.) stored 
 - **Location**: `packages/l2b/src/implementations/discovery-ui/defidisco/reviewCompiler.ts`
 - **API Endpoint**: `POST /api/projects/:project/compile-review` (in `main.ts`)
 - **UI Button**: "Compile Review" in `TerminalExtensions.tsx`
-- **Frontend API**: `compileReview()` in `api.ts`
+- **Bulk Endpoint**: `POST /api/compile-all-reviews` — compiles all DeFi projects at once (used by HomePage button)
+- **Frontend API**: `compileReview()`, `compileAllReviews()` in `api.ts`
 - **Output**: `compiled-review.json` written to `packages/defiscan-frontend/public/data/<slug>/`
 - **Guard Conditions**: Requires `review-config.json` and `call-graph-data.json`; skips if either is missing
 - **Template Variables**: `{{variableName}}` resolved at compile time via `dataKeys` map

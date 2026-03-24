@@ -87,6 +87,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - AccessControl Role Support (OpenZeppelin handler, path expressions)
 - Continuous Permission Monitoring (automated change detection, Discord alerts)
 - Permission Overrides Data Structure (contract-grouped JSON, owner path syntax, resolution logic)
+- Permission Scan Agent (`/scan-permissions` Claude Code skill — source code analysis for permissioned functions, owner path construction, verification against discovered data)
 
 ### Call Graph Analysis — `docs/developers/features/call-graph-analysis.md`
 - Slither-based external call detection (SlithIR parsing, heuristic resolution engine)
@@ -101,7 +102,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - Resources (`resources.json` — separate per-project file, auto-saves independently)
 - Resource Gathering Agent (`/gather-resources` Claude Code skill — web search + verify for official links, licenses, socials)
 - Review Generation Agent (`/generate-review` Claude Code skill)
-- Review Compiler (`compiled-review.json` — thin assembly layer over ProjectAnalysis, template variable resolution)
+- Review Compiler (`compiled-review.json` — thin assembly layer over ProjectAnalysis, template variable resolution, bulk compile-all endpoint)
 - Mitigations Display (badges in explorer tabs + report cards, key findings card, `deduplicateMitigations`)
 
 ### Infrastructure — `docs/developers/features/infrastructure.md`
@@ -112,6 +113,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - DeFiScan Frontend (static React app, Vercel deployment, shareable report view, TVS metric, mitigation badges in report cards)
 - Activity Feed (contract upgrade timeline from `$pastUpgrades`, third top-level view in defiscan-frontend)
 - Continuous Monitoring Service (GitHub Actions cron, discovery + diff + funds + compile)
+- Discovery Agent (`/run-discovery` Claude Code skill — iterative contract discovery, external/governance/funds tagging, handler configuration)
 
 ---
 
@@ -240,7 +242,9 @@ To add new panels:
 ```
 packages/
 ├── discovery/src/discovery/handlers/defidisco/
-│   └── WriteFunctionPermissionHandler.ts
+│   ├── WriteFunctionPermissionHandler.ts
+│   ├── AddressMappingHandler.ts          # Maps addresses via method call against discovered.json candidates
+│   └── EnumerableRolesHandler.ts         # Enumerates roles and their holders via RoleSet events
 ├── protocolbeat/src/defidisco/
 │   ├── ValuesPanelExtensions.tsx
 │   ├── TerminalExtensions.tsx
@@ -257,6 +261,7 @@ packages/
 │   ├── FunctionBreakdown.tsx         # Functions section
 │   ├── ReviewDescriptionsEditor.tsx  # Review descriptions editor (Descriptions tab)
 │   ├── ReviewResourcesEditor.tsx    # Resources editor (links, frontends, socials)
+│   ├── ResourcesPanel.tsx          # Standalone Resources panel (wraps ReviewResourcesEditor)
 │   ├── FundsTagsButton.tsx         # Funds fetching controls (balances, positions, token, aggregate)
 │   ├── FundsSection.tsx            # Funds display in DeFiScan panel (tokens, aggregate, contracts)
 │   ├── addressUtils.ts             # Frontend address utilities (stripChainPrefix, addressesEqual, normalizeForLookup, findByAddress)
@@ -296,6 +301,7 @@ packages/
 │           └── frankencoinMintinghub.ts  # Frankencoin API (no key needed)
 └── config/src/projects/compound-v3/
     ├── permission-overrides.json
+    ├── resources.json                # Per-project resources (links, licenses, socials)
     └── review-config.json            # Per-project review config
 ```
 

@@ -244,7 +244,7 @@ Add the handler to enable role detection, then re-run discovery before scanning 
 
 If the source code defines custom role hashes (e.g., `bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE")`), the handler will auto-detect the names from the ABI. No `roleNames` mapping is needed in most cases.
 
-After the user adds the handler and re-runs discovery (`pnpm run discover <project>`), the `accessControl` field will appear in discovered.json and paths can be verified on a subsequent scan.
+After the user adds the handler and re-runs discovery (`l2b discover <project>` from `packages/config`), the `accessControl` field will appear in discovered.json and paths can be verified on a subsequent scan.
 
 ---
 
@@ -334,7 +334,7 @@ For each function, categorize the comparison as one of:
 
 Clean up temporary files:
 ```bash
-rm -f /tmp/scan-project.json /tmp/scan-tags.json /tmp/scan-existing-functions.json
+rm -f /tmp/scan-project.json /tmp/scan-tags.json /tmp/scan-existing-functions.json /tmp/scan-contract-list.json /tmp/scan-existing-summary.json /tmp/scan-contract-fields.json
 ```
 
 ### Standard mode report:

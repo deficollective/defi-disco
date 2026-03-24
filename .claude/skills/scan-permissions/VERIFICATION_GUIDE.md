@@ -171,12 +171,12 @@ For each owner path expression, confirm:
 
 | Problem | Likely Cause | Solution |
 |---------|-------------|----------|
-| Field not found in values | Getter name differs from storage name | Check all available field names in `values` |
+| Field not found in `fields[]` | Getter name differs from storage name | Check all available field names in the contract's `fields[]` array |
 | `@fieldName` target not in entries | External contract not discovered | Flag for manual review |
-| AccessControl role not found | Role name mismatch or no AccessControl | Check exact role names in `values.accessControl` |
+| AccessControl role not found | Role name mismatch or no AccessControl | Check exact role names in the `accessControl` field's value |
 | **No `accessControl` field at all** | **Handler not configured** | See section below |
 | Path resolves to non-address value | Wrong field or field type changed | Try alternative paths, check field value types |
-| Implementation address has no values | Values are on proxy, not implementation | Look up parent proxy contract |
+| Implementation address has no fields | Fields are on proxy, not implementation | Look up parent proxy contract |
 
 ## Missing AccessControl Handler
 
@@ -184,7 +184,7 @@ For each owner path expression, confirm:
 
 The discovery system only runs handlers that are explicitly listed in `config.jsonc`. Without the handler, no event logs are queried and no roles appear.
 
-**How to detect this**: Source code has AccessControl patterns, but the contract's `values` object in discovered.json has no `accessControl` key.
+**How to detect this**: Source code has AccessControl patterns, but the contract's `fields[]` array in discovered.json has no field with `name: "accessControl"`.
 
 **Fix**: Add the handler to `packages/config/src/projects/<project>/config.jsonc`:
 
@@ -200,4 +200,4 @@ The discovery system only runs handlers that are explicitly listed in `config.js
 
 The handler auto-detects role names from the ABI (e.g., `function MINTER_ROLE() view returns (bytes32)`). A `roleNames` mapping is only needed for roles that don't have a public getter.
 
-After adding the handler, re-run discovery (`pnpm run discover <project>`) and then re-scan.
+After adding the handler, re-run discovery (`l2b discover <project>` from `packages/config`) and then re-scan.

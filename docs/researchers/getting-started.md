@@ -348,6 +348,26 @@ You can auto-discover resources using Claude Code:
 
 The skill merges with any existing resources — it never removes entries you've already added. License entries always link to the actual license text (e.g., a LICENSE file on GitHub or a license page on the website).
 
+### Automated Discovery with Claude Code
+
+You can use Claude Code to automate the iterative discovery process:
+
+1. Make sure the l2b UI server is running (`cd packages/config && l2b ui`)
+2. In Claude Code, run `/run-discovery <project-name>`
+3. The agent progressively deepens discovery, classifies contracts (core/external/governance/funds), and prunes external protocols
+4. Review the classification at each iteration (or use `--auto` for autonomous mode)
+5. Results are applied to `config.jsonc` and contract tags
+
+### Automated Permission Scanning with Claude Code
+
+You can use Claude Code to scan contract source code for permissioned functions:
+
+1. Make sure the l2b UI server is running (`cd packages/config && l2b ui`)
+2. In Claude Code, run `/scan-permissions <project-name>` (or `/scan-permissions <project-name> <contract-address>` for a single contract)
+3. The agent reads source code, identifies access-controlled functions, constructs owner path expressions, and verifies each path against discovered data
+4. Use `--compare` mode first to preview changes before saving
+5. Results are saved to `functions.json` via the API
+
 ### AI-Powered Review Generation
 
 You can use Claude Code to auto-generate review content from your analysis data:

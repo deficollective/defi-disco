@@ -2,7 +2,7 @@
 
 This document contains all handler patterns you can add to `config.jsonc` overrides. The user will tell you which handler to add and to which contract.
 
-**Important**: After adding any handler to config.jsonc, you must re-run discovery (`l2b discover <chain> <project>`) for the new fields to appear in discovered.json.
+**Important**: After adding any handler to config.jsonc, you must re-run discovery (`l2b discover <project>` from `packages/config`) for the new fields to appear in discovered.json.
 
 **Config structure**: Handlers go inside the `overrides` section of config.jsonc, under the contract's address:
 

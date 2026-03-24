@@ -14,7 +14,7 @@ Every owner path expression follows the format: `<contractRef>.<valuePath>`
 
 ### Value Path (`<valuePath>`)
 
-JSONPath-like navigation through the contract's `values` object in discovered.json:
+JSONPath-like navigation through the contract's `fields[]` array in discovered.json (each field has `name` and `value`):
 
 | Syntax | Example | Meaning |
 |--------|---------|---------|
@@ -92,7 +92,7 @@ When a contract delegates access control to an external contract:
 **How `@fieldName` works**:
 1. Look up `fieldName` in the current contract's `values` — it must be an address (e.g., `"eth:0x1234..."`)
 2. Find that address as a separate contract in discovered.json
-3. Navigate the remaining path in that contract's `values`
+3. Navigate the remaining path in that contract's `fields[]`
 
 ### Multiple Owners
 
@@ -113,8 +113,8 @@ This means the function can be called by DEFAULT_ADMIN_ROLE members OR by the go
 
 ## Common Pitfalls
 
-1. **Don't guess field names** — always verify the field exists in discovered.json `values`
+1. **Don't guess field names** — always verify the field exists in the contract's `fields[]` array
 2. **Proxy admin**: Use `$self.$admin`, never `$self.admin` or `$self._admin`
 3. **AccessControl `.members`**: Always append `.members` to get the actual addresses. `$self.accessControl.ROLE` alone returns the role object, not the member addresses
-4. **Field name mismatches**: The Solidity getter name may differ from the discovered field name. Check what's actually in `values`
-5. **Implementation vs proxy**: Fields are stored on the proxy contract in discovered.json, not on implementation addresses. When resolving paths for functions on implementation addresses, the `$self` reference still navigates the proxy's values
+4. **Field name mismatches**: The Solidity getter name may differ from the discovered field name. Check what's actually in the contract's `fields[]`
+5. **Implementation vs proxy**: Fields are stored on the proxy contract in discovered.json, not on implementation addresses. When resolving paths for functions on implementation addresses, the `$self` reference still navigates the proxy's fields

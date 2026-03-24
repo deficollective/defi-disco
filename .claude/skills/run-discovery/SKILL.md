@@ -259,7 +259,7 @@ When a contract is classified as external, the goal is to keep it visible in the
 }
 ```
 
-To know which fields to list: check the discovery output for the `R eth:0x...` (relative) lines under that contract — each relative comes from a field. List all those field names in `ignoreRelatives`.
+To know which fields to list: check the discovery output for the `R eth:0x...` (relative) lines under that contract — each relative is an address found in one of the contract's fields. Cross-reference each relative address against the contract's field values (from `/tmp/discovery-$0-contracts.json` or the API) to determine which field name produced it. List all those field names in `ignoreRelatives`.
 
 **`ignoreDiscovery: true`** is a different tool — it makes the contract **completely disappear** from `discovered.json`. Only use this in rare cases where a contract truly has no place in the graph (it can't be tagged or analyzed afterward).
 

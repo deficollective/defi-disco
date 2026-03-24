@@ -250,7 +250,7 @@ For each admin in `admins[]` (skip those with `isExternal: true` — they belong
 - If the admin is revoked, note the permission is effectively renounced
 - If the admin is an internal contract and the traversal shows no EOA/Multisig terminals, explain this is an internal access control mechanism (not a human-controlled permission)
 
-**Address format**: Always use `eth:0x...` prefix with lowercase hex.
+**Address format**: Always use `eth:0x...` prefix with ERC-55 checksummed hex (e.g., `eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2`).
 
 ### Dependencies (`dependencies`)
 
