@@ -81,8 +81,8 @@ export function ReviewPage() {
             The review data for this protocol could not be loaded.
           </p>
           <Link
-            to="/"
-            className="mt-4 inline-block font-medium text-purple-600 hover:text-purple-800"
+            to="/protocols"
+            className="mt-4 inline-block font-medium text-accent hover:text-blue-800"
           >
             Back to all reviews
           </Link>
@@ -96,8 +96,8 @@ export function ReviewPage() {
       {/* Back nav + Protocol header + View toggle */}
       <div className="mb-6 print:hidden">
         <Link
-          to="/"
-          className="mb-4 inline-flex items-center gap-1.5 text-sm text-text-secondary transition-colors hover:text-purple-600 print:hidden"
+          to="/protocols"
+          className="mb-4 inline-flex items-center gap-1.5 text-sm text-text-secondary transition-colors hover:text-accent print:hidden"
         >
           <svg
             className="h-4 w-4"
