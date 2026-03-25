@@ -12,6 +12,8 @@ module.exports = {
         },
         accent: '#2563EB',
         'accent-dark': '#004ac6',
+        'accent-tint': '#dce2f3',
+        'accent-tint-light': '#e7eefe',
         hover: '#F1F5F9',
         purple: {
           50: '#F5F3FF',
@@ -45,6 +47,10 @@ module.exports = {
         },
         capital: '#059669',
         token: '#D97706',
+        terminal: {
+          blue: '#60a5fa',
+          green: '#85f8c4',
+        },
         border: '#E2E8F0',
       },
       fontFamily: {
