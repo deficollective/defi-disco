@@ -35,7 +35,7 @@ If the server is not running, stop and tell the user.
 Check that the config file exists:
 
 ```bash
-ls /home/emilien/defidisco/packages/config/src/projects/$0/config.jsonc 2>/dev/null && echo "EXISTS" || echo "NOT_FOUND"
+ls packages/config/src/projects/$0/config.jsonc 2>/dev/null && echo "EXISTS" || echo "NOT_FOUND"
 ```
 
 If the config does not exist, tell the user they need to create a `config.jsonc` first with at least `initialAddresses`. Do NOT create it for them — the user must provide the seed addresses.
@@ -51,7 +51,7 @@ To prevent discovering entire external protocols on the first run, add `"maxDept
 
 Read the current config:
 ```bash
-cat /home/emilien/defidisco/packages/config/src/projects/$0/config.jsonc
+cat packages/config/src/projects/$0/config.jsonc
 ```
 
 If `maxDepth` is not present, add it (at the top level, alongside `initialAddresses`). If it's already set, leave it as-is.
@@ -80,7 +80,7 @@ echo '{"ignoredContracts":[],"ignoredRelatives":[],"externalTags":[],"governance
 Run the discovery command. **Read the output carefully** — it contains critical relationship information:
 
 ```bash
-cd /home/emilien/defidisco/packages/config && l2b discover $0 2>&1 | tee /tmp/discovery-$0-output.txt
+cd packages/config && l2b discover $0 2>&1 | tee /tmp/discovery-$0-output.txt
 ```
 
 If discovery fails, report the error and stop.
@@ -238,7 +238,7 @@ Skip the pause. Apply the classification and move to Step 4.
 Read the current config.jsonc:
 
 ```bash
-cat /home/emilien/defidisco/packages/config/src/projects/$0/config.jsonc
+cat packages/config/src/projects/$0/config.jsonc
 ```
 
 Add overrides for external contracts. Use the Write tool to write the updated config.
@@ -340,7 +340,7 @@ Update config.jsonc with the new maxDepth value.
 ### 5b. Re-run discovery
 
 ```bash
-cd /home/emilien/defidisco/packages/config && l2b discover $0 2>&1 | tee /tmp/discovery-$0-output.txt
+cd packages/config && l2b discover $0 2>&1 | tee /tmp/discovery-$0-output.txt
 ```
 
 Re-fetch project data:

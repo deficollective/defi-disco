@@ -56,6 +56,13 @@ export function ReviewResourcesEditor({ project }: ReviewResourcesEditorProps) {
   const mutation = useMutation({
     mutationFn: (newResources: ResourceEntry[]) =>
       updateResources(project, newResources),
+    onMutate: async (newResources) => {
+      await queryClient.cancelQueries({ queryKey: ['resources', project] })
+      queryClient.setQueryData(['resources', project], newResources)
+    },
+    onError: () => {
+      queryClient.invalidateQueries({ queryKey: ['resources', project] })
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['resources', project] })
     },
