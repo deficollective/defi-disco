@@ -123,6 +123,42 @@ Note which addresses are in `initialAddresses` (from config read in Step 0d) —
 
 ---
 
+## Step 1c: Fix Array Overflow Errors
+
+After each discovery run, check for "Too many values" array overflow errors. These are common in contracts with large arrays (NFT token IDs, pool lists, etc.) and clutter the output.
+
+Run the analysis script:
+
+```bash
+python3 .claude/skills/run-discovery/scripts/analyze-array-errors.py \
+  packages/config/src/projects/$0/discovered.json \
+  packages/config/src/projects/$0/config.jsonc
+```
+
+**Display the full script output inside a markdown code block** so the table renders correctly.
+
+- If the script reports **no errors**, continue to Step 2.
+- If errors are found:
+  - In **`--auto` mode**: Ignore all array overflow errors automatically (add all to `ignoreMethods`).
+  - In **normal mode**: Show the table and ask the user which items to ignore. They respond with numbers like `ignore 1,4,6` or `ignore all` or `ignore all except 3,7`.
+
+For each selected item, add the field name to `ignoreMethods` on the corresponding contract in `config.jsonc`:
+- If the contract already has an `ignoreMethods` array, append to it
+- If the contract already has an override but no `ignoreMethods`, add the property
+- If the contract has no override, create one
+- Group methods by contract address — don't create duplicate override entries
+- **Use the exact address from the grouped output** (full address, not shortened)
+
+After applying, re-run discovery once before proceeding to classification:
+
+```bash
+cd packages/config && l2b discover $0 2>&1 | tee /tmp/discovery-$0-output.txt
+```
+
+Re-fetch project data as in Step 1b.
+
+---
+
 ## Step 2: Classify Contracts
 
 For each discovered contract, classify it into one of these categories. Use your DeFi knowledge and the heuristics below.

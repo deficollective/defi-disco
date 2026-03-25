@@ -88,6 +88,9 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - Continuous Permission Monitoring (automated change detection, Discord alerts)
 - Permission Overrides Data Structure (contract-grouped JSON, owner path syntax, resolution logic)
 - Permission Scan Agent (`/scan-permissions` Claude Code skill — source code analysis for permissioned functions, owner path construction, verification against discovered data)
+- Impact Analysis Agent (`/analyze-impact` Claude Code skill — traces storage writes through read sites to classify temporal fund impact: retroactive vs future-only)
+- Add Mitigation Agent (`/add-mitigation` Claude Code skill — finds on-chain constraints in source code, builds structured mitigation entries in functions.json)
+- Scoring Agent (`/score-contract` Claude Code skill — batch impact analysis + scoring + mitigation finding for all permissioned functions on a contract)
 
 ### Call Graph Analysis — `docs/developers/features/call-graph-analysis.md`
 - Slither-based external call detection (SlithIR parsing, heuristic resolution engine)
@@ -113,7 +116,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - DeFiScan Frontend (static React app, Vercel deployment, shareable report view, TVS metric, mitigation badges in report cards)
 - Activity Feed (contract upgrade timeline from `$pastUpgrades`, third top-level view in defiscan-frontend)
 - Continuous Monitoring Service (GitHub Actions cron, discovery + diff + funds + compile)
-- Discovery Agent (`/run-discovery` Claude Code skill — iterative contract discovery, external/governance/funds tagging, handler configuration)
+- Discovery Agent (`/run-discovery` Claude Code skill — iterative contract discovery, external/governance/funds tagging, handler configuration, array overflow error fixing)
 
 ---
 
