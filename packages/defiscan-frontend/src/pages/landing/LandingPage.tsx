@@ -111,7 +111,7 @@ export function LandingPage() {
           </div>
 
           {/* H1 */}
-          <h1 className="font-black text-4xl md:text-7xl lg:text-[96px] leading-tight lg:leading-[96px] tracking-tight lg:tracking-[-4.8px] text-text-primary">
+          <h1 className="font-black text-4xl md:text-7xl lg:text-[96px] leading-tight lg:leading-[96px] tracking-tight lg:tracking-[-4.8px] text-bg-dark">
             Know what
             <br />
             <span className="text-accent-dark">you&apos;re trusting.</span>
