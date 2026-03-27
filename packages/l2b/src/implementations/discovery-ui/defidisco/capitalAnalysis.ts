@@ -69,15 +69,17 @@ export class CapitalAnalysisCalculator {
       this.functionsData.contracts ?? {},
     ).find(([key]) => normalizeChainAddress(key) === normalizedAddress)
 
-    if (!contractEntry) return false
+    // If the contract or function isn't in functions.json, a call graph edge
+    // still exists — the relationship is real. Funds data acts as the natural
+    // guard: external contracts without fund entries contribute $0 regardless.
+    if (!contractEntry) return true
     const contractFunctions = contractEntry[1]
 
-    // Find the function
     const func = contractFunctions.functions.find(
       (f) => f.functionName === functionName,
     )
 
-    if (!func) return false
+    if (!func) return true
 
     // Only exclude functions explicitly marked as no-impact by a researcher.
     // Unscored/undefined functions default to "potentially impactful" so that
