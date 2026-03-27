@@ -64,7 +64,7 @@
     },
     "eth:0x858646372CC42E1A627fcE94aa7A7033e7CF075A": {
       "name": "EigenLayer StrategyManager",
-      "description": "Manages EtherFi's restaking strategy deposits into EigenLayer. EtherFiRestaker deposits stETH into EigenLayer strategies via this contract, exposing {{eigenLayerStrategyFunds}} in protocol positions."
+      "description": "Manages EtherFi's restaking strategy deposits into EigenLayer. EtherFiRestaker deposits stETH into EigenLayer strategies via this contract. The restaker holds {{restakerPositions}} in total positions across EigenLayer and Lido combined."
     },
     "eth:0x7750d328b314EfFa365A0402CcfD489B80B0adda": {
       "name": "EigenLayer RewardsCoordinator",
@@ -161,7 +161,6 @@
     "treasuryBalance": "fundsdata.contracts[\"eth:0x6329004E903B7F420245E7aF3f355186f2432466\"].balances.totalUsdValue",
     "eethMarketCap": "fundsdata.contracts[\"eth:0x35fA164735182de50811E8e2E824cFb9B6118ac2\"].tokenInfo.tokenValue",
     "weethBalance": "fundsdata.contracts[\"eth:0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee\"].balances.totalUsdValue",
-    "restakerPositions": "fundsdata.contracts[\"eth:0x1B7a4C3797236A1C37f8741c0Be35c2c72736fFf\"].positions.totalUsdValue",
-    "eigenLayerStrategyFunds": "fundsdata.contracts[\"eth:0x1B7a4C3797236A1C37f8741c0Be35c2c72736fFf\"].positions.totalUsdValue"
+    "restakerPositions": "fundsdata.contracts[\"eth:0x1B7a4C3797236A1C37f8741c0Be35c2c72736fFf\"].positions.totalUsdValue"
   }
 }
