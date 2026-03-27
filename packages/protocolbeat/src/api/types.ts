@@ -115,6 +115,8 @@ export interface FunctionCapitalAnalysis {
   contractName: string
   functionName: string
   impact: Impact
+  // True if this is an upgrade function (grants arbitrary control over the contract)
+  isUpgrade?: boolean
   // Direct funds in the contract containing this function
   directFundsUsd: number
   // Token market cap if the function's contract IS a token
@@ -613,6 +615,7 @@ export interface AdminFunctionEntry {
   functionName: string
   impact: Impact
   mitigations?: Mitigation[]
+  isUpgrade?: boolean
   chains: CollapsedChain[]
   directFundsUsd: number
   directTokenValueUsd: number
