@@ -69,6 +69,10 @@ export class CapitalAnalysisCalculator {
       this.functionsData.contracts ?? {},
     ).find(([key]) => normalizeChainAddress(key) === normalizedAddress)
 
+    // Contract not in functions.json at all — likely an external dependency
+    // (EigenLayer, Lido, etc.) whose risk is handled in the dependency analysis.
+    // Returning false avoids attributing the external protocol's entire TVL
+    // to whichever internal admin happens to call a function on it.
     if (!contractEntry) return false
     const contractFunctions = contractEntry[1]
 
@@ -77,7 +81,10 @@ export class CapitalAnalysisCalculator {
       (f) => f.functionName === functionName,
     )
 
-    if (!func) return false
+    // Contract IS tracked but this specific function isn't — it's likely a
+    // state-modifying public function (deposit, withdraw, transfer) reached
+    // through the call graph. Safe default: treat as potentially impactful.
+    if (!func) return true
 
     // Only exclude functions explicitly marked as no-impact by a researcher.
     // Unscored/undefined functions default to "potentially impactful" so that
