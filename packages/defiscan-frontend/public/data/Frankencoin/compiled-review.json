@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-27T08:10:38.620Z",
+  "compiledAt": "2026-03-27T16:13:20.521Z",
   "project": "Frankencoin",
   "metadata": {
     "protocolName": "Frankencoin",
@@ -8,23 +8,23 @@
     "chain": "Ethereum",
     "projectType": "stablecoin",
     "tokenName": "ZCHF",
-    "description": "Frankencoin is a collateral-backed stablecoin pegged to the Swiss Franc (CHF). Users deposit collateral (WBTC, wstETH, LsETH, cbBTC, and others) into positions via the MintingHub to mint ZCHF, while the Equity token (FPS) represents governance rights and a share of the protocol's reserve pool. All core protocol contracts are immutable, with governance limited to FPS holders who can propose changes to Savings parameters. The protocol bridges to other CHF stablecoins (XCHF, VCHF) via immutable StablecoinBridge contracts and supports cross-chain transfers through Chainlink CCIP infrastructure. Total ZCHF market cap is $25.59M, with $64.47M in active collateral positions."
+    "description": "Frankencoin is a collateral-backed stablecoin pegged to the Swiss Franc (CHF). Users deposit collateral (WBTC, wstETH, LsETH, cbBTC, and others) into positions via the MintingHub to mint ZCHF, while the Equity token (FPS) represents governance rights and a share of the protocol's reserve pool. All core protocol contracts are immutable, with governance limited to FPS holders who can propose changes to Savings parameters. The protocol bridges to other CHF stablecoins (XCHF, VCHF) via immutable StablecoinBridge contracts and supports cross-chain transfers through Chainlink CCIP infrastructure. Total ZCHF market cap is $25.72M, with $68.98M in active collateral positions."
   },
   "totals": {
     "contractCount": 24,
     "permissionedFunctionCount": 73,
-    "scoredFunctionCount": 1,
+    "scoredFunctionCount": 18,
     "adminCount": 19,
     "dependencyCount": 12,
-    "totalCapitalAtRisk": 78581933.84931695,
-    "totalTokenValueAtRisk": 25594365.82789568,
-    "totalTokenValue": 25594365.82789568
+    "totalCapitalAtRisk": 83050119.92069063,
+    "totalTokenValueAtRisk": 25724637.771031145,
+    "totalTokenValue": 25724637.771031145
   },
   "admins": [
     {
       "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
       "name": "MintingHub (Legacy)",
-      "description": "Immutable protocol contract registered as an active minter on the Frankencoin token. Can call registerPosition, mint, mintWithReserve, burnFrom, burnWithReserve, burnFromWithReserve, burnWithoutReserve, coverLoss, and collectProfits. This is the older MintingHub, no longer actively used but still registered as a minter with $0 in remaining positions.",
+      "description": "Immutable protocol contract registered as an active minter on the Frankencoin token. Can call registerPosition, collectProfits, coverLoss, and burnWithoutReserve directly. Positions created through it can call mintWithReserve, burnFrom, burnWithReserve, and burnFromWithReserve. This is the older MintingHub, no longer actively used but still registered as a minter with $146.99K in remaining positions.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -34,8 +34,18 @@
           "functionName": "registerPosition",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -43,8 +53,22 @@
           "functionName": "mintWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "MintingHub (legacy): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -52,8 +76,18 @@
           "functionName": "mint",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "MintingHub (legacy): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -61,8 +95,18 @@
           "functionName": "burnFrom",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "MintingHub (legacy): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -70,8 +114,18 @@
           "functionName": "burnWithoutReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Called during challenge resolution to burn the repayment amount; bounded by position's minted debt",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -79,8 +133,22 @@
           "functionName": "burnWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "MintingHub (legacy): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -88,8 +156,22 @@
           "functionName": "burnFromWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "MintingHub (legacy): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -97,8 +179,18 @@
           "functionName": "coverLoss",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Called during challenge resolution when bid is insufficient to cover repayment; bounded by position's outstanding debt",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -106,19 +198,29 @@
           "functionName": "collectProfits",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Collects 1000 ZCHF opening fee on new positions and proportional profits during challenge resolution",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25594365.82789568,
+      "totalDirectTokenValue": 25724637.771031145,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25594365.82789568
+      "totalReachableTokenValue": 25724637.771031145
     },
     {
       "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
-      "name": "StablecoinBridge (XCHF)",
-      "description": "Immutable bridge contract that allows 1:1 conversion between XCHF (CryptoFranc) and ZCHF. Registered as an active minter, it can mint and burn ZCHF. The bridge holds XCHF as backing for ZCHF minted through it.",
+      "name": "StablecoinBridge (VCHF)",
+      "description": "Immutable bridge contract that allows 1:1 conversion between VCHF (VNX Franc) and ZCHF. Registered as an active minter, it can mint and burn ZCHF. Has an immutable minting limit of 2,000,000 ZCHF and expires at a fixed horizon timestamp (~2026-04-13). The bridge holds VCHF as backing for ZCHF minted through it.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -128,8 +230,18 @@
           "functionName": "registerPosition",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -137,8 +249,22 @@
           "functionName": "mintWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -146,7 +272,7 @@
           "functionName": "mint",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
+          "directTokenValueUsd": 25724637.771031145,
           "reachableContracts": [],
           "mitigations": [
             {
@@ -155,6 +281,26 @@
               "mitigatedField": {
                 "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "horizon"
               },
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
@@ -169,8 +315,18 @@
           "functionName": "burnFrom",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Burns ZCHF to release equivalent VCHF to user; bounded by bridge's minted balance",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -178,8 +334,18 @@
           "functionName": "burnWithoutReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -187,8 +353,22 @@
           "functionName": "burnWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -196,8 +376,22 @@
           "functionName": "burnFromWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -205,8 +399,18 @@
           "functionName": "coverLoss",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -214,19 +418,29 @@
           "functionName": "collectProfits",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25594365.82789568,
+      "totalDirectTokenValue": 25724637.771031145,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25594365.82789568
+      "totalReachableTokenValue": 25724637.771031145
     },
     {
       "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
       "name": "Savings (Legacy)",
-      "description": "Immutable older Savings contract registered as an active minter. Can mint ZCHF to pay interest to depositors. Holds $21.39K in ZCHF deposits. Parameters can be changed by qualified FPS holders via proposeChange.",
+      "description": "Immutable older Savings contract registered as an active minter. Can mint ZCHF to pay interest to depositors. Holds $21.50K in ZCHF deposits. Parameters can be changed by qualified FPS holders via proposeChange.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -236,8 +450,18 @@
           "functionName": "registerPosition",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -245,8 +469,22 @@
           "functionName": "mintWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -254,8 +492,18 @@
           "functionName": "mint",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -263,8 +511,18 @@
           "functionName": "burnFrom",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -272,8 +530,18 @@
           "functionName": "burnWithoutReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -281,8 +549,22 @@
           "functionName": "burnWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -290,8 +572,22 @@
           "functionName": "burnFromWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -299,8 +595,18 @@
           "functionName": "coverLoss",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Mints accrued interest to Savings contract; bounded by currentRatePPM × elapsed time × account balance",
+              "scopedTo": {
+                "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -308,14 +614,24 @@
           "functionName": "collectProfits",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25594365.82789568,
+      "totalDirectTokenValue": 25724637.771031145,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25594365.82789568
+      "totalReachableTokenValue": 25724637.771031145
     },
     {
       "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -330,8 +646,18 @@
           "functionName": "registerPosition",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -339,8 +665,22 @@
           "functionName": "mintWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -348,8 +688,18 @@
           "functionName": "mint",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Flash loan only — mints ZCHF to itself and burns the exact same amount via burnFrom in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -357,8 +707,18 @@
           "functionName": "burnFrom",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Flash loan repayment only — burns the exact amount previously minted in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -366,8 +726,18 @@
           "functionName": "burnWithoutReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -375,8 +745,22 @@
           "functionName": "burnWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -384,8 +768,22 @@
           "functionName": "burnFromWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -393,8 +791,18 @@
           "functionName": "coverLoss",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -402,19 +810,29 @@
           "functionName": "collectProfits",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25594365.82789568,
+      "totalDirectTokenValue": 25724637.771031145,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25594365.82789568
+      "totalReachableTokenValue": 25724637.771031145
     },
     {
       "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
       "name": "MintingHub (Current)",
-      "description": "Immutable protocol contract and the primary entry point for creating collateral-backed positions. Registered as an active minter, it manages $64.47M across 51 active positions. Functions including openPosition, challenge, bid, and buyExpiredCollateral are gated by Equity (FPS) token holder qualification.",
+      "description": "Immutable protocol contract and the primary entry point for creating collateral-backed positions. Registered as an active minter, it manages $68.98M across 51 active positions. Functions including openPosition, clone, challenge, bid, and buyExpiredCollateral are open to anyone. Positions created through it can call mintWithReserve, burnFrom, burnWithReserve, and burnFromWithReserve on the Frankencoin token.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -424,8 +842,18 @@
           "functionName": "registerPosition",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -433,8 +861,22 @@
           "functionName": "mintWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "MintingHub: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -442,8 +884,18 @@
           "functionName": "mint",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "MintingHub: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -451,8 +903,18 @@
           "functionName": "burnFrom",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "MintingHub: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -460,8 +922,18 @@
           "functionName": "burnWithoutReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Called during challenge resolution to burn the repayment amount; bounded by position's minted debt",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -469,8 +941,22 @@
           "functionName": "burnWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "MintingHub: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -478,8 +964,22 @@
           "functionName": "burnFromWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "MintingHub: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -487,8 +987,18 @@
           "functionName": "coverLoss",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Called during challenge resolution when bid is insufficient to cover repayment; bounded by position's outstanding debt",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -496,67 +1006,88 @@
           "functionName": "collectProfits",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Collects 1000 ZCHF opening fee on new positions and proportional profits during challenge resolution",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
           "contractName": "MintingHub",
           "functionName": "openPosition",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "decimals",
-                "totalSupply",
-                "transfer",
-                "registerPosition",
-                "collectProfits",
-                "transferFrom",
-                "mintWithReserve",
-                "mint",
-                "burnFrom",
-                "burnWithoutReserve",
-                "burnWithReserve",
-                "burnFromWithReserve",
-                "coverLoss",
-                "initialize",
-                "balanceOf",
-                "equity"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
-              "fundsAtRisk": false
+              "type": "valueRange",
+              "description": "riskPremium bounded to 100%",
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "1000000"
+                },
+                "unit": "ppm"
+              }
             },
             {
-              "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
-              "name": "ARMProxy",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "transferOwnership"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "type": "valueRange",
+              "description": "reservePPM must be between CHALLENGER_REWARD (2%) and 100%",
+              "valueRange": {
+                "min": {
+                  "mode": "discovered",
+                  "value": "20000"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "1000000"
+                },
+                "unit": "ppm"
+              }
             },
             {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "price",
-                "totalSupply",
-                "kamikaze",
-                "restructureCapTable"
-              ],
-              "fundsUsd": 14108360.012075359,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "type": "valueRange",
+              "description": "Minimum collateral value must be at least 5000 ZCHF worth",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "5000000000000000000000"
+                },
+                "unit": "ZCHF"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Requires 1000 ZCHF irrevocable opening fee and collateral deposit from caller"
+            },
+            {
+              "type": "other",
+              "description": "Collateral token must revert on failed transfers (verified at position creation)"
+            },
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Collects 1000 ZCHF opening fee on new positions and proportional profits during challenge resolution",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
             }
           ]
         },
@@ -567,66 +1098,38 @@
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "MintingHub: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
           "contractName": "MintingHub",
           "functionName": "challenge",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "price",
-                "kamikaze",
-                "restructureCapTable",
-                "totalSupply"
-              ],
-              "fundsUsd": 14108360.012075359,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "transferFrom",
-                "registerPosition",
-                "mintWithReserve",
-                "mint",
-                "burnFrom",
-                "burnWithoutReserve",
-                "burnWithReserve",
-                "burnFromWithReserve",
-                "coverLoss",
-                "collectProfits",
-                "equity",
-                "decimals",
-                "totalSupply",
-                "transfer",
-                "initialize",
-                "balanceOf"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
-              "name": "ARMProxy",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "transferOwnership"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "type": "other",
+              "description": "Challenger must deposit matching collateral amount; position must be registered (validPos)"
             }
           ]
         },
@@ -634,60 +1137,38 @@
           "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
           "contractName": "MintingHub",
           "functionName": "bid",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "transferFrom",
-                "transfer",
-                "collectProfits",
-                "coverLoss",
-                "burnWithoutReserve",
-                "registerPosition",
-                "mintWithReserve",
-                "mint",
-                "burnFrom",
-                "burnWithReserve",
-                "burnFromWithReserve",
-                "decimals",
-                "totalSupply",
-                "initialize",
-                "balanceOf",
-                "equity"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
-              "fundsAtRisk": false
+              "type": "other",
+              "description": "Bidder must pay ZCHF at Dutch auction price; market mechanism with declining price over challenge period"
             },
             {
-              "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
-              "name": "ARMProxy",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "transferOwnership"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "type": "other",
+              "description": "Collects 1000 ZCHF opening fee on new positions and proportional profits during challenge resolution",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
             },
             {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "price",
-                "totalSupply",
-                "kamikaze",
-                "restructureCapTable"
-              ],
-              "fundsUsd": 14108360.012075359,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "type": "other",
+              "description": "Called during challenge resolution when bid is insufficient to cover repayment; bounded by position's outstanding debt",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Called during challenge resolution to burn the repayment amount; bounded by position's minted debt",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
             }
           ]
         },
@@ -695,73 +1176,27 @@
           "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
           "contractName": "MintingHub",
           "functionName": "buyExpiredCollateral",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "balanceOf",
-                "registerPosition",
-                "mintWithReserve",
-                "mint",
-                "burnFrom",
-                "burnWithoutReserve",
-                "burnWithReserve",
-                "burnFromWithReserve",
-                "coverLoss",
-                "collectProfits",
-                "equity",
-                "decimals",
-                "totalSupply",
-                "transfer",
-                "transferFrom",
-                "initialize"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-              "name": "Equity",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "price",
-                "kamikaze",
-                "restructureCapTable",
-                "totalSupply"
-              ],
-              "fundsUsd": 14108360.012075359,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
-              "name": "ARMProxy",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "transferOwnership"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "type": "other",
+              "description": "Must pay expiredPurchasePrice which starts at 10x liquidation price and declines linearly over two challenge periods"
             }
           ]
         }
       ],
       "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25594365.82789568,
+      "totalDirectTokenValue": 25724637.771031145,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25594365.82789568
+      "totalReachableTokenValue": 25724637.771031145
     },
     {
       "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-      "name": "StablecoinBridge (VCHF)",
-      "description": "Immutable bridge contract enabling 1:1 conversion between VCHF (VNX Franc) and ZCHF. Registered as an active minter, holding $501.29K in VCHF reserves. If the VCHF token is paused, frozen, or upgraded by VNX, this bridge's minting and burning would be affected.",
+      "name": "StablecoinBridge (XCHF)",
+      "description": "Immutable bridge contract enabling 1:1 conversion between XCHF (CryptoFranc) and ZCHF. Registered as an active minter but already expired (horizon passed ~2024-10-26), so no further minting is possible. Has an immutable minting limit of 10,000,000 ZCHF with only ~0.017 ZCHF currently minted.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -771,8 +1206,18 @@
           "functionName": "registerPosition",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -780,8 +1225,22 @@
           "functionName": "mintWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -789,8 +1248,42 @@
           "functionName": "mint",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -798,8 +1291,18 @@
           "functionName": "burnFrom",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Burns ZCHF to release equivalent XCHF to user; bounded by bridge's minted balance",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -807,8 +1310,18 @@
           "functionName": "burnWithoutReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -816,8 +1329,22 @@
           "functionName": "burnWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -825,8 +1352,22 @@
           "functionName": "burnFromWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -834,8 +1375,18 @@
           "functionName": "coverLoss",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -843,19 +1394,29 @@
           "functionName": "collectProfits",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25594365.82789568,
+      "totalDirectTokenValue": 25724637.771031145,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25594365.82789568
+      "totalReachableTokenValue": 25724637.771031145
     },
     {
       "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
       "name": "Savings (Current)",
-      "description": "Immutable current Savings contract where users deposit ZCHF to earn interest. Registered as an active minter, holding $9.13M in ZCHF. Interest rate parameters can be changed by qualified FPS holders via proposeChange.",
+      "description": "Immutable current Savings contract where users deposit ZCHF to earn interest. Registered as an active minter, holding $10.22M in ZCHF. Interest rate parameters can be changed by qualified FPS holders via proposeChange.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -865,8 +1426,18 @@
           "functionName": "registerPosition",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -874,8 +1445,22 @@
           "functionName": "mintWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -883,8 +1468,18 @@
           "functionName": "mint",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -892,8 +1487,18 @@
           "functionName": "burnFrom",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -901,8 +1506,18 @@
           "functionName": "burnWithoutReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -910,8 +1525,22 @@
           "functionName": "burnWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -919,8 +1548,22 @@
           "functionName": "burnFromWithReserve",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -928,8 +1571,18 @@
           "functionName": "coverLoss",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Mints accrued interest to Savings contract; bounded by currentRatePPM × elapsed time × account balance",
+              "scopedTo": {
+                "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -937,14 +1590,24 @@
           "functionName": "collectProfits",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Savings: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
-      "totalDirectTokenValue": 25594365.82789568,
+      "totalDirectTokenValue": 25724637.771031145,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 25594365.82789568
+      "totalReachableTokenValue": 25724637.771031145
     },
     {
       "address": "eth:0x0000000000000000000000000000000000000000",
@@ -980,7 +1643,7 @@
     {
       "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
       "name": "Equity (FPS Token)",
-      "description": "The Frankencoin governance token contract. FPS holders who meet qualification criteria can call openPosition, challenge, bid, and buyExpiredCollateral on the MintingHub. The Equity contract itself can call kamikaze (self-destruct of shares) and restructureCapTable. It also controls functions on an unknown contract (0xf72e...6Ba6) including setMinterRole, mint, freeze, pause, and setAssetProtectionRole. Holds $14.08M in reserves.",
+      "description": "The Frankencoin governance token contract. FPS holders who meet qualification criteria can propose changes to Savings parameters via proposeChange. The Equity contract itself has kamikaze (self-sacrifice of shares for voting power) and restructureCapTable (emergency cap table wipe when equity falls below 1000 ZCHF). Holds $13.92M in reserves.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -989,7 +1652,7 @@
           "contractName": "Equity",
           "functionName": "kamikaze",
           "impact": "critical",
-          "directFundsUsd": 14108360.012075359,
+          "directFundsUsd": 13923431.96265291,
           "directTokenValueUsd": 0,
           "reachableContracts": [
             {
@@ -1000,8 +1663,14 @@
                 "equity"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Caller must sacrifice their own votes proportionally — budget deducted from caller first, then applied to targets up to that budget"
             }
           ]
         },
@@ -1010,7 +1679,7 @@
           "contractName": "Equity",
           "functionName": "restructureCapTable",
           "impact": "critical",
-          "directFundsUsd": 14108360.012075359,
+          "directFundsUsd": 13923431.96265291,
           "directTokenValueUsd": 0,
           "reachableContracts": [
             {
@@ -1021,15 +1690,36 @@
                 "equity"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Only callable when system equity < MINIMUM_EQUITY (1000 ZCHF) — system must be near-insolvent",
+              "valueRange": {
+                "max": {
+                  "mode": "discovered",
+                  "value": "1000000000000000000000"
+                },
+                "unit": "ZCHF"
+              },
+              "mitigatedField": {
+                "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+                "fieldName": "equity"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Caller must be qualified FPS holder with 2% quorum of total votes (via checkQualified with helpers)"
             }
           ]
         }
       ],
-      "totalDirectCapital": 14108360.012075359,
+      "totalDirectCapital": 13923431.96265291,
       "totalDirectTokenValue": 0,
-      "totalReachableCapital": 14108360.012075359,
+      "totalReachableCapital": 13923431.96265291,
       "totalReachableTokenValue": 0
     },
     {
@@ -1163,7 +1853,7 @@
           "contractName": "StablecoinBridge",
           "functionName": "burn",
           "viewOnlyPath": false,
-          "directFundsUsd": 501291.65354683815,
+          "directFundsUsd": 503838.1609304662,
           "directTokenValueUsd": 0,
           "reachableContracts": [
             {
@@ -1174,8 +1864,18 @@
                 "burnFrom"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Burns ZCHF to release equivalent XCHF to user; bounded by bridge's minted balance",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
             }
           ]
         },
@@ -1184,7 +1884,7 @@
           "contractName": "StablecoinBridge",
           "functionName": "burnAndSend",
           "viewOnlyPath": false,
-          "directFundsUsd": 501291.65354683815,
+          "directFundsUsd": 503838.1609304662,
           "directTokenValueUsd": 0,
           "reachableContracts": [
             {
@@ -1195,8 +1895,18 @@
                 "burnFrom"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Burns ZCHF to release equivalent XCHF to user; bounded by bridge's minted balance",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
             }
           ]
         },
@@ -1205,7 +1915,7 @@
           "contractName": "StablecoinBridge",
           "functionName": "mint",
           "viewOnlyPath": false,
-          "directFundsUsd": 501291.65354683815,
+          "directFundsUsd": 503838.1609304662,
           "directTokenValueUsd": 0,
           "reachableContracts": [
             {
@@ -1216,8 +1926,42 @@
                 "mint"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
             }
           ]
         },
@@ -1226,7 +1970,7 @@
           "contractName": "StablecoinBridge",
           "functionName": "mintTo",
           "viewOnlyPath": false,
-          "directFundsUsd": 501291.65354683815,
+          "directFundsUsd": 503838.1609304662,
           "directTokenValueUsd": 0,
           "reachableContracts": [
             {
@@ -1237,8 +1981,42 @@
                 "mint"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
             }
           ]
         },
@@ -1249,7 +2027,73 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Flash loan only — mints ZCHF to itself and burns the exact same amount via burnFrom in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Flash loan repayment only — burns the exact amount previously minted in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -1258,7 +2102,73 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Flash loan only — mints ZCHF to itself and burns the exact same amount via burnFrom in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Flash loan repayment only — burns the exact amount previously minted in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -1267,11 +2177,77 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Flash loan only — mints ZCHF to itself and burns the exact same amount via burnFrom in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Flash loan repayment only — burns the exact amount previously minted in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
-      "totalFundsAtRisk": 501291.65354683815,
-      "totalTokenValueAtRisk": 25594365.82789568,
+      "totalFundsAtRisk": 503838.1609304662,
+      "totalTokenValueAtRisk": 25724637.771031145,
       "dependencyType": "callgraph"
     },
     {
@@ -1402,8 +2378,18 @@
                 "burnFrom"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Burns ZCHF to release equivalent VCHF to user; bounded by bridge's minted balance",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
             }
           ]
         },
@@ -1423,8 +2409,18 @@
                 "burnFrom"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Burns ZCHF to release equivalent VCHF to user; bounded by bridge's minted balance",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
             }
           ]
         },
@@ -1444,7 +2440,7 @@
                 "mint"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": true
             }
           ],
@@ -1455,6 +2451,26 @@
               "mitigatedField": {
                 "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "horizon"
               },
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
@@ -1479,7 +2495,7 @@
                 "mint"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25594365.82789568,
+              "tokenValueUsd": 25724637.771031145,
               "fundsAtRisk": true
             }
           ],
@@ -1495,18 +2511,38 @@
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
               }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
+              "mitigatedField": {
+                "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+                "type": "admin"
+              }
             }
           ]
         }
       ],
       "totalFundsAtRisk": 0,
-      "totalTokenValueAtRisk": 25594365.82789568,
+      "totalTokenValueAtRisk": 25724637.771031145,
       "dependencyType": "callgraph"
     },
     {
       "address": "eth:0x411dE17f12D1A34ecC7F45f49844626267c75e81",
       "name": "Chainlink ARMProxy",
-      "description": "Chainlink Active Risk Management proxy used by the PositionRoller and MintingHub for cross-chain position operations. Owned by the Chainlink RBACTimelock. ",
+      "description": "Chainlink Active Risk Management proxy used by the CCIP infrastructure (BurnMintTokenPool, BridgeAccounting) for cross-chain ZCHF transfer validation. Owned by the Chainlink RBACTimelock.",
       "entity": "Chainlink",
       "isAutoDetected": true,
       "viewOnlyPath": false,
@@ -1522,7 +2558,73 @@
           "viewOnlyPath": true,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Flash loan only — mints ZCHF to itself and burns the exact same amount via burnFrom in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Flash loan repayment only — burns the exact amount previously minted in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -1531,7 +2633,73 @@
           "viewOnlyPath": true,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Flash loan only — mints ZCHF to itself and burns the exact same amount via burnFrom in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Flash loan repayment only — burns the exact amount previously minted in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
@@ -1540,7 +2708,73 @@
           "viewOnlyPath": true,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Flash loan only — mints ZCHF to itself and burns the exact same amount via burnFrom in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Flash loan repayment only — burns the exact amount previously minted in the same transaction",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "PositionRoller: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Minting limit",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "mitigatedField": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "horizon"
+              },
+              "scopedTo": {
+                "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
@@ -1549,7 +2783,25 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Registers positions created by immutable PositionFactory; each new position requires collateral deposit and 1000 ZCHF opening fee",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            },
+            {
+              "type": "other",
+              "description": "MintingHub: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalFundsAtRisk": 0,
@@ -1704,7 +2956,7 @@
     {
       "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
       "name": "Chainlink TransferReference",
-      "description": "Chainlink CCIP infrastructure contract that enables cross-chain ZCHF transfers. Registered as an active minter on the Frankencoin token, meaning it can mint and burn ZCHF for bridging operations.",
+      "description": "Chainlink CCIP infrastructure contract that facilitates cross-chain ZCHF transfers via transferFrom and approve. Registered as an active minter on the Frankencoin token but does not directly call mint or burn.",
       "entity": "Chainlink",
       "isAutoDetected": true,
       "viewOnlyPath": false,
@@ -1726,8 +2978,18 @@
           "functionName": "burnFrom",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "TransferReference: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1735,8 +2997,22 @@
           "functionName": "burnFromWithReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "TransferReference: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1744,8 +3020,22 @@
           "functionName": "burnWithReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "TransferReference: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1753,8 +3043,18 @@
           "functionName": "burnWithoutReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "TransferReference: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1762,8 +3062,18 @@
           "functionName": "collectProfits",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "TransferReference: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1771,8 +3081,18 @@
           "functionName": "coverLoss",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "TransferReference: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1780,8 +3100,18 @@
           "functionName": "mint",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "TransferReference: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1789,8 +3119,22 @@
           "functionName": "mintWithReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "TransferReference: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1798,12 +3142,22 @@
           "functionName": "registerPosition",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "TransferReference: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalFundsAtRisk": 0,
-      "totalTokenValueAtRisk": 25594365.82789568,
+      "totalTokenValueAtRisk": 25724637.771031145,
       "dependencyType": "write"
     },
     {
@@ -1831,8 +3185,18 @@
           "functionName": "burnFrom",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "BurnMintTokenPool: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1840,8 +3204,22 @@
           "functionName": "burnFromWithReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "BurnMintTokenPool: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1849,8 +3227,22 @@
           "functionName": "burnWithReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "BurnMintTokenPool: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1858,8 +3250,18 @@
           "functionName": "burnWithoutReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "BurnMintTokenPool: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1867,8 +3269,18 @@
           "functionName": "collectProfits",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "BurnMintTokenPool: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1876,8 +3288,18 @@
           "functionName": "coverLoss",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "BurnMintTokenPool: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1885,8 +3307,18 @@
           "functionName": "mint",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only callable via Chainlink CCIP router on incoming cross-chain transfers; rate-limited per chain by CCIP rate limiter",
+              "scopedTo": {
+                "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1894,8 +3326,22 @@
           "functionName": "mintWithReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "BurnMintTokenPool: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1903,12 +3349,22 @@
           "functionName": "registerPosition",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "BurnMintTokenPool: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalFundsAtRisk": 0,
-      "totalTokenValueAtRisk": 25594365.82789568,
+      "totalTokenValueAtRisk": 25724637.771031145,
       "dependencyType": "write"
     },
     {
@@ -1936,8 +3392,18 @@
           "functionName": "burnFrom",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "BridgeAccounting: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1945,8 +3411,22 @@
           "functionName": "burnFromWithReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "BridgeAccounting: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1954,8 +3434,22 @@
           "functionName": "burnWithReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+            },
+            {
+              "type": "other",
+              "description": "BridgeAccounting: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1963,8 +3457,18 @@
           "functionName": "burnWithoutReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "BridgeAccounting: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1972,8 +3476,18 @@
           "functionName": "collectProfits",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Sends accumulated ZCHF balance (cross-chain profits) to reserve; only triggered by validated CCIP messages",
+              "scopedTo": {
+                "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1981,8 +3495,18 @@
           "functionName": "coverLoss",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Called for cross-chain loss accounting; only triggered by validated CCIP messages from registered remote token pools",
+              "scopedTo": {
+                "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1990,8 +3514,18 @@
           "functionName": "mint",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "BridgeAccounting: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -1999,8 +3533,22 @@
           "functionName": "mintWithReserve",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+            },
+            {
+              "type": "other",
+              "description": "BridgeAccounting: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
+                "type": "admin"
+              }
+            }
+          ]
         },
         {
           "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
@@ -2008,12 +3556,22 @@
           "functionName": "registerPosition",
           "viewOnlyPath": false,
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25594365.82789568,
-          "reachableContracts": []
+          "directTokenValueUsd": 25724637.771031145,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "BridgeAccounting: does not invoke this function",
+              "scopedTo": {
+                "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
+                "type": "admin"
+              }
+            }
+          ]
         }
       ],
       "totalFundsAtRisk": 0,
-      "totalTokenValueAtRisk": 25594365.82789568,
+      "totalTokenValueAtRisk": 25724637.771031145,
       "dependencyType": "write"
     },
     {
@@ -2076,26 +3634,26 @@
     {
       "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
       "name": "Frankencoin (ZCHF Token)",
-      "description": "The ZCHF stablecoin token contract itself with a market cap of $25.59M. ZCHF is pegged to the Swiss Franc and backed by collateral locked in MintingHub positions, XCHF/VCHF reserves in StablecoinBridges, and the Equity reserve pool.",
+      "description": "The ZCHF stablecoin token contract itself with a market cap of $25.72M. ZCHF is pegged to the Swiss Franc and backed by collateral locked in MintingHub positions, XCHF/VCHF reserves in StablecoinBridges, and the Equity reserve pool.",
       "balances": null,
       "positions": null,
       "tokenInfo": {
         "symbol": "ZCHF",
-        "price": 1.2574,
+        "price": 1.2638,
         "totalSupply": "20354991114916240227952988",
-        "tokenValue": 25594365.82789568
+        "tokenValue": 25724637.771031145
       },
       "aggregate": null
     },
     {
       "address": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
       "name": "Equity (FPS Reserve Pool)",
-      "description": "The FPS governance token contract that also serves as the protocol's reserve pool. Holds $14.08M primarily in ZCHF, representing the system's equity buffer that absorbs losses from undercollateralized liquidations.",
+      "description": "The FPS governance token contract that also serves as the protocol's reserve pool. Holds $13.92M primarily in ZCHF, representing the system's equity buffer that absorbs losses from undercollateralized liquidations.",
       "balances": {
-        "totalUsdValue": 14081763.874714663
+        "totalUsdValue": 13923431.96265291
       },
       "positions": {
-        "totalUsdValue": 26596.137360696564
+        "totalUsdValue": 0
       },
       "tokenInfo": null,
       "aggregate": null
@@ -2103,22 +3661,22 @@
     {
       "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
       "name": "MintingHub (Current Positions)",
-      "description": "The active MintingHub managing 51 collateral positions worth $64.47M in aggregate. Positions are backed by WBTC, cbBTC, wstETH, LsETH, BOSS, PAXG, XAUt, WETH, GNO, CRV, and other collateral types.",
+      "description": "The active MintingHub managing 51 collateral positions worth $68.98M in aggregate. Positions are backed by WBTC, cbBTC, wstETH, LsETH, BOSS, PAXG, XAUt, WETH, GNO, CRV, and other collateral types.",
       "balances": null,
       "positions": null,
       "tokenInfo": null,
       "aggregate": {
-        "totalUsdValue": 64473573.83724159,
-        "contractCount": 56,
+        "totalUsdValue": 68979699.91272724,
+        "contractCount": 51,
         "handlerName": "frankencoin-mintinghub"
       }
     },
     {
       "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
       "name": "Savings (Current)",
-      "description": "The current Savings contract holding $9.13M in ZCHF deposits. Users deposit ZCHF to earn interest, which is minted by the contract as an active minter.",
+      "description": "The current Savings contract holding $10.22M in ZCHF deposits. Users deposit ZCHF to earn interest, which is minted by the contract as an active minter.",
       "balances": {
-        "totalUsdValue": 9132351.427569814
+        "totalUsdValue": 10220366.480646407
       },
       "positions": {
         "totalUsdValue": 0
@@ -2128,10 +3686,21 @@
     },
     {
       "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-      "name": "StablecoinBridge (VCHF)",
-      "description": "Bridge contract holding $501.29K in VCHF reserves. These reserves back ZCHF minted through the VCHF-to-ZCHF bridge path.",
+      "name": "StablecoinBridge (XCHF)",
+      "description": "Expired bridge contract holding $503.84K in XCHF reserves. The bridge expired ~2024-10-26, so no further minting is possible. Only ~0.017 ZCHF remains minted through this path.",
       "balances": {
-        "totalUsdValue": 501291.65354683815
+        "totalUsdValue": 503838.1609304662
+      },
+      "positions": null,
+      "tokenInfo": null,
+      "aggregate": null
+    },
+    {
+      "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
+      "name": "StablecoinBridge (VCHF)",
+      "description": "Bridge contract holding $0 in VCHF reserves. These reserves back ZCHF minted through the VCHF-to-ZCHF bridge path. Has an immutable minting limit of 2,000,000 ZCHF and expires ~2026-04-13.",
+      "balances": {
+        "totalUsdValue": 0
       },
       "positions": null,
       "tokenInfo": null,
@@ -2140,22 +3709,22 @@
     {
       "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
       "name": "MintingHub (Legacy Positions)",
-      "description": "The older MintingHub with $0 in 2 remaining WBTC collateral positions. No longer used for new position creation.",
+      "description": "The older MintingHub with $146.99K in 2 remaining WBTC collateral positions. No longer used for new position creation.",
       "balances": null,
       "positions": null,
       "tokenInfo": null,
       "aggregate": {
-        "totalUsdValue": 0,
-        "contractCount": 0,
+        "totalUsdValue": 146988.04531047662,
+        "contractCount": 2,
         "handlerName": "frankencoin-mintinghub"
       }
     },
     {
       "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
       "name": "Savings (Legacy)",
-      "description": "The older Savings contract holding $21.39K in remaining ZCHF deposits.",
+      "description": "The older Savings contract holding $21.50K in remaining ZCHF deposits.",
       "balances": {
-        "totalUsdValue": 21388.386574
+        "totalUsdValue": 21497.250637999998
       },
       "positions": {
         "totalUsdValue": 0
@@ -2312,7 +3881,7 @@
     },
     {
       "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-      "name": "StablecoinBridge (VCHF)",
+      "name": "StablecoinBridge (XCHF)",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -2320,7 +3889,7 @@
     },
     {
       "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
-      "name": "StablecoinBridge (XCHF)",
+      "name": "StablecoinBridge (VCHF)",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
