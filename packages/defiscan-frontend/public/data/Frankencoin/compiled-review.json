@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-27T16:13:20.521Z",
+  "compiledAt": "2026-03-29T09:29:43.141Z",
   "project": "Frankencoin",
   "metadata": {
     "protocolName": "Frankencoin",
@@ -219,8 +219,8 @@
     },
     {
       "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
-      "name": "StablecoinBridge (VCHF)",
-      "description": "Immutable bridge contract that allows 1:1 conversion between VCHF (VNX Franc) and ZCHF. Registered as an active minter, it can mint and burn ZCHF. Has an immutable minting limit of 2,000,000 ZCHF and expires at a fixed horizon timestamp (~2026-04-13). The bridge holds VCHF as backing for ZCHF minted through it.",
+      "name": "StablecoinBridge (XCHF)",
+      "description": "Immutable bridge contract enabling 1:1 conversion between XCHF (CryptoFranc) and ZCHF. Registered as an active minter but already expired (horizon passed ~2024-10-27), so no further minting is possible. Has an immutable minting limit of 10,000,000 ZCHF. The bridge holds XCHF as backing.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -235,7 +235,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -258,7 +258,7 @@
             },
             {
               "type": "other",
-              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -289,7 +289,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -297,7 +297,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
               "mitigatedField": {
                 "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "fieldName": "horizon"
@@ -320,7 +320,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Burns ZCHF to release equivalent VCHF to user; bounded by bridge's minted balance",
+              "description": "Burns ZCHF to release equivalent XCHF to user; bounded by bridge's minted balance",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -339,7 +339,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -362,7 +362,7 @@
             },
             {
               "type": "other",
-              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -385,7 +385,7 @@
             },
             {
               "type": "other",
-              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -404,7 +404,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -423,7 +423,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "StablecoinBridge (VCHF): does not invoke this function",
+              "description": "StablecoinBridge (XCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -1195,8 +1195,8 @@
     },
     {
       "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-      "name": "StablecoinBridge (XCHF)",
-      "description": "Immutable bridge contract enabling 1:1 conversion between XCHF (CryptoFranc) and ZCHF. Registered as an active minter but already expired (horizon passed ~2024-10-26), so no further minting is possible. Has an immutable minting limit of 10,000,000 ZCHF with only ~0.017 ZCHF currently minted.",
+      "name": "StablecoinBridge (VCHF)",
+      "description": "Immutable bridge contract that allows 1:1 conversion between VCHF (VNX Franc) and ZCHF. Registered as an active minter, it can mint and burn ZCHF. Has an immutable minting limit of 2,000,000 ZCHF and expires at a fixed horizon timestamp (~2026-04-15). The bridge holds VCHF as backing for ZCHF minted through it.",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -1211,7 +1211,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1234,7 +1234,7 @@
             },
             {
               "type": "other",
-              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1265,7 +1265,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1273,7 +1273,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
               "mitigatedField": {
                 "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "fieldName": "horizon"
@@ -1296,7 +1296,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Burns ZCHF to release equivalent XCHF to user; bounded by bridge's minted balance",
+              "description": "Burns ZCHF to release equivalent VCHF to user; bounded by bridge's minted balance",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1315,7 +1315,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1338,7 +1338,7 @@
             },
             {
               "type": "other",
-              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1361,7 +1361,7 @@
             },
             {
               "type": "other",
-              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1380,7 +1380,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1399,7 +1399,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "StablecoinBridge (XCHF): does not invoke this function",
+              "description": "StablecoinBridge (VCHF): does not invoke this function",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1871,7 +1871,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Burns ZCHF to release equivalent XCHF to user; bounded by bridge's minted balance",
+              "description": "Burns ZCHF to release equivalent VCHF to user; bounded by bridge's minted balance",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1902,7 +1902,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Burns ZCHF to release equivalent XCHF to user; bounded by bridge's minted balance",
+              "description": "Burns ZCHF to release equivalent VCHF to user; bounded by bridge's minted balance",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1945,7 +1945,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -1953,7 +1953,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
               "mitigatedField": {
                 "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "fieldName": "horizon"
@@ -2000,7 +2000,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -2008,7 +2008,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
               "mitigatedField": {
                 "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "fieldName": "horizon"
@@ -2075,7 +2075,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -2083,7 +2083,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
               "mitigatedField": {
                 "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "fieldName": "horizon"
@@ -2150,7 +2150,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -2158,7 +2158,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
               "mitigatedField": {
                 "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "fieldName": "horizon"
@@ -2225,7 +2225,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -2233,7 +2233,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
               "mitigatedField": {
                 "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "fieldName": "horizon"
@@ -2385,7 +2385,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Burns ZCHF to release equivalent VCHF to user; bounded by bridge's minted balance",
+              "description": "Burns ZCHF to release equivalent XCHF to user; bounded by bridge's minted balance",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -2416,7 +2416,7 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Burns ZCHF to release equivalent VCHF to user; bounded by bridge's minted balance",
+              "description": "Burns ZCHF to release equivalent XCHF to user; bounded by bridge's minted balance",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -2459,7 +2459,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -2467,7 +2467,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
               "mitigatedField": {
                 "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "fieldName": "horizon"
@@ -2514,7 +2514,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
@@ -2522,7 +2522,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
+              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
               "mitigatedField": {
                 "contractAddress": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "fieldName": "horizon"
@@ -2606,7 +2606,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -2614,7 +2614,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
               "mitigatedField": {
                 "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "fieldName": "horizon"
@@ -2681,7 +2681,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -2689,7 +2689,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
               "mitigatedField": {
                 "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "fieldName": "horizon"
@@ -2756,7 +2756,7 @@
             },
             {
               "type": "other",
-              "description": "1:1 backed — requires depositing equivalent XCHF tokens before minting",
+              "description": "1:1 backed — requires depositing equivalent VCHF tokens before minting",
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
@@ -2764,7 +2764,7 @@
             },
             {
               "type": "other",
-              "description": "Bridge expired — horizon timestamp has passed, no further minting possible",
+              "description": "Bridge expires at immutable horizon timestamp (52 weeks from deployment)",
               "mitigatedField": {
                 "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "fieldName": "horizon"
@@ -3686,8 +3686,8 @@
     },
     {
       "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-      "name": "StablecoinBridge (XCHF)",
-      "description": "Expired bridge contract holding $503.84K in XCHF reserves. The bridge expired ~2024-10-26, so no further minting is possible. Only ~0.017 ZCHF remains minted through this path.",
+      "name": "StablecoinBridge (VCHF)",
+      "description": "Bridge contract holding $503.84K in VCHF reserves. These reserves back ZCHF minted through the VCHF-to-ZCHF bridge path. Has an immutable minting limit of 2,000,000 ZCHF and expires ~2026-04-15.",
       "balances": {
         "totalUsdValue": 503838.1609304662
       },
@@ -3697,8 +3697,8 @@
     },
     {
       "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
-      "name": "StablecoinBridge (VCHF)",
-      "description": "Bridge contract holding $0 in VCHF reserves. These reserves back ZCHF minted through the VCHF-to-ZCHF bridge path. Has an immutable minting limit of 2,000,000 ZCHF and expires ~2026-04-13.",
+      "name": "StablecoinBridge (XCHF)",
+      "description": "Expired bridge contract holding $0 in XCHF reserves. The bridge expired ~2024-10-27, so no further minting is possible.",
       "balances": {
         "totalUsdValue": 0
       },
@@ -3881,7 +3881,7 @@
     },
     {
       "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
-      "name": "StablecoinBridge (XCHF)",
+      "name": "StablecoinBridge (VCHF)",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -3889,7 +3889,7 @@
     },
     {
       "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
-      "name": "StablecoinBridge (VCHF)",
+      "name": "StablecoinBridge (XCHF)",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
