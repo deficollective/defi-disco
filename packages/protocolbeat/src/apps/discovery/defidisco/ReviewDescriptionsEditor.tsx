@@ -304,7 +304,9 @@ function EntityEntry({
                 Delete
               </button>
               <button
-                onClick={() => onSave(address, localName || undefined, localDesc)}
+                onClick={() =>
+                  onSave(address, localName || undefined, localDesc)
+                }
                 disabled={!isDirty || isSaving}
                 className={`rounded px-2 py-0.5 text-xs font-medium ${
                   isDirty && !isSaving
