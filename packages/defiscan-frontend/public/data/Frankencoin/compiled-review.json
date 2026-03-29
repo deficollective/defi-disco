@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-29T09:29:43.141Z",
+  "compiledAt": "2026-03-29T09:46:08.544Z",
   "project": "Frankencoin",
   "metadata": {
     "protocolName": "Frankencoin",
@@ -43,7 +43,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             }
           ]
         },
@@ -58,7 +59,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -66,7 +68,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -85,7 +88,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -104,7 +108,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -123,7 +128,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             }
           ]
         },
@@ -138,7 +144,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -146,7 +153,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -161,7 +169,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -169,7 +178,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -188,7 +198,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             }
           ]
         },
@@ -207,7 +218,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             }
           ]
         }
@@ -239,7 +251,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -254,7 +267,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -262,7 +276,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -285,7 +300,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -293,7 +309,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -305,7 +322,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Expired"
             }
           ]
         },
@@ -324,7 +342,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Burn Limit"
             }
           ]
         },
@@ -343,7 +362,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -358,7 +378,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -366,7 +387,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -381,7 +403,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -389,7 +412,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -408,7 +432,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -427,7 +452,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         }
@@ -459,7 +485,8 @@
               "scopedTo": {
                 "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -474,7 +501,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -482,7 +510,8 @@
               "scopedTo": {
                 "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -501,7 +530,8 @@
               "scopedTo": {
                 "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -520,7 +550,8 @@
               "scopedTo": {
                 "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -539,7 +570,8 @@
               "scopedTo": {
                 "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -554,7 +586,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -562,7 +595,8 @@
               "scopedTo": {
                 "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -577,7 +611,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -585,7 +620,8 @@
               "scopedTo": {
                 "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -623,7 +659,8 @@
               "scopedTo": {
                 "address": "eth:0x3BF301B0e2003E75A3e86AB82bD1EFF6A9dFB2aE",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         }
@@ -655,7 +692,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -670,7 +708,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -678,7 +717,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -697,7 +737,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             }
           ]
         },
@@ -716,7 +757,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             }
           ]
         },
@@ -735,7 +777,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -750,7 +793,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -758,7 +802,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -773,7 +818,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -781,7 +827,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -800,7 +847,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -819,7 +867,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         }
@@ -851,7 +900,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             }
           ]
         },
@@ -866,7 +916,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -874,7 +925,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -893,7 +945,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -912,7 +965,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -931,7 +985,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             }
           ]
         },
@@ -946,7 +1001,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -954,7 +1010,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -969,7 +1026,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -977,7 +1035,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -996,7 +1055,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             }
           ]
         },
@@ -1015,7 +1075,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             }
           ]
         },
@@ -1079,7 +1140,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             },
             {
               "type": "other",
@@ -1087,7 +1149,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             }
           ]
         },
@@ -1106,7 +1169,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             },
             {
               "type": "other",
@@ -1114,7 +1178,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1152,7 +1217,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             },
             {
               "type": "other",
@@ -1160,7 +1226,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             },
             {
               "type": "other",
@@ -1168,7 +1235,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Challenge Burn"
             }
           ]
         },
@@ -1215,7 +1283,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1230,7 +1299,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -1238,7 +1308,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1261,7 +1332,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -1269,7 +1341,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -1281,7 +1354,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Expiry"
             }
           ]
         },
@@ -1300,7 +1374,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Burn Limit"
             }
           ]
         },
@@ -1319,7 +1394,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1334,7 +1410,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -1342,7 +1419,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1357,7 +1435,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -1365,7 +1444,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1384,7 +1464,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1403,7 +1484,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         }
@@ -1435,7 +1517,8 @@
               "scopedTo": {
                 "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1450,7 +1533,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -1458,7 +1542,8 @@
               "scopedTo": {
                 "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1477,7 +1562,8 @@
               "scopedTo": {
                 "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1496,7 +1582,8 @@
               "scopedTo": {
                 "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1515,7 +1602,8 @@
               "scopedTo": {
                 "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1530,7 +1618,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -1538,7 +1627,8 @@
               "scopedTo": {
                 "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1553,7 +1643,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -1561,7 +1652,8 @@
               "scopedTo": {
                 "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -1599,7 +1691,8 @@
               "scopedTo": {
                 "address": "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         }
@@ -1664,7 +1757,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 25724637.771031145,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             }
           ],
           "mitigations": [
@@ -1691,7 +1784,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 25724637.771031145,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             }
           ],
           "mitigations": [
@@ -1720,7 +1813,7 @@
       "totalDirectCapital": 13923431.96265291,
       "totalDirectTokenValue": 0,
       "totalReachableCapital": 13923431.96265291,
-      "totalReachableTokenValue": 0
+      "totalReachableTokenValue": 25724637.771031145
     },
     {
       "address": "eth:0xf72eE0D3a252eA41845ec1185d8495e2246E6Ba6",
@@ -1875,7 +1968,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Burn Limit"
             }
           ]
         },
@@ -1906,7 +2000,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Burn Limit"
             }
           ]
         },
@@ -1941,7 +2036,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -1949,7 +2045,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -1961,7 +2058,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Expiry"
             }
           ]
         },
@@ -1996,7 +2094,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -2004,7 +2103,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -2016,7 +2116,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Expiry"
             }
           ]
         },
@@ -2035,7 +2136,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2043,7 +2145,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2051,7 +2154,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             },
             {
               "type": "other",
@@ -2059,7 +2163,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             },
             {
               "type": "other",
@@ -2071,7 +2176,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -2079,7 +2185,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -2091,7 +2198,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Expiry"
             }
           ]
         },
@@ -2110,7 +2218,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2118,7 +2227,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2126,7 +2236,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             },
             {
               "type": "other",
@@ -2134,7 +2245,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             },
             {
               "type": "other",
@@ -2146,7 +2258,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -2154,7 +2267,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -2166,7 +2280,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Expiry"
             }
           ]
         },
@@ -2185,7 +2300,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2193,7 +2309,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2201,7 +2318,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             },
             {
               "type": "other",
@@ -2209,7 +2327,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             },
             {
               "type": "other",
@@ -2221,7 +2340,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -2229,7 +2349,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -2241,7 +2362,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Expiry"
             }
           ]
         }
@@ -2389,7 +2511,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Burn Limit"
             }
           ]
         },
@@ -2420,7 +2543,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Burn Limit"
             }
           ]
         },
@@ -2455,7 +2579,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -2463,7 +2588,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -2475,7 +2601,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Expired"
             }
           ]
         },
@@ -2510,7 +2637,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -2518,7 +2646,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -2530,7 +2659,8 @@
               "scopedTo": {
                 "address": "eth:0x7bbe8F18040aF0032f4C2435E7a76db6F1E346DF",
                 "type": "admin"
-              }
+              },
+              "label": "Expired"
             }
           ]
         }
@@ -2566,7 +2696,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2574,7 +2705,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2582,7 +2714,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             },
             {
               "type": "other",
@@ -2590,7 +2723,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             },
             {
               "type": "other",
@@ -2602,7 +2736,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -2610,7 +2745,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -2622,7 +2758,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Expiry"
             }
           ]
         },
@@ -2641,7 +2778,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2649,7 +2787,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2657,7 +2796,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             },
             {
               "type": "other",
@@ -2665,7 +2805,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             },
             {
               "type": "other",
@@ -2677,7 +2818,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -2685,7 +2827,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -2697,7 +2840,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Expiry"
             }
           ]
         },
@@ -2716,7 +2860,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2724,7 +2869,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Flash Loan"
             },
             {
               "type": "other",
@@ -2732,7 +2878,8 @@
               "scopedTo": {
                 "address": "eth:0x7546762fdb1a6d9146b33960545C3f6394265219",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             },
             {
               "type": "other",
@@ -2740,7 +2887,8 @@
               "scopedTo": {
                 "address": "eth:0xAD0107D3Da540Fd54b1931735b65110C909ea6B6",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             },
             {
               "type": "other",
@@ -2752,7 +2900,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Mint Limit"
             },
             {
               "type": "other",
@@ -2760,7 +2909,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "1:1 Backed"
             },
             {
               "type": "other",
@@ -2772,7 +2922,8 @@
               "scopedTo": {
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
-              }
+              },
+              "label": "Expiry"
             }
           ]
         },
@@ -2791,7 +2942,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Position Fee"
             },
             {
               "type": "other",
@@ -2799,7 +2951,8 @@
               "scopedTo": {
                 "address": "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         }
@@ -2987,7 +3140,8 @@
               "scopedTo": {
                 "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3002,7 +3156,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -3010,7 +3165,8 @@
               "scopedTo": {
                 "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3025,7 +3181,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -3033,7 +3190,8 @@
               "scopedTo": {
                 "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3052,7 +3210,8 @@
               "scopedTo": {
                 "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3071,7 +3230,8 @@
               "scopedTo": {
                 "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3090,7 +3250,8 @@
               "scopedTo": {
                 "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3109,7 +3270,8 @@
               "scopedTo": {
                 "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3124,7 +3286,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -3132,7 +3295,8 @@
               "scopedTo": {
                 "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3151,7 +3315,8 @@
               "scopedTo": {
                 "address": "eth:0xf98c221661F51578f5E5236B189a493E2a8a1916",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         }
@@ -3194,7 +3359,8 @@
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3209,7 +3375,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -3217,7 +3384,8 @@
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3232,7 +3400,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -3240,7 +3409,8 @@
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3259,7 +3429,8 @@
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3278,7 +3449,8 @@
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3297,7 +3469,8 @@
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3316,7 +3489,8 @@
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"
-              }
+              },
+              "label": "CCIP Rate Limit"
             }
           ]
         },
@@ -3331,7 +3505,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -3339,7 +3514,8 @@
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3358,7 +3534,8 @@
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         }
@@ -3401,7 +3578,8 @@
               "scopedTo": {
                 "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3416,7 +3594,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt from a payer and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -3424,7 +3603,8 @@
               "scopedTo": {
                 "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3439,7 +3619,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve"
+              "description": "Only invoked by collateralized positions (not direct minters) to repay debt and reclaim proportional reserve",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -3447,7 +3628,8 @@
               "scopedTo": {
                 "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3466,7 +3648,8 @@
               "scopedTo": {
                 "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3485,7 +3668,8 @@
               "scopedTo": {
                 "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
                 "type": "admin"
-              }
+              },
+              "label": "CCIP Rate Limit"
             }
           ]
         },
@@ -3504,7 +3688,8 @@
               "scopedTo": {
                 "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
                 "type": "admin"
-              }
+              },
+              "label": "CCIP Rate Limit"
             }
           ]
         },
@@ -3523,7 +3708,8 @@
               "scopedTo": {
                 "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3538,7 +3724,8 @@
           "mitigations": [
             {
               "type": "other",
-              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates"
+              "description": "Only invoked by collateralized positions (not direct minters); each position has individual minting limits, minimum collateral requirements, reserve ratios, and expiration dates",
+              "label": "Position Limits"
             },
             {
               "type": "other",
@@ -3546,7 +3733,8 @@
               "scopedTo": {
                 "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         },
@@ -3565,7 +3753,8 @@
               "scopedTo": {
                 "address": "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16",
                 "type": "admin"
-              }
+              },
+              "label": "Not Called"
             }
           ]
         }
