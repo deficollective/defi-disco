@@ -105,10 +105,10 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
               cy="50%"
               outerRadius="62%"
             >
-              <PolarGrid stroke="rgba(37,99,235,0.1)" />
+              <PolarGrid gridType="circle" stroke="rgba(37,99,235,0.1)" />
               <PolarAngleAxis
                 dataKey="axis"
-                tick={{ fontSize: 10, fill: '#64748b', fontWeight: 600, letterSpacing: 1 }}
+                tick={{ fontSize: 10, fill: '#64748b', fontWeight: 600, letterSpacing: '1px' }}
               />
               <Radar
                 dataKey="value"
@@ -116,8 +116,8 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
                 strokeOpacity={0.8}
                 fill="#2563eb"
                 fillOpacity={0.1}
-                strokeWidth={2}
-                dot={{ fill: '#2563eb', r: 4 }}
+                strokeWidth={3}
+                dot={{ fill: '#2563eb', stroke: 'none', r: 5, fillOpacity: 1 }}
               />
             </RadarChart>
           </ResponsiveContainer>

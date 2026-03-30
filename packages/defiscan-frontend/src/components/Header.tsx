@@ -10,8 +10,9 @@ export function Header() {
 
   function navClass(path: string) {
     const active =
-      path === '/protocols'
-        ? location.pathname === '/protocols' ||
+      path === '/gallery'
+        ? location.pathname === '/gallery' ||
+          location.pathname === '/protocols' ||
           location.pathname.startsWith('/protocol/')
         : location.pathname === path
     return clsx(
@@ -42,7 +43,7 @@ export function Header() {
             />
           </Link>
           <nav className="flex items-center gap-6">
-            <Link to="/protocols" className={navClass('/protocols')}>
+            <Link to="/gallery" className={navClass('/gallery')}>
               Reports
             </Link>
             <Link to="/about" className={navClass('/about')}>

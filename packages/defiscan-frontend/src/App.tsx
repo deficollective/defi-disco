@@ -6,6 +6,7 @@ import { ProtocolsPage } from './pages/protocols/ProtocolsPage'
 import { ReviewPage } from './pages/review/ReviewPage'
 import { ComparePage } from './pages/compare/ComparePage'
 import { AboutPage } from './pages/about/AboutPage'
+import { GalleryPage } from './pages/gallery/GalleryPage'
 
 const queryClient = new QueryClient()
 
@@ -20,6 +21,7 @@ export function App() {
             <Route path="/protocol/:slug" element={<ReviewPage />} />
             <Route path="/compare" element={<ComparePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -21,9 +21,9 @@ import {
 const trustPostureData = [
   { axis: 'CONTROL', value: 85 },
   { axis: 'DEPENDENCIES', value: 70 },
-  { axis: 'EXIT PROTECTION', value: 60 },
+  { axis: 'ABILITY TO EXIT', value: 60 },
   { axis: 'VERIFIABILITY', value: 70 },
-  { axis: 'FRONTENDS', value: 75 },
+  { axis: 'ACCESS', value: 75 },
 ]
 
 const methodologyItems = [
@@ -192,18 +192,19 @@ export function LandingPage() {
                     cy="50%"
                     outerRadius="70%"
                   >
-                    <PolarGrid stroke="#E2E8F0" />
+                    <PolarGrid gridType="circle" stroke="rgba(37,99,235,0.1)" />
                     <PolarAngleAxis
                       dataKey="axis"
-                      tick={{ fontSize: 11, fill: '#64748b' }}
+                      tick={{ fontSize: 10, fill: '#64748b', fontWeight: 600, letterSpacing: '1px' }}
                     />
                     <Radar
                       dataKey="value"
-                      stroke="#004ac6"
-                      strokeOpacity={0.6}
-                      fill="#004ac6"
-                      fillOpacity={0.08}
-                      strokeWidth={2}
+                      stroke="#2563eb"
+                      strokeOpacity={0.8}
+                      fill="#2563eb"
+                      fillOpacity={0.1}
+                      strokeWidth={3}
+                      dot={{ fill: '#2563eb', stroke: 'none', r: 5, fillOpacity: 1 }}
                     />
                   </RadarChart>
                 </ResponsiveContainer>
@@ -225,10 +226,10 @@ export function LandingPage() {
             </h2>
           </div>
           <Link
-            to="/protocols"
+            to="/gallery"
             className="text-sm font-medium text-accent hover:text-accent-dark transition-colors"
           >
-            Browse Directory &rarr;
+            Browse Gallery &rarr;
           </Link>
         </div>
 
