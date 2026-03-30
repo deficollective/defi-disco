@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-03-22T15:16:35.476Z",
+  "lastModified": "2026-03-30T14:20:37.680Z",
   "contracts": {
     "eth:0xfFA96D84dEF2EA035c7AB153D8B991128e3d72fD": {
       "functions": [
@@ -99,14 +99,18 @@
           "functionName": "pauseDeposits",
           "isPermissioned": true,
           "checked": true,
-          "score": "critical",
+          "score": "no-impact",
           "description": "Pauses the deposits. Funds can no longer be deposited into new validators until deposits are unpaused. This can be called by any guardian when a frontrunning by a node operator is suspected and prevents the loss of user funds through deposits.",
           "ownerDefinitions": [
             {
               "path": "$self.getGuardians"
             }
           ],
-          "timestamp": "2025-11-10T18:29:08.594Z"
+          "timestamp": "2026-03-30T14:19:42.236Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-30T14:19:42.236Z"
+          }
         },
         {
           "functionName": "unpauseDeposits",
@@ -125,7 +129,7 @@
           "functionName": "depositBufferedEther",
           "isPermissioned": true,
           "checked": true,
-          "score": "critical",
+          "score": "no-impact",
           "description": "Deposits ETH into a given validator using `Lido.deposit`. The message must include at least 4/6 signatures from guardians for it to be valid.",
           "ownerDefinitions": [
             {
@@ -137,20 +141,28 @@
               "contractAddress": "eth:0x00000000219ab540356cBB839Cbe05303d7705Fa"
             }
           ],
-          "timestamp": "2025-11-10T18:29:11.429Z"
+          "timestamp": "2026-03-30T14:17:37.237Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-30T14:17:37.237Z"
+          }
         },
         {
           "functionName": "unvetSigningKeys",
           "isPermissioned": true,
-          "timestamp": "2025-10-06T15:05:48.571Z",
           "checked": true,
-          "score": "critical",
+          "score": "no-impact",
           "description": "Unvets signing keys for the given node operators. This can be called by any guardian when a frontrunning by a node operator is suspectedand prevents the loss of user funds through deposits.",
           "ownerDefinitions": [
             {
               "path": "$self.getGuardians"
             }
-          ]
+          ],
+          "timestamp": "2026-03-30T14:20:37.680Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-03-30T14:20:37.680Z"
+          }
         }
       ]
     },
