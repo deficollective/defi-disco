@@ -30,47 +30,47 @@ export function ReportView({ review, onExportPdf }: ReportViewProps) {
   return (
     <div className="flex flex-col gap-[80px] pb-24">
       {/* Hero */}
-      <section className="mx-auto w-full max-w-[1280px] px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6">
         <HeroSection review={review} onExportPdf={onExportPdf} />
       </section>
 
       {/* Key Findings */}
-      <section className="mx-auto w-full max-w-[1280px] px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6">
         <KeyFindingsCarousel review={review} />
       </section>
 
       {/* TVS */}
-      <section className="mx-auto w-full max-w-[1280px] px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6">
         <TVSSection review={review} onShowMore={() => goToExplorerTab('funds')} />
       </section>
 
       {/* Code Quality */}
-      <section className="mx-auto w-full max-w-[1280px] px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6">
         <CodeQualitySection review={review} />
       </section>
 
       {/* Active Admins */}
-      <section className="mx-auto w-full max-w-[1280px] px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6">
         <AdminsSection review={review} onShowMore={() => goToExplorerTab('admins')} />
       </section>
 
       {/* Governance */}
-      <section className="mx-auto w-full max-w-[1280px] px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6">
         <GovernanceSection review={review} onShowMore={() => goToExplorerTab('governance')} />
       </section>
 
       {/* Dependencies */}
-      <section className="mx-auto w-full max-w-[1280px] px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6">
         <DependenciesSection review={review} onShowMore={() => goToExplorerTab('dependencies')} />
       </section>
 
       {/* Frontends */}
-      <section className="mx-auto w-full max-w-[1280px] px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6">
         <FrontendsSection review={review} />
       </section>
 
       {/* Protocol Activity */}
-      <section className="mx-auto w-full max-w-[1280px] px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6">
         <ActivitySection review={review} onShowMore={goToActivity} />
       </section>
     </div>

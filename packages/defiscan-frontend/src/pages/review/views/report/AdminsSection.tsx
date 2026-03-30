@@ -1,5 +1,7 @@
 import type { CompiledReview, CompiledAdmin } from '../../../../types'
 import { formatUsdValue, etherscanUrl, stripChainPrefix } from '../../../../utils/format'
+import { MitigationBadge } from '../../../../components/MitigationBadge'
+import { deduplicateMitigations } from '../explorer/shared'
 import { SectionHeader, ShowMoreButton } from './_shared'
 
 interface AdminsSectionProps {
@@ -117,6 +119,9 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
           {activeAdmins.map((admin) => {
             const barWidth = maxCapital > 0 ? (admin.totalReachableCapital / maxCapital) * 100 : 0
             const rawAddress = stripChainPrefix(admin.address)
+            const mitigations = deduplicateMitigations(
+              admin.functions?.flatMap((f) => f.mitigations ?? []) ?? [],
+            )
             return (
               <div key={admin.address} className="flex flex-col gap-[16px]">
                 {/* Name + badges + capital */}
@@ -140,6 +145,9 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
                         Governance
                       </span>
                     )}
+                    {mitigations.map((m, i) => (
+                      <MitigationBadge key={i} mitigation={m} />
+                    ))}
                   </div>
                   <span className="font-mono font-bold text-sm text-text-primary shrink-0 ml-2">
                     {admin.totalReachableCapital > 0

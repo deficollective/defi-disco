@@ -23,12 +23,12 @@ function formatDelayLabel(seconds: number): string {
 export function MitigationBadge({ mitigation: m }: { mitigation: Mitigation }) {
   const colorClass =
     m.type === 'delay'
-      ? 'bg-cyan-50 text-cyan-700 border-cyan-200'
+      ? 'bg-cyan-100 text-cyan-700'
       : m.type === 'valueRange'
-        ? 'bg-indigo-50 text-indigo-700 border-indigo-200'
+        ? 'bg-indigo-100 text-indigo-700'
         : m.type === 'relativeValue'
-          ? 'bg-amber-50 text-amber-700 border-amber-200'
-          : 'bg-gray-50 text-gray-600 border-gray-200'
+          ? 'bg-amber-100 text-amber-700'
+          : 'bg-[rgba(15,23,42,0.05)] text-[#64748b]'
 
   let label: string
   let tooltip: string
@@ -62,7 +62,7 @@ export function MitigationBadge({ mitigation: m }: { mitigation: Mitigation }) {
 
   return (
     <span
-      className={`inline-block rounded-full border px-1.5 py-0 text-[10px] font-medium leading-4 ${colorClass}`}
+      className={`inline-flex items-center rounded-[2px] px-[8px] py-[2px] text-[9px] font-bold uppercase tracking-[0.225px] ${colorClass}`}
       title={tooltip}
     >
       {label}

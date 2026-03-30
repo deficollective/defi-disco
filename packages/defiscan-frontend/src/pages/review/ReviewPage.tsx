@@ -81,7 +81,7 @@ export function ReviewPage() {
   return (
     <div className="w-full">
       {/* Back nav + View toggle bar */}
-      <div className="mx-auto max-w-[1280px] px-8 py-4 print:hidden">
+      <div className="mx-auto max-w-[1280px] px-6 py-4 print:hidden">
         <div className="flex items-center justify-between">
           <Link
             to="/protocols"
@@ -122,12 +122,12 @@ export function ReviewPage() {
           <ReportView review={review} onExportPdf={handleExportPdf} />
         )}
         {view === 'explorer' && (
-          <div className="mx-auto max-w-[1280px] px-8">
+          <div className="mx-auto max-w-[1280px] px-6">
             <ExplorerView review={review} />
           </div>
         )}
         {view === 'activity' && (
-          <div className="mx-auto max-w-[1280px] px-8">
+          <div className="mx-auto max-w-[1280px] px-6">
             <ActivityView review={review} />
           </div>
         )}

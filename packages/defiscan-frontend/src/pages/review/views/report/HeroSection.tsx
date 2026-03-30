@@ -49,9 +49,9 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
     : '—'
 
   return (
-    <div className="grid grid-cols-12 gap-12 items-center min-h-[450px]">
+    <div className="grid grid-cols-12 gap-6 items-center min-h-[450px]">
       {/* Left: text + buttons */}
-      <div className="col-span-12 lg:col-span-5 flex flex-col justify-center py-20">
+      <div className="col-span-12 lg:col-span-7 flex flex-col justify-center py-12">
         {/* Badge + date row */}
         <div className="flex items-center gap-3 mb-4">
           <span className="bg-capital text-white px-[10px] py-[2px] rounded-sm text-[10px] font-bold uppercase tracking-[0.5px]">
@@ -68,7 +68,7 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
         </h1>
 
         {/* Description */}
-        <p className="text-[18px] font-normal text-text-muted leading-[29px] max-w-[448px] mb-8">
+        <p className="text-[18px] font-normal text-text-muted leading-[29px] mb-8">
           {metadata.description}
         </p>
 
@@ -88,8 +88,8 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
       </div>
 
       {/* Right: radar chart */}
-      <div className="col-span-12 lg:col-span-7 h-[450px] relative">
-        <div className="absolute inset-0 rounded-lg border border-border bg-bg-card overflow-hidden">
+      <div className="col-span-12 lg:col-span-5 h-[450px] relative">
+        <div className="absolute inset-0 rounded-lg border border-border bg-white overflow-hidden">
           {/* Radial gradient overlay */}
           <div
             className="absolute inset-0"

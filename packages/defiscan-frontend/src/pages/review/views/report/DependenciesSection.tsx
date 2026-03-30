@@ -1,5 +1,7 @@
 import type { CompiledReview, CompiledDependency } from '../../../../types'
 import { formatUsdValue } from '../../../../utils/format'
+import { MitigationBadge } from '../../../../components/MitigationBadge'
+import { deduplicateMitigations } from '../explorer/shared'
 import { SectionHeader, ShowMoreButton } from './_shared'
 
 interface DependenciesSectionProps {
@@ -86,15 +88,21 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
               0,
             )
             const barWidth = maxGroupFunds > 0 ? (groupFunds / maxGroupFunds) * 100 : 0
+            const mitigations = deduplicateMitigations(
+              deps.flatMap((d) => d.functions?.flatMap((f) => f.mitigations ?? []) ?? []),
+            )
 
             return (
               <div key={entity ?? '__ungrouped'} className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-semibold text-sm text-text-primary">{groupLabel}</span>
                     <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold text-text-muted bg-border/60">
                       {deps.length} contract{deps.length !== 1 ? 's' : ''}
                     </span>
+                    {mitigations.map((m, i) => (
+                      <MitigationBadge key={i} mitigation={m} />
+                    ))}
                   </div>
                   <span className="font-mono font-bold text-sm text-text-primary shrink-0 ml-2">
                     {groupFunds > 0 ? formatUsdValue(groupFunds) : '—'}
