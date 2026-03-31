@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Radar,
   RadarChart,
@@ -44,6 +45,7 @@ function deriveRadarData(review: CompiledReview) {
 export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
   const { metadata, compiledAt } = review
   const radarData = deriveRadarData(review)
+  const [descExpanded, setDescExpanded] = useState(false)
 
   const updateDate = compiledAt
     ? new Date(compiledAt).toLocaleDateString('en-CA').replace(/-/g, '.')
@@ -55,8 +57,8 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
       <div className="col-span-12 lg:col-span-7 flex flex-col justify-center py-12">
         {/* Badge + date row */}
         <div className="flex items-center gap-3 mb-4">
-          <span className="bg-capital text-white px-[10px] py-[2px] rounded-sm text-[10px] font-bold uppercase tracking-[0.5px]">
-            Verified
+          <span className="bg-[#059669] text-white px-[10px] py-[2px] rounded-sm text-[10px] font-bold uppercase tracking-[0.5px]">
+            Verified Tier 1
           </span>
           <span className="font-mono text-xs text-text-muted uppercase">
             Updated: {updateDate}
@@ -68,10 +70,22 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
           {metadata.protocolName}
         </h1>
 
-        {/* Description */}
-        <p className="text-[18px] font-normal text-text-muted leading-[29px] mb-8">
-          {metadata.description}
-        </p>
+        {/* Description with Show more */}
+        <div className="mb-8">
+          <p
+            className={`text-[18px] font-normal text-text-muted leading-[29px] ${!descExpanded ? 'line-clamp-3' : ''}`}
+          >
+            {metadata.description}
+          </p>
+          {!descExpanded && (
+            <button
+              onClick={() => setDescExpanded(true)}
+              className="mt-1 text-[18px] font-bold text-accent leading-[29px] hover:underline"
+            >
+              Show more
+            </button>
+          )}
+        </div>
 
         {/* Action buttons */}
         <div className="flex items-center gap-4">
@@ -90,7 +104,7 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
 
       {/* Right: radar chart */}
       <div className="col-span-12 lg:col-span-5 h-[450px] relative">
-        <div className="absolute inset-0 rounded-lg border border-border bg-white overflow-hidden">
+        <div className="absolute inset-0 rounded-lg border border-border bg-[#f8fafc] overflow-hidden">
           {/* Radial gradient overlay */}
           <div
             className="absolute inset-0"

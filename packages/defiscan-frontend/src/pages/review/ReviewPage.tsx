@@ -79,7 +79,7 @@ export function ReviewPage() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-white">
       {/* Back nav + View toggle bar */}
       <div className="mx-auto max-w-[1280px] px-6 py-4 print:hidden">
         <div className="flex items-center justify-between">

@@ -20,22 +20,30 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
   // Empty state
   if (dependencies.length === 0) {
     return (
-      <div className="border border-capital/30 bg-capital/5 rounded-lg p-[33px]">
-        <div className="flex items-start gap-4">
-          <div className="size-10 rounded-full bg-capital/10 flex items-center justify-center shrink-0 mt-0.5">
-            <svg className="size-5 text-capital" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+      <div className="bg-bg-card border border-border rounded-lg p-[33px] flex flex-col gap-6">
+        <div className="flex items-center gap-2">
+          <svg className="size-3.5 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+          </svg>
+          <span className="font-bold text-[11px] uppercase text-text-muted tracking-[1.2px]">Dependencies</span>
+        </div>
+        <div className="flex gap-[30px] items-start">
+          <div className="w-[312px] shrink-0 flex flex-col gap-8 bg-bg-card rounded-lg p-[33px]">
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">Impacted TVS</p>
+              <p className="font-mono font-bold text-[30px] leading-[36px] text-text-primary">0%</p>
+              <p className="text-xs text-text-muted mt-1">Proportion of TVS exposed to external dependency risk.</p>
+            </div>
+            <div className="border-t border-border pt-6 flex flex-col gap-2">
+              <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">Dependencies Detected</p>
+              <p className="font-mono font-bold text-[30px] leading-[36px] text-text-primary">0</p>
+            </div>
+          </div>
+          <div className="flex-1 min-w-0 bg-white border border-border rounded-lg p-[33px] flex flex-col items-center justify-center gap-4 min-h-[220px]">
+            <svg className="size-14 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
             </svg>
-          </div>
-          <div>
-            <p className="font-semibold text-[18px] text-capital mb-2">
-              No External Dependencies
-            </p>
-            <p className="text-[14px] text-text-muted leading-[22px]">
-              This protocol does not rely on any external contracts for its core
-              operations. This minimizes the risk of failures cascading from
-              third parties.
-            </p>
+            <p className="text-sm text-text-muted">No external dependencies detected</p>
           </div>
         </div>
       </div>
@@ -50,10 +58,11 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
     list.push(dep)
     grouped.set(key, list)
   }
-  const entityGroups = Array.from(grouped.entries()).sort(([a], [b]) => {
-    if (a === null) return 1
-    if (b === null) return -1
-    return a.localeCompare(b)
+  // Sort entity groups by total funds at risk descending
+  const entityGroups = Array.from(grouped.entries()).sort(([, aDeps], [, bDeps]) => {
+    const aFunds = aDeps.reduce((s, d) => s + depFunds(d), 0)
+    const bFunds = bDeps.reduce((s, d) => s + depFunds(d), 0)
+    return bFunds - aFunds
   })
 
   const namedEntities = entityGroups
@@ -62,31 +71,70 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
 
   const totalAtRisk = dependencies.reduce((s, d) => s + depFunds(d), 0)
   const atRiskPct = totalTvs > 0 ? Math.round((totalAtRisk / totalTvs) * 100) : 0
+  const displayedGroups = entityGroups.slice(0, 3)
+  const maxGroupFunds = Math.max(
+    ...entityGroups.map(([, ds]) => ds.reduce((s, d) => s + depFunds(d), 0)),
+    0,
+  )
 
   return (
-    <div className="flex gap-[30px] items-start">
-      {/* Left: grouped dependency list */}
-      <div className="flex-1 min-w-0 border border-border rounded-lg p-[33px] flex flex-col gap-6">
+    <div className="bg-bg-card border border-border rounded-lg p-[33px] flex flex-col gap-6">
+      {/* Section label */}
+      <div className="flex items-center gap-2">
+        <svg className="size-3.5 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+        </svg>
+        <span className="font-bold text-[11px] uppercase text-text-muted tracking-[1.2px]">
+          Dependencies
+        </span>
+      </div>
+      <div className="flex gap-[30px] items-start">
+      {/* Left sidebar — same bg as outer frame so it blends */}
+      <div className="w-[312px] shrink-0 flex flex-col gap-8 bg-bg-card rounded-lg p-[33px]">
+        <div className="flex flex-col gap-1">
+          <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">
+            Impacted TVS
+          </p>
+          <p className="font-mono font-bold text-[30px] leading-[36px] text-text-primary">
+            {atRiskPct}%
+          </p>
+          <p className="text-xs text-text-muted mt-1">
+            Proportion of TVS exposed to external dependency risk.
+          </p>
+        </div>
+
+        <div className="border-t border-border pt-6 flex flex-col gap-2">
+          <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">
+            Dependencies Detected
+          </p>
+          <p className="font-mono font-bold text-[30px] leading-[36px] text-text-primary">
+            {totals.dependencyCount}
+          </p>
+          {namedEntities.length > 0 && (
+            <p className="text-xs text-text-muted">
+              from {namedEntities.join(', ')}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Right: grouped dependency list card — contains header + rows */}
+      <div className="flex-1 min-w-0 bg-white border border-border rounded-lg p-[33px] flex flex-col gap-6">
         <SectionHeader
           icon={
             <svg className="size-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
             </svg>
           }
-          label="External Dependencies"
+          label="Top Dependencies"
           action={<ShowMoreButton onClick={onShowMore} />}
         />
-
         {/* One row per entity group */}
         <div className="flex flex-col gap-6">
-          {entityGroups.map(([entity, deps]) => {
+          {displayedGroups.map(([entity, deps]) => {
             const groupFunds = deps.reduce((s, d) => s + depFunds(d), 0)
             const groupLabel =
               entity ?? (namedEntities.length > 0 ? 'Other' : 'Unknown')
-            const maxGroupFunds = Math.max(
-              ...entityGroups.map(([, ds]) => ds.reduce((s, d) => s + depFunds(d), 0)),
-              0,
-            )
             const barWidth = maxGroupFunds > 0 ? (groupFunds / maxGroupFunds) * 100 : 0
             const mitigations = deduplicateMitigations(
               deps.flatMap((d) => d.functions?.flatMap((f) => f.mitigations ?? []) ?? []),
@@ -105,7 +153,7 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
                     ))}
                   </div>
                   <span className="font-mono font-bold text-sm text-text-primary shrink-0 ml-2">
-                    {groupFunds > 0 ? formatUsdValue(groupFunds) : '—'}
+                    {groupFunds > 0 ? `${formatUsdValue(groupFunds)} Impact` : '—'}
                   </span>
                 </div>
                 <div className="h-[10px] bg-border rounded-full overflow-hidden">
@@ -119,43 +167,6 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
           })}
         </div>
       </div>
-
-      {/* Right sidebar */}
-      <div className="w-[312px] shrink-0 bg-bg-card border border-border rounded-lg p-[33px] flex flex-col gap-8">
-        <div className="flex items-center gap-2">
-          <svg className="size-3 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
-          </svg>
-          <span className="font-bold text-[12px] uppercase text-text-muted tracking-[1.2px]">
-            Dependency Stats
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">
-            Impacted TVS
-          </p>
-          <p className="font-mono font-bold text-[30px] leading-[36px] text-text-primary">
-            {atRiskPct}%
-          </p>
-          <p className="text-xs text-text-muted mt-1">
-            Proportion of TVS exposed to external dependency risk.
-          </p>
-        </div>
-
-        <div className="border-t border-border pt-6 flex flex-col gap-2">
-          <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">
-            Dependencies
-          </p>
-          <p className="font-mono font-bold text-[30px] leading-[36px] text-text-primary">
-            {totals.dependencyCount}
-          </p>
-          {namedEntities.length > 0 && (
-            <p className="text-xs text-text-muted">
-              from {namedEntities.join(', ')}
-            </p>
-          )}
-        </div>
       </div>
     </div>
   )
