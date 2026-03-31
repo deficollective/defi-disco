@@ -1,6 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
-import { getAudits, getResources, updateAudits, updateResources } from '../../../api/api'
+import {
+  getAudits,
+  getResources,
+  updateAudits,
+  updateResources,
+} from '../../../api/api'
 import { IS_READONLY } from '../../../config/readonly'
 import type {
   AuditEntry,
@@ -115,7 +120,9 @@ export function ReviewResourcesEditor({ project }: ReviewResourcesEditorProps) {
               ({resources.length})
             </span>
             {mutation.isPending && (
-              <span className="ml-2 font-normal text-coffee-400">Saving...</span>
+              <span className="ml-2 font-normal text-coffee-400">
+                Saving...
+              </span>
             )}
             {mutation.isError && (
               <span className="ml-2 font-normal text-red-400">Save failed</span>
@@ -500,10 +507,7 @@ function AuditsEditor({ project }: { project: string }) {
       </div>
 
       {showAdd && (
-        <AddAuditForm
-          onSave={handleAdd}
-          onCancel={() => setShowAdd(false)}
-        />
+        <AddAuditForm onSave={handleAdd} onCancel={() => setShowAdd(false)} />
       )}
 
       {audits.map((entry, index) => (
@@ -551,10 +555,14 @@ function AuditEntryRow({
           <span className="inline-block rounded px-1.5 py-0.5 text-[10px] font-medium bg-rose-900/50 text-rose-300">
             Audit
           </span>
-          <span className="truncate text-xs text-coffee-100">{entry.author}</span>
+          <span className="truncate text-xs text-coffee-100">
+            {entry.author}
+          </span>
           <span className="text-[10px] text-coffee-400">{entry.date}</span>
           {entry.scope && (
-            <span className="text-[10px] text-coffee-400 truncate">— {entry.scope}</span>
+            <span className="text-[10px] text-coffee-400 truncate">
+              — {entry.scope}
+            </span>
           )}
         </div>
         {isDirty && <span className="text-xs text-yellow-400">*</span>}
@@ -603,7 +611,10 @@ function AuditEntryRow({
               type="number"
               value={local.bounty ?? ''}
               onChange={(e) =>
-                setLocal({ ...local, bounty: e.target.value ? Number(e.target.value) : undefined })
+                setLocal({
+                  ...local,
+                  bounty: e.target.value ? Number(e.target.value) : undefined,
+                })
               }
               disabled={IS_READONLY}
               placeholder="Max $ amount (optional)"
@@ -661,7 +672,8 @@ function AddAuditForm({
   const [bounty, setBounty] = useState('')
   const [url, setUrl] = useState('')
 
-  const isValid = author.trim().length > 0 && date.trim().length > 0 && url.trim().length > 0
+  const isValid =
+    author.trim().length > 0 && date.trim().length > 0 && url.trim().length > 0
 
   const handleSave = useCallback(() => {
     if (!isValid) return
