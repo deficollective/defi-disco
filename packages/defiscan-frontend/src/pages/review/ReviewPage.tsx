@@ -68,7 +68,7 @@ export function ReviewPage() {
             The review data for this protocol could not be loaded.
           </p>
           <Link
-            to="/protocols"
+            to="/gallery"
             className="mt-4 inline-block font-medium text-accent hover:text-blue-800"
           >
             Back to all reviews
@@ -84,7 +84,7 @@ export function ReviewPage() {
       <div className="mx-auto max-w-[1280px] px-6 py-4 print:hidden">
         <div className="flex items-center justify-between">
           <Link
-            to="/protocols"
+            to="/gallery"
             className="inline-flex items-center gap-1.5 text-sm text-text-secondary transition-colors hover:text-accent"
           >
             <svg

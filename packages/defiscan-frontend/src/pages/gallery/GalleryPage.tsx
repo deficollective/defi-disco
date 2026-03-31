@@ -74,14 +74,22 @@ function relativeTime(isoDate: string): string {
   return `${years} year${years !== 1 ? 's' : ''} ago`
 }
 
-function countMitigations(review: CompiledReview): number {
-  const adminM = review.admins.flatMap(
-    (a) => a.functions?.flatMap((f) => f.mitigations ?? []) ?? [],
+function countImpactFunctions(review: CompiledReview): number {
+  const adminFns = review.admins
+    .filter((a) => a.adminType !== 'Immutable')
+    .reduce(
+      (s, a) => s + (a.functions?.filter((f) => f.impact === 'critical').length ?? 0),
+      0,
+    )
+  const depFns = review.dependencies.reduce(
+    (s, d) =>
+      s +
+      d.functions.filter(
+        (f) => f.directFundsUsd > 0 || f.directTokenValueUsd > 0 || f.reachableContracts.length > 0,
+      ).length,
+    0,
   )
-  const depM = review.dependencies.flatMap(
-    (d) => d.functions?.flatMap((f) => f.mitigations ?? []) ?? [],
-  )
-  return adminM.length + depM.length
+  return adminFns + depFns
 }
 
 function deriveRadarData(review: CompiledReview) {
@@ -189,7 +197,7 @@ function ProtocolCard({
     return relativeTime(newest.timestamp)
   })()
 
-  const pointsOfTrust = review ? countMitigations(review) : 0
+  const pointsOfTrust = review ? countImpactFunctions(review) : 0
   const radarData = review ? deriveRadarData(review) : null
 
   return (

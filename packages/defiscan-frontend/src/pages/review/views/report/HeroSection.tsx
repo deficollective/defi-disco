@@ -55,11 +55,8 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
     <div className="grid grid-cols-12 gap-6 items-center min-h-[450px]">
       {/* Left: text + buttons */}
       <div className="col-span-12 lg:col-span-7 flex flex-col justify-center py-12">
-        {/* Badge + date row */}
+        {/* Date row */}
         <div className="flex items-center gap-3 mb-4">
-          <span className="bg-[#059669] text-white px-[10px] py-[2px] rounded-sm text-[10px] font-bold uppercase tracking-[0.5px]">
-            Verified Tier 1
-          </span>
           <span className="font-mono text-xs text-text-muted uppercase">
             Updated: {updateDate}
           </span>
