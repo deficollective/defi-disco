@@ -69,11 +69,30 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
     .filter(([e]) => e !== null)
     .map(([e]) => e as string)
 
-  const totalAtRisk = dependencies.reduce((s, d) => s + depFunds(d), 0)
+  // Use pre-computed deduplicated entity totals from the compiler when available,
+  // falling back to raw sum for old compiled reviews.
+  const entityGroupMap = new Map(
+    (review.dependencyEntityGroups ?? []).map((g) => [
+      g.entity,
+      g.totalFundsAtRisk + g.totalTokenValueAtRisk,
+    ]),
+  )
+  const getGroupFunds = (entity: string | null, deps: CompiledDependency[]) =>
+    entityGroupMap.has(entity)
+      ? (entityGroupMap.get(entity) ?? 0)
+      : deps.reduce((s, d) => s + depFunds(d), 0)
+
+  const totalAtRisk =
+    review.dependencyEntityGroups !== undefined
+      ? review.dependencyEntityGroups.reduce(
+          (s, g) => s + g.totalFundsAtRisk + g.totalTokenValueAtRisk,
+          0,
+        )
+      : dependencies.reduce((s, d) => s + depFunds(d), 0)
   const atRiskPct = totalTvs > 0 ? Math.round((totalAtRisk / totalTvs) * 100) : 0
   const displayedGroups = entityGroups.slice(0, 3)
   const maxGroupFunds = Math.max(
-    ...entityGroups.map(([, ds]) => ds.reduce((s, d) => s + depFunds(d), 0)),
+    ...entityGroups.map(([entity, ds]) => getGroupFunds(entity, ds)),
     0,
   )
 
@@ -132,7 +151,7 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
         {/* One row per entity group */}
         <div className="flex flex-col gap-6">
           {displayedGroups.map(([entity, deps]) => {
-            const groupFunds = deps.reduce((s, d) => s + depFunds(d), 0)
+            const groupFunds = getGroupFunds(entity, deps)
             const groupLabel =
               entity ?? (namedEntities.length > 0 ? 'Other' : 'Unknown')
             const barWidth = maxGroupFunds > 0 ? (groupFunds / maxGroupFunds) * 100 : 0

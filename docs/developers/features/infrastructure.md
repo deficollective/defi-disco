@@ -268,6 +268,7 @@ The report view received a full visual redesign:
   - **Empty state**: full frame with centered shield icon + "No external dependencies detected" + zeroed stats sidebar
 - **Governance section (`GovernanceSection.tsx`)**:
   - **Empty state** (no governance admins): white inner card with centered shield icon + "No governance system detected"
+- **`dependencyEntityGroups` (anti-double-counting)**: The report page groups deps by entity and previously summed `dep.totalFundsAtRisk` per group — double-counting when multiple deps of the same entity reach the same contracts. The compiler now emits a `dependencyEntityGroups` array with per-entity deduplicated totals. `DependenciesSection.tsx` uses these for bar chart values and the "Impacted TVS" stat, with a fallback for old compiled reviews.
 - **Code Quality section (`CodeQualitySection.tsx`)**:
   - Audits sorted newest-first by `date` (format `yyyy-mm`, lexicographic sort)
   - Bug Bounty row is a clickable `<a>` linking to the bounty audit entry's URL (when a `bounty`-bearing audit exists)

@@ -74,14 +74,12 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
           >
             {metadata.description}
           </p>
-          {!descExpanded && (
-            <button
-              onClick={() => setDescExpanded(true)}
-              className="mt-1 text-[18px] font-bold text-accent leading-[29px] hover:underline"
-            >
-              Show more
-            </button>
-          )}
+          <button
+            onClick={() => setDescExpanded((v) => !v)}
+            className="mt-1 text-[18px] font-bold text-accent leading-[29px] hover:underline"
+          >
+            {descExpanded ? 'Show less' : 'Show more'}
+          </button>
         </div>
 
         {/* Action buttons */}

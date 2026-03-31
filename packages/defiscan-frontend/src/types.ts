@@ -27,6 +27,11 @@ export interface CompiledReview {
 
   admins: CompiledAdmin[]
   dependencies: CompiledDependency[]
+  dependencyEntityGroups?: {
+    entity: string | null
+    totalFundsAtRisk: number
+    totalTokenValueAtRisk: number
+  }[]
   funds: CompiledFundHolder[]
   functions: CompiledFunction[]
   contracts: CompiledContract[]
