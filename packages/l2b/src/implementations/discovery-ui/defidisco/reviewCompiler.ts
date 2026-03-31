@@ -7,6 +7,7 @@ import {
 import type {
   ApiContractTagsResponse,
   ApiFunctionsResponse,
+  AuditEntry,
   ContractFundsData,
   ApiFundsDataResponse,
   Impact,
@@ -17,7 +18,7 @@ import type {
 import { getFunctions } from './functions'
 import { getFundsData } from './fundsData'
 import { getContractTags } from './contractTags'
-import { getResources } from './resources'
+import { getAudits, getResources } from './resources'
 import {
   normalizeChainAddress,
   addressesEqual,
@@ -68,6 +69,7 @@ export interface CompiledReview {
   functions: CompiledFunction[]
   contracts: CompiledContract[]
   resources: CompiledResourceEntry[]
+  audits: CompiledAuditEntry[]
   activity?: ActivityEvent[]
 
   sections: Record<string, unknown>
@@ -176,6 +178,7 @@ export interface CompiledContract {
 }
 
 export type CompiledResourceEntry = ResourceEntry
+export type CompiledAuditEntry = AuditEntry
 
 // ============================================================================
 // Activity Feed Types
@@ -277,9 +280,10 @@ export class ReviewCompiler {
       // 3. Read funds data
       const fundsData = getFundsData(this.paths, project)
 
-      // 4. Read contract tags and resources
+      // 4. Read contract tags, resources, and audits
       const contractTags = getContractTags(this.paths, project)
       const resources = getResources(this.paths, project)
+      const audits = getAudits(this.paths, project)
 
       // 5. Read functions data (for mitigations)
       const functionsData = getFunctions(this.paths, project)
@@ -344,6 +348,7 @@ export class ReviewCompiler {
         discoveryEntries,
         discovery,
         resources,
+        audits,
       )
 
       // 11. Resolve template variables in all description fields
@@ -383,6 +388,7 @@ export class ReviewCompiler {
     discoveryEntries: { name?: string; address: string; proxyType?: string }[],
     discovery: DiscoveryOutput,
     resources: ResourceEntry[],
+    audits: AuditEntry[],
   ): CompiledReview {
     const tagsByAddress = new Map<
       string,
@@ -715,6 +721,7 @@ export class ReviewCompiler {
       functions,
       contracts,
       resources,
+      audits,
       activity: activity.length > 0 ? activity : undefined,
       sections: reviewConfig.sections ?? {},
     }

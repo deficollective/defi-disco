@@ -1,13 +1,15 @@
 ---
 name: gather-resources
-description: Gather official resources (website, frontends, docs, GitHub, X, licenses, DeFiScan V1) for a DeFi protocol. Starts from a URL, searches the web, verifies links, and saves to resources.json.
-argument-hint: [project-name] [initial-url]
+description: Gather official resources (website, frontends, docs, GitHub, X, licenses, DeFiScan V1) and security audits for a DeFi protocol. Starts from a URL, searches the web, verifies links, and saves to resources.json. Supports --audits-only mode to gather only audits using existing resources as a starting point.
+argument-hint: "[project-name] [initial-url] [--audits-only]"
 allowed-tools: Bash, Read, Write, WebSearch, WebFetch
 ---
 
 # Gather Resources Agent
 
-You are a DeFi protocol resource collector. Your task is to discover and collect all official resources for the project **$0**, starting from the initial URL **$1**, and save them to the resources API.
+You are a DeFi protocol resource collector. Your task is to discover and collect official resources and/or security audits for the project **$0**.
+
+**Mode detection**: Check if any argument (`$1` or `$2`) equals `--audits-only`. If so, run in **audits-only mode** — skip Steps 1–3 and go straight to Step 0 → Step A → Steps 4–6. The initial URL is `$1` if it does not start with `--`, otherwise it is empty (you will derive starting points from existing resources).
 
 ## Prerequisites
 
@@ -15,19 +17,24 @@ The l2b UI server must be running at `http://localhost:2021`. If not, tell the u
 
 ---
 
-## Step 0: Load Existing Resources
+## Step 0: Load Existing Resources and Audits
 
-Fetch any resources that already exist so you can merge with them later.
+Fetch what already exists so you can merge later and use as starting points.
 
 ```bash
 curl -s localhost:2021/api/projects/$0/resources > /tmp/gather-existing-resources.json
+curl -s localhost:2021/api/projects/$0/audits > /tmp/gather-existing-audits.json
 ```
 
-Read `/tmp/gather-existing-resources.json`. If the file contains a non-empty JSON array, note which URLs are already present. You will preserve all existing entries and only add new ones.
+Read both files:
+- If `resources` contains a non-empty array, note which URLs are already present (you will preserve them and only add new ones). Also note the **website URL**, **GitHub URL(s)**, and **docs URL** from existing resources — these are your starting points for audit discovery.
+- If `audits` contains a non-empty array, note which audit URLs are already present (same deduplication rule).
 
 ---
 
 ## Step 1: Crawl the Initial URL
+
+*(Skip this step in audits-only mode)*
 
 Use **WebFetch** on `$1` to load the initial page. Extract all links from the page content. Look specifically for:
 
@@ -42,6 +49,8 @@ Record every potentially useful URL you find.
 
 ## Step 2: Web Search for Additional Resources
 
+*(Skip this step in audits-only mode)*
+
 Use **WebSearch** to find resources that may not be linked from the initial page. Run these searches (adapt the protocol name from `$0`, converting hyphens to spaces and capitalizing):
 
 1. `"<protocol name>" site:github.com` — find GitHub repos
@@ -54,7 +63,9 @@ For each search, evaluate results carefully. Only use results that clearly belon
 
 ---
 
-## Step 3: Verify and Classify Each URL
+## Step 3: Verify and Classify Each Resource URL
+
+*(Skip this step in audits-only mode)*
 
 For every candidate URL, use **WebFetch** to verify it is accessible (returns HTTP 200). Discard any URL that returns an error or redirects to an unrelated page.
 
@@ -120,9 +131,75 @@ Classify each verified URL into one of these types:
 
 ---
 
+## Step A: Gather Security Audits
+
+*(Run in both normal mode and audits-only mode)*
+
+Security audits are stored separately as `AuditEntry[]` with fields: `url`, `author`, `date`, `scope?`.
+
+### Starting points for audit discovery
+
+Use the following as entry points (from existing resources loaded in Step 0, or from resources found in Steps 1–3):
+- **GitHub org/repo URL** — check for an `/audits/`, `/security/`, or `/docs/security/` directory
+- **Website URL** — look for a security or audits page
+- **Docs URL** — look for a security section
+
+### Discovery steps
+
+1. **GitHub audit directory**: For each known GitHub URL (e.g., `https://github.com/compound-finance`):
+   - Use WebFetch on `<github-url>` to scan the page for links to audit files or audit directories
+   - Try fetching: `<repo>/tree/main/audits`, `<repo>/tree/main/security`, `<repo>/tree/main/docs/security`, `<repo>/tree/main/docs/audits`
+   - If an audits directory is found, fetch it and collect individual audit file links (PDF, MD, or external report pages)
+
+2. **Website/docs security page**: Use WebFetch on the known website and docs URLs. Look for a "Security", "Audits", or "Bug Bounty" section in the navigation or footer. If found, fetch the linked page and collect audit report URLs.
+
+3. **Web search**: Run these searches:
+   - `"<protocol name>" security audit report`
+   - `"<protocol name>" audit github`
+   - Evaluate results — only use links that originate from the **protocol's own GitHub org or official website**. Do NOT use third-party listing sites (e.g., DeFiYield, Rekt, audit aggregators) as the primary source. If a third-party site lists an audit, try to find the original link from the protocol's own sources.
+
+### For each found audit
+
+1. **Verify the URL** via WebFetch — it must be accessible (HTTP 200)
+2. **Verify it is official** — the URL must be from:
+   - The protocol's own GitHub organization (e.g., `github.com/<protocol-org>/...`)
+   - The protocol's own website or docs domain
+   - The auditing firm's website (e.g., `blog.openzeppelin.com`, `reports.trail-of-bits.com`) — these are acceptable as the official source when the protocol links to them
+3. **Extract metadata** from the file/page:
+   - `author`: the name of the auditing firm (e.g., `"Trail of Bits"`, `"OpenZeppelin"`, `"ChainSecurity"`)
+   - `date`: the audit date in `"YYYY-MM"` or `"YYYY-MM-DD"` format — look in the filename, report header, or GitHub commit date
+   - `scope`: optional short description of what was audited (e.g., `"Core contracts"`, `"Staking module"`, `"v2 upgrade"`) — extract from the report title or introduction. **Keep it brief: 2–5 words max.** Do not include the firm name, protocol name, or methodology notes like "(formal verification)".
+4. **Deduplicate** against existing audits (by URL, case-insensitive)
+
+### Bug Bounty Program
+
+After collecting audit reports, search for an active bug bounty program:
+
+1. Web search: `"<protocol name>" bug bounty Immunefi` and `"<protocol name>" bug bounty HackerOne`
+2. Check the protocol's website/docs for a "Security" or "Bug Bounty" page — often linked in the footer or security section
+3. If a program is found:
+   - Verify the page is accessible (HTTP 200) and belongs to this protocol
+   - Extract the **maximum bounty amount** in USD (look for "up to $X" or "maximum reward" language)
+   - Always create a **new dedicated entry**: `{ author: "<platform name>", scope: "Bug Bounty Program", date: "<program launch date or current year>", url: "<bounty program URL>", bounty: <max_amount> }`
+   - `author` is the platform hosting the program (e.g. `"Immunefi"`, `"HackerOne"`)
+   - `bounty` is a plain number in USD (e.g. `500000` for $500K, `1000000` for $1M) — no formatting, no $ sign
+   - Do NOT add `bounty` to existing audit entries
+
+### Audit quality checks
+
+Before saving, verify:
+- Every audit entry has `author` and `date` (required fields)
+- Every `url` has been fetched and confirmed accessible
+- No duplicate URLs
+- All URLs come from official sources
+
+---
+
 ## Step 4: Build the Final Resource List
 
-### Merge Rules
+*(Skip resource list building in audits-only mode — only save audits)*
+
+### Merge Rules (resources)
 
 1. Start with all existing resources (from Step 0)
 2. For each new resource you found:
@@ -131,7 +208,7 @@ Classify each verified URL into one of these types:
    - Otherwise, add the new entry
 3. Sort the final list by type in this order: `website`, `frontend`, `docs`, `github`, `x`, `source-code`, `license`, `defiscan-v1`, `other`
 
-### Quality Checks
+### Quality Checks (resources)
 
 Before saving, verify:
 - Every URL has been fetched and confirmed accessible
@@ -147,7 +224,9 @@ Before saving, verify:
 
 ## Step 5: Save via API
 
-Write the final JSON array to `/tmp/gather-final-resources.json` using the Write tool, then save via the PUT endpoint:
+**Resources** (skip in audits-only mode):
+
+Write the final resources JSON array to `/tmp/gather-final-resources.json` using the Write tool, then save:
 
 ```bash
 curl -s -X PUT localhost:2021/api/projects/$0/resources \
@@ -155,10 +234,21 @@ curl -s -X PUT localhost:2021/api/projects/$0/resources \
   -d @/tmp/gather-final-resources.json
 ```
 
+**Audits** (always):
+
+Write the final audits JSON array to `/tmp/gather-final-audits.json` using the Write tool, then save:
+
+```bash
+curl -s -X PUT localhost:2021/api/projects/$0/audits \
+  -H "Content-Type: application/json" \
+  -d @/tmp/gather-final-audits.json
+```
+
 Clean up:
 
 ```bash
-rm -f /tmp/gather-existing-resources.json /tmp/gather-final-resources.json
+rm -f /tmp/gather-existing-resources.json /tmp/gather-existing-audits.json \
+       /tmp/gather-final-resources.json /tmp/gather-final-audits.json
 ```
 
 ---
@@ -166,10 +256,13 @@ rm -f /tmp/gather-existing-resources.json /tmp/gather-final-resources.json
 ## Step 6: Report
 
 Print a summary:
-- Total resources saved (new + existing)
-- How many were newly added vs already present
+- Total resources saved (new + existing) — skip in audits-only mode
+- Total audits saved (new + existing)
+- How many resources/audits were newly added vs already present
 - List each new resource with its type and URL
+- List each new audit with author, date, scope, and URL
 - Note any resource types that are missing (e.g., "No documentation URL found", "No license found")
+- Note if no audits were found and where you looked
 - If you could not verify a potentially useful URL, mention it so the user can check manually
 
 ---
@@ -183,4 +276,4 @@ Print a summary:
 - **No trailing spaces** in URLs
 - **No emojis** in labels or output
 - **Include third-party frontends** (DeFi Saver, Instadapp, etc.) — flag them as `"third-party"` subtype
-- **Do NOT search for audit reports** — audits are handled separately in review-config's codeAndAudits section
+- **Audits-only mode**: use existing resources (website, GitHub, docs) as starting points — do not re-gather or overwrite resources

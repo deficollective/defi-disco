@@ -30,7 +30,7 @@ export function ReportView({ review, onExportPdf }: ReportViewProps) {
   return (
     <div className="flex flex-col gap-[80px] pb-24">
       {/* Hero */}
-      <section className="w-full border-b border-border">
+      <section className="w-full">
         <div className="mx-auto w-full max-w-[1280px] px-6">
           <HeroSection review={review} onExportPdf={onExportPdf} />
         </div>

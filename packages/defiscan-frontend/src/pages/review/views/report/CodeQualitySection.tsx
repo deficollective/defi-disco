@@ -9,10 +9,20 @@ interface CodeQualitySectionProps {
 export function CodeQualitySection({ review }: CodeQualitySectionProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const { totals, resources = [] } = review
+  const audits = [...(review.audits ?? [])].sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
 
-  const audits = resources.filter((r) => r.type === 'other' && r.label?.toLowerCase().includes('audit'))
   const licenses = resources.filter((r) => r.type === 'license')
-  const sourceCode = resources.filter((r) => r.type === 'source-code' || r.type === 'github')
+  const maxBountyAudit = audits.reduce<(typeof audits)[0] | null>(
+    (best, a) => ((a.bounty ?? 0) > (best?.bounty ?? 0) ? a : best),
+    null,
+  )
+  const maxBounty = maxBountyAudit?.bounty ?? 0
+
+  function formatBounty(amount: number): string {
+    if (amount >= 1_000_000) return `$${amount / 1_000_000}M`
+    if (amount >= 1_000) return `$${amount / 1_000}K`
+    return `$${amount.toLocaleString()}`
+  }
 
   function scroll(dir: 'prev' | 'next') {
     const el = scrollRef.current
@@ -84,16 +94,36 @@ export function CodeQualitySection({ review }: CodeQualitySectionProps) {
               </div>
             </div>
             {/* Bug bounty row */}
-            <div className="flex items-center h-[48px] gap-1">
-              <div className="w-[127px] shrink-0 flex items-center justify-center">
-                <span className="font-mono font-bold text-[36px] leading-none text-accent">—</span>
+            {maxBountyAudit ? (
+              <a
+                href={maxBountyAudit.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center h-[48px] gap-1 hover:opacity-75 transition-opacity"
+              >
+                <div className="w-[127px] shrink-0 flex items-center justify-center">
+                  <span className="font-mono font-bold text-[36px] leading-none text-accent">
+                    {maxBounty > 0 ? formatBounty(maxBounty) : '—'}
+                  </span>
+                </div>
+                <div className="flex-1 flex items-center justify-center">
+                  <span className="font-bold text-[14px] uppercase text-text-muted text-center">
+                    Bug Bounty
+                  </span>
+                </div>
+              </a>
+            ) : (
+              <div className="flex items-center h-[48px] gap-1">
+                <div className="w-[127px] shrink-0 flex items-center justify-center">
+                  <span className="font-mono font-bold text-[36px] leading-none text-accent">—</span>
+                </div>
+                <div className="flex-1 flex items-center justify-center">
+                  <span className="font-bold text-[14px] uppercase text-text-muted text-center">
+                    Bug Bounty
+                  </span>
+                </div>
               </div>
-              <div className="flex-1 flex items-center justify-center">
-                <span className="font-bold text-[14px] uppercase text-text-muted text-center">
-                  Bug Bounty
-                </span>
-              </div>
-            </div>
+            )}
           </div>
         </div>
 
@@ -140,7 +170,7 @@ export function CodeQualitySection({ review }: CodeQualitySectionProps) {
       </div>
 
       {/* Audit Reports Carousel */}
-      {(sourceCode.length > 0 || audits.length > 0) && (
+      {audits.length > 0 && (
         <div className="flex flex-col gap-6">
           <div className="flex items-center justify-between">
             <p className="font-bold text-[12px] uppercase text-text-muted tracking-[1.2px]">
@@ -149,10 +179,10 @@ export function CodeQualitySection({ review }: CodeQualitySectionProps) {
             <CarouselNav onPrev={() => scroll('prev')} onNext={() => scroll('next')} />
           </div>
           <div ref={scrollRef} className="flex gap-6 overflow-x-auto pb-4 scrollbar-none">
-            {[...audits, ...sourceCode].map((res, i) => (
+            {audits.map((audit, i) => (
               <a
-                key={i}
-                href={res.url}
+                key={`audit-${i}`}
+                href={audit.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white min-w-[280px] border border-border rounded-lg px-[25px] py-[25px] flex items-center gap-4 hover:border-accent/40 hover:shadow-sm transition-all shrink-0"
@@ -162,11 +192,12 @@ export function CodeQualitySection({ review }: CodeQualitySectionProps) {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </div>
-                <div>
-                  <p className="font-bold text-[14px] text-text-primary">{res.label ?? 'Audit Report'}</p>
-                  <p className="text-[10px] uppercase tracking-[0.25px] text-text-muted mt-0.5">
-                    {res.type === 'github' ? 'GitHub' : 'Source Code'}
-                  </p>
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-[14px] text-text-primary truncate">{audit.author}</p>
+                  <p className="text-[11px] text-text-muted mt-0.5">{audit.date}</p>
+                  {audit.scope && (
+                    <p className="text-[10px] uppercase tracking-[0.25px] text-text-muted mt-0.5 truncate">{audit.scope}</p>
+                  )}
                 </div>
               </a>
             ))}

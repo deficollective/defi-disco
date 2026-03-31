@@ -32,6 +32,7 @@ export interface CompiledReview {
   contracts: CompiledContract[]
 
   resources?: CompiledResourceEntry[]
+  audits?: AuditEntry[]
   activity?: ActivityEvent[]
   sections: Record<string, unknown>
 }
@@ -54,6 +55,14 @@ export interface CompiledResourceEntry {
   label?: string
   frontendSubtype?: CompiledFrontendSubtype
   licenseScope?: string
+}
+
+export interface AuditEntry {
+  url: string
+  author: string
+  date: string
+  scope?: string
+  bounty?: number
 }
 
 export interface CompiledAdmin {

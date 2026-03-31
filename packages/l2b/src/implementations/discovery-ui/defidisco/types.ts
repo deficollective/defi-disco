@@ -774,6 +774,14 @@ export interface ResourceEntry {
   licenseScope?: string
 }
 
+export interface AuditEntry {
+  url: string
+  author: string
+  date: string
+  scope?: string
+  bounty?: number
+}
+
 export interface ReviewConfig {
   version: string
   lastModified: string
