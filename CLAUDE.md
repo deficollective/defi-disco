@@ -104,8 +104,9 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - Scoring UI (inventory sections, shared `scoringShared.tsx` module, capital display, enhanced graph capital analysis)
 - Upgrade Function Capital (`isUpgrade` flag in data pipeline, UPGRADE badges in UI — upgrade functions seed BFS with all contract functions for full capital exposure)
 - Review Builder (`review-config.json`, entity descriptions, templates)
-- Resources (`resources.json` — separate per-project file, auto-saves independently)
-- Resource Gathering Agent (`/gather-resources` Claude Code skill — web search + verify for official links, licenses, socials)
+- Resources (`resources.json` — wrapper object `{ resources, audits }` per project, auto-saves independently)
+- Audits (`audits` array in `resources.json` — `AuditEntry[]` with `url`, `author`, `date`, `scope?`, `bounty?`; `bounty` = max bug bounty USD amount; separate from `ResourceEntry[]`)
+- Resource Gathering Agent (`/gather-resources` Claude Code skill — web search + verify for official links, licenses, socials, security audits, and bug bounty programs; `--audits-only` flag skips resource gathering and only discovers/saves audits using existing resources as starting points)
 - Review Generation Agent (`/generate-review` Claude Code skill)
 - Review Compiler (`compiled-review.json` — thin assembly layer over ProjectAnalysis, template variable resolution, bulk compile-all endpoint)
 - Mitigations Display (badges in explorer tabs + report cards, key findings card, `deduplicateMitigations`)
@@ -116,6 +117,8 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - Contract Tags data structure (`contract-tags.json`, cleanup rules)
 - Funds Tracking (DeBank API, Morpho vault onchain positions, `funds-data.json`, aggregate funds via The Graph subgraphs)
 - DeFiScan Frontend (static React app, Vercel deployment, shareable report view, TVS metric, mitigation badges in report cards)
+  - Gallery Page (`/gallery` — card grid of all protocols with radar chart, filters, pagination, status badge)
+  - Report Page redesign (outer frame sections for admins/deps/governance, empty states, hero without tier badge)
 - Activity Feed (contract upgrade timeline from `$pastUpgrades`, third top-level view in defiscan-frontend)
 - Continuous Monitoring Service (GitHub Actions cron, discovery + diff + funds + compile)
 - Discovery Agent (`/run-discovery` Claude Code skill — iterative contract discovery, external/governance/funds tagging, handler configuration, array overflow error fixing)
@@ -184,6 +187,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - **Contract Tags**: Use `useContractTags(project)` hook — note: `isExternal`/`isGovernance`/`entity` are already included in admin/dependency API responses, so new components rarely need this hook directly
 - **Permission Overrides**: Use `useQuery` with `getPermissionOverrides(project)` directly (no hook exists)
 - **Resources**: Use `useQuery` with `getResources(project)` — auto-saves on mutation via `updateResources()`, no panel Save button needed. Stored in `resources.json` (separate from review-config)
+- **Audits**: Use `useQuery` with `getAudits(project)` — auto-saves on mutation via `updateAudits(project, audits[])`. Stored in same `resources.json` under `audits[]`, separate array from resources. `bounty` field (optional number) on an entry = max bug bounty USD (shown in defiscan-frontend Bug Bounty stat)
 - **EOA Counting**: EOAs stored separately in `entry.eoas[]` array, not mixed with contracts
 
 ### Address Handling
@@ -266,7 +270,7 @@ packages/
 │   ├── DependencyInventoryBreakdown.tsx  # Dependencies section (receives ApiDependenciesResponse + ApiAdminsResponse)
 │   ├── FunctionBreakdown.tsx         # Functions section
 │   ├── ReviewDescriptionsEditor.tsx  # Review descriptions editor (Descriptions tab)
-│   ├── ReviewResourcesEditor.tsx    # Resources editor (links, frontends, socials)
+│   ├── ReviewResourcesEditor.tsx    # Resources & audits editor (links, frontends, socials, security audits, bug bounties)
 │   ├── ResourcesPanel.tsx          # Standalone Resources panel (wraps ReviewResourcesEditor)
 │   ├── FundsTagsButton.tsx         # Funds fetching controls (balances, positions, token, aggregate)
 │   ├── FundsSection.tsx            # Funds display in DeFiScan panel (tokens, aggregate, contracts)
@@ -278,7 +282,7 @@ packages/
 │   ├── contractTags.ts
 │   ├── projectAnalysis.ts            # Central computation class (getAdmins, getDependencies, getSummary, getMitigationsForOwner)
 │   ├── reviewConfig.ts              # Review config CRUD
-│   ├── resources.ts                  # Resources CRUD (resources.json, with legacy review-config fallback)
+│   ├── resources.ts                  # Resources & audits CRUD (resources.json wrapper format { resources, audits }, legacy bare-array fallback)
 │   ├── reviewCompiler.ts            # Compiled review builder (thin layer over ProjectAnalysis)
 │   ├── generatePermissionsReport.ts
 │   ├── callGraph.ts                  # Slither-based external call detection
@@ -292,6 +296,7 @@ packages/
 │   ├── scripts/compile-data.ts       # Build-time data aggregation
 │   └── src/
 │       ├── components/MitigationBadge.tsx  # Mitigation badge display (delay, valueRange, relativeValue, other — uses label for 'other' type if present)
+│       ├── pages/gallery/GalleryPage.tsx   # Protocol gallery (/gallery — card grid, filters, radar, pagination, status badge)
 │       ├── pages/review/views/ActivityView.tsx  # Activity feed (upgrade timeline, top-level view)
 │       └── pages/review/views/explorer/shared.tsx  # Shared explorer tab components (SortHeader, MitigationsSummary, ExpandedAdminFunctions)
 ├── backend/src/modules/defi-update-monitor/defidisco/
@@ -307,7 +312,7 @@ packages/
 │           └── frankencoinMintinghub.ts  # Frankencoin API (no key needed)
 └── config/src/projects/compound-v3/
     ├── permission-overrides.json
-    ├── resources.json                # Per-project resources (links, licenses, socials)
+    ├── resources.json                # Per-project resources + audits ({ resources: ResourceEntry[], audits: AuditEntry[] })
     └── review-config.json            # Per-project review config
 ```
 
