@@ -49,48 +49,48 @@ export function TVSSection({ review, onShowMore }: TVSSectionProps) {
   }))
 
   return (
-    <div className="flex gap-[30px] items-stretch">
+    <div className="flex flex-col sm:flex-row gap-[30px] items-stretch">
       {/* Left stats card */}
-      <div className="w-[312px] shrink-0 bg-bg-card border border-border rounded-lg p-[33px] flex flex-col justify-center gap-8">
+      <div className="sm:w-[312px] sm:shrink-0 bg-bg-card border border-border rounded-lg p-6 sm:p-[33px] flex flex-row sm:flex-col justify-between sm:justify-center gap-6 sm:gap-8">
         <div className="flex flex-col gap-1">
           <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">
             Total TVS
           </p>
-          <p className="font-mono font-bold text-[36px] leading-[40px] text-text-primary">
+          <p className="font-mono font-bold text-2xl sm:text-[36px] sm:leading-[40px] text-text-primary">
             {formatUsdValue(totalTvs)}
           </p>
         </div>
-        <div className="border-t border-border pt-[33px] flex flex-col gap-1">
+        <div className="sm:border-t sm:border-border sm:pt-[33px] flex flex-col gap-1">
           <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">
             Contracts Holding TVS
           </p>
-          <p className="font-mono font-bold text-[36px] leading-[40px] text-text-primary">
+          <p className="font-mono font-bold text-2xl sm:text-[36px] sm:leading-[40px] text-text-primary">
             {funds.length}
           </p>
         </div>
       </div>
 
       {/* Right chart + legend */}
-      <div className="flex-1 min-w-0 bg-white border border-border rounded-lg p-[33px] flex flex-col gap-8">
+      <div className="flex-1 min-w-0 bg-white border border-border rounded-lg p-6 sm:p-[33px] flex flex-col gap-6 sm:gap-8">
         <div className="flex items-center justify-between">
           <p className="font-bold text-[12px] uppercase text-text-muted tracking-[1.2px]">
-            Total Value Secured (TVS) Distribution
+            TVS Distribution
           </p>
           <ShowMoreButton onClick={onShowMore} />
         </div>
 
         {pieData.length > 0 ? (
-          <div className="flex items-center gap-8">
+          <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
             {/* Donut */}
-            <div className="w-[256px] h-[256px] shrink-0">
+            <div className="w-full sm:w-[256px] h-[200px] sm:h-[256px] sm:shrink-0">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={pieData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={60}
-                    outerRadius={112}
+                    innerRadius="35%"
+                    outerRadius="65%"
                     dataKey="value"
                     strokeWidth={2}
                     stroke="#f8fafc"
@@ -108,7 +108,7 @@ export function TVSSection({ review, onShowMore }: TVSSectionProps) {
             </div>
 
             {/* Legend */}
-            <div className="flex-1 min-w-0 flex flex-col gap-6">
+            <div className="w-full sm:flex-1 min-w-0 flex flex-col gap-4 sm:gap-6">
               {pieData.map((entry, i) => {
                 const pct = pieTotal > 0 ? ((entry.value / pieTotal) * 100).toFixed(1) : '0'
                 return (

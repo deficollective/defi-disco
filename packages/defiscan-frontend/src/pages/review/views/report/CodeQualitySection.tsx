@@ -34,7 +34,7 @@ export function CodeQualitySection({ review }: CodeQualitySectionProps) {
   const license1 = licenses[1]
 
   return (
-    <div className="bg-bg-card border border-border rounded-lg p-[33px] flex flex-col gap-8">
+    <div className="bg-bg-card border border-border rounded-lg p-5 sm:p-[33px] flex flex-col gap-8">
       <SectionHeader
         icon={
           <svg className="size-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -45,7 +45,7 @@ export function CodeQualitySection({ review }: CodeQualitySectionProps) {
       />
 
       {/* 3 sub-cards */}
-      <div className="grid grid-cols-3 gap-x-[20px]">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-x-[20px]">
         {/* Source Code Verification */}
         <div className="bg-white border border-border rounded-lg p-[25px] flex flex-col gap-6">
           <p className="font-bold text-[12px] uppercase text-text-muted tracking-[1.2px]">

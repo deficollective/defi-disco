@@ -86,7 +86,7 @@ export function ProtocolsPage() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-7xl px-8 py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8 py-12">
         <p className="text-text-muted">Loading protocols...</p>
       </div>
     )
@@ -94,14 +94,14 @@ export function ProtocolsPage() {
 
   if (!indexData) {
     return (
-      <div className="mx-auto max-w-7xl px-8 py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8 py-12">
         <p className="text-status-red">Failed to load data.</p>
       </div>
     )
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-8 py-8">
+    <div className="mx-auto max-w-7xl px-4 sm:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-text-primary tracking-heading-1">
@@ -117,7 +117,7 @@ export function ProtocolsPage() {
       </div>
 
       {/* Stats + Search row */}
-      <div className="flex items-end justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
         <div className="grid grid-cols-2 gap-4">
           <StatCard
             label="Protocols Reviewed"
@@ -128,14 +128,14 @@ export function ProtocolsPage() {
             value={formatUsdValue(indexData.globalTotals.totalCapitalAtRisk)}
           />
         </div>
-        <div className="relative">
+        <div className="relative w-full sm:w-auto">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
           <input
             type="text"
             placeholder="Filter protocols..."
             value={searchFilter}
             onChange={(e) => setSearchFilter(e.target.value)}
-            className="pl-9 pr-4 py-2 w-64 rounded-lg border border-border bg-white text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+            className="pl-9 pr-4 py-2 w-full sm:w-64 rounded-lg border border-border bg-white text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
           />
         </div>
       </div>

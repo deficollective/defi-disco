@@ -52,9 +52,9 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
     : '—'
 
   return (
-    <div className="grid grid-cols-12 gap-6 items-center min-h-[450px]">
+    <div className="grid grid-cols-12 gap-6 items-center">
       {/* Left: text + buttons */}
-      <div className="col-span-12 lg:col-span-7 flex flex-col justify-center py-12">
+      <div className="col-span-12 lg:col-span-7 flex flex-col justify-center py-8 lg:py-12">
         {/* Date row */}
         <div className="flex items-center gap-3 mb-4">
           <span className="font-mono text-xs text-text-muted uppercase">
@@ -63,29 +63,29 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
         </div>
 
         {/* Protocol name */}
-        <h1 className="font-bold text-[48px] leading-[48px] tracking-[-1.2px] text-text-primary mb-4">
+        <h1 className="font-bold text-3xl sm:text-4xl lg:text-[48px] lg:leading-[48px] tracking-[-1.2px] text-text-primary mb-4">
           {metadata.protocolName}
         </h1>
 
         {/* Description with Show more */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <p
-            className={`text-[18px] font-normal text-text-muted leading-[29px] ${!descExpanded ? 'line-clamp-3' : ''}`}
+            className={`text-base sm:text-[18px] font-normal text-text-muted sm:leading-[29px] ${!descExpanded ? 'line-clamp-3' : ''}`}
           >
             {metadata.description}
           </p>
           <button
             onClick={() => setDescExpanded((v) => !v)}
-            className="mt-1 text-[18px] font-bold text-accent leading-[29px] hover:underline"
+            className="mt-1 text-base sm:text-[18px] font-bold text-accent sm:leading-[29px] hover:underline"
           >
             {descExpanded ? 'Show less' : 'Show more'}
           </button>
         </div>
 
         {/* Action buttons */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
           <button
-            className="flex items-center gap-2 bg-accent text-white px-6 py-[13px] rounded-sm font-semibold text-base hover:bg-accent-dark transition-colors"
+            className="flex items-center gap-2 bg-accent text-white px-4 sm:px-6 py-3 sm:py-[13px] rounded-sm font-semibold text-sm sm:text-base hover:bg-accent-dark transition-colors"
             onClick={() => window.open(`https://defiscan.info/protocol/${metadata.protocolSlug}`, '_blank')}
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -98,7 +98,7 @@ export function HeroSection({ review, onExportPdf }: HeroSectionProps) {
       </div>
 
       {/* Right: radar chart */}
-      <div className="col-span-12 lg:col-span-5 h-[450px] relative">
+      <div className="col-span-12 lg:col-span-5 h-[260px] sm:h-[360px] lg:h-[450px] relative">
         <div className="absolute inset-0 rounded-lg border border-border bg-[#f8fafc] overflow-hidden">
           {/* Radial gradient overlay */}
           <div

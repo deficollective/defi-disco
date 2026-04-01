@@ -452,7 +452,7 @@ export function GalleryPage() {
   }
 
   return (
-    <div className="mx-auto max-w-[1280px] px-6 py-10">
+    <div className="mx-auto max-w-[1280px] px-4 sm:px-6 py-8 sm:py-10">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-text-primary tracking-tight">
@@ -543,7 +543,7 @@ export function GalleryPage() {
 
       {/* Pagination */}
       {filtered.length > 0 && (
-        <div className="mt-10 flex items-center justify-between text-sm">
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
           <span className="text-text-muted text-xs">
             Showing {showingFrom}–{showingTo} of {filtered.length} assessments
           </span>

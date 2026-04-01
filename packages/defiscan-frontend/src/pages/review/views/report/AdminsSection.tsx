@@ -74,27 +74,27 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
   // If no admins at all, or no human/governance control — show immutable empty state
   if (admins.length === 0 || noHumanControl) {
     return (
-      <div className="bg-bg-card border border-border rounded-lg p-[33px] flex flex-col gap-6">
+      <div className="bg-bg-card border border-border rounded-lg p-5 sm:p-[33px] flex flex-col gap-6">
         <div className="flex items-center gap-2">
           <svg className="size-3.5 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
           </svg>
           <span className="font-bold text-[11px] uppercase text-text-muted tracking-[1.2px]">Administrative Control</span>
         </div>
-        <div className="flex gap-[30px] items-start">
+        <div className="flex flex-col sm:flex-row gap-[30px] items-start">
           <div className="flex-1 min-w-0 bg-white border border-border rounded-lg p-[33px] flex flex-col items-center justify-center gap-4 min-h-[220px]">
             <svg className="size-14 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
             </svg>
             <p className="text-sm text-text-muted">No permissioned resources</p>
           </div>
-          <div className="w-[312px] shrink-0 flex flex-col gap-[24px] bg-bg-card rounded-lg p-[33px]">
+          <div className="sm:w-[312px] sm:shrink-0 flex flex-row sm:flex-col justify-between sm:justify-start gap-6 sm:gap-[24px] bg-bg-card rounded-lg p-6 sm:p-[33px]">
             <div className="flex flex-col gap-1">
               <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">Impacted TVS</p>
               <p className="font-mono font-bold text-[36px] leading-[36px] text-text-primary">0%</p>
               <p className="text-xs text-text-muted mt-1">Proportion of TVS subject to admin control.</p>
             </div>
-            <div className="border-t border-border pt-6 flex flex-col gap-1">
+            <div className="sm:border-t sm:border-border sm:pt-6 flex flex-col gap-1">
               <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">Admins Detected</p>
               <p className="font-mono font-bold text-[36px] leading-[36px] text-text-primary">0</p>
             </div>
@@ -114,7 +114,7 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
   const displayedAdmins = sortedByImpact.slice(0, 3)
 
   return (
-    <div className="bg-bg-card border border-border rounded-lg p-[33px] flex flex-col gap-6">
+    <div className="bg-bg-card border border-border rounded-lg p-5 sm:p-[33px] flex flex-col gap-6">
       {/* Section label */}
       <div className="flex items-center gap-2">
         <svg className="size-3.5 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -124,9 +124,9 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
           Administrative Control
         </span>
       </div>
-      <div className="flex gap-[30px] items-start">
+      <div className="flex flex-col sm:flex-row gap-[30px] items-start">
       {/* Left: bar chart card — contains header + rows */}
-      <div className="flex-1 min-w-0 bg-white border border-border rounded-lg p-[33px] flex flex-col gap-6">
+      <div className="flex-1 min-w-0 bg-white border border-border rounded-lg p-5 sm:p-[33px] flex flex-col gap-6">
         <SectionHeader
           icon={
             <svg className="size-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -190,7 +190,7 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
       </div>
 
       {/* Right sidebar — same bg as outer frame so it blends */}
-      <div className="w-[312px] shrink-0 flex flex-col gap-[24px] bg-bg-card rounded-lg p-[33px]">
+      <div className="sm:w-[312px] sm:shrink-0 flex flex-row sm:flex-col justify-between sm:justify-start gap-6 sm:gap-[24px] bg-bg-card rounded-lg p-6 sm:p-[33px]">
         <div className="flex flex-col gap-1">
           <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">
             Impacted TVS
@@ -203,7 +203,7 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
           </p>
         </div>
 
-        <div className="border-t border-border pt-6 flex flex-col gap-1">
+        <div className="sm:border-t sm:border-border sm:pt-6 flex flex-col gap-1">
           <p className="font-bold text-[10px] uppercase text-text-muted tracking-[0.5px]">
             Admins Detected
           </p>

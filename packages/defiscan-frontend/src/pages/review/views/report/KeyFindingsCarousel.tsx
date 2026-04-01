@@ -44,7 +44,7 @@ export function KeyFindingsCarousel({ review }: KeyFindingsCarouselProps) {
         {findings.map((finding, i) => (
           <div
             key={i}
-            className={`w-[340px] shrink-0 p-[33px] rounded-lg border border-border flex flex-col gap-2 ${BG_BY_TYPE[finding.type]}`}
+            className={`w-[280px] sm:w-[340px] shrink-0 p-6 sm:p-[33px] rounded-lg border border-border flex flex-col gap-2 ${BG_BY_TYPE[finding.type]}`}
           >
             <p className="font-bold text-[18px] leading-[28px] text-text-primary">
               {finding.title}

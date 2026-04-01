@@ -81,8 +81,8 @@ export function ReviewPage() {
   return (
     <div className="w-full bg-white">
       {/* Back nav + View toggle bar */}
-      <div className="mx-auto max-w-[1280px] px-6 py-4 print:hidden">
-        <div className="flex items-center justify-between">
+      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 py-4 print:hidden">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
           <Link
             to="/gallery"
             className="inline-flex items-center gap-1.5 text-sm text-text-secondary transition-colors hover:text-accent"
@@ -122,12 +122,12 @@ export function ReviewPage() {
           <ReportView review={review} onExportPdf={handleExportPdf} />
         )}
         {view === 'explorer' && (
-          <div className="mx-auto max-w-[1280px] px-6">
+          <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
             <ExplorerView review={review} />
           </div>
         )}
         {view === 'activity' && (
-          <div className="mx-auto max-w-[1280px] px-6">
+          <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
             <ActivityView review={review} />
           </div>
         )}
