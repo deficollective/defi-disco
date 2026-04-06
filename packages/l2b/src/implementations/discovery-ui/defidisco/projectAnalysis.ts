@@ -169,7 +169,12 @@ const IMPACT_CAP_DENOMINATORS: Record<ImpactCapUnit, number> = {
  * Returns undefined if resolution fails (warns but never silently caps at 0).
  */
 function resolveStructuredImpactCap(
-  impactCap: { hardcodedUsd?: number; contractAddress?: string; fieldName?: string; unit?: ImpactCapUnit },
+  impactCap: {
+    hardcodedUsd?: number
+    contractAddress?: string
+    fieldName?: string
+    unit?: ImpactCapUnit
+  },
   dataAccess: DiscoveredDataAccess,
 ): number | undefined {
   // Hardcoded mode
@@ -1293,7 +1298,11 @@ export class ProjectAnalysis {
 
         for (const m of mitigations) {
           if (!m.impactCap) continue
-          if (m.impactCap.hardcodedUsd === undefined && (!m.impactCap.contractAddress || !m.impactCap.fieldName)) continue
+          if (
+            m.impactCap.hardcodedUsd === undefined &&
+            (!m.impactCap.contractAddress || !m.impactCap.fieldName)
+          )
+            continue
 
           const capUsd = resolveStructuredImpactCap(m.impactCap, dataAccess)
           if (capUsd === undefined) continue

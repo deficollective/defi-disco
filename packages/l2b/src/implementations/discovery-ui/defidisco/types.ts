@@ -74,7 +74,12 @@ export interface Mitigation {
   // Optional: the maximum fund impact this constraint produces.
   // Either a hardcoded USD value or a reference to an on-chain field + scaling unit.
   // Bounds (directFundsUsd + totalReachableFundsUsd) in capital analysis.
-  impactCap?: { hardcodedUsd?: number; contractAddress?: string; fieldName?: string; unit?: ImpactCapUnit }
+  impactCap?: {
+    hardcodedUsd?: number
+    contractAddress?: string
+    fieldName?: string
+    unit?: ImpactCapUnit
+  }
   // Resolved USD value of impactCap (set during analysis for display)
   impactCapUsd?: number
 }

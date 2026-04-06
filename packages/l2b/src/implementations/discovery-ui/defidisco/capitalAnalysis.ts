@@ -444,7 +444,11 @@ export class CapitalAnalysisCalculator {
     }, 0)
 
     // Apply the function's own self-cap as a final ceiling on the grand total.
-    const selfCap = this.getFunctionCap(contractAddress, functionName, ownerAddress)
+    const selfCap = this.getFunctionCap(
+      contractAddress,
+      functionName,
+      ownerAddress,
+    )
     let cappedReachableFundsUsd = totalReachableFundsUsd
     let cappedReachableTokenValueUsd = totalReachableTokenValueUsd
     if (selfCap !== undefined) {

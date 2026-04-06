@@ -528,7 +528,10 @@ export class ReviewCompiler {
               const prev = seen.get(key)
               seen.set(key, {
                 funds: Math.max(prev?.funds ?? 0, fn.directFundsUsd),
-                tokenValue: Math.max(prev?.tokenValue ?? 0, fn.directTokenValueUsd),
+                tokenValue: Math.max(
+                  prev?.tokenValue ?? 0,
+                  fn.directTokenValueUsd,
+                ),
               })
             }
             for (const rc of fn.reachableContracts) {
