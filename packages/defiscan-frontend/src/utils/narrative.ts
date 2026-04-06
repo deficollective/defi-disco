@@ -220,14 +220,7 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
       if (fn.mitigations) allMitigations.push(...fn.mitigations)
       const reachableFunds = fn.reachableContracts
         .filter((rc) => rc.fundsAtRisk)
-        .reduce(
-          (sum, rc) =>
-            sum +
-            (rc.effectiveCapUsd !== undefined
-              ? Math.min(rc.fundsUsd, rc.effectiveCapUsd)
-              : rc.fundsUsd),
-          0,
-        )
+        .reduce((sum, rc) => sum + rc.fundsUsd, 0)
       if (fn.directFundsUsd <= 0 && reachableFunds <= 0) continue
       totalFnCount++
       if (fn.mitigations && fn.mitigations.length > 0) {

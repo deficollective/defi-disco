@@ -412,56 +412,68 @@ export class CapitalAnalysisCalculator {
         data.calledFunctions,
       )
 
+      // Bake effectiveCapUsd into fundsUsd/tokenValueUsd so downstream
+      // consumers (compiler, frontend) can sum values directly.
+      const cappedFunds =
+        data.effectiveCapUsd !== undefined
+          ? Math.min(fundsUsd, data.effectiveCapUsd)
+          : fundsUsd
+      const cappedTokenValue =
+        data.effectiveCapUsd !== undefined
+          ? Math.min(tokenValueUsd, data.effectiveCapUsd)
+          : tokenValueUsd
+
       reachableContracts.push({
         contractAddress: addr,
         contractName: data.contractName ?? 'Unknown',
         viewOnlyPath: data.viewOnlyPath,
         calledFunctions,
-        fundsUsd,
-        tokenValueUsd,
+        fundsUsd: cappedFunds,
+        tokenValueUsd: cappedTokenValue,
         fundsAtRisk,
         effectiveCapUsd: data.effectiveCapUsd,
       })
     }
 
-    // Calculate totals - only count where fundsAtRisk is true.
-    // Apply effectiveCapUsd per contract (from intermediary function caps).
-    const totalReachableFundsUsd = reachableContracts.reduce((sum, c) => {
-      if (!c.fundsAtRisk) return sum
-      const capped =
-        c.effectiveCapUsd !== undefined
-          ? Math.min(c.fundsUsd, c.effectiveCapUsd)
-          : c.fundsUsd
-      return sum + capped
-    }, 0)
-    const totalReachableTokenValueUsd = reachableContracts.reduce((sum, c) => {
-      if (!c.fundsAtRisk) return sum
-      const capped =
-        c.effectiveCapUsd !== undefined
-          ? Math.min(c.tokenValueUsd, c.effectiveCapUsd)
-          : c.tokenValueUsd
-      return sum + capped
-    }, 0)
+    // Calculate totals from already-capped per-contract values.
+    const totalReachableFundsUsd = reachableContracts.reduce(
+      (sum, c) => (c.fundsAtRisk ? sum + c.fundsUsd : sum),
+      0,
+    )
+    const totalReachableTokenValueUsd = reachableContracts.reduce(
+      (sum, c) => (c.fundsAtRisk ? sum + c.tokenValueUsd : sum),
+      0,
+    )
 
-    // Apply the function's own self-cap as a final ceiling on the grand total.
+    // Apply the function's own self-cap as a final ceiling on the grand total
+    // (direct + reachable). If capped, reduce direct funds proportionally.
     const selfCap = this.getFunctionCap(
       contractAddress,
       functionName,
       ownerAddress,
     )
-    let cappedReachableFundsUsd = totalReachableFundsUsd
-    let cappedReachableTokenValueUsd = totalReachableTokenValueUsd
+    let finalDirectFunds = directFundsUsd
+    let finalDirectTokenValue = directTokenValueUsd
+    let finalReachableFunds = totalReachableFundsUsd
+    let finalReachableTokenValue = totalReachableTokenValueUsd
     if (selfCap !== undefined) {
       const grandFunds = directFundsUsd + totalReachableFundsUsd
-      cappedReachableFundsUsd = Math.max(
-        0,
-        Math.min(grandFunds, selfCap) - directFundsUsd,
-      )
+      if (grandFunds > selfCap) {
+        // Cap total to selfCap; reduce reachable first, then direct
+        finalReachableFunds = Math.max(
+          0,
+          Math.min(grandFunds, selfCap) - directFundsUsd,
+        )
+        finalDirectFunds = Math.min(directFundsUsd, selfCap)
+      }
       const grandToken = directTokenValueUsd + totalReachableTokenValueUsd
-      cappedReachableTokenValueUsd = Math.max(
-        0,
-        Math.min(grandToken, selfCap) - directTokenValueUsd,
-      )
+      if (grandToken > selfCap) {
+        finalReachableTokenValue = Math.max(
+          0,
+          Math.min(grandToken, selfCap) - directTokenValueUsd,
+        )
+        finalDirectTokenValue = Math.min(directTokenValueUsd, selfCap)
+      }
     }
 
     return {
@@ -470,11 +482,11 @@ export class CapitalAnalysisCalculator {
       functionName,
       impact,
       isUpgrade: isUpgradeFunction(functionName) || undefined,
-      directFundsUsd,
-      directTokenValueUsd,
+      directFundsUsd: finalDirectFunds,
+      directTokenValueUsd: finalDirectTokenValue,
       reachableContracts,
-      totalReachableFundsUsd: cappedReachableFundsUsd,
-      totalReachableTokenValueUsd: cappedReachableTokenValueUsd,
+      totalReachableFundsUsd: finalReachableFunds,
+      totalReachableTokenValueUsd: finalReachableTokenValue,
       unresolvedCallsCount: 0,
       impactCapUsd: selfCap,
     }

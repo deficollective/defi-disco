@@ -264,14 +264,7 @@ export function AdminFunctionTable({
                       {formatUsdValue(
                         fn.reachableContracts
                           .filter((rc) => rc.fundsAtRisk)
-                          .reduce(
-                            (s, rc) =>
-                              s +
-                              (rc.effectiveCapUsd !== undefined
-                                ? Math.min(rc.fundsUsd, rc.effectiveCapUsd)
-                                : rc.fundsUsd),
-                            0,
-                          ),
+                          .reduce((s, rc) => s + rc.fundsUsd, 0),
                       )}
                       )
                     </span>

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-04-06T11:26:51.230Z",
+  "compiledAt": "2026-04-06T12:15:25.634Z",
   "project": "Frankencoin",
   "metadata": {
     "protocolName": "Frankencoin",
@@ -287,7 +287,7 @@
           "functionName": "mint",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
+          "directTokenValueUsd": 10000000,
           "reachableContracts": [],
           "mitigations": [
             {
@@ -1325,7 +1325,7 @@
           "functionName": "mint",
           "impact": "critical",
           "directFundsUsd": 0,
-          "directTokenValueUsd": 25724637.771031145,
+          "directTokenValueUsd": 2000000,
           "reachableContracts": [],
           "mitigations": [
             {
@@ -1768,7 +1768,7 @@
                 "equity"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
+              "tokenValueUsd": 1000,
               "fundsAtRisk": true,
               "effectiveCapUsd": 1000
             }
@@ -1785,7 +1785,7 @@
           "contractName": "Equity",
           "functionName": "restructureCapTable",
           "impact": "critical",
-          "directFundsUsd": 13923431.96265291,
+          "directFundsUsd": 1000,
           "directTokenValueUsd": 0,
           "reachableContracts": [
             {
@@ -1796,7 +1796,7 @@
                 "equity"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
+              "tokenValueUsd": 1000,
               "fundsAtRisk": true,
               "effectiveCapUsd": 1000
             }
@@ -1964,21 +1964,9 @@
           "contractName": "StablecoinBridge",
           "functionName": "burn",
           "viewOnlyPath": false,
-          "directFundsUsd": 503838.1609304662,
+          "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "burnFrom"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
               "type": "other",
@@ -1996,21 +1984,9 @@
           "contractName": "StablecoinBridge",
           "functionName": "burnAndSend",
           "viewOnlyPath": false,
-          "directFundsUsd": 503838.1609304662,
+          "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "burnFrom"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
               "type": "other",
@@ -2028,7 +2004,7 @@
           "contractName": "StablecoinBridge",
           "functionName": "mint",
           "viewOnlyPath": false,
-          "directFundsUsd": 503838.1609304662,
+          "directFundsUsd": 402452.6575177941,
           "directTokenValueUsd": 0,
           "reachableContracts": [
             {
@@ -2039,7 +2015,7 @@
                 "mint"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
+              "tokenValueUsd": 1597547.3424822057,
               "fundsAtRisk": true,
               "effectiveCapUsd": 2000000
             }
@@ -2093,7 +2069,7 @@
           "contractName": "StablecoinBridge",
           "functionName": "mintTo",
           "viewOnlyPath": false,
-          "directFundsUsd": 503838.1609304662,
+          "directFundsUsd": 402452.6575177941,
           "directTokenValueUsd": 0,
           "reachableContracts": [
             {
@@ -2104,7 +2080,7 @@
                 "mint"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
+              "tokenValueUsd": 1597547.3424822057,
               "fundsAtRisk": true,
               "effectiveCapUsd": 2000000
             }
@@ -2418,8 +2394,8 @@
           ]
         }
       ],
-      "totalFundsAtRisk": 503838.1609304662,
-      "totalTokenValueAtRisk": 25724637.771031145,
+      "totalFundsAtRisk": 402452.6575177941,
+      "totalTokenValueAtRisk": 1597547.3424822057,
       "dependencyType": "callgraph"
     },
     {
@@ -2541,19 +2517,7 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "burnFrom"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
               "type": "other",
@@ -2573,19 +2537,7 @@
           "viewOnlyPath": false,
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-              "name": "Frankencoin",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "burnFrom"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
               "type": "other",
@@ -2614,7 +2566,7 @@
                 "mint"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
+              "tokenValueUsd": 10000000,
               "fundsAtRisk": true,
               "effectiveCapUsd": 10000000
             }
@@ -2679,7 +2631,7 @@
                 "mint"
               ],
               "fundsUsd": 0,
-              "tokenValueUsd": 25724637.771031145,
+              "tokenValueUsd": 10000000,
               "fundsAtRisk": true,
               "effectiveCapUsd": 10000000
             }
@@ -2730,7 +2682,7 @@
         }
       ],
       "totalFundsAtRisk": 0,
-      "totalTokenValueAtRisk": 25724637.771031145,
+      "totalTokenValueAtRisk": 10000000,
       "dependencyType": "callgraph"
     },
     {
@@ -3904,8 +3856,8 @@
   "dependencyEntityGroups": [
     {
       "entity": "VCHF",
-      "totalFundsAtRisk": 503838.1609304662,
-      "totalTokenValueAtRisk": 25724637.771031145
+      "totalFundsAtRisk": 402452.6575177941,
+      "totalTokenValueAtRisk": 1597547.3424822057
     },
     {
       "entity": "Chainlink",
@@ -3915,7 +3867,7 @@
     {
       "entity": "XCHF",
       "totalFundsAtRisk": 0,
-      "totalTokenValueAtRisk": 25724637.771031145
+      "totalTokenValueAtRisk": 10000000
     }
   ],
   "funds": [
