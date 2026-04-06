@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-04-06T08:54:54.809Z",
+  "lastModified": "2026-04-06T11:18:47.505Z",
   "contracts": {
     "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB": {
       "functions": [
@@ -284,7 +284,12 @@
                 "address": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
                 "type": "admin"
               },
-              "label": "Mint Limit"
+              "label": "Mint Limit",
+              "impactCap": {
+                "contractAddress": "eth:0x3B71ba73299F925a837836160c3E1Fec74340403",
+                "fieldName": "limit",
+                "unit": "1e18"
+              }
             },
             {
               "type": "other",
@@ -381,10 +386,10 @@
               "label": "Not Called"
             }
           ],
-          "timestamp": "2026-04-06T08:54:54.809Z",
+          "timestamp": "2026-04-06T11:10:54.277Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-06T08:54:54.809Z"
+            "date": "2026-04-06T11:10:54.277Z"
           }
         },
         {
@@ -1227,13 +1232,12 @@
         {
           "functionName": "restructureCapTable",
           "isPermissioned": true,
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self"
             }
           ],
-          "timestamp": "2026-03-27T10:00:00.000Z",
-          "score": "critical",
           "mitigations": [
             {
               "type": "valueRange",
@@ -1248,6 +1252,9 @@
               "mitigatedField": {
                 "contractAddress": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
                 "fieldName": "equity"
+              },
+              "impactCap": {
+                "hardcodedUsd": 1000
               }
             },
             {
@@ -1255,9 +1262,10 @@
               "description": "Caller must be qualified FPS holder with 2% quorum of total votes (via checkQualified with helpers)"
             }
           ],
+          "timestamp": "2026-04-06T11:18:47.505Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-03-27T10:00:00.000Z"
+            "date": "2026-04-06T11:18:47.505Z"
           }
         }
       ]
