@@ -109,8 +109,18 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
     (a, b) => b.totalReachableCapital - a.totalReachableCapital,
   )
   const maxCapital = Math.max(...sortedByImpact.map((a) => a.totalReachableCapital), 0)
-  const impactedCapital = sortedByImpact.reduce((s, a) => s + a.totalReachableCapital, 0)
-  const impactedPct = totalTvs > 0 ? Math.round((impactedCapital / totalTvs) * 100) : 0
+  // Deduplicate reachable contracts across all admins to avoid double-counting
+  const seenContracts = new Map<string, number>()
+  for (const admin of sortedByImpact) {
+    for (const fn of admin.functions) {
+      for (const rc of fn.reachableContracts) {
+        const key = rc.address.toLowerCase()
+        seenContracts.set(key, Math.max(seenContracts.get(key) ?? 0, rc.fundsUsd + rc.tokenValueUsd))
+      }
+    }
+  }
+  const impactedCapital = Array.from(seenContracts.values()).reduce((s, v) => s + v, 0)
+  const impactedPct = totalTvs > 0 ? Math.min(100, Math.round((impactedCapital / totalTvs) * 100)) : 0
   const displayedAdmins = sortedByImpact.slice(0, 3)
 
   return (

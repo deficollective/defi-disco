@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useIndex, useAllReviews } from '../../data/hooks'
 import { formatUsdValue } from '../../utils/format'
@@ -25,6 +25,12 @@ export function ProtocolsPage() {
   const [searchFilter, setSearchFilter] = useState(
     searchParams.get('search') ?? '',
   )
+
+  // Sync local state when URL search params change (e.g. header search bar navigation)
+  useEffect(() => {
+    const urlSearch = searchParams.get('search') ?? ''
+    setSearchFilter(urlSearch)
+  }, [searchParams])
 
   const isLoading = indexLoading || reviewsLoading
   const protocols = indexData?.protocols ?? []

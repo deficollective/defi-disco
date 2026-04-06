@@ -524,7 +524,7 @@ export class ReviewCompiler {
         for (const dep of deps) {
           for (const fn of dep.functions) {
             if (fn.directFundsUsd > 0 || fn.directTokenValueUsd > 0) {
-              const key = fn.contractAddress.toLowerCase()
+              const key = normalizeChainAddress(fn.contractAddress)
               const prev = seen.get(key)
               seen.set(key, {
                 funds: Math.max(prev?.funds ?? 0, fn.directFundsUsd),
@@ -536,7 +536,7 @@ export class ReviewCompiler {
             }
             for (const rc of fn.reachableContracts) {
               if (rc.fundsUsd > 0 || rc.tokenValueUsd > 0) {
-                const key = rc.address.toLowerCase()
+                const key = normalizeChainAddress(rc.address)
                 const prev = seen.get(key)
                 seen.set(key, {
                   funds: Math.max(prev?.funds ?? 0, rc.fundsUsd),

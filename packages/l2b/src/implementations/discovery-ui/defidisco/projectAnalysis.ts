@@ -941,8 +941,7 @@ export class ProjectAnalysis {
           )
           if (!alreadyAdded) {
             const funcScore = this.getFunctionImpact(contractAddr, funcName)
-            const hasImpact =
-              funcScore !== 'no-impact' && funcAnalysis.impact
+            const hasImpact = funcScore !== 'no-impact' && funcAnalysis.impact
             const contractFunds = fundsLookup.get(
               normalizeChainAddress(contractAddr),
             )
@@ -974,51 +973,50 @@ export class ProjectAnalysis {
               }
             }
 
-            const reachableContracts = (funcAnalysis.impact?.reachableContracts ?? []).map(
-              (r) => {
-                // Compute effectiveCapUsd from resolved impact caps.
-                let effectiveCapUsd: number | undefined
-                for (const calledFn of r.calledFunctions) {
-                  const base = `${normalizeChainAddress(r.contractAddress)}|${calledFn}`
-                  const scoped = this.resolvedImpactCaps.get(
-                    `${base}|${normalizeChainAddress(contractAddr)}`,
-                  )
-                  const global = this.resolvedImpactCaps.get(base)
-                  const cap = scoped ?? global
-                  if (cap !== undefined) {
-                    effectiveCapUsd =
-                      effectiveCapUsd !== undefined
-                        ? Math.min(effectiveCapUsd, cap)
-                        : cap
-                  }
-                }
-                const fundsAtRisk = r.calledFunctions.some(
-                  (fn) =>
-                    this.getFunctionImpact(r.contractAddress, fn) !==
-                    'no-impact',
+            const reachableContracts = (
+              funcAnalysis.impact?.reachableContracts ?? []
+            ).map((r) => {
+              // Compute effectiveCapUsd from resolved impact caps.
+              let effectiveCapUsd: number | undefined
+              for (const calledFn of r.calledFunctions) {
+                const base = `${normalizeChainAddress(r.contractAddress)}|${calledFn}`
+                const scoped = this.resolvedImpactCaps.get(
+                  `${base}|${normalizeChainAddress(contractAddr)}`,
                 )
-                // Bake effectiveCapUsd into fundsUsd/tokenValueUsd so
-                // downstream consumers can sum values directly.
-                const cappedFunds =
-                  effectiveCapUsd !== undefined
-                    ? Math.min(r.fundsUsd, effectiveCapUsd)
-                    : r.fundsUsd
-                const cappedTokenValue =
-                  effectiveCapUsd !== undefined
-                    ? Math.min(r.tokenValueUsd, effectiveCapUsd)
-                    : r.tokenValueUsd
-                return {
-                  contractAddress: r.contractAddress,
-                  contractName: r.contractName,
-                  viewOnlyPath: r.viewOnlyPath,
-                  calledFunctions: r.calledFunctions,
-                  fundsUsd: cappedFunds,
-                  tokenValueUsd: cappedTokenValue,
-                  fundsAtRisk,
-                  effectiveCapUsd,
+                const global = this.resolvedImpactCaps.get(base)
+                const cap = scoped ?? global
+                if (cap !== undefined) {
+                  effectiveCapUsd =
+                    effectiveCapUsd !== undefined
+                      ? Math.min(effectiveCapUsd, cap)
+                      : cap
                 }
-              },
-            )
+              }
+              const fundsAtRisk = r.calledFunctions.some(
+                (fn) =>
+                  this.getFunctionImpact(r.contractAddress, fn) !== 'no-impact',
+              )
+              // Bake effectiveCapUsd into fundsUsd/tokenValueUsd so
+              // downstream consumers can sum values directly.
+              const cappedFunds =
+                effectiveCapUsd !== undefined
+                  ? Math.min(r.fundsUsd, effectiveCapUsd)
+                  : r.fundsUsd
+              const cappedTokenValue =
+                effectiveCapUsd !== undefined
+                  ? Math.min(r.tokenValueUsd, effectiveCapUsd)
+                  : r.tokenValueUsd
+              return {
+                contractAddress: r.contractAddress,
+                contractName: r.contractName,
+                viewOnlyPath: r.viewOnlyPath,
+                calledFunctions: r.calledFunctions,
+                fundsUsd: cappedFunds,
+                tokenValueUsd: cappedTokenValue,
+                fundsAtRisk,
+                effectiveCapUsd,
+              }
+            })
 
             // Apply function-level self-cap to grand total (direct + reachable)
             let finalDirectFunds = directFunds

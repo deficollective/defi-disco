@@ -97,7 +97,7 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
   )
 
   return (
-    <div className="bg-bg-card border border-border rounded-lg p-[33px] flex flex-col gap-6">
+    <div className="bg-bg-card border border-border rounded-lg p-5 sm:p-[33px] flex flex-col gap-6">
       {/* Section label */}
       <div className="flex items-center gap-2">
         <svg className="size-3.5 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
