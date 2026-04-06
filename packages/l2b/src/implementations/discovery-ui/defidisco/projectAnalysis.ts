@@ -44,6 +44,7 @@ import {
   type ApiFundsDataResponse,
   type FunctionCapitalAnalysis,
   type Impact,
+  type ImpactCapUnit,
   type Mitigation,
   type OwnershipChainStep,
   type ReachableContract,
@@ -152,6 +153,58 @@ export interface ProjectSummary {
 // ============================================================================
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
+
+const IMPACT_CAP_DENOMINATORS: Record<ImpactCapUnit, number> = {
+  raw: 1,
+  '1e6': 1e6,
+  '1e8': 1e8,
+  '1e18': 1e18,
+  bps: 10_000,
+  percent: 100,
+}
+
+/**
+ * Resolve an impactCap to a USD number.
+ * Supports hardcoded USD values and on-chain field references (contractAddress + fieldName + unit).
+ * Returns undefined if resolution fails (warns but never silently caps at 0).
+ */
+function resolveStructuredImpactCap(
+  impactCap: { hardcodedUsd?: number; contractAddress?: string; fieldName?: string; unit?: ImpactCapUnit },
+  dataAccess: DiscoveredDataAccess,
+): number | undefined {
+  // Hardcoded mode
+  if (impactCap.hardcodedUsd !== undefined) {
+    return impactCap.hardcodedUsd
+  }
+
+  // Field reference mode
+  if (!impactCap.contractAddress || !impactCap.fieldName || !impactCap.unit) {
+    return undefined
+  }
+  try {
+    const contract = dataAccess.findContract(impactCap.contractAddress)
+    const raw = dataAccess.getValuesObject(contract)[impactCap.fieldName]
+    if (raw === undefined) {
+      console.warn(
+        `[impactCap] Field "${impactCap.fieldName}" not found on contract ${impactCap.contractAddress}`,
+      )
+      return undefined
+    }
+    const rawNum = typeof raw === 'number' ? raw : Number(raw)
+    if (!isFinite(rawNum)) {
+      console.warn(
+        `[impactCap] Field "${impactCap.fieldName}" on ${impactCap.contractAddress} is not numeric: ${raw}`,
+      )
+      return undefined
+    }
+    return rawNum / IMPACT_CAP_DENOMINATORS[impactCap.unit]
+  } catch (err) {
+    console.warn(
+      `[impactCap] Exception resolving cap field "${impactCap.fieldName}" on ${impactCap.contractAddress}: ${err}`,
+    )
+    return undefined
+  }
+}
 
 /**
  * Maps raw admin types to user-facing types based on proxy information.
@@ -317,6 +370,7 @@ export class ProjectAnalysis {
   private _capitalCalculator: CapitalAnalysisCalculator | null = null
   private _mitigationsLookup: Map<string, Mitigation[]> | null = null
   private _transitiveMitigationsLookup: Map<string, Mitigation[]> | null = null
+  private _resolvedImpactCaps: Map<string, number> | null = null
 
   constructor(
     paths: DiscoveryPaths,
@@ -475,9 +529,17 @@ export class ProjectAnalysis {
         this.functionsData,
         this.contractNameMap,
         this.implToProxyMap,
+        this.resolvedImpactCaps,
       )
     }
     return this._capitalCalculator
+  }
+
+  private get resolvedImpactCaps(): Map<string, number> {
+    if (!this._resolvedImpactCaps) {
+      this._resolvedImpactCaps = this.buildResolvedImpactCaps()
+    }
+    return this._resolvedImpactCaps
   }
 
   private get mitigationsLookup(): Map<string, Mitigation[]> {
@@ -903,19 +965,41 @@ export class ProjectAnalysis {
               directFundsUsd: directFunds,
               directTokenValueUsd: directTokenValue,
               reachableContracts: (impact?.reachableContracts ?? []).map(
-                (r) => ({
-                  contractAddress: r.contractAddress,
-                  contractName: r.contractName,
-                  viewOnlyPath: r.viewOnlyPath,
-                  calledFunctions: r.calledFunctions,
-                  fundsUsd: r.fundsUsd,
-                  tokenValueUsd: r.tokenValueUsd,
-                  fundsAtRisk: r.calledFunctions.some(
-                    (fn) =>
-                      this.getFunctionImpact(r.contractAddress, fn) !==
-                      'no-impact',
-                  ),
-                }),
+                (r) => {
+                  // Compute effectiveCapUsd from resolved impact caps.
+                  // For each called function on the reachable contract,
+                  // look up the cap (scoped to the calling contract or global).
+                  // Use the minimum cap across all called functions.
+                  let effectiveCapUsd: number | undefined
+                  for (const calledFn of r.calledFunctions) {
+                    const base = `${normalizeChainAddress(r.contractAddress)}|${calledFn}`
+                    const scoped = this.resolvedImpactCaps.get(
+                      `${base}|${normalizeChainAddress(contractAddr)}`,
+                    )
+                    const global = this.resolvedImpactCaps.get(base)
+                    const cap = scoped ?? global
+                    if (cap !== undefined) {
+                      effectiveCapUsd =
+                        effectiveCapUsd !== undefined
+                          ? Math.min(effectiveCapUsd, cap)
+                          : cap
+                    }
+                  }
+                  return {
+                    contractAddress: r.contractAddress,
+                    contractName: r.contractName,
+                    viewOnlyPath: r.viewOnlyPath,
+                    calledFunctions: r.calledFunctions,
+                    fundsUsd: r.fundsUsd,
+                    tokenValueUsd: r.tokenValueUsd,
+                    fundsAtRisk: r.calledFunctions.some(
+                      (fn) =>
+                        this.getFunctionImpact(r.contractAddress, fn) !==
+                        'no-impact',
+                    ),
+                    effectiveCapUsd,
+                  }
+                },
               ),
             })
           }
@@ -1180,6 +1264,56 @@ export class ProjectAnalysis {
   /**
    * Build mitigations lookup from functions.json.
    */
+  /**
+   * Resolve all impactCap mitigation values to USD numbers.
+   *
+   * Returns a Map with two key formats:
+   *   Global:  normalize(addr)|functionName            → number (USD)
+   *   Scoped:  normalize(addr)|functionName|normalize(ownerAddr) → number (USD)
+   *
+   * When a function has multiple impactCap mitigations at the same key,
+   * the minimum (most conservative) cap is stored.
+   *
+   * Supports:
+   *   hardcoded: plain numbers ("5000000") or suffix notation ("5M", "1.5B", "500K")
+   *   fieldRef:  path expressions resolved via DiscoveredDataAccess
+   */
+  private buildResolvedImpactCaps(): Map<string, number> {
+    const caps = new Map<string, number>()
+    if (!this.functionsData?.contracts) return caps
+
+    const dataAccess = new DiscoveredDataAccess(this.discovered)
+
+    for (const [contractAddr, contractData] of Object.entries(
+      this.functionsData.contracts,
+    )) {
+      for (const func of contractData.functions) {
+        const mitigations: Mitigation[] = []
+        if (func.mitigations) mitigations.push(...func.mitigations)
+
+        for (const m of mitigations) {
+          if (!m.impactCap) continue
+          if (m.impactCap.hardcodedUsd === undefined && (!m.impactCap.contractAddress || !m.impactCap.fieldName)) continue
+
+          const capUsd = resolveStructuredImpactCap(m.impactCap, dataAccess)
+          if (capUsd === undefined) continue
+
+          const base = `${normalizeChainAddress(contractAddr)}|${func.functionName}`
+          const key = m.scopedTo
+            ? `${base}|${normalizeChainAddress(m.scopedTo.address)}`
+            : base
+
+          const existing = caps.get(key)
+          if (existing === undefined || capUsd < existing) {
+            caps.set(key, capUsd)
+          }
+        }
+      }
+    }
+
+    return caps
+  }
+
   private buildMitigationsLookup(): Map<string, Mitigation[]> {
     const lookup = new Map<string, Mitigation[]>()
     if (!this.functionsData?.contracts) return lookup
@@ -1355,9 +1489,20 @@ export class ProjectAnalysis {
     // validated during BFS collection (scopedTo.address matched a contract
     // on the call path). They apply to all callers going through that path.
     if (!filteredDirect && !transitive) return undefined
-    if (!filteredDirect) return transitive
-    if (!transitive) return filteredDirect
-    return [...filteredDirect, ...transitive]
+    const merged = !filteredDirect
+      ? transitive!
+      : !transitive
+        ? filteredDirect
+        : [...filteredDirect, ...transitive]
+
+    // Resolve impactCapUsd on mitigations that have an impactCap
+    const dataAccess = new DiscoveredDataAccess(this.discovered)
+    for (const m of merged) {
+      if (m.impactCap && m.impactCapUsd === undefined) {
+        m.impactCapUsd = resolveStructuredImpactCap(m.impactCap, dataAccess)
+      }
+    }
+    return merged
   }
 
   /**

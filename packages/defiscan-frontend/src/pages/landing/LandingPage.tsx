@@ -366,10 +366,10 @@ export function LandingPage() {
             <div className="mt-8 flex gap-6 md:gap-12">
               <div>
                 <div className="text-2xl font-bold text-accent-dark font-mono">
-                  0.02s
+                  Continuous
                 </div>
                 <div className="text-[10px] text-text-muted uppercase tracking-[2px] mt-1">
-                  Median Latency
+                  Onchain Monitoring
                 </div>
               </div>
               <div>

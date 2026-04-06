@@ -86,6 +86,7 @@ export interface CompiledAdmin {
 // Mitigation types for permissioned functions
 export type MitigationType = 'delay' | 'valueRange' | 'relativeValue' | 'other'
 
+
 export interface MitigationValue {
   mode: 'hardcoded' | 'fieldRef'
   value?: string
@@ -113,6 +114,8 @@ export interface Mitigation {
   relativeValue?: { maxChangePercent?: MitigationValue }
   mitigatedField?: { contractAddress: string; fieldName: string }
   scopedTo?: { address: string; type: 'admin' | 'dependency' }
+  // Resolved USD cap on fund impact (computed by review compiler from on-chain field)
+  impactCapUsd?: number
 }
 
 export type Impact = 'critical' | 'no-impact'
@@ -137,6 +140,7 @@ export interface CompiledReachableContract {
   fundsUsd: number
   tokenValueUsd: number
   fundsAtRisk: boolean
+  effectiveCapUsd?: number
 }
 
 export interface CompiledDependencyFunction {
