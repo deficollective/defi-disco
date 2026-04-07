@@ -463,34 +463,10 @@ export class ReviewCompiler {
       })
     }
 
-    // Cross-admin deduplicated totals (each contract counted once, max value)
-    const adminSeenAll = new Map<
-      string,
-      { funds: number; tokenValue: number }
-    >()
-    for (const admin of admins) {
-      for (const fn of admin.functions) {
-        for (const rc of fn.reachableContracts) {
-          if (rc.fundsUsd > 0 || rc.tokenValueUsd > 0) {
-            const key = normalizeChainAddress(rc.address)
-            const prev = adminSeenAll.get(key)
-            adminSeenAll.set(key, {
-              funds: Math.max(prev?.funds ?? 0, rc.fundsUsd),
-              tokenValue: Math.max(prev?.tokenValue ?? 0, rc.tokenValueUsd),
-            })
-          }
-        }
-      }
-    }
+    // Forward cross-admin deduplicated totals from ProjectAnalysis
     const adminTotals = {
-      totalFundsAtRisk: Array.from(adminSeenAll.values()).reduce(
-        (s, v) => s + v.funds,
-        0,
-      ),
-      totalTokenValueAtRisk: Array.from(adminSeenAll.values()).reduce(
-        (s, v) => s + v.tokenValue,
-        0,
-      ),
+      totalFundsAtRisk: adminsResult.totals.totalCapitalAtRisk,
+      totalTokenValueAtRisk: adminsResult.totals.totalTokenValueAtRisk,
     }
 
     // Build contract name lookup from discovery entries (covers all contracts)
@@ -600,39 +576,10 @@ export class ReviewCompiler {
       },
     )
 
-    // Cross-entity deduplicated totals (each contract counted once, max value)
-    const depSeenAll = new Map<string, { funds: number; tokenValue: number }>()
-    for (const dep of dependencies) {
-      for (const fn of dep.functions) {
-        if (fn.directFundsUsd > 0 || fn.directTokenValueUsd > 0) {
-          const key = normalizeChainAddress(fn.contractAddress)
-          const prev = depSeenAll.get(key)
-          depSeenAll.set(key, {
-            funds: Math.max(prev?.funds ?? 0, fn.directFundsUsd),
-            tokenValue: Math.max(prev?.tokenValue ?? 0, fn.directTokenValueUsd),
-          })
-        }
-        for (const rc of fn.reachableContracts) {
-          if (rc.fundsUsd > 0 || rc.tokenValueUsd > 0) {
-            const key = normalizeChainAddress(rc.address)
-            const prev = depSeenAll.get(key)
-            depSeenAll.set(key, {
-              funds: Math.max(prev?.funds ?? 0, rc.fundsUsd),
-              tokenValue: Math.max(prev?.tokenValue ?? 0, rc.tokenValueUsd),
-            })
-          }
-        }
-      }
-    }
+    // Forward cross-dependency deduplicated totals from ProjectAnalysis
     const dependencyTotals = {
-      totalFundsAtRisk: Array.from(depSeenAll.values()).reduce(
-        (s, v) => s + v.funds,
-        0,
-      ),
-      totalTokenValueAtRisk: Array.from(depSeenAll.values()).reduce(
-        (s, v) => s + v.tokenValue,
-        0,
-      ),
+      totalFundsAtRisk: depsResult.totals.totalCapitalAtRisk,
+      totalTokenValueAtRisk: depsResult.totals.totalTokenValueAtRisk,
     }
 
     // Build fund holders from funds data + review config descriptions
