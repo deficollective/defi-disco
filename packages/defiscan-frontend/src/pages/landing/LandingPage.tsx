@@ -327,6 +327,9 @@ export function LandingPage() {
           <p className="text-status-red">Failed to load protocol data.</p>
         ) : (
           <div
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Recent protocol reports"
             className="overflow-hidden"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}

@@ -2,7 +2,7 @@ import type { CompiledReview, CompiledDependency } from '../../../../types'
 import { formatUsdValue } from '../../../../utils/format'
 import { MitigationBadge } from '../../../../components/MitigationBadge'
 import { deduplicateMitigations } from '../explorer/shared'
-import { SectionHeader, ShowMoreButton } from './_shared'
+import { SectionHeader, ShowMoreButton, impactPct } from './_shared'
 
 interface DependenciesSectionProps {
   review: CompiledReview
@@ -82,14 +82,15 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
       ? (entityGroupMap.get(entity) ?? 0)
       : deps.reduce((s, d) => s + depFunds(d), 0)
 
-  const totalAtRisk =
-    review.dependencyEntityGroups !== undefined
+  const totalAtRisk = review.dependencyTotals
+    ? review.dependencyTotals.totalFundsAtRisk + review.dependencyTotals.totalTokenValueAtRisk
+    : review.dependencyEntityGroups !== undefined
       ? review.dependencyEntityGroups.reduce(
           (s, g) => s + g.totalFundsAtRisk + g.totalTokenValueAtRisk,
           0,
         )
       : dependencies.reduce((s, d) => s + depFunds(d), 0)
-  const atRiskPct = totalTvs > 0 ? Math.round((totalAtRisk / totalTvs) * 100) : 0
+  const atRiskPct = impactPct(totalAtRisk, totalTvs)
   const displayedGroups = entityGroups.slice(0, 3)
   const maxGroupFunds = Math.max(
     ...entityGroups.map(([entity, ds]) => getGroupFunds(entity, ds)),

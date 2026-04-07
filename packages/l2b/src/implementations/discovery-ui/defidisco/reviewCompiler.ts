@@ -64,6 +64,11 @@ export interface CompiledReview {
   }
 
   admins: CompiledAdmin[]
+  /** Cross-admin deduplicated admin totals — each contract counted once (max value). */
+  adminTotals?: {
+    totalFundsAtRisk: number
+    totalTokenValueAtRisk: number
+  }
   dependencies: CompiledDependency[]
   /** Per-entity deduplicated funds totals — avoids double-counting when multiple
    *  deps of the same entity reach the same underlying contracts. */
@@ -72,6 +77,11 @@ export interface CompiledReview {
     totalFundsAtRisk: number
     totalTokenValueAtRisk: number
   }[]
+  /** Cross-entity deduplicated dependency totals — each contract counted once (max value). */
+  dependencyTotals?: {
+    totalFundsAtRisk: number
+    totalTokenValueAtRisk: number
+  }
   funds: CompiledFundHolder[]
   functions: CompiledFunction[]
   contracts: CompiledContract[]
@@ -453,6 +463,27 @@ export class ReviewCompiler {
       })
     }
 
+    // Cross-admin deduplicated totals (each contract counted once, max value)
+    const adminSeenAll = new Map<string, { funds: number; tokenValue: number }>()
+    for (const admin of admins) {
+      for (const fn of admin.functions) {
+        for (const rc of fn.reachableContracts) {
+          if (rc.fundsUsd > 0 || rc.tokenValueUsd > 0) {
+            const key = normalizeChainAddress(rc.address)
+            const prev = adminSeenAll.get(key)
+            adminSeenAll.set(key, {
+              funds: Math.max(prev?.funds ?? 0, rc.fundsUsd),
+              tokenValue: Math.max(prev?.tokenValue ?? 0, rc.tokenValueUsd),
+            })
+          }
+        }
+      }
+    }
+    const adminTotals = {
+      totalFundsAtRisk: Array.from(adminSeenAll.values()).reduce((s, v) => s + v.funds, 0),
+      totalTokenValueAtRisk: Array.from(adminSeenAll.values()).reduce((s, v) => s + v.tokenValue, 0),
+    }
+
     // Build contract name lookup from discovery entries (covers all contracts)
     const contractNameMap = new Map<string, string>()
     for (const entry of discoveryEntries) {
@@ -559,6 +590,35 @@ export class ReviewCompiler {
         }
       },
     )
+
+    // Cross-entity deduplicated totals (each contract counted once, max value)
+    const depSeenAll = new Map<string, { funds: number; tokenValue: number }>()
+    for (const dep of dependencies) {
+      for (const fn of dep.functions) {
+        if (fn.directFundsUsd > 0 || fn.directTokenValueUsd > 0) {
+          const key = normalizeChainAddress(fn.contractAddress)
+          const prev = depSeenAll.get(key)
+          depSeenAll.set(key, {
+            funds: Math.max(prev?.funds ?? 0, fn.directFundsUsd),
+            tokenValue: Math.max(prev?.tokenValue ?? 0, fn.directTokenValueUsd),
+          })
+        }
+        for (const rc of fn.reachableContracts) {
+          if (rc.fundsUsd > 0 || rc.tokenValueUsd > 0) {
+            const key = normalizeChainAddress(rc.address)
+            const prev = depSeenAll.get(key)
+            depSeenAll.set(key, {
+              funds: Math.max(prev?.funds ?? 0, rc.fundsUsd),
+              tokenValue: Math.max(prev?.tokenValue ?? 0, rc.tokenValueUsd),
+            })
+          }
+        }
+      }
+    }
+    const dependencyTotals = {
+      totalFundsAtRisk: Array.from(depSeenAll.values()).reduce((s, v) => s + v.funds, 0),
+      totalTokenValueAtRisk: Array.from(depSeenAll.values()).reduce((s, v) => s + v.tokenValue, 0),
+    }
 
     // Build fund holders from funds data + review config descriptions
     const funds: CompiledFundHolder[] = []
@@ -774,8 +834,10 @@ export class ReviewCompiler {
       },
 
       admins,
+      adminTotals,
       dependencies,
       dependencyEntityGroups,
+      dependencyTotals,
       funds,
       functions,
       contracts,
