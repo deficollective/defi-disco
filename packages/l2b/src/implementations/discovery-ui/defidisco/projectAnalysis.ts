@@ -1324,9 +1324,10 @@ export class ProjectAnalysis {
    * Compute cross-dependency deduplicated capital totals.
    * Each contract is counted once (max value) across all dependencies.
    */
-  private computeDependencyTotals(
-    dependencies: DependencyEntry[],
-  ): { totalCapitalAtRisk: number; totalTokenValueAtRisk: number } {
+  private computeDependencyTotals(dependencies: DependencyEntry[]): {
+    totalCapitalAtRisk: number
+    totalTokenValueAtRisk: number
+  } {
     const seen = new Map<string, { funds: number; tokenValue: number }>()
 
     for (const dep of dependencies) {
@@ -1336,7 +1337,10 @@ export class ProjectAnalysis {
           const prev = seen.get(addr)
           seen.set(addr, {
             funds: Math.max(prev?.funds ?? 0, func.directFundsUsd),
-            tokenValue: Math.max(prev?.tokenValue ?? 0, func.directTokenValueUsd),
+            tokenValue: Math.max(
+              prev?.tokenValue ?? 0,
+              func.directTokenValueUsd,
+            ),
           })
         }
         for (const rc of func.reachableContracts) {
