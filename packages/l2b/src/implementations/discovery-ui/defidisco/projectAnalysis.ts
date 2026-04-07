@@ -1607,9 +1607,7 @@ export class ProjectAnalysis {
           const filtered = transitive.filter((m) => {
             if (!m.scopedTo) return true
             const scopeAddr = normalizeChainAddress(m.scopedTo.address)
-            return (
-              scopeAddr === normalizedOwner || scopeAddr === normalizedSelf
-            )
+            return scopeAddr === normalizedOwner || scopeAddr === normalizedSelf
           })
           return filtered.length > 0 ? filtered : undefined
         })()
