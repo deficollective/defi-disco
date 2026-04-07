@@ -464,7 +464,10 @@ export class ReviewCompiler {
     }
 
     // Cross-admin deduplicated totals (each contract counted once, max value)
-    const adminSeenAll = new Map<string, { funds: number; tokenValue: number }>()
+    const adminSeenAll = new Map<
+      string,
+      { funds: number; tokenValue: number }
+    >()
     for (const admin of admins) {
       for (const fn of admin.functions) {
         for (const rc of fn.reachableContracts) {
@@ -480,8 +483,14 @@ export class ReviewCompiler {
       }
     }
     const adminTotals = {
-      totalFundsAtRisk: Array.from(adminSeenAll.values()).reduce((s, v) => s + v.funds, 0),
-      totalTokenValueAtRisk: Array.from(adminSeenAll.values()).reduce((s, v) => s + v.tokenValue, 0),
+      totalFundsAtRisk: Array.from(adminSeenAll.values()).reduce(
+        (s, v) => s + v.funds,
+        0,
+      ),
+      totalTokenValueAtRisk: Array.from(adminSeenAll.values()).reduce(
+        (s, v) => s + v.tokenValue,
+        0,
+      ),
     }
 
     // Build contract name lookup from discovery entries (covers all contracts)
@@ -616,8 +625,14 @@ export class ReviewCompiler {
       }
     }
     const dependencyTotals = {
-      totalFundsAtRisk: Array.from(depSeenAll.values()).reduce((s, v) => s + v.funds, 0),
-      totalTokenValueAtRisk: Array.from(depSeenAll.values()).reduce((s, v) => s + v.tokenValue, 0),
+      totalFundsAtRisk: Array.from(depSeenAll.values()).reduce(
+        (s, v) => s + v.funds,
+        0,
+      ),
+      totalTokenValueAtRisk: Array.from(depSeenAll.values()).reduce(
+        (s, v) => s + v.tokenValue,
+        0,
+      ),
     }
 
     // Build fund holders from funds data + review config descriptions
