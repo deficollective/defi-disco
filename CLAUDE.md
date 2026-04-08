@@ -277,6 +277,7 @@ packages/
 │   ├── FundsSection.tsx            # Funds display in DeFiScan panel (tokens, aggregate, contracts)
 │   ├── addressUtils.ts             # Frontend address utilities (stripChainPrefix, addressesEqual, normalizeForLookup, findByAddress)
 │   ├── ownerResolution.ts          # Shared owner/field path resolution (UI + backend data access)
+│   ├── functionNavigationStore.ts  # Zustand store for cross-panel function navigation (click-to-expand in Write Functions)
 │   └── icons/
 ├── l2b/src/implementations/discovery-ui/defidisco/
 │   ├── permissionOverrides.ts
