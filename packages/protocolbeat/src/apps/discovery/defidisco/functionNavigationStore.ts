@@ -1,13 +1,8 @@
 import { create } from 'zustand'
 
 interface FunctionNavigationState {
-  target:
-    | { contractAddress: string; functionName: string }
-    | undefined
-  navigateToFunction: (
-    contractAddress: string,
-    functionName: string,
-  ) => void
+  target: { contractAddress: string; functionName: string } | undefined
+  navigateToFunction: (contractAddress: string, functionName: string) => void
   clearTarget: () => void
 }
 

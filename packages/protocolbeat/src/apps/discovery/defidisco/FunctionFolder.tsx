@@ -186,7 +186,10 @@ export function FunctionFolder({
     ) {
       setIsOpen(true)
       requestAnimationFrame(() => {
-        folderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        folderRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        })
         clearNavTarget()
       })
     }

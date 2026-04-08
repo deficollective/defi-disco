@@ -790,7 +790,11 @@ function UnresolvedPermissionsSection({
             }
             result.set(displayAddress, entry)
           }
-          entry.functions.push({ functionName: func.functionName, sourceAddress: addr, reason })
+          entry.functions.push({
+            functionName: func.functionName,
+            sourceAddress: addr,
+            reason,
+          })
         }
       })
     }
@@ -812,7 +816,10 @@ function UnresolvedPermissionsSection({
         collectUnresolved(permissionAddress, proxyAddr, contractInfo.name)
         collectUnresolved(proxyAddr, proxyAddr, contractInfo.name)
       } else {
-        const implAddr = getImplementationAddress(permissionAddress, projectData)
+        const implAddr = getImplementationAddress(
+          permissionAddress,
+          projectData,
+        )
         if (implAddr && functions.contracts[implAddr]) {
           return // handled in impl case
         }
@@ -828,11 +835,7 @@ function UnresolvedPermissionsSection({
           address: displayAddress,
           name: 'Unknown Contract',
         }
-        collectUnresolved(
-          permissionAddress,
-          displayAddress,
-          contractInfo.name,
-        )
+        collectUnresolved(permissionAddress, displayAddress, contractInfo.name)
       }
     })
 
