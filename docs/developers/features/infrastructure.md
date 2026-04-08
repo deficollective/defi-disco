@@ -259,7 +259,7 @@ The report view received a full visual redesign:
   - Layout: `col-span-7` text / `col-span-5` radar chart
 - **Outer frame pattern** (shared by Admins, Dependencies, TVS, Activity sections):
   - Outer container: `bg-bg-card border border-border rounded-lg p-5 sm:p-[33px]`
-  - Section label row at top with icon + uppercase label + ShowMore button (top-right)
+  - Section label row at top with icon + uppercase label + ShowMore button (top-right, opens a modal with the full explorer tab content)
   - Inner white card: `bg-white border border-border rounded-lg` for detailed content
   - Sidebar stats card: same `bg-bg-card` as outer frame, no border (visually blends in)
 - **Admins section (`AdminsSection.tsx`)**:
@@ -280,6 +280,7 @@ The report view received a full visual redesign:
   - Shows last 3 events; vertical ellipsis (⋮) button at bottom when more exist (triggers ShowMore)
   - **Empty state**: full frame with centered shield icon + "No protocol changes recorded yet."
 - **Governance section (`GovernanceSection.tsx`)**:
+  - ShowMore button hidden when no governance admins (only shown when `governanceAdmins.length > 0`)
   - **Empty state** (no governance admins): white inner card with centered shield icon + "No governance system detected"
 - **`dependencyEntityGroups` (anti-double-counting)**: The report page groups deps by entity and previously summed `dep.totalFundsAtRisk` per group — double-counting when multiple deps of the same entity reach the same contracts. The compiler now emits a `dependencyEntityGroups` array with per-entity deduplicated totals. `DependenciesSection.tsx` uses these for bar chart values and the "Impacted TVS" stat, with a fallback for old compiled reviews.
 - **Source Code section (`CodeQualitySection.tsx`)**:
