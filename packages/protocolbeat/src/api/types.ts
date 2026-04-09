@@ -979,6 +979,30 @@ export interface AuditEntry {
   bounty?: number
 }
 
+export type GovernanceVoteExecution = 'onchain' | 'offchain'
+
+// Reference to a numeric field in discovered.json — same shape as function delay refs.
+export interface GovernanceFieldRef {
+  contractAddress: string
+  fieldName: string
+}
+
+// A period/delay value: either a resolved contract field, a free-text literal, or explicitly absent.
+export type GovernanceDuration =
+  | { kind: 'fieldRef'; ref: GovernanceFieldRef }
+  | { kind: 'fixed'; value: string }
+  | { kind: 'none' }
+
+export interface GovernanceConfig {
+  framework: string
+  voteExecution: GovernanceVoteExecution
+  votingUnit: string
+  proposalRequirements: string
+  votingProcess: string
+  proposalPeriod: GovernanceDuration
+  executionDelay: GovernanceDuration
+}
+
 export interface ReviewConfig {
   version: string
   lastModified: string
