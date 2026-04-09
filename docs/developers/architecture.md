@@ -72,11 +72,11 @@ The Review Builder stores review configuration across **three sibling files** pe
 
 **Resources**: `ResourceEntry = { url, type, label?, frontendSubtype? }` with types `frontend` (subtype: official/third-party/self-hosted), `docs`, `source-code`, `github`, `x`, `other`. `AuditEntry = { url, author, date, scope?, bounty? }` where `bounty` is the max bug bounty USD amount. Compiled as-is into `compiled-review.json`.
 
-**Governance**: `GovernanceConfig = { framework, voteExecution, votingUnit, proposalRequirements, votingProcess, proposalPeriod, executionDelay }`. Both period/delay are `GovernanceDuration` = `{ kind: 'fieldRef', ref: { contractAddress, fieldName } } | { kind: 'fixed', value: string } | { kind: 'none' }`. Field refs are resolved by `resolveGovernance()` in `governanceCompiler.ts` against numeric fields in `discovered.json`, producing a numeric `seconds` value in `compiled-review.json`.
+**Governance**: `GovernanceConfig = { framework, voteExecution, votingUnit, proposalRequirements, votingProcess, proposalPeriod, executionDelay }`. Both period/delay are `GovernanceDuration` = `{ kind: 'fieldRef', ref: { contractAddress, fieldName, unit? } } | { kind: 'fixed', value: string } | { kind: 'none' }`. `unit` is one of `seconds | blocks | minutes | hours | days` (default `seconds`; `blocks` assumes 12s Ethereum block time). Field refs are resolved by `resolveGovernance()` in `governanceCompiler.ts` — it reads the raw numeric value from `discovered.json`, multiplies by `unitToSecondsFactor(unit)`, and writes the converted seconds to `compiled-review.json`. The unit is purely an input to conversion; it never appears on `CompiledGovernanceDuration` and downstream consumers only see the resolved seconds.
 
 **AI Generation**:
 - `/generate-review` writes only `review-config.json` (after `mv`-ing the old one aside). Resources and governance survive untouched.
-- `/generate-governance` writes only `governance.json` — researches the protocol's voting framework and prefers `fieldRef` durations pointing at real timelock/governor fields.
+- `/generate-governance` writes only `governance.json` — researches the protocol's voting framework, prefers `fieldRef` durations pointing at real timelock/governor fields, and picks the right `unit` (notably `"blocks"` for Compound/OZ Governor `votingPeriod`).
 
 For implementation details, see [Scoring & Review: Review Builder](features/scoring-and-review.md#review-builder) and [Scoring & Review: Governance](features/scoring-and-review.md#governance).
 

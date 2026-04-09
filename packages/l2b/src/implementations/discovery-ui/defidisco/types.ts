@@ -805,9 +805,19 @@ export interface AuditEntry {
 
 export type GovernanceVoteExecution = 'onchain' | 'offchain'
 
+export type GovernanceDurationUnit =
+  | 'seconds'
+  | 'blocks'
+  | 'minutes'
+  | 'hours'
+  | 'days'
+
 export interface GovernanceFieldRef {
   contractAddress: string
   fieldName: string
+  // Unit of the raw on-chain value. Default: 'seconds'.
+  // 'blocks' assumes a 12s Ethereum block time.
+  unit?: GovernanceDurationUnit
 }
 
 export type GovernanceDuration =

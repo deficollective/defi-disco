@@ -87,7 +87,10 @@ export function updateGovernance(
         fs.writeFileSync(reviewConfigPath, JSON.stringify(config, null, 2))
       }
     } catch (error) {
-      console.error('Error stripping governance from review-config.json:', error)
+      console.error(
+        'Error stripping governance from review-config.json:',
+        error,
+      )
     }
   }
 }

@@ -6,6 +6,7 @@ import { resolveDelayFromDiscovered } from './functions'
 import type {
   GovernanceConfig,
   GovernanceDuration,
+  GovernanceDurationUnit,
   GovernanceVoteExecution,
 } from './types'
 
@@ -68,7 +69,7 @@ function resolveDuration(
   }
 
   // fieldRef — reuse the same resolver as function delays.
-  const { contractAddress, fieldName } = duration.ref
+  const { contractAddress, fieldName, unit } = duration.ref
   if (!contractAddress || !fieldName) {
     return {
       kind: 'fieldRef',
@@ -79,19 +80,37 @@ function resolveDuration(
     }
   }
 
+  // resolveDelayFromDiscovered returns the raw on-chain numeric value labeled
+  // as 'seconds'. For governance we may need to convert from another unit.
   const resolved = resolveDelayFromDiscovered(paths, project, {
     contractAddress,
     fieldName,
   })
 
+  const factor = unitToSecondsFactor(unit)
   return {
     kind: 'fieldRef',
     contractAddress,
     fieldName,
     contractName: lookupContractName(paths, project, contractAddress),
     resolved: resolved.isResolved,
-    seconds: resolved.isResolved ? resolved.seconds : undefined,
+    seconds: resolved.isResolved ? resolved.seconds * factor : undefined,
     error: resolved.isResolved ? undefined : resolved.error,
+  }
+}
+
+function unitToSecondsFactor(unit: GovernanceDurationUnit | undefined): number {
+  switch (unit) {
+    case 'blocks':
+      return 12
+    case 'minutes':
+      return 60
+    case 'hours':
+      return 3600
+    case 'days':
+      return 86400
+    default:
+      return 1
   }
 }
 
@@ -105,7 +124,11 @@ function lookupContractName(
   contractAddress: string,
 ): string | undefined {
   try {
-    const discoveredPath = path.join(paths.discovery, project, 'discovered.json')
+    const discoveredPath = path.join(
+      paths.discovery,
+      project,
+      'discovered.json',
+    )
     if (!fs.existsSync(discoveredPath)) return undefined
     const discovered = JSON.parse(fs.readFileSync(discoveredPath, 'utf8'))
     const entries: any[] = discovered?.entries ?? []

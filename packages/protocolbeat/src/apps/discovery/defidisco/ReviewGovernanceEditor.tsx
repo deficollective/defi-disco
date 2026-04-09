@@ -1,13 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import {
-  getGovernance,
-  getProject,
-  updateGovernance,
-} from '../../../api/api'
+import { getGovernance, getProject, updateGovernance } from '../../../api/api'
 import type {
   GovernanceConfig,
   GovernanceDuration,
+  GovernanceDurationUnit,
   GovernanceVoteExecution,
 } from '../../../api/types'
 import { IS_READONLY } from '../../../config/readonly'
@@ -27,6 +24,30 @@ const FRAMEWORK_PRESETS = [
 ]
 
 const VOTING_PROCESS_MAX = 150
+
+const GOVERNANCE_DURATION_UNITS: GovernanceDurationUnit[] = [
+  'seconds',
+  'blocks',
+  'minutes',
+  'hours',
+  'days',
+]
+
+// Mirror of governanceCompiler.unitToSecondsFactor — keep in sync.
+function unitToSecondsFactor(unit: GovernanceDurationUnit | undefined): number {
+  switch (unit) {
+    case 'blocks':
+      return 12
+    case 'minutes':
+      return 60
+    case 'hours':
+      return 3600
+    case 'days':
+      return 86400
+    default:
+      return 1
+  }
+}
 
 const DEFAULT_GOVERNANCE: GovernanceConfig = {
   framework: '',
@@ -91,7 +112,9 @@ export function ReviewGovernanceEditor({
       })
       entry.discoveredContracts.forEach((c) => {
         if (
-          !contracts.some((existing) => addressesEqual(existing.address, c.address))
+          !contracts.some((existing) =>
+            addressesEqual(existing.address, c.address),
+          )
         ) {
           contracts.push({
             address: c.address,
@@ -129,6 +152,7 @@ export function ReviewGovernanceEditor({
   const resolveFieldRefSeconds = (
     contractAddress: string,
     fieldName: string,
+    unit: GovernanceDurationUnit | undefined,
   ): { seconds: number; isResolved: boolean; error?: string } => {
     if (!projectData?.entries) {
       return { seconds: 0, isResolved: false, error: 'Project data not loaded' }
@@ -144,9 +168,12 @@ export function ReviewGovernanceEditor({
       if (contract?.fields) {
         const field = contract.fields.find((f) => f.name === fieldName)
         if (field?.value?.type === 'number') {
-          const seconds = Number.parseInt(field.value.value, 10)
-          if (!Number.isNaN(seconds)) {
-            return { seconds, isResolved: true }
+          const raw = Number.parseInt(field.value.value, 10)
+          if (!Number.isNaN(raw)) {
+            return {
+              seconds: raw * unitToSecondsFactor(unit),
+              isResolved: true,
+            }
           }
         }
       }
@@ -155,7 +182,9 @@ export function ReviewGovernanceEditor({
   }
 
   const getContractName = (address: string): string => {
-    const info = availableContracts.find((c) => addressesEqual(c.address, address))
+    const info = availableContracts.find((c) =>
+      addressesEqual(c.address, address),
+    )
     return info?.name ?? address.slice(0, 10) + '...'
   }
 
@@ -172,9 +201,7 @@ export function ReviewGovernanceEditor({
   }
 
   if (isLoading) {
-    return (
-      <div className="text-coffee-200 text-xs">Loading governance…</div>
-    )
+    return <div className="text-coffee-200 text-xs">Loading governance…</div>
   }
 
   if (!governance) {
@@ -183,9 +210,9 @@ export function ReviewGovernanceEditor({
         <h3 className="font-bold text-autumn-300">Governance</h3>
         <p className="text-coffee-200 text-xs">
           Describe this protocol's governance system (framework, voting unit,
-          proposal period, execution delay). When the vote execution is on-chain,
-          the period and delay can reference numeric fields from discovered
-          contracts so they stay in sync with reality.
+          proposal period, execution delay). When the vote execution is
+          on-chain, the period and delay can reference numeric fields from
+          discovered contracts so they stay in sync with reality.
         </p>
         {!IS_READONLY && (
           <button
@@ -236,22 +263,24 @@ export function ReviewGovernanceEditor({
       {/* Vote execution */}
       <FieldRow label="Vote Execution">
         <div className="flex gap-2">
-          {(['onchain', 'offchain'] as GovernanceVoteExecution[]).map((mode) => (
-            <button
-              key={mode}
-              disabled={IS_READONLY}
-              onClick={() =>
-                applyGovernance((prev) => ({ ...prev, voteExecution: mode }))
-              }
-              className={`rounded px-3 py-1 text-xs font-medium ${
-                governance.voteExecution === mode
-                  ? 'bg-autumn-300 text-coffee-900'
-                  : 'bg-coffee-700 text-coffee-200 hover:bg-coffee-600'
-              } disabled:opacity-60`}
-            >
-              {mode === 'onchain' ? 'On-chain' : 'Off-chain'}
-            </button>
-          ))}
+          {(['onchain', 'offchain'] as GovernanceVoteExecution[]).map(
+            (mode) => (
+              <button
+                key={mode}
+                disabled={IS_READONLY}
+                onClick={() =>
+                  applyGovernance((prev) => ({ ...prev, voteExecution: mode }))
+                }
+                className={`rounded px-3 py-1 text-xs font-medium ${
+                  governance.voteExecution === mode
+                    ? 'bg-autumn-300 text-coffee-900'
+                    : 'bg-coffee-700 text-coffee-200 hover:bg-coffee-600'
+                } disabled:opacity-60`}
+              >
+                {mode === 'onchain' ? 'On-chain' : 'Off-chain'}
+              </button>
+            ),
+          )}
         </div>
       </FieldRow>
 
@@ -287,7 +316,9 @@ export function ReviewGovernanceEditor({
       </FieldRow>
 
       {/* Voting process */}
-      <FieldRow label={`Voting Process (${(governance.votingProcess ?? '').length}/${VOTING_PROCESS_MAX})`}>
+      <FieldRow
+        label={`Voting Process (${(governance.votingProcess ?? '').length}/${VOTING_PROCESS_MAX})`}
+      >
         <textarea
           value={governance.votingProcess ?? ''}
           disabled={IS_READONLY}
@@ -361,6 +392,7 @@ interface DurationPickerProps {
   resolveFieldRefSeconds: (
     contractAddress: string,
     fieldName: string,
+    unit: GovernanceDurationUnit | undefined,
   ) => { seconds: number; isResolved: boolean; error?: string }
   getContractName: (address: string) => string
 }
@@ -389,7 +421,10 @@ function DurationPicker({
               onChange(
                 kind === 'fieldRef'
                   ? value
-                  : { kind: 'fieldRef', ref: { contractAddress: '', fieldName: '' } },
+                  : {
+                      kind: 'fieldRef',
+                      ref: { contractAddress: '', fieldName: '' },
+                    },
               )
             }
           >
@@ -487,27 +522,34 @@ function FieldRefEditor({
   resolveFieldRefSeconds: (
     contractAddress: string,
     fieldName: string,
+    unit: GovernanceDurationUnit | undefined,
   ) => { seconds: number; isResolved: boolean; error?: string }
   getContractName: (address: string) => string
 }) {
-  const { contractAddress, fieldName } = value.ref
+  const { contractAddress, fieldName, unit } = value.ref
   const fields = contractAddress ? getNumericFields(contractAddress) : []
   const resolved =
     contractAddress && fieldName
-      ? resolveFieldRefSeconds(contractAddress, fieldName)
+      ? resolveFieldRefSeconds(contractAddress, fieldName, unit)
       : null
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-1">
-        <label className="text-coffee-400 text-[10px] uppercase">Contract</label>
+        <label className="text-coffee-400 text-[10px] uppercase">
+          Contract
+        </label>
         <select
           value={contractAddress}
           disabled={IS_READONLY}
           onChange={(e) =>
             onChange({
               kind: 'fieldRef',
-              ref: { contractAddress: e.target.value, fieldName: '' },
+              ref: {
+                contractAddress: e.target.value,
+                fieldName: '',
+                unit,
+              },
             })
           }
           className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 text-coffee-100 text-xs"
@@ -531,7 +573,7 @@ function FieldRefEditor({
           onChange={(e) =>
             onChange({
               kind: 'fieldRef',
-              ref: { contractAddress, fieldName: e.target.value },
+              ref: { contractAddress, fieldName: e.target.value, unit },
             })
           }
           className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 text-coffee-100 text-xs disabled:opacity-50"
@@ -549,6 +591,34 @@ function FieldRefEditor({
             No numeric fields found in this contract.
           </p>
         )}
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label className="text-coffee-400 text-[10px] uppercase">Unit</label>
+        <select
+          value={unit ?? 'seconds'}
+          disabled={IS_READONLY}
+          onChange={(e) =>
+            onChange({
+              kind: 'fieldRef',
+              ref: {
+                contractAddress,
+                fieldName,
+                unit: e.target.value as GovernanceDurationUnit,
+              },
+            })
+          }
+          className="w-full rounded border border-coffee-600 bg-coffee-700 px-2 py-1 text-coffee-100 text-xs"
+        >
+          {GOVERNANCE_DURATION_UNITS.map((u) => (
+            <option key={u} value={u}>
+              {u}
+            </option>
+          ))}
+        </select>
+        <p className="text-coffee-400 text-[10px]">
+          Raw on-chain value's unit. 'blocks' assumes 12s Ethereum block time.
+        </p>
       </div>
 
       {resolved && (
