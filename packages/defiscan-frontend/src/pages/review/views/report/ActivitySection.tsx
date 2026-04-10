@@ -67,24 +67,41 @@ export function ActivitySection({ review, onShowMore }: ActivitySectionProps) {
           return (
             <div
               key={i}
-              className={`flex items-center gap-[32px] pb-[25px] ${!isLast ? 'border-b border-border/60 mb-[25px]' : ''}`}
+              className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-[32px] pb-[25px] ${!isLast ? 'border-b border-border/60 mb-[25px]' : ''}`}
             >
-              {/* Date */}
-              <div className="w-[120px] shrink-0">
-                <p className="font-mono font-normal text-[12px] text-text-muted">{formatDate(event.timestamp)}</p>
+              {/* Top line on mobile: date + badges + tx link */}
+              <div className="flex items-center gap-2 sm:contents">
+                {/* Date */}
+                <div className="sm:w-[120px] shrink-0">
+                  <p className="font-mono font-normal text-[12px] text-text-muted">{formatDate(event.timestamp)}</p>
+                </div>
+
+                {/* Badges */}
+                <span className="inline-flex items-center px-[8px] py-[2px] rounded-sm text-[9px] font-bold uppercase tracking-[0.225px] bg-purple-100 text-purple-700 shrink-0">
+                  Upgrade
+                </span>
+                {event.isDependency && (
+                  <span className="inline-flex items-center px-[8px] py-[2px] rounded-sm text-[9px] font-bold uppercase tracking-[0.225px] bg-orange-100 text-orange-700 shrink-0">
+                    Dependency
+                  </span>
+                )}
+
+                {/* Tx link — mobile: pushed right; desktop: at end via sm:contents */}
+                <a
+                  href={etherscanUrl(event.txHash)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[11px] text-text-muted hover:text-accent transition-colors shrink-0 flex items-center gap-1 ml-auto sm:ml-0 sm:order-last"
+                  title={rawTx}
+                >
+                  {truncateAddress(rawTx)}
+                  <svg className="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </a>
               </div>
 
-              {/* Badges */}
-              <span className="inline-flex items-center px-[8px] py-[2px] rounded-sm text-[9px] font-bold uppercase tracking-[0.225px] bg-purple-100 text-purple-700 shrink-0">
-                Upgrade
-              </span>
-              {event.isDependency && (
-                <span className="inline-flex items-center px-[8px] py-[2px] rounded-sm text-[9px] font-bold uppercase tracking-[0.225px] bg-orange-100 text-orange-700 shrink-0">
-                  Dependency
-                </span>
-              )}
-
-              {/* Contract name */}
+              {/* Contract name — full width on mobile, inline on desktop */}
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-[14px] text-text-primary truncate">
                   {event.contractName}
@@ -96,20 +113,6 @@ export function ActivitySection({ review, onShowMore }: ActivitySectionProps) {
                   {truncateAddress(rawContract)}
                 </p>
               </div>
-
-              {/* Tx link */}
-              <a
-                href={etherscanUrl(event.txHash)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-[11px] text-text-muted hover:text-accent transition-colors shrink-0 flex items-center gap-1"
-                title={rawTx}
-              >
-                {truncateAddress(rawTx)}
-                <svg className="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                </svg>
-              </a>
             </div>
           )
         })}
