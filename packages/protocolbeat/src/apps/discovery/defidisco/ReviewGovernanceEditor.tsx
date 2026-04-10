@@ -66,7 +66,6 @@ interface ContractInfo {
 
 interface NumericField {
   name: string
-  description: string
   value: string
 }
 
@@ -141,7 +140,6 @@ export function ReviewGovernanceEditor({
           .filter((field) => field.value?.type === 'number')
           .map((field) => ({
             name: field.name,
-            description: field.description || '',
             value: field.value?.type === 'number' ? field.value.value : '',
           }))
       }
@@ -447,7 +445,7 @@ function DurationPicker({
         </ModeButton>
       </div>
 
-      {kind === 'fieldRef' && !showFieldRefDisabled && (
+      {value.kind === 'fieldRef' && !showFieldRefDisabled && (
         <FieldRefEditor
           value={value}
           onChange={onChange}
@@ -582,7 +580,6 @@ function FieldRefEditor({
           {fields.map((f) => (
             <option key={f.name} value={f.name}>
               {f.name} (value: {f.value})
-              {f.description ? ` — ${f.description}` : ''}
             </option>
           ))}
         </select>

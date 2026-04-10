@@ -276,6 +276,7 @@ packages/
 │   ├── FunctionBreakdown.tsx         # Functions section
 │   ├── ReviewDescriptionsEditor.tsx  # Review descriptions editor (Descriptions tab)
 │   ├── ReviewResourcesEditor.tsx    # Resources & audits editor (links, frontends, socials, security audits, bug bounties)
+│   ├── ReviewGovernanceEditor.tsx   # Governance editor (framework, voting, durations with unit picker)
 │   ├── ResourcesPanel.tsx          # Standalone Resources panel (wraps ReviewResourcesEditor)
 │   ├── FundsTagsButton.tsx         # Funds fetching controls (balances, positions, token, aggregate)
 │   ├── FundsSection.tsx            # Funds display in DeFiScan panel (tokens, aggregate, contracts)
