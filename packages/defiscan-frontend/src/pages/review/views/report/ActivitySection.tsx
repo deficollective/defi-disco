@@ -74,15 +74,23 @@ export function ActivitySection({ review, onShowMore }: ActivitySectionProps) {
                 <p className="font-mono font-normal text-[12px] text-text-muted">{formatDate(event.timestamp)}</p>
               </div>
 
-              {/* Badge */}
+              {/* Badges */}
               <span className="inline-flex items-center px-[8px] py-[2px] rounded-sm text-[9px] font-bold uppercase tracking-[0.225px] bg-purple-100 text-purple-700 shrink-0">
                 Upgrade
               </span>
+              {event.isDependency && (
+                <span className="inline-flex items-center px-[8px] py-[2px] rounded-sm text-[9px] font-bold uppercase tracking-[0.225px] bg-orange-100 text-orange-700 shrink-0">
+                  Dependency
+                </span>
+              )}
 
               {/* Contract name */}
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-[14px] text-text-primary truncate">
                   {event.contractName}
+                  {event.entity && (
+                    <span className="font-normal text-text-muted"> ({event.entity})</span>
+                  )}
                 </p>
                 <p className="font-mono text-[11px] text-text-muted truncate">
                   {truncateAddress(rawContract)}

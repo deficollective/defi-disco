@@ -219,14 +219,20 @@ function UpgradeRow({
         </div>
 
         {/* Type badge */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 flex items-center gap-1.5">
           <Badge variant="purple">Upgrade</Badge>
+          {event.isDependency && (
+            <Badge variant="dependency">Dependency</Badge>
+          )}
         </div>
 
         {/* Contract name */}
         <div className="flex-1 min-w-0">
           <span className="text-sm font-medium text-text-primary truncate block">
             {event.contractName}
+            {event.entity && (
+              <span className="text-text-muted font-normal"> ({event.entity})</span>
+            )}
           </span>
         </div>
 
