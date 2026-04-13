@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { CompiledReview } from '../../../types'
 import { etherscanTxUrl, stripChainPrefix } from '../../../utils/format'
+import { ProtocolLogo } from '../../../components/ProtocolLogo'
 import { describeActivityEvent } from './activityDescription'
 
 interface ActivityViewProps {
@@ -75,8 +76,8 @@ export function ActivityView({ review }: ActivityViewProps) {
   const monitoredContracts = review.totals.contractCount
   const lastVerified = formatRelative(review.compiledAt)
   const protocolName = review.metadata.protocolName
+  const protocolSlug = review.metadata.protocolSlug
   const description = review.metadata.description
-  const initial = (protocolName?.[0] ?? '?').toUpperCase()
 
   return (
     <div className="flex flex-col gap-8 pt-2">
@@ -85,8 +86,11 @@ export function ActivityView({ review }: ActivityViewProps) {
         {/* Left: logo + name + description */}
         <div className="flex max-w-[480px] flex-col gap-3">
           <div className="flex items-center gap-3">
-            <div className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-border bg-[#dcfce7] font-bold text-[#15803d] text-lg">
-              {initial}
+            <div className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-border bg-white p-[9px] shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]">
+              <ProtocolLogo
+                slug={protocolSlug}
+                className="h-full w-full object-contain"
+              />
             </div>
             <h1 className="font-bold text-3xl text-text-primary tracking-[-0.6px]">
               {protocolName}
