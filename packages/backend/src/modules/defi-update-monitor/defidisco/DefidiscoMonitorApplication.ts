@@ -6,6 +6,7 @@ import {
   type DiscoveryOutput,
   diffDiscovery,
   generateStructureHash,
+  saveDiscoveredJson,
 } from '@l2beat/discovery'
 import { DiscordClient, HttpClient } from '@l2beat/shared'
 import { UnixTime } from '@l2beat/shared-pure'
@@ -263,9 +264,10 @@ export class DefidiscoMonitorApplication {
         await this.notifyChanges(project, discovery, diff, timestamp)
       }
 
-      // Step 3: Store discovery
+      // Step 3: Store discovery (DB snapshot + committed discovered.json)
       if (discovery) {
         await this.storeDiscovery(project, discovery, timestamp)
+        await this.writeDiscoveredJson(project, discovery)
       }
 
       // Step 4: Refresh funds
@@ -430,6 +432,40 @@ export class DefidiscoMonitorApplication {
       discovery,
       configHash: generateStructureHash(projectConfig.structure),
     })
+  }
+
+  /**
+   * Writes the freshly-discovered output back to the committed
+   * `discovered.json` file so that downstream consumers (frontend activity
+   * feed, `$pastUpgrades`, compiled review) see the updated state.
+   *
+   * The GitHub Actions workflow that drives the monitor picks these files up
+   * and commits them back to the repo, so any new on-chain changes observed
+   * between runs automatically flow into the frontend on the next cycle.
+   */
+  private async writeDiscoveredJson(
+    project: string,
+    discovery: DiscoveryOutput,
+  ): Promise<void> {
+    try {
+      const projectPath =
+        this.config.discovery.configReader.getProjectPath(project)
+      await saveDiscoveredJson(discovery, projectPath)
+      this.logger.info('discovered.json written', {
+        project,
+        path: projectPath,
+      })
+    } catch (error) {
+      // Never fail the whole project update over a write-back error — the
+      // snapshot is already safe in the database and a follow-up cycle (or a
+      // manual `l2b discover`) can re-attempt the write.
+      this.logger.error(
+        { project },
+        error instanceof Error
+          ? error
+          : new Error(`Failed to write discovered.json: ${String(error)}`),
+      )
+    }
   }
 
   // ==========================================================================

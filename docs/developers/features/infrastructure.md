@@ -339,9 +339,9 @@ The Report view (`ReportView.tsx`) includes sharing and export capabilities:
 1. **Discovery**: `runner.run()` — contract analysis via Etherscan V2 API
 2. **Diff**: `diffDiscovery(sanitize(prev), sanitize(curr))` — detect changes
 3. **Notify**: Discord message if changes detected (via `UpdateNotifier`)
-4. **Store**: Upsert discovery snapshot to PostgreSQL
+4. **Store**: Upsert discovery snapshot to PostgreSQL **and** write the fresh `discovered.json` back to `packages/config/src/projects/<project>/discovered.json` via `saveDiscoveredJson` (using `configReader.getProjectPath(project)`). The GH Actions workflow mounts that directory into the container and commits the updated files, so the on-disk snapshot, `$pastUpgrades`, and the frontend activity feed stay in sync with on-chain state between manual `l2b discover` runs. Write-back failures are logged but do not abort the project update — the DB snapshot is the source of truth for diffing on the next cycle
 5. **Funds Refresh**: `fetchAllFundsForProject()` via in-process defiscan-endpoints
-6. **Compile**: `ReviewCompiler.compile()` — writes `compiled-review.json` to `defiscan-frontend/public/data/<slug>/`
+6. **Compile**: `ReviewCompiler.compile()` — reads the just-refreshed `discovered.json` via `configReader`, writes `compiled-review.json` to `defiscan-frontend/public/data/<slug>/`
 7. **Cycle Summary**: Discord message after all projects (project count, duration, change count)
 
 ### Key Files
