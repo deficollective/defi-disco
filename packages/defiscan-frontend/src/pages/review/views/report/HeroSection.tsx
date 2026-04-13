@@ -7,6 +7,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import type { CompiledReview } from '../../../../types'
+import { MoreInfoButton } from '../../../../components/MoreInfoButton'
 import { ShareButton } from '../../../../components/ShareButton'
 import { deriveRadarData } from '../../../../utils/radar'
 
@@ -72,6 +73,7 @@ export function HeroSection({ review, onExportPdf, onSubscribe }: HeroSectionPro
             </svg>
             Subscribe
           </button>
+          <MoreInfoButton resources={review.resources ?? []} />
           <ShareButton review={review} onExportPdf={onExportPdf} />
         </div>
       </div>
