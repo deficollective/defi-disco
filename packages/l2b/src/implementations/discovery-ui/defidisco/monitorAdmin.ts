@@ -66,9 +66,7 @@ export interface MonitorAdminConfig {
   ssl?: boolean
 }
 
-export function createMonitorAdminClient(
-  config: MonitorAdminConfig,
-): Database {
+export function createMonitorAdminClient(config: MonitorAdminConfig): Database {
   return createDatabase({
     connectionString: config.connectionString,
     application_name: 'defidisco-monitor-admin',
@@ -449,8 +447,7 @@ export function addFieldsToIgnoreWatchMode(
     const parsed = parseJsonc(text) as
       | { overrides?: Record<string, { ignoreInWatchMode?: string[] }> }
       | undefined
-    const existing =
-      parsed?.overrides?.[address]?.ignoreInWatchMode ?? []
+    const existing = parsed?.overrides?.[address]?.ignoreInWatchMode ?? []
 
     // Merge + dedupe + sort
     const merged = new Set<string>(existing)

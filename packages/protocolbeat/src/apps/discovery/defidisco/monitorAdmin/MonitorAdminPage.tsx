@@ -62,9 +62,7 @@ export function MonitorAdminPage() {
 
         {health.data && health.data.available === false && (
           <div className="border border-coffee-600 bg-coffee-800 p-6">
-            <p className="font-semibold">
-              Monitor admin unavailable
-            </p>
+            <p className="font-semibold">Monitor admin unavailable</p>
             <p className="mt-2 text-coffee-400 text-sm">
               <code>DATABASE_URL</code> is not set on the server. Restart{' '}
               <code>l2b ui</code> with the env var set to enable this page.

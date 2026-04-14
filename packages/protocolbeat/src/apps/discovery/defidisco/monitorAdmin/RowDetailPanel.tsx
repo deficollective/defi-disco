@@ -8,10 +8,7 @@ import {
   stripMonitorFields,
 } from '../../../../api/api'
 
-export function RowDetailPanel(props: {
-  rowId: number
-  onClose: () => void
-}) {
+export function RowDetailPanel(props: { rowId: number; onClose: () => void }) {
   const { rowId, onClose } = props
   const queryClient = useQueryClient()
 
@@ -149,9 +146,7 @@ export function RowDetailPanel(props: {
 
       <div className="max-h-[480px] overflow-auto border border-coffee-700">
         {detail.contracts.map((contract) => {
-          const ids = contract.fields.map(
-            (f) => `${contract.address}|${f.key}`,
-          )
+          const ids = contract.fields.map((f) => `${contract.address}|${f.key}`)
           const allSelected =
             ids.length > 0 && ids.every((i) => selected.has(i))
           return (
@@ -280,8 +275,7 @@ export function RowDetailPanel(props: {
             } to ignoreInWatchMode across ${lastResult.configContractsUpdated} contract${
               lastResult.configContractsUpdated !== 1 ? 's' : ''
             }.`}{' '}
-          Recompile:{' '}
-          {lastResult.recompile?.status ?? 'n/a'}
+          Recompile: {lastResult.recompile?.status ?? 'n/a'}
           {lastResult.recompile?.status === 'error' &&
             ` — ${lastResult.recompile.error}`}
         </div>
