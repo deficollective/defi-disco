@@ -229,7 +229,7 @@ export function ActivitySection({ review, onShowMore }: ActivitySectionProps) {
                   </a>
                   {event.type === 'upgrade' && (
                     <a
-                      href={etherscanTxUrl(event.txHash)}
+                      href={etherscanTxUrl(event.txHash, contractAddr)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-mono text-[10px] text-text-muted/80 hover:text-accent transition-colors"
@@ -322,7 +322,7 @@ export function ActivitySection({ review, onShowMore }: ActivitySectionProps) {
                     <>
                       <span className="text-text-muted/40">|</span>
                       <a
-                        href={etherscanTxUrl(event.txHash)}
+                        href={etherscanTxUrl(event.txHash, contractAddr)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-mono text-[11px] text-text-muted hover:text-accent transition-colors"

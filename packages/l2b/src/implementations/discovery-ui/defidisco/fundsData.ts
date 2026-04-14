@@ -4,6 +4,7 @@ import * as path from 'path'
 import {
   addressesEqual,
   buildImplementationToProxyMap,
+  getChainPrefix,
   normalizeChainAddress,
   stripChainPrefix,
 } from './addressUtils'
@@ -19,6 +20,26 @@ import type {
 
 const DEFISCAN_ENDPOINTS_URL =
   process.env.DEFISCAN_ENDPOINTS_URL || 'http://localhost:3001'
+
+// Map our internal chain shortName → DeBank chain_id.
+// DeBank uses its own naming (e.g. "bsc" instead of our "bnb"):
+// https://docs.open.debank.com/
+const DEBANK_CHAIN_ID: Record<string, string> = {
+  eth: 'eth',
+  bnb: 'bsc',
+  arb1: 'arb',
+  base: 'base',
+  op: 'op',
+  matic: 'matic',
+  avax: 'avax',
+}
+
+function getDebankChainId(address: string): string {
+  const prefix = getChainPrefix(address)
+  // Fall through to the raw prefix if unknown so DeBank fails loudly
+  // instead of silently returning Ethereum data for a non-eth chain.
+  return DEBANK_CHAIN_ID[prefix] ?? prefix
+}
 
 export interface TokenInfo {
   id: string
@@ -213,13 +234,14 @@ export async function fetchFundsForContract(
   let tokenFetched = false
   let aggregateFetched = false
 
-  // Normalize address - remove eth: prefix for API calls
+  // Normalize address - remove chain prefix for API calls
   const cleanAddress = stripChainPrefix(contractAddress)
+  const debankChainId = getDebankChainId(contractAddress)
   const forceRefreshParam = options.forceRefresh ? '&force_refresh=true' : ''
 
   try {
     if (options.fetchBalances) {
-      const balancesUrl = `${DEFISCAN_ENDPOINTS_URL}/balances?contract_address=${cleanAddress}&chain_id=eth${forceRefreshParam}`
+      const balancesUrl = `${DEFISCAN_ENDPOINTS_URL}/balances?contract_address=${cleanAddress}&chain_id=${debankChainId}${forceRefreshParam}`
       const balancesResponse = await fetch(balancesUrl)
 
       if (!balancesResponse.ok) {
@@ -264,7 +286,7 @@ export async function fetchFundsForContract(
     }
 
     if (options.fetchPositions) {
-      const positionsUrl = `${DEFISCAN_ENDPOINTS_URL}/positions?address=${cleanAddress}&chain_id=eth${forceRefreshParam}`
+      const positionsUrl = `${DEFISCAN_ENDPOINTS_URL}/positions?address=${cleanAddress}&chain_id=${debankChainId}${forceRefreshParam}`
       const positionsResponse = await fetch(positionsUrl)
 
       // Get cached status and source from headers
@@ -348,7 +370,7 @@ export async function fetchFundsForContract(
     }
 
     if (options.isToken) {
-      const tokenData = await fetchTokenInfo('eth', cleanAddress)
+      const tokenData = await fetchTokenInfo(debankChainId, cleanAddress)
 
       const totalSupply = tokenData.total_supply ?? 0
       const tokenValue = totalSupply * tokenData.price
@@ -373,7 +395,7 @@ export async function fetchFundsForContract(
         )
       } else {
         try {
-          const aggregateUrl = `${DEFISCAN_ENDPOINTS_URL}/aggregate?contract_address=${cleanAddress}&chain_id=eth&handler=${options.aggregateHandler}${forceRefreshParam}`
+          const aggregateUrl = `${DEFISCAN_ENDPOINTS_URL}/aggregate?contract_address=${cleanAddress}&chain_id=${debankChainId}&handler=${options.aggregateHandler}${forceRefreshParam}`
           const aggregateResponse = await fetch(aggregateUrl)
 
           if (aggregateResponse.ok) {

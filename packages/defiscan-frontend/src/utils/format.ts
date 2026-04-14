@@ -37,12 +37,41 @@ export function truncateAddress(address: string): string {
   return `${raw.slice(0, 6)}...${raw.slice(-4)}`
 }
 
-export function etherscanUrl(address: string): string {
-  const raw = stripChainPrefix(address)
-  return `https://etherscan.io/address/${raw}`
+/**
+ * Map our internal chain prefix → block explorer base URL.
+ * Extend as we add chain support.
+ */
+const EXPLORER_BASE_URL: Record<string, string> = {
+  eth: 'https://etherscan.io',
+  bnb: 'https://bscscan.com',
+  arb1: 'https://arbiscan.io',
+  base: 'https://basescan.org',
+  op: 'https://optimistic.etherscan.io',
+  matic: 'https://polygonscan.com',
+  avax: 'https://snowtrace.io',
 }
 
-export function etherscanTxUrl(txHash: string): string {
+function getExplorerBase(value: string): string {
+  const colonIdx = value.indexOf(':')
+  if (colonIdx !== -1 && !value.startsWith('0x')) {
+    const prefix = value.slice(0, colonIdx)
+    return EXPLORER_BASE_URL[prefix] ?? EXPLORER_BASE_URL.eth
+  }
+  return EXPLORER_BASE_URL.eth
+}
+
+export function etherscanUrl(address: string): string {
+  const raw = stripChainPrefix(address)
+  return `${getExplorerBase(address)}/address/${raw}`
+}
+
+/**
+ * Tx hashes from `$pastUpgrades` are stored without a chain prefix, so the
+ * caller should pass a chain-prefixed `chainContext` (typically the contract
+ * address the event belongs to) to pick the right explorer.
+ */
+export function etherscanTxUrl(txHash: string, chainContext?: string): string {
   const raw = stripChainPrefix(txHash)
-  return `https://etherscan.io/tx/${raw}`
+  const base = getExplorerBase(chainContext ?? txHash)
+  return `${base}/tx/${raw}`
 }

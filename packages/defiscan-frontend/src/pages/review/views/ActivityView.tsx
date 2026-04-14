@@ -304,7 +304,7 @@ export function ActivityView({ review }: ActivityViewProps) {
                           </a>
                           {event.type === 'upgrade' && (
                             <a
-                              href={etherscanTxUrl(event.txHash)}
+                              href={etherscanTxUrl(event.txHash, contractAddr)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="font-mono text-[10px] text-text-muted hover:text-accent transition-colors"
@@ -369,7 +369,7 @@ export function ActivityView({ review }: ActivityViewProps) {
                     </a>
                     {event.type === 'upgrade' && (
                       <a
-                        href={etherscanTxUrl(event.txHash)}
+                        href={etherscanTxUrl(event.txHash, contractAddr)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-mono text-[10px] text-text-muted hover:text-accent transition-colors w-fit"
