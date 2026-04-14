@@ -78,11 +78,17 @@ function describeRoleUpdate(
     const c = event.changes[0]!
     const before = formatValue(c.before)
     const after = formatValue(c.after)
+    // Append the specific sub-field (e.g. "members", "adminRole", "3" for an
+    // indexed Safe owner slot) so the description disambiguates which part of
+    // the role changed — otherwise "ADMIN changed from X to Y" is identical
+    // whether members[] or adminRole was touched.
+    const sub = roleSubField(c.field, event.roleName)
+    const label = sub ? `${event.roleName} ${sub}` : event.roleName
     if (options.omitName) {
-      return `${event.roleName} changed from ${before} to ${after}.`
+      return `${label} changed from ${before} to ${after}.`
     }
     const contract = event.contractName ?? shortenAddress(event.address)
-    return `${contract}: ${event.roleName} changed from ${before} to ${after}.`
+    return `${contract}: ${label} changed from ${before} to ${after}.`
   }
   const summary = summarizeFieldList(event.changes)
   if (options.omitName) {
@@ -121,6 +127,31 @@ function describeContractRemoved(
   if (options.omitName) return 'Contract removed from discovery.'
   const contract = event.contractName ?? shortenAddress(event.address)
   return `${contract} removed from discovery.`
+}
+
+/**
+ * Extracts the sub-field of a role-update diff key so descriptions can say
+ * "ADMIN members" or "Safe.owners slot 3" instead of just "ADMIN".
+ * Returns `undefined` when the key doesn't carry a meaningful sub-field.
+ */
+function roleSubField(
+  fieldKey: string,
+  roleName: string,
+): string | undefined {
+  // accessControl.<ROLE>.(members|adminRole) — possibly prefixed with values.
+  const ac = fieldKey.match(
+    /^(?:values\.)?accessControl\.([^.]+)\.(members|adminRole)$/,
+  )
+  if (ac) return ac[2]
+
+  // Safe owner indexed slot: values.$members.3 / $members.3
+  const idx = fieldKey.match(/^(?:values\.)?\$members\.(\d+)$/)
+  if (idx) return `slot ${idx[1]}`
+
+  // Whole-array Safe members / Safe threshold / owner / pendingOwner — the
+  // roleName itself already describes the change, nothing to append.
+  if (roleName === 'Safe.owners' || roleName === 'Safe.threshold') return
+  return
 }
 
 export function humanizeFieldName(key: string): string {

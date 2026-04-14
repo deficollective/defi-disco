@@ -1090,10 +1090,14 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
   // Gated by DATABASE_URL — when unset, the routes return 503 so the frontend
   // can show "unavailable". Mutations also respect the readonly flag.
   // ==========================================================================
+  // SSL is auto-enabled unless the connection string points at localhost
+  // (matches the convention in packages/backend/src/config/makeConfig.ts).
+  // Local Postgres instances typically don't accept SSL, so hardcoding it on
+  // would break them.
   const monitorAdminDb = process.env.DATABASE_URL
     ? createMonitorAdminClient({
         connectionString: process.env.DATABASE_URL,
-        ssl: true,
+        ssl: !process.env.DATABASE_URL.includes('localhost'),
       })
     : null
 

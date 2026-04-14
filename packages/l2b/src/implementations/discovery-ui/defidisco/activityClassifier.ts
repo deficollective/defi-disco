@@ -219,7 +219,18 @@ function classifyAsRole(key: string): string | undefined {
   if (key === 'pendingOwner' || key === 'values.pendingOwner') {
     return 'pendingOwner'
   }
-  if (key === '$members' || key === 'values.$members') return 'Safe.owners'
+  // Safe owners: diffs land as either the whole array (`$members` /
+  // `values.$members`) when the list length changes, or as per-slot indexed
+  // keys (`values.$members.3`) when an individual seat is swapped. Both are
+  // role updates, not data changes.
+  if (
+    key === '$members' ||
+    key === 'values.$members' ||
+    /^\$members\.\d+$/.test(key) ||
+    /^values\.\$members\.\d+$/.test(key)
+  ) {
+    return 'Safe.owners'
+  }
   if (key === '$threshold' || key === 'values.$threshold') {
     return 'Safe.threshold'
   }

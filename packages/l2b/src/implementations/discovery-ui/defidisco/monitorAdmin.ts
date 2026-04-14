@@ -119,8 +119,7 @@ export async function getMonitorRow(
   db: Database,
   id: number,
 ): Promise<MonitorRowDetail | null> {
-  const all = await db.updateNotifier.getAll()
-  const row = all.find((r) => r.id === id)
+  const row = await db.updateNotifier.getById(id)
   if (!row) return null
 
   return {
@@ -156,8 +155,7 @@ export async function deleteMonitorRow(
   id: number,
   opts: DeleteRowOptions,
 ): Promise<MutationResult> {
-  const all = await db.updateNotifier.getAll()
-  const row = all.find((r) => r.id === id)
+  const row = await db.updateNotifier.getById(id)
   if (!row) {
     throw new Error(`UpdateNotifier row ${id} not found`)
   }
@@ -219,8 +217,7 @@ export async function stripMonitorFields(
     throw new Error('No fields specified to strip')
   }
 
-  const all = await db.updateNotifier.getAll()
-  const row = all.find((r) => r.id === id)
+  const row = await db.updateNotifier.getById(id)
   if (!row) {
     throw new Error(`UpdateNotifier row ${id} not found`)
   }

@@ -82,6 +82,20 @@ export class UpdateNotifierRepository extends BaseRepository {
     return rows.map(toRecord)
   }
 
+  /**
+   * Fetches a single UpdateNotifier row by id. Returns `null` if not found.
+   * Used by the DeFiDisco monitor admin dashboard to avoid downloading the
+   * full table for point lookups and mutations.
+   */
+  async getById(id: number): Promise<UpdateNotifierRecord | null> {
+    const row = await this.db
+      .selectFrom('UpdateNotifier')
+      .selectAll()
+      .where('id', '=', id)
+      .executeTakeFirst()
+    return row ? toRecord(row) : null
+  }
+
   async getNewerThan(
     from: UnixTime,
     projectId: string,

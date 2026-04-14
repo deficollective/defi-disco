@@ -26,8 +26,15 @@ function eventContractName(event: ActivityEvent): string {
   return event.contractName ?? truncateAddress(event.address)
 }
 
-function eventKey(event: ActivityEvent, index: number): string {
-  if (event.type === 'upgrade') return `${event.txHash}-${index}`
+function eventKey(event: ActivityEvent): string {
+  // Stable keys matter because sorting toggles reorder `visible`. Using the
+  // array index would force React to remount every row on each re-sort.
+  // Non-upgrade events carry a deterministic `id` built from
+  // (updateNotifierId, address, bucket) — use it directly. Upgrades don't
+  // have that id but a (txHash, contractAddress) pair is unique per upgrade.
+  if (event.type === 'upgrade') {
+    return `upgrade:${event.txHash}:${event.contractAddress}`
+  }
   return event.id
 }
 
@@ -242,7 +249,7 @@ export function ActivityView({ review }: ActivityViewProps) {
               No activity recorded yet
             </h3>
             <p className="text-sm text-text-muted">
-              Contract upgrades will appear here.
+              Protocol activity will appear here once monitoring begins.
             </p>
           </div>
         ) : (
@@ -270,11 +277,10 @@ export function ActivityView({ review }: ActivityViewProps) {
                 </tr>
               </thead>
               <tbody>
-                {visible.map((event, i) => {
-                  const isDep = !!event.isDependency
+                {visible.map((event) => {
                   const contractAddr = eventContractAddress(event)
                   const contractLabel = eventContractName(event)
-                  const key = eventKey(event, i)
+                  const key = eventKey(event)
                   const expandable = isExpandable(event)
                   const isExpanded = expandable && expandedKey === key
                   return (
@@ -362,7 +368,7 @@ export function ActivityView({ review }: ActivityViewProps) {
                           </div>
                         </td>
                         <td className="px-6 py-4 text-right align-middle">
-                          <SeverityBadge isDependency={isDep} />
+                          <SeverityBadge event={event} />
                         </td>
                       </tr>
                       {isExpanded && expandable && (
@@ -387,11 +393,10 @@ export function ActivityView({ review }: ActivityViewProps) {
 
             {/* Mobile stacked rows */}
             <div className="flex flex-col sm:hidden">
-              {visible.map((event, i) => {
-                const isDep = !!event.isDependency
+              {visible.map((event) => {
                 const contractAddr = eventContractAddress(event)
                 const contractLabel = eventContractName(event)
-                const key = eventKey(event, i)
+                const key = eventKey(event)
                 const expandable = isExpandable(event)
                 const isExpanded = expandable && expandedKey === key
                 return (
@@ -408,7 +413,7 @@ export function ActivityView({ review }: ActivityViewProps) {
                       <span className="font-mono text-[11px] text-text-muted">
                         {formatTimestamp(event.timestamp)}
                       </span>
-                      <SeverityBadge isDependency={isDep} />
+                      <SeverityBadge event={event} />
                     </div>
                     <div className="flex items-center gap-2">
                       <UpdateTypeBadge event={event} />
@@ -584,29 +589,49 @@ function badgeMeta(event: ActivityEvent): {
   }
 }
 
-function SeverityBadge({ isDependency }: { isDependency: boolean }) {
-  if (isDependency) {
-    return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-[rgba(0,125,87,0.1)] px-2.5 py-0.5 font-bold text-[#006243] text-[10px]">
-        <svg
-          className="size-[10px]"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.5}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-          />
-        </svg>
-        Info
-      </span>
-    )
+type Severity = 'High' | 'Medium' | 'Low' | 'Info'
+
+/**
+ * Severity rubric:
+ *   - Dependency changes are always "Info" (external to the protocol).
+ *   - Upgrades and role updates = High (code/permission control flow).
+ *   - Contract add/remove = Medium (surface-area change, not a control shift).
+ *   - Data changes = Low (parameter tweaks, interest rates, counters).
+ * This replaces the previous binary "dependency → Info, everything else → High"
+ * rule which over-alarmed on benign parameter changes.
+ */
+function severityFor(event: ActivityEvent): Severity {
+  if (event.isDependency) return 'Info'
+  switch (event.type) {
+    case 'upgrade':
+    case 'role-update':
+      return 'High'
+    case 'contract-added':
+    case 'contract-removed':
+      return 'Medium'
+    case 'data-change':
+      return 'Low'
   }
+}
+
+function SeverityBadge({ event }: { event: ActivityEvent }) {
+  const severity = severityFor(event)
+  const className =
+    severity === 'High'
+      ? 'bg-[rgba(255,218,214,0.4)] text-[#ba1a1a]'
+      : severity === 'Medium'
+        ? 'bg-[rgba(255,184,0,0.15)] text-[#a06200]'
+        : severity === 'Low'
+          ? 'bg-[rgba(0,90,200,0.1)] text-[#1a3d8f]'
+          : 'bg-[rgba(0,125,87,0.1)] text-[#006243]'
+  const iconPath =
+    severity === 'Info'
+      ? 'M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z'
+      : 'M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z'
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-[rgba(255,218,214,0.4)] px-2.5 py-0.5 font-bold text-[#ba1a1a] text-[10px]">
+    <span
+      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-bold text-[10px] ${className}`}
+    >
       <svg
         className="size-[10px]"
         viewBox="0 0 24 24"
@@ -617,10 +642,10 @@ function SeverityBadge({ isDependency }: { isDependency: boolean }) {
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+          d={iconPath}
         />
       </svg>
-      High
+      {severity}
     </span>
   )
 }
