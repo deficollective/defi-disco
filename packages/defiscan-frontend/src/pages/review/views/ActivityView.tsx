@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import type { ActivityEvent, CompiledReview } from '../../../types'
 import {
   etherscanTxUrl,
@@ -8,6 +8,14 @@ import {
 } from '../../../utils/format'
 import { ProtocolLogo } from '../../../components/ProtocolLogo'
 import { describeActivityEvent } from './activityDescription'
+import { FieldChangesPanel } from './FieldChangesPanel'
+
+/** Events whose `changes[]` array can be expanded to show field-level diffs. */
+function isExpandable(
+  event: ActivityEvent,
+): event is Extract<ActivityEvent, { type: 'data-change' | 'role-update' }> {
+  return event.type === 'data-change' || event.type === 'role-update'
+}
 
 function eventContractAddress(event: ActivityEvent): string {
   return event.type === 'upgrade' ? event.contractAddress : event.address
@@ -69,6 +77,11 @@ export function ActivityView({ review }: ActivityViewProps) {
   const events = review.activity ?? []
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [page, setPage] = useState(1)
+  const [expandedKey, setExpandedKey] = useState<string | null>(null)
+
+  function toggleExpand(key: string) {
+    setExpandedKey((cur) => (cur === key ? null : key))
+  }
 
   const sorted = useMemo(() => {
     const copy = [...events]
@@ -238,6 +251,7 @@ export function ActivityView({ review }: ActivityViewProps) {
             <table className="hidden w-full sm:table">
               <thead className="border-border border-b bg-bg-card">
                 <tr>
+                  <th className="w-[32px] px-2 py-4" />
                   <th className="w-[210px] px-6 py-4 text-left font-bold text-[11px] text-text-muted uppercase tracking-[0.1em]">
                     Date
                   </th>
@@ -260,65 +274,112 @@ export function ActivityView({ review }: ActivityViewProps) {
                   const isDep = !!event.isDependency
                   const contractAddr = eventContractAddress(event)
                   const contractLabel = eventContractName(event)
+                  const key = eventKey(event, i)
+                  const expandable = isExpandable(event)
+                  const isExpanded = expandable && expandedKey === key
                   return (
-                    <tr
-                      key={eventKey(event, i)}
-                      className="border-border/30 border-b last:border-b-0"
-                    >
-                      <td className="px-6 py-4 align-middle">
-                        <span className="font-mono text-[12px] text-text-primary">
-                          {formatTimestamp(event.timestamp)}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 align-middle">
-                        <UpdateTypeBadge event={event} />
-                      </td>
-                      <td className="px-6 py-4 align-middle">
-                        <span className="text-[14px] text-text-primary">
-                          {describeActivityEvent(event)}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 align-middle">
-                        <div className="flex flex-col gap-0.5">
-                          <a
-                            href={etherscanUrl(contractAddr)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 font-mono text-[11px] text-accent hover:underline"
-                            title={stripChainPrefix(contractAddr)}
-                          >
-                            {contractLabel}
+                    <Fragment key={key}>
+                      <tr
+                        className={`border-border/30 border-b last:border-b-0 ${
+                          expandable
+                            ? 'cursor-pointer hover:bg-bg-card/40'
+                            : ''
+                        } ${isExpanded ? 'bg-bg-card/40' : ''}`}
+                        onClick={
+                          expandable ? () => toggleExpand(key) : undefined
+                        }
+                      >
+                        <td className="px-2 py-4 align-middle text-center">
+                          {expandable && (
                             <svg
-                              className="size-[10px]"
+                              className={`inline size-3 text-text-muted transition-transform ${
+                                isExpanded ? 'rotate-90' : ''
+                              }`}
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
-                              strokeWidth={2}
+                              strokeWidth={2.5}
+                              aria-hidden="true"
                             >
                               <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                                d="M9 5l7 7-7 7"
                               />
                             </svg>
-                          </a>
-                          {event.type === 'upgrade' && (
+                          )}
+                        </td>
+                        <td className="px-6 py-4 align-middle">
+                          <span className="font-mono text-[12px] text-text-primary">
+                            {formatTimestamp(event.timestamp)}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 align-middle">
+                          <UpdateTypeBadge event={event} />
+                        </td>
+                        <td className="px-6 py-4 align-middle">
+                          <span className="text-[14px] text-text-primary">
+                            {describeActivityEvent(event)}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 align-middle">
+                          <div className="flex flex-col gap-0.5">
                             <a
-                              href={etherscanTxUrl(event.txHash)}
+                              href={etherscanUrl(contractAddr)}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="font-mono text-[10px] text-text-muted hover:text-accent transition-colors"
-                              title={stripChainPrefix(event.txHash)}
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-1.5 font-mono text-[11px] text-accent hover:underline"
+                              title={stripChainPrefix(contractAddr)}
                             >
-                              tx: {truncateTx(event.txHash)}
+                              {contractLabel}
+                              <svg
+                                className="size-[10px]"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                                />
+                              </svg>
                             </a>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-right align-middle">
-                        <SeverityBadge isDependency={isDep} />
-                      </td>
-                    </tr>
+                            {event.type === 'upgrade' && (
+                              <a
+                                href={etherscanTxUrl(event.txHash)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="font-mono text-[10px] text-text-muted hover:text-accent transition-colors"
+                                title={stripChainPrefix(event.txHash)}
+                              >
+                                tx: {truncateTx(event.txHash)}
+                              </a>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-right align-middle">
+                          <SeverityBadge isDependency={isDep} />
+                        </td>
+                      </tr>
+                      {isExpanded && expandable && (
+                        <tr className="border-border/30 border-b last:border-b-0 bg-bg-card/40">
+                          <td colSpan={6} className="px-6 pb-4">
+                            <FieldChangesPanel
+                              changes={event.changes}
+                              roleName={
+                                event.type === 'role-update'
+                                  ? event.roleName
+                                  : undefined
+                              }
+                            />
+                          </td>
+                        </tr>
+                      )}
+                    </Fragment>
                   )
                 })}
               </tbody>
@@ -330,10 +391,18 @@ export function ActivityView({ review }: ActivityViewProps) {
                 const isDep = !!event.isDependency
                 const contractAddr = eventContractAddress(event)
                 const contractLabel = eventContractName(event)
+                const key = eventKey(event, i)
+                const expandable = isExpandable(event)
+                const isExpanded = expandable && expandedKey === key
                 return (
                   <div
-                    key={eventKey(event, i)}
-                    className="flex flex-col gap-2 border-border/30 border-b px-5 py-4 last:border-b-0"
+                    key={key}
+                    className={`flex flex-col gap-2 border-border/30 border-b px-5 py-4 last:border-b-0 ${
+                      isExpanded ? 'bg-bg-card/40' : ''
+                    }`}
+                    onClick={
+                      expandable ? () => toggleExpand(key) : undefined
+                    }
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-mono text-[11px] text-text-muted">
@@ -341,7 +410,27 @@ export function ActivityView({ review }: ActivityViewProps) {
                       </span>
                       <SeverityBadge isDependency={isDep} />
                     </div>
-                    <UpdateTypeBadge event={event} />
+                    <div className="flex items-center gap-2">
+                      <UpdateTypeBadge event={event} />
+                      {expandable && (
+                        <svg
+                          className={`size-3 text-text-muted transition-transform ${
+                            isExpanded ? 'rotate-90' : ''
+                          }`}
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2.5}
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      )}
+                    </div>
                     <p className="text-[14px] text-text-primary">
                       {describeActivityEvent(event)}
                     </p>
@@ -349,6 +438,7 @@ export function ActivityView({ review }: ActivityViewProps) {
                       href={etherscanUrl(contractAddr)}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="inline-flex w-fit items-center gap-1.5 font-mono text-[11px] text-accent hover:underline"
                       title={stripChainPrefix(contractAddr)}
                     >
@@ -372,11 +462,24 @@ export function ActivityView({ review }: ActivityViewProps) {
                         href={etherscanTxUrl(event.txHash)}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="font-mono text-[10px] text-text-muted hover:text-accent transition-colors w-fit"
                         title={stripChainPrefix(event.txHash)}
                       >
                         tx: {truncateTx(event.txHash)}
                       </a>
+                    )}
+                    {isExpanded && expandable && (
+                      <div className="mt-2">
+                        <FieldChangesPanel
+                          changes={event.changes}
+                          roleName={
+                            event.type === 'role-update'
+                              ? event.roleName
+                              : undefined
+                          }
+                        />
+                      </div>
                     )}
                   </div>
                 )

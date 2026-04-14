@@ -119,4 +119,30 @@ export class UpdateNotifierRepository extends BaseRepository {
     const result = await this.db.deleteFrom('UpdateNotifier').executeTakeFirst()
     return Number(result.numDeletedRows)
   }
+
+  /**
+   * Deletes a single UpdateNotifier row by id. Used by the DeFiDisco
+   * monitor admin dashboard to clean up noisy entries.
+   */
+  async deleteById(id: number): Promise<number> {
+    const result = await this.db
+      .deleteFrom('UpdateNotifier')
+      .where('id', '=', id)
+      .executeTakeFirst()
+    return Number(result.numDeletedRows)
+  }
+
+  /**
+   * Replaces the diff blob for a single UpdateNotifier row. Used by the
+   * DeFiDisco monitor admin dashboard to surgically strip noisy fields
+   * while keeping the row.
+   */
+  async updateDiff(id: number, diff: DiscoveryDiff[]): Promise<number> {
+    const result = await this.db
+      .updateTable('UpdateNotifier')
+      .set({ diffJsonBlob: JSON.stringify(diff) })
+      .where('id', '=', id)
+      .executeTakeFirst()
+    return Number(result.numUpdatedRows)
+  }
 }

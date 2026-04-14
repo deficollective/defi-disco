@@ -49,27 +49,60 @@ function describeDataChange(
   event: Extract<ActivityEvent, { type: 'data-change' }>,
   options: DescribeOptions,
 ): string {
-  const field = humanizeFieldName(event.field)
-  const before = formatValue(event.before)
-  const after = formatValue(event.after)
+  const count = event.changes.length
+  if (count === 1) {
+    const c = event.changes[0]!
+    const field = humanizeFieldName(c.field)
+    const before = formatValue(c.before)
+    const after = formatValue(c.after)
+    if (options.omitName) {
+      return `${field} changed from ${before} to ${after}.`
+    }
+    const contract = event.contractName ?? shortenAddress(event.address)
+    return `${contract}: ${field} changed from ${before} to ${after}.`
+  }
+  const summary = summarizeFieldList(event.changes)
   if (options.omitName) {
-    return `${field} changed from ${before} to ${after}.`
+    return `${count} fields changed (${summary}).`
   }
   const contract = event.contractName ?? shortenAddress(event.address)
-  return `${contract}: ${field} changed from ${before} to ${after}.`
+  return `${contract}: ${count} fields changed (${summary}).`
 }
 
 function describeRoleUpdate(
   event: Extract<ActivityEvent, { type: 'role-update' }>,
   options: DescribeOptions,
 ): string {
-  const before = formatValue(event.before)
-  const after = formatValue(event.after)
+  const count = event.changes.length
+  if (count === 1) {
+    const c = event.changes[0]!
+    const before = formatValue(c.before)
+    const after = formatValue(c.after)
+    if (options.omitName) {
+      return `${event.roleName} changed from ${before} to ${after}.`
+    }
+    const contract = event.contractName ?? shortenAddress(event.address)
+    return `${contract}: ${event.roleName} changed from ${before} to ${after}.`
+  }
+  const summary = summarizeFieldList(event.changes)
   if (options.omitName) {
-    return `${event.roleName} changed from ${before} to ${after}.`
+    return `${event.roleName}: ${count} fields changed (${summary}).`
   }
   const contract = event.contractName ?? shortenAddress(event.address)
-  return `${contract}: ${event.roleName} changed from ${before} to ${after}.`
+  return `${contract}: ${event.roleName} — ${count} fields changed (${summary}).`
+}
+
+/**
+ * Build a short "field-a, field-b, field-c and N more" summary of changed
+ * field keys, used in the table description for grouped events.
+ */
+function summarizeFieldList(
+  changes: { field: string }[],
+  preview = 3,
+): string {
+  const names = changes.slice(0, preview).map((c) => humanizeFieldName(c.field))
+  const more = changes.length - preview
+  return more > 0 ? `${names.join(', ')} and ${more} more` : names.join(', ')
 }
 
 function describeContractAdded(
@@ -90,13 +123,13 @@ function describeContractRemoved(
   return `${contract} removed from discovery.`
 }
 
-function humanizeFieldName(key: string): string {
+export function humanizeFieldName(key: string): string {
   // Strip known prefixes, then return the last segment as-is.
   const stripped = key.replace(/^values\./, '').replace(/^\$/, '')
   return stripped
 }
 
-function formatValue(value: unknown): string {
+export function formatValue(value: unknown): string {
   if (value === undefined || value === null) return '∅'
   if (typeof value === 'string') {
     const trimmed = value.startsWith('eth:')
