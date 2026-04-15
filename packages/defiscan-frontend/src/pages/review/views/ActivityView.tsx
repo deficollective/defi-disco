@@ -107,6 +107,14 @@ export function ActivityView({ review }: ActivityViewProps) {
   const rangeStart = sorted.length === 0 ? 0 : start + 1
   const rangeEnd = Math.min(start + PAGE_SIZE, sorted.length)
 
+  // "Monitoring Started" is chronologically the oldest event: render it at
+  // the bottom of the last page in desc sort, or at the top of the first page
+  // in asc sort. This keeps it in its correct chronological position.
+  const showMonitoringStartedBottom =
+    sortDir === 'desc' && currentPage === totalPages
+  const showMonitoringStartedTop =
+    sortDir === 'asc' && currentPage === 1
+
   function toggleSort() {
     setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))
     setPage(1)
@@ -277,6 +285,9 @@ export function ActivityView({ review }: ActivityViewProps) {
                 </tr>
               </thead>
               <tbody>
+                {showMonitoringStartedTop && (
+                  <MonitoringStartedRow publishedAt={review.publishedAt} />
+                )}
                 {visible.map((event) => {
                   const contractAddr = eventContractAddress(event)
                   const contractLabel = eventContractName(event)
@@ -388,11 +399,17 @@ export function ActivityView({ review }: ActivityViewProps) {
                     </Fragment>
                   )
                 })}
+                {showMonitoringStartedBottom && (
+                  <MonitoringStartedRow publishedAt={review.publishedAt} />
+                )}
               </tbody>
             </table>
 
             {/* Mobile stacked rows */}
             <div className="flex flex-col sm:hidden">
+              {showMonitoringStartedTop && (
+                <MonitoringStartedMobileRow publishedAt={review.publishedAt} />
+              )}
               {visible.map((event) => {
                 const contractAddr = eventContractAddress(event)
                 const contractLabel = eventContractName(event)
@@ -489,6 +506,9 @@ export function ActivityView({ review }: ActivityViewProps) {
                   </div>
                 )
               })}
+              {showMonitoringStartedBottom && (
+                <MonitoringStartedMobileRow publishedAt={review.publishedAt} />
+              )}
             </div>
           </>
         )}
@@ -507,6 +527,51 @@ export function ActivityView({ review }: ActivityViewProps) {
           />
         </div>
       )}
+    </div>
+  )
+}
+
+function MonitoringStartedRow({ publishedAt }: { publishedAt: string }) {
+  return (
+    <tr className="border-border/30 border-b last:border-b-0 bg-bg-card/30">
+      <td className="px-2 py-4 align-middle" />
+      <td className="px-6 py-4 align-middle">
+        <span className="font-mono text-[12px] text-text-primary">
+          {formatTimestamp(publishedAt)}
+        </span>
+      </td>
+      <td className="px-6 py-4 align-middle">
+        <span className="inline-flex items-center rounded-sm border border-[rgba(0,125,87,0.2)] bg-[rgba(0,125,87,0.05)] px-[9px] py-[3px] font-bold text-[10px] text-[#006243] uppercase tracking-wide">
+          Monitoring Started
+        </span>
+      </td>
+      <td className="px-6 py-4 align-middle">
+        <span className="text-[14px] text-text-muted italic">
+          Protocol monitoring began on this date.
+        </span>
+      </td>
+      <td className="px-6 py-4 align-middle" />
+      <td className="px-6 py-4 align-middle" />
+    </tr>
+  )
+}
+
+function MonitoringStartedMobileRow({
+  publishedAt,
+}: {
+  publishedAt: string
+}) {
+  return (
+    <div className="flex flex-col gap-2 border-border/30 border-b px-5 py-4 last:border-b-0 bg-bg-card/30">
+      <span className="font-mono text-[11px] text-text-muted">
+        {formatTimestamp(publishedAt)}
+      </span>
+      <span className="inline-flex w-fit items-center rounded-sm border border-[rgba(0,125,87,0.2)] bg-[rgba(0,125,87,0.05)] px-[9px] py-[3px] font-bold text-[10px] text-[#006243] uppercase tracking-wide">
+        Monitoring Started
+      </span>
+      <p className="text-[14px] text-text-muted italic">
+        Protocol monitoring began on this date.
+      </p>
     </div>
   )
 }
