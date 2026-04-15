@@ -220,7 +220,7 @@ When `ETHEREUM_RPC_URL_FOR_DISCOVERY` is set, defiscan-endpoints detects Morpho 
 - **Package**: `packages/defiscan-frontend/` (Vite + React + TailwindCSS + Recharts)
 - **Data Model**: Static JSON — reads pre-compiled `compiled-review.json` from `public/data/<slug>/`
 - **Build Script**: `scripts/compile-data.ts` — aggregates compiled reviews into `public/data/index.json` with global stats, entity-grouped dependency counts, and active admin counts (excludes Immutable/Revoked)
-- **Pages**: Landing (hero + stats + protocol table), Gallery (`/gallery` — card grid), Review (3 views: Report, Explorer, Activity), Compare (side-by-side charts), About (mission, methodology, team)
+- **Pages**: Landing (hero + stats + protocol table), Gallery (`/gallery` — card grid), Review (3 views: Report, Explorer, Activity), Compare (side-by-side charts), About (hero, mission with live stats, approach cards, team)
 - **Navigation**: Header "Reports" link → `/gallery`. "Back to gallery" in ReviewPage → `/gallery`. Landing "Browse Gallery" CTA → `/gallery`. Old `/protocols` list page still exists but is no longer linked from the main nav.
 - **Explorer Tabs** (in order): Overview, Funds, Admins, Governance, Dependencies, Contracts
   - **Admins tab**: Shows non-governance human admins only (`getHumanAdmins().filter(!isGovernance)`)
