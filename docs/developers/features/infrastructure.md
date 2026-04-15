@@ -188,6 +188,10 @@ The Report view is structured around an outer-frame pattern: Admins, Dependencie
 - **Source Code section** (`CodeQualitySection.tsx`): audits sorted newest-first, Bug Bounty row links to the bounty audit entry, LoC count rendered as "{N} LoC"
 - **Shareable Report View**: print-friendly PDF export (expands all collapsibles via `flushSync` before calling `window.print()`), copy link / X / Farcaster share dropdown, and Markdown export to clipboard
 
+### About Page
+
+`/about` (`AboutPage.tsx`) reads `useIndex()` for two live stats: Protocols Tracked (`protocols.length`) and Total Value Verified (`globalTotals.totalCapitalAtRisk + globalTotals.totalTokenValue`). **Do not use `totalDefiTvl`** — it's a hardcoded constant used only as the "% of DeFi reviewed" denominator.
+
 ## Activity Feed
 
 The Activity feed is a chronological timeline of everything that has changed in a protocol: contract upgrades, role rotations, parameter tweaks, and contracts being added or removed from the discovery. It is rendered on the public frontend as a third view alongside Report and Explorer.
