@@ -238,31 +238,7 @@ export function ActivityView({ review }: ActivityViewProps) {
 
       {/* Table card */}
       <div className="overflow-hidden rounded-xl border border-border bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]">
-        {events.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-3 px-6 py-16 text-center">
-            <svg
-              className="size-12 text-text-muted/60"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <h3 className="font-medium text-base text-text-primary">
-              No activity recorded yet
-            </h3>
-            <p className="text-sm text-text-muted">
-              Protocol activity will appear here once monitoring begins.
-            </p>
-          </div>
-        ) : (
-          <>
-            {/* Desktop table */}
+        {/* Desktop table */}
             <table className="hidden w-full sm:table">
               <thead className="border-border border-b bg-bg-card">
                 <tr>
@@ -510,8 +486,6 @@ export function ActivityView({ review }: ActivityViewProps) {
                 <MonitoringStartedMobileRow publishedAt={review.publishedAt} />
               )}
             </div>
-          </>
-        )}
       </div>
 
       {/* Pagination footer */}

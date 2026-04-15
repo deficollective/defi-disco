@@ -207,7 +207,7 @@ Each file has its own backend CRUD module under `packages/l2b/src/implementation
 **Frontend consumers**:
 
 - `HeroSection` "Updated" → `updatedAt`
-- `CodeSection` → three pills side-by-side: Published (`publishedAt`) / Last updated (`updatedAt`) / On-chain data (`compiledAt`)
+- `TimestampsFooter` (rendered as the final section of `ReportView`, below Protocol Activity) → three pills side-by-side: Published (`publishedAt`) / Last updated (`updatedAt`) / On-chain data (`compiledAt`)
 - `ActivityView` "Last Verified" → `compiledAt` (semantically matches: "the last time we verified on-chain state")
 - `LandingPage` "recently updated" ordering → `updatedAt`
 - Gallery cards use `activity[].timestamp` and are unaffected
