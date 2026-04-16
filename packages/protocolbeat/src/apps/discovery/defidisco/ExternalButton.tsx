@@ -29,7 +29,7 @@ export function ExternalButton() {
   const selectionExists = selected.length > 0
 
   const targets = selectedNodes.map((n) => ({
-    address: n.address,
+    address: n.id,
     name: n.name,
   }))
 
