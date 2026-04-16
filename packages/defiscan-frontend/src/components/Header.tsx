@@ -1,20 +1,11 @@
-import { useState, useRef, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { clsx } from 'clsx'
 import { SearchIcon } from './icons'
+import { useSearchModal } from '../contexts/SearchModalContext'
 
 export function Header() {
   const location = useLocation()
-  const navigate = useNavigate()
-  const [search, setSearch] = useState('')
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
-  const mobileInputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (mobileSearchOpen) {
-      mobileInputRef.current?.focus()
-    }
-  }, [mobileSearchOpen])
+  const { openSearchModal } = useSearchModal()
 
   function navClass(path: string) {
     const active =
@@ -29,15 +20,6 @@ export function Header() {
         ? 'text-accent border-b-2 border-accent pb-0.5'
         : 'text-text-muted hover:text-accent',
     )
-  }
-
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault()
-    if (search.trim()) {
-      navigate(`/protocols?search=${encodeURIComponent(search.trim())}`)
-      setSearch('')
-      setMobileSearchOpen(false)
-    }
   }
 
   const isLandingPage = location.pathname === '/'
@@ -63,27 +45,23 @@ export function Header() {
           </nav>
         </div>
 
-        {/* Desktop search (hidden on landing page — it has its own hero search) */}
+        {/* Desktop search trigger (hidden on landing page — it has its own hero search) */}
         {!isLandingPage && (
-          <form onSubmit={handleSearch} className="relative hidden sm:block">
-            <div className="relative">
-              <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
-              <input
-                type="text"
-                placeholder="Search protocol..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-9 pr-4 py-1.5 w-40 md:w-64 rounded border border-border bg-hover text-sm text-text-primary placeholder:text-text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
-              />
-            </div>
-          </form>
+          <button
+            type="button"
+            onClick={() => openSearchModal()}
+            className="relative hidden sm:flex items-center gap-2 pl-9 pr-4 py-1.5 w-40 md:w-64 rounded border border-border bg-hover text-sm text-text-muted/60 hover:border-accent/40 transition-colors cursor-text"
+          >
+            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
+            <span>Search protocol...</span>
+          </button>
         )}
 
         {/* Mobile search icon (hidden on landing page) */}
         {!isLandingPage && (
           <button
             type="button"
-            onClick={() => setMobileSearchOpen((v) => !v)}
+            onClick={() => openSearchModal()}
             className="sm:hidden p-2 -mr-1 text-text-muted hover:text-accent transition-colors"
             aria-label="Search"
           >
@@ -91,26 +69,6 @@ export function Header() {
           </button>
         )}
       </div>
-
-      {/* Mobile search bar (expands below header) */}
-      {!isLandingPage && mobileSearchOpen && (
-        <form
-          onSubmit={handleSearch}
-          className="sm:hidden border-t border-border bg-white px-4 py-3"
-        >
-          <div className="relative">
-            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
-            <input
-              ref={mobileInputRef}
-              type="text"
-              placeholder="Search protocol..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded border border-border bg-hover text-sm text-text-primary placeholder:text-text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
-            />
-          </div>
-        </form>
-      )}
     </header>
   )
 }

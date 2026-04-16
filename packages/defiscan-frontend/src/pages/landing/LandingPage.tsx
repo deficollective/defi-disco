@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   Radar,
   RadarChart,
@@ -18,6 +18,7 @@ import {
   ShieldCheckIcon,
 } from '../../components/icons'
 import { ProtocolLogo } from '../../components/ProtocolLogo'
+import { useSearchModal } from '../../contexts/SearchModalContext'
 
 const trustPostureData = [
   { axis: 'CONTROL', value: 85 },
@@ -56,7 +57,7 @@ const methodologyItems = [
 ]
 
 export function LandingPage() {
-  const navigate = useNavigate()
+  const { openSearchModal } = useSearchModal()
   const [search, setSearch] = useState('')
   const { data: indexData, isLoading: indexLoading } = useIndex()
   const { data: allReviews, isLoading: reviewsLoading } = useAllReviews()
@@ -65,9 +66,8 @@ export function LandingPage() {
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
-    if (search.trim()) {
-      navigate(`/protocols?search=${encodeURIComponent(search.trim())}`)
-    }
+    openSearchModal(search.trim())
+    setSearch('')
   }
 
   const protocols = indexData?.protocols ?? []
