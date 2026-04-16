@@ -144,7 +144,7 @@ function AttributePicker({
     await Promise.all(
       selectedNodes.map((node) =>
         updateContractTag.mutateAsync({
-          contractAddress: node.address,
+          contractAddress: node.id,
           entity: newEntity ?? null,
         }),
       ),
