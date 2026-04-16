@@ -40,6 +40,8 @@ export function Header() {
     }
   }
 
+  const isLandingPage = location.pathname === '/'
+
   return (
     <header className="bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
       <div className="mx-auto max-w-[1536px] px-4 sm:px-8 py-4 flex items-center justify-between gap-3">
@@ -61,33 +63,37 @@ export function Header() {
           </nav>
         </div>
 
-        {/* Desktop search */}
-        <form onSubmit={handleSearch} className="relative hidden sm:block">
-          <div className="relative">
-            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
-            <input
-              type="text"
-              placeholder="Search protocol..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 pr-4 py-1.5 w-40 md:w-64 rounded border border-border bg-hover text-sm text-text-primary placeholder:text-text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
-            />
-          </div>
-        </form>
+        {/* Desktop search (hidden on landing page — it has its own hero search) */}
+        {!isLandingPage && (
+          <form onSubmit={handleSearch} className="relative hidden sm:block">
+            <div className="relative">
+              <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
+              <input
+                type="text"
+                placeholder="Search protocol..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-9 pr-4 py-1.5 w-40 md:w-64 rounded border border-border bg-hover text-sm text-text-primary placeholder:text-text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+              />
+            </div>
+          </form>
+        )}
 
-        {/* Mobile search icon */}
-        <button
-          type="button"
-          onClick={() => setMobileSearchOpen((v) => !v)}
-          className="sm:hidden p-2 -mr-1 text-text-muted hover:text-accent transition-colors"
-          aria-label="Search"
-        >
-          <SearchIcon className="h-5 w-5" />
-        </button>
+        {/* Mobile search icon (hidden on landing page) */}
+        {!isLandingPage && (
+          <button
+            type="button"
+            onClick={() => setMobileSearchOpen((v) => !v)}
+            className="sm:hidden p-2 -mr-1 text-text-muted hover:text-accent transition-colors"
+            aria-label="Search"
+          >
+            <SearchIcon className="h-5 w-5" />
+          </button>
+        )}
       </div>
 
       {/* Mobile search bar (expands below header) */}
-      {mobileSearchOpen && (
+      {!isLandingPage && mobileSearchOpen && (
         <form
           onSubmit={handleSearch}
           className="sm:hidden border-t border-border bg-white px-4 py-3"
