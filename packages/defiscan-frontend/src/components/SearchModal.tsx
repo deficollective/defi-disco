@@ -121,7 +121,7 @@ export function SearchModal({ initialQuery, onClose }: SearchModalProps) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search protocols, contracts, or addresses..."
+            placeholder="Search protocol name or contract address..."
             className="flex-1 py-4 px-3 text-xl font-medium text-text-primary placeholder:text-text-muted/60 focus:outline-none bg-transparent"
           />
           <div className="pr-4">
