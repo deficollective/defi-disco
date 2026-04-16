@@ -1,9 +1,9 @@
-Generated with discovered.json: 0x5965d68ae4b29d01a7bd9b2f8c7bdc1ca9c89d2c
+Generated with discovered.json: 0xd903d6d0566c024c1516c2991f3a94588d813cd8
 
-# Diff at Tue, 24 Mar 2026 06:38:33 GMT:
+# Diff at Thu, 16 Apr 2026 12:31:56 GMT:
 
-- author: unknown (<unknown>)
-- current timestamp: 1774334190
+- author: emduc (<emilien.duc@gmail.com>)
+- current timestamp: 1776329646
 
 ## Description
 
@@ -13,19 +13,13 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract DynamicSwapFeeModule (base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef)
+    contract DynamicSwapFeeModule (base:0x090b2A6bb475c00e2256e2095A60887cD710803b)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
     contract CustomUnstakedFeeModule (base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68)
-    +++ description: None
-```
-
-```diff
-+   Status: CREATED
-    contract Redistributor (base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4)
     +++ description: None
 ```
 
@@ -49,6 +43,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract CLGaugeFactory (base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract PatchedManagedRewardsFactory (base:0x3ab1A16622bc5BDd1619d427fb1a6f73c71bE23D)
     +++ description: None
 ```
@@ -56,6 +56,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract PoolFactory (base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CLGauge (base:0x434BCcaB043311a20b16021C137EA81702790f7B)
     +++ description: None
 ```
 
@@ -73,13 +79,13 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    EOA  (base:0x5Dfc48F7CbD32333e7B1335211fEA55278D70914)
+    contract CLFactory (base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
-    contract CLFactory (base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A)
+    contract DynamicSwapFeeModule (base:0x87D8f999BBa9343E8099552426775B51C338E8CB)
     +++ description: None
 ```
 
@@ -139,7 +145,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract CustomUnstakedFeeModule (base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract SimpleEpochGovernor (base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CLPool (base:0xc770898522D2A9c8Da7A10D63989b6b58305B665)
     +++ description: None
 ```
 
@@ -152,6 +170,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract Router (base:0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract NonfungiblePositionManager (base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53)
     +++ description: None
 ```
 
@@ -181,12 +205,24 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Redistributor (base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract CustomSwapFeeModule (base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
-    contract NonfungibleTokenPositionDescriptor (base:0xf632031B94D72deE0D99DeF846c9b6211041337f)
+    contract DynamicSwapFeeModule (base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CLFactory (base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef)
     +++ description: None
 ```

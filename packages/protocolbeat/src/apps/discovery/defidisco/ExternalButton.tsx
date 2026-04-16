@@ -130,7 +130,7 @@ function AttributePicker({
       const tag = findByAddress(
         contractTags?.tags ?? [],
         (t) => t.contractAddress,
-        selectedNodes[0].address,
+        selectedNodes[0].id,
       )
       return tag?.entity
     }

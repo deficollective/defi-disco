@@ -6,6 +6,8 @@ import { findByAddress } from './addressUtils'
 import { useContractTags, useUpdateContractTag } from './hooks/useContractTags'
 
 const KNOWN_AGGREGATE_HANDLERS = [
+  'aerodrome-cl-factory',
+  'aerodrome-v2-factory',
   'frankencoin-mintinghub',
   'uniswap-v2-factory',
 ]
@@ -34,7 +36,7 @@ export function FundsTagsButton() {
       const tag = findByAddress(
         contractTags?.tags ?? [],
         (t) => t.contractAddress,
-        selectedNodes[0].address,
+        selectedNodes[0].id,
       )
       return {
         fetchBalances: tag?.fetchBalances ?? false,
