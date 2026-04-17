@@ -339,7 +339,7 @@ export class ReviewCompiler {
       const resources = getResources(this.paths, project)
       const audits = getAudits(this.paths, project)
       let linesOfCode = getLinesOfCode(this.paths, project)
-      if (!linesOfCode) {
+      if (linesOfCode === undefined) {
         try {
           linesOfCode = countLinesOfCode(this.paths, configReader, project).count
         } catch (error) {

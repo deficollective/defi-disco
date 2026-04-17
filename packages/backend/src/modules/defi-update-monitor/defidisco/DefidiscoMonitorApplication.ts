@@ -277,7 +277,7 @@ export class DefidiscoMonitorApplication {
       if (discovery) {
         await this.storeDiscovery(project, discovery, timestamp)
         await this.writeDiscoveredJson(project, discovery)
-        if (flatSources && !getLinesOfCode(this.config.discovery.paths, project)) {
+        if (flatSources && getLinesOfCode(this.config.discovery.paths, project) === undefined) {
           await this.writeFlatSources(project, flatSources)
         }
       }
