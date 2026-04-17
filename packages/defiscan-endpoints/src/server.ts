@@ -16,6 +16,7 @@ import {
   AggregateService,
   FrankencoinMintinghubHandler,
   UniswapV2FactoryHandler,
+  UniswapV3FactoryHandler,
 } from './services/aggregate'
 import { BalanceService } from './services/BalanceService'
 import { MorphoVaultService } from './services/MorphoVaultService'
@@ -110,6 +111,7 @@ export function createDefiscanServer(
   const aggregateService = new AggregateService(
     [
       new UniswapV2FactoryHandler(config.thegraph.apiKey),
+      new UniswapV3FactoryHandler(),
       new FrankencoinMintinghubHandler(),
     ],
     aggregateCache,

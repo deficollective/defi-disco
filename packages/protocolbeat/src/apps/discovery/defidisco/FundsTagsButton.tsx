@@ -8,6 +8,7 @@ import { useContractTags, useUpdateContractTag } from './hooks/useContractTags'
 const KNOWN_AGGREGATE_HANDLERS = [
   'frankencoin-mintinghub',
   'uniswap-v2-factory',
+  'uniswap-v3-factory',
 ]
 
 export function FundsTagsButton() {
