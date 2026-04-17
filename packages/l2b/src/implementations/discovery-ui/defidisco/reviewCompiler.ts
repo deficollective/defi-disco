@@ -19,7 +19,12 @@ import { getFunctions } from './functions'
 import { getFundsData } from './fundsData'
 import { getContractTags } from './contractTags'
 import { countLinesOfCode } from './countLinesOfCode'
-import { getAudits, getLinesOfCode, getResources, getResourcesLastModified } from './resources'
+import {
+  getAudits,
+  getLinesOfCode,
+  getResources,
+  getResourcesLastModified,
+} from './resources'
 import { getGovernance, getGovernanceLastModified } from './governance'
 import { getActivityEvents } from './activity'
 import type {
@@ -341,7 +346,11 @@ export class ReviewCompiler {
       let linesOfCode = getLinesOfCode(this.paths, project)
       if (linesOfCode === undefined) {
         try {
-          linesOfCode = countLinesOfCode(this.paths, configReader, project).count
+          linesOfCode = countLinesOfCode(
+            this.paths,
+            configReader,
+            project,
+          ).count
         } catch (error) {
           this.log(
             `Warning: failed to count lines of code: ${error instanceof Error ? error.message : String(error)}`,
