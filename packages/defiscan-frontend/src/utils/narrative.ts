@@ -234,7 +234,7 @@ export function getKeyFindings(review: CompiledReview): KeyFinding[] {
     }
   }
 
-  if (allMitigations.length > 0) {
+  if (totalFnCount > 0 && allMitigations.length > 0) {
     // Deduplicate mitigations
     const seen = new Set<string>()
     const unique: Mitigation[] = []

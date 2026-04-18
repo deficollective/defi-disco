@@ -30,8 +30,15 @@ export function CodeQualitySection({ review }: CodeQualitySectionProps) {
     el.scrollBy({ left: dir === 'next' ? 304 : -304, behavior: 'smooth' })
   }
 
-  const license0 = licenses[0]
-  const license1 = licenses[1]
+  let license0 = licenses[0]
+  let license1 = licenses[1]
+  if (licenses.length > 2) {
+    const isFrontend = (scope?: string) => /front/i.test(scope ?? '')
+    const frontendLicense = licenses.find((l) => isFrontend(l.licenseScope))
+    const contractsLicense = licenses.find((l) => !isFrontend(l.licenseScope))
+    if (contractsLicense) license0 = contractsLicense
+    if (frontendLicense) license1 = frontendLicense
+  }
 
   return (
     <div className="bg-bg-card border border-border rounded-lg p-5 sm:p-[33px] flex flex-col gap-8">
