@@ -62,7 +62,7 @@ export interface CompiledReview {
   /** First time review-config.json was created. Preserved across regenerations. */
   publishedAt: string
   /** Last time a researcher edited review-config, resources, audits, or governance. */
-  updatedAt: string
+  lastModified: string
   /**
    * Live on-chain data freshness — sourced from discovered.json.timestamp,
    * NOT the wall-clock compile time. Only bumps when the monitor runs a
@@ -851,7 +851,7 @@ export class ReviewCompiler {
         ? new Date(onchainAtMs).toISOString()
         : new Date().toISOString() // fallback only for discovery outputs missing the field
 
-    // updatedAt = latest researcher-initiated edit across review-config,
+    // lastModified = latest researcher-initiated edit across review-config,
     // resources (incl. audits), and governance. Sorted lexicographically,
     // which works for ISO timestamps.
     const resourcesLastModified = getResourcesLastModified(this.paths, project)
@@ -859,25 +859,25 @@ export class ReviewCompiler {
       this.paths,
       project,
     )
-    const updatedAtCandidates = [
+    const lastModifiedCandidates = [
       reviewConfig.lastModified,
       resourcesLastModified,
       governanceLastModified,
     ].filter((s): s is string => typeof s === 'string' && s.length > 0)
-    const updatedAt =
-      updatedAtCandidates.length > 0
-        ? (updatedAtCandidates.sort().pop() as string)
+    const lastModified =
+      lastModifiedCandidates.length > 0
+        ? (lastModifiedCandidates.sort().pop() as string)
         : compiledAt
 
     // publishedAt = first time review-config.json was created. Preserved by
     // writeReviewConfig and the /generate-review skill. Fall back to
-    // updatedAt for legacy projects whose configs predate this field.
-    const publishedAt = reviewConfig.publishedAt || updatedAt
+    // lastModified for legacy projects whose configs predate this field.
+    const publishedAt = reviewConfig.publishedAt || lastModified
 
     return {
       version: '1.0',
       publishedAt,
-      updatedAt,
+      lastModified,
       compiledAt,
       project,
 

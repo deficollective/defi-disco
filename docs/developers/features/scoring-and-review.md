@@ -193,7 +193,7 @@ Each file has its own backend CRUD module under `packages/l2b/src/implementation
 | Field          | Question answered                                   | Source                                                                                                                                                                                                     |
 | -------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `publishedAt`  | When was this review first published?               | Set once, the first time `review-config.json` is created. Preserved forever across every subsequent write.                                                                                                  |
-| `updatedAt`    | When did a researcher last edit review content?     | Max of `review-config.json.lastModified`, `resources.json.lastModified`, and the filesystem mtime of `governance.json`.                                                                                     |
+| `lastModified` | When did a researcher last edit review content?     | Max of `review-config.json.lastModified`, `resources.json.lastModified`, and the filesystem mtime of `governance.json`.                                                                                     |
 | `compiledAt`   | How fresh is the on-chain data in this review?      | `discovered.json.timestamp × 1000` — the Unix-seconds stamp the discovery engine writes at the top of its output. **Not** wall-clock compile time.                                                          |
 
 **Why the split**: before this model every frontend timestamp was `compiledAt: new Date().toISOString()` set at compile time, which bumped on every recompile — including monitor cycles that found no diff and researcher edits that didn't touch on-chain state. That made "Updated X minutes ago" meaningless. Splitting into three fields lets the hero card say "updated by a researcher", the code section say "on-chain data as of", and the landing page rank "recently edited" protocols correctly.
@@ -201,16 +201,16 @@ Each file has its own backend CRUD module under `packages/l2b/src/implementation
 **Where each field is set**:
 
 - `publishedAt` — `writeReviewConfig` reads the existing file on every save and carries the old `publishedAt` forward; if absent, it falls back to `lastModified`, then to `new Date().toISOString()`. The `/generate-review` skill bypasses this API chokepoint (it writes via the `Write` tool directly after moving the old file to `/tmp`), so the skill itself extracts `publishedAt` via `jq` into `/tmp/review-config-$0-publishedAt.txt` before the move and re-emits it in the freshly generated JSON.
-- `updatedAt` — bumped by `writeReviewConfig` (researcher saves from the Review Builder), `updateResources`/`updateAudits` via `writeResourcesFile(..., { bumpLastModified: true })`, and any write to `governance.json` (mtime is the signal). **Not bumped by `updateLinesOfCode`**, which calls `writeResourcesFile(..., { bumpLastModified: false })` and preserves the existing value — LoC is a compile-time side effect, not a researcher edit.
+- `lastModified` — bumped by `writeReviewConfig` (researcher saves from the Review Builder), `updateResources`/`updateAudits` via `writeResourcesFile(..., { bumpLastModified: true })`, and any write to `governance.json` (mtime is the signal). **Not bumped by `updateLinesOfCode`**, which calls `writeResourcesFile(..., { bumpLastModified: false })` and preserves the existing value — LoC is a compile-time side effect, not a researcher edit.
 - `compiledAt` — computed at the `reviewCompiler.buildCompiledReview` return site from `discovery.timestamp ?? 0`. A researcher-triggered recompile that doesn't run a fresh discovery cycle keeps this field frozen. Only a monitor discovery run (or a manual `l2b discover`) bumps it.
 
 **Frontend consumers**:
 
-- `HeroSection` "Updated" → `updatedAt`
-- `TimestampsFooter` (rendered as the final section of `ReportView`, below Protocol Activity) → three pills side-by-side: Published (`publishedAt`) / Last updated (`updatedAt`) / On-chain data (`compiledAt`)
+- `HeroSection` "Latest activity" → newest `activity[].timestamp` (hidden when no events). Not from any of the three compiled timestamps.
+- `TimestampsFooter` (rendered as the final section of `ReportView`, below Protocol Activity) → three pills side-by-side: Published (`publishedAt`, with `(last modified <date>)` parenthetical appended from `lastModified`) / Latest activity (newest `activity[].timestamp`, renders "Not monitored" when empty) / On-chain data (`compiledAt`)
 - `ActivityView` "Last Verified" → `compiledAt` (semantically matches: "the last time we verified on-chain state")
-- `LandingPage` "recently updated" ordering → `updatedAt`
-- Gallery cards use `activity[].timestamp` and are unaffected
+- `LandingPage` "recently updated" ordering → `lastModified`
+- Gallery cards use `activity[].timestamp` (via the shared `getLatestActivityTimestamp` helper in `pages/review/views/activityTimestamp.ts`) for both the UPDATED status badge (< 7 days) and the "Last Activity" stat
 
 **Schema notes**:
 
@@ -286,7 +286,7 @@ type GovernanceDuration =
 - **Endpoint**: `POST /api/projects/:project/compile-review`
 - **Bulk endpoint**: `POST /api/compile-all-reviews` — compiles every DeFi project (used by the Home page button)
 - **Guards**: compilation is skipped silently if `review-config.json` or `call-graph-data.json` is missing
-- **Timestamps**: the compiler assembles `publishedAt` / `updatedAt` / `compiledAt` at the `buildCompiledReview` return site. `compiledAt` is sourced from `discovered.json.timestamp` (not `new Date()`), so researcher-triggered recompiles without a fresh discovery run keep it frozen. See [Timestamps](#timestamps-three-timestamp-model) for the full model.
+- **Timestamps**: the compiler assembles `publishedAt` / `lastModified` / `compiledAt` at the `buildCompiledReview` return site. `compiledAt` is sourced from `discovered.json.timestamp` (not `new Date()`), so researcher-triggered recompiles without a fresh discovery run keep it frozen. See [Timestamps](#timestamps-three-timestamp-model) for the full model.
 - **Template variables**: `{{variableName}}` in descriptions is resolved against `dataKeys` at compile time
 - **Cross-entity totals**: `adminTotals` and `dependencyTotals` carry deduplicated capital (each contract counted at most once, using `Math.max`) so the frontend can render an accurate "Impacted TVS" stat
 - **Mitigations**: each compiled function carries `mitigations?: Mitigation[]` resolved by `ProjectAnalysis.getMitigationsForOwner()` (direct + transitive). The compiler passes them through as-is. Mitigations with an `impactCap` have their `impactCapUsd` pre-resolved
