@@ -245,6 +245,10 @@ This is necessary because flattened files inline shared libraries (OpenZeppelin'
 - **Manual recount**: the "Count Lines of Code" button in the terminal panel, or `POST /api/projects/:project/count-lines-of-code`
 - **Frontend display**: `CodeQualitySection.tsx` in defiscan-frontend renders `{count.toLocaleString()} LoC` (or a muted `—` when undefined)
 
+### Source Code Coverage
+
+`totals.coverage` and `totals.verifiedContractCount` on `compiled-review.json` report the share of protocol contracts with Etherscan-verified source. Computed in `reviewCompiler.computeCoverage(discovery)` by walking `discovered.json.entries`, excluding EOAs, and treating an entry as verified when `entry.unverified !== true`. `coverage` is a rounded 0–100 percentage; a project with no contracts yields `0`. Rendered in `CodeQualitySection.tsx` as a percentage plus a proportionally filled progress bar.
+
 ## Governance
 
 Governance configuration lives in `governance.json` — a sibling of `review-config.json` — so that regenerating the review never touches it.

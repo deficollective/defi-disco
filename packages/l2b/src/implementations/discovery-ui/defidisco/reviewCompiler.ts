@@ -90,6 +90,8 @@ export interface CompiledReview {
     totalTokenValueAtRisk: number
     totalTokenValue: number
     linesOfCode?: number
+    verifiedContractCount?: number
+    coverage?: number
   }
 
   admins: CompiledAdmin[]
@@ -906,6 +908,7 @@ export class ReviewCompiler {
           0,
         ),
         linesOfCode,
+        ...this.computeCoverage(discovery),
       },
 
       admins,
@@ -1080,6 +1083,20 @@ export class ReviewCompiler {
     discoveryEntries: { name?: string; address: string; proxyType?: string }[],
   ): number {
     return discoveryEntries.filter((e) => e.proxyType !== 'EOA').length
+  }
+
+  private computeCoverage(discovery: DiscoveryOutput): {
+    verifiedContractCount: number
+    coverage: number
+  } {
+    const nonEoa = discovery.entries.filter((e) => e.type !== 'EOA')
+    const contractCount = nonEoa.length
+    const verifiedContractCount = nonEoa.filter((e) => !e.unverified).length
+    const coverage =
+      contractCount === 0
+        ? 0
+        : Math.round((verifiedContractCount / contractCount) * 100)
+    return { verifiedContractCount, coverage }
   }
 
   private countPermissionedFunctions(

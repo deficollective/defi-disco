@@ -33,6 +33,8 @@ export interface CompiledReview {
     totalTokenValueAtRisk: number
     totalTokenValue: number
     linesOfCode?: number
+    verifiedContractCount?: number
+    coverage?: number
   }
 
   admins: CompiledAdmin[]
