@@ -1,9 +1,9 @@
-Generated with discovered.json: 0x15f35360fda05e39226d0b9e746e05f102fcaa77
+Generated with discovered.json: 0x00eead30d58ad83c430258a6f47d84c88e7a1f01
 
-# Diff at Fri, 17 Apr 2026 13:12:19 GMT:
+# Diff at Sun, 19 Apr 2026 09:22:24 GMT:
 
 - author: Alexandru Marcu (<alx.marcu@gmail.com>)
-- current timestamp: 1776431476
+- current timestamp: 1776590482
 
 ## Description
 
@@ -56,12 +56,6 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract V3Migrator (eth:0xA5644E29708357803b5A882D272c41cC0dF92B34)
-    +++ description: None
-```
-
-```diff
-+   Status: CREATED
-    contract Wrapped Ether Token (eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2)
     +++ description: None
 ```
 

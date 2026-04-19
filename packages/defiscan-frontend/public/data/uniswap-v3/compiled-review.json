@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "publishedAt": "2026-04-18T10:31:58.900Z",
-  "updatedAt": "2026-04-18T10:31:58.900Z",
-  "compiledAt": "2026-04-17T13:11:16.000Z",
+  "publishedAt": "2026-04-17T11:50:00.000Z",
+  "updatedAt": "2026-04-19T09:31:22.607Z",
+  "compiledAt": "2026-04-19T09:21:22.000Z",
   "project": "uniswap-v3",
   "metadata": {
     "protocolName": "Uniswap V3",
@@ -13,15 +13,15 @@
     "description": "Uniswap V3 is an automated market maker built around concentrated liquidity, where LP positions are issued as NFTs by the NonfungiblePositionManager and traded against pools deployed by the UniswapV3Factory. Governance runs through Compound Governor Bravo: UNI holders propose and vote on-chain (2.5M UNI to propose, 40M UNI quorum, ~7-day voting window), and successful proposals execute after a 48-hour Timelock delay. The minter role on the UNI token is held by the Timelock, with minting limited to 2% of supply per year and a 365-day minimum interval between mints — both limits are hardcoded in the token contract."
   },
   "totals": {
-    "contractCount": 13,
+    "contractCount": 12,
     "permissionedFunctionCount": 34,
     "scoredFunctionCount": 34,
     "adminCount": 5,
-    "dependencyCount": 1,
+    "dependencyCount": 0,
     "totalCapitalAtRisk": 1030786876.68355,
     "totalTokenValueAtRisk": 0,
     "totalTokenValue": 0,
-    "linesOfCode": 0
+    "linesOfCode": 7933
   },
   "admins": [
     {
@@ -48,7 +48,25 @@
                 "cancelTransaction",
                 "executeTransaction",
                 "setDelay",
-                "setPendingAdmin"
+                "setPendingAdmin",
+                "acceptAdmin"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+              "name": "GovernorBravoDelegate",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "initialize",
+                "_setVotingDelay",
+                "_setVotingPeriod",
+                "_setProposalThreshold",
+                "_initiate",
+                "_setPendingAdmin",
+                "_acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -108,6 +126,17 @@
                 "clearFeeTierDefault",
                 "clearPoolOverride",
                 "setDefaultFeeByFeeTier"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -140,6 +169,71 @@
           ]
         },
         {
+          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+          "contractName": "GovernorBravoDelegate",
+          "functionName": "initialize",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+          "contractName": "GovernorBravoDelegate",
+          "functionName": "_setVotingDelay",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+          "contractName": "GovernorBravoDelegate",
+          "functionName": "_setVotingPeriod",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+          "contractName": "GovernorBravoDelegate",
+          "functionName": "_setProposalThreshold",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+          "contractName": "GovernorBravoDelegate",
+          "functionName": "_initiate",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+          "contractName": "GovernorBravoDelegate",
+          "functionName": "_setPendingAdmin",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Delay before execution",
+              "delayRef": {
+                "contractAddress": "eth:0x1a9C8182C09F50C8318d769245beA52c32BE35BC",
+                "fieldName": "delay"
+              },
+              "delaySeconds": 172800
+            }
+          ]
+        },
+        {
           "contractAddress": "eth:0x1a9C8182C09F50C8318d769245beA52c32BE35BC",
           "contractName": "Timelock",
           "functionName": "setDelay",
@@ -153,6 +247,23 @@
               "viewOnlyPath": false,
               "calledFunctions": [
                 "_setImplementation"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+              "name": "GovernorBravoDelegate",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "initialize",
+                "_setVotingDelay",
+                "_setVotingPeriod",
+                "_setProposalThreshold",
+                "_initiate",
+                "_setPendingAdmin",
+                "_acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -212,6 +323,17 @@
                 "clearFeeTierDefault",
                 "clearPoolOverride",
                 "setDefaultFeeByFeeTier"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -275,6 +397,23 @@
               "fundsAtRisk": true
             },
             {
+              "address": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+              "name": "GovernorBravoDelegate",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "initialize",
+                "_setVotingDelay",
+                "_setVotingPeriod",
+                "_setProposalThreshold",
+                "_initiate",
+                "_setPendingAdmin",
+                "_acceptAdmin"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
               "address": "eth:0x0D5Cd355e2aBEB8fb1552F56c965B867346d6721",
               "name": "Firepit",
               "viewOnlyPath": false,
@@ -328,6 +467,17 @@
                 "clearFeeTierDefault",
                 "clearPoolOverride",
                 "setDefaultFeeByFeeTier"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -901,65 +1051,11 @@
     },
     {
       "address": "eth:0x0000000000000000000000000000000000000000",
-      "name": "Zero Address (Renounced)",
-      "description": "Functions listed under this entry on GovernorBravoDelegate reflect the uninitialized implementation contract — its storage is inert, as the actual state lives in GovernorBravoDelegator.",
+      "name": "eth:0x0000000000000000000000000000000000000000",
+      "description": "",
       "adminType": "Revoked",
       "isGovernance": false,
       "functions": [
-        {
-          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
-          "contractName": "GovernorBravoDelegate",
-          "functionName": "initialize",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
-          "contractName": "GovernorBravoDelegate",
-          "functionName": "_setVotingDelay",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
-          "contractName": "GovernorBravoDelegate",
-          "functionName": "_setVotingPeriod",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
-          "contractName": "GovernorBravoDelegate",
-          "functionName": "_setProposalThreshold",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
-          "contractName": "GovernorBravoDelegate",
-          "functionName": "_initiate",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
-          "contractName": "GovernorBravoDelegate",
-          "functionName": "_setPendingAdmin",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
         {
           "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
           "contractName": "GovernorBravoDelegate",
@@ -989,6 +1085,23 @@
               "fundsAtRisk": true
             },
             {
+              "address": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+              "name": "GovernorBravoDelegate",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "initialize",
+                "_setVotingDelay",
+                "_setVotingPeriod",
+                "_setProposalThreshold",
+                "_initiate",
+                "_setPendingAdmin",
+                "_acceptAdmin"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
               "address": "eth:0x0D5Cd355e2aBEB8fb1552F56c965B867346d6721",
               "name": "Firepit",
               "viewOnlyPath": false,
@@ -1042,6 +1155,17 @@
                 "clearFeeTierDefault",
                 "clearPoolOverride",
                 "setDefaultFeeByFeeTier"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -1071,7 +1195,7 @@
     {
       "address": "eth:0x408ED6354d4973f66138C91495F2f2FCbd8724C3",
       "name": "Uniswap Governance (GovernorBravo)",
-      "description": "The on-chain governance contract that UNI holders use to propose and vote on protocol changes. Proposals require 2.5M UNI to submit and 40M UNI quorum to pass; the voting window is approximately 7 days. Approved proposals are forwarded to the Timelock for a mandatory 48-hour delay. GovernorBravoDelegator is immutable; its implementation (GovernorBravoDelegate) can be replaced by the Timelock via _setImplementation.",
+      "description": "The on-chain governance proxy (GovernorBravoDelegator) that UNI holders use to propose and vote on protocol changes. Proposals require 2.5M UNI to submit and 40M UNI quorum to pass; the voting window is approximately 7 days. Approved proposals are forwarded to the Timelock for a mandatory 48-hour delay. The proxy is immutable; its implementation contract (GovernorBravoDelegate at 0x53a3…3026, which holds only ABI — its slots read as the zero address because storage lives on the proxy) can be replaced by the Timelock via _setImplementation. All admin-gated functions on the implementation (voting delay/period, proposal threshold, admin transfer) are likewise controlled by the Timelock when invoked through the proxy.",
       "adminType": "Immutable",
       "isGovernance": true,
       "functions": [
@@ -1089,6 +1213,23 @@
               "viewOnlyPath": false,
               "calledFunctions": [
                 "_setImplementation"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+              "name": "GovernorBravoDelegate",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "initialize",
+                "_setVotingDelay",
+                "_setVotingPeriod",
+                "_setProposalThreshold",
+                "_initiate",
+                "_setPendingAdmin",
+                "_acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -1148,6 +1289,17 @@
                 "clearFeeTierDefault",
                 "clearPoolOverride",
                 "setDefaultFeeByFeeTier"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -1199,6 +1351,23 @@
               "fundsAtRisk": true
             },
             {
+              "address": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+              "name": "GovernorBravoDelegate",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "initialize",
+                "_setVotingDelay",
+                "_setVotingPeriod",
+                "_setProposalThreshold",
+                "_initiate",
+                "_setPendingAdmin",
+                "_acceptAdmin"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
               "address": "eth:0x0D5Cd355e2aBEB8fb1552F56c965B867346d6721",
               "name": "Firepit",
               "viewOnlyPath": false,
@@ -1252,6 +1421,17 @@
                 "clearFeeTierDefault",
                 "clearPoolOverride",
                 "setDefaultFeeByFeeTier"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -1303,6 +1483,23 @@
               "fundsAtRisk": true
             },
             {
+              "address": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+              "name": "GovernorBravoDelegate",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "initialize",
+                "_setVotingDelay",
+                "_setVotingPeriod",
+                "_setProposalThreshold",
+                "_initiate",
+                "_setPendingAdmin",
+                "_acceptAdmin"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
               "address": "eth:0x0D5Cd355e2aBEB8fb1552F56c965B867346d6721",
               "name": "Firepit",
               "viewOnlyPath": false,
@@ -1356,6 +1553,17 @@
                 "clearFeeTierDefault",
                 "clearPoolOverride",
                 "setDefaultFeeByFeeTier"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "eth:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "acceptAdmin"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
@@ -1485,380 +1693,8 @@
     "totalFundsAtRisk": 0,
     "totalTokenValueAtRisk": 0
   },
-  "dependencies": [
-    {
-      "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "name": "Wrapped Ether (WETH)",
-      "description": "Used by V3Migrator and the NonfungiblePositionManager for ETH-to-WETH wrapping and unwrapping during V3 liquidity operations. A failure in WETH's deposit or withdraw functions would disrupt ETH-denominated liquidity flows.",
-      "entity": "WETH",
-      "isAutoDetected": true,
-      "viewOnlyPath": false,
-      "calledFunctions": [
-        "transferFrom",
-        "withdraw",
-        "allowance",
-        "balanceOf",
-        "deposit",
-        "transfer"
-      ],
-      "functions": [
-        {
-          "contractAddress": "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34",
-          "contractName": "V3Migrator",
-          "functionName": "createAndInitializePoolIfNecessary",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34",
-          "contractName": "V3Migrator",
-          "functionName": "migrate",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "delay",
-              "description": "Delay before execution",
-              "delayRef": {
-                "contractAddress": "eth:0x1a9C8182C09F50C8318d769245beA52c32BE35BC",
-                "fieldName": "delay"
-              },
-              "delaySeconds": 172800
-            },
-            {
-              "type": "relativeValue",
-              "description": "Each mint is capped at 2% of current total supply (hardcoded mintCap = 2)",
-              "relativeValue": {
-                "maxChangePercent": {
-                  "mode": "hardcoded",
-                  "value": "2"
-                }
-              },
-              "mitigatedField": {
-                "contractAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-                "fieldName": "totalSupply"
-              }
-            },
-            {
-              "type": "delay",
-              "description": "Mints are rate-limited to at most once per year (hardcoded minimumTimeBetweenMints = 365 days)",
-              "delaySeconds": 31536000,
-              "mitigatedField": {
-                "contractAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-                "fieldName": "mintingAllowedAfter"
-              }
-            }
-          ]
-        },
-        {
-          "contractAddress": "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34",
-          "contractName": "V3Migrator",
-          "functionName": "multicall",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34",
-          "contractName": "V3Migrator",
-          "functionName": "selfPermit",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34",
-          "contractName": "V3Migrator",
-          "functionName": "selfPermitAllowed",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34",
-          "contractName": "V3Migrator",
-          "functionName": "selfPermitAllowedIfNecessary",
-          "viewOnlyPath": true,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34",
-          "contractName": "V3Migrator",
-          "functionName": "selfPermitIfNecessary",
-          "viewOnlyPath": true,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "approve",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "burn",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "collect",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "createAndInitializePoolIfNecessary",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "decreaseLiquidity",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "increaseLiquidity",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "delay",
-              "description": "Delay before execution",
-              "delayRef": {
-                "contractAddress": "eth:0x1a9C8182C09F50C8318d769245beA52c32BE35BC",
-                "fieldName": "delay"
-              },
-              "delaySeconds": 172800
-            },
-            {
-              "type": "relativeValue",
-              "description": "Each mint is capped at 2% of current total supply (hardcoded mintCap = 2)",
-              "relativeValue": {
-                "maxChangePercent": {
-                  "mode": "hardcoded",
-                  "value": "2"
-                }
-              },
-              "mitigatedField": {
-                "contractAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-                "fieldName": "totalSupply"
-              }
-            },
-            {
-              "type": "delay",
-              "description": "Mints are rate-limited to at most once per year (hardcoded minimumTimeBetweenMints = 365 days)",
-              "delaySeconds": 31536000,
-              "mitigatedField": {
-                "contractAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-                "fieldName": "mintingAllowedAfter"
-              }
-            }
-          ]
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "mint",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "delay",
-              "description": "Delay before execution",
-              "delayRef": {
-                "contractAddress": "eth:0x1a9C8182C09F50C8318d769245beA52c32BE35BC",
-                "fieldName": "delay"
-              },
-              "delaySeconds": 172800
-            },
-            {
-              "type": "relativeValue",
-              "description": "Each mint is capped at 2% of current total supply (hardcoded mintCap = 2)",
-              "relativeValue": {
-                "maxChangePercent": {
-                  "mode": "hardcoded",
-                  "value": "2"
-                }
-              },
-              "mitigatedField": {
-                "contractAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-                "fieldName": "totalSupply"
-              }
-            },
-            {
-              "type": "delay",
-              "description": "Mints are rate-limited to at most once per year (hardcoded minimumTimeBetweenMints = 365 days)",
-              "delaySeconds": 31536000,
-              "mitigatedField": {
-                "contractAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-                "fieldName": "mintingAllowedAfter"
-              }
-            }
-          ]
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "multicall",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "permit",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "refundETH",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "safeTransferFrom",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "selfPermit",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "selfPermitAllowed",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "selfPermitAllowedIfNecessary",
-          "viewOnlyPath": true,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "selfPermitIfNecessary",
-          "viewOnlyPath": true,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "setApprovalForAll",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "sweepToken",
-          "viewOnlyPath": true,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "transferFrom",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "uniswapV3MintCallback",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-          "contractName": "NonfungiblePositionManager",
-          "functionName": "unwrapWETH9",
-          "viewOnlyPath": false,
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        }
-      ],
-      "totalFundsAtRisk": 0,
-      "totalTokenValueAtRisk": 0
-    }
-  ],
-  "dependencyEntityGroups": [
-    {
-      "entity": "WETH",
-      "totalFundsAtRisk": 0,
-      "totalTokenValueAtRisk": 0
-    }
-  ],
+  "dependencies": [],
+  "dependencyEntityGroups": [],
   "dependencyTotals": {
     "totalFundsAtRisk": 0,
     "totalTokenValueAtRisk": 0
@@ -1884,6 +1720,53 @@
       "contractAddress": "eth:0x408ED6354d4973f66138C91495F2f2FCbd8724C3",
       "contractName": "GovernorBravoDelegator",
       "functionName": "_setImplementation",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "delay",
+          "description": "Delay before execution",
+          "delayRef": {
+            "contractAddress": "eth:0x1a9C8182C09F50C8318d769245beA52c32BE35BC",
+            "fieldName": "delay"
+          },
+          "delaySeconds": 172800
+        }
+      ]
+    },
+    {
+      "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+      "contractName": "GovernorBravoDelegate",
+      "functionName": "initialize",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+      "contractName": "GovernorBravoDelegate",
+      "functionName": "_setVotingDelay",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+      "contractName": "GovernorBravoDelegate",
+      "functionName": "_setVotingPeriod",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+      "contractName": "GovernorBravoDelegate",
+      "functionName": "_setProposalThreshold",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+      "contractName": "GovernorBravoDelegate",
+      "functionName": "_initiate",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
+      "contractName": "GovernorBravoDelegate",
+      "functionName": "_setPendingAdmin",
       "impact": "critical",
       "mitigations": [
         {
@@ -2465,14 +2348,6 @@
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
-      "proxyType": "immutable"
-    },
-    {
-      "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "name": "Wrapped Ether (WETH)",
-      "isExternal": true,
-      "isGovernance": false,
-      "entity": "WETH",
       "proxyType": "immutable"
     }
   ],

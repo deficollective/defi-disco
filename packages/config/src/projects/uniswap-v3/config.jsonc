@@ -11,12 +11,24 @@
     "eth:0x408ED6354d4973f66138C91495F2f2FCbd8724C3"
   ],
   "overrides": {
-    "eth:0x000000000004444c5dc75cB358380D2e3dE08A90": { "ignoreDiscovery": true },
-    "eth:0xbD216513d74C8cf14cf4747E6AaA6420FF64ee9e": { "ignoreDiscovery": true },
-    "eth:0xd1428Ba554F4C8450b763a0B2040A4935c63f06C": { "ignoreDiscovery": true },
-    "eth:0xbd123D5b1E148266154F5722C1d059D70059Cf93": { "ignoreDiscovery": true },
-    "eth:0xEe6A57eC80ea46401049E92587E52f5Ec1c24785": { "ignoreDiscovery": true },
-    "eth:0xB753548F6E010e7e680BA186F9Ca1BdAB2E90cf2": { "ignoreDiscovery": true },
+    "eth:0x000000000004444c5dc75cB358380D2e3dE08A90": {
+      "ignoreDiscovery": true
+    },
+    "eth:0xbD216513d74C8cf14cf4747E6AaA6420FF64ee9e": {
+      "ignoreDiscovery": true
+    },
+    "eth:0xd1428Ba554F4C8450b763a0B2040A4935c63f06C": {
+      "ignoreDiscovery": true
+    },
+    "eth:0xbd123D5b1E148266154F5722C1d059D70059Cf93": {
+      "ignoreDiscovery": true
+    },
+    "eth:0xEe6A57eC80ea46401049E92587E52f5Ec1c24785": {
+      "ignoreDiscovery": true
+    },
+    "eth:0xB753548F6E010e7e680BA186F9Ca1BdAB2E90cf2": {
+      "ignoreDiscovery": true
+    },
     "eth:0x000000000022D473030F116dDEE9F6B43aC78BA3": {
       "ignoreInWatchMode": ["DOMAIN_SEPARATOR"]
     },
@@ -87,7 +99,8 @@
         "tokenURI",
         "ownerOf",
         "getApproved",
-        "tokenByIndex"
+        "tokenByIndex",
+        "WETH9"
       ],
       "ignoreInWatchMode": [
         "baseURI",
@@ -121,6 +134,9 @@
     },
     "eth:0xf2371551Fe3937Db7c750f4DfABe5c2fFFdcBf5A": {
       "ignoreInWatchMode": ["ZERO_FEE_SENTINEL"]
+    },
+    "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34": {
+      "ignoreMethods": ["WETH9"]
     }
   }
 }
