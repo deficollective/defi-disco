@@ -30,6 +30,27 @@ Uses Slither to analyze which external contracts each function calls. The output
 - **REF_ propagation**: parent type substitutions propagate through synthetic Slither `REF_`/`TMP_` references, so the same internal function called with different arguments produces separate call entries
 - **Context-aware deduplication**: the visited-set key includes type substitutions to prevent merging calls with different argument contexts
 
+### Timeout handling
+
+Each contract gets a fixed window to complete Slither analysis. If it exceeds the limit, the process is SIGKILL-ed (not SIGTERM — Slither can ignore SIGTERM during compile) and the contract is recorded as skipped.
+
+- **Env var**: `SLITHER_TIMEOUT_MS` — override the per-contract timeout (default: `2 * 60 * 1000` ms = 2 minutes)
+- **Effect on output**: skipped contracts are written to `call-graph-data.json` with `skipped: true` instead of an `externalCalls` array
+
+Skipped entry shape:
+```json
+{
+  "contracts": {
+    "eth:0x...": {
+      "skipped": true,
+      "skipReason": "Slither timeout after 120s"
+    }
+  }
+}
+```
+
+**Terminal output** — skipped contracts emit a red warning during the analysis run, and a summary block lists all timed-out contracts at the end. If a contract is missing from the call graph, check `call-graph-data.json` for a `skipped: true` entry on that address.
+
 ### Heuristic Resolution Engine
 
 When a direct `discovered.json` lookup fails, `callGraphHeuristics.ts` runs a set of heuristics in order and picks the highest-confidence result:

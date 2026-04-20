@@ -338,7 +338,8 @@ packages/
 │       ├── AggregateService.ts       # Handler dispatch + caching
 │       └── handlers/                 # Per-protocol aggregate handlers
 │           ├── uniswapV2Factory.ts   # The Graph subgraph (requires THEGRAPH_API_KEY)
-│           └── frankencoinMintinghub.ts  # Frankencoin API (no key needed)
+│           ├── frankencoinMintinghub.ts  # Frankencoin API (no key needed)
+│           └── uniswapV3Factory.ts  # Uniswap V3 TVL via DeFiLlama (no API key; chain mapped via CHAIN_ID_TO_DEFILLAMA_NAME)
 └── config/src/projects/compound-v3/
     ├── permission-overrides.json
     ├── resources.json                # Per-project resources, audits & LoC count ({ resources: ResourceEntry[], audits: AuditEntry[], linesOfCode?: number })
