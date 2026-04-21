@@ -1,6 +1,8 @@
 {
   "version": "1.0",
-  "compiledAt": "2026-03-24T07:45:16.431Z",
+  "publishedAt": "2026-04-21T08:04:11.678Z",
+  "updatedAt": "2026-04-21T08:04:11.678Z",
+  "compiledAt": "2026-04-16T08:54:06.000Z",
   "project": "aerodrome",
   "metadata": {
     "protocolName": "Aerodrome Finance",
@@ -11,14 +13,15 @@
     "description": "Aerodrome is a ve(3,3) decentralized exchange on Base, forked from Velodrome V2. It combines concentrated and volatile/stable AMM liquidity pools with a vote-escrow governance model where AERO token holders lock tokens as veNFTs to direct weekly emissions to gauges. All core contracts are immutable, but protocol parameters (swap fees, emission caps, factory registrations) are controlled by a 3/7 multisig acting as governor. The AERO token has a market cap of $570.97M."
   },
   "totals": {
-    "contractCount": 29,
-    "permissionedFunctionCount": 144,
-    "scoredFunctionCount": 91,
-    "adminCount": 8,
+    "contractCount": 36,
+    "permissionedFunctionCount": 226,
+    "scoredFunctionCount": 174,
+    "adminCount": 10,
     "dependencyCount": 0,
     "totalCapitalAtRisk": 307960533.9536741,
-    "totalTokenValueAtRisk": 0,
-    "totalTokenValue": 570970485.7378225
+    "totalTokenValueAtRisk": 570970485.7378225,
+    "totalTokenValue": 570970485.7378225,
+    "linesOfCode": 15990
   },
   "admins": [
     {
@@ -76,7 +79,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
@@ -101,21 +104,47 @@
               "fundsAtRisk": false
             },
             {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
               "name": "CLGauge",
               "viewOnlyPath": false,
               "calledFunctions": [
                 "earned",
                 "getReward",
+                "initialize",
                 "token0",
                 "token1",
                 "tickSpacing",
-                "initialize",
+                "getReward(address)",
                 "notifyRewardAmount"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "token0",
+                "token1",
+                "tickSpacing",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
@@ -143,8 +172,10 @@
                 "stakedLiquidity",
                 "positions",
                 "getRewardGrowthInside",
+                "penaltyRate",
+                "minStakeTimes",
                 "updateRewardsGrowthGlobal",
-                "WETH9",
+                "minter",
                 "calculateMaxEmissions",
                 "redistributor",
                 "collectFees",
@@ -153,7 +184,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
@@ -164,7 +195,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
@@ -192,6 +223,22 @@
               "fundsAtRisk": true
             },
             {
+              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "collect(address,int24,int24,uint128,uint128,address)",
+                "burn(int24,int24,uint128,address)",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
               "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
               "name": "RewardsDistributor",
               "viewOnlyPath": false,
@@ -201,7 +248,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
@@ -215,10 +262,10 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
-              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
               "name": "Redistributor",
               "viewOnlyPath": false,
               "calledFunctions": [
@@ -450,205 +497,6 @@
           ]
         },
         {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "setCustomFee",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "valueRange",
-              "description": "Base fee cannot exceed MAX_BASE_FEE (3%) or must be ZERO_FEE_INDICATOR",
-              "valueRange": {
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-                  "fieldName": "MAX_BASE_FEE"
-                },
-                "unit": "pips"
-              }
-            }
-          ]
-        },
-        {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "setDefaultScalingFactor",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "valueRange",
-              "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
-              "valueRange": {
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-                  "fieldName": "MAX_SCALING_FACTOR"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "setDefaultFeeCap",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "valueRange",
-              "description": "Default fee cap cannot exceed MAX_FEE_CAP (5%)",
-              "valueRange": {
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "pips"
-              }
-            }
-          ]
-        },
-        {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "setScalingFactor",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "valueRange",
-              "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
-              "valueRange": {
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-                  "fieldName": "MAX_SCALING_FACTOR"
-                }
-              }
-            },
-            {
-              "type": "other",
-              "description": "Requires feeCap to be already set on the pool before scaling factor can be configured"
-            }
-          ]
-        },
-        {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "setFeeCap",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "valueRange",
-              "description": "Fee cap must be > 0 and cannot exceed MAX_FEE_CAP (5%)",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "1"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "pips"
-              }
-            }
-          ]
-        },
-        {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "resetDynamicFee",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "setSecondsAgo",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "valueRange",
-              "description": "TWAP lookback must be >= MIN_SECONDS_AGO (2s) and < MAX_SECONDS_AGO (131070s)",
-              "valueRange": {
-                "min": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-                  "fieldName": "MIN_SECONDS_AGO"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-                  "fieldName": "MAX_SECONDS_AGO"
-                },
-                "unit": "seconds"
-              }
-            }
-          ]
-        },
-        {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "registerDiscounted",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "valueRange",
-              "description": "Discount cannot exceed MAX_DISCOUNT (50%)",
-              "valueRange": {
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-                  "fieldName": "MAX_DISCOUNT"
-                },
-                "unit": "pips"
-              }
-            }
-          ]
-        },
-        {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "deregisterDiscounted",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-          "contractName": "DynamicSwapFeeModule",
-          "functionName": "bulkUpdateFees",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
           "contractAddress": "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35",
           "contractName": "CustomUnstakedFeeModule",
           "functionName": "setCustomFee",
@@ -666,7 +514,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             }
           ]
         },
@@ -700,6 +548,15 @@
           "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
           "contractName": "CLGaugeFactory",
           "functionName": "setEmissionAdmin",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setNotifyAdmin",
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
@@ -771,6 +628,15 @@
         {
           "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
           "contractName": "CLFactory",
+          "functionName": "setOwner",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+          "contractName": "CLFactory",
           "functionName": "setSwapFeeManager",
           "impact": "no-impact",
           "directFundsUsd": 0,
@@ -827,6 +693,55 @@
           ]
         },
         {
+          "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+          "contractName": "CLFactory",
+          "functionName": "enableTickSpacing",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee for the tick spacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "100000"
+                },
+                "unit": "bps*100"
+              }
+            },
+            {
+              "type": "valueRange",
+              "description": "TickSpacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "16384"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+          "contractName": "CLFactory",
+          "functionName": "setOwner",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
           "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
           "contractName": "CLFactory",
           "functionName": "setSwapFeeManager",
@@ -880,6 +795,46 @@
                   "value": "5000"
                 },
                 "unit": "bps"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+          "contractName": "CLFactory",
+          "functionName": "enableTickSpacing",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee for the tick spacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "100000"
+                },
+                "unit": "bps*100"
+              }
+            },
+            {
+              "type": "valueRange",
+              "description": "TickSpacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "16384"
+                }
               }
             }
           ]
@@ -921,7 +876,28 @@
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Nudging only allowed once per epoch"
+            },
+            {
+              "type": "valueRange",
+              "description": "Change at maximum 1bps",
+              "valueRange": {
+                "max": {
+                  "mode": "fieldRef",
+                  "fieldPath": "$self.MAXIMUM_TAIL_RATE"
+                },
+                "unit": "bps"
+              }
+            },
+            {
+              "type": "other",
+              "description": "Max Change per nudge is 1 bps"
+            }
+          ]
         },
         {
           "contractAddress": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
@@ -947,7 +923,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
@@ -1002,6 +978,17 @@
               "fundsAtRisk": false
             },
             {
+              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
               "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
               "name": "RewardsDistributor",
               "viewOnlyPath": false,
@@ -1011,7 +998,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
@@ -1025,24 +1012,39 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "earned",
+                "getReward",
+                "initialize",
+                "token0",
+                "token1",
+                "tickSpacing",
+                "getReward(address)",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
             },
             {
               "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
               "name": "CLGauge",
               "viewOnlyPath": false,
               "calledFunctions": [
-                "earned",
-                "getReward",
                 "token0",
                 "token1",
                 "tickSpacing",
-                "initialize",
                 "notifyRewardAmount"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
@@ -1070,8 +1072,10 @@
                 "stakedLiquidity",
                 "positions",
                 "getRewardGrowthInside",
+                "penaltyRate",
+                "minStakeTimes",
                 "updateRewardsGrowthGlobal",
-                "WETH9",
+                "minter",
                 "calculateMaxEmissions",
                 "redistributor",
                 "collectFees",
@@ -1080,7 +1084,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
@@ -1091,7 +1095,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
@@ -1108,7 +1112,23 @@
               "fundsAtRisk": true
             },
             {
-              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "collect(address,int24,int24,uint128,uint128,address)",
+                "burn(int24,int24,uint128,address)",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
               "name": "Redistributor",
               "viewOnlyPath": false,
               "calledFunctions": [
@@ -1119,12 +1139,1965 @@
               "fundsAtRisk": false
             }
           ]
+        },
+        {
+          "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+          "contractName": "CLFactory",
+          "functionName": "setOwner",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+          "contractName": "CLFactory",
+          "functionName": "setSwapFeeManager",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+          "contractName": "CLFactory",
+          "functionName": "setUnstakedFeeManager",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+          "contractName": "CLFactory",
+          "functionName": "setSwapFeeModule",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+          "contractName": "CLFactory",
+          "functionName": "setUnstakedFeeModule",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+          "contractName": "CLFactory",
+          "functionName": "setDefaultUnstakedFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Unstaked Fee cannot exceed 5000 bps",
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "5000"
+                },
+                "unit": "bps"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+          "contractName": "CLFactory",
+          "functionName": "enableTickSpacing",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee for the tick spacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "100000"
+                },
+                "unit": "bps*100"
+              }
+            },
+            {
+              "type": "valueRange",
+              "description": "TickSpacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "16384"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setEmissionAdmin",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setNotifyAdmin",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setEmissionCap",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-gauge emission cap is expressed in basis points and capped at 100% (10,000 bps = MAX_BPS).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_BPS"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setRedistributor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
+              "name": "Voter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "ve",
+                "initialize",
+                "notifyRewardAmount",
+                "isGauge",
+                "totalWeight",
+                "poolForGauge",
+                "weights"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+              "name": "Minter",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "team",
+                "acceptTeam"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xD30677bd8dd15132F251Cb54CbDA552d2A05Fb08",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "notifyAdmin"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "depositManaged",
+                "withdrawManaged",
+                "setVoterAndDistributor",
+                "voting",
+                "depositFor",
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+              "name": "PoolFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setVoter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
+              "name": "RewardsDistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "checkpointToken",
+                "setMinter"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+              "name": "Aerodrome Token",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setMinter",
+                "mint",
+                "balanceOf",
+                "allowance"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 570970485.7378225,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "earned",
+                "getReward",
+                "initialize",
+                "token0",
+                "token1",
+                "tickSpacing",
+                "getReward(address)",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "token0",
+                "token1",
+                "tickSpacing",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setGaugeAndPositionManager",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x0000000000000000000000000000000000000000",
+              "name": "Unknown",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "lastUpdated",
+                "rewardGrowthGlobalX128",
+                "rewardReserve",
+                "stakedLiquidity",
+                "positions",
+                "getRewardGrowthInside",
+                "penaltyRate",
+                "minStakeTimes",
+                "updateRewardsGrowthGlobal",
+                "minter",
+                "calculateMaxEmissions",
+                "redistributor",
+                "collectFees",
+                "rollover",
+                "syncReward"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
+              "name": "FactoryRegistry",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "factoriesToPoolFactory"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "collect(address,int24,int24,uint128,uint128,address)",
+                "burn(int24,int24,uint128,address)",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+              "name": "Redistributor",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "deposit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "not VE team",
+              "description": "The redistributor address cannot equal the current VotingEscrow team or the legacy gauge factory's notifyAdmin — those permissions must be transferred out first.",
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "redistributor"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setDefaultCap",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default emission cap must be non-zero and is capped at 100% (10,000 bps = MAX_BPS).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_BPS"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setGaugeStakeManager",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setDefaultMinStakeTime",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default minimum stake time before penalty-free unstake/claim is bounded at 1 week (MAX_MIN_STAKE_TIME).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_MIN_STAKE_TIME"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_MIN_STAKE_TIME"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setMinStakeTime",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool minimum stake time before penalty-free unstake/claim is bounded at 1 week (MAX_MIN_STAKE_TIME).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_MIN_STAKE_TIME"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_MIN_STAKE_TIME"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "setPenaltyRate",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The early-unstake penalty rate is capped at 100% (10,000 bps = MAX_BPS). A 100% rate would zero out rewards claimed before the minimum stake time elapses.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_BPS"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
+          "contractName": "CustomUnstakedFeeModule",
+          "functionName": "setCustomFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "unstakedFeeManager",
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool unstaked fee rate is capped at 50% (500,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
+                  "fieldName": "MAX_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
+                "fieldName": "MAX_FEE"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setCustomFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setDefaultScalingFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setDefaultFeeCap",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setScalingFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setFeeCap",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "resetDynamicFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setSecondsAgo",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
+              "valueRange": {
+                "min": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MIN_SECONDS_AGO"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_SECONDS_AGO"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_SECONDS_AGO"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "registerDiscounted",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_DISCOUNT"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_DISCOUNT"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "deregisterDiscounted",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "bulkUpdateFees",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setInitialFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "disableInitialFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setCustomFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setDefaultScalingFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setDefaultFeeCap",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setScalingFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setFeeCap",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "resetDynamicFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setSecondsAgo",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
+              "valueRange": {
+                "min": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MIN_SECONDS_AGO"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_SECONDS_AGO"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_SECONDS_AGO"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "registerDiscounted",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_DISCOUNT"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_DISCOUNT"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "deregisterDiscounted",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "bulkUpdateFees",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setInitialFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "disableInitialFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setCustomFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setDefaultScalingFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setDefaultFeeCap",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setScalingFactor",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setFeeCap",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "resetDynamicFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setSecondsAgo",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
+              "valueRange": {
+                "min": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MIN_SECONDS_AGO"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_SECONDS_AGO"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_SECONDS_AGO"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "registerDiscounted",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_DISCOUNT"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_DISCOUNT"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "deregisterDiscounted",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "bulkUpdateFees",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "setInitialFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+          "contractName": "DynamicSwapFeeModule",
+          "functionName": "disableInitialFee",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+              "name": "CLFactory",
+              "viewOnlyPath": true,
+              "calledFunctions": [
+                "isPool"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F",
+          "contractName": "NonfungiblePositionManager",
+          "functionName": "setTokenDescriptor",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F",
+          "contractName": "NonfungiblePositionManager",
+          "functionName": "setOwner",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53",
+          "contractName": "NonfungiblePositionManager",
+          "functionName": "setTokenDescriptor",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53",
+          "contractName": "NonfungiblePositionManager",
+          "functionName": "setOwner",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "renounceOwnership",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "transferOwnership",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "notifyRewardWithoutClaim",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "setUpkeepManager",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "setKeeper",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "setArtProxy",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "toggleSplit",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "transferPermissions",
+          "impact": "critical",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [
+            {
+              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
+              "name": "VotingEscrow",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "setTeam",
+                "setArtProxy",
+                "toggleSplit"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "legacyCLGaugeFactory",
+                "setNotifyAdmin"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "Cannot set to zero address"
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
       "totalDirectTokenValue": 0,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 0
+      "totalReachableTokenValue": 570970485.7378225
     },
     {
       "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
@@ -1179,15 +3152,6 @@
           "reachableContracts": []
         },
         {
-          "contractAddress": "base:0xD30677bd8dd15132F251Cb54CbDA552d2A05Fb08",
-          "contractName": "Unknown Contract",
-          "functionName": "createGauge",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
           "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
           "contractName": "CLGaugeFactory",
           "functionName": "createGauge",
@@ -1197,9 +3161,9 @@
           "reachableContracts": []
         },
         {
-          "contractAddress": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
-          "contractName": "CLGauge",
-          "functionName": "notifyRewardAmount",
+          "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+          "contractName": "CLGaugeFactory",
+          "functionName": "createGauge",
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
@@ -1242,7 +3206,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
@@ -1267,21 +3231,47 @@
               "fundsAtRisk": false
             },
             {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
               "name": "CLGauge",
               "viewOnlyPath": false,
               "calledFunctions": [
                 "earned",
                 "getReward",
+                "initialize",
                 "token0",
                 "token1",
                 "tickSpacing",
-                "initialize",
+                "getReward(address)",
                 "notifyRewardAmount"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "token0",
+                "token1",
+                "tickSpacing",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
@@ -1309,8 +3299,10 @@
                 "stakedLiquidity",
                 "positions",
                 "getRewardGrowthInside",
+                "penaltyRate",
+                "minStakeTimes",
                 "updateRewardsGrowthGlobal",
-                "WETH9",
+                "minter",
                 "calculateMaxEmissions",
                 "redistributor",
                 "collectFees",
@@ -1319,7 +3311,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
@@ -1330,7 +3322,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
@@ -1358,6 +3350,22 @@
               "fundsAtRisk": true
             },
             {
+              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "collect(address,int24,int24,uint128,uint128,address)",
+                "burn(int24,int24,uint128,address)",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
               "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
               "name": "RewardsDistributor",
               "viewOnlyPath": false,
@@ -1367,7 +3375,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
@@ -1381,10 +3389,10 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
-              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
               "name": "Redistributor",
               "viewOnlyPath": false,
               "calledFunctions": [
@@ -1464,21 +3472,47 @@
               "fundsAtRisk": false
             },
             {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
               "name": "CLGauge",
               "viewOnlyPath": false,
               "calledFunctions": [
                 "earned",
                 "getReward",
+                "initialize",
                 "token0",
                 "token1",
                 "tickSpacing",
-                "initialize",
+                "getReward(address)",
                 "notifyRewardAmount"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "token0",
+                "token1",
+                "tickSpacing",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
@@ -1506,8 +3540,10 @@
                 "stakedLiquidity",
                 "positions",
                 "getRewardGrowthInside",
+                "penaltyRate",
+                "minStakeTimes",
                 "updateRewardsGrowthGlobal",
-                "WETH9",
+                "minter",
                 "calculateMaxEmissions",
                 "redistributor",
                 "collectFees",
@@ -1516,7 +3552,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
@@ -1527,7 +3563,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
@@ -1555,6 +3591,22 @@
               "fundsAtRisk": true
             },
             {
+              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "collect(address,int24,int24,uint128,uint128,address)",
+                "burn(int24,int24,uint128,address)",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
               "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
               "name": "RewardsDistributor",
               "viewOnlyPath": false,
@@ -1564,7 +3616,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
@@ -1578,10 +3630,10 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
-              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
               "name": "Redistributor",
               "viewOnlyPath": false,
               "calledFunctions": [
@@ -1606,12 +3658,12 @@
       "totalDirectCapital": 0,
       "totalDirectTokenValue": 0,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 0
+      "totalReachableTokenValue": 570970485.7378225
     },
     {
-      "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+      "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
       "name": "Redistributor",
-      "description": "Immutable contract that handles excess gauge emissions exceeding per-gauge caps. Holds the VotingEscrow team role and can transfer it. Controlled by the Governor multisig (ownership) and a keeper EOA for automated redistribution operations.",
+      "description": "",
       "adminType": "Immutable",
       "isGovernance": false,
       "functions": [
@@ -1647,45 +3699,6 @@
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-          "contractName": "Minter",
-          "functionName": "setTeam",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-          "contractName": "Minter",
-          "functionName": "setTeamRate",
-          "impact": "no-impact",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "valueRange",
-              "description": "How many tokens are minted to the team (bps of weekly minted)",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "fieldRef",
-                  "fieldPath": "$self.MAXIMUM_TEAM_RATE"
-                },
-                "unit": "bps"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-                "fieldName": "MAXIMUM_TEAM_RATE"
-              }
-            }
-          ]
         }
       ],
       "totalDirectCapital": 0,
@@ -1760,7 +3773,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
@@ -1794,7 +3807,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
@@ -1819,21 +3832,47 @@
               "fundsAtRisk": false
             },
             {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "name": "CLGaugeFactory",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "createGauge"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
               "name": "CLGauge",
               "viewOnlyPath": false,
               "calledFunctions": [
                 "earned",
                 "getReward",
+                "initialize",
                 "token0",
                 "token1",
                 "tickSpacing",
-                "initialize",
+                "getReward(address)",
                 "notifyRewardAmount"
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
+            },
+            {
+              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+              "name": "CLGauge",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "token0",
+                "token1",
+                "tickSpacing",
+                "notifyRewardAmount"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
@@ -1861,8 +3900,10 @@
                 "stakedLiquidity",
                 "positions",
                 "getRewardGrowthInside",
+                "penaltyRate",
+                "minStakeTimes",
                 "updateRewardsGrowthGlobal",
-                "WETH9",
+                "minter",
                 "calculateMaxEmissions",
                 "redistributor",
                 "collectFees",
@@ -1871,7 +3912,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
@@ -1882,7 +3923,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "fundsAtRisk": true
             },
             {
               "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
@@ -1910,7 +3951,23 @@
               "fundsAtRisk": true
             },
             {
-              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+              "name": "CLPool",
+              "viewOnlyPath": false,
+              "calledFunctions": [
+                "collect(address,int24,int24,uint128,uint128,address)",
+                "burn(int24,int24,uint128,address)",
+                "stake",
+                "updateRewardsGrowthGlobal",
+                "syncReward",
+                "collectFees"
+              ],
+              "fundsUsd": 0,
+              "tokenValueUsd": 0,
+              "fundsAtRisk": false
+            },
+            {
+              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
               "name": "Redistributor",
               "viewOnlyPath": false,
               "calledFunctions": [
@@ -1926,183 +3983,10 @@
           "contractAddress": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
           "contractName": "RewardsDistributor",
           "functionName": "setMinter",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
-              "name": "VotingEscrow",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "depositFor",
-                "depositManaged",
-                "withdrawManaged",
-                "setVoterAndDistributor",
-                "voting",
-                "setTeam",
-                "setArtProxy",
-                "toggleSplit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
-              "name": "Voter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "notifyRewardAmount",
-                "initialize",
-                "isGauge",
-                "totalWeight",
-                "poolForGauge",
-                "weights"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-              "name": "Aerodrome Token",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "allowance",
-                "setMinter",
-                "mint",
-                "balanceOf"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-              "name": "PoolFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setVoter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "earned",
-                "getReward",
-                "token0",
-                "token1",
-                "tickSpacing",
-                "initialize",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setGaugeAndPositionManager",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x0000000000000000000000000000000000000000",
-              "name": "Unknown",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "lastUpdated",
-                "rewardGrowthGlobalX128",
-                "rewardReserve",
-                "stakedLiquidity",
-                "positions",
-                "getRewardGrowthInside",
-                "updateRewardsGrowthGlobal",
-                "WETH9",
-                "calculateMaxEmissions",
-                "redistributor",
-                "collectFees",
-                "rollover",
-                "syncReward"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
-              "name": "FactoryRegistry",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "factoriesToPoolFactory"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-              "name": "Minter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "acceptTeam"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
-              "name": "Redistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "deposit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
@@ -2121,6 +4005,58 @@
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 570970485.7378225
+    },
+    {
+      "address": "base:0xBDE0c70BdC242577c52dFAD53389F82fd149EA5a",
+      "name": "Aerodrome Foundation 4/7 Multisig",
+      "description": "Controls the team role on VotingEscrow (setTeam) and Minter (setTeam, acceptTeam). On VotingEscrow, the team can set the art proxy (cosmetic) and toggle NFT splitting permissions. On Minter, the team can adjust the team emission rate (bounded to max 5% via MAXIMUM_TEAM_RATE) and nudge the tail emission rate (max 1 bps change per epoch, bounded by MAXIMUM_TAIL_RATE). Reached via the Redistributor contract which holds the current VotingEscrow team role.",
+      "adminType": "Multisig",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+          "contractName": "Minter",
+          "functionName": "setTeam",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+          "contractName": "Minter",
+          "functionName": "setTeamRate",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "How many tokens are minted to the team (bps of weekly minted)",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "fieldRef",
+                  "fieldPath": "$self.MAXIMUM_TEAM_RATE"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+                "fieldName": "MAXIMUM_TEAM_RATE"
+              }
+            }
+          ]
         }
       ],
       "totalDirectCapital": 0,
@@ -2221,6 +4157,87 @@
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
+          "contractName": "CLGauge",
+          "functionName": "notifyRewardAmount",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
+          "contractName": "CLGauge",
+          "functionName": "getReward(address)",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
+          "contractName": "CLGauge",
+          "functionName": "notifyRewardAmount",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+          "contractName": "CLPool",
+          "functionName": "collect(address,int24,int24,uint128,uint128,address)",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+          "contractName": "CLPool",
+          "functionName": "burn(int24,int24,uint128,address)",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+          "contractName": "CLPool",
+          "functionName": "stake",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+          "contractName": "CLPool",
+          "functionName": "updateRewardsGrowthGlobal",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+          "contractName": "CLPool",
+          "functionName": "syncReward",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
+          "contractName": "CLPool",
+          "functionName": "collectFees",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
         }
       ],
       "totalDirectCapital": 0,
@@ -2270,9 +4287,49 @@
       "totalDirectTokenValue": 0,
       "totalReachableCapital": 0,
       "totalReachableTokenValue": 0
+    },
+    {
+      "address": "base:0x7766Eb408B671BE8bc237639b20A0eC45e2750C7",
+      "name": "Redistributor Keeper",
+      "description": "",
+      "adminType": "EOA",
+      "isGovernance": false,
+      "functions": [
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "redistribute(address[])",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        },
+        {
+          "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+          "contractName": "Redistributor",
+          "functionName": "redistribute(uint256,uint256)",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": []
+        }
+      ],
+      "totalDirectCapital": 0,
+      "totalDirectTokenValue": 0,
+      "totalReachableCapital": 0,
+      "totalReachableTokenValue": 0
     }
   ],
+  "adminTotals": {
+    "totalFundsAtRisk": 0,
+    "totalTokenValueAtRisk": 570970485.7378225
+  },
   "dependencies": [],
+  "dependencyEntityGroups": [],
+  "dependencyTotals": {
+    "totalFundsAtRisk": 0,
+    "totalTokenValueAtRisk": 0
+  },
   "funds": [
     {
       "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
@@ -2517,175 +4574,6 @@
       ]
     },
     {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "setCustomFee",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "valueRange",
-          "description": "Base fee cannot exceed MAX_BASE_FEE (3%) or must be ZERO_FEE_INDICATOR",
-          "valueRange": {
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-              "fieldName": "MAX_BASE_FEE"
-            },
-            "unit": "pips"
-          }
-        }
-      ]
-    },
-    {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "setDefaultScalingFactor",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "valueRange",
-          "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
-          "valueRange": {
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-              "fieldName": "MAX_SCALING_FACTOR"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "setDefaultFeeCap",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "valueRange",
-          "description": "Default fee cap cannot exceed MAX_FEE_CAP (5%)",
-          "valueRange": {
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "pips"
-          }
-        }
-      ]
-    },
-    {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "setScalingFactor",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "valueRange",
-          "description": "Scaling factor cannot exceed MAX_SCALING_FACTOR (1e18)",
-          "valueRange": {
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-              "fieldName": "MAX_SCALING_FACTOR"
-            }
-          }
-        },
-        {
-          "type": "other",
-          "description": "Requires feeCap to be already set on the pool before scaling factor can be configured"
-        }
-      ]
-    },
-    {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "setFeeCap",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "valueRange",
-          "description": "Fee cap must be > 0 and cannot exceed MAX_FEE_CAP (5%)",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "1"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "pips"
-          }
-        }
-      ]
-    },
-    {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "resetDynamicFee",
-      "impact": "no-impact"
-    },
-    {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "setSecondsAgo",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "valueRange",
-          "description": "TWAP lookback must be >= MIN_SECONDS_AGO (2s) and < MAX_SECONDS_AGO (131070s)",
-          "valueRange": {
-            "min": {
-              "mode": "discovered",
-              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-              "fieldName": "MIN_SECONDS_AGO"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-              "fieldName": "MAX_SECONDS_AGO"
-            },
-            "unit": "seconds"
-          }
-        }
-      ]
-    },
-    {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "registerDiscounted",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "valueRange",
-          "description": "Discount cannot exceed MAX_DISCOUNT (50%)",
-          "valueRange": {
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-              "fieldName": "MAX_DISCOUNT"
-            },
-            "unit": "pips"
-          }
-        }
-      ]
-    },
-    {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "deregisterDiscounted",
-      "impact": "no-impact"
-    },
-    {
-      "contractAddress": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
-      "contractName": "DynamicSwapFeeModule",
-      "functionName": "bulkUpdateFees",
-      "impact": "no-impact"
-    },
-    {
       "contractAddress": "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35",
       "contractName": "CustomUnstakedFeeModule",
       "functionName": "setCustomFee",
@@ -2718,6 +4606,12 @@
       "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
       "contractName": "CLGaugeFactory",
       "functionName": "setEmissionAdmin",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setNotifyAdmin",
       "impact": "no-impact"
     },
     {
@@ -2777,6 +4671,12 @@
     {
       "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
       "contractName": "CLFactory",
+      "functionName": "setOwner",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+      "contractName": "CLFactory",
       "functionName": "setSwapFeeManager",
       "impact": "no-impact"
     },
@@ -2818,6 +4718,49 @@
       ]
     },
     {
+      "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+      "contractName": "CLFactory",
+      "functionName": "enableTickSpacing",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Fee for the tick spacing",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "hardcoded",
+              "value": "100000"
+            },
+            "unit": "bps*100"
+          }
+        },
+        {
+          "type": "valueRange",
+          "description": "TickSpacing",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "hardcoded",
+              "value": "16384"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "contractName": "CLFactory",
+      "functionName": "setOwner",
+      "impact": "no-impact"
+    },
+    {
       "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
       "contractName": "CLFactory",
       "functionName": "setSwapFeeManager",
@@ -2856,6 +4799,43 @@
               "value": "5000"
             },
             "unit": "bps"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+      "contractName": "CLFactory",
+      "functionName": "enableTickSpacing",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Fee for the tick spacing",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "hardcoded",
+              "value": "100000"
+            },
+            "unit": "bps*100"
+          }
+        },
+        {
+          "type": "valueRange",
+          "description": "TickSpacing",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "hardcoded",
+              "value": "16384"
+            }
           }
         }
       ]
@@ -2891,13 +4871,1214 @@
       "contractAddress": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
       "contractName": "SimpleEpochGovernor",
       "functionName": "executeNudge",
-      "impact": "no-impact"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Nudging only allowed once per epoch"
+        },
+        {
+          "type": "valueRange",
+          "description": "Change at maximum 1bps",
+          "valueRange": {
+            "max": {
+              "mode": "fieldRef",
+              "fieldPath": "$self.MAXIMUM_TAIL_RATE"
+            },
+            "unit": "bps"
+          }
+        },
+        {
+          "type": "other",
+          "description": "Max Change per nudge is 1 bps"
+        }
+      ]
     },
     {
       "contractAddress": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
       "contractName": "SimpleEpochGovernor",
       "functionName": "setResult",
       "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+      "contractName": "CLFactory",
+      "functionName": "setOwner",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+      "contractName": "CLFactory",
+      "functionName": "setSwapFeeManager",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+      "contractName": "CLFactory",
+      "functionName": "setUnstakedFeeManager",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+      "contractName": "CLFactory",
+      "functionName": "setSwapFeeModule",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+      "contractName": "CLFactory",
+      "functionName": "setUnstakedFeeModule",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+      "contractName": "CLFactory",
+      "functionName": "setDefaultUnstakedFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Unstaked Fee cannot exceed 5000 bps",
+          "valueRange": {
+            "max": {
+              "mode": "hardcoded",
+              "value": "5000"
+            },
+            "unit": "bps"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+      "contractName": "CLFactory",
+      "functionName": "enableTickSpacing",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Fee for the tick spacing",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "hardcoded",
+              "value": "100000"
+            },
+            "unit": "bps*100"
+          }
+        },
+        {
+          "type": "valueRange",
+          "description": "TickSpacing",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "hardcoded",
+              "value": "16384"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setEmissionAdmin",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setNotifyAdmin",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setEmissionCap",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-gauge emission cap is expressed in basis points and capped at 100% (10,000 bps = MAX_BPS).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "fieldName": "MAX_BPS"
+            },
+            "unit": "bps"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+            "fieldName": "MAX_BPS"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setRedistributor",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "not VE team",
+          "description": "The redistributor address cannot equal the current VotingEscrow team or the legacy gauge factory's notifyAdmin — those permissions must be transferred out first.",
+          "mitigatedField": {
+            "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+            "fieldName": "redistributor"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setDefaultCap",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The default emission cap must be non-zero and is capped at 100% (10,000 bps = MAX_BPS).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "1"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "fieldName": "MAX_BPS"
+            },
+            "unit": "bps"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+            "fieldName": "MAX_BPS"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setGaugeStakeManager",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setDefaultMinStakeTime",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The default minimum stake time before penalty-free unstake/claim is bounded at 1 week (MAX_MIN_STAKE_TIME).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "fieldName": "MAX_MIN_STAKE_TIME"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+            "fieldName": "MAX_MIN_STAKE_TIME"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setMinStakeTime",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool minimum stake time before penalty-free unstake/claim is bounded at 1 week (MAX_MIN_STAKE_TIME).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "fieldName": "MAX_MIN_STAKE_TIME"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+            "fieldName": "MAX_MIN_STAKE_TIME"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "contractName": "CLGaugeFactory",
+      "functionName": "setPenaltyRate",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The early-unstake penalty rate is capped at 100% (10,000 bps = MAX_BPS). A 100% rate would zero out rewards claimed before the minimum stake time elapses.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+              "fieldName": "MAX_BPS"
+            },
+            "unit": "bps"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+            "fieldName": "MAX_BPS"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
+      "contractName": "CustomUnstakedFeeModule",
+      "functionName": "setCustomFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool unstaked fee rate is capped at 50% (500,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
+              "fieldName": "MAX_FEE"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
+            "fieldName": "MAX_FEE"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setCustomFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MAX_BASE_FEE"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+            "fieldName": "MAX_BASE_FEE"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setDefaultScalingFactor",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MAX_SCALING_FACTOR"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+            "fieldName": "MAX_SCALING_FACTOR"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setDefaultFeeCap",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+            "fieldName": "MAX_FEE_CAP"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setScalingFactor",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MAX_SCALING_FACTOR"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+            "fieldName": "MAX_SCALING_FACTOR"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setFeeCap",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "1"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+            "fieldName": "MAX_FEE_CAP"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "resetDynamicFee",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setSecondsAgo",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
+          "valueRange": {
+            "min": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MIN_SECONDS_AGO"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MAX_SECONDS_AGO"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+            "fieldName": "MAX_SECONDS_AGO"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "registerDiscounted",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MAX_DISCOUNT"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+            "fieldName": "MAX_DISCOUNT"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "deregisterDiscounted",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "bulkUpdateFees",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MAX_BASE_FEE"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+            "fieldName": "MAX_BASE_FEE"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setInitialFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+            "fieldName": "MAX_FEE_CAP"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "disableInitialFee",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setCustomFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MAX_BASE_FEE"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+            "fieldName": "MAX_BASE_FEE"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setDefaultScalingFactor",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MAX_SCALING_FACTOR"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+            "fieldName": "MAX_SCALING_FACTOR"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setDefaultFeeCap",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+            "fieldName": "MAX_FEE_CAP"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setScalingFactor",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MAX_SCALING_FACTOR"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+            "fieldName": "MAX_SCALING_FACTOR"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setFeeCap",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "1"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+            "fieldName": "MAX_FEE_CAP"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "resetDynamicFee",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setSecondsAgo",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
+          "valueRange": {
+            "min": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MIN_SECONDS_AGO"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MAX_SECONDS_AGO"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+            "fieldName": "MAX_SECONDS_AGO"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "registerDiscounted",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MAX_DISCOUNT"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+            "fieldName": "MAX_DISCOUNT"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "deregisterDiscounted",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "bulkUpdateFees",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MAX_BASE_FEE"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+            "fieldName": "MAX_BASE_FEE"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setInitialFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+            "fieldName": "MAX_FEE_CAP"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "disableInitialFee",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setCustomFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MAX_BASE_FEE"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+            "fieldName": "MAX_BASE_FEE"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setDefaultScalingFactor",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MAX_SCALING_FACTOR"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+            "fieldName": "MAX_SCALING_FACTOR"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setDefaultFeeCap",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+            "fieldName": "MAX_FEE_CAP"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setScalingFactor",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MAX_SCALING_FACTOR"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+            "fieldName": "MAX_SCALING_FACTOR"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setFeeCap",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "1"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+            "fieldName": "MAX_FEE_CAP"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "resetDynamicFee",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setSecondsAgo",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
+          "valueRange": {
+            "min": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MIN_SECONDS_AGO"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MAX_SECONDS_AGO"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+            "fieldName": "MAX_SECONDS_AGO"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "registerDiscounted",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MAX_DISCOUNT"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+            "fieldName": "MAX_DISCOUNT"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "deregisterDiscounted",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "bulkUpdateFees",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MAX_BASE_FEE"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+            "fieldName": "MAX_BASE_FEE"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "setInitialFee",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "discovered",
+              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+              "fieldName": "MAX_FEE_CAP"
+            },
+            "unit": "raw"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+            "fieldName": "MAX_FEE_CAP"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+      "contractName": "DynamicSwapFeeModule",
+      "functionName": "disableInitialFee",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F",
+      "contractName": "NonfungiblePositionManager",
+      "functionName": "setTokenDescriptor",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F",
+      "contractName": "NonfungiblePositionManager",
+      "functionName": "setOwner",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53",
+      "contractName": "NonfungiblePositionManager",
+      "functionName": "setTokenDescriptor",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53",
+      "contractName": "NonfungiblePositionManager",
+      "functionName": "setOwner",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "renounceOwnership",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "transferOwnership",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "notifyRewardWithoutClaim",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "setUpkeepManager",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "setKeeper",
+      "impact": "critical"
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "setArtProxy",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "toggleSplit",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "transferPermissions",
+      "impact": "critical",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "Cannot set to zero address"
+        }
+      ]
     },
     {
       "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
@@ -2915,6 +6096,51 @@
       "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
       "contractName": "Voter",
       "functionName": "reviveGauge",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+      "contractName": "Minter",
+      "functionName": "setTeam",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+      "contractName": "Minter",
+      "functionName": "setTeamRate",
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "valueRange",
+          "description": "How many tokens are minted to the team (bps of weekly minted)",
+          "valueRange": {
+            "min": {
+              "mode": "hardcoded",
+              "value": "0"
+            },
+            "max": {
+              "mode": "fieldRef",
+              "fieldPath": "$self.MAXIMUM_TEAM_RATE"
+            },
+            "unit": "bps"
+          },
+          "mitigatedField": {
+            "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+            "fieldName": "MAXIMUM_TEAM_RATE"
+          }
+        }
+      ]
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "redistribute(address[])",
+      "impact": "no-impact"
+    },
+    {
+      "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
+      "contractName": "Redistributor",
+      "functionName": "redistribute(uint256,uint256)",
       "impact": "no-impact"
     }
   ],
@@ -3000,8 +6226,32 @@
       "proxyType": "immutable"
     },
     {
+      "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+      "name": "CLFactory",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
+      "name": "CLGauge",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
       "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
       "name": "CLGauge",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+      "name": "CLGaugeFactory",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -3017,6 +6267,14 @@
     },
     {
       "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
+      "name": "CLPool",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
       "name": "CLPool",
       "isExternal": false,
       "isGovernance": false,
@@ -3040,6 +6298,14 @@
       "proxyType": "immutable"
     },
     {
+      "address": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
+      "name": "CustomUnstakedFeeModule",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
       "address": "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35",
       "name": "CustomUnstakedFeeModule",
       "isExternal": false,
@@ -3048,7 +6314,23 @@
       "proxyType": "immutable"
     },
     {
-      "address": "base:0x00cB12a1c84dfC1b9c70734C0385E769Bc86e9Ef",
+      "address": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+      "name": "DynamicSwapFeeModule",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+      "name": "DynamicSwapFeeModule",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "immutable"
+    },
+    {
+      "address": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "name": "DynamicSwapFeeModule",
       "isExternal": false,
       "isGovernance": false,
@@ -3088,8 +6370,8 @@
       "proxyType": "immutable"
     },
     {
-      "address": "base:0xf632031B94D72deE0D99DeF846c9b6211041337f",
-      "name": "NonfungibleTokenPositionDescriptor",
+      "address": "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53",
+      "name": "NonfungiblePositionManager",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,
@@ -3120,7 +6402,7 @@
       "proxyType": "immutable"
     },
     {
-      "address": "base:0x11a53f31Bf406de59fCf9613E1922bd3E283A4B4",
+      "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
       "name": "Redistributor",
       "isExternal": false,
       "isGovernance": false,
@@ -3150,9 +6432,154 @@
       "isGovernance": false,
       "entity": null,
       "proxyType": "immutable"
+    },
+    {
+      "address": "base:0x7766Eb408B671BE8bc237639b20A0eC45e2750C7",
+      "name": "base:0x7766Eb408B671BE8bc237639b20A0eC45e2750C7",
+      "isExternal": false,
+      "isGovernance": false,
+      "entity": null,
+      "proxyType": "EOA"
     }
   ],
-  "resources": [],
+  "resources": [
+    {
+      "type": "website",
+      "url": "https://aerodrome.finance"
+    },
+    {
+      "type": "frontend",
+      "url": "https://aerodrome.finance",
+      "frontendSubtype": "official",
+      "label": "Aerodrome App"
+    },
+    {
+      "type": "docs",
+      "url": "https://aerodrome.finance/docs"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/aerodrome-finance"
+    },
+    {
+      "type": "x",
+      "url": "https://x.com/AerodromeFi"
+    },
+    {
+      "type": "license",
+      "url": "https://github.com/aerodrome-finance/contracts/blob/main/LICENSE",
+      "label": "BUSL-1.1",
+      "licenseScope": "Core Contracts"
+    },
+    {
+      "type": "license",
+      "url": "https://github.com/aerodrome-finance/slipstream/blob/main/LICENSE.md",
+      "label": "GPL-2.0-or-later",
+      "licenseScope": "Slipstream (Concentrated Liquidity)"
+    },
+    {
+      "type": "license",
+      "url": "https://github.com/aerodrome-finance/docs/blob/main/LICENSE",
+      "label": "LGPL-3.0",
+      "licenseScope": "Documentation"
+    },
+    {
+      "type": "defiscan-v1",
+      "url": "https://www.defiscan.info/protocols/aerodrome/base"
+    }
+  ],
+  "audits": [
+    {
+      "author": "ABDK Consulting",
+      "date": "2024",
+      "scope": "Slipstream concentrated liquidity",
+      "url": "https://github.com/aerodrome-finance/slipstream/blob/main/audits/abdk/audit.pdf"
+    },
+    {
+      "author": "Trail of Bits",
+      "date": "2024",
+      "scope": "Slipstream formal verification",
+      "url": "https://github.com/aerodrome-finance/slipstream/blob/main/audits/tob/audit.pdf"
+    },
+    {
+      "author": "Code4rena",
+      "date": "2022-05",
+      "scope": "Velodrome v1 (inherited)",
+      "url": "https://code4rena.com/audits/2022-05-velodrome-finance-contest"
+    },
+    {
+      "author": "Spearbit",
+      "date": "2023-07",
+      "scope": "Velodrome v2 & Relay v1 (inherited)",
+      "url": "https://github.com/spearbit/portfolio/raw/master/pdfs/Velodrome-Spearbit-Security-Review.pdf"
+    },
+    {
+      "author": "Spearbit",
+      "date": "2024-01",
+      "scope": "Slipstream (inherited)",
+      "url": "https://github.com/spearbit/portfolio/raw/master/pdfs/Velodrome-Spearbit-Security-Review-Nov23.pdf"
+    },
+    {
+      "author": "ChainSecurity",
+      "date": "2024-11",
+      "scope": "Superchain interoperability",
+      "url": "https://www.chainsecurity.com/security-audit/velodrome-superchain-interoperability"
+    },
+    {
+      "author": "ChainSecurity",
+      "date": "2024-11",
+      "scope": "Superchain diff",
+      "url": "https://www.chainsecurity.com/security-audit/superchain-diff"
+    },
+    {
+      "author": "ChainSecurity",
+      "date": "2024-11",
+      "scope": "Superchain Slipstream",
+      "url": "https://www.chainsecurity.com/security-audit/velodrome-superchain-slipstream"
+    },
+    {
+      "author": "Sherlock",
+      "date": "2024-11",
+      "scope": "Superchain release",
+      "url": "https://github.com/sherlock-protocol/sherlock-reports/raw/main/audits/2024.11.13%20-%20Final%20-%20Velodrome.pdf"
+    },
+    {
+      "author": "MixBytes",
+      "date": "2025-10",
+      "scope": "Pool Launcher",
+      "url": "https://github.com/mixbytes/audits_public/tree/master/Velodrome/Pool%20Launcher"
+    },
+    {
+      "author": "Immunefi",
+      "date": "2023",
+      "scope": "Bug Bounty Program",
+      "url": "https://immunefi.com/bounty/velodromefinance/",
+      "bounty": 100000
+    }
+  ],
+  "governance": {
+    "framework": "ve(3,3) vote-escrow + multisig (Velodrome V2 fork, OZ Governor-based SimpleEpochGovernor)",
+    "voteExecution": "onchain",
+    "votingUnit": "veAERO (AERO locked in VotingEscrow NFTs, up to 4 years)",
+    "proposalRequirements": "Protocol parameter changes: 3/7 Aerodrome Governor multisig. Emission direction: any veAERO holder votes weekly via Voter. Tail-rate nudge: one on-chain proposal per epoch in SimpleEpochGovernor (OZ Governor fork) once tail emissions are active.",
+    "votingProcess": "veAERO holders vote weekly per epoch on gauges/nudges; proposals created in epoch n execute in epoch n+1. Protocol changes via 3/7 multisig.",
+    "proposalPeriod": {
+      "kind": "fieldRef",
+      "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+      "fieldName": "WEEK",
+      "contractName": "Minter",
+      "resolved": true,
+      "seconds": 604800
+    },
+    "executionDelay": {
+      "kind": "fieldRef",
+      "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
+      "fieldName": "WEEK",
+      "contractName": "Minter",
+      "resolved": true,
+      "seconds": 604800
+    }
+  },
   "sections": {
     "codeAndAudits": {
       "title": "Code & Audits",

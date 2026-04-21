@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-03-24T07:53:30.856Z",
+  "lastModified": "2026-04-21T08:02:22.247Z",
   "contracts": {
     "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4": {
       "functions": [
@@ -2863,6 +2863,2068 @@
           "lastChangedBy": {
             "author": "yvesboutellier",
             "date": "2026-03-19T02:36:21.122Z"
+          }
+        }
+      ]
+    },
+    "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef": {
+      "functions": [
+        {
+          "functionName": "setOwner",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Changes the owner of the contract.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T07:40:44.061Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.061Z"
+          },
+          "completedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.061Z"
+          }
+        },
+        {
+          "functionName": "setSwapFeeManager",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "The new `swapFeeManager` can update the swapFeeModule.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T07:40:44.066Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.066Z"
+          },
+          "completedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.066Z"
+          }
+        },
+        {
+          "functionName": "setUnstakedFeeManager",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "unstakedFeeManager can set defaultUnstakedFee and unstakedFeeModule.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T07:40:44.070Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.070Z"
+          },
+          "completedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.070Z"
+          }
+        },
+        {
+          "functionName": "setSwapFeeModule",
+          "isPermissioned": true,
+          "checked": true,
+          "score": "no-impact",
+          "description": "Sets the fee module which is queried by pools. The getSwapFee function enforces the mitigation. It cannot be higher than 1000bps (10%).",
+          "ownerDefinitions": [
+            {
+              "path": "$self.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T07:40:44.074Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.074Z"
+          },
+          "completedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.074Z"
+          }
+        },
+        {
+          "functionName": "setUnstakedFeeModule",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.unstakedFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T07:40:44.078Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.078Z"
+          }
+        },
+        {
+          "functionName": "setDefaultUnstakedFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "description": "Sets the amount of the collected fees that are redistributed from unstaked to staked LPs (staked in Gauges).",
+          "ownerDefinitions": [
+            {
+              "path": "$self.unstakedFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Unstaked Fee cannot exceed 5000 bps",
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "5000"
+                },
+                "unit": "bps"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T07:40:44.083Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.083Z"
+          }
+        },
+        {
+          "functionName": "enableTickSpacing",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Allow new tick spacing.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Fee for the tick spacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "100000"
+                },
+                "unit": "bps*100"
+              }
+            },
+            {
+              "type": "valueRange",
+              "description": "TickSpacing",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "16384"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T07:40:44.086Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T07:40:44.086Z"
+          }
+        }
+      ]
+    },
+    "base:0x434BCcaB043311a20b16021C137EA81702790f7B": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "timestamp": "2026-04-21T08:02:21.767Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.767Z"
+          }
+        },
+        {
+          "functionName": "getReward(address)",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.784Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.784Z"
+          }
+        },
+        {
+          "functionName": "notifyRewardAmount",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.800Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.800Z"
+          }
+        },
+        {
+          "functionName": "notifyRewardWithoutClaim",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@gaugeFactory.notifyAdmin"
+            },
+            {
+              "path": "@gaugeFactory.redistributor"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.815Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.815Z"
+          }
+        }
+      ]
+    },
+    "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB": {
+      "functions": [
+        {
+          "functionName": "setEmissionAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.emissionAdmin"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.830Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.830Z"
+          }
+        },
+        {
+          "functionName": "setNotifyAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.notifyAdmin"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.845Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.845Z"
+          }
+        },
+        {
+          "functionName": "setNonfungiblePositionManager",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "timestamp": "2026-04-21T08:02:21.861Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.861Z"
+          }
+        },
+        {
+          "functionName": "setEmissionCap",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.emissionAdmin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-gauge emission cap is expressed in basis points and capped at 100% (10,000 bps = MAX_BPS).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_BPS"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.872Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.872Z"
+          }
+        },
+        {
+          "functionName": "setRedistributor",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.emissionAdmin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "not VE team",
+              "description": "The redistributor address cannot equal the current VotingEscrow team or the legacy gauge factory's notifyAdmin — those permissions must be transferred out first.",
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "redistributor"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.890Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.890Z"
+          }
+        },
+        {
+          "functionName": "setDefaultCap",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.emissionAdmin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default emission cap must be non-zero and is capped at 100% (10,000 bps = MAX_BPS).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_BPS"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.904Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.904Z"
+          }
+        },
+        {
+          "functionName": "createGauge",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.voter"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.918Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.918Z"
+          }
+        },
+        {
+          "functionName": "setGaugeStakeManager",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.gaugeStakeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.929Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.929Z"
+          }
+        },
+        {
+          "functionName": "setDefaultMinStakeTime",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.gaugeStakeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default minimum stake time before penalty-free unstake/claim is bounded at 1 week (MAX_MIN_STAKE_TIME).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_MIN_STAKE_TIME"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_MIN_STAKE_TIME"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.941Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.941Z"
+          }
+        },
+        {
+          "functionName": "setMinStakeTime",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.gaugeStakeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool minimum stake time before penalty-free unstake/claim is bounded at 1 week (MAX_MIN_STAKE_TIME).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_MIN_STAKE_TIME"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_MIN_STAKE_TIME"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.958Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.958Z"
+          }
+        },
+        {
+          "functionName": "setPenaltyRate",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.gaugeStakeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The early-unstake penalty rate is capped at 100% (10,000 bps = MAX_BPS). A 100% rate would zero out rewards claimed before the minimum stake time elapses.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                  "fieldName": "MAX_BPS"
+                },
+                "unit": "bps"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
+                "fieldName": "MAX_BPS"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.977Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.977Z"
+          }
+        }
+      ]
+    },
+    "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "timestamp": "2026-04-21T08:02:21.578Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.578Z"
+          }
+        },
+        {
+          "functionName": "collect(address,int24,int24,uint128,uint128,address)",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.nft"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.610Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.610Z"
+          }
+        },
+        {
+          "functionName": "burn(int24,int24,uint128,address)",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.nft"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.642Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.642Z"
+          }
+        },
+        {
+          "functionName": "stake",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.671Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.671Z"
+          }
+        },
+        {
+          "functionName": "updateRewardsGrowthGlobal",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.697Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.697Z"
+          }
+        },
+        {
+          "functionName": "syncReward",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.720Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.720Z"
+          }
+        },
+        {
+          "functionName": "collectFees",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.gauge"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.737Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.737Z"
+          }
+        },
+        {
+          "functionName": "setGaugeAndPositionManager",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "timestamp": "2026-04-21T08:02:21.752Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.752Z"
+          }
+        }
+      ]
+    },
+    "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b": {
+      "functions": [
+        {
+          "functionName": "setCustomFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.unstakedFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool unstaked fee rate is capped at 50% (500,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
+                  "fieldName": "MAX_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
+                "fieldName": "MAX_FEE"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.756Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.756Z"
+          }
+        }
+      ]
+    },
+    "base:0x090b2A6bb475c00e2256e2095A60887cD710803b": {
+      "functions": [
+        {
+          "functionName": "setCustomFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.780Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.780Z"
+          }
+        },
+        {
+          "functionName": "setDefaultScalingFactor",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.799Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.799Z"
+          }
+        },
+        {
+          "functionName": "setDefaultFeeCap",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.817Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.817Z"
+          }
+        },
+        {
+          "functionName": "setScalingFactor",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.833Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.833Z"
+          }
+        },
+        {
+          "functionName": "setFeeCap",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.862Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.862Z"
+          }
+        },
+        {
+          "functionName": "resetDynamicFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.888Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.888Z"
+          }
+        },
+        {
+          "functionName": "setSecondsAgo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
+              "valueRange": {
+                "min": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MIN_SECONDS_AGO"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_SECONDS_AGO"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_SECONDS_AGO"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.902Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.902Z"
+          }
+        },
+        {
+          "functionName": "registerDiscounted",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_DISCOUNT"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_DISCOUNT"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.921Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.921Z"
+          }
+        },
+        {
+          "functionName": "deregisterDiscounted",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.953Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.953Z"
+          }
+        },
+        {
+          "functionName": "bulkUpdateFees",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.969Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.969Z"
+          }
+        },
+        {
+          "functionName": "setInitialFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:20.986Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:20.986Z"
+          }
+        },
+        {
+          "functionName": "disableInitialFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.004Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.004Z"
+          }
+        }
+      ]
+    },
+    "base:0x87D8f999BBa9343E8099552426775B51C338E8CB": {
+      "functions": [
+        {
+          "functionName": "setCustomFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.021Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.021Z"
+          }
+        },
+        {
+          "functionName": "setDefaultScalingFactor",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.040Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.040Z"
+          }
+        },
+        {
+          "functionName": "setDefaultFeeCap",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.057Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.057Z"
+          }
+        },
+        {
+          "functionName": "setScalingFactor",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.074Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.074Z"
+          }
+        },
+        {
+          "functionName": "setFeeCap",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.091Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.091Z"
+          }
+        },
+        {
+          "functionName": "resetDynamicFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.107Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.107Z"
+          }
+        },
+        {
+          "functionName": "setSecondsAgo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
+              "valueRange": {
+                "min": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MIN_SECONDS_AGO"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_SECONDS_AGO"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_SECONDS_AGO"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.122Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.122Z"
+          }
+        },
+        {
+          "functionName": "registerDiscounted",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_DISCOUNT"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_DISCOUNT"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.138Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.138Z"
+          }
+        },
+        {
+          "functionName": "deregisterDiscounted",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.153Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.153Z"
+          }
+        },
+        {
+          "functionName": "bulkUpdateFees",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.169Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.169Z"
+          }
+        },
+        {
+          "functionName": "setInitialFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.185Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.185Z"
+          }
+        },
+        {
+          "functionName": "disableInitialFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.199Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.199Z"
+          }
+        }
+      ]
+    },
+    "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785": {
+      "functions": [
+        {
+          "functionName": "setCustomFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.212Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.212Z"
+          }
+        },
+        {
+          "functionName": "setDefaultScalingFactor",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.226Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.226Z"
+          }
+        },
+        {
+          "functionName": "setDefaultFeeCap",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.242Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.242Z"
+          }
+        },
+        {
+          "functionName": "setScalingFactor",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_SCALING_FACTOR"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_SCALING_FACTOR"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.254Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.254Z"
+          }
+        },
+        {
+          "functionName": "setFeeCap",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "1"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.267Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.267Z"
+          }
+        },
+        {
+          "functionName": "resetDynamicFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.280Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.280Z"
+          }
+        },
+        {
+          "functionName": "setSecondsAgo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
+              "valueRange": {
+                "min": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MIN_SECONDS_AGO"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_SECONDS_AGO"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_SECONDS_AGO"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.293Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.293Z"
+          }
+        },
+        {
+          "functionName": "registerDiscounted",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_DISCOUNT"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_DISCOUNT"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.309Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.309Z"
+          }
+        },
+        {
+          "functionName": "deregisterDiscounted",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.335Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.335Z"
+          }
+        },
+        {
+          "functionName": "bulkUpdateFees",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_BASE_FEE"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_BASE_FEE"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.367Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.367Z"
+          }
+        },
+        {
+          "functionName": "setInitialFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "valueRange",
+              "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
+              "valueRange": {
+                "min": {
+                  "mode": "hardcoded",
+                  "value": "0"
+                },
+                "max": {
+                  "mode": "discovered",
+                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                  "fieldName": "MAX_FEE_CAP"
+                },
+                "unit": "raw"
+              },
+              "mitigatedField": {
+                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
+                "fieldName": "MAX_FEE_CAP"
+              }
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.396Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.396Z"
+          }
+        },
+        {
+          "functionName": "disableInitialFee",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@factory.swapFeeManager"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.430Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.430Z"
+          }
+        }
+      ]
+    },
+    "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F": {
+      "functions": [
+        {
+          "functionName": "setTokenDescriptor",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.460Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.460Z"
+          }
+        },
+        {
+          "functionName": "setOwner",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.489Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.489Z"
+          }
+        }
+      ]
+    },
+    "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53": {
+      "functions": [
+        {
+          "functionName": "setTokenDescriptor",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.527Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.527Z"
+          }
+        },
+        {
+          "functionName": "setOwner",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:21.553Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:21.553Z"
+          }
+        }
+      ]
+    },
+    "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15": {
+      "functions": [
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.000Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.012Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.012Z"
+          }
+        },
+        {
+          "functionName": "deposit",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "timestamp": "2026-04-21T08:02:22.040Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.040Z"
+          }
+        },
+        {
+          "functionName": "redistribute(address[])",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.keeper"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.072Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.072Z"
+          }
+        },
+        {
+          "functionName": "redistribute(uint256,uint256)",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.keeper"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.105Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.105Z"
+          }
+        },
+        {
+          "functionName": "notifyRewardWithoutClaim",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.133Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.133Z"
+          }
+        },
+        {
+          "functionName": "setUpkeepManager",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.162Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.162Z"
+          }
+        },
+        {
+          "functionName": "setKeeper",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.195Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.195Z"
+          }
+        },
+        {
+          "functionName": "setArtProxy",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.216Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.216Z"
+          }
+        },
+        {
+          "functionName": "toggleSplit",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.230Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.230Z"
+          }
+        },
+        {
+          "functionName": "transferPermissions",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-04-21T08:02:22.247Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-21T08:02:22.247Z"
           }
         }
       ]
