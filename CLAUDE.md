@@ -120,6 +120,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - Review Compiler (`compiled-review.json` — thin assembly layer over ProjectAnalysis, template variable resolution, bulk compile-all endpoint, `adminTotals`/`dependencyTotals` for cross-entity deduplicated capital. `totals.coverage` / `totals.verifiedContractCount` are computed by `computeCoverage(discovery)` from `discovered.json.entries[].unverified` — non-EOA entries are verified when `unverified !== true`)
 - Impact Cap (`impactCap` on mitigations — structured field reference or hardcoded USD, `ImpactCapUnit` scaling, `effectiveCapUsd` on reachable contracts, "$X Max Impact" badge display)
 - Mitigations Display (badges in explorer tabs + report cards, key findings card, `deduplicateMitigations`)
+- Radar Scoring (`deriveRadarData()` in `packages/defiscan-frontend/src/utils/radar.ts` — 5-axis 0-100 scores driving the Report hero and Gallery radar charts; full per-axis tiers in the scoring-and-review doc)
 
 ### Infrastructure — `docs/developers/features/infrastructure.md`
 - DeFiScan Panel (contract analysis dashboard)
