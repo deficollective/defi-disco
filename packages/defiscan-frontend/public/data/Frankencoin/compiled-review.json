@@ -16,10 +16,10 @@
     "contractCount": 25,
     "permissionedFunctionCount": 73,
     "scoredFunctionCount": 18,
-    "adminCount": 19,
+    "adminCount": 4,
     "dependencyCount": 12,
-    "totalCapitalAtRisk": 85128844.98393717,
-    "totalTokenValueAtRisk": 35776636.3110119,
+    "totalCapitalAtRisk": 70227932.37765256,
+    "totalTokenValueAtRisk": 0,
     "totalTokenValue": 35776636.3110119,
     "linesOfCode": 1976,
     "verifiedContractCount": 25,
@@ -2148,8 +2148,8 @@
     }
   ],
   "adminTotals": {
-    "totalFundsAtRisk": 14900912.606284622,
-    "totalTokenValueAtRisk": 35776636.3110119
+    "totalFundsAtRisk": 0,
+    "totalTokenValueAtRisk": 0
   },
   "dependencies": [
     {
@@ -2414,7 +2414,7 @@
             },
             {
               "type": "other",
-              "description": "Per-chain inbound CCIP rate limit (enforced on-chain): the BurnMintTokenPool runs a token-bucket limiter BEFORE calling mint (_consumeInboundRateLimit in releaseOrMint). Max burst per chain ≈ 500k ZCHF on Base/Gnosis, 100–200k on others; refills LINEARLY at ~10k/hour (Base) or ~5k/hour (others). Aggregate burst ≈ 1.7M ZCHF. This cap holds even if the CCIP Committing DON and RMN are both compromised — they cannot bypass the pool's own rate limiter. Rate limits are admin-changeable by the pool owner (0x2527…Def8) or rateLimitAdmin; discovered.json tracks all 7 chain configs + getRateLimitAdmin at HIGH severity.",
+              "description": "Per-chain inbound CCIP rate limit (enforced on-chain): the BurnMintTokenPool runs a token-bucket limiter BEFORE calling mint (_consumeInboundRateLimit in releaseOrMint). Max burst per chain ≈ 500k ZCHF on Base/Gnosis, 100–200k on others; refills LINEARLY at ~10k/hour (Base) or ~5k/hour (others). Aggregate burst ≈ 1.7M ZCHF. This cap holds even if the CCIP Committing DON and RMN are both compromised — they cannot bypass the pool's own rate limiter. Rate limits are admin-changeable by the FPS governance.",
               "scopedTo": {
                 "address": "eth:0x9359cd75549DaE00Cdd8D22297BC9B13FbBe4B79",
                 "type": "admin"

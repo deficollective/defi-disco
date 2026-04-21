@@ -1,8 +1,8 @@
 {
-  "framework": "ve(3,3) vote-escrow + multisig (Velodrome V2 fork, OZ Governor-based SimpleEpochGovernor)",
+  "framework": "ve(3,3) vote-escrow",
   "voteExecution": "onchain",
-  "votingUnit": "veAERO (AERO locked in VotingEscrow NFTs, up to 4 years)",
-  "proposalRequirements": "Protocol parameter changes: 3/7 Aerodrome Governor multisig. Emission direction: any veAERO holder votes weekly via Voter. Tail-rate nudge: one on-chain proposal per epoch in SimpleEpochGovernor (OZ Governor fork) once tail emissions are active.",
+  "votingUnit": "veAERO",
+  "proposalRequirements": "weekly vote on gauge emissions",
   "votingProcess": "veAERO holders vote weekly per epoch on gauges/nudges; proposals created in epoch n execute in epoch n+1. Protocol changes via 3/7 multisig.",
   "proposalPeriod": {
     "kind": "fieldRef",

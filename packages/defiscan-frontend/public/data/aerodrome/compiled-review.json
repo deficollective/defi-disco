@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "publishedAt": "2026-04-21T08:04:11.678Z",
-  "updatedAt": "2026-04-21T08:04:11.678Z",
-  "compiledAt": "2026-04-16T08:54:06.000Z",
+  "publishedAt": "2026-04-21T14:43:43.021Z",
+  "lastModified": "2026-04-21T14:43:43.021Z",
+  "compiledAt": "2026-04-21T09:36:37.000Z",
   "project": "aerodrome",
   "metadata": {
     "protocolName": "Aerodrome Finance",
@@ -15,13 +15,15 @@
   "totals": {
     "contractCount": 36,
     "permissionedFunctionCount": 226,
-    "scoredFunctionCount": 174,
-    "adminCount": 10,
+    "scoredFunctionCount": 175,
+    "adminCount": 4,
     "dependencyCount": 0,
     "totalCapitalAtRisk": 307960533.9536741,
-    "totalTokenValueAtRisk": 570970485.7378225,
+    "totalTokenValueAtRisk": 0,
     "totalTokenValue": 570970485.7378225,
-    "linesOfCode": 15990
+    "linesOfCode": 15990,
+    "verifiedContractCount": 36,
+    "coverage": 100
   },
   "admins": [
     {
@@ -47,243 +49,21 @@
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "other",
-              "description": "Cannot set to zero address or to the current address"
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
           "contractName": "VotingEscrow",
           "functionName": "setManagedState",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
-              "name": "Voter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "emergencyCouncil",
-                "governor",
-                "initialize",
-                "notifyRewardAmount",
-                "isGauge",
-                "totalWeight",
-                "poolForGauge",
-                "weights"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-              "name": "PoolFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setVoter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "earned",
-                "getReward",
-                "initialize",
-                "token0",
-                "token1",
-                "tickSpacing",
-                "getReward(address)",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "token0",
-                "token1",
-                "tickSpacing",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setGaugeAndPositionManager",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x0000000000000000000000000000000000000000",
-              "name": "Unknown",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "lastUpdated",
-                "rewardGrowthGlobalX128",
-                "rewardReserve",
-                "stakedLiquidity",
-                "positions",
-                "getRewardGrowthInside",
-                "penaltyRate",
-                "minStakeTimes",
-                "updateRewardsGrowthGlobal",
-                "minter",
-                "calculateMaxEmissions",
-                "redistributor",
-                "collectFees",
-                "rollover",
-                "syncReward"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
-              "name": "FactoryRegistry",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "factoriesToPoolFactory"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-              "name": "Minter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "acceptTeam"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "collect(address,int24,int24,uint128,uint128,address)",
-                "burn(int24,int24,uint128,address)",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
-              "name": "RewardsDistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "checkpointToken",
-                "setMinter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-              "name": "Aerodrome Token",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setMinter",
-                "mint",
-                "balanceOf",
-                "allowance"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
-              "name": "Redistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "deposit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
               "type": "other",
-              "description": "Target must be a MANAGED type NFT"
-            },
-            {
-              "type": "other",
-              "description": "Cannot set to the same state (already active/inactive)"
+              "label": "future-only",
+              "description": "Does not touch already-committed funds: withdrawManaged() remains available, so users can always reclaim their locked AERO. The effect is limited to blocking new deposits into the deactivated managed NFT and preventing voting by users currently parked in it."
             }
           ]
         },
@@ -339,22 +119,23 @@
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "other",
-              "description": "Cannot set to zero address — revert ZeroAddress()"
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
           "contractName": "PoolFactory",
           "functionName": "setPauseState",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Pausing blocks only Pool.swap(); existing LPs can still burn() their liquidity positions at any time. Effect is limited to halting future swaps."
+            }
+          ]
         },
         {
           "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
@@ -363,13 +144,7 @@
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "other",
-              "description": "Cannot set to zero address — revert ZeroAddress()"
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
@@ -382,18 +157,7 @@
           "mitigations": [
             {
               "type": "valueRange",
-              "description": "Fee must be > 0 and <= MAX_FEE (300 = 3%)",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "1"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-                  "fieldName": "MAX_FEE"
-                }
-              }
+              "description": "Default stable/volatile swap fee capped at MAX_FEE (3%) and must be > 0. Caller cannot tax swaps above 3%."
             }
           ]
         },
@@ -408,18 +172,7 @@
           "mitigations": [
             {
               "type": "valueRange",
-              "description": "Fee must be <= MAX_FEE (300 = 3%) or ZERO_FEE_INDICATOR (420)",
-              "valueRange": {
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-                  "fieldName": "MAX_FEE"
-                }
-              }
-            },
-            {
-              "type": "other",
-              "description": "Pool must be a valid factory pool — revert InvalidPool()"
+              "description": "Per-pool base swap fee capped at MAX_FEE (3%). 420 = sentinel for explicit 0%. Caller cannot tax swaps above 3%."
             }
           ]
         },
@@ -430,17 +183,7 @@
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "other",
-              "description": "Cannot approve a poolFactory that is already approved"
-            },
-            {
-              "type": "other",
-              "description": "Re-approval must use the same gauge and votingRewards factories originally set"
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
@@ -449,13 +192,7 @@
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "other",
-              "description": "Cannot unapprove the fallback (core) pool factory"
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
@@ -464,13 +201,7 @@
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "other",
-              "description": "Cannot set to zero address or to the current address"
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
@@ -488,13 +219,7 @@
           "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "other",
-              "description": "Cannot transfer ownership to the zero address"
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35",
@@ -529,18 +254,7 @@
           "mitigations": [
             {
               "type": "valueRange",
-              "description": "Fee must be <= MAX_FEE (500000 = 50%) or ZERO_FEE_INDICATOR (420)",
-              "valueRange": {
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68",
-                  "fieldName": "MAX_FEE"
-                }
-              }
-            },
-            {
-              "type": "other",
-              "description": "Pool must be a valid factory pool — require(factory.isPool(pool))"
+              "description": "Per-pool unstaked-fee redirect capped at MAX_FEE (500000 / 1000000 = 50%). 420 = sentinel for explicit 0%. Caller cannot redirect more than 50% of newly-accrued swap fees from unstaked to staked LPs."
             }
           ]
         },
@@ -665,30 +379,35 @@
           "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
           "contractName": "CLFactory",
           "functionName": "setUnstakedFeeModule",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
-          "contractName": "CLFactory",
-          "functionName": "setDefaultUnstakedFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Swaps in the module used to split newly-accrued swap fees. Existing LP principal and already-collected fees are unaffected."
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
+          "contractName": "CLFactory",
+          "functionName": "setDefaultUnstakedFee",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only the split of future swap fees between unstaked LPs and gauges (staked LPs). Existing LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "Unstaked Fee cannot exceed 5000 bps",
-              "valueRange": {
-                "max": {
-                  "mode": "hardcoded",
-                  "value": "5000"
-                },
-                "unit": "bps"
-              }
+              "description": "Unstaked-fee share capped at 50% (500000 bps). Caller cannot redirect more than half of future swap fees."
             }
           ]
         },
@@ -703,32 +422,7 @@
           "mitigations": [
             {
               "type": "valueRange",
-              "description": "Fee for the tick spacing",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "hardcoded",
-                  "value": "100000"
-                },
-                "unit": "bps*100"
-              }
-            },
-            {
-              "type": "valueRange",
-              "description": "TickSpacing",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "hardcoded",
-                  "value": "16384"
-                }
-              }
+              "description": "Default fee for the new tick spacing must be > 0 and capped at 10% (100000 / 1000000). Only applies to future pools created with this tick spacing."
             }
           ]
         },
@@ -772,30 +466,35 @@
           "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
           "contractName": "CLFactory",
           "functionName": "setUnstakedFeeModule",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
-          "contractName": "CLFactory",
-          "functionName": "setDefaultUnstakedFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Swaps in the module used to split newly-accrued swap fees. Existing LP principal and already-collected fees are unaffected."
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
+          "contractName": "CLFactory",
+          "functionName": "setDefaultUnstakedFee",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only the split of future swap fees between unstaked LPs and gauges (staked LPs). Existing LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "Unstaked Fee cannot exceed 5000 bps",
-              "valueRange": {
-                "max": {
-                  "mode": "hardcoded",
-                  "value": "5000"
-                },
-                "unit": "bps"
-              }
+              "description": "Unstaked-fee share capped at 50% (500000 bps). Caller cannot redirect more than half of future swap fees."
             }
           ]
         },
@@ -810,32 +509,7 @@
           "mitigations": [
             {
               "type": "valueRange",
-              "description": "Fee for the tick spacing",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "hardcoded",
-                  "value": "100000"
-                },
-                "unit": "bps*100"
-              }
-            },
-            {
-              "type": "valueRange",
-              "description": "TickSpacing",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "hardcoded",
-                  "value": "16384"
-                }
-              }
+              "description": "Default fee for the new tick spacing must be > 0 and capped at 10% (100000 / 1000000). Only applies to future pools created with this tick spacing."
             }
           ]
         },
@@ -850,22 +524,7 @@
           "mitigations": [
             {
               "type": "valueRange",
-              "description": "Prevents too high swap fees",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "fieldRef",
-                  "fieldPath": "$self.MAX_FEE"
-                },
-                "unit": "bps*100"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00",
-                "fieldName": "MAX_FEE"
-              }
+              "description": "Per-pool custom swap fee capped at factory MAX_FEE. Caller cannot tax swaps above this cap."
             }
           ]
         },
@@ -879,23 +538,12 @@
           "reachableContracts": [],
           "mitigations": [
             {
-              "type": "other",
-              "description": "Nudging only allowed once per epoch"
-            },
-            {
-              "type": "valueRange",
-              "description": "Change at maximum 1bps",
-              "valueRange": {
-                "max": {
-                  "mode": "fieldRef",
-                  "fieldPath": "$self.MAXIMUM_TAIL_RATE"
-                },
-                "unit": "bps"
-              }
+              "type": "relativeValue",
+              "description": "Tail emission rate can change by at most 1 bps per call."
             },
             {
               "type": "other",
-              "description": "Max Change per nudge is 1 bps"
+              "description": "Rate limited to once per epoch (1 week)."
             }
           ]
         },
@@ -903,240 +551,15 @@
           "contractAddress": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
           "contractName": "SimpleEpochGovernor",
           "functionName": "setResult",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
-              "name": "Voter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "governor",
-                "epochGovernor",
-                "initialize",
-                "notifyRewardAmount",
-                "isGauge",
-                "totalWeight",
-                "poolForGauge",
-                "weights"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-              "name": "Minter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "nudge",
-                "acceptTeam"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
-              "name": "VotingEscrow",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "depositManaged",
-                "withdrawManaged",
-                "setVoterAndDistributor",
-                "voting",
-                "depositFor",
-                "setTeam",
-                "setArtProxy",
-                "toggleSplit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-              "name": "PoolFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setVoter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
-              "name": "RewardsDistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "checkpointToken",
-                "setMinter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-              "name": "Aerodrome Token",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setMinter",
-                "mint",
-                "balanceOf",
-                "allowance"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "earned",
-                "getReward",
-                "initialize",
-                "token0",
-                "token1",
-                "tickSpacing",
-                "getReward(address)",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "token0",
-                "token1",
-                "tickSpacing",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setGaugeAndPositionManager",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x0000000000000000000000000000000000000000",
-              "name": "Unknown",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "lastUpdated",
-                "rewardGrowthGlobalX128",
-                "rewardReserve",
-                "stakedLiquidity",
-                "positions",
-                "getRewardGrowthInside",
-                "penaltyRate",
-                "minStakeTimes",
-                "updateRewardsGrowthGlobal",
-                "minter",
-                "calculateMaxEmissions",
-                "redistributor",
-                "collectFees",
-                "rollover",
-                "syncReward"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
-              "name": "FactoryRegistry",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "factoriesToPoolFactory"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "collect(address,int24,int24,uint128,uint128,address)",
-                "burn(int24,int24,uint128,address)",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
-              "name": "Redistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "deposit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "type": "other",
+              "label": "future-only",
+              "description": "Does not touch already-minted AERO. Affects only the next epoch's tail emission rate via Minter.nudge(), capped at ±1 bps per epoch and bounded by MINIMUM_TAIL_RATE / MAXIMUM_TAIL_RATE on Minter."
             }
           ]
         },
@@ -1180,30 +603,35 @@
           "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
           "contractName": "CLFactory",
           "functionName": "setUnstakedFeeModule",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
-          "contractName": "CLFactory",
-          "functionName": "setDefaultUnstakedFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Swaps in the module used to split newly-accrued swap fees. Existing LP principal and already-collected fees are unaffected."
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
+          "contractName": "CLFactory",
+          "functionName": "setDefaultUnstakedFee",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only the split of future swap fees between unstaked LPs and gauges (staked LPs). Existing LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "Unstaked Fee cannot exceed 5000 bps",
-              "valueRange": {
-                "max": {
-                  "mode": "hardcoded",
-                  "value": "5000"
-                },
-                "unit": "bps"
-              }
+              "description": "Unstaked-fee share capped at 50% (500000 bps). Caller cannot redirect more than half of future swap fees."
             }
           ]
         },
@@ -1218,32 +646,7 @@
           "mitigations": [
             {
               "type": "valueRange",
-              "description": "Fee for the tick spacing",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "hardcoded",
-                  "value": "100000"
-                },
-                "unit": "bps*100"
-              }
-            },
-            {
-              "type": "valueRange",
-              "description": "TickSpacing",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "hardcoded",
-                  "value": "16384"
-                }
-              }
+              "description": "Default fee for the new tick spacing must be > 0 and capped at 10% (100000 / 1000000). Only applies to future pools created with this tick spacing."
             }
           ]
         },
@@ -1300,246 +703,20 @@
           "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
           "contractName": "CLGaugeFactory",
           "functionName": "setRedistributor",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
-              "name": "Voter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "ve",
-                "initialize",
-                "notifyRewardAmount",
-                "isGauge",
-                "totalWeight",
-                "poolForGauge",
-                "weights"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-              "name": "Minter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "team",
-                "acceptTeam"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xD30677bd8dd15132F251Cb54CbDA552d2A05Fb08",
-              "name": "Unknown",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "notifyAdmin"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
-              "name": "VotingEscrow",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "depositManaged",
-                "withdrawManaged",
-                "setVoterAndDistributor",
-                "voting",
-                "depositFor",
-                "setTeam",
-                "setArtProxy",
-                "toggleSplit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-              "name": "PoolFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setVoter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
-              "name": "RewardsDistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "checkpointToken",
-                "setMinter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-              "name": "Aerodrome Token",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setMinter",
-                "mint",
-                "balanceOf",
-                "allowance"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "earned",
-                "getReward",
-                "initialize",
-                "token0",
-                "token1",
-                "tickSpacing",
-                "getReward(address)",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "token0",
-                "token1",
-                "tickSpacing",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setGaugeAndPositionManager",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x0000000000000000000000000000000000000000",
-              "name": "Unknown",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "lastUpdated",
-                "rewardGrowthGlobalX128",
-                "rewardReserve",
-                "stakedLiquidity",
-                "positions",
-                "getRewardGrowthInside",
-                "penaltyRate",
-                "minStakeTimes",
-                "updateRewardsGrowthGlobal",
-                "minter",
-                "calculateMaxEmissions",
-                "redistributor",
-                "collectFees",
-                "rollover",
-                "syncReward"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
-              "name": "FactoryRegistry",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "factoriesToPoolFactory"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "collect(address,int24,int24,uint128,uint128,address)",
-                "burn(int24,int24,uint128,address)",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
-              "name": "Redistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "deposit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
               "type": "other",
+              "label": "future-only",
+              "description": "Only routes future over-cap emission excess from CLGauges; cannot touch already-committed AERO in gauges, VotingEscrow, or user wallets. The redistributor's notifyRewardWithoutClaim access pulls tokens from the caller and can only add rewards, not drain them."
+            },
+            {
+              "type": "other",
               "label": "not VE team",
-              "description": "The redistributor address cannot equal the current VotingEscrow team or the legacy gauge factory's notifyAdmin — those permissions must be transferred out first.",
+              "description": "The redistributor cannot equal the current VotingEscrow team or the legacy gauge factory's notifyAdmin — those permissions must be transferred out first.",
               "mitigatedField": {
                 "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
                 "fieldName": "redistributor"
@@ -1684,43 +861,19 @@
           "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
           "contractName": "CustomUnstakedFeeModule",
           "functionName": "setCustomFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "unstakedFeeManager",
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Only affects how newly-accrued swap fees are split between unstaked LPs and gauges (staked LPs). Existing LP principal and already-collected fees are not touched."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool unstaked fee rate is capped at 50% (500,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
-                  "fieldName": "MAX_FEE"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
-                "fieldName": "MAX_FEE"
-              }
+              "description": "Per-pool unstaked-fee share capped at 50% (500000 / 1000000). Caller cannot redirect more than half of future swap fees."
             }
           ]
         },
@@ -1728,42 +881,19 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setCustomFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MAX_BASE_FEE"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                "fieldName": "MAX_BASE_FEE"
-              }
+              "description": "Per-pool base fee capped at 3% (30000 / 1000000). 420 = sentinel for explicit 0%."
             }
           ]
         },
@@ -1771,30 +901,19 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setDefaultScalingFactor",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MAX_SCALING_FACTOR"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                "fieldName": "MAX_SCALING_FACTOR"
-              }
+              "description": "Default scaling factor K (dynamic-fee sensitivity to volatility) capped at 1e18."
             }
           ]
         },
@@ -1802,30 +921,19 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setDefaultFeeCap",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                "fieldName": "MAX_FEE_CAP"
-              }
+              "description": "Default fee cap itself capped at 5% (50000 / 1000000)."
             }
           ]
         },
@@ -1833,42 +941,19 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setScalingFactor",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MAX_SCALING_FACTOR"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                "fieldName": "MAX_SCALING_FACTOR"
-              }
+              "description": "Per-pool scaling factor K capped at 1e18. A fee cap must be set first."
             }
           ]
         },
@@ -1876,42 +961,19 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setFeeCap",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "1"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                "fieldName": "MAX_FEE_CAP"
-              }
+              "description": "Per-pool maximum total fee cap must be non-zero and capped at 5% (50000 / 1000000)."
             }
           ]
         },
@@ -1919,20 +981,15 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "resetDynamicFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
             }
           ]
         },
@@ -1940,31 +997,19 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setSecondsAgo",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
-              "valueRange": {
-                "min": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MIN_SECONDS_AGO"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MAX_SECONDS_AGO"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                "fieldName": "MAX_SECONDS_AGO"
-              }
+              "description": "TWAP window bounded between 2 seconds and 131068 seconds (~36.4 hours)."
             }
           ]
         },
@@ -1972,30 +1017,19 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "registerDiscounted",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MAX_DISCOUNT"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                "fieldName": "MAX_DISCOUNT"
-              }
+              "description": "Per-address fee discount capped at 50% (500000 / 1000000)."
             }
           ]
         },
@@ -2003,51 +1037,35 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "deregisterDiscounted",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            }
+          ]
         },
         {
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "bulkUpdateFees",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MAX_BASE_FEE"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                "fieldName": "MAX_BASE_FEE"
-              }
+              "description": "Every fee in the bulk update capped at 3% (30000 / 1000000), matching setCustomFee."
             }
           ]
         },
@@ -2055,42 +1073,19 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setInitialFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-                "fieldName": "MAX_FEE_CAP"
-              }
+              "description": "Per-pool initial fee (used before the first swap observation each block) capped at 5% (50000 / 1000000)."
             }
           ]
         },
@@ -2098,20 +1093,15 @@
           "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "disableInitialFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
             }
           ]
         },
@@ -2119,42 +1109,19 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setCustomFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MAX_BASE_FEE"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                "fieldName": "MAX_BASE_FEE"
-              }
+              "description": "Per-pool base fee capped at 3% (30000 / 1000000). 420 = sentinel for explicit 0%."
             }
           ]
         },
@@ -2162,30 +1129,19 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setDefaultScalingFactor",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MAX_SCALING_FACTOR"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                "fieldName": "MAX_SCALING_FACTOR"
-              }
+              "description": "Default scaling factor K (dynamic-fee sensitivity to volatility) capped at 1e18."
             }
           ]
         },
@@ -2193,30 +1149,19 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setDefaultFeeCap",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                "fieldName": "MAX_FEE_CAP"
-              }
+              "description": "Default fee cap itself capped at 5% (50000 / 1000000)."
             }
           ]
         },
@@ -2224,42 +1169,19 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setScalingFactor",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MAX_SCALING_FACTOR"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                "fieldName": "MAX_SCALING_FACTOR"
-              }
+              "description": "Per-pool scaling factor K capped at 1e18. A fee cap must be set first."
             }
           ]
         },
@@ -2267,42 +1189,19 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setFeeCap",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "1"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                "fieldName": "MAX_FEE_CAP"
-              }
+              "description": "Per-pool maximum total fee cap must be non-zero and capped at 5% (50000 / 1000000)."
             }
           ]
         },
@@ -2310,20 +1209,15 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "resetDynamicFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
             }
           ]
         },
@@ -2331,31 +1225,19 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setSecondsAgo",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
-              "valueRange": {
-                "min": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MIN_SECONDS_AGO"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MAX_SECONDS_AGO"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                "fieldName": "MAX_SECONDS_AGO"
-              }
+              "description": "TWAP window bounded between 2 seconds and 131068 seconds (~36.4 hours)."
             }
           ]
         },
@@ -2363,30 +1245,19 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "registerDiscounted",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MAX_DISCOUNT"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                "fieldName": "MAX_DISCOUNT"
-              }
+              "description": "Per-address fee discount capped at 50% (500000 / 1000000)."
             }
           ]
         },
@@ -2394,51 +1265,35 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "deregisterDiscounted",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            }
+          ]
         },
         {
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "bulkUpdateFees",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MAX_BASE_FEE"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                "fieldName": "MAX_BASE_FEE"
-              }
+              "description": "Every fee in the bulk update capped at 3% (30000 / 1000000), matching setCustomFee."
             }
           ]
         },
@@ -2446,42 +1301,19 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setInitialFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-                "fieldName": "MAX_FEE_CAP"
-              }
+              "description": "Per-pool initial fee (used before the first swap observation each block) capped at 5% (50000 / 1000000)."
             }
           ]
         },
@@ -2489,20 +1321,15 @@
           "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "disableInitialFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
             }
           ]
         },
@@ -2510,42 +1337,19 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setCustomFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MAX_BASE_FEE"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                "fieldName": "MAX_BASE_FEE"
-              }
+              "description": "Per-pool base fee capped at 3% (30000 / 1000000). 420 = sentinel for explicit 0%."
             }
           ]
         },
@@ -2553,30 +1357,19 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setDefaultScalingFactor",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MAX_SCALING_FACTOR"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                "fieldName": "MAX_SCALING_FACTOR"
-              }
+              "description": "Default scaling factor K (dynamic-fee sensitivity to volatility) capped at 1e18."
             }
           ]
         },
@@ -2584,30 +1377,19 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setDefaultFeeCap",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                "fieldName": "MAX_FEE_CAP"
-              }
+              "description": "Default fee cap itself capped at 5% (50000 / 1000000)."
             }
           ]
         },
@@ -2615,42 +1397,19 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setScalingFactor",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MAX_SCALING_FACTOR"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                "fieldName": "MAX_SCALING_FACTOR"
-              }
+              "description": "Per-pool scaling factor K capped at 1e18. A fee cap must be set first."
             }
           ]
         },
@@ -2658,42 +1417,19 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setFeeCap",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "1"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                "fieldName": "MAX_FEE_CAP"
-              }
+              "description": "Per-pool maximum total fee cap must be non-zero and capped at 5% (50000 / 1000000)."
             }
           ]
         },
@@ -2701,20 +1437,15 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "resetDynamicFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
             }
           ]
         },
@@ -2722,31 +1453,19 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setSecondsAgo",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
-              "valueRange": {
-                "min": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MIN_SECONDS_AGO"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MAX_SECONDS_AGO"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                "fieldName": "MAX_SECONDS_AGO"
-              }
+              "description": "TWAP window bounded between 2 seconds and 131068 seconds (~36.4 hours)."
             }
           ]
         },
@@ -2754,30 +1473,19 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "registerDiscounted",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MAX_DISCOUNT"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                "fieldName": "MAX_DISCOUNT"
-              }
+              "description": "Per-address fee discount capped at 50% (500000 / 1000000)."
             }
           ]
         },
@@ -2785,51 +1493,35 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "deregisterDiscounted",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            }
+          ]
         },
         {
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "bulkUpdateFees",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MAX_BASE_FEE"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                "fieldName": "MAX_BASE_FEE"
-              }
+              "description": "Every fee in the bulk update capped at 3% (30000 / 1000000), matching setCustomFee."
             }
           ]
         },
@@ -2837,42 +1529,19 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "setInitialFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+            },
+            {
               "type": "valueRange",
-              "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "discovered",
-                  "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                  "fieldName": "MAX_FEE_CAP"
-                },
-                "unit": "raw"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-                "fieldName": "MAX_FEE_CAP"
-              }
+              "description": "Per-pool initial fee (used before the first swap observation each block) capped at 5% (50000 / 1000000)."
             }
           ]
         },
@@ -2880,20 +1549,15 @@
           "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
           "contractName": "DynamicSwapFeeModule",
           "functionName": "disableInitialFee",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
-              "name": "CLFactory",
-              "viewOnlyPath": true,
-              "calledFunctions": [
-                "isPool"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
+              "type": "other",
+              "label": "future-only",
+              "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
             }
           ]
         },
@@ -2910,10 +1574,16 @@
           "contractAddress": "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F",
           "contractName": "NonfungiblePositionManager",
           "functionName": "setOwner",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "NPM owner controls only setTokenDescriptor (NFT metadata URI). No access to position funds, fees, or transfers. LP principal is never at risk."
+            }
+          ]
         },
         {
           "contractAddress": "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53",
@@ -2928,10 +1598,16 @@
           "contractAddress": "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53",
           "contractName": "NonfungiblePositionManager",
           "functionName": "setOwner",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": []
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "NPM owner controls only setTokenDescriptor (NFT metadata URI). No access to position funds, fees, or transfers. LP principal is never at risk."
+            }
+          ]
         },
         {
           "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
@@ -3085,19 +1761,13 @@
               "tokenValueUsd": 0,
               "fundsAtRisk": true
             }
-          ],
-          "mitigations": [
-            {
-              "type": "other",
-              "description": "Cannot set to zero address"
-            }
           ]
         }
       ],
       "totalDirectCapital": 0,
       "totalDirectTokenValue": 0,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 570970485.7378225
+      "totalReachableTokenValue": 0
     },
     {
       "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
@@ -3186,231 +1856,15 @@
           "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
           "contractName": "VotingEscrow",
           "functionName": "setManagedState",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
-            {
-              "address": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
-              "name": "Voter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "emergencyCouncil",
-                "governor",
-                "initialize",
-                "notifyRewardAmount",
-                "isGauge",
-                "totalWeight",
-                "poolForGauge",
-                "weights"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-              "name": "PoolFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setVoter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "earned",
-                "getReward",
-                "initialize",
-                "token0",
-                "token1",
-                "tickSpacing",
-                "getReward(address)",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "token0",
-                "token1",
-                "tickSpacing",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setGaugeAndPositionManager",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x0000000000000000000000000000000000000000",
-              "name": "Unknown",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "lastUpdated",
-                "rewardGrowthGlobalX128",
-                "rewardReserve",
-                "stakedLiquidity",
-                "positions",
-                "getRewardGrowthInside",
-                "penaltyRate",
-                "minStakeTimes",
-                "updateRewardsGrowthGlobal",
-                "minter",
-                "calculateMaxEmissions",
-                "redistributor",
-                "collectFees",
-                "rollover",
-                "syncReward"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
-              "name": "FactoryRegistry",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "factoriesToPoolFactory"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-              "name": "Minter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "acceptTeam"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "collect(address,int24,int24,uint128,uint128,address)",
-                "burn(int24,int24,uint128,address)",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
-              "name": "RewardsDistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "checkpointToken",
-                "setMinter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-              "name": "Aerodrome Token",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setMinter",
-                "mint",
-                "balanceOf",
-                "allowance"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
-              "name": "Redistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "deposit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            }
-          ],
+          "reachableContracts": [],
           "mitigations": [
             {
               "type": "other",
-              "description": "Target must be a MANAGED type NFT"
-            },
-            {
-              "type": "other",
-              "description": "Cannot set to the same state (already active/inactive)"
+              "label": "future-only",
+              "description": "Does not touch already-committed funds: withdrawManaged() remains available, so users can always reclaim their locked AERO. The effect is limited to blocking new deposits into the deactivated managed NFT and preventing voting by users currently parked in it."
             }
           ]
         },
@@ -3427,221 +1881,15 @@
           "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
           "contractName": "Voter",
           "functionName": "killGauge",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [
+          "reachableContracts": [],
+          "mitigations": [
             {
-              "address": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
-              "name": "VotingEscrow",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "depositManaged",
-                "withdrawManaged",
-                "setVoterAndDistributor",
-                "voting",
-                "depositFor",
-                "setTeam",
-                "setArtProxy",
-                "toggleSplit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-              "name": "PoolFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setVoter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xB630227a79707D517320b6c0f885806389dFcbB3",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
-              "name": "CLGaugeFactory",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "createGauge"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x434BCcaB043311a20b16021C137EA81702790f7B",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "earned",
-                "getReward",
-                "initialize",
-                "token0",
-                "token1",
-                "tickSpacing",
-                "getReward(address)",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xC0d2086B6f70C0C40423626167096c6196cFA0c8",
-              "name": "CLGauge",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "token0",
-                "token1",
-                "tickSpacing",
-                "notifyRewardAmount"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x942e97a4c6FdC38B4CD1c0298D37d81fDD8E5A16",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setGaugeAndPositionManager",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x0000000000000000000000000000000000000000",
-              "name": "Unknown",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "lastUpdated",
-                "rewardGrowthGlobalX128",
-                "rewardReserve",
-                "stakedLiquidity",
-                "positions",
-                "getRewardGrowthInside",
-                "penaltyRate",
-                "minStakeTimes",
-                "updateRewardsGrowthGlobal",
-                "minter",
-                "calculateMaxEmissions",
-                "redistributor",
-                "collectFees",
-                "rollover",
-                "syncReward"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
-              "name": "FactoryRegistry",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "factoriesToPoolFactory"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-              "name": "Minter",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "acceptTeam"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
-              "name": "CLPool",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "collect(address,int24,int24,uint128,uint128,address)",
-                "burn(int24,int24,uint128,address)",
-                "stake",
-                "updateRewardsGrowthGlobal",
-                "syncReward",
-                "collectFees"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
-            },
-            {
-              "address": "base:0x227f65131A261548b057215bB1D5Ab2997964C7d",
-              "name": "RewardsDistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "checkpointToken",
-                "setMinter"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-              "name": "Aerodrome Token",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "setMinter",
-                "mint",
-                "balanceOf",
-                "allowance"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 570970485.7378225,
-              "fundsAtRisk": true
-            },
-            {
-              "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
-              "name": "Redistributor",
-              "viewOnlyPath": false,
-              "calledFunctions": [
-                "deposit"
-              ],
-              "fundsUsd": 0,
-              "tokenValueUsd": 0,
-              "fundsAtRisk": false
+              "type": "other",
+              "label": "future-only",
+              "description": "Users can always withdraw their LP NFTs from a killed gauge (withdraw() has no isAlive check) and claim rewards already accrued on the pool side. Only blocks new deposits and returns unclaimed voter-side emissions for the current epoch back to the minter (which re-enter next week's weekly). No LP principal is at risk."
             }
           ]
         },
@@ -3658,7 +1906,7 @@
       "totalDirectCapital": 0,
       "totalDirectTokenValue": 0,
       "totalReachableCapital": 0,
-      "totalReachableTokenValue": 570970485.7378225
+      "totalReachableTokenValue": 0
     },
     {
       "address": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
@@ -3674,13 +1922,7 @@
           "impact": "critical",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
-          "reachableContracts": [],
-          "mitigations": [
-            {
-              "type": "other",
-              "description": "Cannot set to zero address"
-            }
-          ]
+          "reachableContracts": []
         },
         {
           "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
@@ -3767,7 +2009,8 @@
               "viewOnlyPath": false,
               "calledFunctions": [
                 "balanceOf",
-                "allowance",
+                "transferFrom",
+                "approve",
                 "setMinter",
                 "mint"
               ],
@@ -3948,7 +2191,7 @@
               ],
               "fundsUsd": 0,
               "tokenValueUsd": 0,
-              "fundsAtRisk": true
+              "fundsAtRisk": false
             },
             {
               "address": "base:0xc770898522D2A9c8Da7A10D63989b6b58305B665",
@@ -4039,22 +2282,7 @@
           "mitigations": [
             {
               "type": "valueRange",
-              "description": "How many tokens are minted to the team (bps of weekly minted)",
-              "valueRange": {
-                "min": {
-                  "mode": "hardcoded",
-                  "value": "0"
-                },
-                "max": {
-                  "mode": "fieldRef",
-                  "fieldPath": "$self.MAXIMUM_TEAM_RATE"
-                },
-                "unit": "bps"
-              },
-              "mitigatedField": {
-                "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-                "fieldName": "MAXIMUM_TEAM_RATE"
-              }
+              "description": "Team emission rate capped at MAXIMUM_TEAM_RATE (500 bps = 5% of weekly emissions). Caller cannot redirect more than 5% of weekly mint to the team."
             }
           ]
         }
@@ -4084,41 +2312,59 @@
           "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
           "contractName": "CLPool",
           "functionName": "stake",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
-          "contractName": "CLPool",
-          "functionName": "updateRewardsGrowthGlobal",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
-          "contractName": "CLPool",
-          "functionName": "syncReward",
-          "impact": "critical",
-          "directFundsUsd": 0,
-          "directTokenValueUsd": 0,
-          "reachableContracts": []
-        },
-        {
-          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
-          "contractName": "CLPool",
-          "functionName": "collectFees",
-          "impact": "critical",
+          "impact": "no-impact",
           "directFundsUsd": 0,
           "directTokenValueUsd": 0,
           "reachableContracts": [],
           "mitigations": [
             {
               "type": "other",
-              "description": "Fees collected are limited to accumulated gaugeFees — cannot extract more than what was accrued from swap fees"
+              "description": "onlyGauge callback — not callable by humans or admins. Invoked by the CLGauge contract during user deposit/withdraw to update the pool's staked-liquidity accounting. No fund-movement path."
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+          "contractName": "CLPool",
+          "functionName": "updateRewardsGrowthGlobal",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "onlyGauge callback — ticks the reward accumulator; cannot transfer tokens. Invoked by the CLGauge contract during regular user interactions."
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+          "contractName": "CLPool",
+          "functionName": "syncReward",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "onlyGauge callback — invoked by the CLGauge contract after notifyRewardAmount (itself driven by Voter) to set the next epoch's reward schedule on the pool. Not an admin lever."
+            }
+          ]
+        },
+        {
+          "contractAddress": "base:0xeC8E5342B19977B4eF8892e02D8DAEcfa1315831",
+          "contractName": "CLPool",
+          "functionName": "collectFees",
+          "impact": "no-impact",
+          "directFundsUsd": 0,
+          "directTokenValueUsd": 0,
+          "reachableContracts": [],
+          "mitigations": [
+            {
+              "type": "other",
+              "description": "onlyGauge callback — transfers only the accumulated gaugeFees storage balance (fees levied on unstaked liquidity) to the CLGauge for distribution to staked LPs. Cannot extract LP reserves."
             }
           ]
         },
@@ -4262,23 +2508,12 @@
           "reachableContracts": [],
           "mitigations": [
             {
-              "type": "other",
-              "description": "Nudging only allowed once per epoch"
-            },
-            {
-              "type": "valueRange",
-              "description": "Change at maximum 1bps",
-              "valueRange": {
-                "max": {
-                  "mode": "fieldRef",
-                  "fieldPath": "$self.MAXIMUM_TAIL_RATE"
-                },
-                "unit": "bps"
-              }
+              "type": "relativeValue",
+              "description": "Tail emission rate can change by at most 1 bps per call."
             },
             {
               "type": "other",
-              "description": "Max Change per nudge is 1 bps"
+              "description": "Rate limited to once per epoch (1 week)."
             }
           ]
         }
@@ -4322,7 +2557,7 @@
   ],
   "adminTotals": {
     "totalFundsAtRisk": 0,
-    "totalTokenValueAtRisk": 570970485.7378225
+    "totalTokenValueAtRisk": 0
   },
   "dependencies": [],
   "dependencyEntityGroups": [],
@@ -4385,27 +2620,18 @@
       "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
       "contractName": "VotingEscrow",
       "functionName": "setAllowedManager",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "other",
-          "description": "Cannot set to zero address or to the current address"
-        }
-      ]
+      "impact": "no-impact"
     },
     {
       "contractAddress": "base:0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4",
       "contractName": "VotingEscrow",
       "functionName": "setManagedState",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
           "type": "other",
-          "description": "Target must be a MANAGED type NFT"
-        },
-        {
-          "type": "other",
-          "description": "Cannot set to the same state (already active/inactive)"
+          "label": "future-only",
+          "description": "Does not touch already-committed funds: withdrawManaged() remains available, so users can always reclaim their locked AERO. The effect is limited to blocking new deposits into the deactivated managed NFT and preventing voting by users currently parked in it."
         }
       ]
     },
@@ -4443,31 +2669,26 @@
       "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
       "contractName": "PoolFactory",
       "functionName": "setPauser",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "other",
-          "description": "Cannot set to zero address — revert ZeroAddress()"
-        }
-      ]
+      "impact": "no-impact"
     },
     {
       "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
       "contractName": "PoolFactory",
       "functionName": "setPauseState",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Pausing blocks only Pool.swap(); existing LPs can still burn() their liquidity positions at any time. Effect is limited to halting future swaps."
+        }
+      ]
     },
     {
       "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
       "contractName": "PoolFactory",
       "functionName": "setFeeManager",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "other",
-          "description": "Cannot set to zero address — revert ZeroAddress()"
-        }
-      ]
+      "impact": "no-impact"
     },
     {
       "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
@@ -4477,18 +2698,7 @@
       "mitigations": [
         {
           "type": "valueRange",
-          "description": "Fee must be > 0 and <= MAX_FEE (300 = 3%)",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "1"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-              "fieldName": "MAX_FEE"
-            }
-          }
+          "description": "Default stable/volatile swap fee capped at MAX_FEE (3%) and must be > 0. Caller cannot tax swaps above 3%."
         }
       ]
     },
@@ -4500,18 +2710,7 @@
       "mitigations": [
         {
           "type": "valueRange",
-          "description": "Fee must be <= MAX_FEE (300 = 3%) or ZERO_FEE_INDICATOR (420)",
-          "valueRange": {
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
-              "fieldName": "MAX_FEE"
-            }
-          }
-        },
-        {
-          "type": "other",
-          "description": "Pool must be a valid factory pool — revert InvalidPool()"
+          "description": "Per-pool base swap fee capped at MAX_FEE (3%). 420 = sentinel for explicit 0%. Caller cannot tax swaps above 3%."
         }
       ]
     },
@@ -4519,41 +2718,19 @@
       "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
       "contractName": "FactoryRegistry",
       "functionName": "approve",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "other",
-          "description": "Cannot approve a poolFactory that is already approved"
-        },
-        {
-          "type": "other",
-          "description": "Re-approval must use the same gauge and votingRewards factories originally set"
-        }
-      ]
+      "impact": "no-impact"
     },
     {
       "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
       "contractName": "FactoryRegistry",
       "functionName": "unapprove",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "other",
-          "description": "Cannot unapprove the fallback (core) pool factory"
-        }
-      ]
+      "impact": "no-impact"
     },
     {
       "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
       "contractName": "FactoryRegistry",
       "functionName": "setManagedRewardsFactory",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "other",
-          "description": "Cannot set to zero address or to the current address"
-        }
-      ]
+      "impact": "no-impact"
     },
     {
       "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
@@ -4565,13 +2742,7 @@
       "contractAddress": "base:0x5C3F18F06CC09CA1910767A34a20F771039E37C0",
       "contractName": "FactoryRegistry",
       "functionName": "transferOwnership",
-      "impact": "no-impact",
-      "mitigations": [
-        {
-          "type": "other",
-          "description": "Cannot transfer ownership to the zero address"
-        }
-      ]
+      "impact": "no-impact"
     },
     {
       "contractAddress": "base:0xCCC21f4750E8B3E9C095BCB5d2fF59247A2CCD35",
@@ -4587,18 +2758,7 @@
       "mitigations": [
         {
           "type": "valueRange",
-          "description": "Fee must be <= MAX_FEE (500000 = 50%) or ZERO_FEE_INDICATOR (420)",
-          "valueRange": {
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x0AD08370c76Ff426F534bb2AFFD9b5555338ee68",
-              "fieldName": "MAX_FEE"
-            }
-          }
-        },
-        {
-          "type": "other",
-          "description": "Pool must be a valid factory pool — require(factory.isPool(pool))"
+          "description": "Per-pool unstaked-fee redirect capped at MAX_FEE (500000 / 1000000 = 50%). 420 = sentinel for explicit 0%. Caller cannot redirect more than 50% of newly-accrued swap fees from unstaked to staked LPs."
         }
       ]
     },
@@ -4696,24 +2856,29 @@
       "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
       "contractName": "CLFactory",
       "functionName": "setUnstakedFeeModule",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Swaps in the module used to split newly-accrued swap fees. Existing LP principal and already-collected fees are unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a",
       "contractName": "CLFactory",
       "functionName": "setDefaultUnstakedFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only the split of future swap fees between unstaked LPs and gauges (staked LPs). Existing LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "Unstaked Fee cannot exceed 5000 bps",
-          "valueRange": {
-            "max": {
-              "mode": "hardcoded",
-              "value": "5000"
-            },
-            "unit": "bps"
-          }
+          "description": "Unstaked-fee share capped at 50% (500000 bps). Caller cannot redirect more than half of future swap fees."
         }
       ]
     },
@@ -4725,32 +2890,7 @@
       "mitigations": [
         {
           "type": "valueRange",
-          "description": "Fee for the tick spacing",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "hardcoded",
-              "value": "100000"
-            },
-            "unit": "bps*100"
-          }
-        },
-        {
-          "type": "valueRange",
-          "description": "TickSpacing",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "hardcoded",
-              "value": "16384"
-            }
-          }
+          "description": "Default fee for the new tick spacing must be > 0 and capped at 10% (100000 / 1000000). Only applies to future pools created with this tick spacing."
         }
       ]
     },
@@ -4782,24 +2922,29 @@
       "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
       "contractName": "CLFactory",
       "functionName": "setUnstakedFeeModule",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Swaps in the module used to split newly-accrued swap fees. Existing LP principal and already-collected fees are unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A",
       "contractName": "CLFactory",
       "functionName": "setDefaultUnstakedFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only the split of future swap fees between unstaked LPs and gauges (staked LPs). Existing LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "Unstaked Fee cannot exceed 5000 bps",
-          "valueRange": {
-            "max": {
-              "mode": "hardcoded",
-              "value": "5000"
-            },
-            "unit": "bps"
-          }
+          "description": "Unstaked-fee share capped at 50% (500000 bps). Caller cannot redirect more than half of future swap fees."
         }
       ]
     },
@@ -4811,32 +2956,7 @@
       "mitigations": [
         {
           "type": "valueRange",
-          "description": "Fee for the tick spacing",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "hardcoded",
-              "value": "100000"
-            },
-            "unit": "bps*100"
-          }
-        },
-        {
-          "type": "valueRange",
-          "description": "TickSpacing",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "hardcoded",
-              "value": "16384"
-            }
-          }
+          "description": "Default fee for the new tick spacing must be > 0 and capped at 10% (100000 / 1000000). Only applies to future pools created with this tick spacing."
         }
       ]
     },
@@ -4848,22 +2968,7 @@
       "mitigations": [
         {
           "type": "valueRange",
-          "description": "Prevents too high swap fees",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "fieldRef",
-              "fieldPath": "$self.MAX_FEE"
-            },
-            "unit": "bps*100"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4171B0953b52Fa55462E4d76ecA1845Db69af00",
-            "fieldName": "MAX_FEE"
-          }
+          "description": "Per-pool custom swap fee capped at factory MAX_FEE. Caller cannot tax swaps above this cap."
         }
       ]
     },
@@ -4874,23 +2979,12 @@
       "impact": "no-impact",
       "mitigations": [
         {
-          "type": "other",
-          "description": "Nudging only allowed once per epoch"
-        },
-        {
-          "type": "valueRange",
-          "description": "Change at maximum 1bps",
-          "valueRange": {
-            "max": {
-              "mode": "fieldRef",
-              "fieldPath": "$self.MAXIMUM_TAIL_RATE"
-            },
-            "unit": "bps"
-          }
+          "type": "relativeValue",
+          "description": "Tail emission rate can change by at most 1 bps per call."
         },
         {
           "type": "other",
-          "description": "Max Change per nudge is 1 bps"
+          "description": "Rate limited to once per epoch (1 week)."
         }
       ]
     },
@@ -4898,7 +2992,14 @@
       "contractAddress": "base:0xC7150B9909DFfCB5e12E4Be6999D6f4b827eE497",
       "contractName": "SimpleEpochGovernor",
       "functionName": "setResult",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Does not touch already-minted AERO. Affects only the next epoch's tail emission rate via Minter.nudge(), capped at ±1 bps per epoch and bounded by MINIMUM_TAIL_RATE / MAXIMUM_TAIL_RATE on Minter."
+        }
+      ]
     },
     {
       "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
@@ -4928,24 +3029,29 @@
       "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
       "contractName": "CLFactory",
       "functionName": "setUnstakedFeeModule",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Swaps in the module used to split newly-accrued swap fees. Existing LP principal and already-collected fees are unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef",
       "contractName": "CLFactory",
       "functionName": "setDefaultUnstakedFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only the split of future swap fees between unstaked LPs and gauges (staked LPs). Existing LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "Unstaked Fee cannot exceed 5000 bps",
-          "valueRange": {
-            "max": {
-              "mode": "hardcoded",
-              "value": "5000"
-            },
-            "unit": "bps"
-          }
+          "description": "Unstaked-fee share capped at 50% (500000 bps). Caller cannot redirect more than half of future swap fees."
         }
       ]
     },
@@ -4957,32 +3063,7 @@
       "mitigations": [
         {
           "type": "valueRange",
-          "description": "Fee for the tick spacing",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "hardcoded",
-              "value": "100000"
-            },
-            "unit": "bps*100"
-          }
-        },
-        {
-          "type": "valueRange",
-          "description": "TickSpacing",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "hardcoded",
-              "value": "16384"
-            }
-          }
+          "description": "Default fee for the new tick spacing must be > 0 and capped at 10% (100000 / 1000000). Only applies to future pools created with this tick spacing."
         }
       ]
     },
@@ -5030,12 +3111,17 @@
       "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
       "contractName": "CLGaugeFactory",
       "functionName": "setRedistributor",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
           "type": "other",
+          "label": "future-only",
+          "description": "Only routes future over-cap emission excess from CLGauges; cannot touch already-committed AERO in gauges, VotingEscrow, or user wallets. The redistributor's notifyRewardWithoutClaim access pulls tokens from the caller and can only add rewards, not drain them."
+        },
+        {
+          "type": "other",
           "label": "not VE team",
-          "description": "The redistributor address cannot equal the current VotingEscrow team or the legacy gauge factory's notifyAdmin — those permissions must be transferred out first.",
+          "description": "The redistributor cannot equal the current VotingEscrow team or the legacy gauge factory's notifyAdmin — those permissions must be transferred out first.",
           "mitigatedField": {
             "contractAddress": "base:0x385293CaE378C813F16f0C1334d774AdDDf56AbB",
             "fieldName": "redistributor"
@@ -5165,27 +3251,16 @@
       "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
       "contractName": "CustomUnstakedFeeModule",
       "functionName": "setCustomFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Only affects how newly-accrued swap fees are split between unstaked LPs and gauges (staked LPs). Existing LP principal and already-collected fees are not touched."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool unstaked fee rate is capped at 50% (500,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
-              "fieldName": "MAX_FEE"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xc2cc3256434AfbC36Bb5e815e1Bb2151310a1a0b",
-            "fieldName": "MAX_FEE"
-          }
+          "description": "Per-pool unstaked-fee share capped at 50% (500000 / 1000000). Caller cannot redirect more than half of future swap fees."
         }
       ]
     },
@@ -5193,27 +3268,16 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setCustomFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MAX_BASE_FEE"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-            "fieldName": "MAX_BASE_FEE"
-          }
+          "description": "Per-pool base fee capped at 3% (30000 / 1000000). 420 = sentinel for explicit 0%."
         }
       ]
     },
@@ -5221,27 +3285,16 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setDefaultScalingFactor",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MAX_SCALING_FACTOR"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-            "fieldName": "MAX_SCALING_FACTOR"
-          }
+          "description": "Default scaling factor K (dynamic-fee sensitivity to volatility) capped at 1e18."
         }
       ]
     },
@@ -5249,27 +3302,16 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setDefaultFeeCap",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-            "fieldName": "MAX_FEE_CAP"
-          }
+          "description": "Default fee cap itself capped at 5% (50000 / 1000000)."
         }
       ]
     },
@@ -5277,27 +3319,16 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setScalingFactor",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MAX_SCALING_FACTOR"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-            "fieldName": "MAX_SCALING_FACTOR"
-          }
+          "description": "Per-pool scaling factor K capped at 1e18. A fee cap must be set first."
         }
       ]
     },
@@ -5305,27 +3336,16 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setFeeCap",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "1"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-            "fieldName": "MAX_FEE_CAP"
-          }
+          "description": "Per-pool maximum total fee cap must be non-zero and capped at 5% (50000 / 1000000)."
         }
       ]
     },
@@ -5333,34 +3353,29 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "resetDynamicFee",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setSecondsAgo",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
-          "valueRange": {
-            "min": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MIN_SECONDS_AGO"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MAX_SECONDS_AGO"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-            "fieldName": "MAX_SECONDS_AGO"
-          }
+          "description": "TWAP window bounded between 2 seconds and 131068 seconds (~36.4 hours)."
         }
       ]
     },
@@ -5368,27 +3383,16 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "registerDiscounted",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MAX_DISCOUNT"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-            "fieldName": "MAX_DISCOUNT"
-          }
+          "description": "Per-address fee discount capped at 50% (500000 / 1000000)."
         }
       ]
     },
@@ -5396,33 +3400,29 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "deregisterDiscounted",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "bulkUpdateFees",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MAX_BASE_FEE"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-            "fieldName": "MAX_BASE_FEE"
-          }
+          "description": "Every fee in the bulk update capped at 3% (30000 / 1000000), matching setCustomFee."
         }
       ]
     },
@@ -5430,27 +3430,16 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setInitialFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
-            "fieldName": "MAX_FEE_CAP"
-          }
+          "description": "Per-pool initial fee (used before the first swap observation each block) capped at 5% (50000 / 1000000)."
         }
       ]
     },
@@ -5458,33 +3447,29 @@
       "contractAddress": "base:0x090b2A6bb475c00e2256e2095A60887cD710803b",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "disableInitialFee",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setCustomFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MAX_BASE_FEE"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-            "fieldName": "MAX_BASE_FEE"
-          }
+          "description": "Per-pool base fee capped at 3% (30000 / 1000000). 420 = sentinel for explicit 0%."
         }
       ]
     },
@@ -5492,27 +3477,16 @@
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setDefaultScalingFactor",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MAX_SCALING_FACTOR"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-            "fieldName": "MAX_SCALING_FACTOR"
-          }
+          "description": "Default scaling factor K (dynamic-fee sensitivity to volatility) capped at 1e18."
         }
       ]
     },
@@ -5520,27 +3494,16 @@
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setDefaultFeeCap",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-            "fieldName": "MAX_FEE_CAP"
-          }
+          "description": "Default fee cap itself capped at 5% (50000 / 1000000)."
         }
       ]
     },
@@ -5548,27 +3511,16 @@
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setScalingFactor",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MAX_SCALING_FACTOR"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-            "fieldName": "MAX_SCALING_FACTOR"
-          }
+          "description": "Per-pool scaling factor K capped at 1e18. A fee cap must be set first."
         }
       ]
     },
@@ -5576,27 +3528,16 @@
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setFeeCap",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "1"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-            "fieldName": "MAX_FEE_CAP"
-          }
+          "description": "Per-pool maximum total fee cap must be non-zero and capped at 5% (50000 / 1000000)."
         }
       ]
     },
@@ -5604,34 +3545,29 @@
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "resetDynamicFee",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setSecondsAgo",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
-          "valueRange": {
-            "min": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MIN_SECONDS_AGO"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MAX_SECONDS_AGO"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-            "fieldName": "MAX_SECONDS_AGO"
-          }
+          "description": "TWAP window bounded between 2 seconds and 131068 seconds (~36.4 hours)."
         }
       ]
     },
@@ -5639,27 +3575,16 @@
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "registerDiscounted",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MAX_DISCOUNT"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-            "fieldName": "MAX_DISCOUNT"
-          }
+          "description": "Per-address fee discount capped at 50% (500000 / 1000000)."
         }
       ]
     },
@@ -5667,33 +3592,29 @@
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "deregisterDiscounted",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "bulkUpdateFees",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MAX_BASE_FEE"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-            "fieldName": "MAX_BASE_FEE"
-          }
+          "description": "Every fee in the bulk update capped at 3% (30000 / 1000000), matching setCustomFee."
         }
       ]
     },
@@ -5701,27 +3622,16 @@
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setInitialFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
-            "fieldName": "MAX_FEE_CAP"
-          }
+          "description": "Per-pool initial fee (used before the first swap observation each block) capped at 5% (50000 / 1000000)."
         }
       ]
     },
@@ -5729,33 +3639,29 @@
       "contractAddress": "base:0x87D8f999BBa9343E8099552426775B51C338E8CB",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "disableInitialFee",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setCustomFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool base fee is capped at 3% (30,000 / 1,000,000). 420 is a sentinel value indicating an explicit 0% fee.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MAX_BASE_FEE"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-            "fieldName": "MAX_BASE_FEE"
-          }
+          "description": "Per-pool base fee capped at 3% (30000 / 1000000). 420 = sentinel for explicit 0%."
         }
       ]
     },
@@ -5763,27 +3669,16 @@
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setDefaultScalingFactor",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The default scaling factor (K) that drives dynamic fee response to volatility is capped at 1e18.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MAX_SCALING_FACTOR"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-            "fieldName": "MAX_SCALING_FACTOR"
-          }
+          "description": "Default scaling factor K (dynamic-fee sensitivity to volatility) capped at 1e18."
         }
       ]
     },
@@ -5791,27 +3686,16 @@
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setDefaultFeeCap",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The default maximum total fee cap is itself capped at 5% (50,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-            "fieldName": "MAX_FEE_CAP"
-          }
+          "description": "Default fee cap itself capped at 5% (50000 / 1000000)."
         }
       ]
     },
@@ -5819,27 +3703,16 @@
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setScalingFactor",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool scaling factor (K) is capped at 1e18. A fee cap must be set first.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MAX_SCALING_FACTOR"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-            "fieldName": "MAX_SCALING_FACTOR"
-          }
+          "description": "Per-pool scaling factor K capped at 1e18. A fee cap must be set first."
         }
       ]
     },
@@ -5847,27 +3720,16 @@
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setFeeCap",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool maximum total fee cap must be non-zero and is capped at 5% (50,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "1"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-            "fieldName": "MAX_FEE_CAP"
-          }
+          "description": "Per-pool maximum total fee cap must be non-zero and capped at 5% (50000 / 1000000)."
         }
       ]
     },
@@ -5875,34 +3737,29 @@
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "resetDynamicFee",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setSecondsAgo",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The TWAP window for dynamic fee calculation is bounded between 2 seconds (MIN_SECONDS_AGO) and 131,068 seconds (MAX_SECONDS_AGO, ~36.4 hours).",
-          "valueRange": {
-            "min": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MIN_SECONDS_AGO"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MAX_SECONDS_AGO"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-            "fieldName": "MAX_SECONDS_AGO"
-          }
+          "description": "TWAP window bounded between 2 seconds and 131068 seconds (~36.4 hours)."
         }
       ]
     },
@@ -5910,27 +3767,16 @@
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "registerDiscounted",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-address fee discount is capped at 50% (500,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MAX_DISCOUNT"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-            "fieldName": "MAX_DISCOUNT"
-          }
+          "description": "Per-address fee discount capped at 50% (500000 / 1000000)."
         }
       ]
     },
@@ -5938,33 +3784,29 @@
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "deregisterDiscounted",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "bulkUpdateFees",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "Every fee in the bulk update is capped at 3% (30,000 / 1,000,000), matching the single-pool setCustomFee cap.",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MAX_BASE_FEE"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-            "fieldName": "MAX_BASE_FEE"
-          }
+          "description": "Every fee in the bulk update capped at 3% (30000 / 1000000), matching setCustomFee."
         }
       ]
     },
@@ -5972,27 +3814,16 @@
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "setInitialFee",
-      "impact": "critical",
+      "impact": "no-impact",
       "mitigations": [
         {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        },
+        {
           "type": "valueRange",
-          "description": "The per-pool initial fee (used before the first swap observation each block) is capped at 5% (50,000 / 1,000,000).",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "discovered",
-              "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-              "fieldName": "MAX_FEE_CAP"
-            },
-            "unit": "raw"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
-            "fieldName": "MAX_FEE_CAP"
-          }
+          "description": "Per-pool initial fee (used before the first swap observation each block) capped at 5% (50000 / 1000000)."
         }
       ]
     },
@@ -6000,7 +3831,14 @@
       "contractAddress": "base:0xF4Ecd78EBEB6d36CF7f80B5B6B41453515fe2785",
       "contractName": "DynamicSwapFeeModule",
       "functionName": "disableInitialFee",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Changes only affect swap fees charged on future swaps; LP principal is unaffected."
+        }
+      ]
     },
     {
       "contractAddress": "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F",
@@ -6012,7 +3850,13 @@
       "contractAddress": "base:0xa990C6a764b73BF43cee5Bb40339c3322FB9D55F",
       "contractName": "NonfungiblePositionManager",
       "functionName": "setOwner",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "NPM owner controls only setTokenDescriptor (NFT metadata URI). No access to position funds, fees, or transfers. LP principal is never at risk."
+        }
+      ]
     },
     {
       "contractAddress": "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53",
@@ -6024,7 +3868,13 @@
       "contractAddress": "base:0xe1f8cd9AC4e4A65F54f38a5CdAfCA44f6dD68b53",
       "contractName": "NonfungiblePositionManager",
       "functionName": "setOwner",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "description": "NPM owner controls only setTokenDescriptor (NFT metadata URI). No access to position funds, fees, or transfers. LP principal is never at risk."
+        }
+      ]
     },
     {
       "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
@@ -6072,13 +3922,7 @@
       "contractAddress": "base:0xEe5b3C7b333e2870B746b3B2b168EF0958e55e15",
       "contractName": "Redistributor",
       "functionName": "transferPermissions",
-      "impact": "critical",
-      "mitigations": [
-        {
-          "type": "other",
-          "description": "Cannot set to zero address"
-        }
-      ]
+      "impact": "critical"
     },
     {
       "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
@@ -6090,7 +3934,14 @@
       "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
       "contractName": "Voter",
       "functionName": "killGauge",
-      "impact": "critical"
+      "impact": "no-impact",
+      "mitigations": [
+        {
+          "type": "other",
+          "label": "future-only",
+          "description": "Users can always withdraw their LP NFTs from a killed gauge (withdraw() has no isAlive check) and claim rewards already accrued on the pool side. Only blocks new deposits and returns unclaimed voter-side emissions for the current epoch back to the minter (which re-enter next week's weekly). No LP principal is at risk."
+        }
+      ]
     },
     {
       "contractAddress": "base:0x16613524e02ad97eDfeF371bC883F2F5d6C480A5",
@@ -6112,22 +3963,7 @@
       "mitigations": [
         {
           "type": "valueRange",
-          "description": "How many tokens are minted to the team (bps of weekly minted)",
-          "valueRange": {
-            "min": {
-              "mode": "hardcoded",
-              "value": "0"
-            },
-            "max": {
-              "mode": "fieldRef",
-              "fieldPath": "$self.MAXIMUM_TEAM_RATE"
-            },
-            "unit": "bps"
-          },
-          "mitigatedField": {
-            "contractAddress": "base:0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5",
-            "fieldName": "MAXIMUM_TEAM_RATE"
-          }
+          "description": "Team emission rate capped at MAXIMUM_TEAM_RATE (500 bps = 5% of weekly emissions). Caller cannot redirect more than 5% of weekly mint to the team."
         }
       ]
     },
@@ -6474,8 +4310,8 @@
     {
       "type": "license",
       "url": "https://github.com/aerodrome-finance/slipstream/blob/main/LICENSE.md",
-      "label": "GPL-2.0-or-later",
-      "licenseScope": "Slipstream (Concentrated Liquidity)"
+      "label": "BUSL-1.1",
+      "licenseScope": "Slipstream Concentrated Liquidity"
     },
     {
       "type": "license",
@@ -6484,8 +4320,26 @@
       "licenseScope": "Documentation"
     },
     {
+      "type": "license",
+      "url": "https://aerodrome.finance",
+      "label": "Closed-source",
+      "licenseScope": "Frontend — no public repository"
+    },
+    {
       "type": "defiscan-v1",
       "url": "https://www.defiscan.info/protocols/aerodrome/base"
+    },
+    {
+      "url": "https://aero.drome.eth.limo/",
+      "type": "frontend",
+      "label": "IPFS 1",
+      "frontendSubtype": "third-party"
+    },
+    {
+      "url": "https://aero.drome.eth.link/",
+      "type": "frontend",
+      "label": "IPFS 2",
+      "frontendSubtype": "third-party"
     }
   ],
   "audits": [
@@ -6558,10 +4412,10 @@
     }
   ],
   "governance": {
-    "framework": "ve(3,3) vote-escrow + multisig (Velodrome V2 fork, OZ Governor-based SimpleEpochGovernor)",
+    "framework": "ve(3,3) vote-escrow",
     "voteExecution": "onchain",
-    "votingUnit": "veAERO (AERO locked in VotingEscrow NFTs, up to 4 years)",
-    "proposalRequirements": "Protocol parameter changes: 3/7 Aerodrome Governor multisig. Emission direction: any veAERO holder votes weekly via Voter. Tail-rate nudge: one on-chain proposal per epoch in SimpleEpochGovernor (OZ Governor fork) once tail emissions are active.",
+    "votingUnit": "veAERO",
+    "proposalRequirements": "weekly vote on gauge emissions",
     "votingProcess": "veAERO holders vote weekly per epoch on gauges/nudges; proposals created in epoch n execute in epoch n+1. Protocol changes via 3/7 multisig.",
     "proposalPeriod": {
       "kind": "fieldRef",
