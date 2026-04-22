@@ -166,7 +166,7 @@ The public-facing review website is a separate package at `packages/defiscan-fro
 - **Data model**: static JSON. Reads pre-compiled `compiled-review.json` from `public/data/<slug>/`
 - **Build**: `scripts/compile-data.ts` aggregates all compiled reviews into `public/data/index.json` with global stats, entity-grouped dependency counts, and active admin counts
 - **Pages**: Landing, Gallery (`/gallery`), Review (Report / Explorer / Activity), Compare, About
-- **Explorer tabs**: Overview, Funds, Admins, Governance, Dependencies, Contracts. The Admins tab shows non-governance human admins only; the Governance tab shows governance-tagged contracts only.
+- **Explorer tabs**: Overview, Funds, Admins, Governance, Dependencies, Contracts. The Admins tab shows human admins including governance-tagged contracts (displayed with a **Governance** badge); the Governance tab shows governance-tagged contracts only.
 - **TVS metric**: "Total Value Secured" = TVL (tokens held in contracts) + protocol token market cap. Used consistently across the landing table and the fund charts
 - **Deployment**: Vercel with SPA rewrites (`vercel.json` excludes `/data/` from rewrites)
 - **Commands**: `pnpm dev` (dev), `pnpm build` (builds after `compile-data`)

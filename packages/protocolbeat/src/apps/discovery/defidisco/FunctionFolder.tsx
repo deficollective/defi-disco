@@ -983,11 +983,14 @@ export function FunctionFolder({
       },
       relativeValue: { maxChangePercent: { ...emptyMitVal } },
       impactCap: {
-        mode: 'field' as const,
-        hardcodedUsd: '',
+        valueMode: 'fieldRef' as const,
+        hardcodedAmount: '',
         contractAddress: defaultContractAddress,
         fieldName: '',
-        unit: 'raw' as ImpactCapUnit,
+        unitKind: 'usd' as const,
+        scalerFactor: '1e18' as ImpactCapScaler,
+        tokenAddress: '',
+        multiplierPercent: '',
       },
       mitigatedField: {
         contractAddress: defaultContractAddress,
