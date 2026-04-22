@@ -25,7 +25,7 @@ import {
   getResources,
   getResourcesLastModified,
 } from './resources'
-import { getGovernance, getGovernanceLastModified } from './governance'
+import { getGovernance } from './governance'
 import { getActivityEvents } from './activity'
 import type {
   ActivityFileEvent,
@@ -62,7 +62,7 @@ export interface CompiledReview {
   /** First time review-config.json was created. Preserved across regenerations. */
   publishedAt: string
   /** Last time a researcher edited review-config, resources, audits, or governance. */
-  updatedAt: string
+  lastModified: string
   /**
    * Live on-chain data freshness — sourced from discovered.json.timestamp,
    * NOT the wall-clock compile time. Only bumps when the monitor runs a
@@ -90,6 +90,8 @@ export interface CompiledReview {
     totalTokenValueAtRisk: number
     totalTokenValue: number
     linesOfCode?: number
+    verifiedContractCount?: number
+    coverage?: number
   }
 
   admins: CompiledAdmin[]
@@ -851,33 +853,30 @@ export class ReviewCompiler {
         ? new Date(onchainAtMs).toISOString()
         : new Date().toISOString() // fallback only for discovery outputs missing the field
 
-    // updatedAt = latest researcher-initiated edit across review-config,
-    // resources (incl. audits), and governance. Sorted lexicographically,
-    // which works for ISO timestamps.
+    // lastModified = latest researcher-initiated edit across review-config
+    // and resources (incl. audits). Sorted lexicographically, which works
+    // for ISO timestamps. governance.json is intentionally excluded: it has
+    // no explicit lastModified field and its filesystem mtime is unreliable
+    // in CI (container mounts bump mtime on every monitor cycle).
     const resourcesLastModified = getResourcesLastModified(this.paths, project)
-    const governanceLastModified = getGovernanceLastModified(
-      this.paths,
-      project,
-    )
-    const updatedAtCandidates = [
+    const lastModifiedCandidates = [
       reviewConfig.lastModified,
       resourcesLastModified,
-      governanceLastModified,
     ].filter((s): s is string => typeof s === 'string' && s.length > 0)
-    const updatedAt =
-      updatedAtCandidates.length > 0
-        ? (updatedAtCandidates.sort().pop() as string)
+    const lastModified =
+      lastModifiedCandidates.length > 0
+        ? (lastModifiedCandidates.sort().pop() as string)
         : compiledAt
 
     // publishedAt = first time review-config.json was created. Preserved by
     // writeReviewConfig and the /generate-review skill. Fall back to
-    // updatedAt for legacy projects whose configs predate this field.
-    const publishedAt = reviewConfig.publishedAt || updatedAt
+    // lastModified for legacy projects whose configs predate this field.
+    const publishedAt = reviewConfig.publishedAt || lastModified
 
     return {
       version: '1.0',
       publishedAt,
-      updatedAt,
+      lastModified,
       compiledAt,
       project,
 
@@ -906,6 +905,7 @@ export class ReviewCompiler {
           0,
         ),
         linesOfCode,
+        ...this.computeCoverage(discovery),
       },
 
       admins,
@@ -1080,6 +1080,20 @@ export class ReviewCompiler {
     discoveryEntries: { name?: string; address: string; proxyType?: string }[],
   ): number {
     return discoveryEntries.filter((e) => e.proxyType !== 'EOA').length
+  }
+
+  private computeCoverage(discovery: DiscoveryOutput): {
+    verifiedContractCount: number
+    coverage: number
+  } {
+    const nonEoa = discovery.entries.filter((e) => e.type !== 'EOA')
+    const contractCount = nonEoa.length
+    const verifiedContractCount = nonEoa.filter((e) => !e.unverified).length
+    const coverage =
+      contractCount === 0
+        ? 0
+        : Math.round((verifiedContractCount / contractCount) * 100)
+    return { verifiedContractCount, coverage }
   }
 
   private countPermissionedFunctions(

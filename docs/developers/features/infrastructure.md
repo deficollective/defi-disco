@@ -130,6 +130,8 @@ For protocols that deploy many identical child contracts (Uniswap V2 pairs, Fran
 | `uniswap-v2-factory` | The Graph subgraph | `THEGRAPH_API_KEY` | Uses factory address in subgraph query |
 | `frankencoin-mintinghub` | Frankencoin public API | None | Filters positions by MintingHub version (V1 vs V2) |
 | `uniswap-v3-factory` | DeFiLlama protocol API | None | Fetches chain-specific TVL from `api.llama.fi/protocol/uniswap-v3`; chain mapped via `CHAIN_ID_TO_DEFILLAMA_NAME` |
+| `aerodrome-v2-factory` | DefiLlama + on-chain `allPoolsLength()` via Base Blockscout RPC | None | Reports Aerodrome V2 TVL (DefiLlama slug `aerodrome-v1`), pool count via `eth_call` |
+| `aerodrome-cl-factory` | DefiLlama + on-chain `allPoolsLength()` via Base Blockscout RPC | None | Reports Slipstream TVL (DefiLlama slug `aerodrome-slipstream`), combines pool counts from both CL factory deployments |
 
 **Adding a new handler:**
 

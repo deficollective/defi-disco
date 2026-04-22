@@ -193,7 +193,7 @@ Each file has its own backend CRUD module under `packages/l2b/src/implementation
 | Field          | Question answered                                   | Source                                                                                                                                                                                                     |
 | -------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `publishedAt`  | When was this review first published?               | Set once, the first time `review-config.json` is created. Preserved forever across every subsequent write.                                                                                                  |
-| `updatedAt`    | When did a researcher last edit review content?     | Max of `review-config.json.lastModified`, `resources.json.lastModified`, and the filesystem mtime of `governance.json`.                                                                                     |
+| `lastModified` | When did a researcher last edit review content?     | Max of `review-config.json.lastModified`, `resources.json.lastModified`, and the filesystem mtime of `governance.json`.                                                                                     |
 | `compiledAt`   | How fresh is the on-chain data in this review?      | `discovered.json.timestamp × 1000` — the Unix-seconds stamp the discovery engine writes at the top of its output. **Not** wall-clock compile time.                                                          |
 
 **Why the split**: before this model every frontend timestamp was `compiledAt: new Date().toISOString()` set at compile time, which bumped on every recompile — including monitor cycles that found no diff and researcher edits that didn't touch on-chain state. That made "Updated X minutes ago" meaningless. Splitting into three fields lets the hero card say "updated by a researcher", the code section say "on-chain data as of", and the landing page rank "recently edited" protocols correctly.
@@ -201,16 +201,16 @@ Each file has its own backend CRUD module under `packages/l2b/src/implementation
 **Where each field is set**:
 
 - `publishedAt` — `writeReviewConfig` reads the existing file on every save and carries the old `publishedAt` forward; if absent, it falls back to `lastModified`, then to `new Date().toISOString()`. The `/generate-review` skill bypasses this API chokepoint (it writes via the `Write` tool directly after moving the old file to `/tmp`), so the skill itself extracts `publishedAt` via `jq` into `/tmp/review-config-$0-publishedAt.txt` before the move and re-emits it in the freshly generated JSON.
-- `updatedAt` — bumped by `writeReviewConfig` (researcher saves from the Review Builder), `updateResources`/`updateAudits` via `writeResourcesFile(..., { bumpLastModified: true })`, and any write to `governance.json` (mtime is the signal). **Not bumped by `updateLinesOfCode`**, which calls `writeResourcesFile(..., { bumpLastModified: false })` and preserves the existing value — LoC is a compile-time side effect, not a researcher edit.
+- `lastModified` — bumped by `writeReviewConfig` (researcher saves from the Review Builder), `updateResources`/`updateAudits` via `writeResourcesFile(..., { bumpLastModified: true })`, and any write to `governance.json` (mtime is the signal). **Not bumped by `updateLinesOfCode`**, which calls `writeResourcesFile(..., { bumpLastModified: false })` and preserves the existing value — LoC is a compile-time side effect, not a researcher edit.
 - `compiledAt` — computed at the `reviewCompiler.buildCompiledReview` return site from `discovery.timestamp ?? 0`. A researcher-triggered recompile that doesn't run a fresh discovery cycle keeps this field frozen. Only a monitor discovery run (or a manual `l2b discover`) bumps it.
 
 **Frontend consumers**:
 
-- `HeroSection` "Updated" → `updatedAt`
-- `TimestampsFooter` (rendered as the final section of `ReportView`, below Protocol Activity) → three pills side-by-side: Published (`publishedAt`) / Last updated (`updatedAt`) / On-chain data (`compiledAt`)
+- `HeroSection` "Latest activity" → newest `activity[].timestamp` (hidden when no events). Not from any of the three compiled timestamps.
+- `TimestampsFooter` (rendered as the final section of `ReportView`, below Protocol Activity) → three pills side-by-side: Published (`publishedAt`, with `(last modified <date>)` parenthetical appended from `lastModified`) / Latest activity (newest `activity[].timestamp`, renders "Not monitored" when empty) / On-chain data (`compiledAt`)
 - `ActivityView` "Last Verified" → `compiledAt` (semantically matches: "the last time we verified on-chain state")
-- `LandingPage` "recently updated" ordering → `updatedAt`
-- Gallery cards use `activity[].timestamp` and are unaffected
+- `LandingPage` "recently updated" ordering → `lastModified`
+- Gallery cards use `activity[].timestamp` (via the shared `getLatestActivityTimestamp` helper in `pages/review/views/activityTimestamp.ts`) for both the UPDATED status badge (< 7 days) and the "Last Activity" stat
 
 **Schema notes**:
 
@@ -244,6 +244,10 @@ This is necessary because flattened files inline shared libraries (OpenZeppelin'
 - **Auto-run**: `reviewCompiler.compile()` runs the counter inline (failure is non-fatal; a warning is logged and the field is left undefined)
 - **Manual recount**: the "Count Lines of Code" button in the terminal panel, or `POST /api/projects/:project/count-lines-of-code`
 - **Frontend display**: `CodeQualitySection.tsx` in defiscan-frontend renders `{count.toLocaleString()} LoC` (or a muted `—` when undefined)
+
+### Source Code Coverage
+
+`totals.coverage` and `totals.verifiedContractCount` on `compiled-review.json` report the share of protocol contracts with Etherscan-verified source. Computed in `reviewCompiler.computeCoverage(discovery)` by walking `discovered.json.entries`, excluding EOAs, and treating an entry as verified when `entry.unverified !== true`. `coverage` is a rounded 0–100 percentage; a project with no contracts yields `0`. Rendered in `CodeQualitySection.tsx` as a percentage plus a proportionally filled progress bar.
 
 ## Governance
 
@@ -286,7 +290,7 @@ type GovernanceDuration =
 - **Endpoint**: `POST /api/projects/:project/compile-review`
 - **Bulk endpoint**: `POST /api/compile-all-reviews` — compiles every DeFi project (used by the Home page button)
 - **Guards**: compilation is skipped silently if `review-config.json` or `call-graph-data.json` is missing
-- **Timestamps**: the compiler assembles `publishedAt` / `updatedAt` / `compiledAt` at the `buildCompiledReview` return site. `compiledAt` is sourced from `discovered.json.timestamp` (not `new Date()`), so researcher-triggered recompiles without a fresh discovery run keep it frozen. See [Timestamps](#timestamps-three-timestamp-model) for the full model.
+- **Timestamps**: the compiler assembles `publishedAt` / `lastModified` / `compiledAt` at the `buildCompiledReview` return site. `compiledAt` is sourced from `discovered.json.timestamp` (not `new Date()`), so researcher-triggered recompiles without a fresh discovery run keep it frozen. See [Timestamps](#timestamps-three-timestamp-model) for the full model.
 - **Template variables**: `{{variableName}}` in descriptions is resolved against `dataKeys` at compile time
 - **Cross-entity totals**: `adminTotals` and `dependencyTotals` carry deduplicated capital (each contract counted at most once, using `Math.max`) so the frontend can render an accurate "Impacted TVS" stat
 - **Mitigations**: each compiled function carries `mitigations?: Mitigation[]` resolved by `ProjectAnalysis.getMitigationsForOwner()` (direct + transitive). The compiler passes them through as-is. Mitigations with an `impactCap` have their `impactCapUsd` pre-resolved
@@ -307,3 +311,45 @@ If admin or dependency data needs to change, modify `ProjectAnalysis` — not th
 
 - **Mitigations** — shown when any admin or dependency function carries mitigations. Reports coverage (all / some) and distinct mitigation type labels (Timelocks, Value Ranges, Relative Value Caps, Other Constraints)
 - **TVS (Total Value Secured)** — replaces the old TVL-only finding. Title is the combined TVS (e.g. "$220M TVS"). Detail text breaks the value down into TVL + token market cap, or either one alone. `TVS = totalCapitalAtRisk + (totalTokenValue ?? totalTokenValueAtRisk)`
+
+## Radar Scoring
+
+`deriveRadarData(review)` in `packages/defiscan-frontend/src/utils/radar.ts` derives the five-axis radar chart shown on the Report hero and Gallery cards from a `CompiledReview`. Each axis is scored 0–100.
+
+Axes: `CONTROL`, `DEPENDENCIES`, `ACCESS`, `VERIFIABILITY`, `ABILITY TO EXIT`.
+
+### CONTROL
+
+Cascades by worst-case admin severity. Per-admin impact = `totalReachableCapital + totalReachableTokenValue`. Only admins with impact > 0 are considered.
+
+- **90** — no admin has reachable fund impact
+- **25** — any admin with impact is an `EOA` or `EOAPermissioned` (dominates everything else)
+- **75 / 55** — any `Multisig` has impact. Score depends on the sum of multisig impact as a share of TVS (`totalCapitalAtRisk + totalTokenValue`): `< 30%` → **75**, otherwise **55**. If TVS is `0`, the share is treated as 100%
+- **80** — only contract-type admins (Timelock, governance contracts, etc.) have impact
+
+Cascade order is strict: EOA > Multisig > contract-only > none. EOA presence dominates regardless of multisig share.
+
+### DEPENDENCIES
+
+Count-based: `0 → 90`, `1–2 → 70`, `3–5 → 50`, `6+ → 30`.
+
+### ACCESS
+
+Count of `resources[].type === 'frontend'`: `0 → 20`, `1 → 50`, `2–3 → 75`, `4+ → 90`.
+
+### VERIFIABILITY
+
+Additive, four components, total clamped to 100 and rounded.
+
+| Component | Weight | Tiers |
+|---|---|---|
+| **Coverage** | 50 | `100% → 50`, `95–100% → 40`, `90–95% → 20`, `<90% → 5`, **missing → 40** (default when `totals.coverage` is `undefined`, distinct from a real `0`) |
+| **Audits** | 25 | `0 → 0`, `1 → 10`, `2 → 18`, `3 → 22`, `4+ → 25` |
+| **LoC** (inverse — smaller = more auditable) | 15 | `≤5k → 15`, `≤10k → 12`, `≤20k → 8`, `≤50k → 4`, `>50k → 1`, **missing (0) → neutral 8** |
+| **Bug bounty** (`max(audits[].bounty)` USD) | 10 | `$0 → 0`, `<$100k → 2`, `<$500k → 5`, `<$1M → 7`, `≥$1M → 10` |
+
+Coverage uses `>=` at bucket edges, so exactly `0.95` → 40 and exactly `0.90` → 20.
+
+### ABILITY TO EXIT
+
+Currently a constant `65` placeholder — not yet derived from compiled data.
