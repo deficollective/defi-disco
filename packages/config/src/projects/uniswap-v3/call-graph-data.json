@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-04-18T10:24:54.693Z",
+  "lastModified": "2026-04-22T07:40:41.068Z",
   "contracts": {
     "eth:0x0D5Cd355e2aBEB8fb1552F56c965B867346d6721": {
       "address": "eth:0x0D5Cd355e2aBEB8fb1552F56c965B867346d6721",
@@ -17,31 +17,31 @@
           "isViewCall": false
         }
       ],
-      "generatedAt": "2026-04-18T10:22:40.199Z"
+      "generatedAt": "2026-04-22T07:18:40.477Z"
     },
     "eth:0x1a9C8182C09F50C8318d769245beA52c32BE35BC": {
       "address": "eth:0x1a9C8182C09F50C8318d769245beA52c32BE35BC",
       "name": "Timelock",
       "externalCalls": [],
-      "generatedAt": "2026-04-18T10:22:40.200Z"
+      "generatedAt": "2026-04-22T07:18:40.480Z"
     },
     "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984": {
       "address": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
       "name": "Uniswap Token",
       "externalCalls": [],
-      "generatedAt": "2026-04-18T10:22:40.204Z"
+      "generatedAt": "2026-04-22T07:18:40.491Z"
     },
     "eth:0x1F98431c8aD98523631AE4a59f267346ea31F984": {
       "address": "eth:0x1F98431c8aD98523631AE4a59f267346ea31F984",
       "name": "UniswapV3Factory",
       "externalCalls": [],
-      "generatedAt": "2026-04-18T10:22:40.211Z"
+      "generatedAt": "2026-04-22T07:18:40.513Z"
     },
     "eth:0x408ED6354d4973f66138C91495F2f2FCbd8724C3": {
       "address": "eth:0x408ED6354d4973f66138C91495F2f2FCbd8724C3",
       "name": "GovernorBravoDelegator",
       "externalCalls": [],
-      "generatedAt": "2026-04-18T10:22:40.212Z"
+      "generatedAt": "2026-04-22T07:18:40.515Z"
     },
     "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026": {
       "address": "eth:0x53a328F4086d7C0F1Fa19e594c9b842125263026",
@@ -202,15 +202,14 @@
           "isViewCall": true
         }
       ],
-      "generatedAt": "2026-04-18T10:22:40.215Z"
+      "generatedAt": "2026-04-22T07:18:40.521Z"
     },
     "eth:0x66a9893cC07D91D95644AEDD05D03f95e1dBA8Af": {
       "address": "eth:0x66a9893cC07D91D95644AEDD05D03f95e1dBA8Af",
       "name": "UniversalRouter",
       "externalCalls": [],
-      "generatedAt": "2026-04-18T10:24:40.238Z",
-      "skipped": true,
-      "skipReason": "Slither timeout after 120s"
+      "generatedAt": "2026-04-22T07:40:41.004Z",
+      "error": "'solc --standard-json --allow-paths /home/emilien/defidisco/packages/config/crytic-export/etherscan-contracts/0x66a9893cC07D91D95644AEDD05D03f95e1dBA8Af-UniversalRouter' running\nWarning: Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing \"SPDX-License-Identifier: <SPDX-License>\" to each source file. Use \"SPDX-License-Identifier: UNLICENSED\" for non-open-source code. Please see https://spdx.org for more information.\n--> src/pkgs/v2-core/contracts/interfaces/IUniswapV2Pair.sol\n\n\nWarning: Warning: Transient storage as defined by EIP-1153 can break the composability of smart contracts: Since transient storage is cleared only at the end of the transaction and not at the end of the outermost call frame to the contract within a transaction, your contract may unintentionally misbehave when invoked multiple times in a complex transaction. To avoid this, be sure to clear all transient storage at the end of any call to your contract. The use of transient storage for reentrancy guards that are cleared at the end of the call is safe.\n  --> src/pkgs/universal-router/contracts/libraries/MaxInputAmount.sol:11:13:\n   |\n11 |             tstore(MAX_AMOUNT_IN_SLOT, maxAmountIn)\n   |             ^^^^^^\n\n\n\nERROR:ContractSolcParsing:Missing function Variable not found: _getLocker() (context Dispatcher src/pkgs/universal-router/contracts/base/Dispatcher.sol#22-300 (1 - 2))\nERROR:ContractSolcParsing:Missing params 'unlock()' src/pkgs/universal-router/contracts/UniversalRouter.sol#14-67 (1 - 2)\nTraceback (most recent call last):\n  File \"/home/emilien/.slither-venv/bin/slither\", line 8, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/home/emilien/.slither-venv/lib/python3.12/site-packages/slither/__main__.py\", line 776, in main\n    main_impl(all_detector_classes=detectors, all_printer_classes=printers)\n  File \"/home/emilien/.slither-venv/lib/python3.12/site-packages/slither/__main__.py\", line 882, in main_impl\n    ) = process_all(filename, args, detector_classes, printer_classes)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/emilien/.slither-venv/lib/python3.12/site-packages/slither/__main__.py\", line 107, in process_all\n    ) = process_single(compilation, args, detector_classes, printer_classes)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/emilien/.slither-venv/lib/python3.12/site-packages/slither/__main__.py\", line 80, in process_single\n    slither = Slither(target, ast_format=ast, **vars(args))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/emilien/.slither-venv/lib/python3.12/site-packages/slither/slither.py\", line 202, in __init__\n    self._init_parsing_and_analyses(kwargs.get(\"skip_analyze\", False))\n  File \"/home/emilien/.slither-venv/lib/python3.12/site-packages/slither/slither.py\", line 207, in _init_parsing_and_analyses\n    parser.parse_contracts()\n  File \"/home/emilien/.slither-venv/lib/python3.12/site-packages/slither/solc_parsing/slither_compilation_unit_solc.py\", line 586, in parse_contracts\n    self._analyze_using_for(contracts_to_be_analyzed, libraries)\n  File \"/home/emilien/.slither-venv/lib/python3.12/site-packages/slither/solc_parsing/slither_compilation_unit_solc.py\", line 707, in _analyze_using_for\n    while contracts_to_be_analyzed:\n          ^^^^^^^^^^^^^^^^^^^^^^^^\nKeyboardInterrupt\n"
     },
     "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34": {
       "address": "eth:0xA5644E29708357803b5A882D272c41cC0dF92B34",
@@ -275,21 +274,11 @@
           "storageVariable": "TMP_72",
           "interfaceType": "IUniswapV2Pair",
           "calledFunction": "transferFrom",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
+          "resolvedAddress": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+          "resolvedContractName": "NonfungiblePositionManager",
           "resolutionType": "optimistic",
           "resolutionHeuristic": "discovered-values-scan",
-          "resolutionConfidence": 70,
-          "resolutionCandidates": [
-            {
-              "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-              "contractName": "Wrapped Ether Token"
-            },
-            {
-              "address": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-              "contractName": "NonfungiblePositionManager"
-            }
-          ],
+          "resolutionConfidence": 95,
           "isViewCall": false
         },
         {
@@ -320,25 +309,13 @@
           "callerFunction": "migrate",
           "storageVariable": "TMP_90",
           "interfaceType": "IWETH9",
-          "calledFunction": "withdraw",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
-          "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 99,
-          "isViewCall": false
+          "calledFunction": "withdraw"
         },
         {
           "callerFunction": "migrate",
           "storageVariable": "TMP_100",
           "interfaceType": "IWETH9",
-          "calledFunction": "withdraw",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
-          "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 99,
-          "isViewCall": false
+          "calledFunction": "withdraw"
         },
         {
           "callerFunction": "selfPermit",
@@ -369,11 +346,11 @@
           "storageVariable": "TMP_33",
           "interfaceType": "IERC20",
           "calledFunction": "allowance",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
+          "resolvedAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+          "resolvedContractName": "Uniswap Token",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "discovered-values-scan",
-          "resolutionConfidence": 95,
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
           "isViewCall": true
         },
         {
@@ -393,11 +370,11 @@
           "storageVariable": "TMP_25",
           "interfaceType": "IERC20",
           "calledFunction": "allowance",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
+          "resolvedAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+          "resolvedContractName": "Uniswap Token",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "discovered-values-scan",
-          "resolutionConfidence": 95,
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
           "isViewCall": true
         },
         {
@@ -413,7 +390,7 @@
           "isViewCall": false
         }
       ],
-      "generatedAt": "2026-04-18T10:24:42.786Z"
+      "generatedAt": "2026-04-22T07:40:41.015Z"
     },
     "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88": {
       "address": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
@@ -678,11 +655,11 @@
           "storageVariable": "TMP_594",
           "interfaceType": "IERC20",
           "calledFunction": "allowance",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
+          "resolvedAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+          "resolvedContractName": "Uniswap Token",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "discovered-values-scan",
-          "resolutionConfidence": 95,
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
           "isViewCall": true
         },
         {
@@ -712,11 +689,11 @@
           "storageVariable": "TMP_586",
           "interfaceType": "IERC20",
           "calledFunction": "allowance",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
+          "resolvedAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+          "resolvedContractName": "Uniswap Token",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "discovered-values-scan",
-          "resolutionConfidence": 95,
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
           "isViewCall": true
         },
         {
@@ -746,11 +723,21 @@
           "storageVariable": "TMP_630",
           "interfaceType": "IERC20",
           "calledFunction": "balanceOf",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
+          "resolvedAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+          "resolvedContractName": "Uniswap Token",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "discovered-values-scan",
-          "resolutionConfidence": 95,
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 50,
+          "resolutionCandidates": [
+            {
+              "address": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+              "contractName": "Uniswap Token"
+            },
+            {
+              "address": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+              "contractName": "NonfungiblePositionManager"
+            }
+          ],
           "isViewCall": true
         },
         {
@@ -769,24 +756,18 @@
           "callerFunction": "uniswapV3MintCallback",
           "storageVariable": "TMP_1184",
           "interfaceType": "IWETH9",
-          "calledFunction": "deposit",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
-          "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 99,
-          "isViewCall": false
+          "calledFunction": "deposit"
         },
         {
           "callerFunction": "uniswapV3MintCallback",
           "storageVariable": "TMP_1186",
           "interfaceType": "IWETH9",
           "calledFunction": "transfer",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
+          "resolvedAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+          "resolvedContractName": "Uniswap Token",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "discovered-values-scan",
-          "resolutionConfidence": 95,
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
           "isViewCall": false
         },
         {
@@ -794,27 +775,31 @@
           "storageVariable": "TMP_621",
           "interfaceType": "IWETH9",
           "calledFunction": "balanceOf",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
+          "resolvedAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+          "resolvedContractName": "Uniswap Token",
           "resolutionType": "optimistic",
-          "resolutionHeuristic": "discovered-values-scan",
-          "resolutionConfidence": 95,
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 50,
+          "resolutionCandidates": [
+            {
+              "address": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+              "contractName": "Uniswap Token"
+            },
+            {
+              "address": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+              "contractName": "NonfungiblePositionManager"
+            }
+          ],
           "isViewCall": true
         },
         {
           "callerFunction": "unwrapWETH9",
           "storageVariable": "TMP_627",
           "interfaceType": "IWETH9",
-          "calledFunction": "withdraw",
-          "resolvedAddress": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "resolvedContractName": "Wrapped Ether Token",
-          "resolutionType": "optimistic",
-          "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 99,
-          "isViewCall": false
+          "calledFunction": "withdraw"
         }
       ],
-      "generatedAt": "2026-04-18T10:24:48.231Z"
+      "generatedAt": "2026-04-22T07:40:41.035Z"
     },
     "eth:0xe34139463bA50bD61336E0c446Bd8C0867c6fE65": {
       "address": "eth:0xe34139463bA50bD61336E0c446Bd8C0867c6fE65",
@@ -877,7 +862,7 @@
           "isViewCall": false
         }
       ],
-      "generatedAt": "2026-04-18T10:24:51.000Z"
+      "generatedAt": "2026-04-22T07:40:41.045Z"
     },
     "eth:0xf2371551Fe3937Db7c750f4DfABe5c2fFFdcBf5A": {
       "address": "eth:0xf2371551Fe3937Db7c750f4DfABe5c2fFFdcBf5A",
@@ -1060,7 +1045,7 @@
           "isViewCall": true
         }
       ],
-      "generatedAt": "2026-04-18T10:24:53.070Z"
+      "generatedAt": "2026-04-22T07:40:41.057Z"
     },
     "eth:0xf38521f130fcCF29dB1961597bc5d2B60F995f85": {
       "address": "eth:0xf38521f130fcCF29dB1961597bc5d2B60F995f85",
@@ -1068,22 +1053,18 @@
       "externalCalls": [
         {
           "callerFunction": "release",
-          "storageVariable": "TMP_115",
+          "storageVariable": "asset",
           "interfaceType": "IERC20Minimal",
           "calledFunction": "balanceOf",
           "resolvedAddress": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
           "resolvedContractName": "Uniswap Token",
           "resolutionType": "optimistic",
           "resolutionHeuristic": "function-signature",
-          "resolutionConfidence": 30,
+          "resolutionConfidence": 50,
           "resolutionCandidates": [
             {
               "address": "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
               "contractName": "Uniswap Token"
-            },
-            {
-              "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-              "contractName": "Wrapped Ether Token"
             },
             {
               "address": "eth:0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
@@ -1093,7 +1074,7 @@
           "isViewCall": true
         }
       ],
-      "generatedAt": "2026-04-18T10:24:54.692Z"
+      "generatedAt": "2026-04-22T07:40:41.067Z"
     }
   }
 }

@@ -120,9 +120,16 @@ Components consume `AdminEntry` and `AdminFunctionEntry` directly — there are 
 **Admin capital:**
 
 ```
-totalDirectCapital    = Σ (balances + positions) for each contract where the admin has permissions
-totalReachableCapital = totalDirectCapital + Σ reachable contract funds (where fundsAtRisk = true)
+totalDirectCapital    = Σ min(funds(contract), directContractCaps[contract]) for each contract where the admin has permissions
+totalReachableCapital = totalDirectCapital + Σ min(funds(contract), contractCaps[contract]) for reachable contracts (where fundsAtRisk = true)
 ```
+
+`directContractCaps[contract]` is the max `impactCapUsd` across the admin's functions on that contract (least restrictive wins); `undefined` (uncapped) if any impactful function on that contract is uncapped. Same rule applies per-contract for reachable totals, aggregated across all functions in the admin's traversal.
+
+**Cap propagation through BFS** (`traverseForward`):
+- Each edge's effective cap = `min(pathCap, targetFunctionCap)` — i.e. both the source-side cap chain **and** the target function's own `impactCapUsd` constrain what calling that edge can do. Without the target-cap term a transitive reacher (e.g. Governor → Timelock → UNI.setMinter) would miss the cap on `setMinter` and show full UNI market cap.
+- View-call edges (`isViewCall === true`) contribute `edgeReachCap = 0`. Since reads cannot move funds, a view edge is a no-op in the per-contract `max` merge — it doesn't flip a capped contract to uncapped (the UNI `balanceOf` scenario), and a contract reached only via view calls ends up with `effectiveCapUsd = 0` (correctly shows $0 at risk).
+- Per-contract cap merging uses `max` across edges: the least-restrictive reach wins, and `undefined` (uncapped) dominates any numeric cap.
 
 ### Upgrade Function Detection
 
@@ -294,7 +301,7 @@ type GovernanceDuration =
 - **Template variables**: `{{variableName}}` in descriptions is resolved against `dataKeys` at compile time
 - **Cross-entity totals**: `adminTotals` and `dependencyTotals` carry deduplicated capital (each contract counted at most once, using `Math.max`) so the frontend can render an accurate "Impacted TVS" stat
 - **Mitigations**: each compiled function carries `mitigations?: Mitigation[]` resolved by `ProjectAnalysis.getMitigationsForOwner()` (direct + transitive). The compiler passes them through as-is. Mitigations with an `impactCap` have their `impactCapUsd` pre-resolved
-- **Impact caps**: `CompiledReachableContract.effectiveCapUsd?: number` is set during capital analysis. Frontend fund sums apply `Math.min(fundsUsd, effectiveCapUsd)` per reachable contract
+- **Impact caps**: `CompiledReachableContract.effectiveCapUsd?: number` is set during capital analysis. Frontend fund sums apply `Math.min(fundsUsd, effectiveCapUsd)` per reachable contract. Unified shape `{ value, unit, multiplier? }` — `value` is hardcoded|fieldRef, `unit` is `usd`|`scaler{factor}`|`token{tokenAddress}`, `multiplier` is a decimal (default 1). Examples: hardcoded USD `{ value:{mode:'hardcoded',amount:5e6}, unit:{kind:'usd'} }`; hardcoded 1M ZCHF priced via funds-data `{ value:{mode:'hardcoded',amount:1e6}, unit:{kind:'token',tokenAddress:ZCHF} }`; 2% of UNI supply `{ value:{mode:'fieldRef',contractAddress:UNI,fieldName:'totalSupply'}, unit:{kind:'token',tokenAddress:UNI}, multiplier:0.02 }`. Legacy shapes accepted via `normalizeImpactCap()` for backward compat
 
 If admin or dependency data needs to change, modify `ProjectAnalysis` — not the compiler.
 
