@@ -307,7 +307,7 @@ If admin or dependency data needs to change, modify `ProjectAnalysis` — not th
 
 ### Key Findings
 
-`getKeyFindings()` in `src/utils/narrative.ts` generates info cards on the Report view:
+`getKeyFindings()` in `src/utils/keyFindings.ts` generates info cards on the Report view. Each finding is produced by a self-contained detector in the `DETECTORS` array (`detectImmutability`, `detectEOAs`, `detectMultisigs`, `detectTotalValueSecured`, `detectDependencies`, `detectMitigations`) — add a new finding type by writing a new detector and appending it to the array. Shared helpers (`isProtocolCodeImmutable`, `collectMitigations`, `deduplicateMitigations`, `formatMitigationTypeList`) live in the same file.
 
 - **Mitigations** — shown when any admin or dependency function carries mitigations. Reports coverage (all / some) and distinct mitigation type labels (Timelocks, Value Ranges, Relative Value Caps, Other Constraints)
 - **TVS (Total Value Secured)** — replaces the old TVL-only finding. Title is the combined TVS (e.g. "$220M TVS"). Detail text breaks the value down into TVL + token market cap, or either one alone. `TVS = totalCapitalAtRisk + (totalTokenValue ?? totalTokenValueAtRisk)`
