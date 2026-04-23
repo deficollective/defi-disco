@@ -18,7 +18,7 @@ import {
   resolveOwnersWithDataAccess,
 } from './functions'
 import { getFundsData } from './fundsData'
-import { DiscoveredDataAccess } from './ownerResolution'
+import { DiscoveredDataAccess, resolvePathExpression } from './ownerResolution'
 import type {
   ApiCallGraphResponse,
   ApiContractTagsResponse,
@@ -29,6 +29,7 @@ import type {
   ContractTag,
   FunctionAnalysis,
   FunctionDependencyEntry,
+  FunctionDependencyRef,
   FunctionEntry,
   FunctionImpactEntry,
 } from './types'
@@ -306,6 +307,7 @@ export function computeFunctionAnalysis(
         tagsByAddress,
         callGraphData,
         writeDeps,
+        dataAccess,
       )
 
       // --- Impact (permissioned functions OR functions with dependencies) ---
@@ -464,8 +466,57 @@ function computeImpact(
 // Dependencies Computation
 // ============================================================================
 
+/**
+ * Resolve a manual dependency reference to a concrete address list.
+ * - Literal form: pins exactly one address.
+ * - Path form: resolves against `currentContractAddress` via the shared path
+ *   resolver. Multiple addresses are possible (e.g. arrays); all are returned.
+ * Resolution failures are logged and treated as empty so a single bad entry
+ * cannot break the rest of the analysis.
+ */
+function resolveManualDepAddresses(
+  dep: FunctionDependencyRef,
+  currentContractAddress: string,
+  dataAccess: DiscoveredDataAccess,
+): string[] {
+  if ('contractAddress' in dep) {
+    return [dep.contractAddress]
+  }
+  const resolved = resolvePathExpression(
+    dataAccess,
+    currentContractAddress,
+    dep.path,
+  )
+  if (resolved.error) {
+    console.warn(
+      `Failed to resolve dependency path "${dep.path}" on ${currentContractAddress}: ${resolved.error}`,
+    )
+    return []
+  }
+  return resolved.addresses
+}
+
+/**
+ * Read a contract's declared name from discovered.json via the existing
+ * data-access helper. Returns undefined if the address isn't a contract in
+ * discovered data or has no name. Used as a fallback when the call graph is
+ * missing a contract so path-resolved deps still render with a readable name.
+ */
+function buildContractNameFromDataAccess(
+  dataAccess: DiscoveredDataAccess,
+  address: string,
+): string | undefined {
+  try {
+    const contract = dataAccess.findContract(address)
+    const name = contract?.name
+    return typeof name === 'string' && name.length > 0 ? name : undefined
+  } catch {
+    return undefined
+  }
+}
+
 function computeDependencies(
-  manualDeps: { contractAddress: string }[] | undefined,
+  manualDeps: FunctionDependencyRef[] | undefined,
   startContractAddress: string,
   functionName: string,
   traversalResult: ReturnType<typeof traverseWithPaths>,
@@ -473,6 +524,7 @@ function computeDependencies(
   tagsByAddress: Map<string, ContractTag>,
   callGraphData: ApiCallGraphResponse,
   writeDeps: WriteDependencyInfo[],
+  dataAccess: DiscoveredDataAccess,
 ): { entries: FunctionDependencyEntry[] } {
   const entries: FunctionDependencyEntry[] = []
   const seenAddresses = new Set<string>()
@@ -508,27 +560,44 @@ function computeDependencies(
     })
   }
 
-  // 2. Manual dependencies (from functions.json)
+  // 2. Manual dependencies (from functions.json).
+  // Two forms supported:
+  //   - { contractAddress } — literal pin
+  //   - { path } — path expression resolved against the current proxy so the
+  //     dep tracks mutable on-chain state (e.g. oracle registry mapping).
   if (manualDeps) {
     for (const dep of manualDeps) {
-      const normalized = normalizeChainAddress(dep.contractAddress)
-      if (seenAddresses.has(normalized)) continue
-      seenAddresses.add(normalized)
+      const resolvedAddresses = resolveManualDepAddresses(
+        dep,
+        startContractAddress,
+        dataAccess,
+      )
 
-      const tag = findTag(tagsByAddress, dep.contractAddress)
+      for (const addr of resolvedAddresses) {
+        const normalized = normalizeChainAddress(addr)
+        if (seenAddresses.has(normalized)) continue
+        seenAddresses.add(normalized)
 
-      entries.push({
-        contractAddress: dep.contractAddress,
-        contractName:
-          getCallGraphContractName(callGraphData, dep.contractAddress) ??
-          'Unknown',
-        isAutoDetected: false,
-        viewOnlyPath: false,
-        calledFunctions: [],
-        entity: tag?.entity,
-        mitigations: undefined,
-        callPath: [], // No path info for manual deps
-      })
+        const tag = findTag(tagsByAddress, addr)
+        const nameFromDiscovered = buildContractNameFromDataAccess(
+          dataAccess,
+          addr,
+        )
+
+        entries.push({
+          contractAddress: addr,
+          contractName:
+            nameFromDiscovered ??
+            getCallGraphContractName(callGraphData, addr) ??
+            'Unknown',
+          isAutoDetected: false,
+          viewOnlyPath: false,
+          calledFunctions: [],
+          entity: tag?.entity,
+          mitigations: undefined,
+          callPath: [], // No path info for manual deps
+        })
+      }
     }
   }
 
