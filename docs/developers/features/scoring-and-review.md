@@ -321,9 +321,9 @@ If admin or dependency data needs to change, modify `ProjectAnalysis` — not th
 
 ## Radar Scoring
 
-`deriveRadarData(review)` in `packages/defiscan-frontend/src/utils/radar.ts` derives the five-axis radar chart shown on the Report hero and Gallery cards from a `CompiledReview`. Each axis is scored 0–100.
+`deriveRadarData(review)` in `packages/defiscan-frontend/src/utils/radar.ts` derives the five-axis radar chart shown on the Report hero and Gallery cards from a `CompiledReview`. Each axis is scored 0–100 (individual axes cap their effective max below 100 — e.g. CONTROL tops at 90, GOVERNANCE at 95).
 
-Axes: `CONTROL`, `DEPENDENCIES`, `ACCESS`, `VERIFIABILITY`, `ABILITY TO EXIT`.
+Axes: `CONTROL`, `DEPENDENCIES`, `ACCESS`, `VERIFIABILITY`, `GOVERNANCE`.
 
 ### CONTROL
 
@@ -357,6 +357,25 @@ Additive, four components, total clamped to 100 and rounded.
 
 Coverage uses `>=` at bucket edges, so exactly `0.95` → 40 and exactly `0.90` → 20.
 
-### ABILITY TO EXIT
+### GOVERNANCE
 
-Currently a constant `65` placeholder — not yet derived from compiled data.
+Measures governance risk using three signals on `CompiledReview`: on-chain vs off-chain execution, total proposal-to-execution delay, and the fund impact governance contracts exert. Additive, max **95**, rounded, clamped.
+
+**Short-circuit:** return **95** only when `review.governance` is undefined AND no admin has `isGovernance === true && impact > 0` (where `impact = totalReachableCapital + totalReachableTokenValue`). This is the "no governance layer at all" case — the protocol is immutable or purely EOA/Multisig-controlled. If governance is documented but no admin carries the `isGovernance` tag (e.g. offchain Snapshot + multisig executor), the formula still runs, using **all fund-impacting admins** as the impact set.
+
+Otherwise sum the three components:
+
+| Component | Weight | Tiers |
+|---|---|---|
+| **Vote execution** (`review.governance.voteExecution`) | 30 | `onchain` → 30, `offchain` → 10, `review.governance` undefined → **5** (governance admins exist but no documented process) |
+| **Total delay** (`proposalPeriod + executionDelay`, summed seconds) | 35 | `≥10d → 35`, `≥7d → 28`, `≥3d → 18`, `≥1d → 10`, `≥12h → 5`, `<12h → 2` |
+| **Governance fund share** (sum impact / TVS, capped at 100%; TVS = `totalCapitalAtRisk + totalTokenValue`; TVS `0` with impact > 0 treated as 100%) | 30 | `≤10% → 30`, `≤30% → 22`, `≤60% → 12`, `>60% → 5` |
+
+Max achievable: **95** (30 + 35 + 30).
+
+**Duration handling:** `durationSeconds(d)` resolves a `CompiledGovernanceDuration` to seconds:
+- `kind === 'none'` → 0
+- `kind === 'fieldRef'` → `d.seconds` when `d.resolved === true`, else 0
+- `kind === 'fixed'` → parsed from `d.value` via regex `(\d+)\s*(second|minute|hour|day|week)s?` (all matches summed; handles strings like `"4 days"`, `"2 days 6 hours"`)
+
+**Impact cap:** raw admin impact sums can exceed TVS because admins often reach overlapping contracts. The share is clamped to `min(1, govImpact/tvs)` so the tier boundaries remain meaningful.
