@@ -2454,9 +2454,7 @@ export function FunctionFolder({
 
                             {depInfo?.entity && (
                               <div className="mt-1 flex items-center gap-1 text-xs">
-                                <span className="text-coffee-400">
-                                  Entity:
-                                </span>
+                                <span className="text-coffee-400">Entity:</span>
                                 <span className="font-semibold text-coffee-200">
                                   {depInfo.entity}
                                 </span>

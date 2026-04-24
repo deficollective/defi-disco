@@ -785,7 +785,10 @@ export class ProjectAnalysis {
       for (const [storedAddress, contractData] of Object.entries(
         this.functionsData.contracts,
       )) {
-        const expandedTargets = expandImplToTargets(storedAddress, implToProxies)
+        const expandedTargets = expandImplToTargets(
+          storedAddress,
+          implToProxies,
+        )
 
         for (const target of expandedTargets) {
           // Apply contract filter after expansion so /admins?contract=<proxy>
