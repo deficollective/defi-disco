@@ -1556,13 +1556,24 @@ export class ProjectAnalysis {
     const lookup = new Map<string, Mitigation[]>()
     if (!this.functionsData?.contracts) return lookup
 
-    // Shared-impl fan-out: when an entry is stored at a shared impl, copy it
-    // under each proxy's key so lookups by proxy address find the metadata.
+    // Shared-impl fan-out with proxy-override precedence. A per-proxy entry
+    // (e.g. a proxy-specific mitigation list for one AToken) must win over the
+    // shared impl template regardless of JSON insertion order — otherwise the
+    // last-iterated write silently clobbers the override.
+    //
+    // Two-pass build mirrors buildFunctionsMetadataLookup:
+    //   Pass 1 — non-impl entries (proxy-direct, standalone, unique-impl) write
+    //            unconditionally. Per-proxy overrides land here.
+    //   Pass 2 — shared-impl entries fan out to { impl, ...proxies } but only
+    //            fill keys that are still empty, so overrides from pass 1 are
+    //            preserved.
     const implToProxies = buildImplToProxiesMap(this.discovered)
 
     for (const [contractAddr, contractData] of Object.entries(
       this.functionsData.contracts,
     )) {
+      const normalizedStored = normalizeChainAddress(contractAddr)
+      if (implToProxies.has(normalizedStored)) continue
       for (const func of contractData.functions) {
         const mitigations = buildMergedMitigations(
           func,
@@ -1570,18 +1581,31 @@ export class ProjectAnalysis {
           this.projectName,
         )
         if (!mitigations) continue
-        const normalizedStored = normalizeChainAddress(contractAddr)
+        lookup.set(`${normalizedStored}|${func.functionName}`, mitigations)
+      }
+    }
+
+    for (const [contractAddr, contractData] of Object.entries(
+      this.functionsData.contracts,
+    )) {
+      const normalizedStored = normalizeChainAddress(contractAddr)
+      const proxies = implToProxies.get(normalizedStored)
+      if (!proxies) continue
+      for (const func of contractData.functions) {
+        const mitigations = buildMergedMitigations(
+          func,
+          this.paths,
+          this.projectName,
+        )
+        if (!mitigations) continue
         const keys = new Set<string>([
           `${normalizedStored}|${func.functionName}`,
+          ...Array.from(proxies, (p) => `${p}|${func.functionName}`),
         ])
-        const proxies = implToProxies.get(normalizedStored)
-        if (proxies) {
-          for (const proxy of proxies) {
-            keys.add(`${proxy}|${func.functionName}`)
-          }
-        }
         for (const key of keys) {
-          lookup.set(key, mitigations)
+          if (!lookup.has(key)) {
+            lookup.set(key, mitigations)
+          }
         }
       }
     }

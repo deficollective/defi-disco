@@ -400,18 +400,42 @@ function buildFunctionsMetadataLookup(
     }
   }
 
+  // Two-pass build so per-proxy overrides always win over impl templates
+  // regardless of JSON insertion order in functions.json:
+  //   Pass 1 — every entry NOT stored at a shared-impl address (proxy-direct,
+  //            standalone, unique-impl) writes unconditionally. A per-proxy
+  //            override lands here.
+  //   Pass 2 — every entry stored at a shared-impl address fans out to
+  //            { impl, ...proxies }, but only fills function slots that are
+  //            still empty — so a proxy override from pass 1 is preserved.
+  //
+  // Single-pass with a has() guard was ambiguous: if the impl entry appeared
+  // before its proxy override in iteration order, the template populated the
+  // proxy slot first and the subsequent override was silently dropped.
+
   for (const [contractAddress, contractData] of Object.entries(
     functionsData.contracts,
   )) {
     const normalized = normalizeChainAddress(contractAddress)
-    const targets = new Set<string>([normalized])
-    // If this stored address is an impl used by proxies, index under every
-    // proxy too. Entries stored at the impl remain queryable by the impl
-    // address as before.
-    const proxies = implToProxies.get(normalized)
-    if (proxies) {
-      for (const p of proxies) targets.add(p)
+    if (implToProxies.has(normalized)) continue // pass 2 handles impls
+    let funcMap = lookup.get(normalized)
+    if (!funcMap) {
+      funcMap = new Map()
+      lookup.set(normalized, funcMap)
     }
+    for (const func of contractData.functions) {
+      funcMap.set(func.functionName, func)
+    }
+  }
+
+  for (const [contractAddress, contractData] of Object.entries(
+    functionsData.contracts,
+  )) {
+    const normalized = normalizeChainAddress(contractAddress)
+    const proxies = implToProxies.get(normalized)
+    if (!proxies) continue
+    // Fan out: index entry under the impl itself AND each proxy using it.
+    const targets = new Set<string>([normalized, ...proxies])
     for (const target of targets) {
       let funcMap = lookup.get(target)
       if (!funcMap) {
@@ -419,10 +443,6 @@ function buildFunctionsMetadataLookup(
         lookup.set(target, funcMap)
       }
       for (const func of contractData.functions) {
-        // Don't overwrite a proxy-keyed entry with an impl-keyed one: a
-        // researcher may have stored a per-proxy override (e.g. a specific
-        // oracle path dep on one AToken) that should win over the shared
-        // impl template.
         if (!funcMap.has(func.functionName)) {
           funcMap.set(func.functionName, func)
         }
