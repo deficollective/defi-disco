@@ -1,6 +1,6 @@
 # Design: Shared-Implementation Fan-Out
 
-**Status**: design, pre-implementation
+**Status**: implemented; verified on 12 DeFiDisco projects
 **Scope**: `packages/l2b/src/implementations/discovery-ui/defidisco/{projectAnalysis,capitalAnalysis,functionAnalysis,fundsData,addressUtils}.ts`
 **Motivation**: correct admin/dependency/funds analysis for factory-deployed proxy patterns (Aave ATokens, debt tokens, similar Uniswap-style factory outputs)
 
@@ -211,9 +211,50 @@ Before merging:
 
 ---
 
-## 8. Rollout
+## 8. Rollout (actual)
 
-1. Land `buildImplToProxiesMap` alongside the current single-valued builder; keep both temporarily.
-2. Switch consumers one at a time: `getAdmins` → `getDependencies` → `capitalAnalysis`. After each, re-snapshot spark admins/deps to confirm no unexpected changes on proxy-keyed entries.
-3. Remove the single-valued builder once all call sites have migrated.
-4. Update CLAUDE.md's Feature Index and the permissions/scoring feature docs to document the fan-out semantics and the "$self rebinds per proxy" rule.
+1. ✅ Added `buildImplToProxiesMap` (many-valued) and `buildProxyToImplsMap` (inverse) alongside the existing single-valued `buildImplementationToProxyMap`, which is now marked `@deprecated` but kept for the name-propagation call sites where single-valued lookup is safe (all proxies share the contract name).
+2. ✅ `getAdmins`, `buildMitigationsLookup`, `buildResolvedImpactCaps`, `getFunctionImpact` in `projectAnalysis.ts` fan out impl-keyed entries to proxy rows.
+3. ✅ `buildEnhancedGraph` in `enhancedTraversal.ts` fans out permission edges (target = each proxy), with `$self` rebinding per proxy.
+4. ✅ `buildFunctionsMetadataLookup` in `functionAnalysis.ts` indexes impl-keyed entries under each proxy's key so the proxy-first iteration in `computeDependencies` finds them.
+5. ✅ `CapitalAnalysisCalculator` gained a `proxyToImpls` ctor arg and `findFunctionMeta` helper that falls back to impl lookup for `functionHasImpact`/`functionIsNoImpact`.
+6. ✅ CLAUDE.md (Proxy/Implementation Pattern), [permissions.md](../features/permissions.md#shared-implementation-fan-out), [scoring-and-review.md](../features/scoring-and-review.md#shared-implementation-fan-out), [call-graph-analysis.md](../features/call-graph-analysis.md#enhanced-traversal), [architecture.md](../architecture.md#stage-1--projectanalysis), and [researchers/getting-started.md](../../researchers/getting-started.md#permission-analysis) all updated.
+
+Still pending (minor cleanups, not blocking):
+
+- Remove the `@deprecated buildImplementationToProxyMap` once all name-propagation call sites migrate to a dedicated representative-picker helper.
+- Unify the `_proxyToImplsMap` (projectData-shape, string[] values) with the `_proxyToImplsSharedMap` (discovered-shape, Set values) in `ProjectAnalysis` — both exist because they come from different data sources; they could share one builder.
+- Consider removing `enrichFundsWithImplementations` entirely now that every funds lookup keys by proxy, or rework it to sum proxy balances when a query-by-impl falls through (the only caller that might need it).
+
+---
+
+## 9. Verification results (post-implementation)
+
+Implemented across `addressUtils.ts`, `projectAnalysis.ts`, `capitalAnalysis.ts`, `enhancedTraversal.ts`, `functionAnalysis.ts`, `v2Scoring.ts`. Took before/after snapshots of `/admins` and `/dependencies` for all 12 DeFiDisco projects.
+
+### Byte-identical output (no change)
+`aerodrome`, `Frankencoin`, `Steakhouse-USDC`, `liquity-v1`, `liquity-v2`, `uniswap-v2`, `uniswap-v3` — all admins + dependencies byte-identical. These have no metadata on shared impls, so the fix had nothing to change. ✅
+
+### Intended corrections on affected projects
+
+**Spark (AToken impl + SPK impl)** — primary motivation:
+- Pool admin's AToken functions: 6 rows → 108 rows (18 proxies × 6 functions = 108)
+- Per-function `directFundsUsd` replaced bogus $154M (impl's misrouted USDT) with correct per-proxy balances ($88M spDAI, $1.9B spwstETH, etc.)
+- Project-wide `totalCapitalAtRisk` stable at $3.35B (dedup works — no double-counting)
+- Admin aggregate `directContractsTotalFunds` on Pool went from $0 to $3.35B
+- Sky Governance chain (SubProxy admin) capital attribution went from $154M to $3.35B — correctly reflects that Sky controls all 18 AToken deposits via the PoolConfigurator upgrade path
+
+**EtherFi-Stake (DummyTokenUpgradeable shared impl)**:
+- Admin rows: 491 → 500 (+9 from 3 funcs × 3 extra proxies)
+- Admin totalCapitalAtRisk: $932M → $6.67B (+$5.74B from weETH now correctly reachable)
+- weETH reachable rows: 0 → 169 — before the fix, the main product token was unreachable from any admin in the graph. The fan-out exposes that many admins (Timelock, GnosisSafe, etc.) legitimately control paths that reach weETH via the AToken-like DummyToken permission chain.
+
+**lido, compound-v3, morpho** — unique-impl cosmetic cleanups:
+- Admin function rows previously keyed at impl addresses (e.g. `cWETHv3 impl 0xcFC1fA6b…`) now key at proxy addresses (`0x316f9708…`), with no capital-total delta
+- Proxy-address is the canonical identity of a contract; this is a correctness improvement for how the UI and compiled review render function rows
+
+### No regressions found
+- Oracle path dependencies (previously verified 18/18 AToken proxies resolve correctly) still resolve correctly post-fix
+- Project-wide capital totals stable on Spark (dedup preserved)
+- No function entries lost, no admin relationships lost
+- l2b and protocolbeat TypeScript builds clean

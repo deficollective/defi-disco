@@ -109,6 +109,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - ProjectAnalysis API (`/admins`, `/dependencies` endpoints — single source of truth for admin/dependency computation)
 - Scoring UI (inventory sections, shared `scoringShared.tsx` module, capital display, enhanced graph capital analysis)
 - Upgrade Function Capital (`isUpgrade` flag in data pipeline, UPGRADE badges in UI — upgrade functions seed BFS with all contract functions for full capital exposure)
+- Shared-Implementation Fan-Out (factory-deployed proxy patterns — Aave ATokens, debt tokens, etc. — treated as templates: one impl-keyed entry in `functions.json` fans out to N admin/dependency rows at read time, one per proxy, with `$self` rebinding per proxy and funds/permissions resolved against each proxy. Handled via `buildImplToProxiesMap`/`buildProxyToImplsMap` in `addressUtils.ts`, threaded through `getAdmins` / `getDependencies` / `buildEnhancedGraph` / `buildFunctionsMetadataLookup` / `CapitalAnalysisCalculator`. Storage stays impl-keyed — researcher writes once. Full design + verification in `docs/developers/designs/shared-impl-fan-out.md`.)
 - Review Builder (`review-config.json`, entity descriptions, templates)
 - Resources (`resources.json` — wrapper object `{ resources, audits, linesOfCode? }` per project, auto-saves independently)
 - Audits (`audits` array in `resources.json` — `AuditEntry[]` with `url`, `author`, `date`, `scope?`, `bounty?`; `bounty` = max bug bounty USD amount; separate from `ResourceEntry[]`)
@@ -192,6 +193,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 - Fields are stored on the **proxy contract**, not implementations
 - Use `findContractForAddress()` helper in `FunctionFolder.tsx` - automatically resolves implementation addresses to their parent proxy
 - Backend converts all `contract.values` to `contract.fields[]` array, so always use fields (no need for values fallback)
+- **Shared-impl fan-out**: when a single implementation is used by N proxies (factory-deployed token patterns like Aave ATokens — 18 proxies sharing one impl), function metadata stored at the impl address is treated as a **template** and fanned out to N virtual rows at analysis time — one per proxy, with `$self` rebinding to each specific proxy. This is read-time expansion only: storage stays impl-keyed, researcher edits remain in one place. The fan-out happens in `buildImplToProxiesMap` / `buildProxyToImplsMap` (`addressUtils.ts`) and is threaded through `getAdmins`, `getDependencies`, `buildEnhancedGraph` (permission edges), `buildFunctionsMetadataLookup`, `buildMitigationsLookup`, `buildResolvedImpactCaps`, and `CapitalAnalysisCalculator`. Because of this, **`$self.FIELD` paths on impl-stored metadata correctly rebind per proxy** — use them for AccessControl roles, per-proxy admin fields, etc. Full design in `docs/developers/designs/shared-impl-fan-out.md`.
 
 ### Data Access Patterns
 

@@ -118,7 +118,7 @@ Owner-chain traversal and per-function impact/dependency analysis, built on the 
 
 **Exported utilities:**
 
-- `buildEnhancedGraph(callGraphData, functionsData, dataAccess)` — builds the unified edge array
+- `buildEnhancedGraph(callGraphData, functionsData, dataAccess, discovered?)` — builds the unified edge array. When `discovered` is passed, permission edges whose target is a shared implementation are fanned out to one edge per proxy using the impl (target = proxy, not impl), and `$self` paths are re-resolved per proxy. This lets backward traversal from any proxy find the correct owner chain for factory-deployed patterns like Aave ATokens.
 - `buildIndices(edges)` — produces an `EnhancedGraph` with `forwardIndex` and `backwardIndex` (both keyed by normalized contract address)
 - `EnhancedEdge` — `{ sourceContract, sourceFunction?, targetContract, targetFunction, edgeType: 'permission' | 'callgraph', isViewCall? }`
 

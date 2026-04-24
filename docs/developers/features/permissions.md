@@ -104,6 +104,21 @@ Owner definitions use a unified path expression that navigates any data structur
 
 When a path resolves to an object with properties, the entire object is preserved and rendered in the UI — this lets the UI distinguish role admins from members. Arrays are flattened to avoid redundancy. Multiple owner definitions are supported; functions use `ownerDefinitions !== undefined` (not `??`) so explicit clearing works.
 
+### Shared-implementation fan-out
+
+When a single implementation is used by multiple proxies (factory-deployed token patterns — Aave ATokens are the canonical example, with one impl shared by 18 proxies), function metadata stored at the impl address is treated as a **template**. At analysis time (`getAdmins`, `getDependencies`, permission-edge construction in `buildEnhancedGraph`, mitigation/impactCap lookups) the pipeline emits one virtual row per proxy using the impl — each row binds `$self` to its specific proxy and resolves paths against that proxy's data in `discovered.json`.
+
+Concrete consequences:
+
+- **Write once, applied to all proxies**: store admin entries (e.g. `burn`, `mint`) on the impl with `ownerDefinitions: [{path: "$self.POOL"}]`. The Pool admin relationship is emitted for every proxy automatically.
+- **`$self.X` paths rebind per proxy**: paths like `$self.accessControl.MINTER_ROLE.members` or `$self.$admin` resolve to each proxy's own values — different proxies can have different role holders, and the fan-out surfaces this correctly.
+- **`@fieldName` paths also rebind per proxy**: `@getFundsAdmin.owner` reads `getFundsAdmin` from the current proxy, which may differ per instance.
+- **Funds are per-proxy**: `directFundsUsd` on each fanned-out row reads the specific proxy's own balance (not the impl's, which is often unrelated stranded tokens).
+
+For **per-proxy differentiated metadata** (e.g. each AToken depends on a different oracle), store entries at the proxy address directly — each proxy has its own entry. Path-form dependencies work here too: `dependencies: [{path: "eth:0xOracle.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"}]` stored on each AToken proxy resolves to the correct per-asset oracle without touching storage when oracle configuration changes on-chain.
+
+Implementation in [addressUtils.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/addressUtils.ts) (`buildImplToProxiesMap`, `buildProxyToImplsMap`), fan-out in [projectAnalysis.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/projectAnalysis.ts) (`getAdmins`, `buildMitigationsLookup`, `buildResolvedImpactCaps`), [enhancedTraversal.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/enhancedTraversal.ts) (`buildEnhancedGraph` permission edges), [capitalAnalysis.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/capitalAnalysis.ts) (`findFunctionMeta` shared-impl fallback), [functionAnalysis.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/functionAnalysis.ts) (`buildFunctionsMetadataLookup`). Full design + verification in [docs/developers/designs/shared-impl-fan-out.md](../designs/shared-impl-fan-out.md).
+
 ### Score (3-state)
 
 - `unscored` — not yet reviewed (default)

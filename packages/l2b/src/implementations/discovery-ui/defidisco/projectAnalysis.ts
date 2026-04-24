@@ -9,6 +9,8 @@ import { getProject } from '../getProject'
 import {
   addressesEqual,
   buildImplementationToProxyMap,
+  buildImplToProxiesMap,
+  buildProxyToImplsMap,
   filterMitigationsForOwner,
   normalizeChainAddress,
   stripChainPrefix,
@@ -302,6 +304,29 @@ function mapAdminType(
 }
 
 /**
+ * Expand a stored functions.json address into one-or-more analysis targets.
+ *
+ * - Unique-impl or bare proxy address: returns [storedAddress] (no change)
+ * - Shared implementation (N proxies): returns [proxy_1, … proxy_N]
+ *
+ * The returned addresses preserve their original-case form because several
+ * downstream consumers (contractNameMap, capital lookup) take either case
+ * and normalize internally. Callers that need normalized keys should pass
+ * them through `normalizeChainAddress`.
+ */
+function expandImplToTargets(
+  storedAddress: string,
+  implToProxies: Map<string, Set<string>>,
+): string[] {
+  const normalized = normalizeChainAddress(storedAddress)
+  const proxies = implToProxies.get(normalized)
+  if (!proxies || proxies.size === 0) {
+    return [storedAddress]
+  }
+  return [...proxies]
+}
+
+/**
  * Builds a merged mitigations list for a function.
  * Same logic as v2Scoring.ts buildMergedMitigations.
  */
@@ -585,6 +610,7 @@ export class ProjectAnalysis {
         this.callGraphData,
         this.functionsData,
         dataAccess,
+        this.discovered,
       )
       this._enhancedGraph = buildIndices(edges)
     }
@@ -600,6 +626,7 @@ export class ProjectAnalysis {
         this.contractNameMap,
         this.implToProxyMap,
         this.resolvedImpactCaps,
+        this.proxyToImplsSharedMap,
       )
     }
     return this._capitalCalculator
@@ -748,82 +775,93 @@ export class ProjectAnalysis {
     const adminsMap = new Map<string, AdminDetail>()
     const ownerResolutionCache = new Map<string, string[]>()
 
+    // Shared-impl fan-out: when a functions.json entry is stored at an
+    // implementation address used by N proxies, emit N admin rows (one per
+    // proxy) with `$self` bound to the specific proxy. See
+    // docs/developers/designs/shared-impl-fan-out.md.
+    const implToProxies = buildImplToProxiesMap(this.discovered)
+
     if (this.functionsData?.contracts) {
-      for (const [contractAddress, contractData] of Object.entries(
+      for (const [storedAddress, contractData] of Object.entries(
         this.functionsData.contracts,
       )) {
-        // Apply contract filter if provided (with impl→proxy resolution)
-        if (
-          contractFilter &&
-          !this.matchesContractFilter(contractAddress, contractFilter)
-        ) {
-          continue
-        }
+        const expandedTargets = expandImplToTargets(storedAddress, implToProxies)
 
-        for (const func of contractData.functions) {
-          // Include functions that have owner definitions, regardless of
-          // isPermissioned — FunctionFolder resolves and displays owners
-          // for any function with ownerDefinitions.
-          if (!func.ownerDefinitions || func.ownerDefinitions.length === 0) {
+        for (const target of expandedTargets) {
+          // Apply contract filter after expansion so /admins?contract=<proxy>
+          // matches impl-stored entries that fan out to that proxy.
+          if (
+            contractFilter &&
+            !this.matchesContractFilter(target, contractFilter)
+          ) {
             continue
           }
 
-          // Resolve owners with caching
-          // Cache key must include contractAddress because $self paths
-          // resolve differently per contract
-          const cacheKey = `${contractAddress}|${JSON.stringify(func.ownerDefinitions)}`
-          let adminAddresses = ownerResolutionCache.get(cacheKey)
-          if (!adminAddresses) {
-            const resolved = resolveOwnersFromDiscovered(
-              this.paths,
-              this.projectName,
-              contractAddress,
-              func.ownerDefinitions,
-            )
-            adminAddresses = [
-              ...new Set(extractAddressesFromResolvedOwners(resolved)),
-            ]
-            ownerResolutionCache.set(cacheKey, adminAddresses)
-          }
-
-          // Group by admin
-          const funcImpact: Impact =
-            func.score === 'no-impact' ? 'no-impact' : 'critical'
-
-          for (const adminAddr of adminAddresses) {
-            const normalizedAdmin = normalizeChainAddress(adminAddr)
-            if (!adminsMap.has(normalizedAdmin)) {
-              const rawType =
-                this.contractTypeMap.get(normalizedAdmin) || 'Unknown'
-              const adminType = mapAdminType(
-                rawType,
-                normalizedAdmin,
-                this.proxyTypeMap,
-              )
-              adminsMap.set(normalizedAdmin, {
-                adminAddress: normalizedAdmin,
-                adminName:
-                  this.contractNameMap.get(normalizedAdmin) || normalizedAdmin,
-                adminType,
-                functions: [],
-              })
+          for (const func of contractData.functions) {
+            // Include functions that have owner definitions, regardless of
+            // isPermissioned — FunctionFolder resolves and displays owners
+            // for any function with ownerDefinitions.
+            if (!func.ownerDefinitions || func.ownerDefinitions.length === 0) {
+              continue
             }
 
-            adminsMap.get(normalizedAdmin)!.functions.push({
-              contractAddress,
-              contractName:
-                this.contractNameMap.get(
-                  normalizeChainAddress(contractAddress),
-                ) || 'Unknown Contract',
-              functionName: func.functionName,
-              impact: funcImpact,
-              mitigations: this.getMitigationsForOwner(
-                contractAddress,
-                func.functionName,
-                normalizedAdmin,
-                'admin',
-              ),
-            })
+            // Resolve owners with caching keyed by (target, definitions) — $self
+            // paths resolve per target proxy so we cannot dedupe across targets
+            // even if the stored entry is shared.
+            const cacheKey = `${target}|${JSON.stringify(func.ownerDefinitions)}`
+            let adminAddresses = ownerResolutionCache.get(cacheKey)
+            if (!adminAddresses) {
+              const resolved = resolveOwnersFromDiscovered(
+                this.paths,
+                this.projectName,
+                target,
+                func.ownerDefinitions,
+              )
+              adminAddresses = [
+                ...new Set(extractAddressesFromResolvedOwners(resolved)),
+              ]
+              ownerResolutionCache.set(cacheKey, adminAddresses)
+            }
+
+            // Group by admin
+            const funcImpact: Impact =
+              func.score === 'no-impact' ? 'no-impact' : 'critical'
+
+            for (const adminAddr of adminAddresses) {
+              const normalizedAdmin = normalizeChainAddress(adminAddr)
+              if (!adminsMap.has(normalizedAdmin)) {
+                const rawType =
+                  this.contractTypeMap.get(normalizedAdmin) || 'Unknown'
+                const adminType = mapAdminType(
+                  rawType,
+                  normalizedAdmin,
+                  this.proxyTypeMap,
+                )
+                adminsMap.set(normalizedAdmin, {
+                  adminAddress: normalizedAdmin,
+                  adminName:
+                    this.contractNameMap.get(normalizedAdmin) ||
+                    normalizedAdmin,
+                  adminType,
+                  functions: [],
+                })
+              }
+
+              adminsMap.get(normalizedAdmin)!.functions.push({
+                contractAddress: target,
+                contractName:
+                  this.contractNameMap.get(normalizeChainAddress(target)) ||
+                  'Unknown Contract',
+                functionName: func.functionName,
+                impact: funcImpact,
+                mitigations: this.getMitigationsForOwner(
+                  target,
+                  func.functionName,
+                  normalizedAdmin,
+                  'admin',
+                ),
+              })
+            }
           }
         }
       }
@@ -1231,6 +1269,7 @@ export class ProjectAnalysis {
       this.callGraphData,
       this.functionsData,
       dataAccess,
+      this.discovered,
     )
     const graph = buildIndices(edges)
 
@@ -1463,6 +1502,7 @@ export class ProjectAnalysis {
     if (!this.functionsData?.contracts) return caps
 
     const dataAccess = new DiscoveredDataAccess(this.discovered)
+    const implToProxies = buildImplToProxiesMap(this.discovered)
 
     for (const [contractAddr, contractData] of Object.entries(
       this.functionsData.contracts,
@@ -1482,14 +1522,25 @@ export class ProjectAnalysis {
           )
           if (capUsd === undefined) continue
 
-          const base = `${normalizeChainAddress(contractAddr)}|${func.functionName}`
-          const key = m.scopedTo
-            ? `${base}|${normalizeChainAddress(m.scopedTo.address)}`
-            : base
+          const normalizedStored = normalizeChainAddress(contractAddr)
+          // Fan out impl-stored caps to each proxy sharing the impl, so that
+          // lookups keyed by proxy find the cap.
+          const baseAddresses = new Set<string>([normalizedStored])
+          const proxies = implToProxies.get(normalizedStored)
+          if (proxies) {
+            for (const p of proxies) baseAddresses.add(p)
+          }
 
-          const existing = caps.get(key)
-          if (existing === undefined || capUsd < existing) {
-            caps.set(key, capUsd)
+          for (const baseAddr of baseAddresses) {
+            const base = `${baseAddr}|${func.functionName}`
+            const key = m.scopedTo
+              ? `${base}|${normalizeChainAddress(m.scopedTo.address)}`
+              : base
+
+            const existing = caps.get(key)
+            if (existing === undefined || capUsd < existing) {
+              caps.set(key, capUsd)
+            }
           }
         }
       }
@@ -1502,6 +1553,10 @@ export class ProjectAnalysis {
     const lookup = new Map<string, Mitigation[]>()
     if (!this.functionsData?.contracts) return lookup
 
+    // Shared-impl fan-out: when an entry is stored at a shared impl, copy it
+    // under each proxy's key so lookups by proxy address find the metadata.
+    const implToProxies = buildImplToProxiesMap(this.discovered)
+
     for (const [contractAddr, contractData] of Object.entries(
       this.functionsData.contracts,
     )) {
@@ -1511,8 +1566,18 @@ export class ProjectAnalysis {
           this.paths,
           this.projectName,
         )
-        if (mitigations) {
-          const key = `${normalizeChainAddress(contractAddr)}|${func.functionName}`
+        if (!mitigations) continue
+        const normalizedStored = normalizeChainAddress(contractAddr)
+        const keys = new Set<string>([
+          `${normalizedStored}|${func.functionName}`,
+        ])
+        const proxies = implToProxies.get(normalizedStored)
+        if (proxies) {
+          for (const proxy of proxies) {
+            keys.add(`${proxy}|${func.functionName}`)
+          }
+        }
+        for (const key of keys) {
           lookup.set(key, mitigations)
         }
       }
@@ -1717,13 +1782,38 @@ export class ProjectAnalysis {
    */
   private getFunctionImpact(contractAddr: string, funcName: string): Impact {
     const normalizedAddr = normalizeChainAddress(contractAddr)
-    const contractEntry = Object.entries(
-      this.functionsData?.contracts ?? {},
-    ).find(([key]) => normalizeChainAddress(key) === normalizedAddr)
-    if (!contractEntry) return 'critical'
-    const func = contractEntry[1].functions.find(
-      (f) => f.functionName === funcName,
-    )
-    return func?.score === 'no-impact' ? 'no-impact' : 'critical'
+
+    // Check the address itself AND any implementation addresses it uses.
+    // This handles shared-impl metadata: the researcher stores one `burn`
+    // entry with score='no-impact' at the AToken impl; every AToken proxy
+    // sharing that impl must inherit the no-impact verdict even though
+    // callers pass the proxy address.
+    const candidateAddresses: string[] = [normalizedAddr]
+    const proxyImpls = this.proxyToImplsSharedMap.get(normalizedAddr)
+    if (proxyImpls) {
+      for (const impl of proxyImpls) candidateAddresses.push(impl)
+    }
+
+    for (const candidate of candidateAddresses) {
+      const contractEntry = Object.entries(
+        this.functionsData?.contracts ?? {},
+      ).find(([key]) => normalizeChainAddress(key) === candidate)
+      if (!contractEntry) continue
+      const func = contractEntry[1].functions.find(
+        (f) => f.functionName === funcName,
+      )
+      if (func) {
+        return func.score === 'no-impact' ? 'no-impact' : 'critical'
+      }
+    }
+    return 'critical'
+  }
+
+  private _proxyToImplsSharedMap: Map<string, Set<string>> | null = null
+  private get proxyToImplsSharedMap(): Map<string, Set<string>> {
+    if (!this._proxyToImplsSharedMap) {
+      this._proxyToImplsSharedMap = buildProxyToImplsMap(this.discovered)
+    }
+    return this._proxyToImplsSharedMap
   }
 }

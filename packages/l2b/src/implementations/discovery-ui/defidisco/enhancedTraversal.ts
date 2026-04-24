@@ -6,7 +6,7 @@ import type {
 import * as fs from 'fs'
 import * as path from 'path'
 import { getProject } from '../getProject'
-import { normalizeChainAddress } from './addressUtils'
+import { buildImplToProxiesMap, normalizeChainAddress } from './addressUtils'
 import { getCallGraphData } from './callGraph'
 import {
   extractAddressesFromResolvedOwners,
@@ -72,9 +72,19 @@ export function buildEnhancedGraph(
   callGraphData: ApiCallGraphResponse,
   functionsData: ApiFunctionsResponse,
   dataAccess: DiscoveredDataAccess,
+  discovered?: any,
 ): { edges: EnhancedEdge[]; constructionErrors: Map<string, string[]> } {
   const edges: EnhancedEdge[] = []
   const constructionErrors = new Map<string, string[]>()
+
+  // Shared-impl fan-out: when metadata is stored at an impl address used by
+  // multiple proxies, emit one permission edge per proxy (target = proxy,
+  // not impl). This makes backward traversal from any proxy find the chain,
+  // and keeps reachability per-proxy in forward BFS (e.g. "Pool owns burn
+  // on all 18 AToken proxies" rather than "Pool owns burn on IMPL" alone).
+  const implToProxies = discovered
+    ? buildImplToProxiesMap(discovered)
+    : new Map<string, Set<string>>()
 
   // 1. Call graph edges (natural direction: caller → callee)
   for (const [, graph] of Object.entries(callGraphData.contracts)) {
@@ -97,45 +107,60 @@ export function buildEnhancedGraph(
     for (const [contractAddr, contractData] of Object.entries(
       functionsData.contracts,
     )) {
-      for (const func of contractData.functions) {
-        if (
-          !func.isPermissioned ||
-          !func.ownerDefinitions ||
-          func.ownerDefinitions.length === 0
-        ) {
-          continue
-        }
+      // Determine the target proxies for this entry. For impl-keyed shared
+      // entries we emit one edge per proxy; for unique-impl or proxy-keyed
+      // entries this expands to a single target equal to the stored address.
+      const normalizedStored = normalizeChainAddress(contractAddr)
+      const sharedProxies = implToProxies.get(normalizedStored)
+      const targets =
+        sharedProxies && sharedProxies.size > 0
+          ? [...sharedProxies]
+          : [contractAddr]
 
-        const resolved = resolveOwnersWithDataAccess(
-          dataAccess,
-          contractAddr,
-          func.ownerDefinitions,
-        )
-
-        // Track resolution errors
-        const errors: string[] = []
-        for (const r of resolved) {
-          if (!r.isResolved && r.error) {
-            errors.push(r.error)
+      for (const target of targets) {
+        for (const func of contractData.functions) {
+          if (
+            !func.isPermissioned ||
+            !func.ownerDefinitions ||
+            func.ownerDefinitions.length === 0
+          ) {
+            continue
           }
-        }
-        if (errors.length > 0) {
-          const key = `${normalizeChainAddress(contractAddr)}:${func.functionName}`
-          constructionErrors.set(key, errors)
-        }
 
-        // Create permission edges for each unique owner address
-        const ownerAddresses = [
-          ...new Set(extractAddressesFromResolvedOwners(resolved)),
-        ]
-        for (const ownerAddr of ownerAddresses) {
-          edges.push({
-            sourceContract: ownerAddr,
-            // sourceFunction: undefined — permission edges are contract-level
-            targetContract: contractAddr,
-            targetFunction: func.functionName,
-            edgeType: 'permission',
-          })
+          // Resolve owners with the current target as currentContractAddress
+          // so `$self.X` re-binds per proxy (e.g. `$self.accessControl.ROLE.members`).
+          const resolved = resolveOwnersWithDataAccess(
+            dataAccess,
+            target,
+            func.ownerDefinitions,
+          )
+
+          // Track resolution errors — keyed by target (per-proxy key) so a
+          // failure on one proxy doesn't mask success on another.
+          const errors: string[] = []
+          for (const r of resolved) {
+            if (!r.isResolved && r.error) {
+              errors.push(r.error)
+            }
+          }
+          if (errors.length > 0) {
+            const key = `${normalizeChainAddress(target)}:${func.functionName}`
+            constructionErrors.set(key, errors)
+          }
+
+          // Create permission edges for each unique owner address
+          const ownerAddresses = [
+            ...new Set(extractAddressesFromResolvedOwners(resolved)),
+          ]
+          for (const ownerAddr of ownerAddresses) {
+            edges.push({
+              sourceContract: ownerAddr,
+              // sourceFunction: undefined — permission edges are contract-level
+              targetContract: target,
+              targetFunction: func.functionName,
+              edgeType: 'permission',
+            })
+          }
         }
       }
     }
@@ -593,9 +618,10 @@ export function resolveEnhancedTraversal(
     'discovered.json',
   )
   let dataAccess: DiscoveredDataAccess
+  let discovered: any
   try {
     const fileContent = fs.readFileSync(discoveredPath, 'utf8')
-    const discovered = JSON.parse(fileContent)
+    discovered = JSON.parse(fileContent)
     dataAccess = new DiscoveredDataAccess(discovered)
   } catch {
     return {
@@ -632,11 +658,13 @@ export function resolveEnhancedTraversal(
     })
   })
 
-  // Build enhanced graph (permission resolution happens here)
+  // Build enhanced graph (permission resolution happens here).
+  // Pass `discovered` so shared-impl metadata can fan out to per-proxy edges.
   const { edges, constructionErrors } = buildEnhancedGraph(
     callGraphData,
     functionsData,
     dataAccess,
+    discovered,
   )
 
   // Build bidirectional indices

@@ -1,7 +1,11 @@
 import type { DiscoveryPaths } from '@l2beat/discovery'
 import * as fs from 'fs'
 import * as path from 'path'
-import { addressesEqual, normalizeChainAddress } from './addressUtils'
+import {
+  addressesEqual,
+  buildProxyToImplsMap,
+  normalizeChainAddress,
+} from './addressUtils'
 import {
   buildExternalAddressSet,
   buildTagsByAddress,
@@ -244,9 +248,6 @@ export function computeFunctionAnalysis(
   // Build normalized funds lookup for O(1) access
   const fundsLookup = buildFundsLookup(fundsData)
 
-  // Build a normalized lookup for functions.json metadata
-  const functionsMetadata = buildFunctionsMetadataLookup(functionsData)
-
   const contracts: Record<string, Record<string, FunctionAnalysis>> = {}
 
   // Load discovered.json once for both ABI extraction and owner resolution
@@ -261,6 +262,17 @@ export function computeFunctionAnalysis(
   } catch {
     return { version: '1.0', lastModified: new Date().toISOString(), contracts }
   }
+
+  // Build shared-impl map so metadata stored at an impl address can also be
+  // looked up by each proxy that uses it (Aave AToken pattern, etc.).
+  const proxyToImpls = buildProxyToImplsMap(discovered)
+
+  // Build a normalized lookup for functions.json metadata, fanned out across
+  // proxies of shared implementations.
+  const functionsMetadata = buildFunctionsMetadataLookup(
+    functionsData,
+    proxyToImpls,
+  )
 
   const writeFunctionsByContract = buildWriteFunctionsFromParsed(discovered)
 
@@ -359,24 +371,62 @@ type FunctionsMetadataMap = Map<string, Map<string, FunctionEntry>>
 
 /**
  * Build a normalized lookup: contractAddress -> functionName -> FunctionEntry
+ *
+ * Shared-impl fan-out: when `proxyToImpls` is provided (preferred), entries
+ * stored at an impl address used by N proxies are ALSO indexed under each
+ * proxy's key so that lookups by proxy address find the metadata. This lets
+ * us support one stored entry serving N proxies (the Aave AToken pattern)
+ * without duplicating storage.
  */
 function buildFunctionsMetadataLookup(
   functionsData: ApiFunctionsResponse,
+  proxyToImpls?: Map<string, Set<string>>,
 ): FunctionsMetadataMap {
   const lookup: FunctionsMetadataMap = new Map()
   if (!functionsData.contracts) return lookup
+
+  // Build the inverse: impl → proxies using it, for fast fan-out.
+  const implToProxies = new Map<string, Set<string>>()
+  if (proxyToImpls) {
+    for (const [proxy, impls] of proxyToImpls) {
+      for (const impl of impls) {
+        let set = implToProxies.get(impl)
+        if (!set) {
+          set = new Set()
+          implToProxies.set(impl, set)
+        }
+        set.add(proxy)
+      }
+    }
+  }
 
   for (const [contractAddress, contractData] of Object.entries(
     functionsData.contracts,
   )) {
     const normalized = normalizeChainAddress(contractAddress)
-    let funcMap = lookup.get(normalized)
-    if (!funcMap) {
-      funcMap = new Map()
-      lookup.set(normalized, funcMap)
+    const targets = new Set<string>([normalized])
+    // If this stored address is an impl used by proxies, index under every
+    // proxy too. Entries stored at the impl remain queryable by the impl
+    // address as before.
+    const proxies = implToProxies.get(normalized)
+    if (proxies) {
+      for (const p of proxies) targets.add(p)
     }
-    for (const func of contractData.functions) {
-      funcMap.set(func.functionName, func)
+    for (const target of targets) {
+      let funcMap = lookup.get(target)
+      if (!funcMap) {
+        funcMap = new Map()
+        lookup.set(target, funcMap)
+      }
+      for (const func of contractData.functions) {
+        // Don't overwrite a proxy-keyed entry with an impl-keyed one: a
+        // researcher may have stored a per-proxy override (e.g. a specific
+        // oracle path dep on one AToken) that should win over the shared
+        // impl template.
+        if (!funcMap.has(func.functionName)) {
+          funcMap.set(func.functionName, func)
+        }
+      }
     }
   }
   return lookup
