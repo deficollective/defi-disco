@@ -86,8 +86,7 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 
 **Data Pipeline**: See `docs/developers/architecture.md` § "Data Pipeline: From Discovery to Frontend" for the end-to-end transformation chain (5 stages) covering how admins, dependencies, and funds flow from source data through scoring, compilation, and into the frontend.
 
-### Dependency BFS Seeding
-- Manual deps in `functions.json` (`{contractAddress}` or `{path}`) are NOT terminal leaves. Two layers seed BFS through them: `augmentTraversalWithManualDepSeeds` in `functionAnalysis.ts` walks the raw call graph from every resolved dep target (one seed per `callerFunction` on the target) and merges reachables into the primary traversal — feeds `/dependencies` auto-detected entries + `/admins.functions[].reachableContracts` funds accounting. Separately, `buildEnhancedGraph` in `enhancedTraversal.ts` emits `edgeType: 'dependency'` edges `(ownerProxy, func) → (depAddr, callerFn)` so `capitalAnalysis.traverseForward` also walks through deps with `sourceFunction` filtering and view-only propagation. Dep edges are explicitly excluded from backward ownership-chain traversal (a dep is not ownership). Leaf dep targets not in the call graph surface as manual-dep leaves only.
+**Forward BFS through deps and upgrades**: manual `dependencies` in `functions.json` and upgrade functions are non-leaf — forward BFS continues through them for auto-detected dep surfaces, capital reachability, and transitive mitigation collection. `edgeType: 'dependency'` edges emitted by `buildEnhancedGraph` (excluded from backward ownership-chain traversal). Full semantics, seeding rules, and perf notes in `docs/developers/features/permissions.md` § "Manual dependency transitive reachability" and "Mitigations".
 
 ### Permissions — `docs/developers/features/permissions.md`
 - AI-Based Permission Detection (GPT-4 / Claude, endpoint + prompt engineering)

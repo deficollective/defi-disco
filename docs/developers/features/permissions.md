@@ -159,9 +159,20 @@ Each function can carry a `mitigations[]` array describing on-chain constraints 
 **Resolution (`projectAnalysis.ts`, `getMitigationsForOwner`)** runs in two stages:
 
 1. **Direct mitigations** — taken from `functions.json` and filtered per owner (globals pass through, scoped ones must match the owner address)
-2. **Transitive mitigations** — collected via forward BFS through the call graph; for every downstream function reachable from the starting function, global mitigations and scoped mitigations whose `scopedTo.address` matches a contract on the call path are included
+2. **Transitive mitigations** — collected via forward BFS through the enhanced graph; for every downstream function reachable from the starting function, global mitigations and scoped mitigations whose `scopedTo.address` matches a contract on the call path are included
 
 Example: `XCHF → StablecoinBridge.mint() → Frankencoin.mint()` where `Frankencoin.mint` carries a mitigation scoped to `StablecoinBridge`. When viewing `StablecoinBridge.mint` from XCHF's perspective, the minting limit propagates transitively because StablecoinBridge is on the call path.
+
+**BFS seeding — what it walks through.** `collectDownstreamScopedMitigations` follows **both** `'callgraph'` and `'dependency'` edges (mirroring `capitalAnalysis.traverseForward`). Dep-edge traversal is required so a global cap on a manual-dep target (e.g. an oracle reachable via a `dependencies` path expression) propagates back to the permissioned function that names it. Permission edges are NOT followed — a dep is not ownership.
+
+**Upgrade-function seeding.** Upgrade functions (`upgradeTo`, `upgradeToAndCall`, `upgradeBeacon`, ...) are delegatecall stubs with no outgoing edges of their own, so without explicit seeding their transitive-mit BFS would never run. Two complementary mechanisms handle this:
+
+1. `buildTransitiveMitigationsLookup` explicitly iterates `functions.json.contracts` for `isUpgradeFunction(name)` entries and adds them to the seed set, regardless of whether the forward index contains them as edge sources.
+2. When `collectDownstreamScopedMitigations` is called with an upgrade start function, BFS is seeded with **every** non-permission `sourceFunction` that appears in the contract's forward edges — same pattern as `traverseWithPaths` and `capitalAnalysis.traverseForward`. This correctly models "upgrade grants arbitrary code execution on the contract": any function's downstream reach becomes accessible to the upgrader.
+
+Without (2), upgrade admins on ATokens never accumulate transitive mits from oracle wrappers, and researchers have to manually copy a scoped mitigation onto every upgrade function — defeating the point of transitive propagation.
+
+**Performance note.** Both `buildTransitiveMitigationsLookup` and `collectDownstreamScopedMitigations` fast-path out when `mitigationsLookup.size === 0`: projects with no direct mitigations skip the BFS work entirely. For projects with mits (spark, Frankencoin), the BFS still runs per `(contract, function)` seed. The transitive lookup is memoized per `ProjectAnalysis` instance — but each HTTP request constructs a fresh instance, so cross-request caching is a future improvement.
 
 `reviewCompiler.ts` consumes the resolved mitigations directly — it does not compute or filter them itself.
 

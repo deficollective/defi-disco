@@ -1621,15 +1621,32 @@ export class ProjectAnalysis {
   private buildTransitiveMitigationsLookup(): Map<string, Mitigation[]> {
     const transitiveLookup = new Map<string, Mitigation[]>()
 
+    // Fast path: if the project has no direct mitigations at all, there is
+    // nothing for forward BFS to collect. Skip the O(edges × BFS) work
+    // entirely. This is the common case (most projects have zero scoped
+    // mits), and avoids the upgrade-seeding + dep-edge fan-out cost added
+    // by the transitive-propagation fix.
+    if (this.mitigationsLookup.size === 0) {
+      return transitiveLookup
+    }
+
     // Collect all unique (contract, function) pairs that have outgoing
-    // call graph edges. We must iterate the enhanced graph — not just
-    // functionsData — because many caller contracts (e.g. StablecoinBridge)
-    // are not in functionsData but DO have call graph edges to downstream
-    // functions that carry scoped mitigations.
+    // call graph OR dependency edges. We must iterate the enhanced graph —
+    // not just functionsData — because many caller contracts (e.g. the
+    // StablecoinBridge) are not in functionsData but DO have call graph
+    // edges to downstream functions that carry scoped mitigations.
     const seen = new Set<string>()
     for (const [, edges] of this.enhancedGraph.forwardIndex) {
       for (const edge of edges) {
-        if (edge.edgeType !== 'callgraph' || !edge.sourceFunction) continue
+        // Both callgraph and dependency edges represent data-flow reach from
+        // a function — we need transitive mits on both so a manual-dep oracle
+        // cap can flow back to the permissioned function that names the dep.
+        if (
+          (edge.edgeType !== 'callgraph' && edge.edgeType !== 'dependency') ||
+          !edge.sourceFunction
+        ) {
+          continue
+        }
         const key = `${normalizeChainAddress(edge.sourceContract)}|${edge.sourceFunction}`
         if (seen.has(key)) continue
         seen.add(key)
@@ -1640,6 +1657,35 @@ export class ProjectAnalysis {
         )
         if (transitiveMits.length > 0) {
           transitiveLookup.set(key, transitiveMits)
+        }
+      }
+    }
+
+    // Upgrade functions (upgradeTo / upgradeToAndCall) don't have outgoing
+    // call-graph edges of their own — they're just delegatecall stubs — so
+    // they never appear as `sourceFunction` above. But semantically, an
+    // upgrade grants arbitrary code execution on the contract, so forward
+    // reach from them must include everything the contract's other
+    // functions reach. Seed the lookup for every permissioned upgrade
+    // function in functionsData so `collectDownstreamScopedMitigations`
+    // (which already handles the upgrade seeding internally) can run.
+    if (this.functionsData?.contracts) {
+      for (const [contractAddr, contractData] of Object.entries(
+        this.functionsData.contracts,
+      )) {
+        const normalizedStored = normalizeChainAddress(contractAddr)
+        for (const func of contractData.functions) {
+          if (!isUpgradeFunction(func.functionName)) continue
+          const key = `${normalizedStored}|${func.functionName}`
+          if (seen.has(key)) continue
+          seen.add(key)
+          const transitiveMits = this.collectDownstreamScopedMitigations(
+            contractAddr,
+            func.functionName,
+          )
+          if (transitiveMits.length > 0) {
+            transitiveLookup.set(key, transitiveMits)
+          }
         }
       }
     }
@@ -1664,17 +1710,54 @@ export class ProjectAnalysis {
     const visited = new Set<string>()
     const directLookup = this.mitigationsLookup
 
+    // Defense-in-depth: if no direct mits exist anywhere, BFS can't collect
+    // anything. `buildTransitiveMitigationsLookup` already bails out in this
+    // case, but other callers may reach this function directly.
+    if (directLookup.size === 0) return collected
+
     const queue: Array<{
       contract: string
       function: string
       pathContracts: Set<string>
-    }> = [
-      {
+    }> = []
+
+    const initialPath = new Set([normalizeChainAddress(startContract)])
+
+    if (isUpgradeFunction(startFunction)) {
+      // Upgrade = arbitrary code execution on this contract. Seed BFS with
+      // every function that appears as a caller in the contract's call graph
+      // (mirrors `traverseWithPaths`'s upgrade-function seeding). Without this,
+      // upgrade fns never reach downstream mits and their dependency-view
+      // impactCaps aren't applied.
+      const normalizedContract = normalizeChainAddress(startContract)
+      const edges = this.enhancedGraph.forwardIndex.get(normalizedContract)
+      const seenFunctions = new Set<string>()
+      if (edges) {
+        for (const edge of edges) {
+          if (edge.edgeType === 'permission') continue
+          if (!edge.sourceFunction) continue
+          if (seenFunctions.has(edge.sourceFunction)) continue
+          seenFunctions.add(edge.sourceFunction)
+          queue.push({
+            contract: startContract,
+            function: edge.sourceFunction,
+            pathContracts: new Set(initialPath),
+          })
+        }
+      }
+      // Also seed the upgrade function itself.
+      queue.push({
         contract: startContract,
         function: startFunction,
-        pathContracts: new Set([normalizeChainAddress(startContract)]),
-      },
-    ]
+        pathContracts: initialPath,
+      })
+    } else {
+      queue.push({
+        contract: startContract,
+        function: startFunction,
+        pathContracts: initialPath,
+      })
+    }
 
     while (queue.length > 0) {
       const { contract, function: func, pathContracts } = queue.shift()!
@@ -1688,8 +1771,17 @@ export class ProjectAnalysis {
       if (!edges) continue
 
       for (const edge of edges) {
-        // Only follow call graph edges, not permission edges
-        if (edge.edgeType !== 'callgraph') continue
+        // Follow call graph AND dependency edges — both represent data-flow
+        // reach from this function. Permission edges (owner → owned fn) do
+        // NOT model downstream reach so we skip them. Without dependency-edge
+        // traversal here, a global impactCap on a manual-dep target (e.g. a
+        // price oracle reachable via a `dependencies` path expression) would
+        // not propagate back to the permissioned function that names it —
+        // leaving the function's dep view uncapped while /dependencies still
+        // attributes it to the dep.
+        if (edge.edgeType !== 'callgraph' && edge.edgeType !== 'dependency') {
+          continue
+        }
         // Only follow edges from the current function
         if (edge.sourceFunction !== func) continue
 

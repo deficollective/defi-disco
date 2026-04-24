@@ -220,11 +220,17 @@ Before merging:
 5. ✅ `CapitalAnalysisCalculator` gained a `proxyToImpls` ctor arg and `findFunctionMeta` helper that falls back to impl lookup for `functionHasImpact`/`functionIsNoImpact`.
 6. ✅ CLAUDE.md (Proxy/Implementation Pattern), [permissions.md](../features/permissions.md#shared-implementation-fan-out), [scoring-and-review.md](../features/scoring-and-review.md#shared-implementation-fan-out), [call-graph-analysis.md](../features/call-graph-analysis.md#enhanced-traversal), [architecture.md](../architecture.md#stage-1--projectanalysis), and [researchers/getting-started.md](../../researchers/getting-started.md#permission-analysis) all updated.
 
+Follow-up fix (transitive mitigations through deps + upgrades):
+
+7. ✅ `projectAnalysis.ts::buildTransitiveMitigationsLookup` and `collectDownstreamScopedMitigations` now follow `'dependency'` edges in addition to `'callgraph'`, and seed BFS from every source function on the contract when the start function is an upgrade. Without this, a global `impactCap` on a manual-dep target (oracle) never propagated back to the permissioned function that declared the dep, and upgrade admins never accumulated transitive mits. This closed a real gap that was previously worked around by duplicating 93 scoped mitigations directly onto AToken upgrade/transfer functions in spark's `functions.json`; those 93 direct entries were removed after the fix (transitive propagation re-derives them via the 3 remaining global mits on LRTOracle/RSETHExchangeRateOracle view functions). Permissions doc updated. CLAUDE.md updated with a "Transitive Mitigations Propagation" section.
+
 Still pending (minor cleanups, not blocking):
 
 - Remove the `@deprecated buildImplementationToProxyMap` once all name-propagation call sites migrate to a dedicated representative-picker helper.
 - Unify the `_proxyToImplsMap` (projectData-shape, string[] values) with the `_proxyToImplsSharedMap` (discovered-shape, Set values) in `ProjectAnalysis` — both exist because they come from different data sources; they could share one builder.
 - Consider removing `enrichFundsWithImplementations` entirely now that every funds lookup keys by proxy, or rework it to sum proxy balances when a query-by-impl falls through (the only caller that might need it).
+- **Cross-request caching of `ProjectAnalysis`.** Every HTTP request to `/admins` / `/dependencies` constructs a fresh `ProjectAnalysis`, rebuilding the enhanced graph, mitigations lookup, and transitive-mitigations lookup from scratch. Adding a per-`(project, file-mtimes)` cache would amortize the cost across requests. Current post-fix timings: spark full `/admins` ~7.6s, filtered ~1.9s; most other projects sub-second. Cheap fast-path now in place: `buildTransitiveMitigationsLookup` and `collectDownstreamScopedMitigations` exit immediately when `mitigationsLookup.size === 0` (covers projects with no direct mits).
+- **Pre-existing callgraph noise.** The 3 remaining global (no `scopedTo`) `bounded-by-spark-rsETH-pool` mitigations on LRTOracle/RSETHExchangeRateOracle view functions propagate to unrelated dep queries on spark ATokens via Slither-optimistic `Pool.finalizeTransfer → LRTOracle.getAssetPrice` edges. This is a data-quality issue (those mits should arguably be scoped to the LRTOracle dependency), not a code bug. The transitive-mitigation fix surfaces the noise but does not introduce it — the callgraph path existed before.
 
 ---
 

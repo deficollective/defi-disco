@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-04-24T10:09:24.247Z",
+  "lastModified": "2026-04-24T11:42:08.946Z",
   "contracts": {
     "eth:0x3300f198988e4C9C63F75dF86De36421f06af8c4": {
       "functions": [
@@ -565,32 +565,10 @@
               "path": "$self.constructorArgs.admin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.014Z",
+          "timestamp": "2026-04-24T11:40:47.094Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:24.014Z"
+            "date": "2026-04-24T11:40:47.094Z"
           }
         },
         {
@@ -602,32 +580,10 @@
               "path": "$self.constructorArgs.admin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.036Z",
+          "timestamp": "2026-04-24T11:40:47.117Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:24.036Z"
+            "date": "2026-04-24T11:40:47.117Z"
           }
         },
         {
@@ -3019,32 +2975,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.681Z",
+          "timestamp": "2026-04-24T11:40:47.136Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.681Z"
+            "date": "2026-04-24T11:40:47.136Z"
           }
         },
         {
@@ -3057,32 +2991,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.695Z",
+          "timestamp": "2026-04-24T11:40:47.154Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.695Z"
+            "date": "2026-04-24T11:40:47.154Z"
           }
         },
         {
@@ -3111,94 +3023,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.669Z",
+          "timestamp": "2026-04-24T11:40:47.170Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.669Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.641Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.641Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.656Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.656Z"
+            "date": "2026-04-24T11:40:47.170Z"
           }
         }
       ]
@@ -3215,32 +3043,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.758Z",
+          "timestamp": "2026-04-24T11:40:47.225Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.758Z"
+            "date": "2026-04-24T11:40:47.225Z"
           }
         },
         {
@@ -3253,32 +3059,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.774Z",
+          "timestamp": "2026-04-24T11:40:47.245Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.774Z"
+            "date": "2026-04-24T11:40:47.245Z"
           }
         },
         {
@@ -3307,94 +3091,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.742Z",
+          "timestamp": "2026-04-24T11:40:47.267Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.742Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.713Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.713Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.729Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.729Z"
+            "date": "2026-04-24T11:40:47.267Z"
           }
         }
       ]
@@ -3411,32 +3111,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.830Z",
+          "timestamp": "2026-04-24T11:40:47.323Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.830Z"
+            "date": "2026-04-24T11:40:47.323Z"
           }
         },
         {
@@ -3449,32 +3127,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.846Z",
+          "timestamp": "2026-04-24T11:40:47.341Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.846Z"
+            "date": "2026-04-24T11:40:47.341Z"
           }
         },
         {
@@ -3503,94 +3159,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.815Z",
+          "timestamp": "2026-04-24T11:40:47.358Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.815Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.788Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.788Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.801Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.801Z"
+            "date": "2026-04-24T11:40:47.358Z"
           }
         }
       ]
@@ -3607,32 +3179,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.902Z",
+          "timestamp": "2026-04-24T11:40:47.417Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.902Z"
+            "date": "2026-04-24T11:40:47.417Z"
           }
         },
         {
@@ -3645,32 +3195,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.916Z",
+          "timestamp": "2026-04-24T11:40:47.438Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.916Z"
+            "date": "2026-04-24T11:40:47.438Z"
           }
         },
         {
@@ -3699,94 +3227,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.887Z",
+          "timestamp": "2026-04-24T11:40:47.460Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.887Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.860Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.860Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.874Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.874Z"
+            "date": "2026-04-24T11:40:47.460Z"
           }
         }
       ]
@@ -3803,32 +3247,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.981Z",
+          "timestamp": "2026-04-24T11:40:47.528Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.981Z"
+            "date": "2026-04-24T11:40:47.528Z"
           }
         },
         {
@@ -3841,32 +3263,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.004Z",
+          "timestamp": "2026-04-24T11:40:47.554Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.004Z"
+            "date": "2026-04-24T11:40:47.554Z"
           }
         },
         {
@@ -3895,94 +3295,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.965Z",
+          "timestamp": "2026-04-24T11:40:47.578Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:22.965Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.933Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.933Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:22.948Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:22.948Z"
+            "date": "2026-04-24T11:40:47.578Z"
           }
         }
       ]
@@ -3999,32 +3315,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.081Z",
+          "timestamp": "2026-04-24T11:40:47.638Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.081Z"
+            "date": "2026-04-24T11:40:47.638Z"
           }
         },
         {
@@ -4037,32 +3331,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.096Z",
+          "timestamp": "2026-04-24T11:40:47.658Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.096Z"
+            "date": "2026-04-24T11:40:47.658Z"
           }
         },
         {
@@ -4091,94 +3363,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.066Z",
+          "timestamp": "2026-04-24T11:40:47.677Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.066Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.027Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.027Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.051Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.051Z"
+            "date": "2026-04-24T11:40:47.677Z"
           }
         }
       ]
@@ -4195,32 +3383,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.158Z",
+          "timestamp": "2026-04-24T11:40:47.738Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.158Z"
+            "date": "2026-04-24T11:40:47.738Z"
           }
         },
         {
@@ -4233,32 +3399,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.174Z",
+          "timestamp": "2026-04-24T11:40:47.757Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.174Z"
+            "date": "2026-04-24T11:40:47.757Z"
           }
         },
         {
@@ -4287,94 +3431,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.142Z",
+          "timestamp": "2026-04-24T11:40:47.775Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.142Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.111Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.111Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.126Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.126Z"
+            "date": "2026-04-24T11:40:47.775Z"
           }
         }
       ]
@@ -4391,32 +3451,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.232Z",
+          "timestamp": "2026-04-24T11:40:47.824Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.232Z"
+            "date": "2026-04-24T11:40:47.824Z"
           }
         },
         {
@@ -4429,32 +3467,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.246Z",
+          "timestamp": "2026-04-24T11:40:47.842Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.246Z"
+            "date": "2026-04-24T11:40:47.842Z"
           }
         },
         {
@@ -4483,94 +3499,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.218Z",
+          "timestamp": "2026-04-24T11:40:47.861Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.218Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.188Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.188Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.205Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.205Z"
+            "date": "2026-04-24T11:40:47.861Z"
           }
         }
       ]
@@ -4587,32 +3519,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.301Z",
+          "timestamp": "2026-04-24T11:40:47.917Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.301Z"
+            "date": "2026-04-24T11:40:47.917Z"
           }
         },
         {
@@ -4625,32 +3535,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.313Z",
+          "timestamp": "2026-04-24T11:40:47.938Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.313Z"
+            "date": "2026-04-24T11:40:47.938Z"
           }
         },
         {
@@ -4679,94 +3567,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.288Z",
+          "timestamp": "2026-04-24T11:40:47.955Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.288Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.259Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.259Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.274Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.274Z"
+            "date": "2026-04-24T11:40:47.955Z"
           }
         }
       ]
@@ -4783,32 +3587,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.363Z",
+          "timestamp": "2026-04-24T11:40:48.003Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.363Z"
+            "date": "2026-04-24T11:40:48.003Z"
           }
         },
         {
@@ -4821,32 +3603,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.376Z",
+          "timestamp": "2026-04-24T11:40:48.018Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.376Z"
+            "date": "2026-04-24T11:40:48.018Z"
           }
         },
         {
@@ -4875,94 +3635,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.350Z",
+          "timestamp": "2026-04-24T11:40:48.033Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.350Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.325Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.325Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.338Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.338Z"
+            "date": "2026-04-24T11:40:48.033Z"
           }
         }
       ]
@@ -4979,32 +3655,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.454Z",
+          "timestamp": "2026-04-24T11:40:48.101Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.454Z"
+            "date": "2026-04-24T11:40:48.101Z"
           }
         },
         {
@@ -5017,32 +3671,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.466Z",
+          "timestamp": "2026-04-24T11:40:48.121Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.466Z"
+            "date": "2026-04-24T11:40:48.121Z"
           }
         },
         {
@@ -5055,32 +3687,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.391Z",
+          "timestamp": "2026-04-24T11:40:48.144Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.391Z"
+            "date": "2026-04-24T11:40:48.144Z"
           }
         },
         {
@@ -5093,94 +3703,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.438Z",
+          "timestamp": "2026-04-24T11:40:48.164Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.438Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.407Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.407Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.421Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.421Z"
+            "date": "2026-04-24T11:40:48.164Z"
           }
         }
       ]
@@ -5197,32 +3723,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.517Z",
+          "timestamp": "2026-04-24T11:40:48.229Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.517Z"
+            "date": "2026-04-24T11:40:48.229Z"
           }
         },
         {
@@ -5235,32 +3739,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.532Z",
+          "timestamp": "2026-04-24T11:40:48.242Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.532Z"
+            "date": "2026-04-24T11:40:48.242Z"
           }
         },
         {
@@ -5289,94 +3771,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.504Z",
+          "timestamp": "2026-04-24T11:40:48.257Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.504Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.478Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.478Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.492Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.492Z"
+            "date": "2026-04-24T11:40:48.257Z"
           }
         }
       ]
@@ -5393,32 +3791,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.598Z",
+          "timestamp": "2026-04-24T11:40:48.308Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.598Z"
+            "date": "2026-04-24T11:40:48.308Z"
           }
         },
         {
@@ -5431,32 +3807,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.610Z",
+          "timestamp": "2026-04-24T11:40:48.324Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.610Z"
+            "date": "2026-04-24T11:40:48.324Z"
           }
         },
         {
@@ -5485,94 +3839,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.582Z",
+          "timestamp": "2026-04-24T11:40:48.341Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.582Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.546Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.546Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.562Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.562Z"
+            "date": "2026-04-24T11:40:48.341Z"
           }
         }
       ]
@@ -5589,32 +3859,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.668Z",
+          "timestamp": "2026-04-24T11:40:48.389Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.668Z"
+            "date": "2026-04-24T11:40:48.389Z"
           }
         },
         {
@@ -5627,32 +3875,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.682Z",
+          "timestamp": "2026-04-24T11:40:48.403Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.682Z"
+            "date": "2026-04-24T11:40:48.403Z"
           }
         },
         {
@@ -5681,94 +3907,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.653Z",
+          "timestamp": "2026-04-24T11:40:48.418Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.653Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.623Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.623Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.638Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.638Z"
+            "date": "2026-04-24T11:40:48.418Z"
           }
         }
       ]
@@ -5785,32 +3927,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.740Z",
+          "timestamp": "2026-04-24T11:40:48.465Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.740Z"
+            "date": "2026-04-24T11:40:48.465Z"
           }
         },
         {
@@ -5823,32 +3943,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.756Z",
+          "timestamp": "2026-04-24T11:40:48.484Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.756Z"
+            "date": "2026-04-24T11:40:48.484Z"
           }
         },
         {
@@ -5877,94 +3975,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.725Z",
+          "timestamp": "2026-04-24T11:40:48.506Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.725Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.697Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.697Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.710Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.710Z"
+            "date": "2026-04-24T11:40:48.506Z"
           }
         }
       ]
@@ -5981,32 +3995,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.844Z",
+          "timestamp": "2026-04-24T11:40:48.561Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.844Z"
+            "date": "2026-04-24T11:40:48.561Z"
           }
         },
         {
@@ -6019,32 +4011,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.866Z",
+          "timestamp": "2026-04-24T11:40:48.580Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.866Z"
+            "date": "2026-04-24T11:40:48.580Z"
           }
         },
         {
@@ -6073,94 +4043,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.824Z",
+          "timestamp": "2026-04-24T11:40:48.602Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:23.824Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.775Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.775Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:23.807Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:23.807Z"
+            "date": "2026-04-24T11:40:48.602Z"
           }
         }
       ]
@@ -6177,32 +4063,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.153Z",
+          "timestamp": "2026-04-24T11:40:48.658Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:24.153Z"
+            "date": "2026-04-24T11:40:48.658Z"
           }
         },
         {
@@ -6215,32 +4079,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.177Z",
+          "timestamp": "2026-04-24T11:40:48.677Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:24.177Z"
+            "date": "2026-04-24T11:40:48.677Z"
           }
         },
         {
@@ -6269,94 +4111,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.128Z",
+          "timestamp": "2026-04-24T11:40:48.698Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:24.128Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.082Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:24.082Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.101Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:24.101Z"
+            "date": "2026-04-24T11:40:48.698Z"
           }
         }
       ]
@@ -6373,32 +4131,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.233Z",
+          "timestamp": "2026-04-24T11:40:48.762Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:24.233Z"
+            "date": "2026-04-24T11:40:48.762Z"
           }
         },
         {
@@ -6411,32 +4147,10 @@
               "path": "$self.proxyAdmin"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.247Z",
+          "timestamp": "2026-04-24T11:40:48.781Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:24.247Z"
+            "date": "2026-04-24T11:40:48.781Z"
           }
         },
         {
@@ -6465,94 +4179,10 @@
               "path": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"
             }
           ],
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.219Z",
+          "timestamp": "2026-04-24T11:40:48.800Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:09:24.219Z"
-          }
-        },
-        {
-          "functionName": "transfer",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.192Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:24.192Z"
-          }
-        },
-        {
-          "functionName": "transferFrom",
-          "isPermissioned": false,
-          "mitigations": [
-            {
-              "type": "other",
-              "label": "bounded-by-spark-rsETH-pool",
-              "description": "When viewed through Kelp as a dependency: a Kelp compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect this function's execution up to Spark's rsETH pool balance. Over-valuing rsETH permits over-borrowing against it up to LTV × rsETH_pool; under-valuing forces unfair liquidation of rsETH positions. Tracked by LRTOracle.sparkRsETHPoolBalance (~15.3 rsETH ≈ $38K).",
-              "impactCap": {
-                "value": {
-                  "mode": "fieldRef",
-                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                  "fieldName": "sparkRsETHPoolBalance"
-                },
-                "unit": {
-                  "kind": "token",
-                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
-                }
-              },
-              "scopedTo": {
-                "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
-                "type": "dependency"
-              }
-            }
-          ],
-          "timestamp": "2026-04-24T10:09:24.207Z",
-          "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-24T10:09:24.207Z"
+            "date": "2026-04-24T11:40:48.800Z"
           }
         }
       ]
@@ -7497,7 +5127,7 @@
             {
               "type": "other",
               "label": "bounded-by-spark-rsETH-pool",
-              "description": "Any Kelp-side compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect Spark up to the rsETH collateral held by the Spark lending pool. Over-valuing rsETH lets attackers over-borrow against it (drain other assets up to rsETH-collateral × LTV); under-valuing unfairly liquidates rsETH-collateralized positions. Both paths are bounded by Spark's rsETH pool balance (tracked as LRTOracle.sparkRsETHPoolBalance — currently 15.32 rsETH ≈ $38K).",
+              "description": "Any Kelp-side compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect Spark up to the rsETH collateral held by the Spark lending pool. Tracked by LRTOracle.sparkRsETHPoolBalance (live on-chain balance of Spark's rsETH AToken).",
               "impactCap": {
                 "value": {
                   "mode": "fieldRef",
@@ -7511,10 +5141,37 @@
               }
             }
           ],
-          "timestamp": "2026-04-24T10:06:00.347Z",
+          "timestamp": "2026-04-24T11:42:08.930Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-04-24T10:06:00.347Z"
+            "date": "2026-04-24T11:42:08.930Z"
+          }
+        },
+        {
+          "functionName": "rsETHPrice",
+          "isPermissioned": false,
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "bounded-by-spark-rsETH-pool",
+              "description": "Any Kelp-side compromise (LRTOracle price manipulation, rsETH exchange rate fraud) can only affect Spark up to the rsETH collateral held by the Spark lending pool. Tracked by LRTOracle.sparkRsETHPoolBalance (live on-chain balance of Spark's rsETH AToken).",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
+                  "fieldName": "sparkRsETHPoolBalance"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-04-24T11:42:08.946Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-04-24T11:42:08.946Z"
           }
         }
       ]
