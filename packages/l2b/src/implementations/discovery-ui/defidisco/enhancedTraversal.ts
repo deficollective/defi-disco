@@ -416,9 +416,9 @@ export function traverse(
     const selectedEdges =
       callGraphEdges.length > 0
         ? callGraphEdges
-        : sourceEdges.filter(isOwnershipEdge).filter(
-            (e): e is OwnershipEdge => e.edgeType === 'permission',
-          )
+        : sourceEdges
+            .filter(isOwnershipEdge)
+            .filter((e): e is OwnershipEdge => e.edgeType === 'permission')
 
     // Deduplicate by sourceFunction
     const seenFunctions = new Set<string>()

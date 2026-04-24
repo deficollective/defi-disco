@@ -272,18 +272,13 @@ export class CapitalAnalysisCalculator {
         // Function-scoped edges (callgraph, dependency) only follow from the
         // current function. Permission edges are contract-level and followed
         // unconditionally.
-        if (
-          (isCallGraph || isDependency) &&
-          edge.sourceFunction !== func
-        )
+        if ((isCallGraph || isDependency) && edge.sourceFunction !== func)
           continue
 
         const isViewCall =
           (isCallGraph || isDependency) && edge.isViewCall === true
         const newPathIsViewOnly =
-          isCallGraph || isDependency
-            ? pathIsViewOnly && isViewCall
-            : false // Permission edges are always non-view
+          isCallGraph || isDependency ? pathIsViewOnly && isViewCall : false // Permission edges are always non-view
 
         // Cap propagation: fold in the source function's cap (pathCapUsd
         // already covers ancestors). Take the minimum (tightest) cap.
