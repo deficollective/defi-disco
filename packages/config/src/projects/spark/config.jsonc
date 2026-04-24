@@ -66,12 +66,7 @@
     "eth:0xE98d51fa014C7Ed68018DbfE6347DE9C3f39Ca39": {
       "ignoreRelatives": ["steth"]
     },
-    "eth:0x52E85eB49e07dF74c8A9466D2164b4C4cA60014A": {
-      "ignoreRelatives": ["oracle"]
-    },
-    "eth:0x70942D6b580741CF50A7906f4100063EE037b8eb": {
-      "ignoreRelatives": ["oracle"]
-    },
+    // EZETHExchangeRateOracle, RSETHExchangeRateOracle: let `oracle` (Renzo/Kelp) be discovered as dep; leaf prunes below
     // --- Chronicle Aggors: let feeds be discovered as leaves (leaf overrides below prune each) ---
     // --- SavingsDaiOracle, Fig, CLSynchronicityPriceAdapterPegToBase: same — let references land, prune at each leaf ---
 
@@ -239,11 +234,9 @@
       ]
     },
     "eth:0xd0B378dA552D06B6D3497e4b5ba2A83418f78d06": {
-      "ignoreRelatives": ["rethETHFeed"],
       "ignoreInWatchMode": ["latestAnswer"]
     },
     "eth:0x4C805FD3c64B79840d36813Fc90c165bf77bb7E4": {
-      "ignoreRelatives": ["weethETHFeed"],
       "ignoreInWatchMode": ["latestAnswer"]
     },
     "eth:0x6B175474E89094C44Da98b954EedeAC495271d0F": {
@@ -386,8 +379,57 @@
       "ignoreInWatchMode": ["count"]
     },
     "eth:0x64B157212C21097002920D57322B671b88DFcCBC": {
-      "ignoreRelatives": ["cbbtcUSDFeed", "btcUSDFeed"],
       "ignoreInWatchMode": ["latestAnswer"]
+    },
+    // --- New Chainlink feeds surfaced via ratio oracles (same leaf pattern as existing EACs) ---
+    "eth:0x536218f9E9Eb48863970252233c8F271f554C2d0": {
+      "ignoreRelatives": ["owner", "aggregator", "accessController", "proposedAggregator"]
+    },
+    "eth:0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22": {
+      "ignoreRelatives": ["owner", "aggregator", "accessController", "proposedAggregator"]
+    },
+    "eth:0x2665701293fCbEB223D11A08D826563EDcCE423A": {
+      "ignoreRelatives": ["owner", "aggregator", "accessController", "proposedAggregator"]
+    },
+    // --- Renzo RestakeManager (EZETHExchangeRateOracle.oracle): leaf — ignore every internal ref so Renzo's stack stays out ---
+    "eth:0x74a09653A083691711cF8215a6ab074BB4e99ef5": {
+      "ignoreRelatives": [
+        "$admin",
+        "$implementation",
+        "admin",
+        "implementation",
+        "owner",
+        "collateralTokens",
+        "delegationManager",
+        "depositQueue",
+        "ezETH",
+        "operatorDelegators",
+        "renzoOracle",
+        "riskOracleMiddleware",
+        "roleManager",
+        "strategyManager"
+      ]
+    },
+    // --- Kelp LRTOracle (RSETHExchangeRateOracle.oracle): leaf — ignore lrtConfig so Kelp's stack stays out ---
+    // --- Also surface Spark's rsETH pool balance so dependency impactCap auto-tracks on-chain state ---
+    "eth:0x349A73444b1a310BAe67ef67973022020d70020d": {
+      "ignoreRelatives": ["$admin", "$implementation", "admin", "implementation", "owner", "lrtConfig"],
+      "fields": {
+        // Any Kelp compromise (LRTOracle manipulation, rsETH exchange rate fraud) can only
+        // affect Spark's lending pool up to the rsETH held by Spark's rsETH AToken. Over-
+        // valuing rsETH lets attackers over-borrow against it (drain other assets up to
+        // rsETH-collateral-value × LTV); under-valuing unfairly liquidates rsETH positions.
+        // Both paths are bounded by the pool's rsETH balance.
+        "sparkRsETHPoolBalance": {
+          "description": "rsETH balance of Spark's rsETH AToken (0x856f1Ea7...). Bounds the impact of Kelp oracle manipulation since all Kelp oracle calls into Spark go through rsETH-collateralized positions.",
+          "handler": {
+            "type": "call",
+            "method": "function balanceOf(address) view returns (uint256)",
+            "args": ["0x856f1Ea78361140834FDCd0dB0b08079e4A45062"],
+            "address": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7"
+          }
+        }
+      }
     }
   }
 }

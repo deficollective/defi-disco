@@ -86,6 +86,9 @@ Detailed documentation for each feature is in `docs/developers/features/`. Read 
 
 **Data Pipeline**: See `docs/developers/architecture.md` § "Data Pipeline: From Discovery to Frontend" for the end-to-end transformation chain (5 stages) covering how admins, dependencies, and funds flow from source data through scoring, compilation, and into the frontend.
 
+### Dependency BFS Seeding
+- Manual deps in `functions.json` (`{contractAddress}` or `{path}`) are NOT terminal leaves. Two layers seed BFS through them: `augmentTraversalWithManualDepSeeds` in `functionAnalysis.ts` walks the raw call graph from every resolved dep target (one seed per `callerFunction` on the target) and merges reachables into the primary traversal — feeds `/dependencies` auto-detected entries + `/admins.functions[].reachableContracts` funds accounting. Separately, `buildEnhancedGraph` in `enhancedTraversal.ts` emits `edgeType: 'dependency'` edges `(ownerProxy, func) → (depAddr, callerFn)` so `capitalAnalysis.traverseForward` also walks through deps with `sourceFunction` filtering and view-only propagation. Dep edges are explicitly excluded from backward ownership-chain traversal (a dep is not ownership). Leaf dep targets not in the call graph surface as manual-dep leaves only.
+
 ### Permissions — `docs/developers/features/permissions.md`
 - AI-Based Permission Detection (GPT-4 / Claude, endpoint + prompt engineering)
 - Interactive Permission Management (ValuesPanelExtensions, 4 attributes, delay field)

@@ -117,6 +117,20 @@ Concrete consequences:
 
 For **per-proxy differentiated metadata** (e.g. each AToken depends on a different oracle), store entries at the proxy address directly — each proxy has its own entry. Path-form dependencies work here too: `dependencies: [{path: "eth:0xOracle.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"}]` stored on each AToken proxy resolves to the correct per-asset oracle without touching storage when oracle configuration changes on-chain.
 
+### Manual dependency transitive reachability
+
+A `dependencies` entry is not a terminal leaf — it seeds BFS through the dep target so transitive reachables surface automatically.
+
+Two layers work together:
+
+1. **User-facing layer** (`computeDependencies` in [functionAnalysis.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/functionAnalysis.ts)): after the primary call-graph traversal, `augmentTraversalWithManualDepSeeds` runs an additional BFS from every resolved dep target, seeded at each `callerFunction` that target exposes. Reachable externals from that sub-traversal merge into the primary traversal and surface in `/dependencies` as auto-detected entries with the expected view/non-view classification.
+
+2. **Capital-analysis layer** (`buildEnhancedGraph` in [enhancedTraversal.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/enhancedTraversal.ts)): each manual dep emits `edgeType: 'dependency'` edges `(target, func) → (depAddr, callerFn)` per caller function on the dep target. `CapitalAnalysisCalculator.traverseForward` filters dep edges by `sourceFunction` (like callgraph) and propagates view-only status. Dep edges are excluded from backward ownership-chain traversal — a dep is "function depends on X," not "X owns function."
+
+Result: adding a manual dep on an oracle wrapper like `EZETHExchangeRateOracle` transparently surfaces Chronicle_Aggor_ETH_USD / RestakeManager / Renzo Restaked ETH Token as transitive reachables on every AToken that depends on that wrapper, without the researcher enumerating them. Per-function capital analysis walks the same dep edge to count funds held by anything downstream of the dep target.
+
+Leaf dep targets that Slither couldn't analyse (e.g. raw Chainlink aggregators with no external-call graph) contribute nothing to transitive reachables. They still appear as manual-dep leaves in the `/dependencies` response.
+
 Implementation in [addressUtils.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/addressUtils.ts) (`buildImplToProxiesMap`, `buildProxyToImplsMap`), fan-out in [projectAnalysis.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/projectAnalysis.ts) (`getAdmins`, `buildMitigationsLookup`, `buildResolvedImpactCaps`), [enhancedTraversal.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/enhancedTraversal.ts) (`buildEnhancedGraph` permission edges), [capitalAnalysis.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/capitalAnalysis.ts) (`findFunctionMeta` shared-impl fallback), [functionAnalysis.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/functionAnalysis.ts) (`buildFunctionsMetadataLookup`). Full design + verification in [docs/developers/designs/shared-impl-fan-out.md](../designs/shared-impl-fan-out.md).
 
 ### Score (3-state)

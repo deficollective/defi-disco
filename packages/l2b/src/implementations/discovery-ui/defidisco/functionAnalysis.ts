@@ -9,6 +9,7 @@ import {
 import {
   buildExternalAddressSet,
   buildTagsByAddress,
+  findContractGraph,
   findTag,
   getCallGraphContractName,
   getCallGraphData,
@@ -306,6 +307,23 @@ export function computeFunctionAnalysis(
         functionName,
       )
 
+      // Manual dependencies are stored as terminal leaves (see
+      // computeDependencies below). On their own they show the declared
+      // address but BFS does not continue through them, so transitive
+      // reachables (e.g. oracle wrapper → Chronicle aggregator → underlying
+      // token) stay invisible. Seed an additional BFS from each resolved
+      // manual-dep target (from every caller function on that target) and
+      // merge the reachables into the primary traversal, so both
+      // /dependencies and /admins reachable-contracts see the full depth.
+      augmentTraversalWithManualDepSeeds(
+        traversalResult,
+        metadata?.dependencies,
+        contractAddress,
+        functionName,
+        dataAccess,
+        callGraphData,
+      )
+
       // --- Dependencies (all functions) ---
       const lookupKey = `${normalizeChainAddress(contractAddress)}:${functionName}`
       const writeDeps = writeDependencyLookup.get(lookupKey) ?? []
@@ -535,6 +553,106 @@ function computeImpact(
 // ============================================================================
 // Dependencies Computation
 // ============================================================================
+
+/**
+ * Seed BFS from each resolved manual-dep target and merge the reachable
+ * contracts back into the primary traversal result. Without this, the
+ * dep-target is added as a terminal leaf by computeDependencies and BFS
+ * stops there — anything the target itself reaches (e.g. Chronicle aggregator
+ * called by an oracle wrapper) never surfaces.
+ *
+ * Semantics: "if this dep breaks, everything it touches is at risk." Matches
+ * the upgrade-function seeding pattern — every caller function on the target
+ * is a valid entry point, so BFS seeds with all of them. Each merged
+ * reachable inherits `path = depEdge → targetSubPath` for display.
+ *
+ * Self-merge: the dep target itself is also recorded as reachable (from any
+ * `calledFunction` seen on it) so that funds on the target are counted by
+ * computeImpact, not only by computeDependencies.
+ */
+function augmentTraversalWithManualDepSeeds(
+  traversalResult: ReturnType<typeof traverseWithPaths>,
+  manualDeps: FunctionDependencyRef[] | undefined,
+  startContractAddress: string,
+  startFunctionName: string,
+  dataAccess: DiscoveredDataAccess,
+  callGraphData: ApiCallGraphResponse,
+): void {
+  if (!manualDeps || manualDeps.length === 0) return
+
+  for (const dep of manualDeps) {
+    const depAddresses = resolveManualDepAddresses(
+      dep,
+      startContractAddress,
+      dataAccess,
+    )
+
+    for (const depAddr of depAddresses) {
+      // Skip self-reference — a dep pointing back at the starting contract
+      // would double-count paths.
+      if (addressesEqual(depAddr, startContractAddress)) continue
+
+      const targetGraph = findContractGraph(callGraphData, depAddr)
+      // No call graph entry → target is a leaf (e.g. Chronicle aggregator
+      // which Slither couldn't analyse). computeDependencies already emits
+      // the leaf in its manual-deps branch, so nothing extra to do.
+      if (!targetGraph) continue
+
+      // Every distinct caller function on the target is a valid entry point.
+      const callerFns = new Set<string>()
+      for (const call of targetGraph.externalCalls) {
+        callerFns.add(call.callerFunction)
+      }
+
+      // Record the dep target itself as reachable. Use every caller function
+      // we found, plus 'latestAnswer' as a default if the call graph has it —
+      // this way computeImpact sees the target (for funds accounting) and
+      // computeDependencies' auto-detected branch doesn't duplicate it
+      // (shortest-path fields set to minimum).
+      const existingSelf = traversalResult.reachableContracts.get(depAddr)
+      if (!existingSelf) {
+        traversalResult.reachableContracts.set(depAddr, {
+          contractName: targetGraph.name ?? 'Unknown',
+          viewOnlyPath: true, // we treat dep-edges as view by convention
+          calledFunctions: new Set(callerFns),
+          shortestPath: [
+            {
+              contractAddress: startContractAddress,
+              contractName: '',
+              functionName: startFunctionName,
+              isViewCall: true,
+            },
+          ],
+        })
+      } else {
+        for (const fn of callerFns) existingSelf.calledFunctions.add(fn)
+      }
+
+      // BFS from every caller function on the dep target and merge.
+      for (const fn of callerFns) {
+        const sub = traverseWithPaths(callGraphData, depAddr, fn)
+        for (const [addr, entry] of sub.reachableContracts) {
+          if (addressesEqual(addr, startContractAddress)) continue
+          const existing = traversalResult.reachableContracts.get(addr)
+          if (!existing) {
+            traversalResult.reachableContracts.set(addr, {
+              contractName: entry.contractName,
+              viewOnlyPath: entry.viewOnlyPath,
+              calledFunctions: new Set(entry.calledFunctions),
+              shortestPath: entry.shortestPath,
+            })
+          } else {
+            for (const cf of entry.calledFunctions) {
+              existing.calledFunctions.add(cf)
+            }
+            // If any path is non-view, the merged entry is non-view.
+            if (!entry.viewOnlyPath) existing.viewOnlyPath = false
+          }
+        }
+      }
+    }
+  }
+}
 
 /**
  * Resolve a manual dependency reference to a concrete address list.

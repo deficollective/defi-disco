@@ -1,7 +1,7 @@
 {
   "name": "spark",
   "timestamp": 1776887848,
-  "configHash": "0x7d4730f224fdf1c1cd8d7340d3bccffd7c3e4b72877aa7213cdab2addbb93659",
+  "configHash": "0x155fb67f3b41b7b70988a637c22131bb6db7900c5e39c7049cb5e44d1a893e24",
   "entries": [
     {
       "name": "PoolAddressesProvider",
@@ -329,6 +329,32 @@
       }
     },
     {
+      "name": "EACAggregatorProxy",
+      "address": "eth:0x2665701293fCbEB223D11A08D826563EDcCE423A",
+      "type": "Contract",
+      "template": "Steakhouse-USDC/EACAggregatorProxy",
+      "sourceHashes": [
+        "0x056d4c6b4a8b2539822536f963ddff40d7327819b0a088b558d678ba5f38e984"
+      ],
+      "proxyType": "immutable",
+      "sinceTimestamp": 1726248899,
+      "sinceBlock": 20743216,
+      "values": {
+        "$immutable": true,
+        "accessController": "eth:0x0000000000000000000000000000000000000000",
+        "aggregator": "eth:0x5e2420cACE3650622f62B2713B2B3727FC8bCDd1",
+        "decimals": 8,
+        "description": "cbBTC / USD",
+        "owner": "eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+        "phaseId": 1,
+        "proposedAggregator": "eth:0x0000000000000000000000000000000000000000",
+        "version": 6
+      },
+      "implementationNames": {
+        "eth:0x2665701293fCbEB223D11A08D826563EDcCE423A": "EACAggregatorProxy"
+      }
+    },
+    {
       "name": "Chronicle_Aggor_ETH_USD",
       "address": "eth:0x2750e4CB635aF1FCCFB10C0eA54B5b5bfC2759b6",
       "type": "Contract",
@@ -462,6 +488,111 @@
       },
       "implementationNames": {
         "eth:0x3300f198988e4C9C63F75dF86De36421f06af8c4": "SubProxy"
+      }
+    },
+    {
+      "name": "LRTOracle",
+      "address": "eth:0x349A73444b1a310BAe67ef67973022020d70020d",
+      "type": "Contract",
+      "sourceHashes": [
+        "0x993403059c5620e6c91110514f9f4a2f2331c55dab587699c67c19edddab92ad",
+        "0xdb183ee68ce9fa0f9f906e68ff8accd7659f011a2f999abbb68a8a40fc394f44"
+      ],
+      "proxyType": "EIP1967 proxy",
+      "sinceTimestamp": 1702242335,
+      "sinceBlock": 18758376,
+      "values": {
+        "$admin": "eth:0xb61e0E39b6d4030C36A176f576aaBE44BF59Dc78",
+        "$implementation": "eth:0xC59110239240761cCd3E670288443316e10Dd271",
+        "$pastUpgrades": [
+          [
+            "2023-12-10T21:05:35.000Z",
+            "0x38f7b975d1e8a088af64f153b2d2026f93a8500d4593de0ed345be8149ed7d48",
+            ["eth:0xf1BED40dbeE8FC0F324FA06322f2Bbd62d11c97d"]
+          ],
+          [
+            "2024-02-14T04:12:11.000Z",
+            "0x5283ec2e88e50a17b51f705da664ec17633430194f3a3d4ea0c6ccceda985afd",
+            ["eth:0xa88845aF0D087ce8Cf2F6D7d7a674154b21F73a5"]
+          ],
+          [
+            "2024-04-10T08:36:35.000Z",
+            "0xf3e9e6f42673c9c87b8931caebfe83c5fd9f128268f9939d539ae41c79b60861",
+            ["eth:0x8B9991f89Fc31600DCE064566ccE28dC174Fb8E4"]
+          ],
+          [
+            "2024-06-19T14:46:47.000Z",
+            "0x8aaca0565908a4d4393e55cc2f1805c119043677d94d5a9a65b6f41dfa17f108",
+            ["eth:0xA33FA2c9dC8971eb8c8D45085C5dd7eb47209012"]
+          ],
+          [
+            "2024-09-13T17:41:47.000Z",
+            "0x3d5bdf2044be4bb69196481fe406a510a264514b335887a870633e17faa9e5ce",
+            ["eth:0x4AAB64a609B020D4cC4Bf9A748943f199225d488"]
+          ],
+          [
+            "2024-09-24T06:12:35.000Z",
+            "0x0eaa57083401e7f9543dd1037cf924a3f10a45ef0c8b18f621bd74bcce29e87a",
+            ["eth:0xbABc1810DD38323bd63a68F562A9D031A6A7956C"]
+          ],
+          [
+            "2024-11-02T18:32:23.000Z",
+            "0x66fb0850a67658e6110a58be358a9e553a9d920138fe97853739a59ca6282fd8",
+            ["eth:0x315Ae796D37c3dfE3046b772229620F22C5220b2"]
+          ],
+          [
+            "2024-11-12T18:44:23.000Z",
+            "0x4531550580f755faaa191604ea60a8e21290113fe323699975153a3fd2ac3b4e",
+            ["eth:0x9AEed279C157e9DF29A504a8C9C848A5613Cb6B7"]
+          ],
+          [
+            "2025-04-16T16:12:11.000Z",
+            "0x09df0105801eb709f81fdd42675c850073694659eb9d0d6a84566c762b0d2605",
+            ["eth:0xe376e76D5E9117dab657B565A1D00edAc4C1c414"]
+          ],
+          [
+            "2025-04-30T06:15:35.000Z",
+            "0x832dbccac5e18e4792ee7e6988c7446a627c9bd2aaf6d522b6d3bfad2e3abb47",
+            ["eth:0xF2586DaABDB275417216fF5F222b1B35B29CEd18"]
+          ],
+          [
+            "2025-05-11T12:09:35.000Z",
+            "0x708e3142b54d0981b5333fd8a12e1de3f4b6afa253297ea893fa701e89b6d329",
+            ["eth:0xa7D877332230Ee1d8af941cA6EF9217BE6B6762E"]
+          ],
+          [
+            "2025-12-20T13:46:11.000Z",
+            "0x15858943bc5d9952ef49dc8c4789315a320d0562334e61891eadf88f9c6a46ef",
+            ["eth:0x81E1112966F2E6115b5B3d2EFd94cDe8AE57E793"]
+          ],
+          [
+            "2026-01-24T16:34:11.000Z",
+            "0x3d954f53dfdd3b16654db8f1ae8ec75f986f30c14bc4b32397a3a1e1f1f7bd79",
+            ["eth:0xC59110239240761cCd3E670288443316e10Dd271"]
+          ]
+        ],
+        "$upgradeCount": 13,
+        "currentPeriodMintedFeeAmount": "1507879294513996496",
+        "feePeriodStartTime": 1776470400,
+        "getCurrentPeriodStartTime": 1776816000,
+        "getNextDailyLimitResetTimestamp": 1776902400,
+        "highestRsethPrice": "1069610361882844043",
+        "lrtConfig": "eth:0x947Cb49334e6571ccBFEF1f1f1178d8469D65ec7",
+        "maxFeeMintAmountPerDay": "20000000000000000000",
+        "paused": true,
+        "pricePercentageLimit": "10000000000000000",
+        "remainingDailyFeeMintLimit": "20000000000000000000",
+        "rsETHPrice": "1069610361882844043",
+        "sparkRsETHPoolBalance": "15316380786230814895"
+      },
+      "fieldMeta": {
+        "sparkRsETHPoolBalance": {
+          "description": "rsETH balance of Spark's rsETH AToken (0x856f1Ea7...). Bounds the impact of Kelp oracle manipulation since all Kelp oracle calls into Spark go through rsETH-collateralized positions."
+        }
+      },
+      "implementationNames": {
+        "eth:0x349A73444b1a310BAe67ef67973022020d70020d": "TransparentUpgradeableProxy",
+        "eth:0xC59110239240761cCd3E670288443316e10Dd271": "LRTOracle"
       }
     },
     {
@@ -951,6 +1082,32 @@
       }
     },
     {
+      "name": "EACAggregatorProxy",
+      "address": "eth:0x536218f9E9Eb48863970252233c8F271f554C2d0",
+      "type": "Contract",
+      "template": "Steakhouse-USDC/EACAggregatorProxy",
+      "sourceHashes": [
+        "0x056d4c6b4a8b2539822536f963ddff40d7327819b0a088b558d678ba5f38e984"
+      ],
+      "proxyType": "immutable",
+      "sinceTimestamp": 1677265283,
+      "sinceBlock": 16700133,
+      "values": {
+        "$immutable": true,
+        "accessController": "eth:0x0000000000000000000000000000000000000000",
+        "aggregator": "eth:0xc77904CD2CA0806CC3DB0819E9630FF3e2f6093d",
+        "decimals": 18,
+        "description": "RETH / ETH",
+        "owner": "eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+        "phaseId": 2,
+        "proposedAggregator": "eth:0x0000000000000000000000000000000000000000",
+        "version": 6
+      },
+      "implementationNames": {
+        "eth:0x536218f9E9Eb48863970252233c8F271f554C2d0": "EACAggregatorProxy"
+      }
+    },
+    {
       "name": "PoolConfigurator",
       "address": "eth:0x542DBa469bdE58FAeE189ffB60C6b49CE60E0738",
       "type": "Contract",
@@ -1043,6 +1200,32 @@
       },
       "implementationNames": {
         "eth:0x5c29868C58b6e15e2b962943278969Ab6a7D3212": "EACAggregatorProxy"
+      }
+    },
+    {
+      "name": "EACAggregatorProxy",
+      "address": "eth:0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22",
+      "type": "Contract",
+      "template": "Steakhouse-USDC/EACAggregatorProxy",
+      "sourceHashes": [
+        "0x056d4c6b4a8b2539822536f963ddff40d7327819b0a088b558d678ba5f38e984"
+      ],
+      "proxyType": "immutable",
+      "sinceTimestamp": 1711046459,
+      "sinceBlock": 19484876,
+      "values": {
+        "$immutable": true,
+        "accessController": "eth:0x0000000000000000000000000000000000000000",
+        "aggregator": "eth:0x0F316F6b0c2e2eBE3C3a8b23F6c61009238D51fD",
+        "decimals": 18,
+        "description": "weETH / ETH",
+        "owner": "eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+        "phaseId": 2,
+        "proposedAggregator": "eth:0x0000000000000000000000000000000000000000",
+        "version": 6
+      },
+      "implementationNames": {
+        "eth:0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22": "EACAggregatorProxy"
       }
     },
     {
@@ -1365,6 +1548,126 @@
       "address": "eth:0x747a6084a43E4Fd52c85C5BFF8fAb37ccCC42665",
       "type": "EOA",
       "proxyType": "EOA"
+    },
+    {
+      "name": "RestakeManager",
+      "address": "eth:0x74a09653A083691711cF8215a6ab074BB4e99ef5",
+      "type": "Contract",
+      "sourceHashes": [
+        "0xccb5b222f823953e2082d6174b99d09cb9046c862bb91c6fe6cb57e5289a9738",
+        "0xadd497c318e0ce9fa0a4daa27b274889da04969af5a6d560a9a0524d86a9d97a"
+      ],
+      "proxyType": "EIP1967 proxy",
+      "sinceTimestamp": 1701811283,
+      "sinceBlock": 18722789,
+      "values": {
+        "_deprecated_maxDepositTVL": 0,
+        "$admin": "eth:0x91625601e2BbBEb7171C40c79FadBCFbFf6A1982",
+        "$implementation": "eth:0xD5B3Be349ed0b7C82Dbd9271ce3739a381Fc7aa0",
+        "$pastUpgrades": [
+          [
+            "2023-12-05T21:21:23.000Z",
+            "0xd944d0aa4dc9706abcba3a4320f386dc94e54d6c522ce9a0a494c933a16d91fa",
+            ["eth:0xDC5a2FDC997897646f4F602826a8691e7B6EEc1d"]
+          ],
+          [
+            "2024-01-01T18:48:35.000Z",
+            "0x7ea470707833740c50db03c40f1c75067fbbf4ad2ba9c30697185f3c4851463b",
+            ["eth:0x18Ac4D26ACD4c5C4FE98C9098D2E5e1e501A042a"]
+          ],
+          [
+            "2024-02-01T16:48:11.000Z",
+            "0xbf68fe1261aec8ab157f9ae000fa0432f2da50dcad0ed501f8ffa9a1026c476e",
+            ["eth:0x509ca1F2F314F39490cf367C3785F7Cf51E8D2E6"]
+          ],
+          [
+            "2024-02-12T19:32:59.000Z",
+            "0x5f69c82575296ab9bc2109694f9574871b84b7b39286b8d66fc2837676bb90ed",
+            ["eth:0x6921C63fCF9796c9733690804E116BE3520BA468"]
+          ],
+          [
+            "2024-04-13T19:15:47.000Z",
+            "0x3854b24268b58c45272f911b2aae6fd866d66cce63387ff4360b3be8d53ab0e2",
+            ["eth:0xBAACd5f849024dcC80520BAA952f11aDFc59F9D0"]
+          ],
+          [
+            "2024-06-11T13:39:59.000Z",
+            "0xe576365fd7cc2ed36e94225188d9c2a712681dab573a12d791eb22088da46408",
+            ["eth:0xBB05c7c0FEC8DABf45c945D5eaF8312eA16DFE9c"]
+          ],
+          [
+            "2024-07-08T15:51:47.000Z",
+            "0xe6ad597c880da0f29e92bf9e78d87761b8cb3e066d977f3dd5d6c699616b6a4b",
+            ["eth:0x6E3f6e06A0134C9066f3a2D51311daDD708b0318"]
+          ],
+          [
+            "2024-10-04T18:42:23.000Z",
+            "0x6a524b17704e004b4bbf19c54bde52cc9866be9c903c8cb0639169fc7577b89d",
+            ["eth:0xb0DF8d1792d72E1e8e8F5f2A45d2e87Da64a591A"]
+          ],
+          [
+            "2025-01-31T16:57:47.000Z",
+            "0xbc94646db8a6eb49813f26f0ca00406f8a15e8eef4756d7b75caf81289dc38ed",
+            ["eth:0xBe6E7ec627C42f2f1eB1b49f908793ba5dB30Ef0"]
+          ],
+          [
+            "2025-04-11T19:24:11.000Z",
+            "0xd2cac9721f19cf36cde7c119b676074bdb9014c6f470ed81275677c2b8f82715",
+            ["eth:0xf4e1B921088df33F3db614447E9334dA832771Cd"]
+          ],
+          [
+            "2025-06-13T17:21:35.000Z",
+            "0x539bc83f4e0a7c51a8f482e889b8833082f6984a9622a58ee4afa6f36e0fa498",
+            ["eth:0x28D246fFDa43a8dcF1975A70D4c1751b4Ff17a68"]
+          ],
+          [
+            "2025-12-11T17:19:59.000Z",
+            "0x020616eac05ee277d5776fe235206645325a6a4f849a35b3c07fa5917758ea40",
+            ["eth:0xD5B3Be349ed0b7C82Dbd9271ce3739a381Fc7aa0"]
+          ]
+        ],
+        "$upgradeCount": 12,
+        "calculateTVLs": [
+          [
+            [1, "15072454295993000000000"],
+            [1, 0],
+            [1, "57286445282797000000000"],
+            [20, "57352230238543000000000"],
+            [4, "55365527843303000000000"]
+          ],
+          [
+            "15072454295993000000001",
+            1,
+            "57286445282797000000001",
+            "57352230238543000000020",
+            "55365527843303000000004"
+          ],
+          "188260824290335902919687"
+        ],
+        "collateralTokens": ["eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84"],
+        "delegationManager": "eth:0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A",
+        "depositQueue": "eth:0xf2F305D14DCD8aaef887E0428B3c9534795D0d60",
+        "ezETH": "eth:0xbf5495Efe5DB9ce00f80364C8B423567e58d2110",
+        "getCollateralTokensLength": 1,
+        "getOperatorDelegatorsLength": 5,
+        "operatorDelegators": [
+          "eth:0xbAf5f3A05BD7Af6f3a0BBA207803bf77e2657c8F",
+          "eth:0x0B1981a9Fcc24A445dE15141390d3E46DA0e425c",
+          "eth:0x125B367C16C5858f11e12948404F7a1371a0FDa3",
+          "eth:0x78524bEeAc12368e600457478738c233f436e9f6",
+          "eth:0x38cDB1A8207264C1A07c42c43A4c3ED4bfab7CEA"
+        ],
+        "paused": false,
+        "renzoOracle": "eth:0x5a12796f7e7EBbbc8a402667d266d2e65A814042",
+        "riskOracleMiddleware": "eth:0x08921F17A32110F8df44A3d5007F2acd09Cfae6d",
+        "roleManager": "eth:0x4994EFc62101A9e3F885d872514c2dC7b3235849",
+        "strategyManager": "eth:0x858646372CC42E1A627fcE94aa7A7033e7CF075A"
+      },
+      "errors": { "operatorDelegators": "Processing error occurred." },
+      "implementationNames": {
+        "eth:0x74a09653A083691711cF8215a6ab074BB4e99ef5": "TransparentUpgradeableProxy",
+        "eth:0xD5B3Be349ed0b7C82Dbd9271ce3739a381Fc7aa0": "RestakeManager"
+      }
     },
     {
       "name": "AToken",
@@ -3817,6 +4120,36 @@
       "function latestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
       "function version() pure returns (uint256)"
     ],
+    "eth:0x2665701293fCbEB223D11A08D826563EDcCE423A": [
+      "constructor(address _aggregator, address _accessController)",
+      "event AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt)",
+      "event NewRound(uint256 indexed roundId, address indexed startedBy, uint256 startedAt)",
+      "event OwnershipTransferRequested(address indexed from, address indexed to)",
+      "event OwnershipTransferred(address indexed from, address indexed to)",
+      "function acceptOwnership()",
+      "function accessController() view returns (address)",
+      "function aggregator() view returns (address)",
+      "function confirmAggregator(address _aggregator)",
+      "function decimals() view returns (uint8)",
+      "function description() view returns (string)",
+      "function getAnswer(uint256 _roundId) view returns (int256)",
+      "function getRoundData(uint80 _roundId) view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function getTimestamp(uint256 _roundId) view returns (uint256)",
+      "function latestAnswer() view returns (int256)",
+      "function latestRound() view returns (uint256)",
+      "function latestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function latestTimestamp() view returns (uint256)",
+      "function owner() view returns (address)",
+      "function phaseAggregators(uint16) view returns (address)",
+      "function phaseId() view returns (uint16)",
+      "function proposeAggregator(address _aggregator)",
+      "function proposedAggregator() view returns (address)",
+      "function proposedGetRoundData(uint80 _roundId) view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function proposedLatestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function setController(address _accessController)",
+      "function transferOwnership(address _to)",
+      "function version() view returns (uint256)"
+    ],
     "eth:0x2750e4CB635aF1FCCFB10C0eA54B5b5bfC2759b6": [
       "error CanNotPickMedianOfEmptyArray()",
       "error UnathorisedDataConsumer(address consumer)",
@@ -3933,6 +4266,12 @@
       "function exec(address target, bytes args) payable returns (bytes out)",
       "function rely(address usr)",
       "function wards(address) view returns (uint256)"
+    ],
+    "eth:0x349A73444b1a310BAe67ef67973022020d70020d": [
+      "constructor(address _logic, address admin_, bytes _data) payable",
+      "event AdminChanged(address previousAdmin, address newAdmin)",
+      "event BeaconUpgraded(address indexed beacon)",
+      "event Upgraded(address indexed implementation)"
     ],
     "eth:0x377C3bd93f2a2984E1E7bE6A5C22c525eD4A4815": [
       "constructor(address admin)",
@@ -4349,6 +4688,36 @@
       "function latestAnswer() view returns (int256)",
       "function oracle() view returns (address)"
     ],
+    "eth:0x536218f9E9Eb48863970252233c8F271f554C2d0": [
+      "constructor(address _aggregator, address _accessController)",
+      "event AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt)",
+      "event NewRound(uint256 indexed roundId, address indexed startedBy, uint256 startedAt)",
+      "event OwnershipTransferRequested(address indexed from, address indexed to)",
+      "event OwnershipTransferred(address indexed from, address indexed to)",
+      "function acceptOwnership()",
+      "function accessController() view returns (address)",
+      "function aggregator() view returns (address)",
+      "function confirmAggregator(address _aggregator)",
+      "function decimals() view returns (uint8)",
+      "function description() view returns (string)",
+      "function getAnswer(uint256 _roundId) view returns (int256)",
+      "function getRoundData(uint80 _roundId) view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function getTimestamp(uint256 _roundId) view returns (uint256)",
+      "function latestAnswer() view returns (int256)",
+      "function latestRound() view returns (uint256)",
+      "function latestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function latestTimestamp() view returns (uint256)",
+      "function owner() view returns (address)",
+      "function phaseAggregators(uint16) view returns (address)",
+      "function phaseId() view returns (uint16)",
+      "function proposeAggregator(address _aggregator)",
+      "function proposedAggregator() view returns (address)",
+      "function proposedGetRoundData(uint80 _roundId) view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function proposedLatestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function setController(address _accessController)",
+      "function transferOwnership(address _to)",
+      "function version() view returns (uint256)"
+    ],
     "eth:0x542DBa469bdE58FAeE189ffB60C6b49CE60E0738": [
       "constructor(address admin)",
       "event Upgraded(address indexed implementation)",
@@ -4434,6 +4803,36 @@
       "function withdraw(address asset, uint256 amount, address to) returns (uint256)"
     ],
     "eth:0x5c29868C58b6e15e2b962943278969Ab6a7D3212": [
+      "constructor(address _aggregator, address _accessController)",
+      "event AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt)",
+      "event NewRound(uint256 indexed roundId, address indexed startedBy, uint256 startedAt)",
+      "event OwnershipTransferRequested(address indexed from, address indexed to)",
+      "event OwnershipTransferred(address indexed from, address indexed to)",
+      "function acceptOwnership()",
+      "function accessController() view returns (address)",
+      "function aggregator() view returns (address)",
+      "function confirmAggregator(address _aggregator)",
+      "function decimals() view returns (uint8)",
+      "function description() view returns (string)",
+      "function getAnswer(uint256 _roundId) view returns (int256)",
+      "function getRoundData(uint80 _roundId) view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function getTimestamp(uint256 _roundId) view returns (uint256)",
+      "function latestAnswer() view returns (int256)",
+      "function latestRound() view returns (uint256)",
+      "function latestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function latestTimestamp() view returns (uint256)",
+      "function owner() view returns (address)",
+      "function phaseAggregators(uint16) view returns (address)",
+      "function phaseId() view returns (uint16)",
+      "function proposeAggregator(address _aggregator)",
+      "function proposedAggregator() view returns (address)",
+      "function proposedGetRoundData(uint80 _roundId) view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function proposedLatestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+      "function setController(address _accessController)",
+      "function transferOwnership(address _to)",
+      "function version() view returns (uint256)"
+    ],
+    "eth:0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22": [
       "constructor(address _aggregator, address _accessController)",
       "event AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt)",
       "event NewRound(uint256 indexed roundId, address indexed startedBy, uint256 startedAt)",
@@ -4778,6 +5177,17 @@
       "function updatePauser(address _newPauser)",
       "function updateRescuer(address newRescuer)",
       "function version() view returns (string)"
+    ],
+    "eth:0x74a09653A083691711cF8215a6ab074BB4e99ef5": [
+      "constructor(address _logic, address admin_, bytes _data) payable",
+      "event AdminChanged(address previousAdmin, address newAdmin)",
+      "event BeaconUpgraded(address indexed beacon)",
+      "event Upgraded(address indexed implementation)",
+      "function admin() returns (address admin_)",
+      "function changeAdmin(address newAdmin)",
+      "function implementation() returns (address implementation_)",
+      "function upgradeTo(address newImplementation)",
+      "function upgradeToAndCall(address newImplementation, bytes data) payable"
     ],
     "eth:0x779224df1c756b4EDD899854F32a53E8c2B2ce5d": [
       "constructor(address admin)",
@@ -5384,6 +5794,57 @@
       "function version() view returns (string)",
       "function wards(address) view returns (uint256)"
     ],
+    "eth:0xC59110239240761cCd3E670288443316e10Dd271": [
+      "constructor()",
+      "error AssetOracleNotSupported()",
+      "error CallerNotLRTConfigAdmin()",
+      "error CallerNotLRTConfigAllowedRole(string role)",
+      "error CallerNotLRTConfigManager()",
+      "error ContractNotPaused()",
+      "error ContractPaused()",
+      "error DailyFeeMintLimitExceeded(uint256 currentAmount, uint256 maxAmount)",
+      "error InvalidPriceOracle()",
+      "error PeriodStartTimeShouldBeWithin24Hours()",
+      "error PriceAboveDailyThreshold()",
+      "error ProtocolFeeExceededTVLIncrease()",
+      "error ZeroAddressNotAllowed()",
+      "event AssetPriceOracleUpdate(address indexed asset, address indexed priceOracle)",
+      "event FeeMinted(address treasury, uint256 rsethAmount)",
+      "event FeePeriodStartTimeSet(uint256 feePeriodStartTime)",
+      "event Initialized(uint8 version)",
+      "event MaxFeeMintAmountPerDayUpdated(uint256 newLimit)",
+      "event Paused(address account)",
+      "event PeriodInTimestampUpdate(uint256 newPeriod)",
+      "event PricePercentageLimitUpdate(uint256 newLimit)",
+      "event RsETHPriceBelowPeak(uint256 highestRsethPrice, uint256 newPrice)",
+      "event RsETHPriceDecrease(uint256 newPrice, uint256 oldPrice)",
+      "event RsETHPriceUpdate(uint256 newPrice, uint256 oldPrice)",
+      "event Unpaused(address account)",
+      "event UpdatedLRTConfig(address indexed lrtConfig)",
+      "function assetPriceOracle(address asset) view returns (address priceOracle)",
+      "function currentPeriodMintedFeeAmount() view returns (uint256)",
+      "function feePeriodStartTime() view returns (uint256)",
+      "function getAssetPrice(address asset) view returns (uint256)",
+      "function getCurrentPeriodStartTime() view returns (uint256)",
+      "function getNextDailyLimitResetTimestamp() view returns (uint256)",
+      "function highestRsethPrice() view returns (uint256)",
+      "function initialize(address lrtConfigAddr)",
+      "function lrtConfig() view returns (address)",
+      "function maxFeeMintAmountPerDay() view returns (uint256)",
+      "function pause()",
+      "function paused() view returns (bool)",
+      "function pricePercentageLimit() view returns (uint256)",
+      "function reinitialize(uint256 _feePeriodStartTime)",
+      "function remainingDailyFeeMintLimit() view returns (uint256)",
+      "function rsETHPrice() view returns (uint256)",
+      "function setMaxFeeMintAmountPerDay(uint256 _maxFeeMintAmountPerDay)",
+      "function setPricePercentageLimit(uint256 _pricePercentageLimit)",
+      "function unpause()",
+      "function updatePriceOracleFor(address asset, address priceOracle)",
+      "function updatePriceOracleForValidated(address asset, address priceOracle)",
+      "function updateRSETHPrice()",
+      "function updateRSETHPriceAsManager()"
+    ],
     "eth:0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf": [
       "constructor(address implementationContract)",
       "event AdminChanged(address previousAdmin, address newAdmin)",
@@ -5415,6 +5876,65 @@
       "function latestAnswer() view returns (int256 ratio)",
       "function reth() view returns (address)",
       "function rethETHFeed() view returns (address)"
+    ],
+    "eth:0xD5B3Be349ed0b7C82Dbd9271ce3739a381Fc7aa0": [
+      "constructor(address _riskOracleMiddleware)",
+      "error AlreadyAdded()",
+      "error ContractPaused()",
+      "error InvalidTVL()",
+      "error InvalidTokenDecimals(uint8 expected, uint8 actual)",
+      "error InvalidZeroInput()",
+      "error MaxTokenTVLReached()",
+      "error NotDepositQueue()",
+      "error NotDepositWithdrawPauser()",
+      "error NotFound()",
+      "error NotRestakeManagerAdmin()",
+      "error OperatoDelegatorNotDelegated()",
+      "error OverMaxBasisPoints()",
+      "event CollateralTokenAdded(address token)",
+      "event CollateralTokenRemoved(address token)",
+      "event CollateralTokenTvlUpdated(address token, uint256 tvl)",
+      "event Deposit(address depositor, address token, uint256 amount, uint256 ezETHMinted, uint256 referralId)",
+      "event Initialized(uint8 version)",
+      "event OperatorDelegatorAdded(address od)",
+      "event OperatorDelegatorAllocationUpdated(address od, uint256 allocation)",
+      "event OperatorDelegatorRemoved(address od)",
+      "event UserWithdrawCompleted(bytes32 withdrawalRoot, address withdrawer, address token, uint256 amount, uint256 ezETHBurned)",
+      "event UserWithdrawStarted(bytes32 withdrawalRoot, address withdrawer, address token, uint256 amount, uint256 ezETHToBurn)",
+      "function _deprecated_maxDepositTVL() view returns (uint256)",
+      "function addCollateralToken(address _newCollateralToken)",
+      "function addOperatorDelegator(address _newOperatorDelegator, uint256 _allocationBasisPoints)",
+      "function calculateTVLs() view returns (uint256[][], uint256[], uint256)",
+      "function chooseOperatorDelegatorForDeposit(uint256[] tvls, uint256 totalTVL) view returns (address)",
+      "function chooseOperatorDelegatorForWithdraw(uint256 tokenIndex, uint256 ezETHValue, uint256[][] operatorDelegatorTokenTVLs, uint256[] operatorDelegatorTVLs, uint256 totalTVL) view returns (address)",
+      "function collateralTokenTvlLimits(address) view returns (uint256)",
+      "function collateralTokens(uint256) view returns (address)",
+      "function delegationManager() view returns (address)",
+      "function deposit(address _collateralToken, uint256 _amount, uint256 _referralId)",
+      "function deposit(address _collateralToken, uint256 _amount)",
+      "function depositETH(uint256 _referralId) payable",
+      "function depositETH() payable",
+      "function depositQueue() view returns (address)",
+      "function depositTokenRewardsFromProtocol(address _token, uint256 _amount)",
+      "function ezETH() view returns (address)",
+      "function getCollateralTokenIndex(address _collateralToken) view returns (uint256)",
+      "function getCollateralTokensLength() view returns (uint256)",
+      "function getOperatorDelegatorsLength() view returns (uint256)",
+      "function initialize(address _roleManager, address _ezETH, address _renzoOracle, address _strategyManager, address _delegationManager, address _depositQueue)",
+      "function operatorDelegatorAllocations(address) view returns (uint256)",
+      "function operatorDelegators(uint256) view returns (address)",
+      "function paused() view returns (bool)",
+      "function pendingWithdrawals(bytes32) view returns (uint256 ezETHToBurn, address withdrawer, address tokenToWithdraw, uint256 tokenAmountToWithdraw, address operatorDelegator, bool completed)",
+      "function removeCollateralToken(address _collateralTokenToRemove)",
+      "function removeOperatorDelegator(address _operatorDelegatorToRemove)",
+      "function renzoOracle() view returns (address)",
+      "function riskOracleMiddleware() view returns (address)",
+      "function roleManager() view returns (address)",
+      "function setOperatorDelegatorAllocation(address _operatorDelegator, uint256 _allocationBasisPoints)",
+      "function setPaused(bool _paused)",
+      "function setTokenTvlLimit(address _token, uint256 _limit)",
+      "function stakeEthInOperatorDelegator(address operatorDelegator, bytes pubkey, bytes signature, bytes32 depositDataRoot) payable",
+      "function strategyManager() view returns (address)"
     ],
     "eth:0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552": [
       "constructor()",
@@ -5757,5 +6277,5 @@
     "tokens/Lido/wstETH": "0xd55ccc93c3f52e654ebbffee9194b0b8a0d974753091db2a43a185679e002e88"
   },
   "usedBlockNumbers": { "ethereum": 24937705 },
-  "permissionsConfigHash": "0x0d01e2fda99137c9e0a018d359391f15721dd4499a831a1f4e7d8c78471501f7"
+  "permissionsConfigHash": "0x8c66a19341f29766181c728b8dfe8393432666c2018fc2019a6919009a98e341"
 }

@@ -1,6 +1,6 @@
-Generated with discovered.json: 0x584056bc5baab1442a1f71fd70b5799b200b2962
+Generated with discovered.json: 0x69067e71000c564f873e9fd646fc122c00466a08
 
-# Diff at Thu, 23 Apr 2026 14:00:13 GMT:
+# Diff at Fri, 24 Apr 2026 10:04:58 GMT:
 
 - author: emduc (<emilien.duc@gmail.com>)
 - current timestamp: 1776887848
@@ -73,6 +73,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x2665701293fCbEB223D11A08D826563EDcCE423A)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract Chronicle_Aggor_ETH_USD (eth:0x2750e4CB635aF1FCCFB10C0eA54B5b5bfC2759b6)
     +++ description: None
 ```
@@ -92,6 +98,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract SubProxy (eth:0x3300f198988e4C9C63F75dF86De36421f06af8c4)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract LRTOracle (eth:0x349A73444b1a310BAe67ef67973022020d70020d)
     +++ description: None
 ```
 
@@ -175,6 +187,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x536218f9E9Eb48863970252233c8F271f554C2d0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract PoolConfigurator (eth:0x542DBa469bdE58FAeE189ffB60C6b49CE60E0738)
     +++ description: None
 ```
@@ -188,6 +206,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract EACAggregatorProxy (eth:0x5c29868C58b6e15e2b962943278969Ab6a7D3212)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22)
     +++ description: None
 ```
 
@@ -242,6 +266,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract RSETHExchangeRateOracle (eth:0x70942D6b580741CF50A7906f4100063EE037b8eb)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract RestakeManager (eth:0x74a09653A083691711cF8215a6ab074BB4e99ef5)
     +++ description: None
 ```
 
