@@ -121,7 +121,7 @@ function computeGovernance(review: CompiledReview): number {
 
   const govAdmins = admins.filter((a) => a.isGovernance && hasMeaningfulImpact(a))
 
-  const execScore = governance.voteExecution === 'onchain' ? 30 : 10
+  const execScore = governance.voteExecution === 'onchain' ? 35 : 10
 
   const delay =
     durationSeconds(governance?.proposalPeriod) +
@@ -148,7 +148,7 @@ function computeGovernance(review: CompiledReview): number {
   const impactScore =
     share <= 0.1 ? 30 : share <= 0.3 ? 22 : share <= 0.6 ? 12 : 5
 
-  return Math.min(95, Math.round(execScore + delayScore + impactScore))
+  return Math.min(100, Math.round(execScore + delayScore + impactScore))
 }
 
 function computeControl(review: CompiledReview): number {
@@ -156,7 +156,7 @@ function computeControl(review: CompiledReview): number {
   const tvs = totals.totalCapitalAtRisk + (totals.totalTokenValue ?? 0)
 
   const impacting = admins.filter(hasMeaningfulImpact)
-  if (impacting.length === 0) return 90
+  if (impacting.length === 0) return 100
 
   const hasEOA = impacting.some(
     (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned',
@@ -181,7 +181,7 @@ export function deriveRadarData(review: CompiledReview) {
 
   const control = computeControl(review)
   const deps =
-    depCount === 0 ? 90 : depCount <= 2 ? 70 : depCount <= 5 ? 50 : 30
+    depCount === 0 ? 100 : depCount <= 2 ? 70 : depCount <= 5 ? 50 : 30
   const access =
     frontendCount === 0
       ? 20
@@ -189,7 +189,7 @@ export function deriveRadarData(review: CompiledReview) {
         ? 50
         : frontendCount <= 3
           ? 75
-          : 90
+          : 100
   const verifiability = computeVerifiability(review)
   const governance = computeGovernance(review)
 
