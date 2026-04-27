@@ -113,21 +113,15 @@ function computeGovernance(review: CompiledReview): number {
   const { admins, totals, governance } = review
   const tvs = totals.totalCapitalAtRisk + (totals.totalTokenValue ?? 0)
 
+  // Without a documented governance process there's nothing to score —
+  // return a neutral 55 (researcher hasn't filled in governance.json yet,
+  // or the protocol genuinely has no governance layer). This is preferable
+  // to either rewarding (95) or penalising (low) the absence.
+  if (governance === undefined) return 55
+
   const govAdmins = admins.filter((a) => a.isGovernance && hasMeaningfulImpact(a))
 
-  // Short-circuit only when governance is undocumented AND no isGovernance
-  // admin has fund impact — i.e. the protocol genuinely has no governance
-  // layer. If governance is documented but no admin is tagged isGovernance
-  // (e.g. offchain Snapshot + multisig executor), fall through and score it,
-  // using all fund-impacting admins as the impact set.
-  if (govAdmins.length === 0 && governance === undefined) return 95
-
-  const execScore =
-    governance === undefined
-      ? 5
-      : governance.voteExecution === 'onchain'
-        ? 30
-        : 10
+  const execScore = governance.voteExecution === 'onchain' ? 30 : 10
 
   const delay =
     durationSeconds(governance?.proposalPeriod) +
@@ -173,7 +167,7 @@ function computeControl(review: CompiledReview): number {
   if (multisigs.length > 0) {
     const multisigImpact = multisigs.reduce((s, a) => s + adminImpact(a), 0)
     const share = tvs > 0 ? multisigImpact / tvs : 1
-    return share < 0.3 ? 75 : 55
+    return share < 0.3 ? 75 : 50
   }
 
   return 80

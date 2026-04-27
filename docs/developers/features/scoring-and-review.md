@@ -342,7 +342,7 @@ Cascades by worst-case admin severity. Per-admin impact = `totalReachableCapital
 
 - **90** — no admin has reachable fund impact
 - **25** — any admin with impact is an `EOA` or `EOAPermissioned` (dominates everything else)
-- **75 / 55** — any `Multisig` has impact. Score depends on the sum of multisig impact as a share of TVS (`totalCapitalAtRisk + totalTokenValue`): `< 30%` → **75**, otherwise **55**. If TVS is `0`, the share is treated as 100%
+- **75 / 50** — any `Multisig` has impact. Score depends on the sum of multisig impact as a share of TVS (`totalCapitalAtRisk + totalTokenValue`): `< 30%` → **75**, otherwise **50**. If TVS is `0`, the share is treated as 100%
 - **80** — only contract-type admins (Timelock, governance contracts, etc.) have impact
 
 Cascade order is strict: EOA > Multisig > contract-only > none. EOA presence dominates regardless of multisig share.
@@ -372,15 +372,17 @@ Coverage uses `>=` at bucket edges, so exactly `0.95` → 40 and exactly `0.90` 
 
 Measures governance risk using three signals on `CompiledReview`: on-chain vs off-chain execution, total proposal-to-execution delay, and the fund impact governance contracts exert. Additive, max **95**, rounded, clamped.
 
-**Short-circuit:** return **95** only when `review.governance` is undefined AND no admin has `isGovernance === true && impact > 0` (where `impact = totalReachableCapital + totalReachableTokenValue`). This is the "no governance layer at all" case — the protocol is immutable or purely EOA/Multisig-controlled. If governance is documented but no admin carries the `isGovernance` tag (e.g. offchain Snapshot + multisig executor), the formula still runs, using **all fund-impacting admins** as the impact set.
+**Missing governance:** when `review.governance` is `undefined` (no `governance.json` for the project), return a neutral **55** instead of running the formula. Avoids both rewarding the absence (the previous 95 short-circuit) and penalising researchers who haven't filled in governance yet.
 
 Otherwise sum the three components:
 
 | Component | Weight | Tiers |
 |---|---|---|
-| **Vote execution** (`review.governance.voteExecution`) | 30 | `onchain` → 30, `offchain` → 10, `review.governance` undefined → **5** (governance admins exist but no documented process) |
+| **Vote execution** (`review.governance.voteExecution`) | 30 | `onchain` → 30, `offchain` → 10 |
 | **Total delay** (`proposalPeriod + executionDelay`, summed seconds) | 35 | `≥10d → 35`, `≥7d → 28`, `≥3d → 18`, `≥1d → 10`, `≥12h → 5`, `<12h → 2` |
 | **Governance fund share** (sum impact / TVS, capped at 100%; TVS = `totalCapitalAtRisk + totalTokenValue`; TVS `0` with impact > 0 treated as 100%) | 30 | `≤10% → 30`, `≤30% → 22`, `≤60% → 12`, `>60% → 5` |
+
+The impact set is the admins with `isGovernance === true` and meaningful impact. If governance is documented but no admin carries that tag (e.g. offchain Snapshot + multisig executor), it falls back to **all fund-impacting admins** as the impact set.
 
 Max achievable: **95** (30 + 35 + 30).
 
