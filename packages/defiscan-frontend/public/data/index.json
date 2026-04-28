@@ -42,6 +42,26 @@
       }
     },
     {
+      "slug": "Gauntlet-USDC-Prime",
+      "name": "Gauntlet USDC Prime",
+      "chain": "Base",
+      "projectType": "yield",
+      "tokenName": "gtUSDCp",
+      "totals": {
+        "contractCount": 12,
+        "permissionedFunctionCount": 18,
+        "scoredFunctionCount": 12,
+        "adminCount": 4,
+        "dependencyCount": 2,
+        "totalCapitalAtRisk": 354134145.6894453,
+        "totalTokenValueAtRisk": 0,
+        "totalTokenValue": 0,
+        "linesOfCode": 6004,
+        "verifiedContractCount": 12,
+        "coverage": 100
+      }
+    },
+    {
       "slug": "Steakhouse-Prime-USDC",
       "name": "Steakhouse Prime USDC",
       "chain": "Base",
@@ -52,8 +72,8 @@
         "permissionedFunctionCount": 18,
         "scoredFunctionCount": 16,
         "adminCount": 5,
-        "dependencyCount": 1,
-        "totalCapitalAtRisk": 0,
+        "dependencyCount": 2,
+        "totalCapitalAtRisk": 469923710.0874472,
         "totalTokenValueAtRisk": 0,
         "totalTokenValue": 0,
         "linesOfCode": 8190,
@@ -153,9 +173,9 @@
         "scoredFunctionCount": 214,
         "adminCount": 32,
         "dependencyCount": 1,
-        "totalCapitalAtRisk": 22174038017.73059,
-        "totalTokenValueAtRisk": 21641513875.904556,
-        "totalTokenValue": 21641513875.904556,
+        "totalCapitalAtRisk": 22091117716.99847,
+        "totalTokenValueAtRisk": 21189901971.262695,
+        "totalTokenValue": 21189901971.262695,
         "linesOfCode": 38231,
         "verifiedContractCount": 183,
         "coverage": 100
@@ -263,12 +283,12 @@
     }
   ],
   "globalTotals": {
-    "totalCapitalAtRisk": 34941458879.29981,
-    "totalTokenValueAtRisk": 32286309792.837772,
-    "totalTokenValue": 32416934462.522015,
-    "protocolsReviewed": 13,
-    "totalContractCount": 553,
-    "totalAdminCount": 101,
+    "totalCapitalAtRisk": 35682596434.34459,
+    "totalTokenValueAtRisk": 31834697888.19591,
+    "totalTokenValue": 31965322557.880154,
+    "protocolsReviewed": 14,
+    "totalContractCount": 565,
+    "totalAdminCount": 105,
     "totalUpdateCount": 735
   },
   "dependencies": [
@@ -300,7 +320,7 @@
       "address": "eth:0x00000000219ab540356cBB839Cbe05303d7705Fa",
       "name": "Ethereum Beacon Chain DepositContract",
       "entity": "Ethereum",
-      "totalFundsAtRisk": 2950648458.118965,
+      "totalFundsAtRisk": 2867728157.3868446,
       "protocols": [
         {
           "slug": "EtherFi-Stake",
@@ -345,6 +365,38 @@
         {
           "slug": "spark",
           "name": "Spark"
+        }
+      ]
+    },
+    {
+      "address": "base:0x64c911996D3c6aC71f9b455B1E8E7266BcbD848F",
+      "name": "EACAggregatorProxy",
+      "entity": "Chainlink",
+      "totalFundsAtRisk": 824057855.7768925,
+      "protocols": [
+        {
+          "slug": "Gauntlet-USDC-Prime",
+          "name": "Gauntlet USDC Prime"
+        },
+        {
+          "slug": "Steakhouse-Prime-USDC",
+          "name": "Steakhouse Prime USDC"
+        }
+      ]
+    },
+    {
+      "address": "base:0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+      "name": "Morpho",
+      "entity": "Morpho",
+      "totalFundsAtRisk": 824057855.7768925,
+      "protocols": [
+        {
+          "slug": "Gauntlet-USDC-Prime",
+          "name": "Gauntlet USDC Prime"
+        },
+        {
+          "slug": "Steakhouse-Prime-USDC",
+          "name": "Steakhouse Prime USDC"
         }
       ]
     },
@@ -497,6 +549,30 @@
       ]
     },
     {
+      "address": "base:0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
+      "name": "Chainlink USDC/USD Price Feed",
+      "entity": "Chainlink",
+      "totalFundsAtRisk": 270000000,
+      "protocols": [
+        {
+          "slug": "Steakhouse-Prime-USDC",
+          "name": "Steakhouse Prime USDC"
+        }
+      ]
+    },
+    {
+      "address": "base:0x7e860098F58bBFC8648a4311b374B1D669a2bc6B",
+      "name": "Chainlink USD Price Feed (Quote)",
+      "entity": "Chainlink",
+      "totalFundsAtRisk": 270000000,
+      "protocols": [
+        {
+          "slug": "Steakhouse-Prime-USDC",
+          "name": "Steakhouse Prime USDC"
+        }
+      ]
+    },
+    {
       "address": "eth:0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23",
       "name": "Chainlink DAI/USD Aggregator Proxy",
       "entity": "Chainlink",
@@ -553,6 +629,18 @@
         {
           "slug": "spark",
           "name": "Spark"
+        }
+      ]
+    },
+    {
+      "address": "base:0xd7818272B9e248357d13057AAb0B417aF31E817d",
+      "name": "Chainlink Price Feed",
+      "entity": "Chainlink",
+      "totalFundsAtRisk": 200000000,
+      "protocols": [
+        {
+          "slug": "Steakhouse-Prime-USDC",
+          "name": "Steakhouse Prime USDC"
         }
       ]
     },
@@ -657,6 +745,18 @@
       ]
     },
     {
+      "address": "base:0x43a5C292A453A3bF3606fa856197f09D7B74251a",
+      "name": "Chainlink Price Feed",
+      "entity": "Chainlink",
+      "totalFundsAtRisk": 50000000,
+      "protocols": [
+        {
+          "slug": "Steakhouse-Prime-USDC",
+          "name": "Steakhouse Prime USDC"
+        }
+      ]
+    },
+    {
       "address": "eth:0x536218f9E9Eb48863970252233c8F271f554C2d0",
       "name": "Chainlink rETH/ETH Price Feed",
       "entity": "Chainlink",
@@ -713,6 +813,18 @@
         {
           "slug": "spark",
           "name": "Spark"
+        }
+      ]
+    },
+    {
+      "address": "base:0x806b4Ac04501c29769051e42783cF04dCE41440b",
+      "name": "Chainlink Price Feed",
+      "entity": "Chainlink",
+      "totalFundsAtRisk": 20000000,
+      "protocols": [
+        {
+          "slug": "Steakhouse-Prime-USDC",
+          "name": "Steakhouse Prime USDC"
         }
       ]
     },
@@ -981,32 +1093,24 @@
       ]
     },
     {
-      "address": "base:0x08bbBAD7a91827b5c2eB1efe1a8C6E17c12b1b00",
-      "name": "MorphoHelper",
-      "entity": "Morpho",
-      "totalFundsAtRisk": 0,
-      "protocols": [
-        {
-          "slug": "Steakhouse-Prime-USDC",
-          "name": "Steakhouse Prime USDC"
-        }
-      ]
-    },
-    {
-      "address": "base:0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
-      "name": "Morpho Blue",
-      "entity": "Morpho",
-      "totalFundsAtRisk": 0,
-      "protocols": [
-        {
-          "slug": "Steakhouse-Prime-USDC",
-          "name": "Steakhouse Prime USDC"
-        }
-      ]
-    },
-    {
       "address": "base:0xA090dD1a701408Df1d4d0B85b716c87565f90467",
       "name": "PublicAllocator",
+      "entity": "Morpho",
+      "totalFundsAtRisk": 0,
+      "protocols": [
+        {
+          "slug": "Gauntlet-USDC-Prime",
+          "name": "Gauntlet USDC Prime"
+        },
+        {
+          "slug": "Steakhouse-Prime-USDC",
+          "name": "Steakhouse Prime USDC"
+        }
+      ]
+    },
+    {
+      "address": "base:0x08bbBAD7a91827b5c2eB1efe1a8C6E17c12b1b00",
+      "name": "MorphoHelper",
       "entity": "Morpho",
       "totalFundsAtRisk": 0,
       "protocols": [
