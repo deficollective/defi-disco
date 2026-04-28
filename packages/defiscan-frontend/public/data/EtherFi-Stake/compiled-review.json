@@ -16,7 +16,7 @@
     "contractCount": 71,
     "permissionedFunctionCount": 494,
     "scoredFunctionCount": 84,
-    "adminCount": 41,
+    "adminCount": 42,
     "dependencyCount": 12,
     "totalCapitalAtRisk": 5979797184.942119,
     "totalTokenValueAtRisk": 6042062777.124693,
@@ -4322,7 +4322,7 @@
       "address": "eth:0x9f26d4C958fD811A1F59B01B86Be7dFFc9d20761",
       "name": "EtherFi Main Timelock (3d)",
       "description": "Primary governance timelock with a 3-day delay. Controls upgrades to the majority of protocol contracts (LiquidityPool, EtherFiNodesManager, StakingManager, TNFT, WithdrawRequestNFT, Liquifier, MembershipManager, and others), manages EtherFiRestaker EigenLayer operations (delegation, strategy deposits, withdrawals), and governs protocol parameters across AuctionManager, EtherFiOracle, ProtocolRevenueManager, and MembershipNFT. Holds proposer/executor roles shared with the 4/7 multisig. Controls $694.58M in direct capital exposure across 155 permissioned functions.",
-      "adminType": "Immutable",
+      "adminType": "Timelock",
       "isGovernance": false,
       "functions": [
         {
