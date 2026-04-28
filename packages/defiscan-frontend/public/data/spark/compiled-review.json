@@ -128776,7 +128776,7 @@
     {
       "address": "eth:0x2750e4CB635aF1FCCFB10C0eA54B5b5bfC2759b6",
       "name": "Chronicle Aggor ETH/USD",
-      "description": "Chronicle's aggregated ETH/USD oracle used alongside Chainlink for redundancy. Operated by the Chronicle Labs feed network.",
+      "description": "Immutable aggregator that returns the median of three independent ETH/USD feeds — Chainlink, Chronicle, and RedStone — after filtering out stale (>25h) and invalid responses. A single compromised provider is sandwiched out by the median; with only two healthy feeds it returns the average; with one healthy feed it returns that single value with no fallback. Used directly for the WETH reserve and indirectly (via ratio oracles) for wstETH, rETH, weETH, ezETH, and rsETH. Oracle addresses are hardcoded as constants — neither Chronicle Labs nor Spark can swap a feed without a redeploy. Note: SparkLend's POOL_ADMIN can still bypass this protection by repointing `assetSources` away from the Aggor.",
       "entity": "Chronicle",
       "isAutoDetected": true,
       "viewOnlyPath": false,
@@ -129839,8 +129839,8 @@
     },
     {
       "address": "eth:0x230E0321Cf38F09e247e50Afc7801EA2351fe56F",
-      "name": "CLSynchronicityPriceAdapterPegToBase",
-      "description": "A Chainlink-based price adapter used for pegged-to-base asset pricing in SparkLend. Reads from the underlying Chainlink aggregator proxies.",
+      "name": "CLSynchronicityPriceAdapterPegToBase (WBTC)",
+      "description": "The WBTC price source — and the only BTC-family reserve in SparkLend that does NOT use the Chronicle Aggor median-of-3. It composes two single-source Chainlink feeds: WBTC/BTC peg × BTC/USD. A failure or manipulation of either Chainlink feed propagates directly into the WBTC reserve price with no redundancy. cbBTC, LBTC, and tBTC use the Chronicle Aggor BTC/USD wrapper instead.",
       "entity": null,
       "isAutoDetected": false,
       "viewOnlyPath": false,
@@ -130843,7 +130843,7 @@
     {
       "address": "eth:0x4219aA1A99f3fe90C2ACB97fCbc1204f6485B537",
       "name": "Chronicle Aggor BTC/USD",
-      "description": "Chronicle's aggregated BTC/USD oracle used for the WBTC, cbBTC, tBTC, and LBTC reserves.",
+      "description": "Immutable aggregator that returns the median of three independent BTC/USD feeds — Chainlink, Chronicle, and RedStone — after filtering out stale (>25h) and invalid responses. Used for the cbBTC, LBTC, and tBTC reserves. WBTC uses a separate Chainlink-only adapter and does NOT benefit from this median-of-3. Oracle addresses are hardcoded — feeds cannot be swapped without a redeploy. POOL_ADMIN can still repoint `assetSources` away from the Aggor.",
       "entity": "Chronicle",
       "isAutoDetected": false,
       "viewOnlyPath": false,
@@ -134300,7 +134300,7 @@
     },
     {
       "address": "eth:0x230E0321Cf38F09e247e50Afc7801EA2351fe56F",
-      "name": "CLSynchronicityPriceAdapterPegToBase",
+      "name": "CLSynchronicityPriceAdapterPegToBase (WBTC)",
       "isExternal": false,
       "isGovernance": false,
       "entity": null,

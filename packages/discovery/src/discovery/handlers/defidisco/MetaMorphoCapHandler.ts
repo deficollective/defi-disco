@@ -96,7 +96,11 @@ export class MetaMorphoCapHandler implements Handler {
     const morphoField = this.definition.morphoAddressField ?? 'MORPHO'
 
     const queueResult = previousResults[queueField]
-    if (!queueResult || queueResult.error || !Array.isArray(queueResult.value)) {
+    if (
+      !queueResult ||
+      queueResult.error ||
+      !Array.isArray(queueResult.value)
+    ) {
       return {
         field: this.field,
         error: `Cannot resolve "${queueField}" on ${vault}`,
