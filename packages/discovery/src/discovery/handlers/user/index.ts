@@ -138,6 +138,10 @@ import {
   AaveReserveTokensHandler,
   AaveReserveTokensHandlerDefinition,
 } from '../defidisco/AaveReserveTokensHandler'
+import {
+  MetaMorphoCapHandler,
+  MetaMorphoCapHandlerDefinition,
+} from '../defidisco/MetaMorphoCapHandler'
 
 const DEFINITIONS = [
   StorageHandlerDefinition,
@@ -178,6 +182,7 @@ const DEFINITIONS = [
   CCIPRateLimitHandlerDefinition,
   LayerZeroOAppConfigHandlerDefinition,
   AaveReserveTokensHandlerDefinition,
+  MetaMorphoCapHandlerDefinition,
 ] as const
 
 type AvailableHandlers = (typeof DEFINITIONS)[number]
@@ -227,6 +232,7 @@ export const UserHandlers: Record<HandlerType, AvailableHandlers> = {
   ccipRateLimit: CCIPRateLimitHandlerDefinition,
   layerZeroOAppConfig: LayerZeroOAppConfigHandlerDefinition,
   aaveReserveTokens: AaveReserveTokensHandlerDefinition,
+  metaMorphoCap: MetaMorphoCapHandlerDefinition,
 }
 
 export function getUserHandler(
@@ -311,5 +317,7 @@ export function getUserHandler(
       return new LayerZeroOAppConfigHandler(field, definition)
     case 'aaveReserveTokens':
       return new AaveReserveTokensHandler(field, definition, abi)
+    case 'metaMorphoCap':
+      return new MetaMorphoCapHandler(field, definition, abi)
   }
 }

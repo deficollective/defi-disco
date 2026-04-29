@@ -788,6 +788,7 @@
                         "type": { "const": "layerZeroOAppConfig" },
                         "endpoint": { "type": "string" },
                         "includeEnforcedOptions": { "type": "boolean" },
+                        "includeRateLimits": { "type": "boolean" },
                         "extraEids": {
                           "type": "array",
                           "items": { "type": "number" }
@@ -811,6 +812,21 @@
                       },
                       "additionalProperties": false,
                       "required": ["type", "tokenType"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": { "const": "metaMorphoCap" },
+                        "mode": {
+                          "anyOf": [{ "const": "market" }, { "const": "feed" }]
+                        },
+                        "marketId": { "type": "string" },
+                        "feed": { "type": "string" },
+                        "morphoAddressField": { "type": "string" },
+                        "queueField": { "type": "string" }
+                      },
+                      "additionalProperties": false,
+                      "required": ["type", "mode"]
                     }
                   ]
                 },
