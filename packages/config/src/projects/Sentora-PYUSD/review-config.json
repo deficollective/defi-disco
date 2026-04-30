@@ -1,12 +1,12 @@
 {
   "version": "1.0",
-  "lastModified": "2026-04-30T09:55:00.000Z",
+  "lastModified": "2026-04-30T11:51:00.372Z",
   "protocolSlug": "Sentora-PYUSD",
   "protocolName": "Sentora PYUSD",
   "tokenName": "senPYUSD",
   "chain": "Ethereum",
   "projectType": "lending",
-  "verified": false,
+  "verified": true,
   "description": "Sentora PYUSD is a MetaMorpho V1.1 ERC4626 vault that allocates PayPal USD deposits across Morpho Blue lending markets selected by Sentora as curator. The vault inherits the standard MetaMorpho contract surface: a 3-day timelock on owner-initiated parameter changes, a per-market supply-cap mechanism, and a guardian veto over pending submissions. As of the most recent discovery the vault holds {{vaultPositionsTotal}} on Morpho Blue against an active cap envelope of 400M PYUSD spread across five markets (cbBTC, wstETH, weETH, an ETH-collateralized market, and WBTC), plus four decommissioned markets that retain only legacy positions. Pricing is provided by ten oracle adapters that route to Chainlink, RedStone, and Lido feeds.",
   "admins": {
     "eth:0xe8C9C99EcaD0686A14A00d8521c572281E938008": {
@@ -98,18 +98,34 @@
               "type": "dataTable",
               "dataSource": "project.contracts",
               "columns": [
-                { "field": "name", "header": "Name" },
-                { "field": "address", "header": "Address", "format": "address" },
-                { "field": "proxyType", "header": "Proxy Type", "format": "badge" }
+                {
+                  "field": "name",
+                  "header": "Name"
+                },
+                {
+                  "field": "address",
+                  "header": "Address",
+                  "format": "address"
+                },
+                {
+                  "field": "proxyType",
+                  "header": "Proxy Type",
+                  "format": "badge"
+                }
               ],
-              "filters": { "excludeExternal": true }
+              "filters": {
+                "excludeExternal": true
+              }
             }
           ]
         },
         {
           "title": "Audits",
           "content": [
-            { "type": "text", "content": "" }
+            {
+              "type": "text",
+              "content": ""
+            }
           ]
         }
       ]
@@ -119,5 +135,6 @@
     "vaultPositionsTotal": "fundsdata.contracts[\"eth:0x19b3cD7032B8C062E8d44EaCad661a0970DD8c55\"].positions.totalUsdValue",
     "ownerSafeReachableCapital": "v2score.inventory.admins.breakdown[\"eth:0xe8C9C99EcaD0686A14A00d8521c572281E938008\"].totalReachableCapital",
     "curatorGuardianReachableCapital": "v2score.inventory.admins.breakdown[\"eth:0x9e396dE3312D373b87F9BD8763fb48184b42aac0\"].totalReachableCapital"
-  }
+  },
+  "publishedAt": "2026-04-30T09:55:00.000Z"
 }

@@ -109,11 +109,7 @@ export function TerminalExtensions({ project }: Props) {
           reviewConfigQuery.isLoading ||
           !hasConfig
         }
-        className={
-          isVerified
-            ? 'bg-green-600 px-4 py-1 text-white disabled:opacity-50'
-            : 'bg-amber-500 px-4 py-1 text-black disabled:opacity-50'
-        }
+        className="bg-autumn-300 px-4 py-1 text-black disabled:opacity-50"
         title={
           isVerified
             ? 'Currently Verified — click to mark as Unverified'
