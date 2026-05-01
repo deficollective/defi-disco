@@ -14,6 +14,7 @@ export const AaveReserveTokensHandlerDefinition = v.strictObject({
     v.literal('variableDebt'),
     v.literal('stableDebt'),
     v.literal('aToken'),
+    v.literal('underlyingAsset'),
   ]),
   ignoreRelative: v.boolean().optional(),
 })
@@ -86,6 +87,18 @@ export class AaveReserveTokensHandler implements Handler {
       }
     }
 
+    // For underlyingAsset type, the reserves list itself is the result
+    if (this.definition.tokenType === 'underlyingAsset') {
+      const chain = ChainSpecificAddress.chain(address)
+      return {
+        field: this.field,
+        value: reserves
+          .filter((a): a is string => typeof a === 'string')
+          .map((a) => `${chain}:${a}`),
+        ignoreRelative: this.definition.ignoreRelative,
+      }
+    }
+
     // Step 2: for each asset, call the token-specific getter
     const tokenAbi = this.getTokenAbi()
     const chain = ChainSpecificAddress.chain(address)
@@ -126,6 +139,9 @@ export class AaveReserveTokensHandler implements Handler {
         return GET_STABLE_DEBT_TOKEN_ABI
       case 'aToken':
         return GET_ATOKEN_ABI
+      case 'underlyingAsset':
+        // unreachable — underlyingAsset returns early before getTokenAbi() is called
+        return ''
     }
   }
 }

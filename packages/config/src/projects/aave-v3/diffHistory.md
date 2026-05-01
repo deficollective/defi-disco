@@ -1,9 +1,9 @@
-Generated with discovered.json: 0xe4c47818f9ba99e838722f06d2133cf77f1e542f
+Generated with discovered.json: 0x645a8b22485253231c3296e2ba159e193d8e71b7
 
-# Diff at Tue, 28 Apr 2026 10:09:37 GMT:
+# Diff at Thu, 30 Apr 2026 09:07:05 GMT:
 
 - author: Alexandru Marcu (<alx.marcu@gmail.com>)
-- current timestamp: 1777370902
+- current timestamp: 1777539948
 
 ## Description
 
@@ -43,7 +43,25 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EBTCPriceCapAdapter (eth:0x03bB418e89B75407585f8198178f253DA3216218)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x03f9bA9A897241985c1f12bCe97fAC1B0bd4a7A7)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x04142fc546D59838852873bba5C8827601A13FC8)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x04F84020Fdf10d9ee64D1dcC2986EDF2F556DA11)
     +++ description: None
 ```
 
@@ -92,6 +110,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract AaveProtocolDataProvider (eth:0x0a16f2FCC0D44FaE41cc54e079281D84A363bECD)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x0a72df02CE3E4185b6CEDf561f0AE651E9BeE235)
     +++ description: None
 ```
 
@@ -163,7 +187,31 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract YieldCoin (eth:0x136471a34f6ef19fE571EFFC1CA711fdb8E49f2b)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract Safe (eth:0x13B57382c36BAB566E75C72303622AF29E27e1d3)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePrincipalToken (eth:0x14Bdc3A3AE09f5518b923b69489CBcAfB238e617)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract ScaledPriceAdapter (eth:0x14CB2E810Eb93b79363f489D45a972b609E47230)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract SuperstateTokenV5_1 (eth:0x14d60E7FDC0D71d8611742720E4C50E7a974020c)
     +++ description: None
 ```
 
@@ -175,7 +223,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract DSToken (eth:0x17418038ecF73BA4026c4f428547BF099706F27B)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract Executor (eth:0x17Dd33Ed0e3dD2a80E37489B8A63063161BE6957)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract tBTC v2 Token (eth:0x18084fbA666a33d37592fA2633fD49a74DD93a88)
     +++ description: None
 ```
 
@@ -199,7 +259,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x19e2d716288751c5A59deaB61af012D5DF895962)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x1a83eCA2d3b0cea2595Fb11Ec60cb2D428217C2e)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Euro Coin Token (eth:0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c)
     +++ description: None
 ```
 
@@ -253,6 +325,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x1E41Ef40AC148706c114534E8192Ca608f80fC48)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract CapsPlusRiskSteward (eth:0x1EBdbE77bbDDD284BdCE8D7981D7eD26D6af58cA)
     +++ description: None
 ```
@@ -265,13 +343,49 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PendlePrincipalToken (eth:0x1F84a51296691320478c98b8d77f2Bbd17D34350)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Uniswap Token (eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract BorrowLogic (eth:0x1Fb8f7C906cddD28B42ae6Eb76abC04A91188635)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x214eD9Da11D2fbe465a6fc601a91E62EbEc1a0D6)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract GnosisSafe (eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x22517fE16DEd08e52E7EA3423A2EA4995b1f1731)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract DSToken (eth:0x2255718832bC9fD3bE1CaF75084F4803DA14FF01)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Wrapped BTC Token (eth:0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599)
     +++ description: None
 ```
 
@@ -296,6 +410,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ATokenInstance (eth:0x23878914EFE38d27C4D67Ab83ed1b93A74D4086a)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x23adce82907D20c509101E2Af0723A9e16224EFb)
     +++ description: None
 ```
 
@@ -331,6 +451,18 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PriceCapAdapterStable (eth:0x260326c220E469358846b187eE53328303Efe19C)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x26C46B7aD0012cA71F2298ada567dC9Af14E7f2A)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract Executor (eth:0x2759de67aD133C747C9f41d56F1b8A343cE679a1)
     +++ description: None
 ```
@@ -356,6 +488,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x2ABbAab3EF4e4A899d39e7EC996b5715E76b399a)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract OsETHPriceCapAdapter (eth:0x2b86D519eF34f8Adfc9349CDeA17c09Aa9dB60E2)
     +++ description: None
 ```
 
@@ -398,6 +536,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x2D9fe18b6c35FE439cC15D932cc5C943bf2d901E)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract ConfirmedTransactionModule (eth:0x2e1B5a40Edc922bCE489668b11749B8eAbd67f6b)
     +++ description: None
 ```
 
@@ -463,6 +607,24 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Frax (prev. FXS) Token (eth:0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract MaplePool (eth:0x356B8d89c1e1239Cbbb9dE4815c39A1474d5BA7D)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PriceCapAdapterStable (eth:0x36964C0579D02E0a5AaAb89E24Cf8d7CDF3549EE)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x38A5357Ce55c81add62aBc84Fb32981e2626ADEf)
     +++ description: None
 ```
@@ -470,6 +632,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ATokenInstance (eth:0x38C503a438185cDE29b5cF4dC1442FD6F074F1cc)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePrincipalToken (eth:0x3b3fB9C57858EF816833dC91565EFcd85D96f634)
     +++ description: None
 ```
 
@@ -499,7 +667,31 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x3D7aE7E594f2f2091Ad8798313450130d0Aba3a0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePrincipalToken (eth:0x3de0ff76E8b528C092d47b9DaC775931cef80F49)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract RateEngine (eth:0x3e5F62265793a28bBdb0CF71CC04b18633461873)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x3E7d1eAB13ad0104d2750B8863b489D65364e32D)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PriceCapAdapterStable (eth:0x3f73F03aa83B2A48ed27E964eD0fDb590332095B)
     +++ description: None
 ```
 
@@ -541,6 +733,18 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract SUSDePriceCapAdapter (eth:0x42bc86f2f08419280a99d8fbEa4672e7c30a86ec)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Superstate Short Duration US Government Securities Fund Token (eth:0x43415eB6ff9DB7E26A15b704e7A3eDCe97d31C4e)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract AaveOracle (eth:0x43b64f28A678944E0655404B0B98E443851cC34F)
     +++ description: None
 ```
@@ -548,6 +752,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract GranularGuardianAccessControl (eth:0x4457cA11E90f416Cc1D3a8E1cA41C0cdEcC251d4)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract DiscountedMKRSKYAdapter (eth:0x44Bb2a64bAf94210B583338D3D97b1e8288Bd478)
     +++ description: None
 ```
 
@@ -637,6 +847,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract USDe Token (eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8)
     +++ description: None
 ```
@@ -655,6 +871,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x4E155eD98aFE9034b7A5962f6C84c86d869daA9d)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x4E2a4d9B3DF7Aae73b418Bd39F3af9e148E3F479)
     +++ description: None
 ```
@@ -662,6 +884,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract RwaATokenInstance (eth:0x4E58a2E433A739726134c83d2f07b2562e8dFdB3)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x4e89f87F24C13819bBDDb56f99b38746C91677D8)
     +++ description: None
 ```
 
@@ -697,6 +925,24 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PendlePrincipalToken (eth:0x50D2C7992b802Eef16c04FeADAB310f31866a545)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract ChainLink Token (eth:0x514910771AF9Ca656af840dff83E8264EcF986CA)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x5292AB3292D076271f853Ed8e05e61cc02F0A2C6)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract BorrowLogic (eth:0x52Da0ce88202D1542543598D1e1e27F0d344726A)
     +++ description: None
 ```
@@ -721,6 +967,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x5424384B256154046E9667dDFaaa5e550145215e)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract AaveOracle (eth:0x54586bE62E3c3580375aE3723C145253060Ca0C2)
     +++ description: None
 ```
@@ -734,6 +986,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract GhoDirectMinter (eth:0x5513224daaEABCa31af5280727878d52097afA05)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x553303d460EE0afB37EdFf9bE42922D8FF63220e)
     +++ description: None
 ```
 
@@ -757,13 +1015,43 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Tranche (eth:0x5a0F93D040De44e78F251b03c43be9CF317Dcf64)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Lido DAO Token (eth:0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract ScaledPriceAdapter (eth:0x5Ae4D93B9b9626Dc3289e1Afb14b821FD3C95F44)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x5b502e3796385E1e9755d7043B9C945C3aCCeC9C)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x5C00128d4d1c2F4f652C267d7bcdD7aC99C16E16)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x5c647cE0Ae10658ec44FA4E11A51c96e94efd1Dd)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PriceCapAdapterStable (eth:0x5c66322CA59bB61e867B28195576DbD8dA4b08dE)
     +++ description: None
 ```
 
@@ -787,6 +1075,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x5ed77a9D9b7cc80E9d0D7711024AF38C2643C1c4)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x5Ee5bf7ae06D1Be5997A1A72006FE6C607eC6DE8)
     +++ description: None
 ```
@@ -799,13 +1093,37 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x5F9190496e0DFC831C3bd307978de4a245E2F5cD)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
+    contract LUSD Stablecoin Token (eth:0x5f98805A4E8be255a32880FDeC7F6728C6568bA0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x5fefd7069a7D91d01f269DADE14526CCF3487810)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x60AEd7d20AC6328f7BA771aD58931c996aff30E8)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePrincipalToken (eth:0x619D75E3b790eBC21c289f2805Bb7177A7D732E2)
     +++ description: None
 ```
 
@@ -818,6 +1136,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract BorrowLogic (eth:0x62325c94E1c49dcDb5937726aB5D8A4c37bCAd36)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePrincipalToken (eth:0x62C6E813b9589C3631Ba0Cdb013acdB8544038B7)
     +++ description: None
 ```
 
@@ -841,6 +1165,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract ether.fi BTC Token (eth:0x657e8C867D8B37dCC18fA4Caead9C45EB088C642)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x65906988ADEe75306021C417a1A3458040239602)
     +++ description: None
 ```
@@ -848,6 +1178,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ATokenInstance (eth:0x68215B6533c47ff9f7125aC95adf00fE4a62f79e)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Tether Gold Token (eth:0x68749665FF8D2d112Fa859AA293F07A622782F38)
     +++ description: None
 ```
 
@@ -877,7 +1213,31 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract RETHPriceCapAdapter (eth:0x6929706c42d637DF5Ebf7F0BcfF2aF47F84Ea69D)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ClinicStewardV2 (eth:0x6A14eBe9A934c8EFE15C3811a999149472876b56)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x6A196A7B498C4EFBFEfB55364106EC80CceF0C3F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Dai Stablecoin Token (eth:0x6B175474E89094C44Da98b954EedeAC495271d0F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x6b99e86B48Fee533B7Bee602e7959f024051Eca0)
     +++ description: None
 ```
 
@@ -890,6 +1250,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract DeficitOffsetClinicSteward (eth:0x6c1DC85f2aE71C3DAcd6E44Bb57DEeF61b540a5A)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PYUSD (eth:0x6c3ea9036406852006290770BEdFcAbA0e23A0e8)
     +++ description: None
 ```
 
@@ -931,6 +1297,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x6Ebc52C8C1089be9eB3945C4350B68B8E4C2233f)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x6Efc73E54E41b27d2134fF9f98F15550f30DF9B1)
     +++ description: None
 ```
@@ -944,6 +1316,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ProxyAdmin (eth:0x71B40923a23557820773cc061888bCD704F19594)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract RsETHPriceCapAdapter (eth:0x7292C95A5f6A501a9c4B34f6393e221F2A0139c3)
     +++ description: None
 ```
 
@@ -985,6 +1363,18 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x7585693910f39df4959912B27D09EAEef06C1a93)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x759B9B72700A129CD7AD8e53F9c99cb48Fd57105)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract UmbrellaStakeToken (eth:0x75e8aC0c063B6966E2A9954adEdf39BdE9370197)
     +++ description: None
 ```
@@ -1004,6 +1394,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract VariableDebtTokenMainnetInstanceGHO (eth:0x786dBff3f1292ae8F92ea68Cf93c30b34B1ed04B)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x7A9f34a0Aa917D438e9b6E630067062B7F8f6f3d)
     +++ description: None
 ```
 
@@ -1057,7 +1453,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Wrapped liquid staked Ether 2.0 Token (eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract PriceFeedEngine (eth:0x7F8c06dd5143b837B7D86be6f55876C608c0301c)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Aave Token (eth:0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9)
     +++ description: None
 ```
 
@@ -1093,6 +1501,18 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Lombard Staked Bitcoin Token (eth:0x8236a87084f8B84306f72007F36F2618A5634494)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract StablecoinUpgradeableV2 (eth:0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x82F9c5ad306BBa1AD0De49bB5FA6F01bf61085ef)
     +++ description: None
 ```
@@ -1100,6 +1520,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract PoolConfiguratorInstance (eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Savings Dai Token (eth:0x83F20F44975D03b1b09e64809B757c47f942BEeA)
     +++ description: None
 ```
 
@@ -1123,7 +1549,25 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Legacy Frax Dollar Token (eth:0x853d955aCEf822Db058eb8505911ED77F175b99e)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract TETHPriceCapAdapter (eth:0x85968026294b8f8Fb86d6bF3Cda079f9376aD05A)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ProxyAdmin (eth:0x86C3FfeE349A7cFf7cA88C449717B1b133bfb517)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract WeETHPriceCapAdapter (eth:0x87625393534d5C102cADB66D37201dF24cc26d4C)
     +++ description: None
 ```
 
@@ -1135,7 +1579,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract OneUSDFixedAdapter (eth:0x88025072A7dB6Db5e54E46d43850bb44CA93D6C0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x8838eefF2af391863E1Bb8b1dF563F86743a8470)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CbETHPriceCapAdapter (eth:0x889399C34461b25d70d43931e6cE9E40280E617B)
     +++ description: None
 ```
 
@@ -1177,6 +1633,30 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract FixedPriceAdapter (eth:0x8adb5187695F773513dEC4b569d21db0341931dA)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x8B17C02d22EE7D6B8D6829ceB710A458de41E84a)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x8B8B73598a2c4b1de6d3b075618434CfC4826632)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Tranche (eth:0x8c213ee79581Ff4984583C6a801e5263418C4b86)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x8C6FeaF5d58BA1A6541F9c4aF685f62bFCBaC3b1)
     +++ description: None
 ```
@@ -1207,7 +1687,37 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x90498d4334259FA769830ccA9114D8bcF3745F6c)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract AaveV3ConfigEngine (eth:0x909bA8DA4c826C62013Ce3A30ce1F42943F3b340)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EtherealPreDepositVault (eth:0x90D2af7d622ca3141efA4d8f1F24d86E5974Cc8F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePrincipalToken (eth:0x917459337CaAC939D41d7493B3999f571D20D667)
     +++ description: None
 ```
 
@@ -1237,6 +1747,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PriceCapAdapterStable (eth:0x94C7FD62fd0506e71d8142E9D36687fC72A86B02)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract AgentHub (eth:0x95E3015c67EF62B866cC28ca5A9AB5017A55e336)
     +++ description: None
 ```
@@ -1250,6 +1766,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ATokenInstance (eth:0x977b6fc5dE62598B08C85AC8Cf2b745874E8b78c)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract SyrupUSDTPriceCapAdapter (eth:0x982aC260B5a4e5bCAb6A437e79168390cFbDe70D)
     +++ description: None
 ```
 
@@ -1285,7 +1807,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PendlePrincipalToken (eth:0x9Bf45ab47747F4B4dD09B3C2c73953484b4eB375)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x9D244A99801dc05cbC04183769c17056B8A1Ad53)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Staked USDe Token (eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497)
     +++ description: None
 ```
 
@@ -1303,7 +1837,49 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PendlePrincipalToken (eth:0x9db38D74a0D29380899aD354121DfB521aDb0548)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PriceCapAdapterStable (eth:0x9Dc30dc58c72f5B669aEa01d02A2e4da194eE893)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract DefaultReserveInterestRateStrategyV2 (eth:0x9ec6F08190DeA04A54f8Afc53Db96134e5E3FdFB)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0x9f336eB940730596548C342A8BF1fC530B10cc96)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePrincipalToken (eth:0x9F56094C450763769BA0EA9Fe2876070c0fD5F77)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Maker Token (eth:0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract USD Coin Token (eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0xa0dc0249c32fa79e8B9b17c735908a60b1141B40)
     +++ description: None
 ```
 
@@ -1315,7 +1891,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract rsETH Token (eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract GovernancePowerStrategy (eth:0xa198Fac58E02A5C5F8F7e877895d50cFa9ad1E04)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract ETHx Token (eth:0xA35b1B31Ce002FBF2058D22F30f95D405200A15b)
     +++ description: None
 ```
 
@@ -1340,6 +1928,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xa665bB258D2a732C170dFD505924214c0b1AC74F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EURPriceCapAdapterStable (eth:0xa6aB031A4d189B24628EC9Eb155F0a0f1A0E55a3)
     +++ description: None
 ```
 
@@ -1399,6 +1993,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract MUSD (eth:0xacA92E438df0B2401fF60dA7E4337B687a2435DA)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xacD3d3FaCeA0424984F662827B988f4581a3cE31)
     +++ description: None
 ```
@@ -1417,7 +2017,25 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Rocket Pool ETH Token (eth:0xae78736Cd615f374D3085123A210448E74Fc6393)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xae8593DD575FE29A9745056aA91C4b746eee62C8)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePrincipalToken (eth:0xAeBf0Bb9f57E89260d57f31AF34eB58657d96Ce0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9)
     +++ description: None
 ```
 
@@ -1429,7 +2047,25 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract StargateToken (eth:0xAf5191B0De278C7286d6C7CC6ab6BB8A73bA2Cd6)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CLSynchronicityPriceAdapterPegToBase (eth:0xb01e6C9af83879B8e06a092f0DD94309c0D497E4)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract RwaATokenInstance (eth:0xB0EC6c4482Ac1Ef77bE239C0AC833CF37A27c876)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract NativeLBTC (eth:0xB0F70C0bD6FD87dbEb7C10dC692a2a6106817072)
     +++ description: None
 ```
 
@@ -1441,7 +2077,31 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0xb41E773f507F7a7EA890b1afB7d2b660c30C8B0A)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xb49f677943BC038e9857d61E7d053CaA2C1734C1)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0xB539C6C0fc36ff1572B13ACec343B854937db576)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract GhoFlashMinter (eth:0xb639D208Bcf0589D54FaC24E655C79EC529762B8)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PriceCapAdapterStable (eth:0xB6557F02F0a5dA7b9D3C2d979cc19e00e756F6dA)
     +++ description: None
 ```
 
@@ -1477,6 +2137,18 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0xB9E1E3A9feFf48998E45Fa90847ed4D467E8BcfD)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Balancer Token (eth:0xba100000625a3754423978a60c9317c58a424e3D)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract PoolAddressesProviderRegistry (eth:0xbaA999AC55EAce41CcAE355c77809e68Bb345170)
     +++ description: None
 ```
@@ -1484,6 +2156,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xBae535520Abd9f8C85E58929e0006A2c8B372F74)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PendlePrincipalToken (eth:0xBC6736d346a5eBC0dEbc997397912CD9b8FAe10a)
     +++ description: None
 ```
 
@@ -1519,13 +2197,43 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Coinbase Wrapped Staked ETH Token (eth:0xBe9895146f7AF43049ca1c1AE358B0541Ea49704)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Renzo Restaked ETH Token (eth:0xbf5495Efe5DB9ce00f80364C8B423567e58d2110)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract RiskSteward (eth:0xBF79d8339303148E345277a994Eb2cD5d82F0067)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
+    contract Synthetix Network Token (eth:0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Wrapped Ether Token (eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0xC035a7cf15375cE2706766804551791aD035E0C2)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract AnchorageTokenUSDtb (eth:0xC139190F447e929f090Edeb554D95AbB8b18aC1C)
     +++ description: None
 ```
 
@@ -1543,6 +2251,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Ethereum Name Service Token (eth:0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0xc2015641564a5914A17CB9A92eC8d8feCfa8f2D0)
     +++ description: None
 ```
@@ -1550,6 +2264,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract EmissionManager (eth:0xC2201708289b2C6A1d461A227A7E5ee3e7fE9A2F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PriceCapAdapterStable (eth:0xC26D4a1c46d884cfF6dE9800B6aE7A8Cf48B4Ff8)
     +++ description: None
 ```
 
@@ -1579,7 +2299,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PendlePriceCapAdapter (eth:0xc35D319FA5FEc2BBE0eB4d0a826465b60f821F81)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xC435b02dcBef2e9BdE55e28d39f53ddbe0760a2c)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EUSDePriceCapAdapter (eth:0xc7Ad695ac0ae38Ae308640897E51468977A862a2)
     +++ description: None
 ```
 
@@ -1591,13 +2323,37 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0xC7e9b623ed51F033b32AE7f1282b1AD62C28C183)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xc929ad75B72593967DE83E7F7Cda0493458261D9)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xC96113eED8cAB59cD8A66813bCB0cEb29F06D2e4)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
+    contract Fire Bitcoin Token (eth:0xC96dE26018A54D51c097160568752c4E3BD6C364)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xc9AD8Dd111e6384128146467aAf92B81EC422848)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Coinbase Wrapped BTC Token (eth:0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
     +++ description: None
 ```
 
@@ -1616,6 +2372,18 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ATokenInstance (eth:0xcCA43ceF272c30415866914351fdfc3E881bb7c2)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Wrapped eETH Token (eth:0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33f)
     +++ description: None
 ```
 
@@ -1651,6 +2419,18 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract GhoOracle (eth:0xD110cac5d8682A3b045D5524a9903E031d70FCCd)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract TAsset (eth:0xD11c452fc99cF405034ee446803b6F6c1F6d5ED8)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xd180D7fdD4092f07428eFE801E17BC03576b3192)
     +++ description: None
 ```
@@ -1664,6 +2444,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xD2cf07dEE40d3D530D15b88d689f5cd97A31FC3D)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Rocket Pool Protocol Token (eth:0xD33526068D116cE69F19A9ee46F0bd304F21A51f)
     +++ description: None
 ```
 
@@ -1693,7 +2479,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Curve DAO Token (eth:0xD533a949740bb3306d119CC777fa900bA034cd52)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract PoolLogic (eth:0xD70593841C57cbaA04957cc3EAcE95708e48853b)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EthXPriceCapAdapter (eth:0xd7b163B671f8cE9379DF8Ff7F75fA72Ccec1841c)
     +++ description: None
 ```
 
@@ -1711,7 +2509,37 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract CLSynchronicityPriceAdapterPegToBase (eth:0xDaa4B74C6bAc4e25188e64ebc68DB5050b690cAc)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract PayloadsController (eth:0xdAbad81aF85554E9ae636395611C58F7eC1aAEc5)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Tether USD Token (eth:0xdAC17F958D2ee523a2206206994597C13D831ec7)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract USDS Stablecoin Token (eth:0xdC035D45d973E3EC169d2276DDab16f1e407384F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xDC3EA94CD0AC27d9A86C180091e7f78C683d3699)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xde49c7B5C0E54b1624ED21C7D88bA6593d444Aa0)
     +++ description: None
 ```
 
@@ -1747,6 +2575,18 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Kyber Network Crystal v2 Token (eth:0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xdF2917806E30300537aEB49A7663062F4d1F2b5F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0xdF7f48892244C6106EA784609f7de10AB36F9c7e)
     +++ description: None
 ```
@@ -1771,6 +2611,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract WstETHPriceCapAdapter (eth:0xe1D97bF61901B075E9626c8A2340a7De385861Ef)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ClinicStewardV2 (eth:0xE1e62c3ee0c581F715fBb0e23CDA536Fc29eeB2c)
     +++ description: None
 ```
@@ -1784,6 +2630,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ATokenInstance (eth:0xE3190143Eb552456F88464662f0c0C4aC67A77eB)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract USDG (eth:0xe343167631d89B6Ffc58B88d6b7fB0228795491D)
     +++ description: None
 ```
 
@@ -1813,6 +2665,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PendlePrincipalToken (eth:0xe6A934089BBEe34F832060CE98848359883749B3)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract Safe (eth:0xE6ec1f0Ae6Cd023bd0a9B4d0253BDC755103253c)
     +++ description: None
 ```
@@ -1837,6 +2695,18 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PendlePrincipalToken (eth:0xE8483517077afa11A9B07f849cee2552f040d7b2)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xE8E65Fb9116875012F5990Ecaab290B3531DbeB9)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract GhoDirectFacilitator (eth:0xE9ac5231fAecb633dA0Fe85Fcb2785b8363427d2)
     +++ description: None
 ```
@@ -1844,6 +2714,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xeA51d7853EEFb32b6ee06b1C12E6dcCA88Be0fFE)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xEa674bBC33AE708Bc9EB4ba348b04E4eB55b496b)
     +++ description: None
 ```
 
@@ -1885,6 +2761,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PriceCapAdapterStable (eth:0xEbb721daf3DA9f1b3dcEc590cDf648137172d7CB)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0xEc4ef66D4fCeEba34aBB4dE69dB391Bc5476ccc8)
     +++ description: None
 ```
@@ -1898,6 +2780,24 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xeD90dE2D824Ee766c6Fd22E90b12e598f681dc9F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xee10fE5E7aa92dd7b136597449c3d5813cFC5F18)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xEEf0C605546958c1f899b6fB336C20671f9cD49F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PriceCapAdapterStable (eth:0xeF50f8DC65402c3019586bc8725fCD0b99B8AAd7)
     +++ description: None
 ```
 
@@ -1921,6 +2821,42 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract EACAggregatorProxy (eth:0xF02C1e2A3B77c1cacC72f72B44f7d0a4c62e4a85)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract PriceCapAdapterStable (eth:0xf0eaC18E908B34770FDEe46d069c846bDa866759)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract WeETHPriceCapAdapter (eth:0xf112aF6F0A332B815fbEf3Ff932c057E570b62d3)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract OsToken (eth:0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract FixedPriceAdapter (eth:0xF29b1e3b68Fd59DD0a413811fD5d0AbaE653216d)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EzETHPriceCapAdapter (eth:0xF3d49021fF3bbBFDfC1992A4b09E5D1d141D044C)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ListingEngine (eth:0xf5A5F98B93d68232dD2f04986117F3e1db8Ca6A2)
     +++ description: None
 ```
@@ -1939,13 +2875,43 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract ScaledPriceAdapter (eth:0xF77f2537dba4ffD60f77fACdfB2c1706364fA03d)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract sDAIMainnetPriceCapAdapter (eth:0xf83B85205241c3BCCA0a09D32FaE65c16e0CF236)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract PermissionedPayloadsController (eth:0xF86F77F7531B3374274E3f725E0A81D60bC4bB67)
     +++ description: None
 ```
 
 ```diff
 +   Status: CREATED
+    contract LBTCPriceCapAdapter (eth:0xf8c04B50499872A5B5137219DEc0F791f7f620D0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract PoolLogic (eth:0xf8C97539934ee66a67C26010e8e027D77E821B0C)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xf8fF43E991A81e6eC886a3D281A2C6cC19aE70Fc)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Curve.Fi USD Stablecoin Token (eth:0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E)
     +++ description: None
 ```
 
@@ -1963,6 +2929,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract ScaledPriceAdapter (eth:0xfAB6790E399f0481e1303167c655b3c39ee6e7A0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0xfd3aDA5AAbdc6531C7C2AC46c00eBf870f5a0E6B)
     +++ description: None
 ```
@@ -1970,5 +2942,11 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ProxyAdmin (eth:0xfD57dE1F38e3F730E0BEb7238dD50E396851dda0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xfF30586cD0F29eD462364C7e81375FC0C71219b1)
     +++ description: None
 ```

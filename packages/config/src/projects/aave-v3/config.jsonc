@@ -53,6 +53,19 @@
             "type": "aaveReserveTokens",
             "tokenType": "variableDebt"
           }
+        },
+        "allUnderlyingAssets": {
+          "handler": {
+            "type": "aaveReserveTokens",
+            "tokenType": "underlyingAsset"
+          }
+        },
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolAddressesProvider deployed this Pool. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0xeBa440B438Ad808101d1c451C1C5322c90BEFCdA"
+          }
         }
       }
     },
@@ -77,13 +90,27 @@
       "ignoreInWatchMode": [
         "getReservesCount",
         "MAX_NUMBER_RESERVES",
-        "POOL_REVISION"
+        "POOL_REVISION",
+        "UMBRELLA"
       ],
       "fields": {
         "getAllVariableDebtTokens": {
           "handler": {
             "type": "aaveReserveTokens",
             "tokenType": "variableDebt"
+          }
+        },
+        "allUnderlyingAssets": {
+          "handler": {
+            "type": "aaveReserveTokens",
+            "tokenType": "underlyingAsset"
+          }
+        },
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolAddressesProvider deployed this Pool. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0xcfBf336fe147D643B9Cb705648500e101504B16d"
           }
         }
       }
@@ -192,6 +219,19 @@
             "type": "aaveReserveTokens",
             "tokenType": "variableDebt"
           }
+        },
+        "allUnderlyingAssets": {
+          "handler": {
+            "type": "aaveReserveTokens",
+            "tokenType": "underlyingAsset"
+          }
+        },
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolAddressesProvider deployed this Pool. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x5D39E06b825C1F2B80bf2756a73e28eFAA128ba0"
+          }
         }
       }
     },
@@ -272,22 +312,58 @@
     "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517": {
       "ignoreInWatchMode": [
         "CONFIGURATOR_REVISION"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolAddressesProvider deployed this PoolConfigurator. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x5D39E06b825C1F2B80bf2756a73e28eFAA128ba0"
+          }
+        }
+      }
     },
     "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27": {
       "ignoreInWatchMode": [
         "CONFIGURATOR_REVISION"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolAddressesProvider deployed this PoolConfigurator. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x2f39d218133AFaB8F2B819B1066c7E434Ad94E9e"
+          }
+        }
+      }
     },
     "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F": {
       "ignoreInWatchMode": [
         "CONFIGURATOR_REVISION"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolAddressesProvider deployed this PoolConfigurator. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0xcfBf336fe147D643B9Cb705648500e101504B16d"
+          }
+        }
+      }
     },
     "eth:0x8438F4D29D895d75C86BDC25360c25eF0607E65d": {
       "ignoreInWatchMode": [
         "CONFIGURATOR_REVISION"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolAddressesProvider deployed this PoolConfigurator. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0xeBa440B438Ad808101d1c451C1C5322c90BEFCdA"
+          }
+        }
+      }
     },
     "eth:0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2": {
       "ignoreInWatchMode": [
@@ -302,18 +378,49 @@
             "type": "aaveReserveTokens",
             "tokenType": "variableDebt"
           }
+        },
+        "allUnderlyingAssets": {
+          "handler": {
+            "type": "aaveReserveTokens",
+            "tokenType": "underlyingAsset"
+          }
+        },
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolAddressesProvider deployed this Pool. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x2f39d218133AFaB8F2B819B1066c7E434Ad94E9e"
+          }
         }
       }
     },
     "eth:0x8164Cc65827dcFe994AB23944CBC90e0aa80bFcb": {
       "ignoreInWatchMode": [
         "REVISION"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. EmissionManager is the immutable admin. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x223d844fc4B006D67c0cDbd39371A9F73f69d974"
+          }
+        }
+      }
     },
     "eth:0x1D5D386a90CEA8AcEa9fa75389e97CF5F1AE21D3": {
       "ignoreInWatchMode": [
         "REVISION"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. EmissionManager is the immutable admin. The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0xC2201708289b2C6A1d461A227A7E5ee3e7fE9A2F"
+          }
+        }
+      }
     },
     "eth:0x786dBff3f1292ae8F92ea68Cf93c30b34B1ed04B": {
       "ignoreInWatchMode": [
@@ -326,7 +433,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x013E2C7567b6231e865BB9273F8c7656103611c0": {
       "ignoreInWatchMode": [
@@ -542,20 +658,60 @@
         "getUpdateType"
       ]
     },
+    // --- AaveOracle instances — surface per-asset price source map via AssetSourceUpdated events.
+    //     Returns { asset → source } pairs; both sides become discovery relatives, landing each underlying
+    //     token AND each price feed as a leaf node (each pruned via its own `ignoreRelatives` override below).
     "eth:0x43b64f28A678944E0655404B0B98E443851cC34F": {
-      "ignoreInWatchMode": [
-        "BASE_CURRENCY_UNIT"
-      ]
+      "ignoreInWatchMode": ["BASE_CURRENCY_UNIT"],
+      "fields": {
+        "assetSources": {
+          "handler": {
+            "type": "event",
+            "select": "source",
+            "groupBy": "asset",
+            "set": { "event": "event AssetSourceUpdated(address indexed asset, address indexed source)" }
+          }
+        }
+      }
     },
     "eth:0x54586bE62E3c3580375aE3723C145253060Ca0C2": {
-      "ignoreInWatchMode": [
-        "BASE_CURRENCY_UNIT"
-      ]
+      "ignoreInWatchMode": ["BASE_CURRENCY_UNIT"],
+      "fields": {
+        "assetSources": {
+          "handler": {
+            "type": "event",
+            "select": "source",
+            "groupBy": "asset",
+            "set": { "event": "event AssetSourceUpdated(address indexed asset, address indexed source)" }
+          }
+        }
+      }
+    },
+    "eth:0x985BcfAB7e0f4EF2606CC5b64FC1A16311880442": {
+      "ignoreInWatchMode": ["BASE_CURRENCY_UNIT"],
+      "fields": {
+        "assetSources": {
+          "handler": {
+            "type": "event",
+            "select": "source",
+            "groupBy": "asset",
+            "set": { "event": "event AssetSourceUpdated(address indexed asset, address indexed source)" }
+          }
+        }
+      }
     },
     "eth:0xE3C061981870C0C7b1f3C4F4bB36B95f1F260BE6": {
-      "ignoreInWatchMode": [
-        "BASE_CURRENCY_UNIT"
-      ]
+      "ignoreInWatchMode": ["BASE_CURRENCY_UNIT"],
+      "fields": {
+        "assetSources": {
+          "handler": {
+            "type": "event",
+            "select": "source",
+            "groupBy": "asset",
+            "set": { "event": "event AssetSourceUpdated(address indexed asset, address indexed source)" }
+          }
+        }
+      }
     },
     "eth:0x08795CFE08C7a81dCDFf482BbAAF474B240f31cD": {
       "ignoreInWatchMode": [
@@ -741,6 +897,7 @@
     "eth:0x95E3015c67EF62B866cC28ca5A9AB5017A55e336": {
       "ignoreInWatchMode": [
         "getAgentCount",
+        "getMaxBatchSize",
         "getUpdateType"
       ],
       "ignoreMethods": [
@@ -817,25 +974,77 @@
       "ignoreDiscovery": true
     },
     "eth:0x43415eB6ff9DB7E26A15b704e7A3eDCe97d31C4e": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "allowlistV2", "owner", "pendingOwner", "redemptionContract", "superstateOracle"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "getChainlinkPrice",
+        "MINIMUM_ACCEPTABLE_PRICE",
+        "name",
+        "SUPERSTATE_TOKEN_PRECISION",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x14d60E7FDC0D71d8611742720E4C50E7a974020c": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "allowlistV2", "owner", "pendingOwner", "redemptionContract", "superstateOracle"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "MINIMUM_ACCEPTABLE_PRICE",
+        "name",
+        "SUPERSTATE_TOKEN_PRECISION",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x136471a34f6ef19fE571EFFC1CA711fdb8E49f2b": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "authority", "owner", "pendingOwner"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x8c213ee79581Ff4984583C6a801e5263418C4b86": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["hook"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x5a0F93D040De44e78F251b03c43be9CF317Dcf64": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["hook"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x2255718832bC9fD3bE1CaF75084F4803DA14FF01": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "getDSService", "getImplementationAddress", "getWalletAt", "owner"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalIssued",
+        "totalSupply",
+        "UPGRADE_INTERFACE_VERSION",
+        "walletCount"
+      ]
     },
     "eth:0x17418038ecF73BA4026c4f428547BF099706F27B": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "getDSService", "getImplementationAddress", "getWalletAt", "owner"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply",
+        "UPGRADE_INTERFACE_VERSION",
+        "walletCount"
+      ]
     },
     "eth:0x223d844fc4B006D67c0cDbd39371A9F73f69d974": {
       "ignoreDiscovery": true
@@ -843,200 +1052,662 @@
     "eth:0x30D20208d987713f46DFD34EF128Bb16C404D10f": {
       "ignoreDiscovery": true
     },
+    // 1INCH Token — excluded because its on-chain `name()` "1INCH Token" starts with
+    // a digit, producing an invalid Clingo identifier in permission modelling
+    // (upstream `normalizeId` doesn't sanitize digit-leading names). Once upstream
+    // patches that, switch this back to `"ignoreRelatives": ["owner"]`.
     "eth:0x111111111117dC0aa78b770fA6A738034120C302": {
       "ignoreDiscovery": true
     },
     "eth:0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "eip712Domain"],
+      "ignoreInWatchMode": [
+        "DELEGATE_BY_TYPE_TYPEHASH",
+        "DELEGATE_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "name",
+        "PERMIT_TYPEHASH",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xC139190F447e929f090Edeb554D95AbB8b18aC1C": {
-      "ignoreDiscovery": true
-    },
-    "eth:0xba100000625a3754423978a60c9317c58a424e3D": {
-      "ignoreDiscovery": true
-    },
-    "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "eip712Domain", "owner"],
+      "ignoreInWatchMode": [
+        "__DEPRECATED_MINTER_CONTRACT",
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "admin", "blacklister", "implementation", "masterMinter", "owner", "pauser", "rescuer"],
+      "ignoreInWatchMode": [
+        "CANCEL_AUTHORIZATION_TYPEHASH",
+        "currency",
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "RECEIVE_WITH_AUTHORIZATION_TYPEHASH",
+        "symbol",
+        "totalSupply",
+        "TRANSFER_WITH_AUTHORIZATION_TYPEHASH"
+      ]
     },
     "eth:0xBe9895146f7AF43049ca1c1AE358B0541Ea49704": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "admin", "blacklister", "implementation", "masterMinter", "oracle", "owner", "pauser", "rescuer"],
+      "ignoreInWatchMode": [
+        "CANCEL_AUTHORIZATION_TYPEHASH",
+        "currency",
+        "DOMAIN_SEPARATOR",
+        "exchangeRate",
+        "name",
+        "PERMIT_TYPEHASH",
+        "RECEIVE_WITH_AUTHORIZATION_TYPEHASH",
+        "symbol",
+        "totalSupply",
+        "TRANSFER_WITH_AUTHORIZATION_TYPEHASH"
+      ]
     },
     "eth:0xD533a949740bb3306d119CC777fa900bA034cd52": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["admin", "minter"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E": {
-      "ignoreDiscovery": true
-    },
-    "eth:0x6B175474E89094C44Da98b954EedeAC495271d0F": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["minter"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "salt",
+        "symbol",
+        "totalSupply",
+        "version"
+      ]
     },
     "eth:0x657e8C867D8B37dCC18fA4Caead9C45EB088C642": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["authority", "hook", "owner"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x90D2af7d622ca3141efA4d8f1F24d86E5974Cc8F": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["asset", "owner"],
+      "ignoreInWatchMode": [
+        "convertToAssets",
+        "convertToShares",
+        "name",
+        "previewDeposit",
+        "previewMint",
+        "previewRedeem",
+        "previewWithdraw",
+        "symbol",
+        "totalAssets",
+        "totalSupply"
+      ]
     },
     "eth:0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["owner"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "getPastTotalSupply",
+        "merkleRoot",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xA35b1B31Ce002FBF2058D22F30f95D405200A15b": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "staderConfig"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "admin", "blacklister", "implementation", "owner", "pauser", "rescuer"],
+      "ignoreInWatchMode": [
+        "CANCEL_AUTHORIZATION_TYPEHASH",
+        "currency",
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "RECEIVE_WITH_AUTHORIZATION_TYPEHASH",
+        "symbol",
+        "TRANSFER_WITH_AUTHORIZATION_TYPEHASH"
+      ]
     },
     "eth:0xC96dE26018A54D51c097160568752c4E3BD6C364": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["bridge", "owner", "pendingOwner"],
+      "ignoreInWatchMode": [
+        "name",
+        "proxiableUUID",
+        "symbol",
+        "totalSupply",
+        "UPGRADE_INTERFACE_VERSION"
+      ]
     },
     "eth:0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["FRAXStablecoinAdd", "oracle_address", "owner_address", "timelock_address"],
+      "ignoreInWatchMode": [
+        "genesis_supply",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "minter", "oldKNC", "owner"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x853d955aCEf822Db058eb8505911ED77F175b99e": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["DEFAULT_ADMIN_ADDRESS", "controller_address", "creator_address", "eth_usd_consumer_address", "frax_eth_oracle_address", "frax_pools_array", "fxs_address", "fxs_eth_oracle_address", "owner_address", "timelock_address", "weth_address"],
+      "ignoreInWatchMode": [
+        "COLLATERAL_RATIO_PAUSER",
+        "eth_usd_price",
+        "genesis_supply",
+        "last_call_time",
+        "name",
+        "price_band",
+        "price_target",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["controller", "parentToken", "tokenFactory"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply",
+        "version"
+      ]
     },
     "eth:0x8236a87084f8B84306f72007F36F2618A5634494": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "Bascule", "defaultAdmin", "eip712Domain", "getAssetRouter", "getTreasury", "owner", "pendingDefaultAdmin"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "getRate",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x5f98805A4E8be255a32880FDeC7F6728C6568bA0": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["borrowerOperationsAddress", "stabilityPoolAddress", "troveManagerAddress"],
+      "ignoreInWatchMode": [
+        "domainSeparator",
+        "name",
+        "permitTypeHash",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["authority", "owner"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x356B8d89c1e1239Cbbb9dE4815c39A1474d5BA7D": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["asset", "manager"],
+      "ignoreInWatchMode": [
+        "convertToAssets",
+        "convertToExitAssets",
+        "convertToExitShares",
+        "convertToShares",
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "previewDeposit",
+        "previewMint",
+        "previewRedeem",
+        "previewWithdraw",
+        "symbol",
+        "totalAssets",
+        "totalSupply"
+      ]
     },
     "eth:0xacA92E438df0B2401fF60dA7E4337B687a2435DA": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "eip712Domain", "mToken", "swapFacility", "yieldRecipient"],
+      "ignoreInWatchMode": [
+        "CANCEL_AUTHORIZATION_TYPEHASH",
+        "currentIndex",
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "name",
+        "PERMIT_TYPEHASH",
+        "RECEIVE_WITH_AUTHORIZATION_TYPEHASH",
+        "symbol",
+        "totalSupply",
+        "TRANSFER_WITH_AUTHORIZATION_TYPEHASH"
+      ]
     },
     "eth:0xB0F70C0bD6FD87dbEb7C10dC692a2a6106817072": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "Bascule", "consortium", "defaultAdmin", "eip712Domain", "getAssetRouter", "getTreasury", "owner", "pendingDefaultAdmin"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["eip712Domain", "owner", "pendingOwner"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x14Bdc3A3AE09f5518b923b69489CBcAfB238e617": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x1F84a51296691320478c98b8d77f2Bbd17D34350": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x3b3fB9C57858EF816833dC91565EFcd85D96f634": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x3de0ff76E8b528C092d47b9DaC775931cef80F49": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "reentrancyGuardEntered",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x50D2C7992b802Eef16c04FeADAB310f31866a545": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x619D75E3b790eBC21c289f2805Bb7177A7D732E2": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "reentrancyGuardEntered",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x62C6E813b9589C3631Ba0Cdb013acdB8544038B7": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x917459337CaAC939D41d7493B3999f571D20D667": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x9Bf45ab47747F4B4dD09B3C2c73953484b4eB375": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "reentrancyGuardEntered",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x9db38D74a0D29380899aD354121DfB521aDb0548": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "reentrancyGuardEntered",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x9F56094C450763769BA0EA9Fe2876070c0fD5F77": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xAeBf0Bb9f57E89260d57f31AF34eB58657d96Ce0": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "reentrancyGuardEntered",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xBC6736d346a5eBC0dEbc997397912CD9b8FAe10a": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xe6A934089BBEe34F832060CE98848359883749B3": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xE8483517077afa11A9B07f849cee2552f040d7b2": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["SY", "YT", "factory"],
+      "ignoreInWatchMode": [
+        "expiry",
+        "isExpired",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x6c3ea9036406852006290770BEdFcAbA0e23A0e8": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "assetProtectionRoleDeprecated", "betaDelegateWhitelisterDeprecated", "defaultAdmin", "owner", "ownerDeprecated", "pendingDefaultAdmin", "proposedOwnerDeprecated", "supplyControl", "supplyControllerDeprecated"],
+      "ignoreInWatchMode": [
+        "CANCEL_AUTHORIZATION_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_DOMAIN_HASH_DEPRECATED",
+        "EIP712_VERSION_PREFIX",
+        "name",
+        "PERMIT_TYPEHASH",
+        "RECEIVE_WITH_AUTHORIZATION_TYPEHASH",
+        "symbol",
+        "totalSupply",
+        "TRANSFER_WITH_AUTHORIZATION_TYPEHASH"
+      ]
     },
     "eth:0xbf5495Efe5DB9ce00f80364C8B423567e58d2110": {
-      "ignoreDiscovery": true
-    },
-    "eth:0xae78736Cd615f374D3085123A210448E74Fc6393": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "roleManager"],
+      "ignoreInWatchMode": [
+        "_deprecated_paused",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xD33526068D116cE69F19A9ee46F0bd304F21A51f": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["getInflationRewardsContractAddress"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply",
+        "totalSwappedRPL"
+      ]
     },
     "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "custodyAddress", "lrtConfig"],
+      "ignoreInWatchMode": [
+        "getNextDailyLimitResetTimestamp",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x83F20F44975D03b1b09e64809B757c47f942BEeA": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["asset", "dai", "daiJoin", "pot", "vat"],
+      "ignoreInWatchMode": [
+        "convertToAssets",
+        "convertToShares",
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "previewDeposit",
+        "previewMint",
+        "previewRedeem",
+        "previewWithdraw",
+        "symbol",
+        "totalAssets",
+        "totalSupply"
+      ]
     },
     "eth:0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "eip712Domain", "getImplementation"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "name",
+        "symbol",
+        "totalSupply",
+        "UPGRADE_INTERFACE_VERSION"
+      ]
     },
     "eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["asset", "eip712Domain", "owner", "silo"],
+      "ignoreInWatchMode": [
+        "convertToAssets",
+        "convertToShares",
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "lastDistributionTimestamp",
+        "name",
+        "previewDeposit",
+        "previewMint",
+        "previewRedeem",
+        "previewWithdraw",
+        "symbol",
+        "totalAssets",
+        "totalSupply"
+      ]
     },
     "eth:0xAf5191B0De278C7286d6C7CC6ab6BB8A73bA2Cd6": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["endpoint", "owner"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["nominatedOwner", "owner", "target"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xD11c452fc99cF405034ee446803b6F6c1F6d5ED8": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "asset", "blacklister", "eip712Domain", "getUnderlying", "owner", "pendingOwner"],
+      "ignoreInWatchMode": [
+        "convertToAssets",
+        "convertToShares",
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "name",
+        "previewDeposit",
+        "previewMint",
+        "previewRedeem",
+        "previewWithdraw",
+        "symbol",
+        "totalAssets",
+        "totalSupply",
+        "UPGRADE_INTERFACE_VERSION"
+      ]
     },
     "eth:0x18084fbA666a33d37592fA2633fD49a74DD93a88": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["owner"],
+      "ignoreInWatchMode": [
+        "cachedDomainSeparator",
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x68749665FF8D2d112Fa859AA293F07A622782F38": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "owner"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xdAC17F958D2ee523a2206206994597C13D831ec7": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["getOwner", "owner", "upgradedAddress"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["minter"],
+      "ignoreInWatchMode": [
+        "DELEGATION_TYPEHASH",
+        "DOMAIN_TYPEHASH",
+        "name",
+        "PERMIT_TYPEHASH",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "blacklister", "owner", "pauser", "rescuer"],
+      "ignoreInWatchMode": [
+        "CANCEL_AUTHORIZATION_TYPEHASH",
+        "currency",
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "RECEIVE_WITH_AUTHORIZATION_TYPEHASH",
+        "symbol",
+        "TRANSFER_WITH_AUTHORIZATION_TYPEHASH"
+      ]
     },
     "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["eip712Domain", "minter", "owner", "pendingOwner"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xe343167631d89B6Ffc58B88d6b7fB0228795491D": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "assetProtectionRoleDeprecated", "betaDelegateWhitelisterDeprecated", "defaultAdmin", "owner", "pendingDefaultAdmin", "proposedOwnerDeprecated", "supplyControl", "supplyControllerDeprecated"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "EIP712_DOMAIN_HASH_DEPRECATED",
+        "EIP712_VERSION_PREFIX",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xdC035D45d973E3EC169d2276DDab16f1e407384F": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "getImplementation"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "symbol",
+        "totalSupply",
+        "UPGRADE_INTERFACE_VERSION"
+      ]
     },
     "eth:0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["owner", "pendingOwner"],
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee": {
-      "ignoreDiscovery": true
-    },
-    "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["$admin", "$implementation", "eETH", "getImplementation", "liquidityPool", "owner", "roleRegistry"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "getEETHByWeETH",
+        "getRate",
+        "getWeETHByeETH",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
     },
     "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0": {
-      "ignoreDiscovery": true
+      "ignoreRelatives": ["stETH"],
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "symbol"
+      ]
     },
     "eth:0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9": {
       "ignoreDiscovery": true
@@ -1205,7 +1876,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x028f7886F3e937f8479efaD64f31B3fE1119857a": {
       "ignoreInWatchMode": [
@@ -1218,7 +1898,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x04142fc546D59838852873bba5C8827601A13FC8": {
       "ignoreInWatchMode": [
@@ -1231,7 +1920,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x08a8Dc81AeA67F84745623aC6c72CDA3967aab8b": {
       "ignoreInWatchMode": [
@@ -1244,7 +1942,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x08e1bba76D27841dD91FAb4b3a636A0D5CF8c3E9": {
       "ignoreInWatchMode": [
@@ -1257,7 +1964,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
     },
     "eth:0x0D8486E1CAbf3C9407B3DdA0cfc4d9C3101fB683": {
       "ignoreInWatchMode": [
@@ -1270,7 +1986,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x0c91bcA95b5FE69164cE583A2ec9429A569798Ed": {
       "ignoreInWatchMode": [
@@ -1283,7 +2008,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x1097eDb85392932b7dCB630baDDC8A6D73585218": {
       "ignoreInWatchMode": [
@@ -1315,7 +2049,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x8438F4D29D895d75C86BDC25360c25eF0607E65d"
+          }
+        }
+      }
     },
     "eth:0x18577F0f4A0B2Ee6F4048dB51c7acd8699F97DB8": {
       "ignoreInWatchMode": [
@@ -1328,7 +2071,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
     },
     "eth:0x1EBdbE77bbDDD284BdCE8D7981D7eD26D6af58cA": {
       "ignoreInWatchMode": [
@@ -1349,7 +2101,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x1b7D3F4b3c032a5AE656e30eeA4e8E1Ba376068F": {
       "ignoreInWatchMode": [
@@ -1362,7 +2123,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x22517fE16DEd08e52E7EA3423A2EA4995b1f1731": {
       "ignoreInWatchMode": [
@@ -1375,7 +2145,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x22aC12a6937BBBC0a301AF9154d08EaD95673122": {
       "ignoreInWatchMode": [
@@ -1393,7 +2172,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x2ABbAab3EF4e4A899d39e7EC996b5715E76b399a": {
       "ignoreInWatchMode": [
@@ -1406,7 +2194,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
     },
     "eth:0x2CE7e7b238985A8aD3863De03F200B245B0c1216": {
       "ignoreInWatchMode": [
@@ -1419,7 +2216,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x2D9fe18b6c35FE439cC15D932cc5C943bf2d901E": {
       "ignoreInWatchMode": [
@@ -1432,7 +2238,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
     },
     "eth:0x2c2163f120cf58631368981BC16e90190Bc6C644": {
       "ignoreInWatchMode": [
@@ -1445,7 +2260,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
     },
     "eth:0x33652e48e4B74D18520f11BfE58Edd2ED2cEc5A2": {
       "ignoreInWatchMode": [
@@ -1458,7 +2282,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x3D3efceb4Ff0966D34d9545D3A2fa2dcdBf451f2": {
       "ignoreInWatchMode": [
@@ -1471,7 +2304,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x3E59212c34588a63350142EFad594a20C88C2CEd": {
       "ignoreDiscovery": true
@@ -1487,7 +2329,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x40aAbEf1aa8f0eEc637E0E7d92fbfFB2F26A8b7B": {
       "ignoreInWatchMode": [
@@ -1500,7 +2351,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x4228F8895C7dDA20227F6a5c6751b8Ebf19a6ba8": {
       "ignoreInWatchMode": [
@@ -1513,7 +2373,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x46Aa1063e5265b43663E81329333B47c517A5409": {
       "ignoreInWatchMode": [
@@ -1534,7 +2403,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x482548b76D4C577A0b5cb2A1f97EFB2893E957ed": {
       "ignoreInWatchMode": [
@@ -1566,7 +2444,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x490E0E6255bF65b43E2e02F7acB783c5e04572Ff": {
       "ignoreInWatchMode": [
@@ -1579,7 +2466,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x4A35FD7F93324Cc48bc12190D3F37493437b1Eff": {
       "ignoreInWatchMode": [
@@ -1592,7 +2488,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x4f97B950a30321c181E974971E156E19fAD184A3": {
       "ignoreInWatchMode": [
@@ -1605,7 +2510,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x5024e947ef81B9184Faf0CfF9b485446f01c8eD2": {
       "ignoreInWatchMode": [
@@ -1626,7 +2540,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x5C905d62B22e4DAa4967E517C4a047Ff6026C731": {
       "ignoreInWatchMode": [
@@ -1650,7 +2573,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x68aeB290C7727D899B47c56d1c96AEAC475cD0dD": {
       "ignoreInWatchMode": [
@@ -1663,7 +2595,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x68e9f0aD4e6f8F5DB70F6923d4d6d5b225B83b16": {
       "ignoreInWatchMode": [
@@ -1676,7 +2617,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x690Df181701C11C53EA33bBF303C25834b66bD14": {
       "ignoreInWatchMode": [
@@ -1689,7 +2639,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x6C67e666BB954d4bE23e9F1cE20e7E8699d29339": {
       "ignoreInWatchMode": [
@@ -1702,7 +2661,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x6De3E52A1B7294A34e271a508082b1Ff4a37E30e": {
       "ignoreInWatchMode": [
@@ -1715,7 +2683,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x6Efc73E54E41b27d2134fF9f98F15550f30DF9B1": {
       "ignoreInWatchMode": [
@@ -1728,7 +2705,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x6c82c66622Eb360FC973D3F492f9D8E9eA538b08": {
       "ignoreInWatchMode": [
@@ -1741,7 +2727,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x6df1C1E379bC5a00a7b4C6e67A203333772f45A8": {
       "ignoreInWatchMode": [
@@ -1754,7 +2749,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x72E95b8931767C79bA4EeE721354d6E99a61D004": {
       "ignoreInWatchMode": [
@@ -1767,7 +2771,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x730318dB7b830d324fC3fEDDB1d212Ec64bD3141": {
       "ignoreInWatchMode": [
@@ -1780,7 +2793,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x762Edb8D79b97487F82093f85059e42EeEf61E9e": {
       "ignoreInWatchMode": [
@@ -1793,7 +2815,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x77ad9BF13a52517AD698D65913e8D381300c8Bf3": {
       "ignoreInWatchMode": [
@@ -1806,7 +2837,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x7EC9Afe70f8FD603282eBAcbc9058A83623E2899": {
       "ignoreInWatchMode": [
@@ -1819,7 +2859,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x7F8Fc14D462bdF93c681c1f2Fd615389bF969Fb2": {
       "ignoreDiscovery": true
@@ -1843,7 +2892,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x88B8358F5BC87c2D7E116cCA5b65A9eEb2c5EA3F": {
       "ignoreInWatchMode": [
@@ -1856,7 +2914,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x8958b1C39269167527821f8c276Ef7504883f2fa": {
       "ignoreInWatchMode": [
@@ -1877,7 +2944,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x8C6FeaF5d58BA1A6541F9c4aF685f62bFCBaC3b1": {
       "ignoreInWatchMode": [
@@ -1890,7 +2966,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x8Db9D35e117d8b93C6Ca9b644b25BaD5d9908141": {
       "ignoreInWatchMode": [
@@ -1903,7 +2988,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x8aBd1892a1c31b8e52fC1210098fE4cAc4E52aCc": {
       "ignoreInWatchMode": [
@@ -1921,7 +3015,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x909bA8DA4c826C62013Ce3A30ce1F42943F3b340": {
       "ignoreInWatchMode": [
@@ -1953,7 +3056,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
     },
     "eth:0x9355032d747f1e08F8720CD01950E652eE15cdB7": {
       "ignoreInWatchMode": [
@@ -1966,7 +3078,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x8438F4D29D895d75C86BDC25360c25eF0607E65d"
+          }
+        }
+      }
     },
     "eth:0x9Ba896531F878Ed5f0A4F73E82d63bA7b424F910": {
       "ignoreInWatchMode": [
@@ -1979,7 +3100,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x9D244A99801dc05cbC04183769c17056B8A1Ad53": {
       "ignoreInWatchMode": [
@@ -1992,7 +3122,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0x9ec6F08190DeA04A54f8Afc53Db96134e5E3FdFB": {
       "ignoreInWatchMode": [
@@ -2013,7 +3152,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xA803414f84fCEF00e745bE7CC2A315908927f15D": {
       "ignoreInWatchMode": [
@@ -2026,7 +3174,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xAC50890a80A2731eb1eA2e9B4F29569CeB06D960": {
       "ignoreInWatchMode": [
@@ -2039,7 +3196,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xAEf73b04654931B94920a3D7AE62032b79fB6d0c": {
       "ignoreInWatchMode": [
@@ -2052,7 +3218,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xBF79d8339303148E345277a994Eb2cD5d82F0067": {
       "ignoreInWatchMode": [
@@ -2073,7 +3248,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xBb077DaFFeb23B2126E7358b0b122ba6838FB881": {
       "ignoreDiscovery": true
@@ -2089,7 +3273,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xC16666b7FF197427BD255E6961A5F99cfb3A6059": {
       "ignoreInWatchMode": [
@@ -2110,7 +3303,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xD26dcF055E16ed3048a17b37006082779CF0297c": {
       "ignoreInWatchMode": [
@@ -2128,7 +3330,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x8438F4D29D895d75C86BDC25360c25eF0607E65d"
+          }
+        }
+      }
     },
     "eth:0xE35e6A0D3AbC28289f5d4C2d262a133Df936b98D": {
       "ignoreInWatchMode": [
@@ -2141,7 +3352,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xE439edd2625772AA635B437C099C607B6eb7d35f": {
       "ignoreInWatchMode": [
@@ -2154,7 +3374,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
     },
     "eth:0xF64178Ebd2E2719F2B1233bCb5Ef6DB4bCc4d09a": {
       "ignoreInWatchMode": [
@@ -2167,7 +3396,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xa665bB258D2a732C170dFD505924214c0b1AC74F": {
       "ignoreInWatchMode": [
@@ -2180,7 +3418,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xaFFA06528Bd92625de2e7A0cfa0119319265Ea4b": {
       "ignoreDiscovery": true
@@ -2196,7 +3443,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xae8593DD575FE29A9745056aA91C4b746eee62C8": {
       "ignoreInWatchMode": [
@@ -2209,7 +3465,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xb53F0547722AE5fa5b433a7acc44571aD68CEdAA": {
       "ignoreDiscovery": true
@@ -2241,7 +3506,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xc9AD8Dd111e6384128146467aAf92B81EC422848": {
       "ignoreInWatchMode": [
@@ -2254,7 +3528,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xcF8d0c70c850859266f5C338b38F9D663181C314": {
       "ignoreInWatchMode": [
@@ -2267,7 +3550,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xd180D7fdD4092f07428eFE801E17BC03576b3192": {
       "ignoreInWatchMode": [
@@ -2280,7 +3572,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xd90DA2Df915B87fE1621A7F2201FbF4ff2cCA031": {
       "ignoreInWatchMode": [
@@ -2293,7 +3594,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xe7ea6125490ae4594aD9B44D05dFF9F2A4343134": {
       "ignoreInWatchMode": [
@@ -2306,7 +3616,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
     },
     "eth:0xeA51d7853EEFb32b6ee06b1C12E6dcCA88Be0fFE": {
       "ignoreInWatchMode": [
@@ -2319,7 +3638,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xeA85a065F87FE28Aa8Fbf0D6C7deC472b106252C": {
       "ignoreInWatchMode": [
@@ -2332,7 +3660,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xeB284A70557EFe3591b9e6D9D720040E02c54a4d": {
       "ignoreInWatchMode": [
@@ -2345,7 +3682,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xeD90dE2D824Ee766c6Fd22E90b12e598f681dc9F": {
       "ignoreInWatchMode": [
@@ -2358,7 +3704,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
     },
     "eth:0xeFFDE9BFA8EC77c14C364055a200746d6e12BeD6": {
       "ignoreInWatchMode": [
@@ -2371,7 +3726,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     },
     "eth:0xfd3aDA5AAbdc6531C7C2AC46c00eBf870f5a0E6B": {
       "ignoreInWatchMode": [
@@ -2384,7 +3748,16 @@
         "scaledTotalSupply",
         "symbol",
         "totalSupply"
-      ]
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x8438F4D29D895d75C86BDC25360c25eF0607E65d"
+          }
+        }
+      }
     },
     "eth:0x5D39E06b825C1F2B80bf2756a73e28eFAA128ba0": {
       "ignoreInWatchMode": [
@@ -2418,7 +3791,10 @@
             "type": "accessControl"
           }
         }
-      }
+      },
+      "ignoreInWatchMode": [
+        "eip712Domain"
+      ]
     },
     "eth:0x803e5Db3E26e88AD0a682A46c3E04cdd053D0EB9": {
       "fields": {
@@ -2495,6 +3871,7 @@
         "eip712Domain",
         "getMaxSlashableAssets",
         "latestAnswer",
+        "MIN_ASSETS_REMAINING",
         "name",
         "previewDeposit",
         "previewMint",
@@ -2514,6 +3891,7 @@
         "eip712Domain",
         "getMaxSlashableAssets",
         "latestAnswer",
+        "MIN_ASSETS_REMAINING",
         "name",
         "previewDeposit",
         "previewMint",
@@ -2533,6 +3911,7 @@
         "eip712Domain",
         "getMaxSlashableAssets",
         "latestAnswer",
+        "MIN_ASSETS_REMAINING",
         "name",
         "previewDeposit",
         "previewMint",
@@ -2552,6 +3931,7 @@
         "eip712Domain",
         "getMaxSlashableAssets",
         "latestAnswer",
+        "MIN_ASSETS_REMAINING",
         "name",
         "previewDeposit",
         "previewMint",
@@ -2571,6 +3951,7 @@
         "eip712Domain",
         "getMaxSlashableAssets",
         "latestAnswer",
+        "MIN_ASSETS_REMAINING",
         "name",
         "previewDeposit",
         "previewMint",
@@ -2585,6 +3966,7 @@
       "ignoreInWatchMode": [
         "domainSeparator",
         "getChainId",
+        "nonce",
         "VERSION"
       ]
     },
@@ -2592,6 +3974,7 @@
       "ignoreInWatchMode": [
         "domainSeparator",
         "getChainId",
+        "nonce",
         "VERSION"
       ]
     },
@@ -2599,6 +3982,7 @@
       "ignoreInWatchMode": [
         "domainSeparator",
         "getChainId",
+        "nonce",
         "VERSION"
       ]
     },
@@ -2606,6 +3990,7 @@
       "ignoreInWatchMode": [
         "domainSeparator",
         "getChainId",
+        "nonce",
         "VERSION"
       ]
     },
@@ -2663,8 +4048,2017 @@
     },
     "eth:0xdeadD8aB03075b7FBA81864202a2f59EE25B312b": {
       "ignoreInWatchMode": [
+        "domainSeparator",
+        "nonce",
+        "UPGRADE_INTERFACE_VERSION",
+        "VERSION"
+      ]
+    },
+    // --- AaveOracle price-feed sources (external leaf nodes) ---
+    "eth:0x03bB418e89B75407585f8198178f253DA3216218": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x03f9bA9A897241985c1f12bCe97fAC1B0bd4a7A7": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x0a72df02CE3E4185b6CEDf561f0AE651E9BeE235": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x14CB2E810Eb93b79363f489D45a972b609E47230": {
+      "ignoreRelatives": [],
+      "ignoreInWatchMode": [
+        "description",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x214eD9Da11D2fbe465a6fc601a91E62EbEc1a0D6": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x260326c220E469358846b187eE53328303Efe19C": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x26C46B7aD0012cA71F2298ada567dC9Af14E7f2A": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x2b86D519eF34f8Adfc9349CDeA17c09Aa9dB60E2": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x36964C0579D02E0a5AaAb89E24Cf8d7CDF3549EE": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x3f73F03aa83B2A48ed27E964eD0fDb590332095B": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x42bc86f2f08419280a99d8fbEa4672e7c30a86ec": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x44Bb2a64bAf94210B583338D3D97b1e8288Bd478": {
+      "ignoreRelatives": [
+        "DISCOUNT_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "DESCRIPTION",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x4E155eD98aFE9034b7A5962f6C84c86d869daA9d": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x4e89f87F24C13819bBDDb56f99b38746C91677D8": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x5292AB3292D076271f853Ed8e05e61cc02F0A2C6": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x5424384B256154046E9667dDFaaa5e550145215e": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x553303d460EE0afB37EdFf9bE42922D8FF63220e": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x5Ae4D93B9b9626Dc3289e1Afb14b821FD3C95F44": {
+      "ignoreRelatives": [],
+      "ignoreInWatchMode": [
+        "description",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x5C00128d4d1c2F4f652C267d7bcdD7aC99C16E16": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x5c66322CA59bB61e867B28195576DbD8dA4b08dE": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x5ed77a9D9b7cc80E9d0D7711024AF38C2643C1c4": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x60AEd7d20AC6328f7BA771aD58931c996aff30E8": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x6929706c42d637DF5Ebf7F0BcfF2aF47F84Ea69D": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x6A196A7B498C4EFBFEfB55364106EC80CceF0C3F": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x6Ebc52C8C1089be9eB3945C4350B68B8E4C2233f": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x6b99e86B48Fee533B7Bee602e7959f024051Eca0": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x7292C95A5f6A501a9c4B34f6393e221F2A0139c3": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x7585693910f39df4959912B27D09EAEef06C1a93": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x759B9B72700A129CD7AD8e53F9c99cb48Fd57105": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x7A9f34a0Aa917D438e9b6E630067062B7F8f6f3d": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x85968026294b8f8Fb86d6bF3Cda079f9376aD05A": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x87625393534d5C102cADB66D37201dF24cc26d4C": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x889399C34461b25d70d43931e6cE9E40280E617B": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x8B17C02d22EE7D6B8D6829ceB710A458de41E84a": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x8B8B73598a2c4b1de6d3b075618434CfC4826632": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x8adb5187695F773513dEC4b569d21db0341931dA": {
+      "ignoreRelatives": ["ACL_MANAGER"],
+      "ignoreInWatchMode": [
+        "description",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0x90498d4334259FA769830ccA9114D8bcF3745F6c": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x94C7FD62fd0506e71d8142E9D36687fC72A86B02": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x982aC260B5a4e5bCAb6A437e79168390cFbDe70D": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0x9Dc30dc58c72f5B669aEa01d02A2e4da194eE893": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x9f336eB940730596548C342A8BF1fC530B10cc96": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xB539C6C0fc36ff1572B13ACec343B854937db576": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xB6557F02F0a5dA7b9D3C2d979cc19e00e756F6dA": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0xC26D4a1c46d884cfF6dE9800B6aE7A8Cf48B4Ff8": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "latestAnswer"
+      ]
+    },
+    "eth:0xC7e9b623ed51F033b32AE7f1282b1AD62C28C183": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33f": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0xDC3EA94CD0AC27d9A86C180091e7f78C683d3699": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0xDaa4B74C6bAc4e25188e64ebc68DB5050b690cAc": {
+      "ignoreRelatives": ["ASSET_TO_PEG", "PEG_TO_BASE"],
+      "ignoreInWatchMode": [
+        "description",
+        "latestAnswer"
+      ]
+    },
+    "eth:0xE8E65Fb9116875012F5990Ecaab290B3531DbeB9": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0xEbb721daf3DA9f1b3dcEc590cDf648137172d7CB": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0xF02C1e2A3B77c1cacC72f72B44f7d0a4c62e4a85": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0xF29b1e3b68Fd59DD0a413811fD5d0AbaE653216d": {
+      "ignoreRelatives": ["ACL_MANAGER"],
+      "ignoreInWatchMode": [
+        "description",
+        "latestAnswer"
+      ]
+    },
+    "eth:0xF3d49021fF3bbBFDfC1992A4b09E5D1d141D044C": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xF77f2537dba4ffD60f77fACdfB2c1706364fA03d": {
+      "ignoreRelatives": [],
+      "ignoreInWatchMode": [
+        "description",
+        "latestAnswer"
+      ]
+    },
+    "eth:0xa0dc0249c32fa79e8B9b17c735908a60b1141B40": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xa6aB031A4d189B24628EC9Eb155F0a0f1A0E55a3": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCapRatio",
+        "latestAnswer"
+      ]
+    },
+    "eth:0xb01e6C9af83879B8e06a092f0DD94309c0D497E4": {
+      "ignoreRelatives": ["ASSET_TO_PEG", "PEG_TO_BASE"],
+      "ignoreInWatchMode": [
+        "latestAnswer",
+        "name"
+      ]
+    },
+    "eth:0xb41E773f507F7a7EA890b1afB7d2b660c30C8B0A": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0xc35D319FA5FEc2BBE0eB4d0a826465b60f821F81": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "PENDLE_PRINCIPAL_TOKEN"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "discountRatePerYear",
+        "getCurrentDiscount",
+        "latestAnswer",
+        "MATURITY",
+        "MAX_DISCOUNT_RATE_PER_YEAR",
+        "PERCENTAGE_FACTOR",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xc7Ad695ac0ae38Ae308640897E51468977A862a2": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xc929ad75B72593967DE83E7F7Cda0493458261D9": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0xd7b163B671f8cE9379DF8Ff7F75fA72Ccec1841c": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xdF2917806E30300537aEB49A7663062F4d1F2b5F": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0xe1D97bF61901B075E9626c8A2340a7De385861Ef": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xeF50f8DC65402c3019586bc8725fCD0b99B8AAd7": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0xf0eaC18E908B34770FDEe46d069c846bDa866759": {
+      "ignoreRelatives": [
+        "ACL_MANAGER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getPriceCap",
+        "latestAnswer"
+      ]
+    },
+    "eth:0xf112aF6F0A332B815fbEf3Ff932c057E570b62d3": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xf83B85205241c3BCCA0a09D32FaE65c16e0CF236": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xf8c04B50499872A5B5137219DEc0F791f7f620D0": {
+      "ignoreRelatives": [
+        "ACL_MANAGER",
+        "RATIO_PROVIDER"
+      ],
+      "ignoreInWatchMode": [
+        "description",
+        "getRatio",
+        "latestAnswer",
+        "MINIMUM_SNAPSHOT_DELAY",
+        "SECONDS_PER_YEAR"
+      ]
+    },
+    "eth:0xf8fF43E991A81e6eC886a3D281A2C6cC19aE70Fc": {
+      "ignoreRelatives": ["accessController", "aggregator", "owner", "proposedAggregator"],
+      "ignoreInWatchMode": [
+        "description"
+      ]
+    },
+    "eth:0xfAB6790E399f0481e1303167c655b3c39ee6e7A0": {
+      "ignoreRelatives": [],
+      "ignoreInWatchMode": [
+        "description",
+        "latestAnswer"
+      ]
+    },
+    "eth:0x1f30d2B155FcDA0F7551dc8BE5dE6a84977685D4": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "scaledTotalSupply",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x327f61fA4BE6F578DB5cc51e40da4eC4361a349c": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "scaledTotalSupply",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x4139EcBe83d78ef5EFF0A6eDA6f894Be9D590FC7": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x514910771AF9Ca656af840dff83E8264EcF986CA": {
+      "ignoreInWatchMode": [
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
+    },
+    "eth:0x6B175474E89094C44Da98b954EedeAC495271d0F": {
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "symbol",
+        "totalSupply"
+      ]
+    },
+    "eth:0x7bd81B1e0137Fc0fa013b1De2Be81180814C5deb": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "scaledTotalSupply",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x818d560Bf1e54f92D1089710F9F4b29C2e6c9248": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "scaledTotalSupply",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x88025072A7dB6Db5e54E46d43850bb44CA93D6C0": {
+      "ignoreInWatchMode": [
+        "description",
+        "latestAnswer",
+        "latestRoundData"
+      ]
+    },
+    "eth:0xA0Ec4758d806A3F41532C8E97Ea0c85940182B0f": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "scaledTotalSupply",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xACE8a1c0eC12aE81814377491265b47F4eE5D3dD": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xae78736Cd615f374D3085123A210448E74Fc6393": {
+      "ignoreInWatchMode": [
+        "getEthValue",
+        "getRethValue",
+        "name",
+        "symbol",
+        "totalSupply"
+      ]
+    },
+    "eth:0xba100000625a3754423978a60c9317c58a424e3D": {
+      "ignoreInWatchMode": [
+        "DOMAIN_SEPARATOR",
+        "name",
+        "PERMIT_TYPEHASH",
+        "symbol",
+        "totalSupply",
+        "totalSupplyAt"
+      ]
+    },
+    "eth:0xC435b02dcBef2e9BdE55e28d39f53ddbe0760a2c": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "scaledTotalSupply",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xD110cac5d8682A3b045D5524a9903E031d70FCCd": {
+      "ignoreInWatchMode": [
+        "latestAnswer"
+      ]
+    },
+    "eth:0xdec2401c9B0B2E480e627E2a712C11AdDbf46E3e": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xEAf93Fd541f11D2617C2915D02F7fe67bCa71d4f": {
+      "ignoreInWatchMode": [
+        "DELEGATION_WITH_SIG_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "EIP712_REVISION",
+        "name",
+        "scaledTotalSupply",
+        "symbol",
+        "totalSupply"
+      ],
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xF86F77F7531B3374274E3f725E0A81D60bC4bB67": {
+      "ignoreInWatchMode": [
+        "getPayloadsCount"
+      ]
+    },
+    "eth:0x1C7B0090bADF16EDCbd11cD1d20dDc403ed43D17": {
+      "ignoreInWatchMode": [
         "UPGRADE_INTERFACE_VERSION"
       ]
+    },
+    "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2": {
+      "ignoreInWatchMode": [
+        "name",
+        "symbol"
+      ]
+    },
+    "eth:0xCFbFaC74C26F8647cBDb8c5caf80BB5b32E43134": {
+      "ignoreInWatchMode": [
+        "ALLOWANCE_TRANSFER_TYPEHASH",
+        "DOMAIN_SEPARATOR_TYPEHASH",
+        "NAME",
+        "VERSION"
+      ]
+    },
+    "eth:0xDe841Bf4B67970f5a19165443B0e9ec808E1cC85": {
+      "ignoreInWatchMode": [
+        "VERSION",
+        "domainSeparator"
+      ]
+    },
+    "eth:0x00907f9921424583e7ffBfEdf84F92B7B2Be4977": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x018008bfb33d285247A21d44E50697654f754e63": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x08b798c40b9AB931356d9aB4235F548325C4cb80": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x09AA30b182488f769a9824F15E6Ce58591Da4781": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
+    },
+    "eth:0x0B925eD163218f6662a35e0f0371Ac234f9E9371": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x0C0d01AbF3e6aDfcA0989eBbA9d6e85dD58EaB1E": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x10Ac93971cdb1F5c778144084242374473c350Da": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x1241ec22C9BdF16BA1Eb636F2a8de7e28A4343Cf": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x12b70410D60f926558245f769059eA3Fc7A7353E": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x18eFE565A5373f430e2F809b97De30335B3ad96A": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
+    },
+    "eth:0x1bA9843bD4327c6c77011406dE5fA8749F7E3479": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x1c0E06a0b1A4c160c17545FF2A951bfcA57C0002": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x23878914EFE38d27C4D67Ab83ed1b93A74D4086a": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x24Ab03a9a5Bc2C49E5523e8d915A3536ac38B91D": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x2516E7B3F76294e03C42AA4c5b5b4DCE9C436fB8": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x285866acB0d60105B4Ed350a463361c2d9afA0E2": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x2A1FBcb52Ed4d9b23daD17E1E8Aed4BB0E6079b8": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
+    },
+    "eth:0x2D62109243b87C4bA3EE7bA1D91B0dD0A074d7b1": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x2eDff5AF94334fBd7C38ae318edf1c40e072b73B": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x312ffC57778CEfa11989733e6E08143E7E229c1c": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x32a6268f9Ba3642Dda7892aDd74f1D34469A4259": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x38A5357Ce55c81add62aBc84Fb32981e2626ADEf": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x38C503a438185cDE29b5cF4dC1442FD6F074F1cc": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x3Fe6a295459FAe07DF8A0ceCC36F37160FE86AA9": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x4579a27aF00A62C0EB156349f31B345c08386419": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x481a2acf3A72ffDc602A9541896Ca1DB87f86cf7": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x4B0821e768Ed9039a70eD1E80E15E76a5bE5Df5F": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x4C612E3B15b96Ff9A6faED838F8d07d479a8dD4c": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x4E2a4d9B3DF7Aae73b418Bd39F3af9e148E3F479": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x4E58a2E433A739726134c83d2f07b2562e8dFdB3": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x4F5923Fc5FD4a93352581b38B7cD26943012DECF": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x545bD6c032eFdde65A377A6719DEF2796C8E0f2e": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x56D919E7B25aA42F3F8a4BC77b8982048F2E84B4": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
+    },
+    "eth:0x5b502e3796385E1e9755d7043B9C945C3aCCeC9C": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x5c647cE0Ae10658ec44FA4E11A51c96e94efd1Dd": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x5E8C8A7243651DB1384C0dDfDbE39761E8e7E51a": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x5Ee5bf7ae06D1Be5997A1A72006FE6C607eC6DE8": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x5f4a0873a3A02f7C0CB0e13a1d4362a1AD90e751": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x5F9190496e0DFC831C3bd307978de4a245E2F5cD": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x5fefd7069a7D91d01f269DADE14526CCF3487810": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x65906988ADEe75306021C417a1A3458040239602": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x68215B6533c47ff9f7125aC95adf00fE4a62f79e": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x6914ECCf50837dC61b43ee478a9BD9B439648956": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x8438F4D29D895d75C86BDC25360c25eF0607E65d"
+          }
+        }
+      }
+    },
+    "eth:0x71Aef7b30728b9BB371578f36c5A1f1502a5723e": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x7380c583cDe4409eFF5DD3320D93a45D96B80E2e": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x8438F4D29D895d75C86BDC25360c25eF0607E65d"
+          }
+        }
+      }
+    },
+    "eth:0x74e5664394998f13B07aF42446380ACef637969f": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
+    },
+    "eth:0x7B95Ec873268a6BFC6427e7a28e396Db9D0ebc65": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x7c0477d085ECb607CF8429f3eC91Ae5E1e460F4F": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x81b76ff3FeD28BA0B4a5D4c76Bd5C13Bd0641d86": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x82F9c5ad306BBa1AD0De49bB5FA6F01bf61085ef": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x844f07AB09aa5dBDCE6A9b1206CE150E1eaDacCb": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x8A2b6f94Ff3A89a03E8c02Ee92b55aF90c9454A2": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x8A458A9dc9048e005d22849F470891b840296619": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x927709711794F3De5DdBF1D176bEE2D55Ba13c21": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x946281A2d0DD6e650d08f74833323D66AE4c8b12": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0x977b6fc5dE62598B08C85AC8Cf2b745874E8b78c": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x98C23E9d8f34FEFb1B7BD6a91B7FF122F4e16F5c": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0x9A44fd41566876A39655f74971a3A6eA0a17a454": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xA78Eba24D89e70A03ddB7AC195A15E53315aA5b4": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xA9ecb0503075124cc0B786096849A331FBe9EE6D": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xAa0200d169fF3ba9385c12E073c5d1d30434AE7b": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xAA6e91C82942aeAE040303Bf96c15a6dBcB82CA0": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xB0EC6c4482Ac1Ef77bE239C0AC833CF37A27c876": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xB76CF92076adBF1D9C39294FA8e7A67579FDe357": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xb82fa9f31612989525992FCfBB09AB22Eff5c85A": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xBdfa7b7893081B35Fb54027489e2Bc7A38275129": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xbe1F842e7e0afd2c2322aae5d34bA899544b29db": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x8438F4D29D895d75C86BDC25360c25eF0607E65d"
+          }
+        }
+      }
+    },
+    "eth:0xbe54767735fB7Acca2aa7E2d209a6f705073536D": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xC035a7cf15375cE2706766804551791aD035E0C2": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
+    },
+    "eth:0xc167932AC4EEc2B65844EF00D31b4550250536A5": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xc2015641564a5914A17CB9A92eC8d8feCfa8f2D0": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
+    },
+    "eth:0xc293744fFbcf46696D589f5C415e71BC491519cD": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xC7B4c17861357B8ABB91F25581E7263E08DCB59c": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xCc9EE9483f662091a1de4795249E24aC0aC2630f": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xcCA43ceF272c30415866914351fdfc3E881bb7c2": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xce8c60fd8390eFCc3Fc66A3f0bd64BEb969e750E": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
+    },
+    "eth:0xd4e245848d6E1220DBE62e155d89fa327E43CB06": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xDE6eF6CB4aBd3A473ffC2942eEf5D84536F8E864": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xdF7f48892244C6106EA784609f7de10AB36F9c7e": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x8438F4D29D895d75C86BDC25360c25eF0607E65d"
+          }
+        }
+      }
+    },
+    "eth:0xE036478Da9A7ed89b56FE39A06e1FC1a4b38D4Ea": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xE1CfD16b8E4B1C86Bb5b7A104cfEFbc7b09326dD": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xE3190143Eb552456F88464662f0c0C4aC67A77eB": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x342631c6CeFC9cfbf97b2fe4aa242a236e1fd517"
+          }
+        }
+      }
+    },
+    "eth:0xE728577e9a1Fe7032bc309B4541F58f45443866e": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xEc4ef66D4fCeEba34aBB4dE69dB391Bc5476ccc8": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xF6D2224916DDFbbab6e6bd0D1B7034f4Ae0CaB18": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xfA1fDbBD71B0aA16162D76914d69cD8CB3Ef92da": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x83Cb1B4af26EEf6463aC20AFbAC9c0e2E017202F"
+          }
+        }
+      }
+    },
+    "eth:0xFa82580c16A31D0c1bC632A36F82e83EfEF3Eec0": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
+    },
+    "eth:0xA700b4eB416Be35b2911fd5Dee80678ff64fF6C9": {
+      "fields": {
+        "proxyAdmin": {
+          "description": "Immutable admin of InitializableImmutableAdminUpgradeabilityProxy. PoolConfigurator (parent pool admin). The EIP-1967 admin slot reads zero on these proxies because the admin lives in a Solidity immutable, not the EIP-1967 slot.",
+          "handler": {
+            "type": "hardcoded",
+            "value": "eth:0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+          }
+        }
+      }
     }
   }
 }
