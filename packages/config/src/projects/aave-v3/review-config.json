@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-04-30T14:59:10Z",
+  "lastModified": "2026-05-01T14:46:59.000Z",
   "protocolSlug": "aave-v3",
   "protocolName": "Aave V3",
   "tokenName": "GHO",
@@ -90,11 +90,11 @@
     },
     "eth:0x5C905d62B22e4DAa4967E517C4a047Ff6026C731": {
       "name": "GhoAaveSteward",
-      "description": "Internal protocol contract (GhoAaveSteward) holding admin-role privileges over 51 functions across 201 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Reachable token value: {{a5c905d62ReachableTokenValue}}."
+      "description": "Internal protocol contract (GhoAaveSteward) operated by the 3-of-4 GHO Risk Council Safe (RISK_COUNCIL = 0x8513e6F3...) within DAO-configured bounds; owned by Aave Governance V3 Executor 0x5300A1a1.... RISK_COUNCIL can call updateGhoBorrowRate, updateGhoBorrowCap, and updateGhoSupplyCap. Per-parameter cooldown and bounded per-update change are set by the DAO via setBorrowRateConfig. Reachable token value: {{a5c905d62ReachableTokenValue}}."
     },
     "eth:0x7e6a6B115D31d4A837E3C737c49Cf6Fafe6112C3": {
       "name": "RiskSteward",
-      "description": "Internal protocol contract (RiskSteward) holding admin-role privileges over 51 functions across 201 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Reachable token value: {{a7e6a6b11ReachableTokenValue}}."
+      "description": "Internal protocol contract (RiskSteward Core) operated by the 2-of-2 Risk Stewards Council Safe (RISK_COUNCIL = 0x47c71dFE...) within DAO-configured bounds; owned by Aave Governance V3 Executor 0x5300A1a1.... The council currently exposes only updateCaps (borrow/supply caps - no impact on existing positions); other parameter-update entry points exist on the contract but are not active in this configuration. Per-asset 3-day cooldown and DAO-set maxPercentChange limits enforced via _validateParamUpdate. Reachable token value: {{a7e6a6b11ReachableTokenValue}}."
     },
     "eth:0x52E652182b22C41d0202bB8D834982F43B12Cd21": {
       "name": "AaveRatesAgent",
@@ -114,11 +114,11 @@
     },
     "eth:0x1EBdbE77bbDDD284BdCE8D7981D7eD26D6af58cA": {
       "name": "CapsPlusRiskSteward",
-      "description": "Internal protocol contract (CapsPlusRiskSteward) holding admin-role privileges over 34 functions across 201 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Reachable token value: {{a1ebdbe77ReachableTokenValue}}."
+      "description": "Internal protocol contract (CapsPlusRiskSteward) operated by the 2-of-2 Risk Stewards Council Safe (RISK_COUNCIL = 0x47c71dFE...) within DAO-configured bounds. Single function updateCaps adjusts borrow/supply caps on Lido reserves; caps only affect new positions. Per-asset 3-day cooldown enforced by the underlying ConfigEngine. Reachable token value: {{a1ebdbe77ReachableTokenValue}}."
     },
     "eth:0xBF79d8339303148E345277a994Eb2cD5d82F0067": {
       "name": "RiskSteward",
-      "description": "Internal protocol contract (RiskSteward) holding admin-role privileges over 34 functions across 201 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Reachable token value: {{abf79d833ReachableTokenValue}}."
+      "description": "Internal protocol contract (RiskSteward Lido) operated by the 2-of-2 Risk Stewards Council Safe (RISK_COUNCIL = 0x47c71dFE...) within DAO-configured bounds; owned by Aave Governance V3 Executor 0x5300A1a1.... RISK_COUNCIL can adjust caps, interest rates, LTV / LiquidationThreshold / LiquidationBonus / DebtCeiling, and LST/stable price-cap ceilings on Lido reserves. Per-asset, per-parameter 3-day cooldown; per-update bounds (e.g. 50 bps absolute LT change, 100 bps absolute base rate change, 5% relative LST price-cap change) are configured by the DAO via setRiskConfig. Reachable token value: {{abf79d833ReachableTokenValue}}."
     },
     "eth:0x223d844fc4B006D67c0cDbd39371A9F73f69d974": {
       "name": "Unknown (0x223d...d974)",
@@ -126,7 +126,7 @@
     },
     "eth:0x46Aa1063e5265b43663E81329333B47c517A5409": {
       "name": "GhoBucketSteward",
-      "description": "Internal protocol contract (GhoBucketSteward) holding admin-role privileges over 1 function across 1 contract; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Reachable token value: {{a46aa1063ReachableTokenValue}}."
+      "description": "Internal protocol contract (GhoBucketSteward) operated by the 3-of-4 GHO Risk Council Safe (RISK_COUNCIL = 0x8513e6F3...) within DAO-configured bounds; owned by Aave Governance V3 Executor 0x5300A1a1.... Single operator function updateFacilitatorBucketCapacity adjusts each whitelisted facilitator's GHO mint capacity within DAO-set per-facilitator caps managed via setControlledFacilitator. Reachable token value: {{a46aa1063ReachableTokenValue}}."
     },
     "eth:0xb639D208Bcf0589D54FaC24E655C79EC529762B8": {
       "name": "GhoFlashMinter",
@@ -145,8 +145,8 @@
       "description": "Internal protocol contract (ProxyAdmin) holding admin-role privileges over 16 functions across 274 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Direct capital exposure: {{ad3cf979eDirectCapital}}."
     },
     "eth:0x8513e6F37dBc52De87b166980Fa3F50639694B60": {
-      "name": "3 of 4 (75%) Multisig",
-      "description": "3 of 4 (75%) Gnosis Safe controlling 20 permissioned functions across 207 contracts. Reachable token value: {{a8513e6f3ReachableTokenValue}}."
+      "name": "GHO Risk Council (3/4 Safe)",
+      "description": "3 of 4 Gnosis Safe operating Aave's GHO Risk Stewards (RISK_COUNCIL on GhoAaveSteward 0x5C905d... and GhoBucketSteward 0x46Aa10...). Within DAO-set bounds the council can adjust GHO borrow rate / borrow cap / supply cap (GhoAaveSteward) and per-facilitator bucket capacities (GhoBucketSteward). Both stewards are owned by Aave Governance V3 Executor 0x5300A1a1... which can revoke RISK_COUNCIL at any time. Reachable token value: {{a8513e6f3ReachableTokenValue}}."
     },
     "eth:0x86C3FfeE349A7cFf7cA88C449717B1b133bfb517": {
       "name": "ProxyAdmin",
@@ -186,27 +186,27 @@
     },
     "eth:0xf00E2de0E78DFf055A92AD4719a179CE275b6Ef7": {
       "name": "ClinicSteward",
-      "description": "Internal protocol contract (ClinicSteward) holding admin-role privileges over 8 functions across 139 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Direct capital exposure: {{af00e2de0DirectCapital}}."
+      "description": "Internal protocol contract (ClinicSteward) operated by the Clinic Cleanup Safe (3-of-5 0xdeadD8aB...) and a hot-wallet bot (0x3Cbded22...) holding CLEANUP_ROLE; owned by Aave Governance V3 Executor 0x5300A1a1.... Operators can call batchRepayBadDebt and batchLiquidate to clear insolvent positions using AaveCollector funds. Per-call Collector outflow is debited from `availableBudget` (USD, currently ~$13,771); once exhausted, the function reverts until the DAO calls setAvailableBudget (DEFAULT_ADMIN_ROLE). Direct capital exposure: {{af00e2de0DirectCapital}}."
     },
     "eth:0x7571F419F7Df2d0622C1A20154a0D4250B2265cC": {
       "name": "ClinicSteward",
-      "description": "Internal protocol contract (ClinicSteward) holding admin-role privileges over 8 functions across 139 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Direct capital exposure: {{a7571f419DirectCapital}}."
+      "description": "Internal protocol contract (ClinicSteward) operated by the Clinic Cleanup Safe (3-of-5 0xdeadD8aB...) and a hot-wallet bot (0x3Cbded22...) holding CLEANUP_ROLE; owned by Aave Governance V3 Executor 0x5300A1a1.... Operators can call batchRepayBadDebt and batchLiquidate to clear insolvent positions using AaveCollector funds. Per-call Collector outflow is debited from `availableBudget` (USD, currently ~$4,992); once exhausted, the function reverts until the DAO calls setAvailableBudget (DEFAULT_ADMIN_ROLE). Direct capital exposure: {{a7571f419DirectCapital}}."
     },
     "eth:0x22aC12a6937BBBC0a301AF9154d08EaD95673122": {
       "name": "PoolExposureSteward",
-      "description": "Internal protocol contract (PoolExposureSteward) holding admin-role privileges over 8 functions across 139 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Direct capital exposure: {{a22ac12a6DirectCapital}}."
+      "description": "Internal protocol contract (PoolExposureSteward) holding FUNDS_ADMIN on the AaveCollector to manage Treasury exposure to Aave V2/V3 pools. Owned by Aave Governance V3 Executor 0x5300A1a1...; the 3-of-5 Treasury Steward Guardian Safe 0x22740deB... shares onlyOwnerOrGuardian access on depositV3 / withdrawV3 / withdrawV2 / migrateV2toV3 / migrateBetweenV3 and updateGuardian, and can act on the DAO's behalf. Direct capital exposure: {{a22ac12a6DirectCapital}}."
     },
     "eth:0x6A14eBe9A934c8EFE15C3811a999149472876b56": {
       "name": "ClinicStewardV2",
-      "description": "Internal protocol contract (ClinicStewardV2) holding admin-role privileges over 8 functions across 139 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Direct capital exposure: {{a6a14ebe9DirectCapital}}."
+      "description": "Internal protocol contract (ClinicStewardV2) operated by the Clinic Cleanup Safe (3-of-5 0xdeadD8aB...) and a hot-wallet bot (0x9148eCDA...) holding CLEANUP_ROLE; owned by Aave Governance V3 Executor 0x5300A1a1.... Operators can call batchRepayBadDebt and batchLiquidate to clear insolvent positions using AaveCollector funds. Per-call Collector outflow is debited from `availableBudget` (USD, currently ~$722,600); once exhausted, the function reverts until the DAO calls setAvailableBudget (DEFAULT_ADMIN_ROLE). Direct capital exposure: {{a6a14ebe9DirectCapital}}."
     },
     "eth:0xE1e62c3ee0c581F715fBb0e23CDA536Fc29eeB2c": {
       "name": "ClinicStewardV2",
-      "description": "Internal protocol contract (ClinicStewardV2) holding admin-role privileges over 8 functions across 139 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Direct capital exposure: {{ae1e62c3eDirectCapital}}."
+      "description": "Internal protocol contract (ClinicStewardV2) operated by the Clinic Cleanup Safe (3-of-5 0xdeadD8aB...) and a hot-wallet bot (0x9148eCDA...) holding CLEANUP_ROLE; owned by Aave Governance V3 Executor 0x5300A1a1.... Operators can call batchRepayBadDebt and batchLiquidate to clear insolvent positions using AaveCollector funds. Per-call Collector outflow is debited from `availableBudget` (USD, currently ~$2,500); once exhausted, the function reverts until the DAO calls setAvailableBudget (DEFAULT_ADMIN_ROLE). Direct capital exposure: {{ae1e62c3eDirectCapital}}."
     },
     "eth:0xb7D402138Cb01BfE97d95181C849379d6AD14d19": {
       "name": "MainnetSwapSteward",
-      "description": "Internal protocol contract (MainnetSwapSteward) holding admin-role privileges over 8 functions across 139 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Direct capital exposure: {{ab7d40213DirectCapital}}."
+      "description": "Internal protocol contract (MainnetSwapSteward) holding FUNDS_ADMIN on the AaveCollector to execute treasury asset swaps. Owned by Aave Governance V3 Executor 0x5300A1a1...; the 3-of-5 Treasury Steward Guardian Safe 0x22740deB... shares onlyOwnerOrGuardian access on swap / limitSwap / twapSwap and the cancel* counterparts and can act on the DAO's behalf. Direct capital exposure: {{ab7d40213DirectCapital}}."
     },
     "eth:0x17Dd33Ed0e3dD2a80E37489B8A63063161BE6957": {
       "name": "Executor",
@@ -233,8 +233,8 @@
       "description": "Internal protocol contract (EmissionManager) holding admin-role privileges over 6 functions across 5 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Reachable token value: {{ac2201708ReachableTokenValue}}."
     },
     "eth:0x47c71dFEB55Ebaa431Ae3fbF99Ea50e0D3d30fA8": {
-      "name": "2 of 2 (100%) Multisig",
-      "description": "2 of 2 (100%) Gnosis Safe controlling 7 permissioned functions across 0 contracts."
+      "name": "Risk Stewards Council (2/2 Safe)",
+      "description": "2 of 2 Gnosis Safe operating Aave's Core and Lido Risk Stewards (RISK_COUNCIL on RiskSteward 0x7e6a6B..., RiskSteward 0xBF79d8..., CapsPlusRiskSteward 0x1EBdbE...). Within DAO-set bounds (e.g. +/-50 bps absolute on LTV / LiquidationThreshold / LiquidationBonus, +/-100 bps absolute on base rate, all per-asset per 3-day cooldown), the council can adjust caps, interest rates, collateral parameters, and price-cap ceilings on those reserves. The DAO Executor owns every steward and can revoke RISK_COUNCIL at any time."
     },
     "eth:0xDe841Bf4B67970f5a19165443B0e9ec808E1cC85": {
       "name": "3 of 7 (43%) Multisig",
@@ -273,20 +273,20 @@
       "description": "Internal protocol contract (Executor) holding admin-role privileges over 1 function across 140 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Reachable token value: {{a2759de67ReachableTokenValue}}."
     },
     "eth:0x22740deBa78d5a0c24C58C740e3715ec29de1bFa": {
-      "name": "3 of 5 (60%) Multisig",
-      "description": "3 of 5 (60%) Gnosis Safe controlling 14 permissioned functions across 208 contracts. Reachable token value: {{a22740debReachableTokenValue}}."
+      "name": "Treasury Steward Guardian (3/5 Safe)",
+      "description": "3 of 5 Gnosis Safe acting as guardian on MainnetSwapSteward 0xb7D402... and PoolExposureSteward 0x22aC12..., which together hold FUNDS_ADMIN on the AaveCollector and execute treasury swaps and Pool deposits/withdrawals on the DAO's behalf. The guardian shares onlyOwnerOrGuardian access with the DAO Executor (the steward owner), so it can directly invoke swap / limitSwap / twapSwap / depositV3 / withdrawV3 / migrateV2toV3 / migrateBetweenV3 and the cancel* counterparts. Reachable token value: {{a22740debReachableTokenValue}}."
     },
     "eth:0xdeadD8aB03075b7FBA81864202a2f59EE25B312b": {
-      "name": "3 of 5 (60%) Multisig",
-      "description": "3 of 5 (60%) Gnosis Safe controlling 12 permissioned functions across 0 contracts."
+      "name": "Clinic Cleanup Safe (3/5)",
+      "description": "3 of 5 Gnosis Safe holding CLEANUP_ROLE on the four ClinicStewards (0x7571F4..., 0xf00E2d..., 0x6A14eB..., 0xE1e62c...). The role can call batchRepayBadDebt and batchLiquidate, which pull AaveCollector treasury funds and route excess back to the Collector. Total per-steward outflow is bounded by each steward's `availableBudget` (USD, currently ~$4,992 / $13,771 / $722,600 / $2,500 across the four ClinicStewards). The DAO Executor sets each budget via setAvailableBudget and can revoke CLEANUP_ROLE at any time."
     },
     "eth:0x3Cbded22F878aFC8d39dCD744d3Fe62086B76193": {
-      "name": "EOA (0x3Cbd...6193)",
-      "description": "Externally-owned account with control over 6 functions."
+      "name": "Clinic Cleanup Bot (V1)",
+      "description": "Hot-wallet operator key holding CLEANUP_ROLE on ClinicSteward 0x7571F4... and ClinicSteward 0xf00E2d..., used to automate batchRepayBadDebt / batchLiquidate / renewAllowance calls against insolvent positions. Per-steward fund impact bounded by `availableBudget` on each ClinicSteward (currently ~$4,992 + ~$13,771); the DAO Executor (DEFAULT_ADMIN_ROLE) can revoke this key at any time."
     },
     "eth:0x9148eCDA02859142D06B1591a4C2d6702d4C214D": {
-      "name": "EOA (0x9148...214D)",
-      "description": "Externally-owned account with control over 6 functions."
+      "name": "Clinic Cleanup Bot (V2)",
+      "description": "Hot-wallet operator key holding CLEANUP_ROLE on ClinicStewardV2 0x6A14eB... and ClinicStewardV2 0xE1e62c..., used to automate batchRepayBadDebt / batchLiquidate / renewAllowance calls against insolvent positions. Per-steward fund impact bounded by `availableBudget` on each ClinicStewardV2 (currently ~$722,600 + ~$2,500); the DAO Executor (DEFAULT_ADMIN_ROLE) can revoke this key at any time."
     }
   },
   "dependencies": {

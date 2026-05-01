@@ -108,21 +108,79 @@
     "eth:0xEd42a7D8559a463722Ca4beD50E0Cc05a386b0e1": {
       "ignoreMethods": [
         "getConfigurationByChain",
-        "getForwarderBridgeAdaptersByChain",
-        "getOptimalBandwidthByChain",
-        "getReceiverBridgeAdaptersByChain"
+        "getOptimalBandwidthByChain"
       ],
       "ignoreInWatchMode": [
         "getCurrentEnvelopeNonce",
         "getCurrentTransactionNonce"
-      ]
+      ],
+      "fields": {
+        // Surface the per-chain bridge adapters (LayerZero / Hyperlane / CCIP / Wormhole)
+        // that a.DI uses as the actual cross-chain transports. The methods take a chainId
+        // arg, so discovery's auto-call won't enumerate them; we call explicitly per
+        // supported chain (getSupportedChains() == [137, 43114] at time of writing).
+        "receiverAdaptersPolygon": {
+          "handler": {
+            "type": "call",
+            "method": "function getReceiverBridgeAdaptersByChain(uint256) view returns (address[])",
+            "args": [137]
+          }
+        },
+        "receiverAdaptersAvalanche": {
+          "handler": {
+            "type": "call",
+            "method": "function getReceiverBridgeAdaptersByChain(uint256) view returns (address[])",
+            "args": [43114]
+          }
+        },
+        "forwarderAdaptersPolygon": {
+          "handler": {
+            "type": "call",
+            "method": "function getForwarderBridgeAdaptersByChain(uint256) view returns (tuple(address destinationBridgeAdapter, address currentChainBridgeAdapter)[])",
+            "args": [137]
+          }
+        },
+        "forwarderAdaptersAvalanche": {
+          "handler": {
+            "type": "call",
+            "method": "function getForwarderBridgeAdaptersByChain(uint256) view returns (tuple(address destinationBridgeAdapter, address currentChainBridgeAdapter)[])",
+            "args": [43114]
+          }
+        }
+      }
     },
     "eth:0x6cfbd2aA4691fc18B9C209bDd43DC3943C228FCf": {
+      // SameChainAdapter — same-chain forwarding stub used by a.DI
       "ignoreMethods": [
         "getTrustedRemoteByChainId",
         "infraToNativeChainId",
         "nativeToInfraChainId"
       ]
+    },
+    // a.DI bridge adapters: keep them as leaves. Each adapter exposes
+    // CROSS_CHAIN_CONTROLLER (Aave-internal, fine to traverse) plus a
+    // pointer to an external bridge protocol (Polygon FxRoot / Chainlink
+    // CCIP / LayerZero / Hyperlane). Block the external pointers here so
+    // discovery doesn't walk into the bridge providers' infrastructure.
+    "eth:0x1562F1b2487F892BBA8Ef325aF054Fd157510a71": {
+      // PolygonAdapterEthereum (Polygon native PoS bridge transport)
+      "ignoreRelatives": ["FX_TUNNEL"],
+      "ignoreMethods": ["getTrustedRemoteByChainId"]
+    },
+    "eth:0xB7a6618df58626C3a122ABAFD6Ee63Af63f3Ef29": {
+      // CCIPAdapter (Chainlink CCIP transport)
+      "ignoreRelatives": ["CCIP_ROUTER", "LINK_TOKEN"],
+      "ignoreMethods": ["getTrustedRemoteByChainId"]
+    },
+    "eth:0x8410d9BD353b420ebA8C48ff1B0518426C280FCC": {
+      // LayerZeroAdapter (LayerZero V2 transport)
+      "ignoreRelatives": ["LZ_ENDPOINT"],
+      "ignoreMethods": ["getTrustedRemoteByChainId"]
+    },
+    "eth:0x01dcb90Cf13b82Cde4A0BAcC655585a83Af3cCC1": {
+      // HyperLaneAdapter (Hyperlane mailbox transport)
+      "ignoreRelatives": ["HL_MAIL_BOX"],
+      "ignoreMethods": ["getTrustedRemoteByChainId"]
     },
     "eth:0x4da27a545c0c5B758a6BA100e3a049001de870f5": {
       "ignoreMethods": [

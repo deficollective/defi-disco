@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-04-27T21:01:24.895Z",
+  "lastModified": "2026-05-01T14:41:02.000Z",
   "contracts": {
     "eth:0x2f39d218133AFaB8F2B819B1066c7E434Ad94E9e": {
       "functions": [
@@ -21976,7 +21976,7 @@
         {
           "functionName": "updateRates",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.RISK_COUNCIL"
@@ -21984,21 +21984,26 @@
           ],
           "mitigations": [
             {
+              "type": "delay",
+              "delaySeconds": 259200,
+              "description": "Each interest-rate parameter (baseVariableBorrowRate, variableRateSlope1, variableRateSlope2, optimalUsageRatio) is debounced per-asset by a 3-day cooldown enforced via _timelocks; the same parameter on the same asset cannot be touched again until 259200s have passed."
+            },
+            {
               "type": "other",
-              "label": "bounded by riskConfig",
-              "description": "updateRates is callable only by the RiskCouncil and validated against _riskConfig relative bounds and a per-asset debounce period. Rate changes affect future interest accrual but do not immediately alter committed principal or accrued balances."
+              "label": "bounded-rate-step",
+              "description": "Per cooldown the RiskCouncil can move only: baseVariableBorrowRate +/- 100 bps absolute, variableRateSlope1 +/- 100 bps, variableRateSlope2 +/- 2000 bps, optimalUsageRatio +/- 300 bps. Effect is yield/cost change on existing borrowers' future accrual; principal and accrued balances are not retroactively altered. Configurable via setRiskConfig (owner-only = DAO Executor)."
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.671Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.671Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
           "functionName": "updateCollateralSide",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.RISK_COUNCIL"
@@ -22006,21 +22011,26 @@
           ],
           "mitigations": [
             {
+              "type": "delay",
+              "delaySeconds": 259200,
+              "description": "Each LTV/LiquidationThreshold/LiquidationBonus/DebtCeiling change is debounced per-asset by a 3-day cooldown via _timelocks; the same parameter on the same asset cannot be re-pushed until 259200s have passed."
+            },
+            {
               "type": "other",
-              "label": "bounded by riskConfig",
-              "description": "updateCollateralSide (RiskCouncil only) adjusts LTV, liquidation threshold, and bonus within the absolute percentage bounds defined in _riskConfig, subject to per-asset debounce. The allowed per-update change is small relative to typical user health-factor buffers, making immediate cascading liquidations unlikely."
+              "label": "bounded-collateral-step",
+              "description": "Per cooldown LTV, LiquidationThreshold, and LiquidationBonus may each move max 50 bps in absolute terms (0.5pp); DebtCeiling may move max 20% relative. A 0.5pp LiquidationThreshold drop can mass-liquidate positions whose health factor sits in the 1.000-1.005 band, but the bound prevents arbitrary cascade liquidations in a single push. Configurable via setRiskConfig (owner-only = DAO Executor)."
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.678Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.678Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
           "functionName": "updateLstPriceCaps",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.RISK_COUNCIL"
@@ -22028,21 +22038,26 @@
           ],
           "mitigations": [
             {
+              "type": "delay",
+              "delaySeconds": 259200,
+              "description": "Each LST oracle price-cap update is debounced per-oracle by a 3-day cooldown via _timelocks."
+            },
+            {
               "type": "other",
-              "label": "future-only",
-              "description": "updateLstPriceCaps adjusts the maximum price growth cap for LST price feeds, within the bounds set by the RiskConfig. The cap affects the oracle clamping for future price queries; existing accrued positions are unaffected."
+              "label": "bounded-price-cap-step",
+              "description": "Per cooldown maxYearlyRatioGrowthPercent may move max 5% relative; snapshotRatio is forced to be <= currentRatio (UpdateNotInRange revert), so the cap can only become MORE conservative, never more permissive. Effect: a tighter cap depresses oracle reads on LST collateral, which can force liquidation of positions sitting near liquidation threshold. No path exists to over-value LSTs. Configurable via setRiskConfig (owner-only = DAO Executor)."
             }
           ],
-          "timestamp": "2026-04-27T20:56:23.520Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:23.520Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
           "functionName": "updateStablePriceCaps",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.RISK_COUNCIL"
@@ -22050,15 +22065,20 @@
           ],
           "mitigations": [
             {
+              "type": "delay",
+              "delaySeconds": 259200,
+              "description": "Each stable oracle price-cap update is debounced per-oracle by a 3-day cooldown via _timelocks."
+            },
+            {
               "type": "other",
-              "label": "future-only",
-              "description": "updateStablePriceCaps adjusts the maximum price deviation cap for stable-coin feeds, within RiskConfig bounds. Only future oracle reads are affected; no existing balance or position changes."
+              "label": "bounded-price-cap-step",
+              "description": "Per cooldown stable priceCap may move max 50 bps relative. Effect: same liquidation-pressure shape as the LST cap when set tighter than market price. Configurable via setRiskConfig (owner-only = DAO Executor)."
             }
           ],
-          "timestamp": "2026-04-27T20:56:23.529Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:23.529Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
@@ -28887,7 +28907,7 @@
         {
           "functionName": "batchRepayBadDebt",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.accessControl.CLEANUP_ROLE.members"
@@ -28899,20 +28919,31 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "protocol-beneficial",
-              "description": "batchRepayBadDebt repays actual on-chain bad debt (positions with no recoverable collateral) using funds drawn from the Collector up to the availableBudget limit. The operation reduces protocol bad debt, improving solvency; it does not harm any user position or extract value for the caller."
+              "label": "budget-bounded",
+              "description": "ClinicSteward A.batchRepayBadDebt pulls funds from the AaveCollector treasury and pays them to the Aave Pool to either repay bad debt on insolvent positions (batchRepayBadDebt) or trigger liquidations of insolvent positions (batchLiquidate). Both paths route excess back to the Collector. The total Collector outflow per call is debited from `availableBudget` (USD, 8-decimal Aave oracle units) via `_decreaseAvailableBudget`; once the budget is exhausted the function reverts with AvailableBudgetExceeded. The budget can only be replenished by setAvailableBudget which is DEFAULT_ADMIN_ROLE-gated (DAO Executor) - the CLEANUP_ROLE bot/Safe cannot raise its own ceiling.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x7571F419F7Df2d0622C1A20154a0D4250B2265cC",
+                  "fieldName": "availableBudget"
+                },
+                "unit": {
+                  "kind": "usd"
+                },
+                "multiplier": 1e-08
+              }
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.688Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.688Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
           "functionName": "batchLiquidate",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.accessControl.CLEANUP_ROLE.members"
@@ -28924,14 +28955,25 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "protocol-beneficial",
-              "description": "batchLiquidate performs standard Aave liquidations on under-collateralised positions using Collector funds (bounded by availableBudget). Liquidations are permissioned operations that reduce the protocol's bad-debt exposure; seized collateral flows back to the Collector. Positions that are not liquidatable (HF \u2265 1) are skipped."
+              "label": "budget-bounded",
+              "description": "ClinicSteward A.batchLiquidate pulls funds from the AaveCollector treasury and pays them to the Aave Pool to either repay bad debt on insolvent positions (batchRepayBadDebt) or trigger liquidations of insolvent positions (batchLiquidate). Both paths route excess back to the Collector. The total Collector outflow per call is debited from `availableBudget` (USD, 8-decimal Aave oracle units) via `_decreaseAvailableBudget`; once the budget is exhausted the function reverts with AvailableBudgetExceeded. The budget can only be replenished by setAvailableBudget which is DEFAULT_ADMIN_ROLE-gated (DAO Executor) - the CLEANUP_ROLE bot/Safe cannot raise its own ceiling.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x7571F419F7Df2d0622C1A20154a0D4250B2265cC",
+                  "fieldName": "availableBudget"
+                },
+                "unit": {
+                  "kind": "usd"
+                },
+                "multiplier": 1e-08
+              }
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.696Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.696Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
@@ -28991,7 +29033,7 @@
         {
           "functionName": "batchRepayBadDebt",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.accessControl.CLEANUP_ROLE.members"
@@ -29003,20 +29045,31 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "protocol-beneficial",
-              "description": "batchRepayBadDebt repays actual on-chain bad debt (positions with no recoverable collateral) using funds drawn from the Collector up to the availableBudget limit. The operation reduces protocol bad debt, improving solvency; it does not harm any user position or extract value for the caller."
+              "label": "budget-bounded",
+              "description": "ClinicSteward B.batchRepayBadDebt pulls funds from the AaveCollector treasury and pays them to the Aave Pool to either repay bad debt on insolvent positions (batchRepayBadDebt) or trigger liquidations of insolvent positions (batchLiquidate). Both paths route excess back to the Collector. The total Collector outflow per call is debited from `availableBudget` (USD, 8-decimal Aave oracle units) via `_decreaseAvailableBudget`; once the budget is exhausted the function reverts with AvailableBudgetExceeded. The budget can only be replenished by setAvailableBudget which is DEFAULT_ADMIN_ROLE-gated (DAO Executor) - the CLEANUP_ROLE bot/Safe cannot raise its own ceiling.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xf00E2de0E78DFf055A92AD4719a179CE275b6Ef7",
+                  "fieldName": "availableBudget"
+                },
+                "unit": {
+                  "kind": "usd"
+                },
+                "multiplier": 1e-08
+              }
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.712Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.712Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
           "functionName": "batchLiquidate",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.accessControl.CLEANUP_ROLE.members"
@@ -29028,14 +29081,25 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "protocol-beneficial",
-              "description": "batchLiquidate performs standard Aave liquidations on under-collateralised positions using Collector funds (bounded by availableBudget). Liquidations are permissioned operations that reduce the protocol's bad-debt exposure; seized collateral flows back to the Collector. Positions that are not liquidatable (HF \u2265 1) are skipped."
+              "label": "budget-bounded",
+              "description": "ClinicSteward B.batchLiquidate pulls funds from the AaveCollector treasury and pays them to the Aave Pool to either repay bad debt on insolvent positions (batchRepayBadDebt) or trigger liquidations of insolvent positions (batchLiquidate). Both paths route excess back to the Collector. The total Collector outflow per call is debited from `availableBudget` (USD, 8-decimal Aave oracle units) via `_decreaseAvailableBudget`; once the budget is exhausted the function reverts with AvailableBudgetExceeded. The budget can only be replenished by setAvailableBudget which is DEFAULT_ADMIN_ROLE-gated (DAO Executor) - the CLEANUP_ROLE bot/Safe cannot raise its own ceiling.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xf00E2de0E78DFf055A92AD4719a179CE275b6Ef7",
+                  "fieldName": "availableBudget"
+                },
+                "unit": {
+                  "kind": "usd"
+                },
+                "multiplier": 1e-08
+              }
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.720Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.720Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
@@ -29095,7 +29159,7 @@
         {
           "functionName": "batchRepayBadDebt",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.accessControl.CLEANUP_ROLE.members"
@@ -29107,20 +29171,31 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "protocol-beneficial",
-              "description": "batchRepayBadDebt repays actual on-chain bad debt (positions with no recoverable collateral) using funds drawn from the Collector up to the availableBudget limit. The operation reduces protocol bad debt, improving solvency; it does not harm any user position or extract value for the caller."
+              "label": "budget-bounded",
+              "description": "ClinicStewardV2 A.batchRepayBadDebt pulls funds from the AaveCollector treasury and pays them to the Aave Pool to either repay bad debt on insolvent positions (batchRepayBadDebt) or trigger liquidations of insolvent positions (batchLiquidate). Both paths route excess back to the Collector. The total Collector outflow per call is debited from `availableBudget` (USD, 8-decimal Aave oracle units) via `_decreaseAvailableBudget`; once the budget is exhausted the function reverts with AvailableBudgetExceeded. The budget can only be replenished by setAvailableBudget which is DEFAULT_ADMIN_ROLE-gated (DAO Executor) - the CLEANUP_ROLE bot/Safe cannot raise its own ceiling.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x6A14eBe9A934c8EFE15C3811a999149472876b56",
+                  "fieldName": "availableBudget"
+                },
+                "unit": {
+                  "kind": "usd"
+                },
+                "multiplier": 1e-08
+              }
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.736Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.736Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
           "functionName": "batchLiquidate",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.accessControl.CLEANUP_ROLE.members"
@@ -29132,14 +29207,25 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "protocol-beneficial",
-              "description": "batchLiquidate performs standard Aave liquidations on under-collateralised positions using Collector funds (bounded by availableBudget). Liquidations are permissioned operations that reduce the protocol's bad-debt exposure; seized collateral flows back to the Collector. Positions that are not liquidatable (HF \u2265 1) are skipped."
+              "label": "budget-bounded",
+              "description": "ClinicStewardV2 A.batchLiquidate pulls funds from the AaveCollector treasury and pays them to the Aave Pool to either repay bad debt on insolvent positions (batchRepayBadDebt) or trigger liquidations of insolvent positions (batchLiquidate). Both paths route excess back to the Collector. The total Collector outflow per call is debited from `availableBudget` (USD, 8-decimal Aave oracle units) via `_decreaseAvailableBudget`; once the budget is exhausted the function reverts with AvailableBudgetExceeded. The budget can only be replenished by setAvailableBudget which is DEFAULT_ADMIN_ROLE-gated (DAO Executor) - the CLEANUP_ROLE bot/Safe cannot raise its own ceiling.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x6A14eBe9A934c8EFE15C3811a999149472876b56",
+                  "fieldName": "availableBudget"
+                },
+                "unit": {
+                  "kind": "usd"
+                },
+                "multiplier": 1e-08
+              }
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.748Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.748Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
@@ -29199,7 +29285,7 @@
         {
           "functionName": "batchRepayBadDebt",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.accessControl.CLEANUP_ROLE.members"
@@ -29211,20 +29297,31 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "protocol-beneficial",
-              "description": "batchRepayBadDebt repays actual on-chain bad debt (positions with no recoverable collateral) using funds drawn from the Collector up to the availableBudget limit. The operation reduces protocol bad debt, improving solvency; it does not harm any user position or extract value for the caller."
+              "label": "budget-bounded",
+              "description": "ClinicStewardV2 B.batchRepayBadDebt pulls funds from the AaveCollector treasury and pays them to the Aave Pool to either repay bad debt on insolvent positions (batchRepayBadDebt) or trigger liquidations of insolvent positions (batchLiquidate). Both paths route excess back to the Collector. The total Collector outflow per call is debited from `availableBudget` (USD, 8-decimal Aave oracle units) via `_decreaseAvailableBudget`; once the budget is exhausted the function reverts with AvailableBudgetExceeded. The budget can only be replenished by setAvailableBudget which is DEFAULT_ADMIN_ROLE-gated (DAO Executor) - the CLEANUP_ROLE bot/Safe cannot raise its own ceiling.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xE1e62c3ee0c581F715fBb0e23CDA536Fc29eeB2c",
+                  "fieldName": "availableBudget"
+                },
+                "unit": {
+                  "kind": "usd"
+                },
+                "multiplier": 1e-08
+              }
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.763Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.763Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
           "functionName": "batchLiquidate",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.accessControl.CLEANUP_ROLE.members"
@@ -29236,14 +29333,25 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "protocol-beneficial",
-              "description": "batchLiquidate performs standard Aave liquidations on under-collateralised positions using Collector funds (bounded by availableBudget). Liquidations are permissioned operations that reduce the protocol's bad-debt exposure; seized collateral flows back to the Collector. Positions that are not liquidatable (HF \u2265 1) are skipped."
+              "label": "budget-bounded",
+              "description": "ClinicStewardV2 B.batchLiquidate pulls funds from the AaveCollector treasury and pays them to the Aave Pool to either repay bad debt on insolvent positions (batchRepayBadDebt) or trigger liquidations of insolvent positions (batchLiquidate). Both paths route excess back to the Collector. The total Collector outflow per call is debited from `availableBudget` (USD, 8-decimal Aave oracle units) via `_decreaseAvailableBudget`; once the budget is exhausted the function reverts with AvailableBudgetExceeded. The budget can only be replenished by setAvailableBudget which is DEFAULT_ADMIN_ROLE-gated (DAO Executor) - the CLEANUP_ROLE bot/Safe cannot raise its own ceiling.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xE1e62c3ee0c581F715fBb0e23CDA536Fc29eeB2c",
+                  "fieldName": "availableBudget"
+                },
+                "unit": {
+                  "kind": "usd"
+                },
+                "multiplier": 1e-08
+              }
             }
           ],
-          "timestamp": "2026-04-27T20:56:21.771Z",
+          "timestamp": "2026-05-01T14:41:02.000Z",
           "lastChangedBy": {
-            "author": "unknown",
-            "date": "2026-04-27T20:56:21.771Z"
+            "author": "score-contract",
+            "date": "2026-05-01T14:41:02.000Z"
           }
         },
         {
