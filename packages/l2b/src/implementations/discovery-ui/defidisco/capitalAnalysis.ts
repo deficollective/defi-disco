@@ -65,9 +65,7 @@ export class CapitalAnalysisCalculator {
     this.proxyToImpls = proxyToImpls ?? new Map()
 
     this.functionsByContract = new Map()
-    for (const [addr, entry] of Object.entries(
-      functionsData.contracts ?? {},
-    )) {
+    for (const [addr, entry] of Object.entries(functionsData.contracts ?? {})) {
       const normalized = normalizeChainAddress(addr)
       const fnMap = new Map<string, FunctionEntry>()
       for (const fn of entry.functions) fnMap.set(fn.functionName, fn)
