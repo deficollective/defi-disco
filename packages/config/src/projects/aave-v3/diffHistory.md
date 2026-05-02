@@ -1,9 +1,9 @@
-Generated with discovered.json: 0x1fd6824f5c4c442b0d39e4ffbf2dae01f1a919e9
+Generated with discovered.json: 0xd7c2b7a7c5082d2c70639e45d29a43f06fcfdc7d
 
-# Diff at Fri, 01 May 2026 11:46:24 GMT:
+# Diff at Sat, 02 May 2026 11:23:36 GMT:
 
-- author: Alexandru Marcu (<alx.marcu@gmail.com>)
-- current timestamp: 1777635894
+- author: emduc (<emilien.duc@gmail.com>)
+- current timestamp: 1777720451
 
 ## Description
 
@@ -32,6 +32,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ATokenInstance (eth:0x018008bfb33d285247A21d44E50697654f754e63)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract HyperLaneAdapter (eth:0x01dcb90Cf13b82Cde4A0BAcC655585a83Af3cCC1)
     +++ description: None
 ```
 
@@ -217,7 +223,19 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract PolygonAdapterEthereum (eth:0x1562F1b2487F892BBA8Ef325aF054Fd157510a71)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x16264412CB72F0d16A446f7D928Dd0D822810048)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract DataWarehouse (eth:0x1699FE9CaDC8a0b6c93E06B62Ab4592a0fFEcF61)
     +++ description: None
 ```
 
@@ -997,6 +1015,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract VotingStrategy (eth:0x5642A5A5Ec284B4145563aBF319620204aCCA7f4)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract ATokenInstance (eth:0x56D919E7B25aA42F3F8a4BC77b8982048F2E84B4)
     +++ description: None
 ```
@@ -1118,6 +1142,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract EACAggregatorProxy (eth:0x60AEd7d20AC6328f7BA771aD58931c996aff30E8)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract VotingMachine (eth:0x617332a777780F546261247F621051d0b98975Eb)
     +++ description: None
 ```
 
@@ -1268,6 +1298,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract VariableDebtTokenInstance (eth:0x6c82c66622Eb360FC973D3F492f9D8E9eA538b08)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract SameChainAdapter (eth:0x6cfbd2aA4691fc18B9C209bDd43DC3943C228FCf)
     +++ description: None
 ```
 
@@ -1526,6 +1562,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract Savings Dai Token (eth:0x83F20F44975D03b1b09e64809B757c47f942BEeA)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract LayerZeroAdapter (eth:0x8410d9BD353b420ebA8C48ff1B0518426C280FCC)
     +++ description: None
 ```
 
@@ -2077,6 +2119,12 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
+    contract Safe (eth:0xb291232F480F41c75802C4a60F1D2AC03404Afef)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
     contract EACAggregatorProxy (eth:0xb41E773f507F7a7EA890b1afB7d2b660c30C8B0A)
     +++ description: None
 ```
@@ -2108,6 +2156,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract ATokenInstance (eth:0xB76CF92076adBF1D9C39294FA8e7A67579FDe357)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CCIPAdapter (eth:0xB7a6618df58626C3a122ABAFD6Ee63Af63f3Ef29)
     +++ description: None
 ```
 
@@ -2563,7 +2617,7 @@ Discovery rerun on the same block number with only config-related changes.
 
 ```diff
 +   Status: CREATED
-    contract GnosisSafeL2 (eth:0xdeadD8aB03075b7FBA81864202a2f59EE25B312b)
+    contract Safe (eth:0xdeadD8aB03075b7FBA81864202a2f59EE25B312b)
     +++ description: None
 ```
 
@@ -2840,6 +2894,12 @@ Discovery rerun on the same block number with only config-related changes.
 ```diff
 +   Status: CREATED
     contract OsToken (eth:0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract VotingPortal (eth:0xf23f7De3AC42F22eBDA17e64DC4f51FB66b8E21f)
     +++ description: None
 ```
 
