@@ -1,7 +1,7 @@
 import type { CompiledReview, CompiledAdmin } from '../../../../types'
 import { etherscanUrl, stripChainPrefix } from '../../../../utils/format'
 import { MitigationBadge } from '../../../../components/MitigationBadge'
-import { deduplicateMitigations } from '../explorer/shared'
+import { aggregateMitigationsByImpact } from '../explorer/shared'
 import {
   ImpactBarRow,
   ImpactStatsSidebar,
@@ -155,8 +155,8 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
             const rowImpact = adminImpact(admin)
             const barWidth = maxCapital > 0 ? (rowImpact / maxCapital) * 100 : 0
             const rawAddress = stripChainPrefix(admin.address)
-            const mitigations = deduplicateMitigations(
-              admin.functions?.flatMap((f) => f.mitigations ?? []) ?? [],
+            const mitigations = aggregateMitigationsByImpact(
+              admin.functions ?? [],
             )
             return (
               <ImpactBarRow
