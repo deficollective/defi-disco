@@ -1,24 +1,10 @@
 import { CodeIcon, ShieldCheckIcon } from '../../components/icons'
-import { useIndex } from '../../data/hooks'
-import { formatUsdValue } from '../../utils/format'
 
 const REPO_URL = 'https://github.com/deficollective/defiscan-v2'
 const LENS_URL = 'https://lens.defiscan.info'
-const COLLECTIVE_URL = 'https://deficollective.org/about/'
+const COLLECTIVE_URL = 'https://deficollective.org'
 
 export function AboutPage() {
-  const { data: indexData } = useIndex()
-
-  const protocolCount = indexData?.protocols.length
-  // Total Value Secured across all reviewed protocols = capital at risk (contract
-  // balances) + token value (protocol token market value). Matches the per-protocol
-  // TVS shown on the Landing page. `totalDefiTvl` is the hardcoded industry-wide
-  // TVL used only as a "% of DeFi reviewed" denominator and should NOT be shown here.
-  const totalValueVerified =
-    indexData &&
-    indexData.globalTotals.totalCapitalAtRisk +
-      indexData.globalTotals.totalTokenValue
-
   return (
     <div className="w-full bg-white">
       {/* Hero + Mission + Approach share the same 1536px container and white bg */}
@@ -83,26 +69,6 @@ export function AboutPage() {
                 in a structured, evidence-based format — enabling informed
                 decision-making grounded in on-chain facts.
               </p>
-            </div>
-            <div className="flex flex-col gap-4 pt-2 sm:flex-row">
-              <div className="flex-1 bg-bg-muted p-6">
-                <p className="font-bold text-[11px] text-accent-dark uppercase leading-[16.5px] tracking-[1.1px]">
-                  Protocols Tracked
-                </p>
-                <p className="mt-2 font-bold font-mono text-3xl text-text-primary leading-9">
-                  {protocolCount !== undefined ? `${protocolCount}+` : '—'}
-                </p>
-              </div>
-              <div className="flex-1 bg-bg-muted p-6">
-                <p className="font-bold text-[11px] text-accent-dark uppercase leading-[16.5px] tracking-[1.1px]">
-                  Total Value Verified
-                </p>
-                <p className="mt-2 font-bold font-mono text-3xl text-text-primary leading-9">
-                  {totalValueVerified !== undefined
-                    ? formatUsdValue(totalValueVerified)
-                    : '—'}
-                </p>
-              </div>
             </div>
           </div>
         </section>
@@ -196,13 +162,13 @@ export function AboutPage() {
               rel="noopener noreferrer"
               className="inline-flex w-fit items-center justify-center bg-accent-dark px-8 py-4 font-bold text-white text-xs uppercase tracking-[1.2px] shadow-[0px_20px_25px_-5px_rgba(0,0,0,0.1),0px_8px_10px_-6px_rgba(0,0,0,0.1)] transition-opacity hover:opacity-90"
             >
-              Learn More About Our Team
+              Learn more about DeFi Collective
             </a>
           </div>
         </section>
 
         {/* ---------- Partners / Built With ---------- */}
-        <section className="flex flex-col gap-6">
+        <section className="flex flex-col gap-8">
           <div>
             <p className="font-bold text-[11px] text-accent-dark uppercase tracking-[0.55px] mb-3">
               Partners
@@ -211,14 +177,21 @@ export function AboutPage() {
               Built With
             </h2>
             <p className="mt-4 max-w-[600px] text-base text-text-secondary leading-[1.75]">
-              DEFISCAN is developed in collaboration with leading ecosystem
-              partners who share our commitment to transparency and verifiable
-              security in DeFi.
+              DEFISCAN is supported by leading ecosystem partners who share our
+              commitment to transparency and verifiable security in DeFi.
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-4">
-            <PartnerLogo name="Ethereum Foundation" />
-            <PartnerLogo name="Liquity" />
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
+            <PartnerLogo
+              name="Ethereum Foundation"
+              src="/partners/ethereum-foundation.svg"
+              href="https://ethereum.foundation"
+            />
+            <PartnerLogo
+              name="Liquity"
+              src="/partners/liquity.png"
+              href="https://www.liquity.org"
+            />
           </div>
         </section>
       </div>
@@ -267,12 +240,32 @@ function ApproachCard({
   )
 }
 
-function PartnerLogo({ name }: { name: string }) {
+function PartnerLogo({
+  name,
+  src,
+  href,
+}: {
+  name: string
+  src: string
+  href: string
+}) {
   return (
-    <div className="inline-flex items-center gap-3 rounded-lg border border-border bg-bg-muted px-5 py-3 font-semibold text-sm text-text-primary">
-      <span className="size-2 rounded-full bg-accent-dark/70" aria-hidden="true" />
-      {name}
-    </div>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex h-[120px] flex-col items-center justify-center gap-3 rounded-lg border border-border bg-white p-5 transition-colors hover:border-accent/40"
+    >
+      <img
+        src={src}
+        alt={`${name} logo`}
+        className="h-10 w-auto max-w-full object-contain opacity-80 transition-opacity group-hover:opacity-100"
+        loading="lazy"
+      />
+      <span className="text-xs font-semibold text-text-secondary uppercase tracking-[0.5px]">
+        {name}
+      </span>
+    </a>
   )
 }
 

@@ -15,6 +15,7 @@ import {
   ShieldIcon,
   CodeIcon,
   GlobeIcon,
+  SearchIcon,
   ShieldCheckIcon,
 } from '../../components/icons'
 import { ProtocolLogo } from '../../components/ProtocolLogo'
@@ -58,18 +59,22 @@ const methodologyItems = [
 
 const audienceItems = [
   {
+    icon: CoinsIcon,
     title: 'Capital Allocators',
     desc: 'Funds and treasuries performing due diligence before deploying capital. Understand exactly what trust assumptions you’re taking on and how they compare across protocols.',
   },
   {
+    icon: TeamIcon,
     title: 'Protocol Teams',
     desc: 'Demonstrate your security posture to users and integrators. Use DEFISCAN as an independent, credible assessment of your protocol’s trust surface.',
   },
   {
+    icon: SearchIcon,
     title: 'Researchers & Auditors',
     desc: 'Structured, machine-readable data on protocol governance and permissions. Build on our open-source methodology or integrate our data into your own analysis.',
   },
   {
+    icon: ShieldCheckIcon,
     title: 'Risk & Compliance Teams',
     desc: 'Evidence-based reporting for regulatory frameworks. Map protocol trust assumptions to compliance requirements with verifiable on-chain data.',
   },
@@ -193,14 +198,6 @@ export function LandingPage() {
         </div>
 
         <div className="relative mx-auto max-w-[896px] px-4 md:px-8 py-16 md:py-28 text-center flex flex-col items-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 rounded-xl bg-accent-tint px-3.5 py-1.5 mb-6 md:mb-8">
-            <ShieldCheckIcon className="size-3.5 text-accent shrink-0" />
-            <span className="text-xs font-bold text-text-secondary uppercase tracking-[1.5px]">
-              Continuous Monitoring Active
-            </span>
-          </div>
-
           {/* H1 */}
           <h1 className="font-black text-4xl md:text-7xl lg:text-[96px] leading-tight lg:leading-[96px] tracking-tight lg:tracking-[-4.8px] text-bg-dark">
             Know your DeFi
@@ -273,7 +270,7 @@ export function LandingPage() {
                 <span className="font-medium text-xs text-text-muted uppercase tracking-tight">
                   Updates Identified
                 </span>
-                <span className="font-mono font-bold text-3xl md:text-4xl text-accent-dark tracking-[-1.8px]">
+                <span className="font-mono font-bold text-3xl md:text-4xl text-text-primary tracking-[-1.8px]">
                   {indexData.globalTotals.totalUpdateCount.toLocaleString()}
                 </span>
               </div>
@@ -384,7 +381,7 @@ export function LandingPage() {
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
           <div>
             <p className="text-[10px] font-bold text-accent uppercase tracking-[1.5px] mb-2">
-              Live Reports
+              Live Data
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-text-primary tracking-heading-2">
               Recent Reports
@@ -618,6 +615,9 @@ export function LandingPage() {
                 key={item.title}
                 className="p-7 bg-white border border-border rounded-lg hover:border-accent/30 transition-colors"
               >
+                <div className="size-10 rounded bg-accent-tint-light flex items-center justify-center mb-4">
+                  <item.icon className="h-5 w-5 text-accent-dark" />
+                </div>
                 <h3 className="text-base font-bold text-text-primary mb-2">
                   {item.title}
                 </h3>
@@ -656,7 +656,6 @@ export function LandingPage() {
 }
 
 function AccessControlStat() {
-  // 80% / 20% donut + comparison bar — clearer than a flat number
   const PCT = 80
   const radius = 70
   const stroke = 14
@@ -664,68 +663,83 @@ function AccessControlStat() {
   const offset = circumference * (1 - PCT / 100)
 
   return (
-    <div className="bg-white border border-border rounded-lg p-8 md:p-10">
-      <div className="flex flex-col items-center text-center">
-        <div className="relative size-[200px]">
-          <svg
-            viewBox="0 0 180 180"
-            className="size-full -rotate-90"
-            aria-hidden="true"
-          >
-            <circle
-              cx="90"
-              cy="90"
-              r={radius}
-              fill="none"
-              stroke="rgba(37, 99, 235, 0.12)"
-              strokeWidth={stroke}
-            />
-            <circle
-              cx="90"
-              cy="90"
-              r={radius}
-              fill="none"
-              stroke="#2563eb"
-              strokeWidth={stroke}
-              strokeLinecap="round"
-              strokeDasharray={circumference}
-              strokeDashoffset={offset}
-            />
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-5xl font-black text-accent-dark tracking-tight leading-none">
-              80%
-            </span>
-            <span className="text-[10px] font-bold uppercase tracking-[1.5px] text-text-muted mt-2">
-              of 2024 losses
-            </span>
-          </div>
+    <div className="flex justify-center">
+      <div className="relative size-[260px] md:size-[300px]">
+        <svg
+          viewBox="0 0 180 180"
+          className="size-full -rotate-90"
+          aria-hidden="true"
+        >
+          <circle
+            cx="90"
+            cy="90"
+            r={radius}
+            fill="none"
+            stroke="rgba(37, 99, 235, 0.12)"
+            strokeWidth={stroke}
+          />
+          <circle
+            cx="90"
+            cy="90"
+            r={radius}
+            fill="none"
+            stroke="#2563eb"
+            strokeWidth={stroke}
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+          />
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className="text-4xl md:text-5xl font-black text-text-primary tracking-tight leading-none">
+            80%
+          </span>
+          <span className="text-[10px] md:text-xs font-bold uppercase tracking-[1.5px] text-text-muted mt-2">
+            of 2025 losses
+          </span>
         </div>
-
-        <p className="mt-6 text-sm text-text-secondary leading-relaxed max-w-[280px]">
-          of DeFi losses in 2024 are attributable to access control exploits —
-          dwarfing every other category combined.
-        </p>
-
-        <div className="mt-6 w-full max-w-[280px]">
-          <div className="flex justify-between text-[10px] font-bold uppercase tracking-[1.5px] text-text-muted mb-2">
-            <span>Access control</span>
-            <span>Other</span>
-          </div>
-          <div className="flex h-2 rounded-full overflow-hidden bg-bg-muted">
-            <div className="h-full bg-accent-dark" style={{ width: '80%' }} />
-            <div className="h-full bg-accent/30" style={{ width: '20%' }} />
-          </div>
-          <div className="flex justify-between text-[11px] font-mono font-bold text-text-primary mt-2">
-            <span>80%</span>
-            <span>20%</span>
-          </div>
-        </div>
-
-        <p className="mt-6 text-[11px] text-text-muted">
-          Source: Hacken Web3 Security Report 2024
-        </p>
       </div>
     </div>
+  )
+}
+
+function CoinsIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="8" cy="8" r="6" />
+      <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
+      <path d="M7 6h1v4" />
+      <path d="m16.71 13.88.7.71-2.82 2.82" />
+    </svg>
+  )
+}
+
+function TeamIcon({ className }: { className?: string }) {
+  // Lucide "users" — 3 figures (center + two flanking)
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
   )
 }
