@@ -69,11 +69,10 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
   const { admins, totals } = review
   const totalTvs = totals.totalCapitalAtRisk + (totals.totalTokenValue ?? 0)
 
-  const humanControlled = sortByRisk(
+  // Governance contracts are surfaced in the GovernanceSection, not here.
+  const activeAdmins = sortByRisk(
     admins.filter((a) => isHumanType(a) && !a.isGovernance),
   )
-  const governance = sortByRisk(admins.filter((a) => a.isGovernance))
-  const activeAdmins = [...humanControlled, ...governance]
 
   const noHumanControl = activeAdmins.length === 0
 
@@ -117,11 +116,11 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
     (a, b) => adminImpact(b) - adminImpact(a),
   )
   const maxCapital = Math.max(...sortedByImpact.map(adminImpact), 0)
-  // Use pre-computed cross-admin deduplicated totals from the compiler,
-  // falling back to raw sum for old compiled reviews.
-  const impactedCapital = review.adminTotals
-    ? review.adminTotals.totalFundsAtRisk + review.adminTotals.totalTokenValueAtRisk
-    : sortedByImpact.reduce((s, a) => s + a.totalReachableCapital, 0)
+  // Sum per-admin reachable capital + token value across the displayed
+  // (governance-excluded) set. Cross-admin dedup is not available for this
+  // subset, so this can over-report when admins share reachable contracts —
+  // same trade-off as the prior fallback.
+  const impactedCapital = sortedByImpact.reduce((s, a) => s + adminImpact(a), 0)
   const impactedPct = impactPct(impactedCapital, totalTvs)
   const displayedAdmins = sortedByImpact.slice(0, 3)
 
@@ -178,11 +177,6 @@ export function AdminsSection({ review, onShowMore }: AdminsSectionProps) {
                       </svg>
                     </a>
                     <AdminTypeBadge type={admin.adminType} />
-                    {admin.isGovernance && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-[0.5px] bg-blue-100 text-blue-700">
-                        Governance
-                      </span>
-                    )}
                     {(() => {
                       const MAX_BADGES = 4
                       const visible = mitigations.slice(0, MAX_BADGES)
