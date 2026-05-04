@@ -142,6 +142,10 @@ import {
   MetaMorphoCapHandler,
   MetaMorphoCapHandlerDefinition,
 } from '../defidisco/MetaMorphoCapHandler'
+import {
+  GhoBucketCapacityHandler,
+  GhoBucketCapacityHandlerDefinition,
+} from '../defidisco/GhoBucketCapacityHandler'
 
 const DEFINITIONS = [
   StorageHandlerDefinition,
@@ -183,6 +187,7 @@ const DEFINITIONS = [
   LayerZeroOAppConfigHandlerDefinition,
   AaveReserveTokensHandlerDefinition,
   MetaMorphoCapHandlerDefinition,
+  GhoBucketCapacityHandlerDefinition,
 ] as const
 
 type AvailableHandlers = (typeof DEFINITIONS)[number]
@@ -233,6 +238,7 @@ export const UserHandlers: Record<HandlerType, AvailableHandlers> = {
   layerZeroOAppConfig: LayerZeroOAppConfigHandlerDefinition,
   aaveReserveTokens: AaveReserveTokensHandlerDefinition,
   metaMorphoCap: MetaMorphoCapHandlerDefinition,
+  ghoBucketCapacity: GhoBucketCapacityHandlerDefinition,
 }
 
 export function getUserHandler(
@@ -319,5 +325,7 @@ export function getUserHandler(
       return new AaveReserveTokensHandler(field, definition, abi)
     case 'metaMorphoCap':
       return new MetaMorphoCapHandler(field, definition, abi)
+    case 'ghoBucketCapacity':
+      return new GhoBucketCapacityHandler(field, definition, abi)
   }
 }

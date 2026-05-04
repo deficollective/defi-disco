@@ -10440,7 +10440,11 @@
             {
               "type": "other",
               "label": "owner-gated GHO facilitator",
-              "description": "mintAndSupply mints GHO (up to the facilitator bucket capacity) and supplies it to the Pool as liquidity. If called by a malicious owner, it could inflate GHO supply up to the bucket cap and create aGHO positions that could be drained. The effective bound is the current GHO facilitator bucket capacity set by governance."
+              "description": "mintAndSupply mints GHO (up to the facilitator bucket capacity) and supplies it to the Pool as liquidity. If called by a malicious owner, it could inflate GHO supply up to the bucket cap and create aGHO positions that could be drained. The bound is the current bucket capacity for this facilitator (LidoGhoDirectMinter, $175M). The capacity is set on the GhoToken by FACILITATOR_MANAGER_ROLE (Aave Governance only); the GhoBucketSteward can raise it by at most 2× per call with a 1-day cooldown.",
+              "impactCap": {
+                "value": { "mode": "hardcoded", "amount": 175000000 },
+                "unit": { "kind": "usd" }
+              }
             }
           ],
           "timestamp": "2026-04-27T21:00:59.616Z",
@@ -10484,7 +10488,11 @@
             {
               "type": "other",
               "label": "guardian-change",
-              "description": "updateGuardian replaces the guardian address, which holds elevated operational permissions (e.g., pausing, emergency overrides). A malicious guardian could abuse those permissions. The guardian role is distinct from full ownership but still carries significant protocol authority."
+              "description": "updateGuardian replaces the guardian on this LidoGhoDirectMinter. The worst-case fund impact is bounded by what the new guardian can do — mintAndSupply up to this facilitator's bucket capacity ($175M). The owner (Aave Governance) can revoke or replace the guardian back at any time.",
+              "impactCap": {
+                "value": { "mode": "hardcoded", "amount": 175000000 },
+                "unit": { "kind": "usd" }
+              }
             }
           ],
           "timestamp": "2026-04-27T21:00:59.624Z",
@@ -10679,8 +10687,12 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "pool-gated",
-              "description": "mint on AToken/VDT contracts is callable only by the Pool contract (onlyPool modifier). The Pool calls mint exclusively as part of legitimate supply and borrow operations. A compromise of the Pool contract would be required to call mint with arbitrary parameters, making this a second-order risk behind Pool security."
+              "label": "bucket-cap",
+              "description": "Mints new GHO via the facilitator's bucket on the GhoToken. Each call is bounded by `bucketCapacity - bucketLevel` for this facilitator (current capacity: $50M). The capacity itself is set by FACILITATOR_MANAGER_ROLE (Aave Governance only), not by MINTER_ROLE.",
+              "impactCap": {
+                "value": { "mode": "hardcoded", "amount": 50000000 },
+                "unit": { "kind": "usd" }
+              }
             }
           ],
           "timestamp": "2026-04-27T21:00:59.664Z",
@@ -10777,8 +10789,12 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "pool-gated",
-              "description": "mint on AToken/VDT contracts is callable only by the Pool contract (onlyPool modifier). The Pool calls mint exclusively as part of legitimate supply and borrow operations. A compromise of the Pool contract would be required to call mint with arbitrary parameters, making this a second-order risk behind Pool security."
+              "label": "bucket-cap",
+              "description": "Mints new GHO via the facilitator's bucket on the GhoToken (this facilitator labeled `GhoDirectFacilitator GSMs Mainnet`). Each call is bounded by `bucketCapacity - bucketLevel` for this facilitator (current capacity: $280M). The capacity itself is set by FACILITATOR_MANAGER_ROLE (Aave Governance only), not by MINTER_ROLE — so a malicious MINTER_ROLE holder cannot raise their own ceiling.",
+              "impactCap": {
+                "value": { "mode": "hardcoded", "amount": 280000000 },
+                "unit": { "kind": "usd" }
+              }
             }
           ],
           "timestamp": "2026-04-27T21:00:59.690Z",
@@ -11402,7 +11418,11 @@
             {
               "type": "other",
               "label": "owner-gated GHO facilitator",
-              "description": "mintAndSupply mints GHO (up to the facilitator bucket capacity) and supplies it to the Pool as liquidity. If called by a malicious owner, it could inflate GHO supply up to the bucket cap and create aGHO positions that could be drained. The effective bound is the current GHO facilitator bucket capacity set by governance."
+              "description": "mintAndSupply mints GHO (up to the facilitator bucket capacity) and supplies it to the Pool as liquidity. If called by a malicious owner, it could inflate GHO supply up to the bucket cap and create aGHO positions that could be drained. The bound is the current bucket capacity for this facilitator (CoreGhoDirectMinter, $250M). The capacity is set on the GhoToken by FACILITATOR_MANAGER_ROLE (Aave Governance only); the GhoBucketSteward can raise it by at most 2× per call with a 1-day cooldown.",
+              "impactCap": {
+                "value": { "mode": "hardcoded", "amount": 250000000 },
+                "unit": { "kind": "usd" }
+              }
             }
           ],
           "timestamp": "2026-04-27T21:00:59.841Z",
@@ -11452,7 +11472,11 @@
             {
               "type": "other",
               "label": "guardian-change",
-              "description": "updateGuardian replaces the guardian address, which holds elevated operational permissions (e.g., pausing, emergency overrides). A malicious guardian could abuse those permissions. The guardian role is distinct from full ownership but still carries significant protocol authority."
+              "description": "updateGuardian replaces the guardian on this CoreGhoDirectMinter. The worst-case fund impact is bounded by what the new guardian can do — mintAndSupply up to this facilitator's bucket capacity ($250M). The owner (Aave Governance) can revoke or replace the guardian back at any time.",
+              "impactCap": {
+                "value": { "mode": "hardcoded", "amount": 250000000 },
+                "unit": { "kind": "usd" }
+              }
             }
           ],
           "timestamp": "2026-04-27T21:00:59.848Z",
@@ -11569,7 +11593,11 @@
             {
               "type": "other",
               "label": "owner-gated GHO facilitator",
-              "description": "mintAndSupply mints GHO (up to the facilitator bucket capacity) and supplies it to the Pool as liquidity. If called by a malicious owner, it could inflate GHO supply up to the bucket cap and create aGHO positions that could be drained. The effective bound is the current GHO facilitator bucket capacity set by governance."
+              "description": "mintAndSupply mints GHO (up to the facilitator bucket capacity) and supplies it to the Pool as liquidity. If called by a malicious owner, it could inflate GHO supply up to the bucket cap and create aGHO positions that could be drained. The bound is the current bucket capacity for this facilitator (HorizonGhoDirectMinter, $80M). The capacity is set on the GhoToken by FACILITATOR_MANAGER_ROLE (Aave Governance only); the GhoBucketSteward can raise it by at most 2× per call with a 1-day cooldown.",
+              "impactCap": {
+                "value": { "mode": "hardcoded", "amount": 80000000 },
+                "unit": { "kind": "usd" }
+              }
             }
           ],
           "timestamp": "2026-04-27T21:00:59.872Z",
@@ -11619,7 +11647,11 @@
             {
               "type": "other",
               "label": "guardian-change",
-              "description": "updateGuardian replaces the guardian address, which holds elevated operational permissions (e.g., pausing, emergency overrides). A malicious guardian could abuse those permissions. The guardian role is distinct from full ownership but still carries significant protocol authority."
+              "description": "updateGuardian replaces the guardian on this HorizonGhoDirectMinter. The worst-case fund impact is bounded by what the new guardian can do — mintAndSupply up to this facilitator's bucket capacity ($80M). The owner (Aave Governance) can revoke or replace the guardian back at any time.",
+              "impactCap": {
+                "value": { "mode": "hardcoded", "amount": 80000000 },
+                "unit": { "kind": "usd" }
+              }
             }
           ],
           "timestamp": "2026-04-27T21:00:59.880Z",
@@ -12289,10 +12321,18 @@
         },
         {
           "functionName": "cancelProposal",
-          "isPermissioned": false,
+          "isPermissioned": true,
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.guardian"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proposal-veto",
+              "description": "cancelProposal cancels an active governance proposal before its vote can be queued for execution. The guardian can block governance-approved changes (a liveness/veto power), but cannot extract or redirect protocol funds — there is no path from this function to any state-changing call on the Executor or downstream contracts."
             }
           ],
           "timestamp": "2026-04-26T21:08:15.447Z",
@@ -12620,7 +12660,7 @@
         {
           "functionName": "cancelPayload",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.guardian"
@@ -12913,7 +12953,7 @@
         {
           "functionName": "cancelPayload",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.guardian"
@@ -14016,8 +14056,13 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "emergency-action",
-              "description": "solveEmergency triggers an emergency protocol action through the GranularGuardianAccessControl, such as retrying messages, pausing bridges, or updating configurations. The specific actions available depend on the role configuration; misuse could disrupt cross-chain governance messaging."
+              "label": "emergency-mode gated",
+              "description": "Only callable while the CrossChainController is in emergency mode — a state auto-triggered when upstream cross-chain message-validity windows lapse. The multisig cannot invoke this during normal operation."
+            },
+            {
+              "type": "other",
+              "label": "downstream 1d delay",
+              "description": "Even if invoked, the reconfigured bridge adapters and approved senders only affect future cross-chain governance messages. Any such message still queues at the PayloadsController and waits the standard execution delay (minimum 1 day) before the L1 Executor runs it, giving the DAO time to revoke SOLVE_EMERGENCY_ROLE and cancel the queued payload."
             }
           ],
           "timestamp": "2026-04-27T21:01:00.437Z",
@@ -14041,8 +14086,13 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "emergency-action",
-              "description": "solveEmergencyDeprecated is the deprecated version of solveEmergency. If still callable, it could trigger the same emergency actions as solveEmergency."
+              "label": "emergency-mode gated",
+              "description": "Deprecated variant of solveEmergency, kept for legacy CrossChainController revisions. Only callable while the CrossChainController is in emergency mode — a state auto-triggered when upstream cross-chain message-validity windows lapse. The multisig cannot invoke this during normal operation."
+            },
+            {
+              "type": "other",
+              "label": "downstream 1d delay",
+              "description": "Even if invoked, the reconfigured bridge adapters and approved senders only affect future cross-chain governance messages. Any such message still queues at the PayloadsController and waits the standard execution delay (minimum 1 day) before the L1 Executor runs it, giving the DAO time to revoke SOLVE_EMERGENCY_ROLE and cancel the queued payload."
             }
           ],
           "timestamp": "2026-04-27T21:01:00.445Z",

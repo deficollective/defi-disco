@@ -781,6 +781,15 @@
                 },
                 "additionalProperties": false,
                 "required": ["type", "mode"]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": { "const": "ghoBucketCapacity" },
+                  "ghoToken": { "type": "string" }
+                },
+                "additionalProperties": false,
+                "required": ["type", "ghoToken"]
               }
             ]
           },

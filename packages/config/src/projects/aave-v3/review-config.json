@@ -161,8 +161,8 @@
       "description": "Internal protocol contract (ProxyAdmin) holding admin-role privileges over 2 functions across 203 contracts; itself controlled by Aave Governance V3 (Executor 0x5300A1a1...). Reachable token value: {{a8abd1892ReachableTokenValue}}."
     },
     "eth:0xCe52ab41C40575B072A18C9700091Ccbe4A06710": {
-      "name": "5 of 9 (56%) Multisig",
-      "description": "5 of 9 (56%) Gnosis Safe controlling 7 permissioned functions across 274 contracts. Reachable token value: {{ace52ab41ReachableTokenValue}}."
+      "name": "Aave Guardian (5-of-9 Multisig)",
+      "description": "Aave DAO's Guardian Safe (5-of-9 multisig). Holds the `guardian` role on Governance V3 and PayloadsController, plus `SOLVE_EMERGENCY_ROLE` on GranularGuardianAccessControl. Powers are limited to vetoing in-flight governance — cancelling proposals before vote queue, cancelling queued payloads before execution, rescuing stuck cross-chain voting portals — and resolving cross-chain message emergencies. Cannot move protocol funds or upgrade contracts."
     },
     "eth:0xEd42a7D8559a463722Ca4beD50E0Cc05a386b0e1": {
       "name": "CrossChainControllerUpgradeRev3",

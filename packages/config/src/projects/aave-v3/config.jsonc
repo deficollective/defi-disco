@@ -599,7 +599,8 @@
         "BURNER_ROLE",
         "DEFAULT_ADMIN_ROLE",
         "GHO_TOKEN",
-        "MINTER_ROLE"
+        "MINTER_ROLE",
+        "bucketCapacity"
       ],
       "fields": {
         "accessControl": {
@@ -610,6 +611,12 @@
               "0x3c11d16cbaffd01df69ce1c404f6340ee057498f5f00246190ea54220576a848": "BURNER_ROLE"
             }
           }
+        },
+        "bucketCapacity": {
+          "handler": {
+            "type": "ghoBucketCapacity",
+            "ghoToken": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f"
+          }
         }
       }
     },
@@ -618,7 +625,8 @@
         "BURNER_ROLE",
         "DEFAULT_ADMIN_ROLE",
         "GHO_TOKEN",
-        "MINTER_ROLE"
+        "MINTER_ROLE",
+        "bucketCapacity"
       ],
       "fields": {
         "accessControl": {
@@ -628,6 +636,45 @@
               "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6": "MINTER_ROLE",
               "0x3c11d16cbaffd01df69ce1c404f6340ee057498f5f00246190ea54220576a848": "BURNER_ROLE"
             }
+          }
+        },
+        "bucketCapacity": {
+          "handler": {
+            "type": "ghoBucketCapacity",
+            "ghoToken": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f"
+          }
+        }
+      }
+    },
+    "eth:0x5513224daaEABCa31af5280727878d52097afA05": {
+      "ignoreInWatchMode": ["bucketCapacity"],
+      "fields": {
+        "bucketCapacity": {
+          "handler": {
+            "type": "ghoBucketCapacity",
+            "ghoToken": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f"
+          }
+        }
+      }
+    },
+    "eth:0x2cE01c87Fec1b71A9041c52CaED46Fc5f4807285": {
+      "ignoreInWatchMode": ["bucketCapacity"],
+      "fields": {
+        "bucketCapacity": {
+          "handler": {
+            "type": "ghoBucketCapacity",
+            "ghoToken": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f"
+          }
+        }
+      }
+    },
+    "eth:0xe10C78A3AC7f016eD2DE1A89c5479b1039EAB9eA": {
+      "ignoreInWatchMode": ["bucketCapacity"],
+      "fields": {
+        "bucketCapacity": {
+          "handler": {
+            "type": "ghoBucketCapacity",
+            "ghoToken": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f"
           }
         }
       }
@@ -1140,6 +1187,7 @@
     "eth:0xD533a949740bb3306d119CC777fa900bA034cd52": {
       "ignoreRelatives": ["admin", "minter"],
       "ignoreInWatchMode": [
+        "available_supply",
         "name",
         "symbol",
         "totalSupply"
@@ -1529,6 +1577,8 @@
     "eth:0xD33526068D116cE69F19A9ee46F0bd304F21A51f": {
       "ignoreRelatives": ["getInflationRewardsContractAddress"],
       "ignoreInWatchMode": [
+        "getInflationIntervalsPassed",
+        "inflationCalculate",
         "name",
         "symbol",
         "totalSupply",
@@ -5113,7 +5163,8 @@
     "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2": {
       "ignoreInWatchMode": [
         "name",
-        "symbol"
+        "symbol",
+        "totalSupply"
       ]
     },
     "eth:0xCFbFaC74C26F8647cBDb8c5caf80BB5b32E43134": {
