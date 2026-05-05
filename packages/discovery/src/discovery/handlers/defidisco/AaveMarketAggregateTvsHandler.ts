@@ -121,7 +121,10 @@ export class AaveMarketAggregateTvsHandler implements Handler {
       [],
     )
     if (typeof poolRaw !== 'string') {
-      return { field: this.field, error: `${poolField}() did not return an address on ${address}` }
+      return {
+        field: this.field,
+        error: `${poolField}() did not return an address on ${address}`,
+      }
     }
     const oracleRaw = await provider.callMethod<string>(
       address,
@@ -129,7 +132,10 @@ export class AaveMarketAggregateTvsHandler implements Handler {
       [],
     )
     if (typeof oracleRaw !== 'string') {
-      return { field: this.field, error: `${oracleField}() did not return an address on ${address}` }
+      return {
+        field: this.field,
+        error: `${oracleField}() did not return an address on ${address}`,
+      }
     }
 
     const pool = ChainSpecificAddress(`${chain}:${poolRaw}`)
@@ -143,7 +149,10 @@ export class AaveMarketAggregateTvsHandler implements Handler {
     )
     const baseUnit = toBigInt(baseUnitRaw)
     if (baseUnit === undefined || baseUnit === 0n) {
-      return { field: this.field, error: `BASE_CURRENCY_UNIT() invalid on ${oracle}` }
+      return {
+        field: this.field,
+        error: `BASE_CURRENCY_UNIT() invalid on ${oracle}`,
+      }
     }
 
     const reserves = await provider.callMethod<unknown[]>(
@@ -152,7 +161,10 @@ export class AaveMarketAggregateTvsHandler implements Handler {
       [],
     )
     if (!Array.isArray(reserves)) {
-      return { field: this.field, error: `getReservesList() did not return an array on ${pool}` }
+      return {
+        field: this.field,
+        error: `getReservesList() did not return an array on ${pool}`,
+      }
     }
 
     const filter = this.definition.aTokenNameFilter?.toLowerCase()
@@ -189,7 +201,9 @@ export class AaveMarketAggregateTvsHandler implements Handler {
       const aToken = ChainSpecificAddress(`${chain}:${aTokenAddrStr}`)
 
       if (filter) {
-        const nameRaw = await provider.callMethod<unknown>(aToken, NAME_ABI, []).catch(() => undefined)
+        const nameRaw = await provider
+          .callMethod<unknown>(aToken, NAME_ABI, [])
+          .catch(() => undefined)
         const name = typeof nameRaw === 'string' ? nameRaw.toLowerCase() : ''
         if (!name.includes(filter)) continue
       }
@@ -200,21 +214,25 @@ export class AaveMarketAggregateTvsHandler implements Handler {
       let amountUnits: bigint | undefined
       if (holderHex !== undefined) {
         const balRaw = await provider
-          .callMethod<unknown>(
-            aToken,
-            BALANCE_OF_ABI,
-            [holderHex],
-          )
+          .callMethod<unknown>(aToken, BALANCE_OF_ABI, [holderHex])
           .catch(() => undefined)
         amountUnits = toBigInt(balRaw)
       } else {
-        const tsRaw = await provider.callMethod<unknown>(aToken, TOTAL_SUPPLY_ABI, [])
+        const tsRaw = await provider.callMethod<unknown>(
+          aToken,
+          TOTAL_SUPPLY_ABI,
+          [],
+        )
         amountUnits = toBigInt(tsRaw)
       }
       if (amountUnits === undefined || amountUnits === 0n) continue
       const totalSupply = amountUnits
 
-      const decRaw = await provider.callMethod<unknown>(aToken, DECIMALS_ABI, [])
+      const decRaw = await provider.callMethod<unknown>(
+        aToken,
+        DECIMALS_ABI,
+        [],
+      )
       const decimals = toNumber(decRaw)
       if (decimals === undefined) continue
 
@@ -227,7 +245,7 @@ export class AaveMarketAggregateTvsHandler implements Handler {
       if (price === undefined) continue
 
       // USD = totalSupply * price / (10^decimals * BASE_CURRENCY_UNIT)
-      const denom = (10n ** BigInt(decimals)) * baseUnit
+      const denom = 10n ** BigInt(decimals) * baseUnit
       if (denom === 0n) continue
       const valueUsd = (totalSupply * price) / denom
       totalUsd += valueUsd

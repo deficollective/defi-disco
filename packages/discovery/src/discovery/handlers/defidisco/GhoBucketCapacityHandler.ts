@@ -34,7 +34,9 @@ export class GhoBucketCapacityHandler implements Handler {
     address: ChainSpecificAddress,
   ): Promise<HandlerResult> {
     const chain = ChainSpecificAddress.chain(address)
-    const ghoToken = ChainSpecificAddress(`${chain}:${this.definition.ghoToken}`)
+    const ghoToken = ChainSpecificAddress(
+      `${chain}:${this.definition.ghoToken}`,
+    )
 
     const result = await provider.callMethod<unknown>(
       ghoToken,
@@ -58,8 +60,10 @@ export class GhoBucketCapacityHandler implements Handler {
       cap = value
     }
 
-    if (typeof cap === 'bigint') return { field: this.field, value: cap.toString() }
-    if (typeof cap === 'number') return { field: this.field, value: cap.toString() }
+    if (typeof cap === 'bigint')
+      return { field: this.field, value: cap.toString() }
+    if (typeof cap === 'number')
+      return { field: this.field, value: cap.toString() }
     if (typeof cap === 'string') return { field: this.field, value: cap }
     return {
       field: this.field,
