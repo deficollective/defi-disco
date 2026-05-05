@@ -65,10 +65,21 @@ export function SortHeader<T extends string>({
 // ---------------------------------------------------------------------------
 
 function mitigationDedupKey(m: Mitigation): string {
-  // 'other' mitigations with a label collapse by label only (ignoring scope and description variants)
-  return m.type === 'other' && m.label
-    ? `other-label:${m.label}`
-    : `${m.type}:${m.delaySeconds ?? ''}:${displayMitigationValue(m.valueRange?.min)}:${displayMitigationValue(m.valueRange?.max)}:${displayMitigationValue(m.relativeValue?.maxChangePercent)}:${m.description}:${m.scopedTo?.address ?? ''}:${m.scopedTo?.type ?? ''}`
+  // Mirror MitigationBadge's visible identity: two mitigations that render as
+  // the same badge collapse to one. Descriptions / scope only show up in the
+  // tooltip, so they don't differentiate badges and shouldn't differentiate
+  // dedup keys either.
+  if (m.label) return `label:${m.label}`
+  switch (m.type) {
+    case 'delay':
+      return `delay:${m.delaySeconds ?? ''}`
+    case 'valueRange':
+      return `valueRange:${displayMitigationValue(m.valueRange?.min)}:${displayMitigationValue(m.valueRange?.max)}:${m.valueRange?.unit ?? ''}`
+    case 'relativeValue':
+      return `relativeValue:${displayMitigationValue(m.relativeValue?.maxChangePercent)}`
+    case 'other':
+      return `other:${m.description}`
+  }
 }
 
 export function deduplicateMitigations(

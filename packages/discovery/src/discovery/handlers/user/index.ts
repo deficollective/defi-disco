@@ -146,6 +146,10 @@ import {
   GhoBucketCapacityHandler,
   GhoBucketCapacityHandlerDefinition,
 } from '../defidisco/GhoBucketCapacityHandler'
+import {
+  AaveMarketAggregateTvsHandler,
+  AaveMarketAggregateTvsHandlerDefinition,
+} from '../defidisco/AaveMarketAggregateTvsHandler'
 
 const DEFINITIONS = [
   StorageHandlerDefinition,
@@ -188,6 +192,7 @@ const DEFINITIONS = [
   AaveReserveTokensHandlerDefinition,
   MetaMorphoCapHandlerDefinition,
   GhoBucketCapacityHandlerDefinition,
+  AaveMarketAggregateTvsHandlerDefinition,
 ] as const
 
 type AvailableHandlers = (typeof DEFINITIONS)[number]
@@ -239,6 +244,7 @@ export const UserHandlers: Record<HandlerType, AvailableHandlers> = {
   aaveReserveTokens: AaveReserveTokensHandlerDefinition,
   metaMorphoCap: MetaMorphoCapHandlerDefinition,
   ghoBucketCapacity: GhoBucketCapacityHandlerDefinition,
+  aaveMarketAggregateTvs: AaveMarketAggregateTvsHandlerDefinition,
 }
 
 export function getUserHandler(
@@ -327,5 +333,7 @@ export function getUserHandler(
       return new MetaMorphoCapHandler(field, definition, abi)
     case 'ghoBucketCapacity':
       return new GhoBucketCapacityHandler(field, definition, abi)
+    case 'aaveMarketAggregateTvs':
+      return new AaveMarketAggregateTvsHandler(field, definition, abi)
   }
 }
