@@ -1,0 +1,1128 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-06T10:20:58.191Z",
+  "contracts": {
+    "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1": {
+      "functions": [
+        {
+          "functionName": "changeAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "full-impl-swap",
+              "description": "Worst case: replace impl with one that mints infinite wBETH (devaluing every existing holder) or blocks all transfers/withdraws. Bound = total wBETH supply at risk = totalSupply × price.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.162Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.162Z"
+          }
+        },
+        {
+          "functionName": "upgradeTo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "full-impl-swap",
+              "description": "Worst case: replace impl with one that mints infinite wBETH (devaluing every existing holder) or blocks all transfers/withdraws. Bound = total wBETH supply at risk = totalSupply × price.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.164Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.164Z"
+          }
+        },
+        {
+          "functionName": "upgradeToAndCall",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "full-impl-swap",
+              "description": "Worst case: replace impl with one that mints infinite wBETH (devaluing every existing holder) or blocks all transfers/withdraws. Bound = total wBETH supply at risk = totalSupply × price.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.169Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.169Z"
+          }
+        }
+      ]
+    },
+    "eth:0x79973d557CD9dd87eb61E250cc2572c990e20196": {
+      "functions": [
+        {
+          "functionName": "changeAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "full-impl-swap",
+              "description": "Worst case: replace impl with one that mints infinite wBETH (devaluing every existing holder) or blocks all transfers/withdraws. Bound = total wBETH supply at risk = totalSupply × price.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.172Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.172Z"
+          }
+        },
+        {
+          "functionName": "upgradeTo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "full-impl-swap",
+              "description": "Worst case: replace impl with one that mints infinite wBETH (devaluing every existing holder) or blocks all transfers/withdraws. Bound = total wBETH supply at risk = totalSupply × price.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.174Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.174Z"
+          }
+        },
+        {
+          "functionName": "upgradeToAndCall",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.$admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "full-impl-swap",
+              "description": "Worst case: replace impl with one that mints infinite wBETH (devaluing every existing holder) or blocks all transfers/withdraws. Bound = total wBETH supply at risk = totalSupply × price.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.176Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.176Z"
+          }
+        }
+      ]
+    },
+    "eth:0x9E021c9607bD3ADB7424D3b25a2D35763ff180BB": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pauser"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "lock-bound",
+              "description": "pause halts wBETH transfer/mint/burn/deposit/requestWithdrawEth. Bound = total wBETH supply (whose holders cannot exit until unpause).",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.178Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.178Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pauser"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.180Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.180Z"
+          }
+        },
+        {
+          "functionName": "updatePauser",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.182Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.182Z"
+          }
+        },
+        {
+          "functionName": "blacklist",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.blacklister"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-user freeze",
+              "description": "blacklist sets blacklisted[account]=true; modifier notBlacklisted blocks transfer/mint/burn for the targeted address. Bound = the targeted holder's wBETH balance, never spreads to other users."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.200Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.200Z"
+          }
+        },
+        {
+          "functionName": "unBlacklist",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.blacklister"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "unblock only",
+              "description": "Reverses blacklist; only restores access for previously frozen addresses, never extracts funds."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.203Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.203Z"
+          }
+        },
+        {
+          "functionName": "updateBlacklister",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.185Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.185Z"
+          }
+        },
+        {
+          "functionName": "configureMinter",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.masterMinter"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "mint-devaluation",
+              "description": "Worst case: configureMinter grants infinite allowance to attacker who then mints unlimited wBETH, devaluing every existing holder. Bound = total wBETH supply (and therefore aggregate market cap) at risk of devaluation.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.181Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.181Z"
+          }
+        },
+        {
+          "functionName": "removeMinter",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.masterMinter"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "minter revocation",
+              "description": "Sets minters[minter]=false, minterAllowed[minter]=0. Removes ability to mint; cannot extract or affect existing balances."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.207Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.207Z"
+          }
+        },
+        {
+          "functionName": "updateMasterMinter",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "mint-devaluation",
+              "description": "Worst case: configureMinter grants infinite allowance to attacker who then mints unlimited wBETH, devaluing every existing holder. Bound = total wBETH supply (and therefore aggregate market cap) at risk of devaluation.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.183Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.183Z"
+          }
+        },
+        {
+          "functionName": "mint",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.masterMinter"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "mint-devaluation",
+              "description": "Worst case: configureMinter grants infinite allowance to attacker who then mints unlimited wBETH, devaluing every existing holder. Bound = total wBETH supply (and therefore aggregate market cap) at risk of devaluation.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.179Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.179Z"
+          }
+        },
+        {
+          "functionName": "burn",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.masterMinter"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "self-burn only",
+              "description": "burns msg.sender's own balance; cannot affect other users' wBETH."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.211Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.211Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.197Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.197Z"
+          }
+        },
+        {
+          "functionName": "rescueERC20",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.rescuer"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "disabled-by-state",
+              "description": "rescuer is set to address(0) — onlyRescuer always reverts. Even if updateRescuer re-enables, only ERC-20s mistakenly sent to the contract are at risk; ETH balance and wBETH supply are untouched."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.213Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.213Z"
+          }
+        },
+        {
+          "functionName": "updateRescuer",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.188Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.188Z"
+          }
+        },
+        {
+          "functionName": "updateOracle",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "oracle-replacement",
+              "description": "Worst case: swap oracle to an attacker-controlled contract that pumps exchangeRate, allowing wBETH holders to redeem inflated ETH (or making protocol insolvent). Bound = total wBETH supply since the entire user base is exposed to exchange-rate manipulation.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.186Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.186Z"
+          }
+        },
+        {
+          "functionName": "updateExchangeRate",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.oracle"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "rate-limited",
+              "description": "Per-caller allowance/interval gate per-call exchange-rate change. require(exchangeRateChange <= allowances[msg.sender]). The cap value is total wBETH supply since exchange-rate manipulation devalues every holder.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.191Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.191Z"
+          }
+        },
+        {
+          "functionName": "updateEthReceiver",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.192Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.192Z"
+          }
+        },
+        {
+          "functionName": "updateOperator",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.194Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.194Z"
+          }
+        },
+        {
+          "functionName": "supplyEth",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "deposits to self",
+              "description": "Operator sends ETH to the contract; payable function only adds to contract balance, no extraction."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.218Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.218Z"
+          }
+        },
+        {
+          "functionName": "moveToStakingAddress",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operator"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.221Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.221Z"
+          }
+        },
+        {
+          "functionName": "moveToUnwrapAddress",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "internal funding only",
+              "description": "Routes contract ETH to UnwrapTokenV1ETH (system-fixed via _UNWRAP_ETH_ADDRESS constant) to fund withdrawals. Cannot extract to arbitrary destinations."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.223Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.223Z"
+          }
+        }
+      ]
+    },
+    "eth:0x542059d658624DF6452b22B10302A15a6AB59f10": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pauser"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "withdraw-lock",
+              "description": "pause halts claimWithdraw; pending withdraw requests cannot be claimed until unpause. Bound = ETH currently held in the contract awaiting allocation/claim."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.225Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.225Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pauser"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.227Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.227Z"
+          }
+        },
+        {
+          "functionName": "updatePauser",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.229Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.229Z"
+          }
+        },
+        {
+          "functionName": "blacklist",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.blacklister"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-user freeze",
+              "description": "Blacklisted addresses cannot call claimWithdraw on this contract. Bound = the targeted user's pending withdraw amount."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.238Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.238Z"
+          }
+        },
+        {
+          "functionName": "unBlacklist",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.blacklister"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "unblock only",
+              "description": "Reverses blacklist on the unwrap contract; restores claim ability for previously frozen users."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.239Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.239Z"
+          }
+        },
+        {
+          "functionName": "updateBlacklister",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.231Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.231Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.233Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.233Z"
+          }
+        },
+        {
+          "functionName": "requestWithdraw",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.WBETH_TOKEN_ADDRESS"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "system-callback",
+              "description": "Only callable by the immutable WBETH_TOKEN_ADDRESS (wBETH proxy) when a user calls requestWithdrawEth. Records the withdraw request; no extraction by the caller."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.257Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.257Z"
+          }
+        },
+        {
+          "functionName": "moveFromWrapContract",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.WBETH_TOKEN_ADDRESS"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "system-funding",
+              "description": "Only callable by the immutable WBETH_TOKEN_ADDRESS to forward ETH from the wrap contract; payable-add-only, no extraction."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.259Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.259Z"
+          }
+        },
+        {
+          "functionName": "rechargeFromRechargeAddress",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.rechargeAddress"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "operational funding",
+              "description": "rechargeAddress sends ETH into the contract to top up withdrawal liquidity; payable-add-only, no extraction."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.261Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.261Z"
+          }
+        },
+        {
+          "functionName": "allocate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operatorAddress"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "queue-bookkeeping",
+              "description": "Marks pending withdraw requests as allocated (allowing future claimWithdraw); does not transfer funds."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.255Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.255Z"
+          }
+        },
+        {
+          "functionName": "setNewOperator",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.235Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.235Z"
+          }
+        },
+        {
+          "functionName": "setRechargeAddress",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "no extraction path",
+              "description": "rechargeAddress can only call rechargeFromRechargeAddress (payable-add-only). Changing it grants funding-input rights, not extraction rights."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.249Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.249Z"
+          }
+        },
+        {
+          "functionName": "setEthBackAddress",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.247Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.247Z"
+          }
+        },
+        {
+          "functionName": "setLockTime",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operatorAddress"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "claim-DoS via time",
+              "description": "Operator can set lockTime arbitrarily high (require(_newLockTime >= MIN_LOCK_TIME=2 days), no upper bound). Pending withdraw requests must wait triggerTime + lockTime; cannot drain funds, but indefinitely defers user exits."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.242Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.242Z"
+          }
+        },
+        {
+          "functionName": "setNewEthStaked",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operatorAddress"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "metadata-only",
+              "description": "Sets ethStaked field that is only emitted in events; never read by any fund-moving path."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.252Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.252Z"
+          }
+        },
+        {
+          "functionName": "moveToBackAddress",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operatorAddress"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "surplus-only",
+              "description": "require(_amount <= availableAllocateAmount - needEthAmount) — only surplus ETH (after covering all pending withdraw requests) can be moved. Pending requests are protected by accounting."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.244Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.244Z"
+          }
+        }
+      ]
+    },
+    "eth:0x81720695e43A39C52557Ce6386feB3FAAC215f06": {
+      "functions": [
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.262Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.262Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.264Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.264Z"
+          }
+        },
+        {
+          "functionName": "configureCaller",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.266Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.266Z"
+          }
+        },
+        {
+          "functionName": "removeCaller",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "caller revocation",
+              "description": "Removes a caller's ability to call updateExchangeRate; cannot extract or affect existing balances."
+            }
+          ],
+          "timestamp": "2026-05-06T10:18:34.268Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:18:34.268Z"
+          }
+        },
+        {
+          "functionName": "updateExchangeRate",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "rate-limited",
+              "description": "Per-caller allowance/interval gate per-call exchange-rate change. require(exchangeRateChange <= allowances[msg.sender]). The cap value is total wBETH supply since exchange-rate manipulation devalues every holder.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T10:20:58.188Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:20:58.188Z"
+          }
+        }
+      ]
+    }
+  }
+}

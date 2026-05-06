@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../../discovery/schemas/config.v2.schema.json",
+  "name": "binance-staked-eth",
+  "import": ["../globalConfig.jsonc"],
+  "initialAddresses": [
+    "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+  ],
+  "maxAddresses": 100,
+  "maxDepth": 3,
+  "overrides": {
+    "eth:0x79973d557CD9dd87eb61E250cc2572c990e20196": {
+      "ignoreMethods": ["getWithdrawRequests"],
+      "ignoreInWatchMode": [
+        "availableAllocateAmount",
+        "ethStaked",
+        "getNeedRechargeEthAmount",
+        "needEthAmount",
+        "nextIndex",
+        "startAllocatedEthIndex"
+      ]
+    },
+    "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1": {
+      "ignoreInWatchMode": [
+        "totalSupply"
+      ]
+    }
+  }
+}

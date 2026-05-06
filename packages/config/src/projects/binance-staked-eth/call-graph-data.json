@@ -1,0 +1,61 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-06T10:15:19.555Z",
+  "contracts": {
+    "eth:0x79973d557CD9dd87eb61E250cc2572c990e20196": {
+      "address": "eth:0x79973d557CD9dd87eb61E250cc2572c990e20196",
+      "name": "UnwrapTokenV1ETH",
+      "externalCalls": [],
+      "generatedAt": "2026-05-06T10:15:19.537Z"
+    },
+    "eth:0x81720695e43A39C52557Ce6386feB3FAAC215f06": {
+      "address": "eth:0x81720695e43A39C52557Ce6386feB3FAAC215f06",
+      "name": "ExchangeRateUpdater",
+      "externalCalls": [],
+      "generatedAt": "2026-05-06T10:15:19.540Z"
+    },
+    "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1": {
+      "address": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+      "name": "WrapTokenV3ETH",
+      "externalCalls": [
+        {
+          "callerFunction": "moveToUnwrapAddress",
+          "storageVariable": "TMP_1466",
+          "interfaceType": "IUnwrapTokenV1",
+          "calledFunction": "moveFromWrapContract",
+          "resolvedAddress": "eth:0x79973d557CD9dd87eb61E250cc2572c990e20196",
+          "resolvedContractName": "UnwrapTokenV1ETH",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "requestWithdrawEth",
+          "storageVariable": "TMP_1454",
+          "interfaceType": "IUnwrapTokenV1",
+          "calledFunction": "requestWithdraw",
+          "resolvedAddress": "eth:0x79973d557CD9dd87eb61E250cc2572c990e20196",
+          "resolvedContractName": "UnwrapTokenV1ETH",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "rescueERC20",
+          "storageVariable": "tokenContract",
+          "interfaceType": "IERC20",
+          "calledFunction": "transfer",
+          "resolvedAddress": "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1",
+          "resolvedContractName": "WrapTokenV3ETH",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": false
+        }
+      ],
+      "generatedAt": "2026-05-06T10:15:19.554Z"
+    }
+  }
+}
