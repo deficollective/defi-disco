@@ -176,6 +176,16 @@ Without (2), upgrade admins on ATokens never accumulate transitive mits from ora
 
 `reviewCompiler.ts` consumes the resolved mitigations directly — it does not compute or filter them itself.
 
+#### Display-time dedup and entity-level aggregation
+
+Two helpers in [`packages/defiscan-frontend/src/pages/review/views/explorer/shared.tsx`](packages/defiscan-frontend/src/pages/review/views/explorer/shared.tsx) implement the rendering side:
+
+- **`mitigationDedupKey(m)`** — the canonical visible-identity key. It mirrors what `MitigationBadge` actually paints on screen: `label:<label>` if a label exists, otherwise one of `delay:<seconds>` / `valueRange:<min>:<max>:<unit>` / `relativeValue:<maxChangePercent>` / `other:<description>`. **`scopedTo` is intentionally excluded** because scope is only ever surfaced in the tooltip, never on the badge itself. As a consequence, two delay mitigations with the same `delaySeconds` but different `scopedTo` admins now collapse to a single badge — earlier behavior preserved them as separate badges, which double-counted visually.
+
+- **`aggregateMitigationsByImpact(functions)`** — the canonical entity-level utility. Used by every place that renders mitigation badges above an admin or dependency's function list (`AdminCards`, `AdminsSection`, `DependencyCards`, `DependenciesSection`, `MitigationsSummary` in explorer tabs). For each candidate function it computes a TVS impact = `directFundsUsd + directTokenValueUsd + Σ min(rc.usd, rc.effectiveCapUsd)` over `fundsAtRisk` reachable contracts. Mitigations whose only source functions all evaluate to $0 impact are dropped (otherwise no-op functions like `getReserveAToken` would parade their `future-only` mitigation up to the admin headline). The survivors are deduped via `mitigationDedupKey` and sorted by descending max-source-function impact, so the most informative badges land first when the overflow slicer trims for narrow cells.
+
+The plain `deduplicateMitigations()` (same key, no impact filter) is retained for the small number of non-aggregated call sites that already work in a per-function context where the impact filter is not appropriate.
+
 ### Impact Cap
 
 A mitigation may carry `impactCap` to bound the maximum potentially impacted TVL of a function. **One unified shape:**
