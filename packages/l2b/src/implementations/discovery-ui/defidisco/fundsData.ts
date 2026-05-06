@@ -34,6 +34,7 @@ const DISCOVERY_TO_DEBANK_CHAIN: Record<string, string> = {
   blast: 'blast',
   scroll: 'scrl',
   zksync: 'era',
+  bnb: 'bsc',
   // Add more as needed
 }
 
