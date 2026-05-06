@@ -4,24 +4,44 @@
   "import": ["../globalConfig.jsonc"],
   "initialAddresses": [
     "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+    "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+    "eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840",
+    "eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3",
+    "eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56",
     "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
-    "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94"
+    "eth:0x1B0e765F6224C21223AeA2af16c1C46E38885a40"
   ],
   "defidisco": { "scanPermissions": false },
   "names": {
     "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3": "cUSDCv3",
-    "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3": "cWETHv3",
-    "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94": "cUSDTv3"
+    "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94": "cWETHv3",
+    "eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840": "cUSDTv3",
+    "eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3": "cwstETHv3",
+    "eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56": "cUSDSv3",
+    "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3": "ConfiguratorProxy",
+    "eth:0x1B0e765F6224C21223AeA2af16c1C46E38885a40": "CometRewards"
   },
   "overrides": {
     "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3": {
       "description": "Compound v3 USDC market - main lending pool for USDC with enhanced capital efficiency"
     },
-    "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3": {
+    "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94": {
       "description": "Compound v3 WETH market - lending pool for WETH"
     },
-    "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94": {
+    "eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840": {
       "description": "Compound v3 USDT market - lending pool for USDT"
+    },
+    "eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3": {
+      "description": "Compound v3 wstETH market - lending pool for wstETH"
+    },
+    "eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56": {
+      "description": "Compound v3 USDS market - lending pool for USDS"
+    },
+    "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3": {
+      "description": "Configurator proxy - stores per-market parameters consumed by ProxyAdmin.deployAndUpgradeTo"
+    },
+    "eth:0x1B0e765F6224C21223AeA2af16c1C46E38885a40": {
+      "description": "CometRewards - distributes COMP rewards across Comet markets"
     },
     "eth:0x309a862bbC1A00e45506cB8A802D1ff10004c8C0": {
       "ignoreMethods": [

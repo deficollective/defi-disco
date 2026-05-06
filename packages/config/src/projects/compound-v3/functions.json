@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-03-19T09:51:00.883Z",
+  "lastModified": "2026-05-06T00:00:00.000Z",
   "contracts": {
     "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2": {
       "functions": [
@@ -1157,6 +1157,198 @@
             "author": "unknown",
             "date": "2026-03-17T10:29:01.311Z"
           }
+        }
+      ]
+    },
+    "eth:0xb979f2Ef3b117082a899Bc4Ed01987BEeF184cd9": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            },
+            {
+              "path": "$self.pauseGuardian"
+            }
+          ],
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "withdrawReserves",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "approveThis",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.governor"
+            }
+          ],
+          "delay": {
+            "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+            "fieldName": "delay"
+          },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T00:00:00.000Z"
+          }
+        }
+      ]
+    },
+    "eth:0xFe36A00669bB4b5834A2F3E2b9A2908fEe21d141": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            { "path": "$self.governor" },
+            { "path": "$self.pauseGuardian" }
+          ],
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        },
+        {
+          "functionName": "withdrawReserves",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [{ "path": "$self.governor" }],
+          "delay": { "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925", "fieldName": "delay" },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        },
+        {
+          "functionName": "approveThis",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [{ "path": "$self.governor" }],
+          "delay": { "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925", "fieldName": "delay" },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        }
+      ]
+    },
+    "eth:0x301A653e3d4FCFCE57957315594FAb5b780caD2b": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            { "path": "$self.governor" },
+            { "path": "$self.pauseGuardian" }
+          ],
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        },
+        {
+          "functionName": "withdrawReserves",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [{ "path": "$self.governor" }],
+          "delay": { "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925", "fieldName": "delay" },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        },
+        {
+          "functionName": "approveThis",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [{ "path": "$self.governor" }],
+          "delay": { "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925", "fieldName": "delay" },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        }
+      ]
+    },
+    "eth:0x6989484971C4297f2CCEf9B1C4c2FD4Cb83Aee9B": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            { "path": "$self.governor" },
+            { "path": "$self.pauseGuardian" }
+          ],
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        },
+        {
+          "functionName": "withdrawReserves",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [{ "path": "$self.governor" }],
+          "delay": { "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925", "fieldName": "delay" },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        },
+        {
+          "functionName": "approveThis",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [{ "path": "$self.governor" }],
+          "delay": { "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925", "fieldName": "delay" },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        }
+      ]
+    },
+    "eth:0x41bcBe31604aAbB5B5699fffC4A9FA0E0692e055": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            { "path": "$self.governor" },
+            { "path": "$self.pauseGuardian" }
+          ],
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        },
+        {
+          "functionName": "withdrawReserves",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [{ "path": "$self.governor" }],
+          "delay": { "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925", "fieldName": "delay" },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
+        },
+        {
+          "functionName": "approveThis",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [{ "path": "$self.governor" }],
+          "delay": { "contractAddress": "eth:0x6d903f6003cca6255D85CcA4D3B5E5146dC33925", "fieldName": "delay" },
+          "timestamp": "2026-05-06T00:00:00.000Z",
+          "lastChangedBy": { "author": "unknown", "date": "2026-05-06T00:00:00.000Z" }
         }
       ]
     }

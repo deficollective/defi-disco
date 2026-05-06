@@ -1,3 +1,165 @@
+Generated with discovered.json: 0xfd14f20b4a440b96781f3578eb17dbfc73d77652
+
+# Diff at Wed, 06 May 2026 11:20:56 GMT:
+
+- author: emduc (<emilien.duc@gmail.com>)
+- comparing to: main@5e2ca8d4fbae7fb84e5d1a5feb1c15a9311cc87d block: 1777972650
+- current timestamp: 1777972650
+
+## Description
+
+Discovery rerun on the same block number with only config-related changes.
+
+## Config/verification related changes
+
+Following changes come from updates made to the config file,
+or/and contracts becoming verified, not from differences found during
+discovery. Values are for block 1777972650 (main branch discovery), not current.
+
+```diff
+    contract CometProxyAdmin (eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779) {
+    +++ description: None
+      receivedPermissions.1:
++        {"permission":"upgrade","from":"eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840","role":"admin"}
+      receivedPermissions.2:
++        {"permission":"upgrade","from":"eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3","role":"admin"}
+      receivedPermissions.3:
++        {"permission":"upgrade","from":"eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56","role":"admin"}
+    }
+```
+
+```diff
+    contract ConfiguratorProxy (eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3) {
+    +++ description: Configurator proxy - stores per-market parameters consumed by ProxyAdmin.deployAndUpgradeTo
+      name:
+-        "cWETHv3"
++        "ConfiguratorProxy"
+      description:
+-        "Compound v3 WETH market - lending pool for WETH"
++        "Configurator proxy - stores per-market parameters consumed by ProxyAdmin.deployAndUpgradeTo"
+    }
+```
+
+```diff
+    contract cWETHv3 (eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94) {
+    +++ description: Compound v3 WETH market - lending pool for WETH
+      name:
+-        "cUSDTv3"
++        "cWETHv3"
+      description:
+-        "Compound v3 USDT market - lending pool for USDT"
++        "Compound v3 WETH market - lending pool for WETH"
+    }
+```
+
+```diff
++   Status: CREATED
+    contract CometExtAssetList (eth:0x055E53F50B84FD91c4Be367220EFD36c3d091E1f)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CometRewards (eth:0x1B0e765F6224C21223AeA2af16c1C46E38885a40)
+    +++ description: CometRewards - distributes COMP rewards across Comet markets
+```
+
+```diff
++   Status: CREATED
+    contract AssetList (eth:0x23AF5804560d2e066A9AE422eBb3dB08Bb5E5B81)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract AssetList (eth:0x3551C50F84f1B528170E488d1cf03023EdC86b98)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract cUSDTv3 (eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840)
+    +++ description: Compound v3 USDT market - lending pool for USDT
+```
+
+```diff
++   Status: CREATED
+    contract cwstETHv3 (eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3)
+    +++ description: Compound v3 wstETH market - lending pool for wstETH
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0x3E7d1eAB13ad0104d2750B8863b489D65364e32D)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract cUSDSv3 (eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56)
+    +++ description: Compound v3 USDS market - lending pool for USDS
+```
+
+```diff
++   Status: CREATED
+    contract ConstantPriceFeed (eth:0x72e9B6F907365d76C6192aD49C0C5ba356b7Fa48)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Wrapped liquid staked Ether 2.0 Token (eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract AssetList (eth:0xaE2ee35ECf51dD9853224b20E8E528663c3BAFD6)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract MultiSigWallet (eth:0xC6CDE7C39eB2f0F0095F41570af89eFC2C1Ea828)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CometExtAssetList (eth:0xd4eC911B8FD79139736950235a93d3ea9c3f68ed)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract TetherToken (eth:0xd697A61D5FB4e076125e0bE647f902b02bb3A0F1)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract Tether USD Token (eth:0xdAC17F958D2ee523a2206206994597C13D831ec7)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract USDS Stablecoin Token (eth:0xdC035D45d973E3EC169d2276DDab16f1e407384F)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract CometExtAssetList (eth:0xe3458a0BdBd5A413d3731595C5Eb7C4CD6a14DD1)
+    +++ description: None
+```
+
+```diff
++   Status: CREATED
+    contract EACAggregatorProxy (eth:0xfF30586cD0F29eD462364C7e81375FC0C71219b1)
+    +++ description: None
+```
+
 Generated with discovered.json: 0xf998151a4265735b8864a18e4b9e7c26f7b0bd07
 
 # Diff at Mon, 16 Mar 2026 12:40:16 GMT:
