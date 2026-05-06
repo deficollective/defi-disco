@@ -98,6 +98,11 @@ export interface CompiledReview {
     linesOfCode?: number
     verifiedContractCount?: number
     coverage?: number
+    /** Percentage (0-100) of protocol funds that are on-chain and therefore
+     *  verifiable from on-chain data alone. Currently hardcoded to 100;
+     *  future iterations should derive this from funds-data.json once
+     *  off-chain holdings are tracked. */
+    fundsVerifiability?: number
   }
 
   admins: CompiledAdmin[]
@@ -143,6 +148,8 @@ export interface CompiledAdmin {
   totalDirectTokenValue: number
   totalReachableCapital: number
   totalReachableTokenValue: number
+  /** Multisig signing threshold (Safe `$threshold`). Only set for multisig admins. */
+  multisigThreshold?: number
 }
 
 export interface CompiledAdminFunction {
@@ -527,6 +534,7 @@ export class ReviewCompiler {
         totalDirectTokenValue: admin.totalDirectTokenValue,
         totalReachableCapital: admin.totalReachableCapital,
         totalReachableTokenValue: admin.totalReachableTokenValue,
+        multisigThreshold: admin.multisigThreshold,
       })
     }
 
@@ -918,6 +926,9 @@ export class ReviewCompiler {
         ),
         linesOfCode,
         ...this.computeCoverage(discovery),
+        // TODO: derive from funds-data.json once off-chain holdings are tracked.
+        // Currently 100% — all tracked funds are assumed on-chain verifiable.
+        fundsVerifiability: 100,
       },
 
       admins,

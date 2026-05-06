@@ -81,6 +81,9 @@ export interface AdminEntry {
   totalReachableCapital: number
   totalReachableTokenValue: number
   uniqueContractsAffected: number
+  /** Multisig signing threshold from discovered.json `$threshold`. Only set
+   *  when the admin contract is a multisig (Safe / GnosisSafe). */
+  multisigThreshold?: number
 }
 
 export interface AdminFunctionEntry {
@@ -963,6 +966,17 @@ export class ProjectAnalysis {
         }
       })
 
+      // Read multisig threshold from discovered.json values ($threshold is set
+      // by Gnosis Safe templates). Only populated when present and numeric.
+      const adminEntry = this.discovered.entries?.find((e: any) =>
+        addressesEqual(e.address, admin.adminAddress),
+      )
+      const rawThreshold = adminEntry?.values?.$threshold
+      const multisigThreshold =
+        typeof rawThreshold === 'number' && Number.isFinite(rawThreshold)
+          ? rawThreshold
+          : undefined
+
       admins.push({
         address: admin.adminAddress,
         name: admin.adminName,
@@ -976,6 +990,7 @@ export class ProjectAnalysis {
         totalReachableCapital: capitalData?.totalReachableCapital ?? 0,
         totalReachableTokenValue: capitalData?.totalReachableTokenValue ?? 0,
         uniqueContractsAffected: capitalData?.uniqueContractsAffected ?? 0,
+        multisigThreshold,
       })
     }
 

@@ -1,5 +1,6 @@
 import type {
   CompiledAdmin,
+  CompiledDependency,
   CompiledGovernanceDuration,
   CompiledReview,
 } from '../types'
@@ -10,74 +11,76 @@ const HOUR = 3_600
 // Trace capital under $1 USD is ignored — upstream capital math occasionally
 // leaks sub-cent floating-point dust (e.g. Lido Oracle Committee EOAs show
 // ~$3e-5 reachable capital each), which should not trigger EOA detection or
-// inflate governance impact share.
+// inflate impact share.
 const DUST_USD = 1
 
 function adminImpact(a: CompiledAdmin): number {
   return (a.totalReachableCapital ?? 0) + (a.totalReachableTokenValue ?? 0)
 }
 
-function hasMeaningfulImpact(a: CompiledAdmin): boolean {
-  return adminImpact(a) >= DUST_USD
+function dependencyImpact(d: CompiledDependency): number {
+  return (d.totalFundsAtRisk ?? 0) + (d.totalTokenValueAtRisk ?? 0)
 }
 
-function computeVerifiability(review: CompiledReview): number {
-  const { totals, audits = [] } = review
-  const coverage = totals.coverage
-  const loc = totals.linesOfCode ?? 0
-  const auditCount = audits.length
-  const maxBounty = audits.reduce((m, a) => Math.max(m, a.bounty ?? 0), 0)
+function clamp01(n: number): number {
+  if (!Number.isFinite(n)) return 1
+  if (n < 0) return 0
+  if (n > 1) return 1
+  return n
+}
 
-  const coverageScore =
-    coverage === undefined
-      ? 40
-      : coverage >= 1
-        ? 50
-        : coverage >= 0.95
-          ? 40
-          : coverage >= 0.9
-            ? 20
-            : 5
+// ---------------------------------------------------------------------------
+// Weight functions: 0 = perfect mitigation, 1 = no mitigation.
+// Combined multiplicatively across independent mitigations (setup × delay ×
+// concentration), so any one strong lever can dominate.
+// ---------------------------------------------------------------------------
 
-  const auditScore =
-    auditCount === 0
-      ? 0
-      : auditCount === 1
-        ? 10
-        : auditCount === 2
-          ? 18
-          : auditCount === 3
-            ? 22
-            : 25
+function setupWeight(admin: CompiledAdmin): number {
+  if (admin.adminType === 'EOA' || admin.adminType === 'EOAPermissioned') {
+    return 1.0
+  }
+  if (admin.adminType === 'Multisig' && admin.multisigThreshold !== undefined) {
+    const t = admin.multisigThreshold
+    if (t >= 5) return 0.0
+    if (t === 4) return 0.25
+    if (t === 3) return 0.5
+    if (t === 2) return 0.75
+    return 1.0 // T = 1 (or below) — single signer is no better than EOA
+  }
+  // Other admin types (Upgradeable, Timelock, Immutable, …) get no setup
+  // credit — only delay-based mitigations protect them.
+  return 1.0
+}
 
-  const locScore =
-    loc === 0
-      ? 8
-      : loc <= 5000
-        ? 15
-        : loc <= 10000
-          ? 12
-          : loc <= 20000
-            ? 8
-            : loc <= 50000
-              ? 4
-              : 1
+function delayWeightFromSeconds(seconds: number): number {
+  if (seconds >= 30 * DAY) return 0.0
+  if (seconds >= 7 * DAY) return 0.1
+  if (seconds >= 3 * DAY) return 0.3
+  if (seconds >= 1 * DAY) return 0.5
+  if (seconds > 0) return 0.8
+  return 1.0
+}
 
-  const bountyScore =
-    maxBounty === 0
-      ? 0
-      : maxBounty < 100_000
-        ? 2
-        : maxBounty < 500_000
-          ? 5
-          : maxBounty < 1_000_000
-            ? 7
-            : 10
+/**
+ * Minimum effective delay an admin is subject to across its functions.
+ * For each function: take the strongest delay mitigation (max delaySeconds).
+ * Across functions: take the weakest path (min) — admin can pick the easiest
+ * route. A function with no `delay` mitigation contributes 0.
+ */
+function adminMinDelaySeconds(admin: CompiledAdmin): number {
+  let min = Infinity
+  for (const fn of admin.functions ?? []) {
+    const fnDelay = (fn.mitigations ?? [])
+      .filter((m) => m.type === 'delay')
+      .reduce((acc, m) => Math.max(acc, m.delaySeconds ?? 0), 0)
+    if (fnDelay < min) min = fnDelay
+    if (min === 0) return 0
+  }
+  return Number.isFinite(min) ? min : 0
+}
 
-  return Math.min(
-    100,
-    Math.round(coverageScore + auditScore + locScore + bountyScore),
-  )
+function adminWeight(admin: CompiledAdmin): number {
+  return setupWeight(admin) * delayWeightFromSeconds(adminMinDelaySeconds(admin))
 }
 
 const FIXED_UNIT_SECONDS: Record<string, number> = {
@@ -109,95 +112,132 @@ function durationSeconds(d: CompiledGovernanceDuration | undefined): number {
   return 0
 }
 
-function computeGovernance(review: CompiledReview): number {
-  const { admins, totals, governance } = review
-  const tvs = totals.totalCapitalAtRisk + (totals.totalTokenValue ?? 0)
+function hasMeaningfulImpact(impact: number): boolean {
+  return impact >= DUST_USD
+}
 
-  // Without a documented governance process there's nothing to score —
-  // return a neutral 55 (researcher hasn't filled in governance.json yet,
-  // or the protocol genuinely has no governance layer). This is preferable
-  // to either rewarding (95) or penalising (low) the absence.
-  if (governance === undefined) return 55
+// Admin types that represent an actual control surface (a human signer or an
+// upgradeable contract whose ownership matters). Mirrors the same set used in
+// reviewCompiler.ts when building the per-function risk view, so the radar
+// stays consistent with what the report shows. Immutable/Revoked/Token/etc.
+// contracts can hold permissions but aren't a control risk on their own.
+const MEANINGFUL_ADMIN_TYPES = new Set([
+  'EOA',
+  'EOAPermissioned',
+  'Multisig',
+  'Upgradeable',
+])
 
-  const govAdmins = admins.filter((a) => a.isGovernance && hasMeaningfulImpact(a))
+function isMeaningfulAdmin(a: CompiledAdmin): boolean {
+  return MEANINGFUL_ADMIN_TYPES.has(a.adminType) || a.isGovernance
+}
 
-  const execScore = governance.voteExecution === 'onchain' ? 35 : 10
+// ---------------------------------------------------------------------------
+// Per-dimension scoring
+// riskPct = Σ entryTVS × weight / protocolTVS  (can exceed 1)
+// radarValue = round((1 − clamp01(riskPct)) × 100)
+// ---------------------------------------------------------------------------
 
-  const delay =
-    durationSeconds(governance?.proposalPeriod) +
-    durationSeconds(governance?.executionDelay)
-  const delayScore =
-    delay >= 10 * DAY
-      ? 35
-      : delay >= 7 * DAY
-        ? 28
-        : delay >= 3 * DAY
-          ? 18
-          : delay >= 1 * DAY
-            ? 10
-            : delay >= 12 * HOUR
-              ? 5
-              : 2
+function protocolTvs(review: CompiledReview): number {
+  return (
+    (review.totals.totalCapitalAtRisk ?? 0) +
+    (review.totals.totalTokenValue ?? 0)
+  )
+}
 
-  const impactAdmins =
-    govAdmins.length > 0 ? govAdmins : admins.filter(hasMeaningfulImpact)
-  const govImpact = impactAdmins.reduce((s, a) => s + adminImpact(a), 0)
-  // Admins can reach overlapping contracts, so raw sums may exceed TVS.
-  // Cap share at 1.0 — the tier boundaries are what matters, not the ratio.
-  const share = Math.min(1, tvs > 0 ? govImpact / tvs : govImpact > 0 ? 1 : 0)
-  const impactScore =
-    share <= 0.1 ? 30 : share <= 0.3 ? 22 : share <= 0.6 ? 12 : 5
-
-  return Math.min(100, Math.round(execScore + delayScore + impactScore))
+function radarFromRisk(riskPct: number): number {
+  return Math.round((1 - clamp01(riskPct)) * 100)
 }
 
 function computeControl(review: CompiledReview): number {
-  const { admins, totals } = review
-  const tvs = totals.totalCapitalAtRisk + (totals.totalTokenValue ?? 0)
-
-  const impacting = admins.filter(hasMeaningfulImpact)
-  if (impacting.length === 0) return 100
-
-  const hasEOA = impacting.some(
-    (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned',
+  const tvs = protocolTvs(review)
+  // Pool: non-governance admins of a controllable type, with meaningful impact.
+  // `Immutable` / `Revoked` / `Token` etc. contracts can hold permissions but
+  // aren't a real control surface — exclude them so they don't dominate risk.
+  const pool = review.admins.filter(
+    (a) =>
+      !a.isGovernance &&
+      isMeaningfulAdmin(a) &&
+      hasMeaningfulImpact(adminImpact(a)),
   )
-  if (hasEOA) return 25
+  if (pool.length === 0) return 100
+  if (tvs <= 0) return 0
+  const weighted = pool.reduce((s, a) => s + adminImpact(a) * adminWeight(a), 0)
+  return radarFromRisk(weighted / tvs)
+}
 
-  const multisigs = impacting.filter((a) => a.adminType === 'Multisig')
-  if (multisigs.length > 0) {
-    const multisigImpact = multisigs.reduce((s, a) => s + adminImpact(a), 0)
-    const share = tvs > 0 ? multisigImpact / tvs : 1
-    return share < 0.3 ? 75 : 50
-  }
+function computeGovernance(review: CompiledReview): number {
+  const { admins, governance } = review
+  // Without a documented governance process there's nothing to score —
+  // return a neutral 55 (researcher hasn't filled in governance.json yet,
+  // or the protocol genuinely has no governance layer).
+  if (governance === undefined) return 55
 
-  return 80
+  const tvs = protocolTvs(review)
+  const pool = admins.filter(
+    (a) => a.isGovernance && hasMeaningfulImpact(adminImpact(a)),
+  )
+  if (pool.length === 0) return 100
+  if (tvs <= 0) return 0
+
+  // Governance formula differs from admin/dependency: sum reachable TVS
+  // across governance admins, normalize against protocol TVS, cap the share
+  // at 100% before applying weight. This avoids over-counting when several
+  // governance contracts (Executor, PayloadsController, …) each independently
+  // reach the same funds — overlap raises the raw sum above TVS but the cap
+  // keeps the score bounded.
+  const sumImpact = pool.reduce((s, a) => s + adminImpact(a), 0)
+  const cappedShare = Math.min(1, sumImpact / tvs)
+
+  // Governance weight: delay × concentration. Concentration data isn't
+  // available yet, so it's pinned at 1.0 (worst) — only delay reduces risk.
+  const totalDelay =
+    durationSeconds(governance.proposalPeriod) +
+    durationSeconds(governance.executionDelay)
+  const concentrationWeight = 1.0
+  const weight = delayWeightFromSeconds(totalDelay) * concentrationWeight
+
+  return radarFromRisk(cappedShare * weight)
+}
+
+function computeDependencies(review: CompiledReview): number {
+  const tvs = protocolTvs(review)
+  const pool = review.dependencies.filter((d) =>
+    hasMeaningfulImpact(dependencyImpact(d)),
+  )
+  if (pool.length === 0) return 100
+  if (tvs <= 0) return 0
+  // No mitigations modeled for dependencies yet — weight = 1 for every entry.
+  const weighted = pool.reduce((s, d) => s + dependencyImpact(d), 0)
+  return radarFromRisk(weighted / tvs)
+}
+
+function computeVerifiability(review: CompiledReview): number {
+  const { coverage, fundsVerifiability } = review.totals
+  // Both inputs are 0..100 percentages. Combined verifiability is the product
+  // of code-side coverage and on-chain funds verifiability. If coverage is
+  // missing (compiler hasn't run), treat as 0 — no claim of verifiability.
+  if (coverage === undefined) return 0
+  const fv = fundsVerifiability ?? 100
+  return Math.round((coverage * fv) / 100)
+}
+
+function computeAccess(review: CompiledReview): number {
+  const frontendCount = (review.resources ?? []).filter(
+    (r) => r.type === 'frontend',
+  ).length
+  if (frontendCount === 0) return 20
+  if (frontendCount === 1) return 50
+  if (frontendCount <= 3) return 75
+  return 100
 }
 
 export function deriveRadarData(review: CompiledReview) {
-  const { dependencies, totals, resources = [] } = review
-
-  const depCount = dependencies.length
-  const frontendCount = resources.filter((r) => r.type === 'frontend').length
-
-  const control = computeControl(review)
-  const deps =
-    depCount === 0 ? 100 : depCount <= 2 ? 70 : depCount <= 5 ? 50 : 30
-  const access =
-    frontendCount === 0
-      ? 20
-      : frontendCount === 1
-        ? 50
-        : frontendCount <= 3
-          ? 75
-          : 100
-  const verifiability = computeVerifiability(review)
-  const governance = computeGovernance(review)
-
   return [
-    { axis: 'ADMIN CONTROL', value: control },
-    { axis: 'DEPENDENCIES', value: deps },
-    { axis: 'ACCESS', value: access },
-    { axis: 'VERIFIABILITY', value: verifiability },
-    { axis: 'GOVERNANCE', value: governance },
+    { axis: 'ADMIN CONTROL', value: computeControl(review) },
+    { axis: 'DEPENDENCIES', value: computeDependencies(review) },
+    { axis: 'ACCESS', value: computeAccess(review) },
+    { axis: 'VERIFIABILITY', value: computeVerifiability(review) },
+    { axis: 'GOVERNANCE', value: computeGovernance(review) },
   ]
 }

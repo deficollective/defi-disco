@@ -41,6 +41,8 @@ export interface CompiledReview {
     linesOfCode?: number
     verifiedContractCount?: number
     coverage?: number
+    /** Percentage (0-100) of protocol funds verifiable on-chain. */
+    fundsVerifiability?: number
   }
 
   admins: CompiledAdmin[]
@@ -133,6 +135,8 @@ export interface CompiledAdmin {
   totalDirectTokenValue: number
   totalReachableCapital: number
   totalReachableTokenValue: number
+  /** Multisig signing threshold (Safe `$threshold`). Only set for multisig admins. */
+  multisigThreshold?: number
 }
 
 // Mitigation types for permissioned functions
