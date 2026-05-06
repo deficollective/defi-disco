@@ -1,0 +1,696 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-06T11:46:16.895Z",
+  "contracts": {
+    "bnb:0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73": {
+      "functions": [
+        {
+          "functionName": "setFeeTo",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.feeToSetter"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "fee-redirect-only",
+              "description": "Setting feeTo only redirects PancakeSwap V2's protocol-fee share (~1/8 of LP swap fees, minted via _mintFee on each PancakePair mint/burn) to a different address. LP token reserves in pair contracts cannot be moved by the factory. Existing liquidity providers retain their full deposits and the remaining 7/8 of swap fees they would normally accrue. Pairs continue functioning normally. The multisig (or any new owner) cannot withdraw, pause, or otherwise touch the $1.77B in LP positions."
+            }
+          ],
+          "timestamp": "2026-05-06T10:59:00.876Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:59:00.876Z"
+          }
+        },
+        {
+          "functionName": "setFeeToSetter",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.feeToSetter"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "fee-redirect-only",
+              "description": "Transfers the feeToSetter role to a different address. The only downstream authority this grants is setFeeTo (which only redirects the protocol-fee share — see setFeeTo) and rotating the role again. PancakeSwap V2 pairs are immutable and the factory has no other admin functions, so no path exists from feeToSetter to LP deposits. The $1.77B in LP positions cannot be withdrawn, paused, or upgraded by any holder of this role."
+            }
+          ],
+          "timestamp": "2026-05-06T10:59:00.887Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T10:59:00.887Z"
+          }
+        }
+      ]
+    },
+    "bnb:0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82": {
+      "functions": [
+        {
+          "functionName": "mint(uint256)",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "owner-mint",
+              "description": "MasterChef V1 mints arbitrary CAKE supply via this function (called from updatePool every block to issue 40 CAKE: 10% to devaddr, 90% to syrup pool / MasterChef V2). The mint amount per call is controlled by MasterChef V1 logic (cakePerBlock × elapsed blocks × multiplier), not capped at the CakeToken level."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.245Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.245Z"
+          }
+        },
+        {
+          "functionName": "mint(address,uint256)",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "owner-mint",
+              "description": "Variant of mint that takes a recipient address. Currently only invoked by MasterChef V1; would mint to an arbitrary address if its owner (MasterChef V1) were replaced via CakeToken.transferOwnership."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.248Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.248Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "authority-transfer",
+              "description": "Transfers CakeToken ownership (= mint authority) to an arbitrary address. Currently held by MasterChef V1 (which is itself owned by the MigrationHelper, treated as frozen by DeFiScan). A successful call would grant the new owner uncapped CAKE-mint power."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.250Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.250Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "authority-renounce",
+              "description": "Renounces CakeToken ownership. Permanently disables CAKE minting (since only owner can mint). Considered critical because it would brick MasterChef V1’s 40-CAKE/block emissions stream."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.251Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.251Z"
+          }
+        }
+      ]
+    },
+    "bnb:0x73feaa1eE314F8c655E354234017bE2193C9E24E": {
+      "functions": [
+        {
+          "functionName": "updateMultiplier",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "frozen-owner",
+              "description": "Owner = MigrationHelper, reported by DeFiScan as functionally uncallable. Even if executable, only affects FUTURE CAKE distribution rate per pool (BONUS_MULTIPLIER), not extracting committed funds."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.275Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.275Z"
+          }
+        },
+        {
+          "functionName": "add",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "frozen-owner",
+              "description": "Adds a new pool to MasterChef V1. Owner = MigrationHelper (frozen). Affects future CAKE allocation only; cannot move existing user deposits."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.277Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.277Z"
+          }
+        },
+        {
+          "functionName": "set",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "frozen-owner",
+              "description": "Updates allocation points for an existing MasterChef V1 pool. Owner = MigrationHelper (frozen). Future-only effect on CAKE distribution."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.279Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.279Z"
+          }
+        },
+        {
+          "functionName": "setMigrator",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "frozen-owner-migrator-attack-vector",
+              "description": "Sets the migrator address for V1’s migrate() function. Owner = MigrationHelper (frozen). If owner control is recovered, this is the classic Sushi-style migrator attack vector: a malicious migrator could rug all LP tokens staked in V1 pools. Treated as no-impact under the assumption the owner is genuinely frozen — a verified attestation that MigrationHelper has no callable owner-rotation path would harden this."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.281Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.281Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "authority-transfer-frozen",
+              "description": "Owner is MigrationHelper, which DeFiScan reports as functionally uncallable (no callable owner-changing path exposed). If that analysis holds, this entry is critical-but-frozen — if it does NOT hold, a fresh owner inherits all of MasterChef V1’s powers including CAKE mint authority via CakeToken.owner = MasterChef V1."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.254Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.254Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "authority-renounce-frozen",
+              "description": "Same frozen-owner caveat as transferOwnership."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.256Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.256Z"
+          }
+        },
+        {
+          "functionName": "dev",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.devaddr"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "dev-rotation",
+              "description": "Rotates the recipient of 10% of MasterChef V1's 40 CAKE/block emissions. Cap = ~1 week of diverted emissions before a 3-of-7 multisig revert.",
+              "impactCap": {
+                "value": {
+                  "mode": "hardcoded",
+                  "amount": 806400
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "bnb:0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-06T11:46:16.895Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:46:16.895Z"
+          }
+        }
+      ]
+    },
+    "bnb:0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652": {
+      "functions": [
+        {
+          "functionName": "init",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "one-shot-initialized",
+              "description": "Initializer for MasterChef V2 (sets the dummy LP token used in MasterChef V1 pool 0). Already called at deployment; effectively dead path."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.282Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.282Z"
+          }
+        },
+        {
+          "functionName": "add",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-rewards-only",
+              "description": "Adds a new farm with allocation points. Affects FUTURE CAKE distribution split; cannot move existing staked LP tokens. No migrator on V2."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.284Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.284Z"
+          }
+        },
+        {
+          "functionName": "set",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-rewards-only",
+              "description": "Reweights an existing farm’s CAKE share. Future-only effect; existing deposits and accrued-but-unclaimed rewards are preserved."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.286Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.286Z"
+          }
+        },
+        {
+          "functionName": "burnCake",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "anti-extraction",
+              "description": "Mints the burn-share of MasterChef V1 emissions and immediately burns them. Anti-extraction primitive; no path to user funds."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.291Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.291Z"
+          }
+        },
+        {
+          "functionName": "updateCakeRate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-rewards-only",
+              "description": "Changes the burn / regular-farm / special-farm split of MasterChef V1’s 40 CAKE/block. Subject to per-rate caps in source. Future-only effect on reward distribution."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.288Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.288Z"
+          }
+        },
+        {
+          "functionName": "updateWhiteList",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "whitelist-future-only",
+              "description": "Toggles boost-eligibility for a single address. Affects which addresses can have boostMultiplier > 1; no fund-extraction path."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.290Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.290Z"
+          }
+        },
+        {
+          "functionName": "updateBoostContract",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "boost-rewire",
+              "description": "Replaces the contract that can call updateBoostMultiplier. A malicious boost contract could zero existing users’ boost multipliers (capping subsequent CAKE rewards at the unboosted rate) and grant attacker-controlled addresses 2-2.5× multipliers. Affects future reward accrual only — cannot extract staked LP tokens."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.261Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.261Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "authority-transfer",
+              "description": "Transfers MasterChef V2 ownership away from the 6h Timelock. A non-timelock owner would remove the only on-chain delay-window protection on MasterChef V2 changes (allocation points, cake rate, boost contract, etc.)."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.258Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.258Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "authority-renounce",
+              "description": "Renounces MasterChef V2 ownership; permanently disables future farm-allocation / cake-rate changes. Existing user deposits remain withdrawable (no migrator on V2)."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.259Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.259Z"
+          }
+        },
+        {
+          "functionName": "updateBurnAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "burn-admin-rewire",
+              "description": "Rotates the burnAdmin role. The new burn admin can call burnCake() which mints CAKE from MasterChef V1 to MasterChef V2 and immediately burns it; no extraction path. Critical because the role gates a function with on-chain mint side-effects, but the side-effects are anti-extraction."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.265Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.265Z"
+          }
+        },
+        {
+          "functionName": "updateBoostMultiplier",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.boostContract"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-user-boost-write",
+              "description": "Sets userInfo[pid][user].boostMultiplier for any user. Restricted to the current boostContract (FarmBooster). Affects subsequent CAKE-reward accrual for the targeted user; does not touch staked LP tokens or already-claimed rewards. Per-user impact only."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.263Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.263Z"
+          }
+        }
+      ]
+    },
+    "bnb:0xA1f482Dc58145Ba2210bC21878Ca34000E2e8fE4": {
+      "functions": [
+        {
+          "functionName": "queueTransaction",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "admin-queues-arbitrary-call",
+              "description": "GnosisSafeProxy #2 (admin) can queue any call to any target via this Timelock. Subject to the Timelock’s current 6.03h delay (delay = 21700s; MINIMUM_DELAY = 21600s). Currently used to execute MasterChef V2 onlyOwner calls."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.267Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.267Z"
+          }
+        },
+        {
+          "functionName": "cancelTransaction",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "admin-cancels-queued",
+              "description": "Admin can cancel any queued transaction prior to execution. No fund-impact path of its own; included for completeness."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.269Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.269Z"
+          }
+        },
+        {
+          "functionName": "executeTransaction",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "admin-executes-queued",
+              "description": "After the 6h delay, admin executes a previously queued transaction. The fund-impact bound depends on the target/call — typically MasterChef V2 onlyOwner functions, all of which are themselves scored individually."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.271Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.271Z"
+          }
+        },
+        {
+          "functionName": "setDelay",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "bnb:0xA1f482Dc58145Ba2210bC21878Ca34000E2e8fE4"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "self-can-shorten-delay",
+              "description": "Only callable by the Timelock itself (i.e. via queueTransaction). Bounded by MINIMUM_DELAY = 21600s (6h) and MAXIMUM_DELAY = 2592000s (30 days). The 6h floor is the protocol’s only hard guarantee against zero-delay rugs."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.272Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.272Z"
+          }
+        },
+        {
+          "functionName": "setPendingAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "bnb:0xA1f482Dc58145Ba2210bC21878Ca34000E2e8fE4"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "self-rotates-admin",
+              "description": "Only callable by the Timelock itself. Sets a new pendingAdmin who must then call acceptAdmin. Effectively rotates control of the entire MasterChef V2 governance pipeline."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.274Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.274Z"
+          }
+        },
+        {
+          "functionName": "acceptAdmin",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingAdmin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "dead-path-zero-pending",
+              "description": "Only callable by pendingAdmin, which is currently bnb:0x0000…0000 (zero address). Effectively dead until setPendingAdmin queues a non-zero pending admin."
+            }
+          ],
+          "timestamp": "2026-05-06T11:27:09.293Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-06T11:27:09.293Z"
+          }
+        }
+      ]
+    }
+  }
+}

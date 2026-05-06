@@ -1,0 +1,100 @@
+{
+  "$schema": "../../../../discovery/schemas/config.v2.schema.json",
+  "name": "pancakeswap-v2",
+  "import": ["../globalConfig.jsonc"],
+  "initialAddresses": [
+    "bnb:0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73", // PancakeFactory (V2 AMM)
+    "bnb:0x73feaa1eE314F8c655E354234017bE2193C9E24E", // MasterChef V1 (legacy, sole CAKE minter)
+    "bnb:0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652", // MasterChef V2 (active farming layer)
+    "bnb:0xA1f482Dc58145Ba2210bC21878Ca34000E2e8fE4", // Timelock (6h delay on MasterChef V2)
+    "bnb:0xeCc90d54B10ADd1ab746ABE7E83abe178B72aa9E", // GnosisSafeProxy #2 (Timelock admin)
+    "bnb:0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82" // CakeToken
+  ],
+  "maxAddresses": 100,
+  "maxDepth": 4,
+  "overrides": {
+    "bnb:0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73": {
+      // PancakeFactory: 2.5M+ pairs, the array can't be enumerated
+      "ignoreMethods": ["allPairs"],
+      "ignoreInWatchMode": ["INIT_CODE_PAIR_HASH", "allPairsLength"]
+    },
+    "bnb:0x73feaa1eE314F8c655E354234017bE2193C9E24E": {
+      // MasterChef V1: 2-element poolInfo (CAKE pool + LP routing pool), but the array overflows
+      "ignoreMethods": ["poolInfo"]
+    },
+    "bnb:0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652": {
+      // MasterChef V2: large lpToken[] / poolInfo[] arrays (~100 farms)
+      "ignoreMethods": ["lpToken", "poolInfo", "rewarder"]
+    },
+    "bnb:0xcEba60280fb0ecd9A5A26A1552B90944770a4a0e": {
+      // PancakeSwap GnosisSafeProxy #1 (V2 feeToSetter + MasterChef devaddr)
+      "ignoreInWatchMode": ["VERSION", "domainSeparator", "getChainId", "cakeBalance"],
+      "fields": {
+        "cakeBalance": {
+          "description": "Unburnt CAKE accumulated by this multisig from MasterChef V1's 10%-of-emissions dev stream (used to bound the impactCap on MasterChef V1.dev — represents the value at risk if signers go rogue and rotate the dev address before burning the buffer)",
+          "handler": {
+            "type": "call",
+            "method": "function balanceOf(address) view returns (uint256)",
+            "args": ["0xcEba60280fb0ecd9A5A26A1552B90944770a4a0e"],
+            "address": "bnb:0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+          }
+        }
+      }
+    },
+    "bnb:0xeCc90d54B10ADd1ab746ABE7E83abe178B72aa9E": {
+      // PancakeSwap GnosisSafeProxy #2 (Timelock admin)
+      "ignoreInWatchMode": ["VERSION", "domainSeparator", "getChainId"]
+    },
+    "bnb:0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56": {
+      // BUSD (Binance USD - external token)
+      "ignoreRelatives": ["owner", "getOwner"]
+    },
+    "bnb:0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47": {
+      // BEP20Cardano (Binance-pegged ADA - external)
+      "ignoreRelatives": ["owner", "getOwner"]
+    },
+    "bnb:0xAD6cAEb32CD2c308980a548bD0Bc5AA4306c6c18": {
+      // BEP20BandProtocol (Binance-pegged BAND - external)
+      "ignoreRelatives": ["owner", "getOwner"]
+    },
+    "bnb:0x0ED943Ce24BaEBf257488771759F9BF482C39706": {
+      // PancakeSwap V2 fee receiver (EIP1967 proxy) - leaf as external
+      "ignoreRelatives": ["$admin", "$implementation", "admin", "implementation"]
+    },
+    "bnb:0x6e85689f055B6894803d5135981F7B108C9DAfd5": {
+      // MigrationHelper (V1->V2 migration helper, holds CAKE mint authority but functionally frozen) - leaf
+      "ignoreMethods": ["localPools", "prevAllocPoints"],
+      "ignoreRelatives": ["MasterChefV1Addr", "MasterChefV1OriginOwner", "owner"]
+    },
+    "bnb:0x009cF7bC57584b7998236eff51b98A168DceA9B0": {
+      // SyrupBar (legacy Syrup pool receipt token) - leaf
+      "ignoreRelatives": ["cake", "getOwner", "owner"]
+    },
+    "bnb:0xE4FAa3Ef5A9708C894435B0F39c2B440936A3A52": {
+      // FarmBooster (Tokenomics 2.0 boost contract, retired in 3.0) - leaf
+      "ignoreMethods": ["whiteList"],
+      "ignoreRelatives": ["BOOSTER_FACTORY", "CAKE", "CAKE_POOL", "MASTER_CHEF", "owner"]
+    },
+    "bnb:0x2C36221bF724c60E9FEE3dd44e2da8017a8EF3BA": {
+      // FarmBoosterProxyFactory (Tokenomics 2.0, retired) - leaf
+      "ignoreRelatives": ["cakeToken", "Farm_Booster", "masterchefV2"]
+    },
+    "bnb:0x45c54210128a065de780C4B0Df3d16664f7f859e": {
+      // CakePool (Tokenomics 2.0/3.0 — being retired per CAKE Tokenomics 3.0 announcement) - leaf
+      "ignoreRelatives": ["admin", "boostContract", "masterchefV2", "operator", "owner", "token", "treasury", "VCake"]
+    },
+    "bnb:0x5692DB8177a81A6c6afc8084C2976C9933EC1bAB": {
+      // VECake (Tokenomics 3.0 vote-escrowed CAKE — retired per Tokenomics 3.0) - leaf
+      "ignoreMethods": ["pointHistory", "slopeChanges"],
+      "ignoreRelatives": ["CakePool", "FarmBooster", "owner", "ProxyForCakePoolFactory", "redistributeAddr", "token", "treasuryAddr"]
+    },
+    "bnb:0x03E80d537dca71E826eac6fe74FBb0DB607A2727": {
+      // ProxyForCakePoolFactory (Tokenomics 3.0 helper) - leaf
+      "ignoreRelatives": ["owner", "VECake"]
+    },
+    "bnb:0xe6cdC66A96458FbF11F632B50964153fBDa78548": {
+      // VECakeOwner (Tokenomics 3.0 helper) - leaf
+      "ignoreRelatives": ["CAKE", "owner"]
+    }
+  }
+}

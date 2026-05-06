@@ -1,0 +1,61 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-06T10:56:17.476Z",
+  "contracts": {
+    "bnb:0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73": {
+      "address": "bnb:0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
+      "name": "PancakeFactory",
+      "externalCalls": [],
+      "generatedAt": "2026-05-06T10:56:17.467Z"
+    },
+    "bnb:0xcEba60280fb0ecd9A5A26A1552B90944770a4a0e": {
+      "address": "bnb:0xcEba60280fb0ecd9A5A26A1552B90944770a4a0e",
+      "name": "GnosisSafeL2",
+      "externalCalls": [
+        {
+          "callerFunction": "checkNSignatures",
+          "storageVariable": "TMP_477",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "checkSignatures",
+          "storageVariable": "TMP_330",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_400",
+          "interfaceType": "Guard",
+          "calledFunction": "checkTransaction"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_424",
+          "interfaceType": "Guard",
+          "calledFunction": "checkAfterExecution"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_330",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_253",
+          "interfaceType": "Guard",
+          "calledFunction": "checkTransaction"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_277",
+          "interfaceType": "Guard",
+          "calledFunction": "checkAfterExecution"
+        }
+      ],
+      "generatedAt": "2026-05-06T10:56:17.475Z"
+    }
+  }
+}

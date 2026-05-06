@@ -17,6 +17,7 @@ import {
   AerodromeV2FactoryHandler,
   AggregateService,
   FrankencoinMintinghubHandler,
+  PancakeswapV2FactoryHandler,
   UniswapV2FactoryHandler,
   UniswapV3FactoryHandler,
 } from './services/aggregate'
@@ -117,6 +118,7 @@ export function createDefiscanServer(
       new UniswapV2FactoryHandler(config.thegraph.apiKey),
       new UniswapV3FactoryHandler(),
       new FrankencoinMintinghubHandler(),
+      new PancakeswapV2FactoryHandler(),
     ],
     aggregateCache,
     logger.for('AggregateService'),

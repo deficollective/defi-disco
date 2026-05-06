@@ -1,0 +1,91 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-06T11:30:00.000Z",
+  "publishedAt": "2026-05-06T11:00:00.000Z",
+  "verified": false,
+  "protocolSlug": "pancakeswap-v2",
+  "protocolName": "PancakeSwap V2",
+  "tokenName": "CAKE",
+  "chain": "BNB Chain",
+  "projectType": "dex",
+  "description": "PancakeSwap V2 is a Uniswap V2-style constant-product AMM deployed on BNB Chain in April 2021, plus the Tokenomics-1.0 incentive layer that pairs the AMM with CAKE rewards. The PancakeFactory (`0xcA14...0c73`) has deployed {{v2PairCount}}+ permissionless trading pairs holding {{v2AggregateTvl}} in liquidity, accessed by users through the stateless PancakeRouter V2 (`0x10ED...024E`). Each swap charges 0.25% — split as 0.17% to liquidity providers and 0.08% to the protocol when the fee switch is active — implemented via PancakePair's non-standard `_mintFee` formula (giving the protocol 8/25 of fee growth per mint/burn rather than the 1/6 used by upstream Uniswap V2). Pair contracts are immutable: deposits, swaps, and withdrawals cannot be paused, frozen, blocked, upgraded, or migrated by any admin (V2 has no `setMigrator` like V1 did). The incentive layer is built around the legacy MasterChef V1 (`0x73fe...E24E`, sole CAKE minter at 40 CAKE/block), the active MasterChef V2 (`0xa5f8...7652`, distributes farming rewards to staked LP tokens), the 6.03h Compound-style Timelock (`0xA1f4...8fE4`, MINIMUM_DELAY = 21600s) gating all MasterChef V2 onlyOwner changes, the CakeToken (`0x0E09...1cE82`, total supply ~4.2B, FDV {{cakeFdv}}, circulating ≈$300M), and two 3-of-7 Gnosis Safe multisigs sharing the same signer set: GnosisSafeProxy #1 (`0xcEba...4a0e`, V2 fee setter + MasterChef V1 dev recipient + MasterChef V2 burn admin — 18.37M CAKE burned via this address in May 2025) and GnosisSafeProxy #2 (`0xeCc9...aa9E`, the Timelock admin). The MigrationHelper (`0x6e85...8FFEa`, owner of MasterChef V1) is reported by DeFiScan as functionally uncallable; the V1→V2 migrator path on V1 is therefore treated as frozen. There are no external oracles or other-protocol dependencies — swaps resolve against onchain reserves only.",
+  "admins": {
+    "bnb:0xcEba60280fb0ecd9A5A26A1552B90944770a4a0e": {
+      "name": "PancakeSwap GnosisSafeProxy #1 (3-of-7 Multisig)",
+      "description": "3-of-7 GnosisSafe holding three roles: (1) `feeToSetter` of the V2 PancakeFactory — can rewire the protocol-fee-share recipient (no path to LP principal, see setFeeTo); (2) `devaddr` on MasterChef V1 — accrues 10% of the 40 CAKE/block emission stream (~4 CAKE/block) passively via `cake.mint(devaddr, ...)` inside `updatePool()` (no claim required by the multisig), can rotate this address via `dev()`, and currently routes received CAKE to the burn pipeline (18.37M CAKE burned May 2025); (3) `burnAdmin` on MasterChef V2 — can call `burnCake()` which mints+burns from V1 (anti-extraction). Same signer set as GnosisSafeProxy #2. The `dev()` rotation has an `impactCap` of 806,400 CAKE — a 1-week-of-emissions worst case (4 CAKE/block × 28,800 BSC blocks/day × 7 days), denominated in CAKE so it auto-tracks token price. The cap assumes a ~1 week detection-and-revert window; if the multisig delays burning longer than a week the actual unburnt buffer can exceed this cap and researchers should re-evaluate. CAKE has no on-chain supply cap, so emissions are perpetual until governance intervenes. Reachable token value after caps: {{multisigOneReachableTokenValue}}; LP fund reach: {{multisigOneReachableCapital}}."
+    },
+    "bnb:0xeCc90d54B10ADd1ab746ABE7E83abe178B72aa9E": {
+      "name": "PancakeSwap GnosisSafeProxy #2 (3-of-7 Multisig, Timelock Admin)",
+      "description": "3-of-7 GnosisSafe with the same signer set as GnosisSafeProxy #1; serves as `admin` of the 6.03h Timelock. Queues every onlyOwner call into MasterChef V2 (allocation reweights, cake-rate splits, boost-contract updates, ownership transfer). All such calls are subject to a minimum 21600s (6h) delay — but no upper Exit Window beyond that, so users have at most 6h to react before any change executes. Reachable token value: {{multisigTwoReachableTokenValue}}."
+    },
+    "bnb:0xA1f482Dc58145Ba2210bC21878Ca34000E2e8fE4": {
+      "name": "PancakeSwap Timelock (6.03h delay)",
+      "description": "Standard Compound-style Timelock owning MasterChef V2. `delay = 21700s`, `MINIMUM_DELAY = 21600s` (6h floor), `MAXIMUM_DELAY = 2592000s` (30d ceiling), `GRACE_PERIOD = 1209600s` (14d execution window). `setDelay` is callable only via the Timelock itself, bounded by the on-chain min/max. The 6h floor is the protocol's only on-chain delay protection on incentive-layer changes; DeFiScan flags this as below their Stage 2 threshold (30d Exit Window required for full decentralisation)."
+    },
+    "bnb:0x73feaa1eE314F8c655E354234017bE2193C9E24E": {
+      "name": "MasterChef V1 (CAKE Minter, MigrationHelper-owned)",
+      "description": "Sole on-chain minter of CAKE — `cakePerBlock = 40 CAKE` distributed each block: 10% to `devaddr` (GnosisSafeProxy #1, currently routed for burning) and 90% to MasterChef V2's syrup pool for farming rewards. Owner is MigrationHelper (frozen per DeFiScan). Owner-gated functions (add/set/setMigrator/transferOwnership) are critical-but-frozen — if owner control were recovered, the historic Sushi-style migrator attack vector becomes available. Practical mint rate is bounded at 40 CAKE/block ≈ 1.15M CAKE/day."
+    },
+    "bnb:0x6e85689f055B6894803d5135981F7B108C9DAfd5": {
+      "name": "MigrationHelper (Owner of MasterChef V1, Frozen)",
+      "description": "Holds ownership of MasterChef V1 — therefore transitively controls CAKE mint authority via CakeToken.owner = MasterChef V1. DeFiScan reports this contract as functionally uncallable (no callable owner-rotation path exposed), so the chain is treated as frozen. If that attestation is wrong, this address transitively reaches the full {{cakeFdv}} CAKE FDV through the V1 mint pipeline. Out of DeFiScan's actively-reviewed scope; included here for chain visibility."
+    },
+    "bnb:0xE4FAa3Ef5A9708C894435B0F39c2B440936A3A52": {
+      "name": "FarmBooster (BoostContract on MasterChef V2)",
+      "description": "Tokenomics 2.0 boost contract — only address authorised to call `MasterChef V2.updateBoostMultiplier`, which sets per-user CAKE-reward multipliers. Affects future reward accrual for any targeted user; does not touch staked LP tokens or already-claimed rewards. Out of DeFiScan's V1 scope (Tokenomics 2.0 / 3.0); listed here because it is the live boost-multiplier authority on MasterChef V2."
+    }
+  },
+  "dependencies": {
+    "bnb:0x0ED943Ce24BaEBf257488771759F9BF482C39706": {
+      "name": "PancakeSwap V2 Fee Receiver (EIP1967 Proxy)",
+      "description": "The current value of the PancakeFactory's `feeTo` field — an upgradeable EIP1967 proxy administered by a separate 3-of-7 GnosisSafe with the same signer set as GnosisSafeProxy #1. When the fee switch is active, every PancakePair `mint`/`burn` mints new LP tokens to this address equal to 8/25 of the value growth in `sqrt(k)` (effectively 0.08% out of each 0.25% swap fee). Only swap-fee mints flow here; LP principal stays in each pair contract."
+    }
+  },
+  "funds": {
+    "bnb:0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73": {
+      "name": "PancakeFactory (V2 Pairs Aggregate)",
+      "description": "Custom aggregate handler `pancakeswap-v2-factory` reports {{v2AggregateTvl}} of liquidity across the {{v2PairCount}} permissionless pairs deployed by the Factory (TVL via DeFiLlama slug `pancakeswap-amm`, pair count via on-chain `allPairsLength()`). Pair reserves are held in each individual PancakePair contract; the Factory itself custodies no funds. None of this $1.77B is reachable by the multisig — pairs are immutable."
+    },
+    "bnb:0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82": {
+      "name": "CakeToken (CAKE)",
+      "description": "PancakeSwap's governance / reward token. On-chain `totalSupply()` = 4,204,780,608 CAKE; multiplied by the spot price gives a fully-diluted value of {{cakeFdv}} (note: market-quoted circulating mcap is far lower — roughly $300M on CoinGecko — because a large supply share is held in idle / locked / about-to-be-burned contracts). Mint authority sits with MasterChef V1 (40 CAKE/block, owned by the frozen MigrationHelper). Token value at risk via the mint chain: {{cakeFdv}}."
+    }
+  },
+  "sections": {
+    "codeAndAudits": {
+      "title": "Code & Audits",
+      "description": "Smart contract analysis and audit history",
+      "subsections": [
+        {
+          "title": "Contracts",
+          "content": [
+            {
+              "type": "dataTable",
+              "dataSource": "project.contracts",
+              "columns": [
+                { "field": "name", "header": "Name" },
+                { "field": "address", "header": "Address", "format": "address" },
+                { "field": "proxyType", "header": "Proxy Type", "format": "badge" }
+              ],
+              "filters": { "excludeExternal": true }
+            }
+          ]
+        },
+        {
+          "title": "Audits",
+          "content": [
+            { "type": "text", "content": "" }
+          ]
+        }
+      ]
+    }
+  },
+  "dataKeys": {
+    "v2AggregateTvl": "fundsdata.contracts[\"bnb:0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73\"].aggregate.totalUsdValue",
+    "v2PairCount": "fundsdata.contracts[\"bnb:0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73\"].aggregate.contractCount",
+    "cakeFdv": "fundsdata.contracts[\"bnb:0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82\"].tokenInfo.tokenValue",
+    "multisigOneReachableCapital": "v2score.inventory.admins.breakdown[\"bnb:0xcEba60280fb0ecd9A5A26A1552B90944770a4a0e\"].totalReachableCapital",
+    "multisigOneReachableTokenValue": "v2score.inventory.admins.breakdown[\"bnb:0xcEba60280fb0ecd9A5A26A1552B90944770a4a0e\"].totalReachableTokenValue",
+    "multisigTwoReachableTokenValue": "v2score.inventory.admins.breakdown[\"bnb:0xeCc90d54B10ADd1ab746ABE7E83abe178B72aa9E\"].totalReachableTokenValue"
+  }
+}

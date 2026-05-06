@@ -9,6 +9,7 @@ const KNOWN_AGGREGATE_HANDLERS = [
   'aerodrome-cl-factory',
   'aerodrome-v2-factory',
   'frankencoin-mintinghub',
+  'pancakeswap-v2-factory',
   'uniswap-v2-factory',
   'uniswap-v3-factory',
 ]
