@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-05-06T11:30:00.000Z",
+  "lastModified": "2026-05-07T19:54:07.160Z",
   "publishedAt": "2026-05-06T11:00:00.000Z",
   "verified": false,
   "protocolSlug": "pancakeswap-v2",
@@ -35,12 +35,7 @@
       "description": "Tokenomics 2.0 boost contract — only address authorised to call `MasterChef V2.updateBoostMultiplier`, which sets per-user CAKE-reward multipliers. Affects future reward accrual for any targeted user; does not touch staked LP tokens or already-claimed rewards. Out of DeFiScan's V1 scope (Tokenomics 2.0 / 3.0); listed here because it is the live boost-multiplier authority on MasterChef V2."
     }
   },
-  "dependencies": {
-    "bnb:0x0ED943Ce24BaEBf257488771759F9BF482C39706": {
-      "name": "PancakeSwap V2 Fee Receiver (EIP1967 Proxy)",
-      "description": "The current value of the PancakeFactory's `feeTo` field — an upgradeable EIP1967 proxy administered by a separate 3-of-7 GnosisSafe with the same signer set as GnosisSafeProxy #1. When the fee switch is active, every PancakePair `mint`/`burn` mints new LP tokens to this address equal to 8/25 of the value growth in `sqrt(k)` (effectively 0.08% out of each 0.25% swap fee). Only swap-fee mints flow here; LP principal stays in each pair contract."
-    }
-  },
+  "dependencies": {},
   "funds": {
     "bnb:0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73": {
       "name": "PancakeFactory (V2 Pairs Aggregate)",
@@ -63,18 +58,34 @@
               "type": "dataTable",
               "dataSource": "project.contracts",
               "columns": [
-                { "field": "name", "header": "Name" },
-                { "field": "address", "header": "Address", "format": "address" },
-                { "field": "proxyType", "header": "Proxy Type", "format": "badge" }
+                {
+                  "field": "name",
+                  "header": "Name"
+                },
+                {
+                  "field": "address",
+                  "header": "Address",
+                  "format": "address"
+                },
+                {
+                  "field": "proxyType",
+                  "header": "Proxy Type",
+                  "format": "badge"
+                }
               ],
-              "filters": { "excludeExternal": true }
+              "filters": {
+                "excludeExternal": true
+              }
             }
           ]
         },
         {
           "title": "Audits",
           "content": [
-            { "type": "text", "content": "" }
+            {
+              "type": "text",
+              "content": ""
+            }
           ]
         }
       ]

@@ -1,12 +1,12 @@
 {
-  "framework": "Snapshot (off-chain) + 3-of-7 multisig execution",
+  "framework": "Snapshot (off-chain)",
   "voteExecution": "offchain",
-  "votingUnit": "CAKE token (Snapshot signal); 3-of-7 GnosisSafe signers (binding)",
-  "proposalRequirements": "Community Snapshot proposals require 100K CAKE wallet balance at snapshot block; on-chain execution requires 3 of 7 multisig signatures.",
+  "votingUnit": "CAKE",
+  "proposalRequirements": "100K CAKE",
   "votingProcess": "Off-chain Snapshot vote (3-day window for community proposals); 3-of-7 multisig executes if approved. No on-chain timelock.",
   "proposalPeriod": {
     "kind": "fixed",
-    "value": "3 days (community proposals via Snapshot)"
+    "value": "3 days"
   },
   "executionDelay": {
     "kind": "none"
