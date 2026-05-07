@@ -1,0 +1,82 @@
+{
+  "$schema": "../../../../discovery/schemas/config.v2.schema.json",
+  "name": "wbeth",
+  "import": ["../globalConfig.jsonc"],
+  "initialAddresses": [
+    "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1"
+  ],
+  "maxAddresses": 50,
+  "maxDepth": 5,
+  "overrides": {
+    // WrapTokenV3ETH — StakedTokenV3 (FiatTokenV2_1 fork)
+    // Surface minters (who can mint wBETH up to their allowance)
+    "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1": {
+      "fields": {
+        "minters": {
+          "handler": {
+            "type": "event",
+            "select": ["minter"],
+            "add": {
+              "event": "event MinterConfigured(address indexed minter, uint256 minterAllowedAmount)"
+            },
+            "remove": {
+              "event": "event MinterRemoved(address indexed oldMinter)"
+            }
+          }
+        }
+      },
+      "ignoreInWatchMode": [
+        "CANCEL_AUTHORIZATION_TYPEHASH",
+        "DOMAIN_SEPARATOR",
+        "PERMIT_TYPEHASH",
+        "RECEIVE_WITH_AUTHORIZATION_TYPEHASH",
+        "TRANSFER_WITH_AUTHORIZATION_TYPEHASH",
+        "_EXCHANGE_RATE_UNIT",
+        "currency",
+        "decimals",
+        "name",
+        "symbol",
+        "totalSupply",
+        "version"
+      ]
+    },
+    // UnwrapTokenV1ETH — withdrawal queue contract
+    // getWithdrawRequests returns the full user withdrawal queue; ignoring it prevents
+    // an EOA flood that would hit maxAddresses before discovering protocol contracts
+    "eth:0x79973d557CD9dd87eb61E250cc2572c990e20196": {
+      "ignoreMethods": ["getWithdrawRequests"],
+      "ignoreInWatchMode": [
+        "MAX_LOOP_NUM",
+        "MIN_LOCK_TIME",
+        "availableAllocateAmount",
+        "ethStaked",
+        "getNeedRechargeEthAmount",
+        "needEthAmount",
+        "nextIndex",
+        "startAllocatedEthIndex"
+      ]
+    },
+    // ExchangeRateUpdater — controls the wBETH:ETH exchange rate
+    // Surface rate-limited callers (who can update the exchange rate)
+    "eth:0x81720695e43A39C52557Ce6386feB3FAAC215f06": {
+      "fields": {
+        "callers": {
+          "handler": {
+            "type": "event",
+            "select": ["caller"],
+            "add": {
+              "event": "event CallerConfigured(address indexed caller, uint256 amount, uint256 interval)"
+            },
+            "remove": {
+              "event": "event CallerRemoved(address indexed caller)"
+            }
+          }
+        }
+      }
+    },
+    // OperatorWallet — minter proxy, holds hot wallets list
+    "eth:0xb05a6449f383a1A43A172970858B97394FEcDAD6": {
+      "ignoreInWatchMode": ["numOfHotWallets"]
+    }
+  }
+}
