@@ -1343,6 +1343,12 @@
           "isPermissioned": true,
           "checked": true,
           "score": "critical",
+          "description": "Second step of the two-step ownership transfer on OperatorWallet. Callable only by the address previously nominated by the current owner via transferOwnership; on success the caller becomes the new owner and inherits all owner-gated functions (addHotWallet, changeOperator, transferOwnership, etc.).",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingOwner"
+            }
+          ],
           "timestamp": "2026-05-07T10:55:50.399Z",
           "lastChangedBy": {
             "author": "unknown",
