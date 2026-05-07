@@ -159,6 +159,21 @@ Proxy contracts have multiple hashes — discovery skips the first (proxy) and m
 
 Once the contract graph looks complete, click **Scan Permissions** in the terminal and pick the contracts whose access-controlled functions you want analyzed. The AI detector uses whichever provider key is set in `.env` (`OPENAI_API_KEY` or `ANTHROPIC_API_KEY`). Results are written to `functions.json` and can be reviewed, corrected, and scored directly in the Values panel.
 
+<details>
+<summary><strong>ℹ️ Shared-implementation patterns (Aave-style factory tokens)</strong></summary>
+
+Some protocols deploy many proxies that all point to the **same** implementation contract (Aave v3 has one AToken implementation shared by every reserve's proxy — 18 on Spark). Slither scans the impl once and writes its metadata under the impl's address.
+
+You don't need to do anything special in the UI. When you annotate a function on the shared impl (e.g. set `burn` as permissioned with `ownerDefinitions: [{path: "$self.POOL"}]`), the analysis pipeline **fans it out to every proxy using that impl at read time**:
+
+- `$self.X` paths re-bind to each specific proxy. `$self.POOL`, `$self.accessControl.MINTER_ROLE.members`, `$self.$admin` all resolve to each proxy's own values — you get correct per-proxy role holders automatically.
+- Funds attribution uses the **proxy's** balance, not the impl's. Tokens sometimes get mistakenly sent to an impl; the analysis ignores those and counts only the actual user deposits on each proxy.
+- One impl-level entry produces N admin rows (one per proxy) in the DeFiScan panel and the compiled review.
+
+If a piece of metadata genuinely differs per proxy (e.g. each AToken has a different price oracle), store that entry at the proxy address directly — each proxy gets its own entry. Path-form dependencies work here: `{path: "eth:0xAaveOracle.assetSources[$self.UNDERLYING_ASSET_ADDRESS]"}` stored on each AToken proxy resolves to that proxy's oracle at analysis time, so oracle rotations (via `setAssetSources`) propagate automatically without editing `functions.json`.
+
+</details>
+
 ## Call Graph Analysis
 
 Call graph generation requires [Slither](https://github.com/crytic/slither) and the Solidity compilers:
@@ -218,6 +233,25 @@ The **Review Builder** panel is where you compose the final review document. It 
 Use the **Resources** panel to manage project links (frontends, website, documentation, GitHub, X, source code, licenses, DeFiScan V1 reviews). The same panel manages **security audits** and **bug bounty programs** in a separate section below the resource list.
 
 Each audit entry has `author` (auditing firm), `date` (`YYYY-MM`), optional `scope`, and optional `bounty` (max USD payout, used for the Bug Bounty stat in the public frontend).
+
+## Mark the review as Verified
+
+Every review carries a `verified` flag that drives a **VERIFIED** / **UNVERIFIED** pill on the public Gallery and report hero. The flag is a researcher attestation: it means a human has reviewed the AI-generated content and signed off on it.
+
+- **AI-generated drafts start as Unverified.** When `/generate-review` creates a `review-config.json` for the first time, it writes `verified: false` — the protocol enters the public site as a draft.
+- **Re-running `/generate-review` preserves your prior attestation.** If you've already marked a protocol Verified and you regenerate, the flag stays at `true`. (If you want to revoke and re-attest, click the toggle described below.)
+- **Edits via the Review Builder do not touch the flag.** Tweaking descriptions, audits, or governance keeps the current state.
+
+Once you've reviewed the AI-generated content and made any edits you want, promote the review to Verified:
+
+1. Open the **Terminal** panel.
+2. Click the **✓ Verified — Mark as Unverified** / **Unverified — Mark as Verified** button (next to *Compile Review*). The label and color reflect the current state — green when verified, amber when unverified.
+3. Click **Compile Review** so `compiled-review.json` reflects the new flag.
+4. The next deploy of the public frontend (or a local dev refresh) shows the **VERIFIED** pill on the Gallery card and report hero. The Gallery filter pills let visitors restrict to Verified or Unverified subsets.
+
+If the toggle is greyed out, no `review-config.json` exists yet for the project — author one through the Review Builder first.
+
+> Legacy reviews authored before this flag existed are treated as Verified by default — if you don't see `verified` in `review-config.json`, the public site assumes the review was researcher-curated. The flag is only persisted to the file when you click the toggle (or when `/generate-review` writes a fresh draft).
 
 ## Compile and view the review
 

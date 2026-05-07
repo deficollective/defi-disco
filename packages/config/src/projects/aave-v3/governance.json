@@ -1,0 +1,21 @@
+{
+  "framework": "Aave Governance v3",
+  "voteExecution": "onchain",
+  "votingUnit": "AAVE, stkAAVE, and aAAVE",
+  "proposalRequirements": "80k AAVE power",
+  "votingProcess": "Quorum: 320k AAVE (1.32M AAVE if sensitive).",
+  "proposalPeriod": {
+    "kind": "fieldRef",
+    "ref": {
+      "contractAddress": "eth:0x9AEE0B04504CeF83A65AC3f0e838D0593BCb2BC7",
+      "fieldName": "MIN_VOTING_DURATION"
+    }
+  },
+  "executionDelay": {
+    "kind": "fieldRef",
+    "ref": {
+      "contractAddress": "eth:0xdAbad81aF85554E9ae636395611C58F7eC1aAEc5",
+      "fieldName": "MIN_EXECUTION_DELAY"
+    }
+  }
+}

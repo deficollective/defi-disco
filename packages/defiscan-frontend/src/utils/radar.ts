@@ -1,23 +1,187 @@
-import type { CompiledReview } from '../types'
+import type {
+  CompiledAdmin,
+  CompiledGovernanceDuration,
+  CompiledReview,
+} from '../types'
 
-export function deriveRadarData(review: CompiledReview) {
-  const { admins, dependencies, totals, resources = [] } = review
+const DAY = 86_400
+const HOUR = 3_600
 
-  const hasEOA = admins.some(
+// Trace capital under $1 USD is ignored — upstream capital math occasionally
+// leaks sub-cent floating-point dust (e.g. Lido Oracle Committee EOAs show
+// ~$3e-5 reachable capital each), which should not trigger EOA detection or
+// inflate governance impact share.
+const DUST_USD = 1
+
+function adminImpact(a: CompiledAdmin): number {
+  return (a.totalReachableCapital ?? 0) + (a.totalReachableTokenValue ?? 0)
+}
+
+function hasMeaningfulImpact(a: CompiledAdmin): boolean {
+  return adminImpact(a) >= DUST_USD
+}
+
+function computeVerifiability(review: CompiledReview): number {
+  const { totals, audits = [] } = review
+  const coverage = totals.coverage
+  const loc = totals.linesOfCode ?? 0
+  const auditCount = audits.length
+  const maxBounty = audits.reduce((m, a) => Math.max(m, a.bounty ?? 0), 0)
+
+  const coverageScore =
+    coverage === undefined
+      ? 40
+      : coverage >= 1
+        ? 50
+        : coverage >= 0.95
+          ? 40
+          : coverage >= 0.9
+            ? 20
+            : 5
+
+  const auditScore =
+    auditCount === 0
+      ? 0
+      : auditCount === 1
+        ? 10
+        : auditCount === 2
+          ? 18
+          : auditCount === 3
+            ? 22
+            : 25
+
+  const locScore =
+    loc === 0
+      ? 8
+      : loc <= 5000
+        ? 15
+        : loc <= 10000
+          ? 12
+          : loc <= 20000
+            ? 8
+            : loc <= 50000
+              ? 4
+              : 1
+
+  const bountyScore =
+    maxBounty === 0
+      ? 0
+      : maxBounty < 100_000
+        ? 2
+        : maxBounty < 500_000
+          ? 5
+          : maxBounty < 1_000_000
+            ? 7
+            : 10
+
+  return Math.min(
+    100,
+    Math.round(coverageScore + auditScore + locScore + bountyScore),
+  )
+}
+
+const FIXED_UNIT_SECONDS: Record<string, number> = {
+  second: 1,
+  minute: 60,
+  hour: HOUR,
+  day: DAY,
+  week: 7 * DAY,
+}
+
+function parseFixedDuration(value: string | undefined): number {
+  if (!value) return 0
+  const re = /(\d+(?:\.\d+)?)\s*(second|minute|hour|day|week)s?/gi
+  let total = 0
+  for (const m of value.matchAll(re)) {
+    const n = Number.parseFloat(m[1])
+    const factor = FIXED_UNIT_SECONDS[m[2].toLowerCase()]
+    if (!Number.isNaN(n) && factor) total += n * factor
+  }
+  return total
+}
+
+function durationSeconds(d: CompiledGovernanceDuration | undefined): number {
+  if (!d) return 0
+  if (d.kind === 'none') return 0
+  if (d.kind === 'fieldRef')
+    return d.resolved && typeof d.seconds === 'number' ? d.seconds : 0
+  if (d.kind === 'fixed') return parseFixedDuration(d.value)
+  return 0
+}
+
+function computeGovernance(review: CompiledReview): number {
+  const { admins, totals, governance } = review
+  const tvs = totals.totalCapitalAtRisk + (totals.totalTokenValue ?? 0)
+
+  // Without a documented governance process there's nothing to score —
+  // return a neutral 55 (researcher hasn't filled in governance.json yet,
+  // or the protocol genuinely has no governance layer). This is preferable
+  // to either rewarding (95) or penalising (low) the absence.
+  if (governance === undefined) return 55
+
+  const govAdmins = admins.filter((a) => a.isGovernance && hasMeaningfulImpact(a))
+
+  const execScore = governance.voteExecution === 'onchain' ? 35 : 10
+
+  const delay =
+    durationSeconds(governance?.proposalPeriod) +
+    durationSeconds(governance?.executionDelay)
+  const delayScore =
+    delay >= 10 * DAY
+      ? 35
+      : delay >= 7 * DAY
+        ? 28
+        : delay >= 3 * DAY
+          ? 18
+          : delay >= 1 * DAY
+            ? 10
+            : delay >= 12 * HOUR
+              ? 5
+              : 2
+
+  const impactAdmins =
+    govAdmins.length > 0 ? govAdmins : admins.filter(hasMeaningfulImpact)
+  const govImpact = impactAdmins.reduce((s, a) => s + adminImpact(a), 0)
+  // Admins can reach overlapping contracts, so raw sums may exceed TVS.
+  // Cap share at 1.0 — the tier boundaries are what matters, not the ratio.
+  const share = Math.min(1, tvs > 0 ? govImpact / tvs : govImpact > 0 ? 1 : 0)
+  const impactScore =
+    share <= 0.1 ? 30 : share <= 0.3 ? 22 : share <= 0.6 ? 12 : 5
+
+  return Math.min(100, Math.round(execScore + delayScore + impactScore))
+}
+
+function computeControl(review: CompiledReview): number {
+  const { admins, totals } = review
+  const tvs = totals.totalCapitalAtRisk + (totals.totalTokenValue ?? 0)
+
+  const impacting = admins.filter(hasMeaningfulImpact)
+  if (impacting.length === 0) return 100
+
+  const hasEOA = impacting.some(
     (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned',
   )
-  const hasMultisig = admins.some((a) => a.adminType === 'Multisig')
-  const isImmutable =
-    admins.length > 0 &&
-    admins.every(
-      (a) => a.adminType === 'Immutable' || a.adminType === 'Revoked',
-    )
+  if (hasEOA) return 25
+
+  const multisigs = impacting.filter((a) => a.adminType === 'Multisig')
+  if (multisigs.length > 0) {
+    const multisigImpact = multisigs.reduce((s, a) => s + adminImpact(a), 0)
+    const share = tvs > 0 ? multisigImpact / tvs : 1
+    return share < 0.3 ? 75 : 50
+  }
+
+  return 80
+}
+
+export function deriveRadarData(review: CompiledReview) {
+  const { dependencies, totals, resources = [] } = review
+
   const depCount = dependencies.length
   const frontendCount = resources.filter((r) => r.type === 'frontend').length
 
-  const control = isImmutable ? 90 : hasEOA ? 25 : hasMultisig ? 55 : 70
+  const control = computeControl(review)
   const deps =
-    depCount === 0 ? 90 : depCount <= 2 ? 70 : depCount <= 5 ? 50 : 30
+    depCount === 0 ? 100 : depCount <= 2 ? 70 : depCount <= 5 ? 50 : 30
   const access =
     frontendCount === 0
       ? 20
@@ -25,15 +189,15 @@ export function deriveRadarData(review: CompiledReview) {
         ? 50
         : frontendCount <= 3
           ? 75
-          : 90
-  const verifiability = totals.contractCount > 0 ? 75 : 50
-  const exit = 65
+          : 100
+  const verifiability = computeVerifiability(review)
+  const governance = computeGovernance(review)
 
   return [
-    { axis: 'CONTROL', value: control },
+    { axis: 'ADMIN CONTROL', value: control },
     { axis: 'DEPENDENCIES', value: deps },
     { axis: 'ACCESS', value: access },
     { axis: 'VERIFIABILITY', value: verifiability },
-    { axis: 'ABILITY TO EXIT', value: exit },
+    { axis: 'GOVERNANCE', value: governance },
   ]
 }

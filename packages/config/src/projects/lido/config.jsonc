@@ -134,8 +134,14 @@
       "ignoreInWatchMode": ["getRageQuitSupport", "getSignallingEscrowDetails"]
     },
     "eth:0xB9E5CBB9CA5b0d659238807E84D0176930753d86": {
-      "ignoreInWatchMode": ["currentPeriodId", "transactionsNextIndex"],
+      "ignoreInWatchMode": ["currentPeriodId", "transactionsNextIndex", "periodsLength"],
       "ignoreMethods": ["getTransaction"]
+    },
+    "eth:0x281e6BB6F26A94250aCEb24396a8E4190726C97e": {
+      "ignoreInWatchMode": ["estimateTradeOutput"]
+    },
+    "eth:0xdc7300622948a7AdaF339783F6991F9cdDD79776": {
+      "ignoreInWatchMode": ["getPeriodState", "spendableBalance"]
     },
     "eth:0x175742c3DDD88B0192df3EcF98f180A79cb259D0": {
       "ignoreMethods": ["getScheduleProposalState"]
@@ -220,6 +226,52 @@
     "eth:0x23ED611be0e1a820978875C0122F92260804cdDf": {
       // Accounting (V3)
       "fields": { "accessControl": { "handler": { "type": "accessControl" } } }
+    },
+    "eth:0x48c4929630099b217136b64089E8543dB0E5163a": {
+      "ignoreInWatchMode": [
+        "allowedRecipients",
+        "getAllowedRecipients",
+        "getPeriodState",
+        "spendableBalance"
+      ]
+    },
+    "eth:0xF0211b7660680B49De1A7E9f25C65660F0a13Fea": {
+      "ignoreInWatchMode": [
+        "getMotions",
+        "motions"
+      ]
+    },
+    "eth:0x75100bd564415731B5936A4A94D0dC29DdE5dB3C": {
+      "ignoreInWatchMode": [
+        "_now",
+        "_nowDateTime"
+      ]
+    },
+    "eth:0x64B6aF9A108dCdF470E48e4c0147127F26221A7C": {
+      "ignoreInWatchMode": [
+        "estimateTradeOutput"
+      ]
+    },
+    "eth:0x3e2D251275A92a8169A3B17A2C49016e2de492a7": {
+      "ignoreInWatchMode": [
+        "estimateTradeOutput",
+        "estimateTradeOutputFromCurrentBalance"
+      ]
+    },
+    "eth:0x2B5a3944A654439379B206DE999639508bA2e850": {
+      "ignoreInWatchMode": [
+        "estimateTradeOutput"
+      ]
+    },
+    "eth:0x2a30F5aC03187674553024296bed35Aa49749DDa": {
+      "ignoreInWatchMode": [
+        "getCurrentDayTime"
+      ]
+    },
+    "eth:0x165813A31446a98c84E20Dda8C101BB3C8228e1c": {
+      "ignoreInWatchMode": [
+        "getRageQuitSupport"
+      ]
     },
   }
 }

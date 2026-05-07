@@ -22,7 +22,21 @@ import type { Mitigation } from './types'
  * (legacy compatibility). If the hex part is invalid the input is returned
  * unchanged so callers don't crash on non-address strings.
  */
+// Memoization cache. EthereumAddress() runs an ERC-55 keccak256 per call,
+// which dominates compile time when the BFS hits ~500 unique addresses
+// millions of times. A pure-function cache collapses this to one hash per
+// unique input. ~50 byte values × thousands of keys is negligible memory.
+const normalizeChainAddressCache = new Map<string, string>()
+
 export function normalizeChainAddress(raw: string): string {
+  const cached = normalizeChainAddressCache.get(raw)
+  if (cached !== undefined) return cached
+  const result = computeNormalizeChainAddress(raw)
+  normalizeChainAddressCache.set(raw, result)
+  return result
+}
+
+function computeNormalizeChainAddress(raw: string): string {
   const colonIdx = raw.indexOf(':')
 
   let chain: string
@@ -199,8 +213,13 @@ export function getFromAddressRecord<T>(
 
 /**
  * Build a mapping from implementation addresses to their proxy addresses.
- * Scans discovered.json entries for contracts with `implementationNames`
- * and/or `$implementation` values.
+ *
+ * @deprecated — loses information when a shared implementation is used by
+ * multiple proxies (factory-deployed token patterns like Aave ATokens).
+ * Prefer {@link buildImplToProxiesMap}, which preserves the full set, and
+ * migrate call sites that care about correctness when N > 1. This single-
+ * valued shape is safe only for name propagation (the set members always
+ * share a contract name) and for lookups known to be unique-impl.
  *
  * Returns Map<normalizedImplAddress, normalizedProxyAddress>.
  */
@@ -243,6 +262,98 @@ export function buildImplementationToProxyMap(
         }
       }
     }
+  }
+  return map
+}
+
+/**
+ * Build a many-valued mapping from implementation addresses to the set of
+ * proxy addresses that use them. Supports shared-implementation patterns
+ * (one impl → many proxies, e.g. Aave ATokens, Uniswap v3 positions).
+ *
+ * Returns Map<normalizedImplAddress, Set<normalizedProxyAddress>>.
+ */
+export function buildImplToProxiesMap(
+  discovered: any,
+): Map<string, Set<string>> {
+  const map = new Map<string, Set<string>>()
+  const add = (impl: string, proxy: string) => {
+    const implN = normalizeChainAddress(impl)
+    const proxyN = normalizeChainAddress(proxy)
+    if (implN === proxyN) return
+    let set = map.get(implN)
+    if (!set) {
+      set = new Set()
+      map.set(implN, set)
+    }
+    set.add(proxyN)
+  }
+  for (const entry of discovered.entries ?? []) {
+    if (entry.type !== 'Contract') continue
+    const proxyAddr = entry.address
+
+    if (
+      entry.implementationNames &&
+      typeof entry.implementationNames === 'object'
+    ) {
+      for (const implAddr of Object.keys(entry.implementationNames)) {
+        add(implAddr, proxyAddr)
+      }
+    }
+
+    const implValue = entry.values?.$implementation
+    if (typeof implValue === 'string') {
+      add(implValue, proxyAddr)
+    } else if (Array.isArray(implValue)) {
+      for (const v of implValue) {
+        if (typeof v === 'string') add(v, proxyAddr)
+      }
+    }
+  }
+  return map
+}
+
+/**
+ * Build the inverse mapping: proxy → set of implementation addresses it uses.
+ * Useful when iterating by proxy and needing to look up metadata that may
+ * be stored at any of its implementation addresses (e.g. shared-impl admin
+ * metadata on an Aave AToken).
+ *
+ * Returns Map<normalizedProxyAddress, Set<normalizedImplAddress>>.
+ */
+export function buildProxyToImplsMap(
+  discovered: any,
+): Map<string, Set<string>> {
+  const map = new Map<string, Set<string>>()
+  for (const entry of discovered.entries ?? []) {
+    if (entry.type !== 'Contract') continue
+    const proxyN = normalizeChainAddress(entry.address)
+    const impls = new Set<string>()
+
+    if (
+      entry.implementationNames &&
+      typeof entry.implementationNames === 'object'
+    ) {
+      for (const implAddr of Object.keys(entry.implementationNames)) {
+        const implN = normalizeChainAddress(implAddr)
+        if (implN !== proxyN) impls.add(implN)
+      }
+    }
+
+    const implValue = entry.values?.$implementation
+    if (typeof implValue === 'string') {
+      const implN = normalizeChainAddress(implValue)
+      if (implN !== proxyN) impls.add(implN)
+    } else if (Array.isArray(implValue)) {
+      for (const v of implValue) {
+        if (typeof v === 'string') {
+          const implN = normalizeChainAddress(v)
+          if (implN !== proxyN) impls.add(implN)
+        }
+      }
+    }
+
+    if (impls.size > 0) map.set(proxyN, impls)
   }
   return map
 }

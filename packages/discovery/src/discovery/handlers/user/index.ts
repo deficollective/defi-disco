@@ -130,6 +130,30 @@ import {
   CCIPRateLimitHandler,
   CCIPRateLimitHandlerDefinition,
 } from '../defidisco/CCIPRateLimitHandler'
+import {
+  LayerZeroOAppConfigHandler,
+  LayerZeroOAppConfigHandlerDefinition,
+} from '../defidisco/LayerZeroOAppConfigHandler'
+import {
+  AaveReserveTokensHandler,
+  AaveReserveTokensHandlerDefinition,
+} from '../defidisco/AaveReserveTokensHandler'
+import {
+  MetaMorphoCapHandler,
+  MetaMorphoCapHandlerDefinition,
+} from '../defidisco/MetaMorphoCapHandler'
+import {
+  GhoBucketCapacityHandler,
+  GhoBucketCapacityHandlerDefinition,
+} from '../defidisco/GhoBucketCapacityHandler'
+import {
+  AaveMarketAggregateTvsHandler,
+  AaveMarketAggregateTvsHandlerDefinition,
+} from '../defidisco/AaveMarketAggregateTvsHandler'
+import {
+  UmbrellaAggregateTvsHandler,
+  UmbrellaAggregateTvsHandlerDefinition,
+} from '../defidisco/UmbrellaAggregateTvsHandler'
 
 const DEFINITIONS = [
   StorageHandlerDefinition,
@@ -168,6 +192,12 @@ const DEFINITIONS = [
   AddressMappingHandlerDefinition,
   EnumerableRolesHandlerDefinition,
   CCIPRateLimitHandlerDefinition,
+  LayerZeroOAppConfigHandlerDefinition,
+  AaveReserveTokensHandlerDefinition,
+  MetaMorphoCapHandlerDefinition,
+  GhoBucketCapacityHandlerDefinition,
+  AaveMarketAggregateTvsHandlerDefinition,
+  UmbrellaAggregateTvsHandlerDefinition,
 ] as const
 
 type AvailableHandlers = (typeof DEFINITIONS)[number]
@@ -215,6 +245,12 @@ export const UserHandlers: Record<HandlerType, AvailableHandlers> = {
   addressMapping: AddressMappingHandlerDefinition,
   enumerableRoles: EnumerableRolesHandlerDefinition,
   ccipRateLimit: CCIPRateLimitHandlerDefinition,
+  layerZeroOAppConfig: LayerZeroOAppConfigHandlerDefinition,
+  aaveReserveTokens: AaveReserveTokensHandlerDefinition,
+  metaMorphoCap: MetaMorphoCapHandlerDefinition,
+  ghoBucketCapacity: GhoBucketCapacityHandlerDefinition,
+  aaveMarketAggregateTvs: AaveMarketAggregateTvsHandlerDefinition,
+  umbrellaAggregateTvs: UmbrellaAggregateTvsHandlerDefinition,
 }
 
 export function getUserHandler(
@@ -295,5 +331,17 @@ export function getUserHandler(
       return new EnumerableRolesHandler(field, definition, abi)
     case 'ccipRateLimit':
       return new CCIPRateLimitHandler(field, definition)
+    case 'layerZeroOAppConfig':
+      return new LayerZeroOAppConfigHandler(field, definition)
+    case 'aaveReserveTokens':
+      return new AaveReserveTokensHandler(field, definition, abi)
+    case 'metaMorphoCap':
+      return new MetaMorphoCapHandler(field, definition, abi)
+    case 'ghoBucketCapacity':
+      return new GhoBucketCapacityHandler(field, definition, abi)
+    case 'aaveMarketAggregateTvs':
+      return new AaveMarketAggregateTvsHandler(field, definition, abi)
+    case 'umbrellaAggregateTvs':
+      return new UmbrellaAggregateTvsHandler(field, definition, abi)
   }
 }

@@ -120,9 +120,27 @@ Components consume `AdminEntry` and `AdminFunctionEntry` directly — there are 
 **Admin capital:**
 
 ```
-totalDirectCapital    = Σ (balances + positions) for each contract where the admin has permissions
-totalReachableCapital = totalDirectCapital + Σ reachable contract funds (where fundsAtRisk = true)
+totalDirectCapital    = Σ min(funds(contract), directContractCaps[contract]) for each contract where the admin has permissions
+totalReachableCapital = totalDirectCapital + Σ min(funds(contract), contractCaps[contract]) for reachable contracts (where fundsAtRisk = true)
 ```
+
+`directContractCaps[contract]` is the max `impactCapUsd` across the admin's functions on that contract (least restrictive wins); `undefined` (uncapped) if any impactful function on that contract is uncapped. Same rule applies per-contract for reachable totals, aggregated across all functions in the admin's traversal.
+
+**Cap propagation through BFS** (`traverseForward`):
+- Each edge's effective cap = `min(pathCap, targetFunctionCap)` — i.e. both the source-side cap chain **and** the target function's own `impactCapUsd` constrain what calling that edge can do. Without the target-cap term a transitive reacher (e.g. Governor → Timelock → UNI.setMinter) would miss the cap on `setMinter` and show full UNI market cap.
+- View-call edges (`isViewCall === true`) contribute `edgeReachCap = 0`. Since reads cannot move funds, a view edge is a no-op in the per-contract `max` merge — it doesn't flip a capped contract to uncapped (the UNI `balanceOf` scenario), and a contract reached only via view calls ends up with `effectiveCapUsd = 0` (correctly shows $0 at risk).
+- Per-contract cap merging uses `max` across edges: the least-restrictive reach wins, and `undefined` (uncapped) dominates any numeric cap.
+
+### Shared-implementation fan-out
+
+Factory-deployed proxy patterns (Aave ATokens, debt tokens, similar shared-impl designs) break the normal "1 impl = 1 proxy" mapping that capital analysis originally assumed. When N proxies share one impl:
+
+- One admin entry on the impl (e.g. `burn` with owner `$self.POOL`) is fanned out to **N admin rows** — one per proxy — at `getAdmins` time. Each row's `contractAddress` is the proxy, and `$self` paths rebind to that proxy for owner resolution.
+- `directFundsUsd` on each fanned-out row reads the **proxy's** balance (via proxy-keyed `getContractFunds`), not the impl's — so dollar amounts reflect actual user deposits, not any tokens mistakenly sent to the impl itself.
+- Permission edges in `buildEnhancedGraph` also fan out (edge target = each proxy, not the single impl), so backward governance-chain resolution from any proxy finds the owner chain correctly.
+- Project-level `totalCapitalAtRisk` dedups across the N rows via `resolveAddr` in `computeAdminTotals`, so shared-impl fan-out never inflates the aggregate — only the per-admin attribution is corrected.
+
+Entries at unique-impl addresses (most of the codebase) pass through unchanged: `implToProxies[IMPL].size == 1` so the fan-out expands to a single proxy row. Full verification across 12 projects in [docs/developers/designs/shared-impl-fan-out.md](../designs/shared-impl-fan-out.md).
 
 ### Upgrade Function Detection
 
@@ -210,13 +228,30 @@ Each file has its own backend CRUD module under `packages/l2b/src/implementation
 - `TimestampsFooter` (rendered as the final section of `ReportView`, below Protocol Activity) → three pills side-by-side: Published (`publishedAt`, with `(last modified <date>)` parenthetical appended from `lastModified`) / Latest activity (newest `activity[].timestamp`, renders "Not monitored" when empty) / On-chain data (`compiledAt`)
 - `ActivityView` "Last Verified" → `compiledAt` (semantically matches: "the last time we verified on-chain state")
 - `LandingPage` "recently updated" ordering → `lastModified`
-- Gallery cards use `activity[].timestamp` (via the shared `getLatestActivityTimestamp` helper in `pages/review/views/activityTimestamp.ts`) for both the UPDATED status badge (< 7 days) and the "Last Activity" stat
+- Gallery cards use `activity[].timestamp` (via the shared `getLatestActivityTimestamp` helper in `pages/review/views/activityTimestamp.ts`) for the "Last Activity" subtext on each card. The previous UPDATED status badge (< 7 days) was removed — the gallery and hero now render a `VERIFIED` / `UNVERIFIED` pill driven by `CompiledReview.verified` instead.
 
 **Schema notes**:
 
 - `ReviewConfig.publishedAt?: string` is **optional** on the type for backwards compatibility, but `getReviewConfig` backfills it to `lastModified` on read, so in-memory instances always have a value.
 - `ResourcesFile.lastModified?: string` is also optional — legacy `resources.json` files that predate this model return `undefined` from `getResourcesLastModified`, at which point the compiler falls back to `reviewConfig.lastModified`. The first researcher edit stamps the field.
 - `governance.json` has no schema change — we use filesystem mtime because it has no compile-time mutation path, so mtime cleanly tracks researcher edits.
+
+### Verified / Unverified status
+
+Reviews carry a researcher-attestation flag that drives the `VERIFIED` / `UNVERIFIED` pill on Gallery cards and the report Hero:
+
+- `ReviewConfig.verified?: boolean` — optional in the type. **Missing field reads as `true`** (legacy reviews were researcher-curated). New AI-generated reviews must explicitly write `false`.
+- `CompiledReview.verified: boolean` — sourced as `reviewConfig.verified ?? true` in `buildCompiledReview`. Mirrored into `ProtocolSummary.verified` in `index.json` by `compile-data.ts` so Gallery filtering and the pill render without loading every full review.
+- The frontend `StatusPill` (`pages/review/views/StatusPill.tsx`) is the single place colors and labels live; it has two variants (`'card'` for Gallery, `'hero'` for the report hero).
+
+**Lifecycle rules**:
+
+1. **First-time creation** (no prior `review-config.json`): the `/generate-review` skill writes `verified: false`. The protocol enters the system as a draft awaiting researcher review.
+2. **Regeneration**: the skill **preserves** the prior value via the out-of-band `/tmp/review-config-$0-verified.txt` file (the existing review-config is moved aside before generation, so the field has to be captured separately). Re-running the skill on a Verified protocol keeps it Verified.
+3. **Researcher edits via the editor panels**: do NOT change `verified`. `writeReviewConfig` reads the existing file and copies the field over when the incoming payload doesn't include it, so a description tweak doesn't accidentally re-flip the flag. Only an explicit toggle does.
+4. **Explicit toggle**: the **Mark as Verified / Mark as Unverified** button in `TerminalExtensions` (protocolbeat) reads the current config via `getReviewConfig`, flips `verified`, and PUTs the full config through the same `updateReviewConfig` endpoint used by the editors. No separate API.
+
+The previous `ACTIVE` / `UPDATED` status (driven by a 7-day window on the newest activity event) was abandoned with this change. `getLatestActivityTimestamp` is still used for the "Last Activity" subtext on Gallery cards and the hero/footer "Latest activity" lines — those are independent informative timestamps and unaffected.
 
 ### Resources
 
@@ -292,9 +327,9 @@ type GovernanceDuration =
 - **Guards**: compilation is skipped silently if `review-config.json` or `call-graph-data.json` is missing
 - **Timestamps**: the compiler assembles `publishedAt` / `lastModified` / `compiledAt` at the `buildCompiledReview` return site. `compiledAt` is sourced from `discovered.json.timestamp` (not `new Date()`), so researcher-triggered recompiles without a fresh discovery run keep it frozen. See [Timestamps](#timestamps-three-timestamp-model) for the full model.
 - **Template variables**: `{{variableName}}` in descriptions is resolved against `dataKeys` at compile time
-- **Cross-entity totals**: `adminTotals` and `dependencyTotals` carry deduplicated capital (each contract counted at most once, using `Math.max`) so the frontend can render an accurate "Impacted TVS" stat
+- **Cross-entity totals**: `adminTotals` and `dependencyTotals` carry deduplicated capital (each contract counted at most once, using `Math.max`) — these remain the canonical cross-admin / cross-dependency aggregates produced by the compiler. **`AdminsSection.tsx` does NOT use `review.adminTotals` for its "Impacted TVS" headline anymore.** It computes a per-admin sum (`Σ totalReachableCapital + totalReachableTokenValue`) over the *active, non-governance* admins that the section actually displays. Reason: `adminTotals` is computed across the full admin set including governance-tagged admins, but the Admins section explicitly filters those out for display, so the deduplicated total over-counts relative to what the user sees on screen. The trade-off: the per-admin sum can over-report when two displayed admins share reachable contracts (no cross-admin dedup at this scope). This is an accepted accuracy trade-off — the headline stays consistent with the displayed admin set; cross-admin dedup at the governance-excluded scope would require a separate compiler-side aggregate, which we have not yet built. Other sections (key findings, gallery cards, landing page) continue to use `adminTotals` / `dependencyTotals` as before.
 - **Mitigations**: each compiled function carries `mitigations?: Mitigation[]` resolved by `ProjectAnalysis.getMitigationsForOwner()` (direct + transitive). The compiler passes them through as-is. Mitigations with an `impactCap` have their `impactCapUsd` pre-resolved
-- **Impact caps**: `CompiledReachableContract.effectiveCapUsd?: number` is set during capital analysis. Frontend fund sums apply `Math.min(fundsUsd, effectiveCapUsd)` per reachable contract
+- **Impact caps**: `CompiledReachableContract.effectiveCapUsd?: number` is set during capital analysis. Frontend fund sums apply `Math.min(fundsUsd, effectiveCapUsd)` per reachable contract. Unified shape `{ value, unit, multiplier? }` — `value` is hardcoded|fieldRef, `unit` is `usd`|`scaler{factor}`|`token{tokenAddress}`, `multiplier` is a decimal (default 1). Examples: hardcoded USD `{ value:{mode:'hardcoded',amount:5e6}, unit:{kind:'usd'} }`; hardcoded 1M ZCHF priced via funds-data `{ value:{mode:'hardcoded',amount:1e6}, unit:{kind:'token',tokenAddress:ZCHF} }`; 2% of UNI supply `{ value:{mode:'fieldRef',contractAddress:UNI,fieldName:'totalSupply'}, unit:{kind:'token',tokenAddress:UNI}, multiplier:0.02 }`. Legacy shapes accepted via `normalizeImpactCap()` for backward compat
 
 If admin or dependency data needs to change, modify `ProjectAnalysis` — not the compiler.
 
@@ -302,12 +337,77 @@ If admin or dependency data needs to change, modify `ProjectAnalysis` — not th
 
 - **`MitigationBadge`** renders a single mitigation as a colored pill: `delay` (cyan, formatted duration), `valueRange` (indigo, min/max), `relativeValue` (amber, max change %), `other` (gray, truncated description or `label`). Capped mitigations additionally render an emerald "$XM Max Impact" badge.
 - **`MitigationsSummary`** is a responsive overflow component for table cells — it measures available width via `ResizeObserver` and renders as many badges as fit, with a `+N` indicator. Only works inside `<table>` cells.
-- **Report card inline badges** — Admin and dependency cards on the Report view render deduplicated mitigation badges inline after the entity name. Because report cards use `<button>` elements (not table cells), they cannot use `MitigationsSummary`.
-- **`deduplicateMitigations()`** in `shared.tsx` collapses duplicate badges. For `'other'` mitigations with a `label`, the dedup key is `other-label:<label>` — so all caller-scoped variants collapse into one badge.
+- **Report card inline badges** — Admin and dependency cards on the Report view render mitigation badges inline after the entity name via `aggregateMitigationsByImpact`. Because report cards use `<button>` elements (not table cells), they cannot use `MitigationsSummary`.
+- **`aggregateMitigationsByImpact()` (canonical entity-level)** in `shared.tsx` is the helper used by every entity-level surface (`AdminCards`, `AdminsSection`, `DependencyCards`, `DependenciesSection`, and `MitigationsSummary` itself). It computes each function's TVS impact (direct + per-reachable-contract `min(usd, effectiveCapUsd)`), drops mitigations whose only source functions all evaluate to $0 impact, dedupes the survivors via `mitigationDedupKey`, and sorts by descending max source-function impact.
+- **`deduplicateMitigations()` (plain dedup)** in `shared.tsx` is the same dedup over `mitigationDedupKey` without the impact filter — kept for the few non-aggregated call sites that already operate in a per-function context.
+- **`mitigationDedupKey(m)`** is the canonical visible-identity key used by both helpers above. Mirrors what `MitigationBadge` paints: `label:<label>` if a label exists, otherwise `delay:<seconds>` / `valueRange:<min>:<max>:<unit>` / `relativeValue:<maxChangePercent>` / `other:<description>`. **`scopedTo` is intentionally excluded** — scope only appears in the tooltip, never on the badge itself, so two same-shape mitigations scoped to different admins now collapse to one badge (previous behavior preserved them as separate badges, which double-counted visually).
 
 ### Key Findings
 
-`getKeyFindings()` in `src/utils/narrative.ts` generates info cards on the Report view:
+`getKeyFindings()` in `src/utils/keyFindings.ts` generates info cards on the Report view. Each finding is produced by a self-contained detector in the `DETECTORS` array (`detectImmutability`, `detectEOAs`, `detectMultisigs`, `detectTotalValueSecured`, `detectDependencies`, `detectMitigations`) — add a new finding type by writing a new detector and appending it to the array. Shared helpers (`isProtocolCodeImmutable`, `collectMitigations`, `deduplicateMitigations`, `formatMitigationTypeList`) live in the same file.
 
 - **Mitigations** — shown when any admin or dependency function carries mitigations. Reports coverage (all / some) and distinct mitigation type labels (Timelocks, Value Ranges, Relative Value Caps, Other Constraints)
 - **TVS (Total Value Secured)** — replaces the old TVL-only finding. Title is the combined TVS (e.g. "$220M TVS"). Detail text breaks the value down into TVL + token market cap, or either one alone. `TVS = totalCapitalAtRisk + (totalTokenValue ?? totalTokenValueAtRisk)`
+
+## Radar Scoring
+
+`deriveRadarData(review)` in `packages/defiscan-frontend/src/utils/radar.ts` derives the five-axis radar chart shown on the Report hero and Gallery cards from a `CompiledReview`. Each axis is scored 0–100 — every axis can reach a perfect 100 in the best case.
+
+Axes: `ADMIN CONTROL`, `DEPENDENCIES`, `ACCESS`, `VERIFIABILITY`, `GOVERNANCE`.
+
+### ADMIN CONTROL
+
+Cascades by worst-case admin severity. Per-admin impact = `totalReachableCapital + totalReachableTokenValue`. Only admins with impact > 0 are considered.
+
+- **100** — no admin has reachable fund impact
+- **25** — any admin with impact is an `EOA` or `EOAPermissioned` (dominates everything else)
+- **75 / 50** — any `Multisig` has impact. Score depends on the sum of multisig impact as a share of TVS (`totalCapitalAtRisk + totalTokenValue`): `< 30%` → **75**, otherwise **50**. If TVS is `0`, the share is treated as 100%
+- **80** — only contract-type admins (Timelock, governance contracts, etc.) have impact
+
+Cascade order is strict: EOA > Multisig > contract-only > none. EOA presence dominates regardless of multisig share.
+
+### DEPENDENCIES
+
+Count-based: `0 → 100`, `1–2 → 70`, `3–5 → 50`, `6+ → 30`.
+
+### ACCESS
+
+Count of `resources[].type === 'frontend'`: `0 → 20`, `1 → 50`, `2–3 → 75`, `4+ → 100`.
+
+### VERIFIABILITY
+
+Additive, four components, total clamped to 100 and rounded.
+
+| Component | Weight | Tiers |
+|---|---|---|
+| **Coverage** | 50 | `100% → 50`, `95–100% → 40`, `90–95% → 20`, `<90% → 5`, **missing → 40** (default when `totals.coverage` is `undefined`, distinct from a real `0`) |
+| **Audits** | 25 | `0 → 0`, `1 → 10`, `2 → 18`, `3 → 22`, `4+ → 25` |
+| **LoC** (inverse — smaller = more auditable) | 15 | `≤5k → 15`, `≤10k → 12`, `≤20k → 8`, `≤50k → 4`, `>50k → 1`, **missing (0) → neutral 8** |
+| **Bug bounty** (`max(audits[].bounty)` USD) | 10 | `$0 → 0`, `<$100k → 2`, `<$500k → 5`, `<$1M → 7`, `≥$1M → 10` |
+
+Coverage uses `>=` at bucket edges, so exactly `0.95` → 40 and exactly `0.90` → 20.
+
+### GOVERNANCE
+
+Measures governance risk using three signals on `CompiledReview`: on-chain vs off-chain execution, total proposal-to-execution delay, and the fund impact governance contracts exert. Additive, max **100**, rounded, clamped.
+
+**Missing governance:** when `review.governance` is `undefined` (no `governance.json` for the project), return a neutral **55** instead of running the formula. Avoids both rewarding the absence and penalising researchers who haven't filled in governance yet.
+
+Otherwise sum the three components:
+
+| Component | Weight | Tiers |
+|---|---|---|
+| **Vote execution** (`review.governance.voteExecution`) | 35 | `onchain` → 35, `offchain` → 10 |
+| **Total delay** (`proposalPeriod + executionDelay`, summed seconds) | 35 | `≥10d → 35`, `≥7d → 28`, `≥3d → 18`, `≥1d → 10`, `≥12h → 5`, `<12h → 2` |
+| **Governance fund share** (sum impact / TVS, capped at 100%; TVS = `totalCapitalAtRisk + totalTokenValue`; TVS `0` with impact > 0 treated as 100%) | 30 | `≤10% → 30`, `≤30% → 22`, `≤60% → 12`, `>60% → 5` |
+
+The impact set is the admins with `isGovernance === true` and meaningful impact. If governance is documented but no admin carries that tag (e.g. offchain Snapshot + multisig executor), it falls back to **all fund-impacting admins** as the impact set.
+
+Max achievable: **100** (35 + 35 + 30).
+
+**Duration handling:** `durationSeconds(d)` resolves a `CompiledGovernanceDuration` to seconds:
+- `kind === 'none'` → 0
+- `kind === 'fieldRef'` → `d.seconds` when `d.resolved === true`, else 0
+- `kind === 'fixed'` → parsed from `d.value` via regex `(\d+)\s*(second|minute|hour|day|week)s?` (all matches summed; handles strings like `"4 days"`, `"2 days 6 hours"`)
+
+**Impact cap:** raw admin impact sums can exceed TVS because admins often reach overlapping contracts. The share is clamped to `min(1, govImpact/tvs)` so the tier boundaries remain meaningful.

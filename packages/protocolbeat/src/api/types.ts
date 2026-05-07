@@ -16,8 +16,98 @@ export type Impact = 'critical' | 'no-impact'
 // Mitigation types for permissioned functions
 export type MitigationType = 'delay' | 'valueRange' | 'relativeValue' | 'other'
 
-// Unit for impact cap field — describes how to scale the raw on-chain value to USD
-export type ImpactCapUnit = 'raw' | '1e6' | '1e8' | '1e18' | 'bps' | 'percent'
+// Scaler denominator used when an impactCap's unit.kind === 'scaler'.
+export type ImpactCapScaler = '1e6' | '1e8' | '1e18' | 'bps' | 'percent'
+
+// Unified impactCap value — where the amount comes from.
+export type ImpactCapValue =
+  | { mode: 'hardcoded'; amount: number }
+  | { mode: 'fieldRef'; contractAddress: string; fieldName: string }
+
+// Unified impactCap unit — how to interpret the amount to yield USD.
+export type ImpactCapUnit =
+  | { kind: 'usd' }
+  | { kind: 'scaler'; factor: ImpactCapScaler }
+  | { kind: 'token'; tokenAddress: string }
+
+export interface ImpactCap {
+  value: ImpactCapValue
+  unit: ImpactCapUnit
+  multiplier?: number // applied to final USD; default 1
+}
+
+// Legacy persisted shape (pre-unification). Kept for backward-compat reads.
+export interface LegacyImpactCap {
+  hardcodedUsd?: number
+  contractAddress?: string
+  fieldName?: string
+  unit?: 'raw' | '1e6' | '1e8' | '1e18' | 'bps' | 'percent'
+  tokenAddress?: string
+  fieldContractAddress?: string
+  multiplier?: number
+}
+
+function isNewImpactCapShape(raw: unknown): raw is ImpactCap {
+  if (!raw || typeof raw !== 'object') return false
+  const r = raw as Record<string, unknown>
+  const v = r.value as Record<string, unknown> | undefined
+  const u = r.unit as Record<string, unknown> | undefined
+  return (
+    !!v &&
+    typeof v === 'object' &&
+    (v.mode === 'hardcoded' || v.mode === 'fieldRef') &&
+    !!u &&
+    typeof u === 'object' &&
+    (u.kind === 'usd' || u.kind === 'scaler' || u.kind === 'token')
+  )
+}
+
+export function normalizeImpactCap(
+  raw: ImpactCap | LegacyImpactCap | null | undefined,
+): ImpactCap | undefined {
+  if (!raw) return undefined
+  if (isNewImpactCapShape(raw)) return raw
+  const legacy = raw as LegacyImpactCap
+  if (legacy.hardcodedUsd !== undefined) {
+    return {
+      value: { mode: 'hardcoded', amount: legacy.hardcodedUsd },
+      unit: { kind: 'usd' },
+    }
+  }
+  if (legacy.tokenAddress !== undefined) {
+    if (!legacy.fieldName || legacy.multiplier === undefined) return undefined
+    return {
+      value: {
+        mode: 'fieldRef',
+        contractAddress: legacy.fieldContractAddress ?? legacy.tokenAddress,
+        fieldName: legacy.fieldName,
+      },
+      unit: { kind: 'token', tokenAddress: legacy.tokenAddress },
+      multiplier: legacy.multiplier,
+    }
+  }
+  if (legacy.contractAddress && legacy.fieldName && legacy.unit) {
+    if (legacy.unit === 'raw') {
+      return {
+        value: {
+          mode: 'fieldRef',
+          contractAddress: legacy.contractAddress,
+          fieldName: legacy.fieldName,
+        },
+        unit: { kind: 'usd' },
+      }
+    }
+    return {
+      value: {
+        mode: 'fieldRef',
+        contractAddress: legacy.contractAddress,
+        fieldName: legacy.fieldName,
+      },
+      unit: { kind: 'scaler', factor: legacy.unit },
+    }
+  }
+  return undefined
+}
 
 // A mitigation value can be either a hardcoded literal or a reference to a contract field
 export interface MitigationValue {
@@ -59,7 +149,7 @@ export interface Mitigation {
   // Optional: the maximum fund impact this constraint produces, expressed as an
   // on-chain field value + a scaling unit. Bounds (directFundsUsd + totalReachableFundsUsd)
   // in capital analysis. Respects scopedTo: scoped caps apply only to the matching caller.
-  impactCap?: { hardcodedUsd?: number; contractAddress?: string; fieldName?: string; unit?: ImpactCapUnit }
+  impactCap?: ImpactCap | LegacyImpactCap
   impactCapUsd?: number
 }
 
@@ -480,10 +570,11 @@ export interface FunctionEntry {
     contractAddress: string
     fieldName: string
   }
-  // External contract dependencies
-  dependencies?: {
-    contractAddress: string
-  }[]
+  // External contract dependencies. Union of literal and path-based refs:
+  //   { contractAddress } — fixed pin
+  //   { path }            — path expression resolved at analysis time
+  //                         (e.g. "eth:0xOracle.assetSources[$self.UNDERLYING]")
+  dependencies?: FunctionDependencyRef[]
   // Mitigations (valueRange, relativeValue, other — delay is stored separately in `delay` field)
   mitigations?: Mitigation[]
   // Attribution tracking
@@ -492,6 +583,14 @@ export interface FunctionEntry {
   // Audit trail comments
   comments?: FunctionComment[]
 }
+
+// Dependency reference used in FunctionEntry.dependencies.
+// Literal form pins a specific external contract. Path form uses the same
+// expression grammar as OwnerDefinition.path and is resolved server-side at
+// analysis time so deps can track mutable on-chain state (e.g. registry maps).
+export type FunctionDependencyRef =
+  | { contractAddress: string }
+  | { path: string }
 
 // Owner definition types - unified path expression approach
 // Path format: <contractRef>.<valuePath>
@@ -519,9 +618,7 @@ export interface ApiFunctionsUpdateRequest {
     contractAddress: string
     fieldName: string
   } | null
-  dependencies?: {
-    contractAddress: string
-  }[]
+  dependencies?: FunctionDependencyRef[]
   // Mitigations (valueRange, relativeValue, other — delay mitigations derived from `delay` field)
   mitigations?: Mitigation[] | null
   // Frontend sends only the text; backend stamps author + date
@@ -1016,6 +1113,14 @@ export interface GovernanceConfig {
 export interface ReviewConfig {
   version: string
   lastModified: string
+  /** First time the review-config was created. Preserved across regenerations. */
+  publishedAt?: string
+  /**
+   * Researcher attestation flag. Missing = treated as verified (legacy reviews
+   * were researcher-curated). New AI-generated reviews must explicitly write
+   * `false`. Toggled via the TerminalExtensions button.
+   */
+  verified?: boolean
   protocolSlug: string
   protocolName: string
   tokenName: string

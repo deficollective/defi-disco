@@ -21,6 +21,8 @@ type SortDir = 'asc' | 'desc'
 
 export function AdminsTab({ review }: AdminsTabProps) {
   const { admins, totals } = review
+  // Governance contracts have their own dedicated tab; exclude them here so
+  // the same contract isn't listed in two places.
   const humanAdmins = useMemo(
     () => getHumanAdmins(admins).filter((a) => !a.isGovernance),
     [admins],
@@ -202,9 +204,14 @@ function AdminRow({
           </div>
         </td>
         <td className="px-4 py-2.5">
-          <Badge variant="admin-type" adminType={admin.adminType}>
-            {admin.adminType}
-          </Badge>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <Badge variant="admin-type" adminType={admin.adminType}>
+              {admin.adminType}
+            </Badge>
+            {admin.isGovernance && (
+              <Badge variant="governance">Governance</Badge>
+            )}
+          </div>
         </td>
         <td className="px-4 py-2.5 text-right tabular-nums">
           {admin.totalReachableCapital + admin.totalReachableTokenValue > 0 ? (

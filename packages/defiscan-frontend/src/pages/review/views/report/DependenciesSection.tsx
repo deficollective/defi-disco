@@ -1,6 +1,6 @@
 import type { CompiledReview, CompiledDependency } from '../../../../types'
 import { MitigationBadge } from '../../../../components/MitigationBadge'
-import { deduplicateMitigations } from '../explorer/shared'
+import { aggregateMitigationsByImpact } from '../explorer/shared'
 import {
   ImpactBarRow,
   ImpactStatsSidebar,
@@ -147,8 +147,8 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
             const groupLabel =
               entity ?? (namedEntities.length > 0 ? 'Other' : 'Unknown')
             const barWidth = maxGroupFunds > 0 ? (groupFunds / maxGroupFunds) * 100 : 0
-            const mitigations = deduplicateMitigations(
-              deps.flatMap((d) => d.functions?.flatMap((f) => f.mitigations ?? []) ?? []),
+            const mitigations = aggregateMitigationsByImpact(
+              deps.flatMap((d) => d.functions ?? []),
             )
 
             return (
@@ -162,9 +162,26 @@ export function DependenciesSection({ review, onShowMore }: DependenciesSectionP
                     <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold text-text-muted bg-border/60">
                       {deps.length} contract{deps.length !== 1 ? 's' : ''}
                     </span>
-                    {mitigations.map((m, i) => (
-                      <MitigationBadge key={i} mitigation={m} />
-                    ))}
+                    {(() => {
+                      const MAX_BADGES = 4
+                      const visible = mitigations.slice(0, MAX_BADGES)
+                      const remaining = mitigations.length - visible.length
+                      return (
+                        <>
+                          {visible.map((m, i) => (
+                            <MitigationBadge key={i} mitigation={m} />
+                          ))}
+                          {remaining > 0 && (
+                            <span
+                              className="shrink-0 text-text-muted text-[10px] leading-4 ml-0.5"
+                              title={`${mitigations.length} unique mitigations total`}
+                            >
+                              +{remaining}
+                            </span>
+                          )}
+                        </>
+                      )
+                    })()}
                   </>
                 }
               />

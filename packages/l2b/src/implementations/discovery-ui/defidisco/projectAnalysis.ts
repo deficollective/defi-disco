@@ -9,6 +9,8 @@ import { getProject } from '../getProject'
 import {
   addressesEqual,
   buildImplementationToProxyMap,
+  buildImplToProxiesMap,
+  buildProxyToImplsMap,
   filterMitigationsForOwner,
   normalizeChainAddress,
   stripChainPrefix,
@@ -35,6 +37,7 @@ import { getFundsData } from './fundsData'
 import { DiscoveredDataAccess } from './ownerResolution'
 import {
   isUpgradeFunction,
+  normalizeImpactCap,
   type AdminDetail,
   type ApiAddressType,
   type ApiCallGraphResponse,
@@ -44,7 +47,8 @@ import {
   type ApiFundsDataResponse,
   type FunctionCapitalAnalysis,
   type Impact,
-  type ImpactCapUnit,
+  type ImpactCap,
+  type ImpactCapScaler,
   type Mitigation,
   type OwnershipChainStep,
   type ReachableContract,
@@ -156,8 +160,7 @@ export interface ProjectSummary {
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
-const IMPACT_CAP_DENOMINATORS: Record<ImpactCapUnit, number> = {
-  raw: 1,
+const SCALER_DENOMINATORS: Record<ImpactCapScaler, number> = {
   '1e6': 1e6,
   '1e8': 1e8,
   '1e18': 1e18,
@@ -166,51 +169,113 @@ const IMPACT_CAP_DENOMINATORS: Record<ImpactCapUnit, number> = {
 }
 
 /**
- * Resolve an impactCap to a USD number.
- * Supports hardcoded USD values and on-chain field references (contractAddress + fieldName + unit).
- * Returns undefined if resolution fails (warns but never silently caps at 0).
+ * Resolve a unified ImpactCap (post-normalization) to USD.
+ *
+ * Formula:
+ *   raw = value.amount (hardcoded)  OR  on-chain field value (fieldRef)
+ *   usd =
+ *     unit=usd    → raw
+ *     unit=scaler → raw / denominator
+ *     unit=token  → (raw, optionally /10^decimals if fieldRef) × price
+ *   final = usd × (multiplier ?? 1)
+ *
+ * Note the asymmetry in 'token' mode: hardcoded amounts are interpreted as
+ * whole tokens (researcher-friendly), fieldRef amounts as raw on-chain units.
+ * Returns undefined on any failure; warns but never silently caps at 0.
  */
-function resolveStructuredImpactCap(
-  impactCap: {
-    hardcodedUsd?: number
-    contractAddress?: string
-    fieldName?: string
-    unit?: ImpactCapUnit
-  },
+function resolveImpactCap(
+  cap: ImpactCap,
   dataAccess: DiscoveredDataAccess,
+  fundsData: ApiFundsDataResponse | undefined,
 ): number | undefined {
-  // Hardcoded mode
-  if (impactCap.hardcodedUsd !== undefined) {
-    return impactCap.hardcodedUsd
+  const multiplier = cap.multiplier ?? 1
+  if (!isFinite(multiplier)) {
+    console.warn('[impactCap] invalid multiplier:', cap.multiplier)
+    return undefined
   }
 
-  // Field reference mode
-  if (!impactCap.contractAddress || !impactCap.fieldName || !impactCap.unit) {
-    return undefined
-  }
-  try {
-    const contract = dataAccess.findContract(impactCap.contractAddress)
-    const raw = dataAccess.getValuesObject(contract)[impactCap.fieldName]
-    if (raw === undefined) {
+  // 1. Resolve raw amount
+  let rawAmount: number
+  const fromField = cap.value.mode === 'fieldRef'
+  if (cap.value.mode === 'hardcoded') {
+    rawAmount = cap.value.amount
+    if (!isFinite(rawAmount)) return undefined
+  } else {
+    try {
+      const contract = dataAccess.findContract(cap.value.contractAddress)
+      const raw = dataAccess.getValuesObject(contract)[cap.value.fieldName]
+      if (raw === undefined) {
+        console.warn(
+          `[impactCap] Field "${cap.value.fieldName}" not found on contract ${cap.value.contractAddress}`,
+        )
+        return undefined
+      }
+      const n = typeof raw === 'number' ? raw : Number(raw)
+      if (!isFinite(n)) {
+        console.warn(
+          `[impactCap] Field "${cap.value.fieldName}" on ${cap.value.contractAddress} is not numeric: ${raw}`,
+        )
+        return undefined
+      }
+      rawAmount = n
+    } catch (err) {
       console.warn(
-        `[impactCap] Field "${impactCap.fieldName}" not found on contract ${impactCap.contractAddress}`,
+        `[impactCap] Exception reading field "${cap.value.fieldName}" on ${cap.value.contractAddress}: ${err}`,
       )
       return undefined
     }
-    const rawNum = typeof raw === 'number' ? raw : Number(raw)
-    if (!isFinite(rawNum)) {
+  }
+
+  // 2. Convert to USD via unit
+  let usd: number
+  if (cap.unit.kind === 'usd') {
+    usd = rawAmount
+  } else if (cap.unit.kind === 'scaler') {
+    const denom = SCALER_DENOMINATORS[cap.unit.factor]
+    if (denom === undefined) return undefined
+    usd = rawAmount / denom
+  } else {
+    // token
+    const info = lookupFundsContract(
+      fundsData,
+      cap.unit.tokenAddress,
+    )?.tokenInfo
+    if (
+      !info ||
+      typeof info.price !== 'number' ||
+      typeof info.decimals !== 'number'
+    ) {
       console.warn(
-        `[impactCap] Field "${impactCap.fieldName}" on ${impactCap.contractAddress} is not numeric: ${raw}`,
+        `[impactCap] Token ${cap.unit.tokenAddress} missing price/decimals in funds-data.json`,
       )
       return undefined
     }
-    return rawNum / IMPACT_CAP_DENOMINATORS[impactCap.unit]
-  } catch (err) {
-    console.warn(
-      `[impactCap] Exception resolving cap field "${impactCap.fieldName}" on ${impactCap.contractAddress}: ${err}`,
-    )
-    return undefined
+    const tokenAmount = fromField
+      ? rawAmount / Math.pow(10, info.decimals)
+      : rawAmount
+    usd = tokenAmount * info.price
   }
+
+  return usd * multiplier
+}
+
+/**
+ * Case-insensitive / chain-prefix-tolerant lookup into funds-data's contracts map.
+ * funds-data.json stores keys with chain prefix and checksummed hex, but researcher
+ * inputs may arrive in mixed case — normalize both sides before matching.
+ */
+function lookupFundsContract(
+  fundsData: ApiFundsDataResponse | undefined,
+  address: string,
+): ApiFundsDataResponse['contracts'][string] | undefined {
+  if (!fundsData?.contracts) return undefined
+  const direct = fundsData.contracts[address]
+  if (direct) return direct
+  const target = normalizeChainAddress(address)
+  for (const [key, value] of Object.entries(fundsData.contracts)) {
+    if (normalizeChainAddress(key) === target) return value
+  }
+  return undefined
 }
 
 /**
@@ -227,8 +292,15 @@ function mapAdminType(
     return 'Revoked'
   }
   const proxyType = proxyTypeMap.get(normalizedAddress)
+  // 'Immutable' is only a meaningful label for *generic* contracts that have
+  // no more specific classification. Don't clobber Multisig/Token/Timelock/
+  // Diamond etc. just because the contract bytecode happens to be
+  // non-upgradeable — a stand-alone multisig is still a multisig.
   if (proxyType === 'immutable') {
-    return 'Immutable'
+    if (rawType === 'Contract' || rawType === 'Untemplatized') {
+      return 'Immutable'
+    }
+    return rawType
   }
   if (rawType === 'Untemplatized' || rawType === 'Unknown') {
     if (proxyType !== undefined) {
@@ -236,6 +308,29 @@ function mapAdminType(
     }
   }
   return rawType
+}
+
+/**
+ * Expand a stored functions.json address into one-or-more analysis targets.
+ *
+ * - Unique-impl or bare proxy address: returns [storedAddress] (no change)
+ * - Shared implementation (N proxies): returns [proxy_1, … proxy_N]
+ *
+ * The returned addresses preserve their original-case form because several
+ * downstream consumers (contractNameMap, capital lookup) take either case
+ * and normalize internally. Callers that need normalized keys should pass
+ * them through `normalizeChainAddress`.
+ */
+function expandImplToTargets(
+  storedAddress: string,
+  implToProxies: Map<string, Set<string>>,
+): string[] {
+  const normalized = normalizeChainAddress(storedAddress)
+  const proxies = implToProxies.get(normalized)
+  if (!proxies || proxies.size === 0) {
+    return [storedAddress]
+  }
+  return [...proxies]
 }
 
 /**
@@ -522,6 +617,7 @@ export class ProjectAnalysis {
         this.callGraphData,
         this.functionsData,
         dataAccess,
+        this.discovered,
       )
       this._enhancedGraph = buildIndices(edges)
     }
@@ -537,6 +633,7 @@ export class ProjectAnalysis {
         this.contractNameMap,
         this.implToProxyMap,
         this.resolvedImpactCaps,
+        this.proxyToImplsSharedMap,
       )
     }
     return this._capitalCalculator
@@ -685,82 +782,96 @@ export class ProjectAnalysis {
     const adminsMap = new Map<string, AdminDetail>()
     const ownerResolutionCache = new Map<string, string[]>()
 
+    // Shared-impl fan-out: when a functions.json entry is stored at an
+    // implementation address used by N proxies, emit N admin rows (one per
+    // proxy) with `$self` bound to the specific proxy. See
+    // docs/developers/designs/shared-impl-fan-out.md.
+    const implToProxies = buildImplToProxiesMap(this.discovered)
+
     if (this.functionsData?.contracts) {
-      for (const [contractAddress, contractData] of Object.entries(
+      for (const [storedAddress, contractData] of Object.entries(
         this.functionsData.contracts,
       )) {
-        // Apply contract filter if provided (with impl→proxy resolution)
-        if (
-          contractFilter &&
-          !this.matchesContractFilter(contractAddress, contractFilter)
-        ) {
-          continue
-        }
+        const expandedTargets = expandImplToTargets(
+          storedAddress,
+          implToProxies,
+        )
 
-        for (const func of contractData.functions) {
-          // Include functions that have owner definitions, regardless of
-          // isPermissioned — FunctionFolder resolves and displays owners
-          // for any function with ownerDefinitions.
-          if (!func.ownerDefinitions || func.ownerDefinitions.length === 0) {
+        for (const target of expandedTargets) {
+          // Apply contract filter after expansion so /admins?contract=<proxy>
+          // matches impl-stored entries that fan out to that proxy.
+          if (
+            contractFilter &&
+            !this.matchesContractFilter(target, contractFilter)
+          ) {
             continue
           }
 
-          // Resolve owners with caching
-          // Cache key must include contractAddress because $self paths
-          // resolve differently per contract
-          const cacheKey = `${contractAddress}|${JSON.stringify(func.ownerDefinitions)}`
-          let adminAddresses = ownerResolutionCache.get(cacheKey)
-          if (!adminAddresses) {
-            const resolved = resolveOwnersFromDiscovered(
-              this.paths,
-              this.projectName,
-              contractAddress,
-              func.ownerDefinitions,
-            )
-            adminAddresses = [
-              ...new Set(extractAddressesFromResolvedOwners(resolved)),
-            ]
-            ownerResolutionCache.set(cacheKey, adminAddresses)
-          }
-
-          // Group by admin
-          const funcImpact: Impact =
-            func.score === 'no-impact' ? 'no-impact' : 'critical'
-
-          for (const adminAddr of adminAddresses) {
-            const normalizedAdmin = normalizeChainAddress(adminAddr)
-            if (!adminsMap.has(normalizedAdmin)) {
-              const rawType =
-                this.contractTypeMap.get(normalizedAdmin) || 'Unknown'
-              const adminType = mapAdminType(
-                rawType,
-                normalizedAdmin,
-                this.proxyTypeMap,
-              )
-              adminsMap.set(normalizedAdmin, {
-                adminAddress: normalizedAdmin,
-                adminName:
-                  this.contractNameMap.get(normalizedAdmin) || normalizedAdmin,
-                adminType,
-                functions: [],
-              })
+          for (const func of contractData.functions) {
+            // Include functions that have owner definitions, regardless of
+            // isPermissioned — FunctionFolder resolves and displays owners
+            // for any function with ownerDefinitions.
+            if (!func.ownerDefinitions || func.ownerDefinitions.length === 0) {
+              continue
             }
 
-            adminsMap.get(normalizedAdmin)!.functions.push({
-              contractAddress,
-              contractName:
-                this.contractNameMap.get(
-                  normalizeChainAddress(contractAddress),
-                ) || 'Unknown Contract',
-              functionName: func.functionName,
-              impact: funcImpact,
-              mitigations: this.getMitigationsForOwner(
-                contractAddress,
-                func.functionName,
-                normalizedAdmin,
-                'admin',
-              ),
-            })
+            // Resolve owners with caching keyed by (target, definitions) — $self
+            // paths resolve per target proxy so we cannot dedupe across targets
+            // even if the stored entry is shared.
+            const cacheKey = `${target}|${JSON.stringify(func.ownerDefinitions)}`
+            let adminAddresses = ownerResolutionCache.get(cacheKey)
+            if (!adminAddresses) {
+              const resolved = resolveOwnersFromDiscovered(
+                this.paths,
+                this.projectName,
+                target,
+                func.ownerDefinitions,
+              )
+              adminAddresses = [
+                ...new Set(extractAddressesFromResolvedOwners(resolved)),
+              ]
+              ownerResolutionCache.set(cacheKey, adminAddresses)
+            }
+
+            // Group by admin
+            const funcImpact: Impact =
+              func.score === 'no-impact' ? 'no-impact' : 'critical'
+
+            for (const adminAddr of adminAddresses) {
+              const normalizedAdmin = normalizeChainAddress(adminAddr)
+              if (!adminsMap.has(normalizedAdmin)) {
+                const rawType =
+                  this.contractTypeMap.get(normalizedAdmin) || 'Unknown'
+                const adminType = mapAdminType(
+                  rawType,
+                  normalizedAdmin,
+                  this.proxyTypeMap,
+                )
+                adminsMap.set(normalizedAdmin, {
+                  adminAddress: normalizedAdmin,
+                  adminName:
+                    this.contractNameMap.get(normalizedAdmin) ||
+                    normalizedAdmin,
+                  adminType,
+                  functions: [],
+                })
+              }
+
+              adminsMap.get(normalizedAdmin)!.functions.push({
+                contractAddress: target,
+                contractName:
+                  this.contractNameMap.get(normalizeChainAddress(target)) ||
+                  'Unknown Contract',
+                functionName: func.functionName,
+                impact: funcImpact,
+                mitigations: this.getMitigationsForOwner(
+                  target,
+                  func.functionName,
+                  normalizedAdmin,
+                  'admin',
+                ),
+              })
+            }
           }
         }
       }
@@ -1060,6 +1171,46 @@ export class ProjectAnalysis {
       }
     }
 
+    // Inject field-declared external dependencies.
+    // Contracts tagged with dependencyFields declare discovered value arrays
+    // (e.g. allUnderlyingAssets, allReserveSources) whose addresses should
+    // appear as external dependencies without requiring full discovery entries.
+    for (const tag of this.contractTags.tags ?? []) {
+      if (!tag.dependencyFields?.length) continue
+      if (
+        contractFilter &&
+        !this.matchesContractFilter(tag.contractAddress, contractFilter)
+      ) {
+        continue
+      }
+      const entry = this.discovered.entries?.find(
+        (e: any) =>
+          e.type === 'Contract' &&
+          addressesEqual(e.address, tag.contractAddress),
+      )
+      if (!entry) continue
+
+      for (const fieldName of tag.dependencyFields) {
+        const fieldValue = entry.values?.[fieldName]
+        if (!Array.isArray(fieldValue)) continue
+
+        for (const addr of fieldValue) {
+          const key = normalizeChainAddress(addr)
+          if (depMap.has(key)) continue
+          const addrTag = this.tagsByAddress.get(key)
+          depMap.set(key, {
+            address: addr,
+            name: addrTag?.entity ?? addr,
+            entity: addrTag?.entity,
+            isAutoDetected: true,
+            dependencyType: undefined,
+            calledFunctions: new Set(),
+            functions: [],
+          })
+        }
+      }
+    }
+
     // Build final dependencies with aggregated capital
     const dependencies: DependencyEntry[] = []
     for (const dep of depMap.values()) {
@@ -1168,6 +1319,7 @@ export class ProjectAnalysis {
       this.callGraphData,
       this.functionsData,
       dataAccess,
+      this.discovered,
     )
     const graph = buildIndices(edges)
 
@@ -1272,6 +1424,18 @@ export class ProjectAnalysis {
       }
     }
 
+    // Only aggregate capital from admins that actually represent a human or
+    // upgradeable-code compromise vector. Immutable contracts and revoked
+    // addresses surface in the ownership chain (they can call permissioned
+    // functions as part of the intended protocol flow) but they are not a
+    // risk surface — Immutable has no compromise path, Revoked can't act.
+    // Keeping them in the aggregation inflated "Impacted TVS" on protocols
+    // like Aerodrome where the Minter is an Immutable admin transitively
+    // reaching the token contract.
+    const NON_RISK_ADMIN_TYPES = new Set(['Immutable', 'Revoked'])
+    const isRiskAdmin = (a: AdminEntry): boolean =>
+      !NON_RISK_ADMIN_TYPES.has(a.type) || a.isGovernance === true
+
     // Same deduplication logic as v2Scoring AdminInventoryModule
     const contractCapitalMap = new Map<
       string,
@@ -1283,6 +1447,7 @@ export class ProjectAnalysis {
     }
 
     for (const admin of admins) {
+      if (!isRiskAdmin(admin)) continue
       for (const func of admin.functions) {
         if (func.directFundsUsd > 0 || func.directTokenValueUsd > 0) {
           const addr = resolveAddr(func.contractAddress)
@@ -1314,7 +1479,7 @@ export class ProjectAnalysis {
     }
 
     return {
-      adminCount: admins.length,
+      adminCount: admins.filter(isRiskAdmin).length,
       totalCapitalAtRisk,
       totalTokenValueAtRisk,
     }
@@ -1387,6 +1552,7 @@ export class ProjectAnalysis {
     if (!this.functionsData?.contracts) return caps
 
     const dataAccess = new DiscoveredDataAccess(this.discovered)
+    const implToProxies = buildImplToProxiesMap(this.discovered)
 
     for (const [contractAddr, contractData] of Object.entries(
       this.functionsData.contracts,
@@ -1396,24 +1562,35 @@ export class ProjectAnalysis {
         if (func.mitigations) mitigations.push(...func.mitigations)
 
         for (const m of mitigations) {
-          if (!m.impactCap) continue
-          if (
-            m.impactCap.hardcodedUsd === undefined &&
-            (!m.impactCap.contractAddress || !m.impactCap.fieldName)
-          )
-            continue
+          const normalized = normalizeImpactCap(m.impactCap)
+          if (!normalized) continue
 
-          const capUsd = resolveStructuredImpactCap(m.impactCap, dataAccess)
+          const capUsd = resolveImpactCap(
+            normalized,
+            dataAccess,
+            this.fundsData,
+          )
           if (capUsd === undefined) continue
 
-          const base = `${normalizeChainAddress(contractAddr)}|${func.functionName}`
-          const key = m.scopedTo
-            ? `${base}|${normalizeChainAddress(m.scopedTo.address)}`
-            : base
+          const normalizedStored = normalizeChainAddress(contractAddr)
+          // Fan out impl-stored caps to each proxy sharing the impl, so that
+          // lookups keyed by proxy find the cap.
+          const baseAddresses = new Set<string>([normalizedStored])
+          const proxies = implToProxies.get(normalizedStored)
+          if (proxies) {
+            for (const p of proxies) baseAddresses.add(p)
+          }
 
-          const existing = caps.get(key)
-          if (existing === undefined || capUsd < existing) {
-            caps.set(key, capUsd)
+          for (const baseAddr of baseAddresses) {
+            const base = `${baseAddr}|${func.functionName}`
+            const key = m.scopedTo
+              ? `${base}|${normalizeChainAddress(m.scopedTo.address)}`
+              : base
+
+            const existing = caps.get(key)
+            if (existing === undefined || capUsd < existing) {
+              caps.set(key, capUsd)
+            }
           }
         }
       }
@@ -1426,18 +1603,56 @@ export class ProjectAnalysis {
     const lookup = new Map<string, Mitigation[]>()
     if (!this.functionsData?.contracts) return lookup
 
+    // Shared-impl fan-out with proxy-override precedence. A per-proxy entry
+    // (e.g. a proxy-specific mitigation list for one AToken) must win over the
+    // shared impl template regardless of JSON insertion order — otherwise the
+    // last-iterated write silently clobbers the override.
+    //
+    // Two-pass build mirrors buildFunctionsMetadataLookup:
+    //   Pass 1 — non-impl entries (proxy-direct, standalone, unique-impl) write
+    //            unconditionally. Per-proxy overrides land here.
+    //   Pass 2 — shared-impl entries fan out to { impl, ...proxies } but only
+    //            fill keys that are still empty, so overrides from pass 1 are
+    //            preserved.
+    const implToProxies = buildImplToProxiesMap(this.discovered)
+
     for (const [contractAddr, contractData] of Object.entries(
       this.functionsData.contracts,
     )) {
+      const normalizedStored = normalizeChainAddress(contractAddr)
+      if (implToProxies.has(normalizedStored)) continue
       for (const func of contractData.functions) {
         const mitigations = buildMergedMitigations(
           func,
           this.paths,
           this.projectName,
         )
-        if (mitigations) {
-          const key = `${normalizeChainAddress(contractAddr)}|${func.functionName}`
-          lookup.set(key, mitigations)
+        if (!mitigations) continue
+        lookup.set(`${normalizedStored}|${func.functionName}`, mitigations)
+      }
+    }
+
+    for (const [contractAddr, contractData] of Object.entries(
+      this.functionsData.contracts,
+    )) {
+      const normalizedStored = normalizeChainAddress(contractAddr)
+      const proxies = implToProxies.get(normalizedStored)
+      if (!proxies) continue
+      for (const func of contractData.functions) {
+        const mitigations = buildMergedMitigations(
+          func,
+          this.paths,
+          this.projectName,
+        )
+        if (!mitigations) continue
+        const keys = new Set<string>([
+          `${normalizedStored}|${func.functionName}`,
+          ...Array.from(proxies, (p) => `${p}|${func.functionName}`),
+        ])
+        for (const key of keys) {
+          if (!lookup.has(key)) {
+            lookup.set(key, mitigations)
+          }
         }
       }
     }
@@ -1453,15 +1668,32 @@ export class ProjectAnalysis {
   private buildTransitiveMitigationsLookup(): Map<string, Mitigation[]> {
     const transitiveLookup = new Map<string, Mitigation[]>()
 
+    // Fast path: if the project has no direct mitigations at all, there is
+    // nothing for forward BFS to collect. Skip the O(edges × BFS) work
+    // entirely. This is the common case (most projects have zero scoped
+    // mits), and avoids the upgrade-seeding + dep-edge fan-out cost added
+    // by the transitive-propagation fix.
+    if (this.mitigationsLookup.size === 0) {
+      return transitiveLookup
+    }
+
     // Collect all unique (contract, function) pairs that have outgoing
-    // call graph edges. We must iterate the enhanced graph — not just
-    // functionsData — because many caller contracts (e.g. StablecoinBridge)
-    // are not in functionsData but DO have call graph edges to downstream
-    // functions that carry scoped mitigations.
+    // call graph OR dependency edges. We must iterate the enhanced graph —
+    // not just functionsData — because many caller contracts (e.g. the
+    // StablecoinBridge) are not in functionsData but DO have call graph
+    // edges to downstream functions that carry scoped mitigations.
     const seen = new Set<string>()
     for (const [, edges] of this.enhancedGraph.forwardIndex) {
       for (const edge of edges) {
-        if (edge.edgeType !== 'callgraph' || !edge.sourceFunction) continue
+        // Both callgraph and dependency edges represent data-flow reach from
+        // a function — we need transitive mits on both so a manual-dep oracle
+        // cap can flow back to the permissioned function that names the dep.
+        if (
+          (edge.edgeType !== 'callgraph' && edge.edgeType !== 'dependency') ||
+          !edge.sourceFunction
+        ) {
+          continue
+        }
         const key = `${normalizeChainAddress(edge.sourceContract)}|${edge.sourceFunction}`
         if (seen.has(key)) continue
         seen.add(key)
@@ -1472,6 +1704,35 @@ export class ProjectAnalysis {
         )
         if (transitiveMits.length > 0) {
           transitiveLookup.set(key, transitiveMits)
+        }
+      }
+    }
+
+    // Upgrade functions (upgradeTo / upgradeToAndCall) don't have outgoing
+    // call-graph edges of their own — they're just delegatecall stubs — so
+    // they never appear as `sourceFunction` above. But semantically, an
+    // upgrade grants arbitrary code execution on the contract, so forward
+    // reach from them must include everything the contract's other
+    // functions reach. Seed the lookup for every permissioned upgrade
+    // function in functionsData so `collectDownstreamScopedMitigations`
+    // (which already handles the upgrade seeding internally) can run.
+    if (this.functionsData?.contracts) {
+      for (const [contractAddr, contractData] of Object.entries(
+        this.functionsData.contracts,
+      )) {
+        const normalizedStored = normalizeChainAddress(contractAddr)
+        for (const func of contractData.functions) {
+          if (!isUpgradeFunction(func.functionName)) continue
+          const key = `${normalizedStored}|${func.functionName}`
+          if (seen.has(key)) continue
+          seen.add(key)
+          const transitiveMits = this.collectDownstreamScopedMitigations(
+            contractAddr,
+            func.functionName,
+          )
+          if (transitiveMits.length > 0) {
+            transitiveLookup.set(key, transitiveMits)
+          }
         }
       }
     }
@@ -1496,17 +1757,54 @@ export class ProjectAnalysis {
     const visited = new Set<string>()
     const directLookup = this.mitigationsLookup
 
+    // Defense-in-depth: if no direct mits exist anywhere, BFS can't collect
+    // anything. `buildTransitiveMitigationsLookup` already bails out in this
+    // case, but other callers may reach this function directly.
+    if (directLookup.size === 0) return collected
+
     const queue: Array<{
       contract: string
       function: string
       pathContracts: Set<string>
-    }> = [
-      {
+    }> = []
+
+    const initialPath = new Set([normalizeChainAddress(startContract)])
+
+    if (isUpgradeFunction(startFunction)) {
+      // Upgrade = arbitrary code execution on this contract. Seed BFS with
+      // every function that appears as a caller in the contract's call graph
+      // (mirrors `traverseWithPaths`'s upgrade-function seeding). Without this,
+      // upgrade fns never reach downstream mits and their dependency-view
+      // impactCaps aren't applied.
+      const normalizedContract = normalizeChainAddress(startContract)
+      const edges = this.enhancedGraph.forwardIndex.get(normalizedContract)
+      const seenFunctions = new Set<string>()
+      if (edges) {
+        for (const edge of edges) {
+          if (edge.edgeType === 'permission') continue
+          if (!edge.sourceFunction) continue
+          if (seenFunctions.has(edge.sourceFunction)) continue
+          seenFunctions.add(edge.sourceFunction)
+          queue.push({
+            contract: startContract,
+            function: edge.sourceFunction,
+            pathContracts: new Set(initialPath),
+          })
+        }
+      }
+      // Also seed the upgrade function itself.
+      queue.push({
         contract: startContract,
         function: startFunction,
-        pathContracts: new Set([normalizeChainAddress(startContract)]),
-      },
-    ]
+        pathContracts: initialPath,
+      })
+    } else {
+      queue.push({
+        contract: startContract,
+        function: startFunction,
+        pathContracts: initialPath,
+      })
+    }
 
     while (queue.length > 0) {
       const { contract, function: func, pathContracts } = queue.shift()!
@@ -1520,8 +1818,17 @@ export class ProjectAnalysis {
       if (!edges) continue
 
       for (const edge of edges) {
-        // Only follow call graph edges, not permission edges
-        if (edge.edgeType !== 'callgraph') continue
+        // Follow call graph AND dependency edges — both represent data-flow
+        // reach from this function. Permission edges (owner → owned fn) do
+        // NOT model downstream reach so we skip them. Without dependency-edge
+        // traversal here, a global impactCap on a manual-dep target (e.g. a
+        // price oracle reachable via a `dependencies` path expression) would
+        // not propagate back to the permissioned function that names it —
+        // leaving the function's dep view uncapped while /dependencies still
+        // attributes it to the dep.
+        if (edge.edgeType !== 'callgraph' && edge.edgeType !== 'dependency') {
+          continue
+        }
         // Only follow edges from the current function
         if (edge.sourceFunction !== func) continue
 
@@ -1613,17 +1920,38 @@ export class ProjectAnalysis {
         })()
       : undefined
     if (!filteredDirect && !filteredTransitive) return undefined
-    const merged = !filteredDirect
+    const concatenated = !filteredDirect
       ? filteredTransitive!
       : !filteredTransitive
         ? filteredDirect
         : [...filteredDirect, ...filteredTransitive]
 
+    // Dedupe across direct + transitive. The transitive lookup can echo the
+    // direct mitigations when a function's call graph resolves back to the
+    // same (contract, function) pair (e.g. heuristic mis-resolution), or when
+    // a researcher legitimately repeats a description on a downstream
+    // function. Same key as collectDownstreamScopedMitigations.
+    const seenKey = new Set<string>()
+    const merged: Mitigation[] = []
+    for (const m of concatenated) {
+      const key = `${m.type}:${m.description}:${m.scopedTo?.address ?? ''}`
+      if (seenKey.has(key)) continue
+      seenKey.add(key)
+      merged.push(m)
+    }
+
     // Resolve impactCapUsd on mitigations that have an impactCap
     const dataAccess = new DiscoveredDataAccess(this.discovered)
     for (const m of merged) {
       if (m.impactCap && m.impactCapUsd === undefined) {
-        m.impactCapUsd = resolveStructuredImpactCap(m.impactCap, dataAccess)
+        const normalized = normalizeImpactCap(m.impactCap)
+        if (normalized) {
+          m.impactCapUsd = resolveImpactCap(
+            normalized,
+            dataAccess,
+            this.fundsData,
+          )
+        }
       }
     }
     return merged
@@ -1634,13 +1962,38 @@ export class ProjectAnalysis {
    */
   private getFunctionImpact(contractAddr: string, funcName: string): Impact {
     const normalizedAddr = normalizeChainAddress(contractAddr)
-    const contractEntry = Object.entries(
-      this.functionsData?.contracts ?? {},
-    ).find(([key]) => normalizeChainAddress(key) === normalizedAddr)
-    if (!contractEntry) return 'critical'
-    const func = contractEntry[1].functions.find(
-      (f) => f.functionName === funcName,
-    )
-    return func?.score === 'no-impact' ? 'no-impact' : 'critical'
+
+    // Check the address itself AND any implementation addresses it uses.
+    // This handles shared-impl metadata: the researcher stores one `burn`
+    // entry with score='no-impact' at the AToken impl; every AToken proxy
+    // sharing that impl must inherit the no-impact verdict even though
+    // callers pass the proxy address.
+    const candidateAddresses: string[] = [normalizedAddr]
+    const proxyImpls = this.proxyToImplsSharedMap.get(normalizedAddr)
+    if (proxyImpls) {
+      for (const impl of proxyImpls) candidateAddresses.push(impl)
+    }
+
+    for (const candidate of candidateAddresses) {
+      const contractEntry = Object.entries(
+        this.functionsData?.contracts ?? {},
+      ).find(([key]) => normalizeChainAddress(key) === candidate)
+      if (!contractEntry) continue
+      const func = contractEntry[1].functions.find(
+        (f) => f.functionName === funcName,
+      )
+      if (func) {
+        return func.score === 'no-impact' ? 'no-impact' : 'critical'
+      }
+    }
+    return 'critical'
+  }
+
+  private _proxyToImplsSharedMap: Map<string, Set<string>> | null = null
+  private get proxyToImplsSharedMap(): Map<string, Set<string>> {
+    if (!this._proxyToImplsSharedMap) {
+      this._proxyToImplsSharedMap = buildProxyToImplsMap(this.discovered)
+    }
+    return this._proxyToImplsSharedMap
   }
 }

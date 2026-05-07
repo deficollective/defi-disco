@@ -9,10 +9,9 @@ import {
   type CompiledReview,
   type CompiledAdmin,
   type CompiledAdminFunction,
-  type Mitigation,
 } from '../../../../types'
 import { MitigationBadge } from '../../../../components/MitigationBadge'
-import { deduplicateMitigations } from '../explorer/shared'
+import { aggregateMitigationsByImpact } from '../explorer/shared'
 
 interface AdminCardsProps {
   review: CompiledReview
@@ -256,14 +255,27 @@ function AdminDistributionChart({
                     )}
                     {admin.name}
                     {(() => {
-                      const all: Mitigation[] = []
-                      for (const fn of admin.functions) {
-                        if (fn.mitigations) all.push(...fn.mitigations)
-                      }
-                      const unique = deduplicateMitigations(all)
-                      return unique.map((m, i) => (
-                        <MitigationBadge key={i} mitigation={m} />
-                      ))
+                      const unique = aggregateMitigationsByImpact(
+                        admin.functions,
+                      )
+                      const MAX_BADGES = 4
+                      const visible = unique.slice(0, MAX_BADGES)
+                      const remaining = unique.length - visible.length
+                      return (
+                        <>
+                          {visible.map((m, i) => (
+                            <MitigationBadge key={i} mitigation={m} />
+                          ))}
+                          {remaining > 0 && (
+                            <span
+                              className="shrink-0 text-text-muted text-[10px] leading-4 ml-0.5"
+                              title={`${unique.length} unique mitigations total`}
+                            >
+                              +{remaining}
+                            </span>
+                          )}
+                        </>
+                      )
                     })()}
                   </span>
                   <span className="font-semibold shrink-0 text-capital">

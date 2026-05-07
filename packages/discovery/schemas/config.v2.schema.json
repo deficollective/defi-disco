@@ -781,6 +781,84 @@
                       },
                       "additionalProperties": false,
                       "required": ["type", "direction", "chainSelector"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": { "const": "layerZeroOAppConfig" },
+                        "endpoint": { "type": "string" },
+                        "includeEnforcedOptions": { "type": "boolean" },
+                        "includeRateLimits": { "type": "boolean" },
+                        "extraEids": {
+                          "type": "array",
+                          "items": { "type": "number" }
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": ["type", "endpoint"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": { "const": "aaveReserveTokens" },
+                        "tokenType": {
+                          "anyOf": [
+                            { "const": "variableDebt" },
+                            { "const": "stableDebt" },
+                            { "const": "aToken" }
+                          ]
+                        },
+                        "ignoreRelative": { "type": "boolean" }
+                      },
+                      "additionalProperties": false,
+                      "required": ["type", "tokenType"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": { "const": "metaMorphoCap" },
+                        "mode": {
+                          "anyOf": [{ "const": "market" }, { "const": "feed" }]
+                        },
+                        "marketId": { "type": "string" },
+                        "feed": { "type": "string" },
+                        "morphoAddressField": { "type": "string" },
+                        "queueField": { "type": "string" }
+                      },
+                      "additionalProperties": false,
+                      "required": ["type", "mode"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": { "const": "ghoBucketCapacity" },
+                        "ghoToken": { "type": "string" }
+                      },
+                      "additionalProperties": false,
+                      "required": ["type", "ghoToken"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": { "const": "aaveMarketAggregateTvs" },
+                        "aTokenNameFilter": { "type": "string" },
+                        "priceOracleField": { "type": "string" },
+                        "poolField": { "type": "string" },
+                        "balanceOfAddress": { "type": "string" }
+                      },
+                      "additionalProperties": false,
+                      "required": ["type"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": { "const": "umbrellaAggregateTvs" },
+                        "poolAddressesProviderField": { "type": "string" },
+                        "oracleField": { "type": "string" },
+                        "stkTokensField": { "type": "string" }
+                      },
+                      "additionalProperties": false,
+                      "required": ["type"]
                     }
                   ]
                 },

@@ -8,6 +8,7 @@ import {
   type ApiFundsDataResponse,
   type CallGraphTraversalResult,
   type FunctionCapitalAnalysis,
+  type FunctionEntry,
   type Impact,
   type ReachableContract,
 } from './types'
@@ -30,6 +31,21 @@ export class CapitalAnalysisCalculator {
   private contractNameMap: Map<string, string>
   private implToProxy: Map<string, string>
   private resolvedImpactCaps: Map<string, number>
+  // Maps a proxy (normalized) to the set of its implementation addresses.
+  // Used to look up function metadata that is stored at an impl address when
+  // the caller is iterating by proxy (shared-impl patterns like Aave AToken).
+  private proxyToImpls: Map<string, Set<string>>
+  // Pre-built lookup: normalized contract address → (functionName → FunctionEntry).
+  // Replaces the O(N) Object.entries scan that findFunctionMeta used to do
+  // on every BFS-edge visit.
+  private functionsByContract: Map<string, Map<string, FunctionEntry>>
+  // Cache of completed analyzeFunctionCapital results.
+  // Repeated `(contract, fn)` calls across multiple admins re-ran the BFS
+  // for no reason. The result is owner-independent unless the project has
+  // owner-scoped impactCap mitigations — in that case we include the owner
+  // in the cache key.
+  private analysisCache: Map<string, FunctionCapitalAnalysis> = new Map()
+  private cacheKeyIncludesOwner: boolean
 
   constructor(
     enhancedGraph: EnhancedGraph,
@@ -38,6 +54,7 @@ export class CapitalAnalysisCalculator {
     contractNameMap: Map<string, string>,
     implToProxy?: Map<string, string>,
     resolvedImpactCaps?: Map<string, number>,
+    proxyToImpls?: Map<string, Set<string>>,
   ) {
     this.enhancedGraph = enhancedGraph
     this.fundsData = fundsData
@@ -45,6 +62,47 @@ export class CapitalAnalysisCalculator {
     this.contractNameMap = contractNameMap
     this.implToProxy = implToProxy ?? new Map()
     this.resolvedImpactCaps = resolvedImpactCaps ?? new Map()
+    this.proxyToImpls = proxyToImpls ?? new Map()
+
+    this.functionsByContract = new Map()
+    for (const [addr, entry] of Object.entries(functionsData.contracts ?? {})) {
+      const normalized = normalizeChainAddress(addr)
+      const fnMap = new Map<string, FunctionEntry>()
+      for (const fn of entry.functions) fnMap.set(fn.functionName, fn)
+      this.functionsByContract.set(normalized, fnMap)
+    }
+
+    // Cap keys are `<contract>|<fn>` (global) or `<contract>|<fn>|<owner>`
+    // (scoped). Without any scoped caps, owner doesn't affect the BFS.
+    this.cacheKeyIncludesOwner = false
+    for (const key of this.resolvedImpactCaps.keys()) {
+      if (key.split('|').length >= 3) {
+        this.cacheKeyIncludesOwner = true
+        break
+      }
+    }
+  }
+
+  /**
+   * Resolve a function's metadata by trying the contract's own address first,
+   * then falling back to any implementation addresses it uses. This makes
+   * shared-impl metadata (one entry serving N proxies) visible to lookups
+   * keyed by proxy address.
+   */
+  private findFunctionMeta(
+    contractAddress: string,
+    functionName: string,
+  ): { score?: string } | undefined {
+    const normalized = normalizeChainAddress(contractAddress)
+    const direct = this.functionsByContract.get(normalized)?.get(functionName)
+    if (direct) return direct
+    const impls = this.proxyToImpls.get(normalized)
+    if (!impls) return undefined
+    for (const impl of impls) {
+      const fn = this.functionsByContract.get(impl)?.get(functionName)
+      if (fn) return fn
+    }
+    return undefined
   }
 
   /**
@@ -86,22 +144,13 @@ export class CapitalAnalysisCalculator {
     contractAddress: string,
     functionName: string,
   ): boolean {
-    // Case-insensitive lookup for the contract
-    const normalizedAddress = normalizeChainAddress(contractAddress)
-    const contractEntry = Object.entries(
-      this.functionsData.contracts ?? {},
-    ).find(([key]) => normalizeChainAddress(key) === normalizedAddress)
+    // Look up via shared-impl aware resolver: a proxy inherits its impl's
+    // metadata (and the impl is still checked directly when stored that way).
+    const func = this.findFunctionMeta(contractAddress, functionName)
 
     // If the contract or function isn't in functions.json, a call graph edge
     // still exists — the relationship is real. Funds data acts as the natural
     // guard: external contracts without fund entries contribute $0 regardless.
-    if (!contractEntry) return true
-    const contractFunctions = contractEntry[1]
-
-    const func = contractFunctions.functions.find(
-      (f) => f.functionName === functionName,
-    )
-
     if (!func) return true
 
     // Only exclude functions explicitly marked as no-impact by a researcher.
@@ -119,18 +168,7 @@ export class CapitalAnalysisCalculator {
     contractAddress: string,
     functionName: string,
   ): boolean {
-    const normalizedAddress = normalizeChainAddress(contractAddress)
-    const contractEntry = Object.entries(
-      this.functionsData.contracts ?? {},
-    ).find(([key]) => normalizeChainAddress(key) === normalizedAddress)
-
-    if (!contractEntry) return false
-    const contractFunctions = contractEntry[1]
-
-    const func = contractFunctions.functions.find(
-      (f) => f.functionName === functionName,
-    )
-
+    const func = this.findFunctionMeta(contractAddress, functionName)
     return func?.score === 'no-impact'
   }
 
@@ -252,21 +290,48 @@ export class CapitalAnalysisCalculator {
 
       for (const edge of edges) {
         const isCallGraph = edge.edgeType === 'callgraph'
+        const isDependency = edge.edgeType === 'dependency'
 
-        // Call graph edges: follow only edges from the current function
-        if (isCallGraph && edge.sourceFunction !== func) continue
+        // Function-scoped edges (callgraph, dependency) only follow from the
+        // current function. Permission edges are contract-level and followed
+        // unconditionally.
+        if ((isCallGraph || isDependency) && edge.sourceFunction !== func)
+          continue
 
-        const isViewCall = isCallGraph && edge.isViewCall === true
-        const newPathIsViewOnly = isCallGraph
-          ? pathIsViewOnly && isViewCall
-          : false // Permission edges are always non-view
+        const isViewCall =
+          (isCallGraph || isDependency) && edge.isViewCall === true
+        const newPathIsViewOnly =
+          isCallGraph || isDependency ? pathIsViewOnly && isViewCall : false // Permission edges are always non-view
 
-        // Cap propagation: apply the cap of the current source function to
-        // the outgoing path. Take the minimum (tightest) cap along the path.
+        // Cap propagation: fold in the source function's cap (pathCapUsd
+        // already covers ancestors). Take the minimum (tightest) cap.
         const sourceFuncCap = this.getFunctionCap(contract, func, ownerAddress)
         const newPathCap =
           pathCapUsd !== undefined || sourceFuncCap !== undefined
             ? Math.min(pathCapUsd ?? Infinity, sourceFuncCap ?? Infinity)
+            : undefined
+
+        // Target function cap: the call to edge.targetFunction is itself
+        // bounded by whatever cap is attached to that specific function.
+        // Without this, a transitive reacher (e.g. a governor chain landing
+        // on UNI.setMinter) would see UNI as uncapped even though
+        // setMinter is capped at 2% of supply.
+        const targetFuncCap = this.getFunctionCap(
+          edge.targetContract,
+          edge.targetFunction,
+          ownerAddress,
+        )
+
+        // Per-edge effective cap when landing at the target contract.
+        // A pure view call cannot move funds, so its contribution to
+        // fund-drain potential is 0 regardless of any cap chain. That makes
+        // it a no-op in the "max (least restrictive) wins" merge, so it
+        // doesn't flip a capped contract to uncapped (the UNI balanceOf
+        // issue) while also honoring "view-only reaches are not at risk".
+        const edgeReachCap = isViewCall
+          ? 0
+          : newPathCap !== undefined || targetFuncCap !== undefined
+            ? Math.min(newPathCap ?? Infinity, targetFuncCap ?? Infinity)
             : undefined
 
         // Resolve implementation addresses to proxy for the output map,
@@ -276,34 +341,39 @@ export class CapitalAnalysisCalculator {
         if (existing) {
           if (!newPathIsViewOnly) existing.viewOnlyPath = false
           existing.calledFunctions.add(edge.targetFunction)
-          // Multiple paths: keep the maximum cap (least restrictive wins).
-          // If any path is uncapped (undefined), the contract is uncapped.
-          if (
-            existing.effectiveCapUsd !== undefined &&
-            newPathCap !== undefined
-          ) {
+          // Multi-path merge: max (least restrictive) wins. `undefined` means
+          // uncapped and dominates any numeric cap.
+          if (existing.effectiveCapUsd === undefined) {
+            // already uncapped, nothing a new edge can tighten
+          } else if (edgeReachCap === undefined) {
+            existing.effectiveCapUsd = undefined
+          } else {
             existing.effectiveCapUsd = Math.max(
               existing.effectiveCapUsd,
-              newPathCap,
+              edgeReachCap,
             )
-          } else {
-            existing.effectiveCapUsd = undefined // uncapped path found
           }
         } else {
           reachableContracts.set(targetNorm, {
             contractName: this.contractNameMap.get(targetNorm) ?? 'Unknown',
             viewOnlyPath: newPathIsViewOnly,
             calledFunctions: new Set([edge.targetFunction]),
-            effectiveCapUsd: newPathCap,
+            effectiveCapUsd: edgeReachCap,
           })
         }
 
-        // BFS queue uses original addresses for correct edge lookup
+        // BFS queue uses original addresses for correct edge lookup. We
+        // propagate the combined source+target cap so edges leaving the
+        // target inherit target's cap without needing a second lookup.
+        const propagatedPathCap =
+          newPathCap !== undefined || targetFuncCap !== undefined
+            ? Math.min(newPathCap ?? Infinity, targetFuncCap ?? Infinity)
+            : undefined
         queue.push({
           contract: edge.targetContract,
           function: edge.targetFunction,
           pathIsViewOnly: newPathIsViewOnly,
-          pathCapUsd: newPathCap,
+          pathCapUsd: propagatedPathCap,
         })
       }
     }
@@ -365,13 +435,24 @@ export class CapitalAnalysisCalculator {
     impact: Impact,
     ownerAddress?: string,
   ): FunctionCapitalAnalysis {
+    const cacheKey = this.cacheKeyIncludesOwner
+      ? `${normalizeChainAddress(contractAddress)}|${functionName}|${ownerAddress ? normalizeChainAddress(ownerAddress) : ''}`
+      : `${normalizeChainAddress(contractAddress)}|${functionName}`
+    const cached = this.analysisCache.get(cacheKey)
+    if (cached) {
+      // Shallow clone so callers can attach per-owner data (e.g., mitigations)
+      // without leaking into other cache consumers. Inner arrays/objects are
+      // read-only at the consumer sites and safe to share.
+      return { ...cached }
+    }
+
     // Get direct funds and token value in the contract containing this function
     // If function is explicitly marked no-impact, zero out direct funds
     const isNoImpact = this.functionIsNoImpact(contractAddress, functionName)
 
     // If function is explicitly marked no-impact, skip traversal entirely
     if (isNoImpact) {
-      return {
+      const result: FunctionCapitalAnalysis = {
         contractAddress,
         contractName,
         functionName,
@@ -383,6 +464,8 @@ export class CapitalAnalysisCalculator {
         totalReachableTokenValueUsd: 0,
         unresolvedCallsCount: 0,
       }
+      this.analysisCache.set(cacheKey, result)
+      return { ...result }
     }
 
     const directFundsUsd = this.getContractFunds(contractAddress)
@@ -476,7 +559,7 @@ export class CapitalAnalysisCalculator {
       }
     }
 
-    return {
+    const result: FunctionCapitalAnalysis = {
       contractAddress,
       contractName,
       functionName,
@@ -490,6 +573,8 @@ export class CapitalAnalysisCalculator {
       unresolvedCallsCount: 0,
       impactCapUsd: selfCap,
     }
+    this.analysisCache.set(cacheKey, result)
+    return { ...result }
   }
 
   /**
@@ -544,12 +629,48 @@ export class CapitalAnalysisCalculator {
       }
     }
 
-    // Calculate direct capital and token value
+    // Build per-contract caps for direct contracts from the admin's own
+    // functions. Max across functions = least restrictive call wins; if any
+    // impactful function on the contract has no cap, the contract is uncapped.
+    const directContractCaps = new Map<string, number | undefined>()
+    for (const func of admin.functions) {
+      if (this.functionIsNoImpact(func.contractAddress, func.functionName)) {
+        continue
+      }
+      const addr = normalizeChainAddress(
+        this.resolveToProxy(func.contractAddress),
+      )
+      const cap = this.getFunctionCap(
+        func.contractAddress,
+        func.functionName,
+        admin.adminAddress,
+      )
+      const hasEntry = directContractCaps.has(addr)
+      const existing = directContractCaps.get(addr)
+      if (hasEntry && existing === undefined) continue // already uncapped
+      if (cap === undefined) {
+        directContractCaps.set(addr, undefined)
+      } else if (existing !== undefined) {
+        directContractCaps.set(addr, Math.max(existing, cap))
+      } else {
+        directContractCaps.set(addr, cap)
+      }
+    }
+
+    // Calculate direct capital and token value, applying per-contract caps
     let totalDirectCapital = 0
     let totalDirectTokenValue = 0
     for (const addr of directContracts) {
-      totalDirectCapital += this.getContractFunds(addr)
-      totalDirectTokenValue += this.getContractTokenValue(addr)
+      const funds = this.getContractFunds(addr)
+      const tokenVal = this.getContractTokenValue(addr)
+      const cap = directContractCaps.get(addr)
+      if (cap !== undefined) {
+        totalDirectCapital += Math.min(funds, cap)
+        totalDirectTokenValue += Math.min(tokenVal, cap)
+      } else {
+        totalDirectCapital += funds
+        totalDirectTokenValue += tokenVal
+      }
     }
 
     // Build per-contract effective cap across all functions.

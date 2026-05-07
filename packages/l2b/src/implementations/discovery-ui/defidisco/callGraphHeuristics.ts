@@ -206,6 +206,109 @@ class VariableChainHeuristic implements ResolutionHeuristic {
 }
 
 /**
+ * Dependency Field Heuristic
+ *
+ * Catches the case where the caller's `storageVariable` is not a stored field
+ * on the caller itself but a public getter that forwards to a dependency — e.g.
+ * `Voter.rewardToken()` returns `minter.rewardToken()` at runtime. Slither sees
+ * it as a read against `rewardToken` on the caller, but discovery only ever
+ * persists stored state, so the name won't appear in the caller's values.
+ *
+ * Resolution: if `storageVariable` is NOT a key in the caller's values, walk
+ * the caller's dependency addresses (the addresses held in other value fields)
+ * and see whether any of THEM have a matching field. A single hop is enough in
+ * practice; most forwarded getters point one contract away.
+ *
+ * Confidence: 1 match → 90%, 2 matches → 65%, 3+ matches → 45%.
+ */
+class DependencyFieldHeuristic implements ResolutionHeuristic {
+  name = 'dependency-field'
+  description = 'Follow caller dependency addresses to find the storage field'
+
+  apply(context: HeuristicContext): HeuristicResult | null {
+    const { call, callerContractAddress, discovered } = context
+
+    const callerContract = discovered.entries.find(
+      (e) =>
+        addressesEqual(e.address, callerContractAddress) &&
+        e.type === 'Contract',
+    )
+    if (
+      !callerContract ||
+      !('values' in callerContract) ||
+      !callerContract.values
+    ) {
+      return null
+    }
+
+    // If the name IS a direct field on the caller, VariableChainHeuristic will
+    // handle it — don't compete.
+    if (call.storageVariable in callerContract.values) {
+      return null
+    }
+
+    // Collect dependency addresses held in the caller's values (one level deep
+    // into nested objects to match DiscoveredValuesScan's reach).
+    const depAddresses = new Set<string>()
+    for (const value of Object.values(callerContract.values)) {
+      for (const addr of extractChainAddresses(value)) {
+        depAddresses.add(normalizeChainAddress(addr))
+      }
+    }
+    if (depAddresses.size === 0) {
+      return null
+    }
+
+    // For each dependency, check if its discovered values contain a field with
+    // the same name as the storageVariable, and that field resolves to an
+    // address whose contract has the called function in its ABI.
+    const matches: HeuristicMatch[] = []
+    const seen = new Set<string>()
+
+    for (const depEntry of discovered.entries) {
+      if (depEntry.type !== 'Contract') continue
+      if (!depAddresses.has(normalizeChainAddress(depEntry.address))) continue
+      if (!('values' in depEntry) || !depEntry.values) continue
+
+      const depValue = depEntry.values[call.storageVariable]
+      if (depValue === undefined) continue
+
+      for (const addr of extractChainAddresses(depValue)) {
+        const normalized = normalizeChainAddress(addr)
+        if (seen.has(normalized)) continue
+        seen.add(normalized)
+
+        const targetEntry = discovered.entries.find((e) =>
+          addressesEqual(e.address, addr),
+        )
+        if (
+          !targetEntry ||
+          targetEntry.type !== 'Contract' ||
+          !contractHasFunction(discovered, targetEntry, call.calledFunction)
+        ) {
+          continue
+        }
+
+        matches.push({
+          address: addr,
+          contractName: targetEntry.name,
+        })
+      }
+    }
+
+    if (matches.length === 0) {
+      return null
+    }
+
+    let confidence = 45
+    if (matches.length === 1) confidence = 90
+    else if (matches.length === 2) confidence = 65
+
+    return { matches, confidence }
+  }
+}
+
+/**
  * Interface Name to Contract Name Heuristic
  *
  * Matches interface name to contract names by stripping the `I` prefix.
@@ -407,6 +510,112 @@ class DiscoveredValuesScanHeuristic implements ResolutionHeuristic {
     if (matchCount === 1) return 95
     if (matchCount === 2) return 70
     return 50
+  }
+}
+
+/**
+ * Transitive Values Scan Heuristic
+ *
+ * Two-hop variant of DiscoveredValuesScan. The caller may not store the
+ * actual call target directly — instead it stores a "router" or "registry"
+ * (e.g. PoolAddressesProvider) and reads the real address from there at
+ * runtime. We can't see runtime calls in static analysis, but we CAN walk
+ * the addresses found in the caller's values, then look at THEIR values
+ * for further addresses, and match the called function against this
+ * second-hop set.
+ *
+ * Concrete case this fixes (Aave V3): PoolConfigurator.setReservePause calls
+ * pool.setLiquidationGracePeriod(...). The caller's values contain the
+ * PoolAddressesProvider (via proxyAdmin). PAP's values contain getPool, and
+ * THAT Pool has the function. One unique 2-hop match.
+ *
+ * Without this, FunctionSignatureHeuristic falls back to "any contract with
+ * this function name" — which on multi-market protocols (Aave Core / Lido /
+ * Horizon) returns 4+ candidates and picks the wrong one with confidence 30%.
+ *
+ * Confidence: 1 match → 85%, 2 matches → 55%, 3+ matches → 35%. Slightly
+ * below DiscoveredValuesScanHeuristic so direct hits always win, but well
+ * above FunctionSignatureHeuristic's 30% fallback.
+ */
+class TransitiveValuesScanHeuristic implements ResolutionHeuristic {
+  name = 'transitive-values-scan'
+  description =
+    'Match candidates against addresses found two hops out via caller values'
+
+  apply(context: HeuristicContext): HeuristicResult | null {
+    const { call, callerContractAddress, discovered } = context
+
+    const callerContract = discovered.entries.find(
+      (e) =>
+        addressesEqual(e.address, callerContractAddress) &&
+        e.type === 'Contract',
+    )
+
+    if (
+      !callerContract ||
+      !('values' in callerContract) ||
+      !callerContract.values
+    ) {
+      return null
+    }
+
+    // Hop 1: addresses in the caller's values
+    const firstHop = new Set<string>()
+    for (const value of Object.values(callerContract.values)) {
+      for (const addr of extractChainAddresses(value)) {
+        firstHop.add(normalizeChainAddress(addr))
+      }
+    }
+
+    if (firstHop.size === 0) return null
+
+    // Hop 2: for each first-hop contract, collect addresses in ITS values.
+    // We deliberately exclude first-hop addresses themselves from the result
+    // set — DiscoveredValuesScanHeuristic already covers that path; we only
+    // want strictly second-hop matches here, otherwise both heuristics
+    // surface the same answer with different confidences.
+    const secondHop = new Set<string>()
+    for (const entry of discovered.entries) {
+      if (entry.type !== 'Contract') continue
+      if (!firstHop.has(normalizeChainAddress(entry.address))) continue
+      if (!('values' in entry) || !entry.values) continue
+      for (const value of Object.values(entry.values)) {
+        for (const addr of extractChainAddresses(value)) {
+          const norm = normalizeChainAddress(addr)
+          if (firstHop.has(norm)) continue // already a 1-hop hit
+          secondHop.add(norm)
+        }
+      }
+    }
+
+    if (secondHop.size === 0) return null
+
+    // Filter to contracts that actually expose the called function
+    const functionName = call.calledFunction
+    const matches: HeuristicMatch[] = []
+
+    for (const entry of discovered.entries) {
+      if (entry.type !== 'Contract') continue
+      if (!secondHop.has(normalizeChainAddress(entry.address))) continue
+
+      if (contractHasFunction(discovered, entry, functionName)) {
+        matches.push({
+          address: entry.address,
+          contractName: entry.name,
+        })
+      }
+    }
+
+    if (matches.length === 0) return null
+
+    const confidence = this.calculateConfidence(matches.length)
+    return { matches, confidence }
+  }
+
+  private calculateConfidence(matchCount: number): number {
+    if (matchCount === 1) return 85
+    if (matchCount === 2) return 55
+    return 35
   }
 }
 
@@ -637,7 +846,9 @@ export function createHeuristicEngine(): HeuristicEngine {
 
   // Register heuristics (engine selects by highest confidence, order only affects tiebreaking)
   engine.register(new VariableChainHeuristic())
+  engine.register(new DependencyFieldHeuristic())
   engine.register(new DiscoveredValuesScanHeuristic())
+  engine.register(new TransitiveValuesScanHeuristic())
   engine.register(new InterfaceNameHeuristic())
   engine.register(new FunctionSignatureHeuristic())
 

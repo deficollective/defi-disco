@@ -69,6 +69,12 @@ export interface CompiledReview {
    * fresh discovery; a researcher-triggered recompile keeps it unchanged.
    */
   compiledAt: string
+  /**
+   * Researcher attestation flag. Sourced from `reviewConfig.verified ?? true`
+   * — legacy reviews without the field are treated as verified, AI-generated
+   * reviews must explicitly write `false`.
+   */
+  verified: boolean
   project: string
 
   metadata: {
@@ -441,7 +447,7 @@ export class ReviewCompiler {
       fs.mkdirSync(slugDir, { recursive: true })
 
       const outputPath = path.join(slugDir, 'compiled-review.json')
-      fs.writeFileSync(outputPath, JSON.stringify(compiled, null, 2))
+      fs.writeFileSync(outputPath, JSON.stringify(compiled))
 
       this.log(`Review compiled successfully: ${outputPath}`)
 
@@ -873,11 +879,17 @@ export class ReviewCompiler {
     // lastModified for legacy projects whose configs predate this field.
     const publishedAt = reviewConfig.publishedAt || lastModified
 
+    // verified = researcher attestation. Missing field on legacy configs
+    // reads as true (they were researcher-curated); AI-generated reviews
+    // must explicitly write false.
+    const verified = reviewConfig.verified ?? true
+
     return {
       version: '1.0',
       publishedAt,
       lastModified,
       compiledAt,
+      verified,
       project,
 
       metadata: {
