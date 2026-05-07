@@ -196,18 +196,18 @@
       "chain": "Ethereum",
       "projectType": "lending",
       "tokenName": "COMP",
-      "verified": true,
+      "verified": false,
       "totals": {
-        "contractCount": 22,
-        "permissionedFunctionCount": 67,
-        "scoredFunctionCount": 11,
-        "adminCount": 1,
+        "contractCount": 40,
+        "permissionedFunctionCount": 82,
+        "scoredFunctionCount": 26,
+        "adminCount": 2,
         "dependencyCount": 5,
-        "totalCapitalAtRisk": 800778604.2699006,
+        "totalCapitalAtRisk": 825868043.4068385,
         "totalTokenValueAtRisk": 0,
-        "totalTokenValue": 233600000,
+        "totalTokenValue": 234500000,
         "linesOfCode": 8966,
-        "verifiedContractCount": 22,
+        "verifiedContractCount": 40,
         "coverage": 100
       }
     },
@@ -272,6 +272,27 @@
         "linesOfCode": 12870,
         "verifiedContractCount": 41,
         "coverage": 100
+      }
+    },
+    {
+      "slug": "pancakeswap-v2",
+      "name": "PancakeSwap V2",
+      "chain": "BNB Chain",
+      "projectType": "dex",
+      "tokenName": "CAKE",
+      "verified": false,
+      "totals": {
+        "contractCount": 11,
+        "permissionedFunctionCount": 30,
+        "scoredFunctionCount": 30,
+        "adminCount": 2,
+        "dependencyCount": 2,
+        "totalCapitalAtRisk": 1769918635.8465402,
+        "totalTokenValueAtRisk": 1279176.992215268,
+        "totalTokenValue": 6669963554.995134,
+        "linesOfCode": 1080,
+        "verifiedContractCount": 10,
+        "coverage": 91
       }
     },
     {
@@ -360,13 +381,13 @@
     }
   ],
   "globalTotals": {
-    "totalCapitalAtRisk": 10133519393.413876,
-    "totalTokenValueAtRisk": 62409187996.45766,
-    "totalTokenValue": 62542630025.79325,
-    "protocolsReviewed": 17,
-    "totalContractCount": 1117,
-    "totalAdminCount": 151,
-    "totalUpdateCount": 1399
+    "totalCapitalAtRisk": 11928527468.397354,
+    "totalTokenValueAtRisk": 69080051551.45279,
+    "totalTokenValue": 69213493580.78838,
+    "protocolsReviewed": 18,
+    "totalContractCount": 1146,
+    "totalAdminCount": 154,
+    "totalUpdateCount": 1492
   },
   "dependencies": [
     {
@@ -561,7 +582,7 @@
       "address": "eth:0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
       "name": "Chainlink (decommissioned)",
       "entity": "Chainlink",
-      "totalFundsAtRisk": 664087640.1397507,
+      "totalFundsAtRisk": 675388960.7819685,
       "protocols": [
         {
           "slug": "Sentora-PYUSD",
@@ -581,7 +602,7 @@
       "address": "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       "name": "Circle USDC",
       "entity": "Circle USDC",
-      "totalFundsAtRisk": 664086494.8528513,
+      "totalFundsAtRisk": 675387815.495069,
       "protocols": [
         {
           "slug": "aave-v3",
@@ -841,7 +862,7 @@
       "address": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       "name": "Wrapped Ether",
       "entity": "Wrapped Ether",
-      "totalFundsAtRisk": 136865418.41577095,
+      "totalFundsAtRisk": 150653536.91049123,
       "protocols": [
         {
           "slug": "aave-v3",
@@ -857,7 +878,7 @@
       "address": "eth:0xD72ac1bCE9177CFe7aEb5d0516a38c88a64cE0AB",
       "name": "ConstantPriceFeed (USDT)",
       "entity": null,
-      "totalFundsAtRisk": 136692109.41704923,
+      "totalFundsAtRisk": 150480227.9117695,
       "protocols": [
         {
           "slug": "compound-v3",
@@ -3270,6 +3291,30 @@
         {
           "slug": "aave-v3",
           "name": "Aave V3"
+        }
+      ]
+    },
+    {
+      "address": "bnb:0x6e85689f055B6894803d5135981F7B108C9DAfd5",
+      "name": "MigrationHelper",
+      "entity": "PancakeSwap Migration",
+      "totalFundsAtRisk": 0,
+      "protocols": [
+        {
+          "slug": "pancakeswap-v2",
+          "name": "PancakeSwap V2"
+        }
+      ]
+    },
+    {
+      "address": "bnb:0xE4FAa3Ef5A9708C894435B0F39c2B440936A3A52",
+      "name": "FarmBooster",
+      "entity": "PancakeSwap (Tokenomics 2.0)",
+      "totalFundsAtRisk": 0,
+      "protocols": [
+        {
+          "slug": "pancakeswap-v2",
+          "name": "PancakeSwap V2"
         }
       ]
     }
