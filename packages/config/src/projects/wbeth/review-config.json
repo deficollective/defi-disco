@@ -1,12 +1,12 @@
 {
   "version": "1.0",
-  "lastModified": "2026-05-07T11:01:59.473Z",
+  "lastModified": "2026-05-07T19:29:41.585Z",
   "protocolSlug": "wbeth",
-  "protocolName": "Wrapped Binance Beacon ETH",
+  "protocolName": "Wrapped Binance ETH",
   "tokenName": "wBETH",
   "chain": "Ethereum",
   "projectType": "liquid-staking",
-  "description": "wBETH (Wrapped Binance Beacon ETH) is a liquid staking token issued by Binance, representing ETH staked through Binance's validator infrastructure. Users deposit ETH via the Binance platform and receive wBETH at an accruing exchange rate; on-chain, the contracts manage token issuance (WrapTokenV3ETH), the pending-withdrawal queue (UnwrapTokenV1ETH), and exchange rate updates (ExchangeRateUpdater). The backing ETH is held off-chain with Binance validators — only the withdrawal queue holds on-chain ETH ({{withdrawalQueueBalance}}), while the token itself has a market capitalization of {{wbethTokenValue}}. All contracts are upgradeable ZeppelinOS proxies controlled exclusively by Binance EOAs; there is no timelock, multisig, or on-chain governance.",
+  "description": "wBETH (Wrapped Binance ETH) is a liquid staking token issued by Binance, representing ETH staked through Binance's validator infrastructure. Users deposit ETH via the Binance platform and receive wBETH at an accruing exchange rate; on-chain, the contracts manage token issuance (WrapTokenV3ETH), the pending-withdrawal queue (UnwrapTokenV1ETH), and exchange rate updates (ExchangeRateUpdater). The backing ETH is held off-chain with Binance validators — only the withdrawal queue holds on-chain ETH ({{withdrawalQueueBalance}}), while the token itself has a market capitalization of {{wbethTokenValue}}. All contracts are upgradeable ZeppelinOS proxies controlled exclusively by Binance EOAs; there is no timelock, multisig, or on-chain governance.",
   "admins": {
     "eth:0xA3eE6926edcce93BacF05F4222c243c4d9F6d853": {
       "name": "Proxy Admin (EOA)",
@@ -76,18 +76,34 @@
               "type": "dataTable",
               "dataSource": "project.contracts",
               "columns": [
-                { "field": "name", "header": "Name" },
-                { "field": "address", "header": "Address", "format": "address" },
-                { "field": "proxyType", "header": "Proxy Type", "format": "badge" }
+                {
+                  "field": "name",
+                  "header": "Name"
+                },
+                {
+                  "field": "address",
+                  "header": "Address",
+                  "format": "address"
+                },
+                {
+                  "field": "proxyType",
+                  "header": "Proxy Type",
+                  "format": "badge"
+                }
               ],
-              "filters": { "excludeExternal": true }
+              "filters": {
+                "excludeExternal": true
+              }
             }
           ]
         },
         {
           "title": "Audits",
           "content": [
-            { "type": "text", "content": "" }
+            {
+              "type": "text",
+              "content": ""
+            }
           ]
         }
       ]
@@ -101,5 +117,6 @@
     "operatorDirectCapital": "v2score.inventory.admins.breakdown[\"eth:0x2B59215778e99035CF38663454eF1240a7AE70F5\"].totalDirectCapital",
     "totalCapitalAtRisk": "v2score.inventory.admins.totalCapitalAtRisk"
   },
-  "verified": true
+  "verified": true,
+  "publishedAt": "2026-05-07T11:01:59.473Z"
 }
