@@ -21,8 +21,7 @@ export const UmbrellaAggregateTvsHandlerDefinition = v.strictObject({
   stkTokensField: v.string().optional(),
 })
 
-const GET_STK_TOKENS_ABI =
-  'function getStkTokens() view returns (address[])'
+const GET_STK_TOKENS_ABI = 'function getStkTokens() view returns (address[])'
 const TOTAL_ASSETS_ABI = 'function totalAssets() view returns (uint256)'
 const ASSET_ABI = 'function asset() view returns (address)'
 const DECIMALS_ABI = 'function decimals() view returns (uint8)'
@@ -30,8 +29,7 @@ const GET_ASSET_PRICE_ABI =
   'function getAssetPrice(address asset) view returns (uint256)'
 const BASE_CURRENCY_UNIT_ABI =
   'function BASE_CURRENCY_UNIT() view returns (uint256)'
-const GET_PRICE_ORACLE_ABI =
-  'function getPriceOracle() view returns (address)'
+const GET_PRICE_ORACLE_ABI = 'function getPriceOracle() view returns (address)'
 const POOL_ADDRESSES_PROVIDER_ABI =
   'function POOL_ADDRESSES_PROVIDER() view returns (address)'
 
