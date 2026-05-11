@@ -1,0 +1,14 @@
+{
+  "framework": "Snapshot signaling + Risk Committee + GnosisSafe execution",
+  "voteExecution": "offchain",
+  "votingUnit": "ENA token (sENA holders have expanded voting rights on tokenomics)",
+  "proposalRequirements": "Proposals are discussed for ~7 days on gov.ethenafoundation.com, then put to Snapshot vote at snapshot.org/#/ethenagovernance.eth. Most operational decisions are delegated to elected committees (Risk Committee, etc.); the 5-of-10 GnosisSafe executes approved actions on-chain.",
+  "votingProcess": "Forum discussion (~7d) → Snapshot vote → 5/10 GnosisSafe executes. No on-chain timelock; committees handle most decisions.",
+  "proposalPeriod": {
+    "kind": "fixed",
+    "value": "~7 days forum discussion + Snapshot voting period"
+  },
+  "executionDelay": {
+    "kind": "none"
+  }
+}

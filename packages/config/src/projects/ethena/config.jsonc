@@ -1,0 +1,123 @@
+{
+  "$schema": "../../../../discovery/schemas/config.v2.schema.json",
+  "name": "ethena",
+  "import": ["../globalConfig.jsonc"],
+  "initialAddresses": [
+    "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3",
+    "eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
+    "eth:0x8bE3460A480c80728a8C4D7a5D5303c85ba7B3b9",
+    "eth:0x57e114B691Db790C35207b2e685D4A43181e6061",
+    "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+  ],
+  "maxAddresses": 100,
+  "maxDepth": 5,
+  "overrides": {
+    // Blacklisted user addresses pulled in via sUSDe.FULL_RESTRICTED_STAKER_ROLE / sENA.BLACKLISTED_ROLE.
+    // These are OFAC-sanctioned or compliance-frozen wallets; their state changes are noise, not protocol events.
+    "eth:0x12D66f87A04A9E220743712cE6d9bB1B5616B8Fc": { "ignoreDiscovery": true },
+    "eth:0x1da5821544e25c636c1417Ba96Ade4Cf6D2f9B5A": { "ignoreDiscovery": true },
+    "eth:0x4a14347083B80E5216cA31350a2D21702aC3650d": { "ignoreDiscovery": true },
+    "eth:0x5A7a51bFb49F190e5A6060a5bc6052Ac14a3b59f": { "ignoreDiscovery": true },
+    "eth:0x5f48C2A71B2CC96e3F0CCae4E39318Ff0dc375b2": { "ignoreDiscovery": true },
+    "eth:0x7Db418b5D567A4e0E8c59Ad71BE1FcE48f3E6107": { "ignoreDiscovery": true },
+    "eth:0x7Fc1FF4d7eF948e39D982541c7027CC9CC943492": { "ignoreDiscovery": true },
+    "eth:0x87Cc45fFF5c0933bb6aF6bAe7Fc013b7eC7df2Ee": { "ignoreDiscovery": true },
+    // ERC4626 preview/convert functions take uint256 input — discovery's index-probe returns noise
+    "eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497": {
+      "ignoreMethods": ["convertToAssets", "convertToShares", "previewDeposit", "previewMint", "previewRedeem", "previewWithdraw"],
+      // accessControl is ignored in watch mode because FULL_RESTRICTED_STAKER_ROLE has hundreds
+      // of blacklisted-user members that churn constantly. DEFAULT_ADMIN_ROLE transfers are
+      // still alerted via the separate `owner` field (mirrors _currentDefaultAdmin).
+      "ignoreInWatchMode": ["accessControl", "getUnvestedAmount", "lastDistributionTimestamp", "totalAssets", "totalSupply", "vestingAmount"],
+      "fields": {
+        "accessControl": {
+          "handler": {
+            "type": "accessControl",
+            "ignoreRelative": true,
+            "roleNames": {
+              "0xbeec13769b5f410b0584f69811bfd923818456d5edcf426b0e31cf90eed7a3f6": "REWARDER_ROLE",
+              "0xf988e4fb62b8e14f4820fed03192306ddf4d7dbfa215595ba1c6ba4b76b369ee": "BLACKLIST_MANAGER_ROLE",
+              "0x8f7080408a06296c6347c87c115ad99669141ae35eae974c12dff8bd01680cb6": "SOFT_RESTRICTED_STAKER_ROLE",
+              "0x0a4af4bcc1942295207d9f047442ebdae6170a6e324850f758b14cf99b65c3bd": "FULL_RESTRICTED_STAKER_ROLE"
+            }
+          }
+        },
+        "pendingDefaultAdmin": {
+          "description": "SingleAdminAccessControl._pendingDefaultAdmin (private storage); acceptAdmin caller",
+          "handler": { "type": "storage", "slot": 2, "returnType": "address" }
+        }
+      }
+    },
+    "eth:0x8bE3460A480c80728a8C4D7a5D5303c85ba7B3b9": {
+      "ignoreMethods": ["convertToAssets", "convertToShares", "previewDeposit", "previewMint", "previewRedeem", "previewWithdraw"],
+      // accessControl is ignored in watch mode because BLACKLISTED_ROLE has 500+ members that
+      // churn constantly. DEFAULT_ADMIN_ROLE transfers are still alerted via the `owner` field.
+      "ignoreInWatchMode": ["accessControl", "getUnvestedAmount", "lastDistributionTimestamp", "totalAssets", "totalSupply", "vestingAmount"],
+      "fields": {
+        "accessControl": { "handler": { "type": "accessControl", "ignoreRelative": true } },
+        "pendingDefaultAdmin": {
+          "description": "SingleAdminAccessControl._pendingDefaultAdmin (private storage on upgradeable layout); acceptAdmin caller",
+          "handler": { "type": "storage", "slot": 152, "returnType": "address" }
+        }
+      }
+    },
+    // totalPerBlock is a block→amount mapping; index-probing returns too many values
+    "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3": {
+      "ignoreMethods": ["totalPerBlock"],
+      "fields": {
+        "accessControl": {
+          "handler": {
+            "type": "accessControl",
+            "roleNames": {
+              "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6": "MINTER_ROLE",
+              "0x44ac9762eec3a11893fefb11d028bb3102560094137c3ed4518712475b2577cc": "REDEEMER_ROLE",
+              "0x85e8f2d6819d6b24108062d87ea08f54651bcb8960d98062d3faf96e7873b8b9": "COLLATERAL_MANAGER_ROLE",
+              "0x3c63e605be3290ab6b04cfc46c6e1516e626d43236b034f09d7ede1d017beb0c": "GATEKEEPER_ROLE"
+            }
+          }
+        },
+        "pendingDefaultAdmin": {
+          "description": "SingleAdminAccessControl._pendingDefaultAdmin (private storage); acceptAdmin caller",
+          "handler": { "type": "storage", "slot": 2, "returnType": "address" }
+        }
+      }
+    },
+    "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3": {
+      "ignoreInWatchMode": ["totalSupply"]
+    },
+    "eth:0x57e114B691Db790C35207b2e685D4A43181e6061": {
+      "ignoreInWatchMode": ["lastMintTimestamp", "totalSupply"]
+    },
+    // Silos store the staking vault as immutable private — surface via hardcoded handler
+    "eth:0x7FC7c91D556B400AFa565013E3F32055a0713425": {
+      "ignoreInWatchMode": ["usdeBalance"],
+      "fields": {
+        "stakingVault": { "handler": { "type": "hardcoded", "value": "eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497" } },
+        "usdeBalance": {
+          "description": "USDe balance held in the silo (bounds withdraw cap)",
+          "handler": {
+            "type": "call",
+            "method": "function balanceOf(address) view returns (uint256)",
+            "args": ["0x7FC7c91D556B400AFa565013E3F32055a0713425"],
+            "address": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+          }
+        }
+      }
+    },
+    "eth:0x4655B6A10C83D6bEfF1DC7116436cFD8b4F8d48A": {
+      "ignoreInWatchMode": ["enaBalance"],
+      "fields": {
+        "stakingVault": { "handler": { "type": "hardcoded", "value": "eth:0x8bE3460A480c80728a8C4D7a5D5303c85ba7B3b9" } },
+        "enaBalance": {
+          "description": "ENA balance held in the silo (bounds withdraw cap)",
+          "handler": {
+            "type": "call",
+            "method": "function balanceOf(address) view returns (uint256)",
+            "args": ["0x4655B6A10C83D6bEfF1DC7116436cFD8b4F8d48A"],
+            "address": "0x57e114B691Db790C35207b2e685D4A43181e6061"
+          }
+        }
+      }
+    }
+  }
+}
