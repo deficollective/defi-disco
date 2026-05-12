@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1777888763,
-  "lastConsumedUpdateNotifierId": 155,
+  "lastReconciledAt": 1778519063,
+  "lastConsumedUpdateNotifierId": 183,
   "events": [
     {
       "timestamp": "2026-05-04T09:33:39.000Z",
@@ -194,6 +194,51 @@
       "entity": "Pendle",
       "id": "155:eth:0xe8D28E2CA24BB16Fc7e6549eF937e05981d02606:contract-removed",
       "type": "contract-removed"
+    },
+    {
+      "timestamp": "2026-05-09T10:56:30.000Z",
+      "updateNotifierId": 172,
+      "address": "eth:0x19b3cD7032B8C062E8d44EaCad661a0970DD8c55",
+      "contractName": "MetaMorphoV1_1",
+      "isDependency": false,
+      "entity": null,
+      "id": "172:eth:0x19b3cD7032B8C062E8d44EaCad661a0970DD8c55:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.marketParams.10",
+          "after": {
+            "marketId": "0xe51f9aaad25d0e755429cf77076b3c2d37cb1228ed81f8a5482f2102c220eef5",
+            "loanToken": "eth:0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
+            "collateralToken": "eth:0x73E0C0d45E048D25Fc26Fa3159b0aA04BfA4Db98",
+            "oracle": "eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18",
+            "irm": "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+            "lltv": "860000000000000000"
+          }
+        },
+        {
+          "field": "values.marketOracles.10",
+          "after": "eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18"
+        },
+        {
+          "field": "values.withdrawQueue.10",
+          "after": "0xe51f9aaad25d0e755429cf77076b3c2d37cb1228ed81f8a5482f2102c220eef5"
+        },
+        {
+          "field": "values.withdrawQueueLength",
+          "before": 10,
+          "after": 11
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-09T10:56:30.000Z",
+      "updateNotifierId": 172,
+      "address": "eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18",
+      "contractName": "MorphoChainlinkOracleV2",
+      "entity": null,
+      "id": "172:eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18:contract-added",
+      "type": "contract-added"
     }
   ]
 }

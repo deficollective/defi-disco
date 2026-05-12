@@ -1196,10 +1196,11 @@
     "eth:0x17418038ecF73BA4026c4f428547BF099706F27B": {
       "ignoreRelatives": ["$admin", "$implementation", "getDSService", "getImplementationAddress", "getWalletAt", "owner"],
       "ignoreInWatchMode": [
+        "UPGRADE_INTERFACE_VERSION",
         "name",
         "symbol",
+        "totalIssued",
         "totalSupply",
-        "UPGRADE_INTERFACE_VERSION",
         "walletCount"
       ]
     },
@@ -1467,6 +1468,7 @@
       "ignoreInWatchMode": [
         "DOMAIN_SEPARATOR",
         "eip712Domain",
+        "getMintFee",
         "name",
         "symbol",
         "totalSupply"
@@ -1791,6 +1793,7 @@
     "eth:0xdAC17F958D2ee523a2206206994597C13D831ec7": {
       "ignoreRelatives": ["getOwner", "owner", "upgradedAddress"],
       "ignoreInWatchMode": [
+        "_totalSupply",
         "name",
         "symbol",
         "totalSupply"
@@ -6262,6 +6265,12 @@
           }
         }
       }
+    },
+    "eth:0x985F3290d7971a840152E46d00b5ceb60A56f235": {
+      "ignoreInWatchMode": [
+        "multisigThreshold",
+        "nonce"
+      ]
     }
   }
 }

@@ -24,11 +24,24 @@
     },
     "bnb:0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652": {
       // MasterChef V2: large lpToken[] / poolInfo[] arrays (~100 farms)
-      "ignoreMethods": ["lpToken", "poolInfo", "rewarder"]
+      "ignoreMethods": [
+        "lpToken",
+        "poolInfo",
+        "rewarder"
+      ],
+      "ignoreInWatchMode": [
+        "lastBurnedBlock"
+      ]
     },
     "bnb:0xcEba60280fb0ecd9A5A26A1552B90944770a4a0e": {
       // PancakeSwap GnosisSafeProxy #1 (V2 feeToSetter + MasterChef devaddr)
-      "ignoreInWatchMode": ["VERSION", "domainSeparator", "getChainId", "cakeBalance"],
+      "ignoreInWatchMode": [
+        "VERSION",
+        "cakeBalance",
+        "domainSeparator",
+        "getChainId",
+        "nonce"
+      ],
       "fields": {
         "cakeBalance": {
           "description": "Unburnt CAKE accumulated by this multisig from MasterChef V1's 10%-of-emissions dev stream (used to bound the impactCap on MasterChef V1.dev — represents the value at risk if signers go rogue and rotate the dev address before burning the buffer)",
@@ -43,7 +56,12 @@
     },
     "bnb:0xeCc90d54B10ADd1ab746ABE7E83abe178B72aa9E": {
       // PancakeSwap GnosisSafeProxy #2 (Timelock admin)
-      "ignoreInWatchMode": ["VERSION", "domainSeparator", "getChainId"]
+      "ignoreInWatchMode": [
+        "VERSION",
+        "domainSeparator",
+        "getChainId",
+        "nonce"
+      ]
     },
     "bnb:0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56": {
       // BUSD (Binance USD - external token)
@@ -68,12 +86,28 @@
     },
     "bnb:0x009cF7bC57584b7998236eff51b98A168DceA9B0": {
       // SyrupBar (legacy Syrup pool receipt token) - leaf
-      "ignoreRelatives": ["cake", "getOwner", "owner"]
+      "ignoreRelatives": [
+        "cake",
+        "getOwner",
+        "owner"
+      ],
+      "ignoreInWatchMode": [
+        "totalSupply"
+      ]
     },
     "bnb:0xE4FAa3Ef5A9708C894435B0F39c2B440936A3A52": {
       // FarmBooster (Tokenomics 2.0 boost contract, retired in 3.0) - leaf
       "ignoreMethods": ["whiteList"],
-      "ignoreRelatives": ["BOOSTER_FACTORY", "CAKE", "CAKE_POOL", "MASTER_CHEF", "owner"]
+      "ignoreRelatives": [
+        "BOOSTER_FACTORY",
+        "CAKE",
+        "CAKE_POOL",
+        "MASTER_CHEF",
+        "owner"
+      ],
+      "ignoreInWatchMode": [
+        "avgLockDuration"
+      ]
     },
     "bnb:0x2C36221bF724c60E9FEE3dd44e2da8017a8EF3BA": {
       // FarmBoosterProxyFactory (Tokenomics 2.0, retired) - leaf
@@ -95,6 +129,11 @@
     "bnb:0xe6cdC66A96458FbF11F632B50964153fBDa78548": {
       // VECakeOwner (Tokenomics 3.0 helper) - leaf
       "ignoreRelatives": ["CAKE", "owner"]
+    },
+    "bnb:0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82": {
+      "ignoreInWatchMode": [
+        "totalSupply"
+      ]
     }
   }
 }

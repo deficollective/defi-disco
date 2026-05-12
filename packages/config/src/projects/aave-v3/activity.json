@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1778229615,
-  "lastConsumedUpdateNotifierId": 167,
+  "lastReconciledAt": 1778518648,
+  "lastConsumedUpdateNotifierId": 176,
   "events": [
     {
       "timestamp": "2026-05-04T09:33:39.000Z",
@@ -234,6 +234,82 @@
           "field": "values.getMintFee",
           "before": 512,
           "after": 86
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-09T10:56:30.000Z",
+      "updateNotifierId": 171,
+      "address": "eth:0x7ABB46C690C52E919687D19ebF89C81A6136C1F2",
+      "contractName": "RiskOracle",
+      "entity": null,
+      "id": "171:eth:0x7ABB46C690C52E919687D19ebF89C81A6136C1F2:role:owner",
+      "type": "role-update",
+      "roleName": "owner",
+      "changes": [
+        {
+          "field": "values.owner",
+          "before": "eth:0xDe841Bf4B67970f5a19165443B0e9ec808E1cC85",
+          "after": "eth:0x47c71dFEB55Ebaa431Ae3fbF99Ea50e0D3d30fA8"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-09T10:56:30.000Z",
+      "updateNotifierId": 171,
+      "address": "eth:0x985F3290d7971a840152E46d00b5ceb60A56f235",
+      "contractName": "Safe",
+      "entity": null,
+      "id": "171:eth:0x985F3290d7971a840152E46d00b5ceb60A56f235:role:Safe.owners",
+      "type": "role-update",
+      "roleName": "Safe.owners",
+      "changes": [
+        {
+          "field": "values.$members.0",
+          "after": "eth:0x437B97618dFB8c8B1f403Bd2E9436730f0f9D884"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-09T10:56:30.000Z",
+      "updateNotifierId": 171,
+      "address": "eth:0x985F3290d7971a840152E46d00b5ceb60A56f235",
+      "contractName": "Safe",
+      "entity": null,
+      "id": "171:eth:0x985F3290d7971a840152E46d00b5ceb60A56f235:role:Safe.threshold",
+      "type": "role-update",
+      "roleName": "Safe.threshold",
+      "changes": [
+        {
+          "field": "values.$threshold",
+          "before": 3,
+          "after": 2
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-09T10:56:30.000Z",
+      "updateNotifierId": 171,
+      "address": "eth:0xDe841Bf4B67970f5a19165443B0e9ec808E1cC85",
+      "contractName": "Safe",
+      "entity": null,
+      "id": "171:eth:0xDe841Bf4B67970f5a19165443B0e9ec808E1cC85:contract-removed",
+      "type": "contract-removed"
+    },
+    {
+      "timestamp": "2026-05-10T09:04:50.000Z",
+      "updateNotifierId": 176,
+      "address": "eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7",
+      "contractName": "rsETH Token",
+      "isDependency": true,
+      "entity": "Kelp",
+      "id": "176:eth:0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.maxMintAmountPerDay",
+          "before": "5000000000000000000000",
+          "after": "10000000000000000000000"
         }
       ]
     }

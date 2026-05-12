@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1778229007,
-  "lastConsumedUpdateNotifierId": 165,
+  "lastReconciledAt": 1778518376,
+  "lastConsumedUpdateNotifierId": 174,
   "events": [
     {
       "timestamp": "2026-03-02T13:49:30.000Z",
@@ -2562,245 +2562,376 @@
       ]
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779",
-      "contractName": "CometProxyAdmin",
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x030A60EB6A12C4B31fB2F0d7108Bfbf8425b5d92",
+      "contractName": "AssetList",
       "entity": null,
-      "id": "165:eth:0x1EC63B5883C3481134FD50D5DAebc83Ecd2E8779:data-change",
+      "id": "169:eth:0x030A60EB6A12C4B31fB2F0d7108Bfbf8425b5d92:contract-removed",
+      "type": "contract-removed"
+    },
+    {
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x23AF5804560d2e066A9AE422eBb3dB08Bb5E5B81",
+      "contractName": "AssetList",
+      "entity": null,
+      "id": "169:eth:0x23AF5804560d2e066A9AE422eBb3dB08Bb5E5B81:contract-removed",
+      "type": "contract-removed"
+    },
+    {
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x3551C50F84f1B528170E488d1cf03023EdC86b98",
+      "contractName": "AssetList",
+      "entity": null,
+      "id": "169:eth:0x3551C50F84f1B528170E488d1cf03023EdC86b98:contract-removed",
+      "type": "contract-removed"
+    },
+    {
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840",
+      "contractName": "cUSDTv3",
+      "entity": null,
+      "id": "169:eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840:data-change",
       "type": "data-change",
       "changes": [
         {
-          "field": "receivedPermissions.1",
-          "after": {
-            "permission": "upgrade",
-            "from": "eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840",
-            "role": "admin"
-          }
+          "field": "values.assetList",
+          "before": "eth:0xaE2ee35ECf51dD9853224b20E8E528663c3BAFD6",
+          "after": "eth:0x6c32997Be422D392981a0f1c6Ff9a1E1B945AB4c"
         },
         {
-          "field": "receivedPermissions.2",
-          "after": {
-            "permission": "upgrade",
-            "from": "eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3",
-            "role": "admin"
-          }
+          "field": "values.$pastUpgrades.41",
+          "after": [
+            "2026-05-08T18:33:11.000Z",
+            "0x54a5496444fdd9a6c7cdcbb712c4027aa77acba1b25626b2c1532e1680555c65",
+            [
+              "eth:0x948e4B70338561D279B74A91fe5e8cB8F3f2B11E"
+            ]
+          ]
         },
         {
-          "field": "receivedPermissions.3",
-          "after": {
-            "permission": "upgrade",
-            "from": "eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56",
-            "role": "admin"
-          }
+          "field": "values.$upgradeCount",
+          "before": 41,
+          "after": 42
+        },
+        {
+          "field": "values.$implementation",
+          "before": "eth:0x301A653e3d4FCFCE57957315594FAb5b780caD2b",
+          "after": "eth:0x948e4B70338561D279B74A91fe5e8cB8F3f2B11E"
+        },
+        {
+          "field": "implementationNames.eth:0x301A653e3d4FCFCE57957315594FAb5b780caD2b",
+          "before": "CometWithExtendedAssetList"
+        },
+        {
+          "field": "implementationNames.eth:0x948e4B70338561D279B74A91fe5e8cB8F3f2B11E",
+          "after": "CometWithExtendedAssetList"
         }
       ]
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3",
-      "contractName": "ConfiguratorProxy",
-      "isDependency": false,
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3",
+      "contractName": "cwstETHv3",
       "entity": null,
-      "id": "165:eth:0x316f9708bB98af7dA9c68C1C3b5e79039cD336E3:data-change",
+      "id": "169:eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3:data-change",
       "type": "data-change",
       "changes": [
         {
-          "field": "name",
-          "before": "cWETHv3",
-          "after": "ConfiguratorProxy"
+          "field": "values.assetList",
+          "before": "eth:0x3551C50F84f1B528170E488d1cf03023EdC86b98",
+          "after": "eth:0x465C5e7286C22e705aC145C7BA97b450ca1d4C11"
         },
         {
-          "field": "description",
-          "before": "Compound v3 WETH market - lending pool for WETH",
-          "after": "Configurator proxy - stores per-market parameters consumed by ProxyAdmin.deployAndUpgradeTo"
+          "field": "values.$pastUpgrades.19",
+          "after": [
+            "2026-05-08T18:30:59.000Z",
+            "0x9d10a5240900d159849c7d958d6b11831e75e127f51c31476186ab53c08be700",
+            [
+              "eth:0x80325EFd624C83179d9ad9E7F5D1c43878213971"
+            ]
+          ]
+        },
+        {
+          "field": "values.$upgradeCount",
+          "before": 19,
+          "after": 20
+        },
+        {
+          "field": "values.$implementation",
+          "before": "eth:0x6989484971C4297f2CCEf9B1C4c2FD4Cb83Aee9B",
+          "after": "eth:0x80325EFd624C83179d9ad9E7F5D1c43878213971"
+        },
+        {
+          "field": "values.isTransferPaused",
+          "before": true,
+          "after": false
+        },
+        {
+          "field": "implementationNames.eth:0x6989484971C4297f2CCEf9B1C4c2FD4Cb83Aee9B",
+          "before": "CometWithExtendedAssetList"
+        },
+        {
+          "field": "implementationNames.eth:0x80325EFd624C83179d9ad9E7F5D1c43878213971",
+          "after": "CometWithExtendedAssetList"
         }
       ]
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x595B4a0Fc56A84BbBEA01CbAc0d243ED9324227A",
+      "contractName": "AssetList",
+      "entity": null,
+      "id": "169:eth:0x595B4a0Fc56A84BbBEA01CbAc0d243ED9324227A:contract-removed",
+      "type": "contract-removed"
+    },
+    {
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56",
+      "contractName": "cUSDSv3",
+      "entity": null,
+      "id": "169:eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.assetList",
+          "before": "eth:0x23AF5804560d2e066A9AE422eBb3dB08Bb5E5B81",
+          "after": "eth:0xC3a14F69fF08236A1b4F3ba2cE5E7820AF735B4C"
+        },
+        {
+          "field": "values.$pastUpgrades.22",
+          "after": [
+            "2026-05-08T18:33:11.000Z",
+            "0x54a5496444fdd9a6c7cdcbb712c4027aa77acba1b25626b2c1532e1680555c65",
+            [
+              "eth:0x9f12A1E87987941Daa709297317fC33052Fe1830"
+            ]
+          ]
+        },
+        {
+          "field": "values.$upgradeCount",
+          "before": 22,
+          "after": 23
+        },
+        {
+          "field": "values.$implementation",
+          "before": "eth:0x41bcBe31604aAbB5B5699fffC4A9FA0E0692e055",
+          "after": "eth:0x9f12A1E87987941Daa709297317fC33052Fe1830"
+        },
+        {
+          "field": "implementationNames.eth:0x41bcBe31604aAbB5B5699fffC4A9FA0E0692e055",
+          "before": "CometWithExtendedAssetList"
+        },
+        {
+          "field": "implementationNames.eth:0x9f12A1E87987941Daa709297317fC33052Fe1830",
+          "after": "CometWithExtendedAssetList"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
       "address": "eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94",
       "contractName": "cWETHv3",
       "isDependency": false,
       "entity": null,
-      "id": "165:eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94:data-change",
+      "id": "169:eth:0xA17581A9E3356d9A858b789D68B4d866e593aE94:data-change",
       "type": "data-change",
       "changes": [
         {
-          "field": "name",
-          "before": "cUSDTv3",
-          "after": "cWETHv3"
+          "field": "values.assetList",
+          "before": "eth:0x030A60EB6A12C4B31fB2F0d7108Bfbf8425b5d92",
+          "after": "eth:0x90d3FF24A252206D486151B6bBe7aDAf5A3818fD"
         },
         {
-          "field": "description",
-          "before": "Compound v3 USDT market - lending pool for USDT",
-          "after": "Compound v3 WETH market - lending pool for WETH"
+          "field": "values.$pastUpgrades.53",
+          "after": [
+            "2026-05-08T18:30:59.000Z",
+            "0x9d10a5240900d159849c7d958d6b11831e75e127f51c31476186ab53c08be700",
+            [
+              "eth:0xd636a83fc540869FD8f792E06948c915bed97080"
+            ]
+          ]
+        },
+        {
+          "field": "values.$upgradeCount",
+          "before": 53,
+          "after": 54
+        },
+        {
+          "field": "values.$implementation",
+          "before": "eth:0xb979f2Ef3b117082a899Bc4Ed01987BEeF184cd9",
+          "after": "eth:0xd636a83fc540869FD8f792E06948c915bed97080"
+        },
+        {
+          "field": "values.isTransferPaused",
+          "before": true,
+          "after": false
+        },
+        {
+          "field": "implementationNames.eth:0xb979f2Ef3b117082a899Bc4Ed01987BEeF184cd9",
+          "before": "CometWithExtendedAssetList"
+        },
+        {
+          "field": "implementationNames.eth:0xd636a83fc540869FD8f792E06948c915bed97080",
+          "after": "CometWithExtendedAssetList"
         }
       ]
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x055E53F50B84FD91c4Be367220EFD36c3d091E1f",
-      "contractName": "CometExtAssetList",
-      "entity": null,
-      "id": "165:eth:0x055E53F50B84FD91c4Be367220EFD36c3d091E1f:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x1B0e765F6224C21223AeA2af16c1C46E38885a40",
-      "contractName": "CometRewards",
-      "entity": null,
-      "id": "165:eth:0x1B0e765F6224C21223AeA2af16c1C46E38885a40:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x23AF5804560d2e066A9AE422eBb3dB08Bb5E5B81",
-      "contractName": "AssetList",
-      "entity": null,
-      "id": "165:eth:0x23AF5804560d2e066A9AE422eBb3dB08Bb5E5B81:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x3551C50F84f1B528170E488d1cf03023EdC86b98",
-      "contractName": "AssetList",
-      "entity": null,
-      "id": "165:eth:0x3551C50F84f1B528170E488d1cf03023EdC86b98:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840",
-      "contractName": "cUSDTv3",
-      "entity": null,
-      "id": "165:eth:0x3Afdc9BCA9213A35503b077a6072F3D0d5AB0840:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3",
-      "contractName": "cwstETHv3",
-      "entity": null,
-      "id": "165:eth:0x3D0bb1ccaB520A66e607822fC55BC921738fAFE3:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x3E7d1eAB13ad0104d2750B8863b489D65364e32D",
-      "contractName": "EACAggregatorProxy",
-      "entity": null,
-      "id": "165:eth:0x3E7d1eAB13ad0104d2750B8863b489D65364e32D:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56",
-      "contractName": "cUSDSv3",
-      "entity": null,
-      "id": "165:eth:0x5D409e56D886231aDAf00c8775665AD0f9897b56:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x72e9B6F907365d76C6192aD49C0C5ba356b7Fa48",
-      "contractName": "ConstantPriceFeed",
-      "entity": null,
-      "id": "165:eth:0x72e9B6F907365d76C6192aD49C0C5ba356b7Fa48:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
-      "contractName": "Wrapped liquid staked Ether 2.0 Token",
-      "entity": null,
-      "id": "165:eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
       "address": "eth:0xaE2ee35ECf51dD9853224b20E8E528663c3BAFD6",
       "contractName": "AssetList",
       "entity": null,
-      "id": "165:eth:0xaE2ee35ECf51dD9853224b20E8E528663c3BAFD6:contract-added",
+      "id": "169:eth:0xaE2ee35ECf51dD9853224b20E8E528663c3BAFD6:contract-removed",
+      "type": "contract-removed"
+    },
+    {
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+      "contractName": "cUSDCv3",
+      "isDependency": false,
+      "entity": null,
+      "id": "169:eth:0xc3d688B66703497DAA19211EEdff47f25384cdc3:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.assetList",
+          "before": "eth:0x595B4a0Fc56A84BbBEA01CbAc0d243ED9324227A",
+          "after": "eth:0xED4aa6696527693Db4a4607661f33778ACbA9653"
+        },
+        {
+          "field": "values.$pastUpgrades.59",
+          "after": [
+            "2026-05-08T18:33:11.000Z",
+            "0x54a5496444fdd9a6c7cdcbb712c4027aa77acba1b25626b2c1532e1680555c65",
+            [
+              "eth:0x83D491269720CE925f92C6bF9F66B7a0779A293a"
+            ]
+          ]
+        },
+        {
+          "field": "values.$upgradeCount",
+          "before": 59,
+          "after": 60
+        },
+        {
+          "field": "values.$implementation",
+          "before": "eth:0xFe36A00669bB4b5834A2F3E2b9A2908fEe21d141",
+          "after": "eth:0x83D491269720CE925f92C6bF9F66B7a0779A293a"
+        },
+        {
+          "field": "implementationNames.eth:0xFe36A00669bB4b5834A2F3E2b9A2908fEe21d141",
+          "before": "CometWithExtendedAssetList"
+        },
+        {
+          "field": "implementationNames.eth:0x83D491269720CE925f92C6bF9F66B7a0779A293a",
+          "after": "CometWithExtendedAssetList"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x465C5e7286C22e705aC145C7BA97b450ca1d4C11",
+      "contractName": "AssetList",
+      "entity": null,
+      "id": "169:eth:0x465C5e7286C22e705aC145C7BA97b450ca1d4C11:contract-added",
       "type": "contract-added"
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0xC6CDE7C39eB2f0F0095F41570af89eFC2C1Ea828",
-      "contractName": "MultiSigWallet",
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x6c32997Be422D392981a0f1c6Ff9a1E1B945AB4c",
+      "contractName": "AssetList",
       "entity": null,
-      "id": "165:eth:0xC6CDE7C39eB2f0F0095F41570af89eFC2C1Ea828:contract-added",
+      "id": "169:eth:0x6c32997Be422D392981a0f1c6Ff9a1E1B945AB4c:contract-added",
       "type": "contract-added"
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0xd4eC911B8FD79139736950235a93d3ea9c3f68ed",
-      "contractName": "CometExtAssetList",
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0x90d3FF24A252206D486151B6bBe7aDAf5A3818fD",
+      "contractName": "AssetList",
       "entity": null,
-      "id": "165:eth:0xd4eC911B8FD79139736950235a93d3ea9c3f68ed:contract-added",
+      "id": "169:eth:0x90d3FF24A252206D486151B6bBe7aDAf5A3818fD:contract-added",
       "type": "contract-added"
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0xd697A61D5FB4e076125e0bE647f902b02bb3A0F1",
-      "contractName": "TetherToken",
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0xC3a14F69fF08236A1b4F3ba2cE5E7820AF735B4C",
+      "contractName": "AssetList",
       "entity": null,
-      "id": "165:eth:0xd697A61D5FB4e076125e0bE647f902b02bb3A0F1:contract-added",
+      "id": "169:eth:0xC3a14F69fF08236A1b4F3ba2cE5E7820AF735B4C:contract-added",
       "type": "contract-added"
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "contractName": "Tether USD Token",
+      "timestamp": "2026-05-09T08:52:51.000Z",
+      "updateNotifierId": 169,
+      "address": "eth:0xED4aa6696527693Db4a4607661f33778ACbA9653",
+      "contractName": "AssetList",
       "entity": null,
-      "id": "165:eth:0xdAC17F958D2ee523a2206206994597C13D831ec7:contract-added",
+      "id": "169:eth:0xED4aa6696527693Db4a4607661f33778ACbA9653:contract-added",
       "type": "contract-added"
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0xdC035D45d973E3EC169d2276DDab16f1e407384F",
-      "contractName": "USDS Stablecoin Token",
+      "timestamp": "2026-05-10T09:04:50.000Z",
+      "updateNotifierId": 174,
+      "address": "eth:0x55bea483873291eB3ded185c9962676F107cB4D6",
+      "contractName": "Safe",
       "entity": null,
-      "id": "165:eth:0xdC035D45d973E3EC169d2276DDab16f1e407384F:contract-added",
-      "type": "contract-added"
+      "id": "174:eth:0x55bea483873291eB3ded185c9962676F107cB4D6:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.multisigThreshold",
+          "before": "2 of 4 (50%)",
+          "after": "2 of 5 (40%)"
+        }
+      ]
     },
     {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0xe3458a0BdBd5A413d3731595C5Eb7C4CD6a14DD1",
-      "contractName": "CometExtAssetList",
+      "timestamp": "2026-05-10T09:04:50.000Z",
+      "updateNotifierId": 174,
+      "address": "eth:0x55bea483873291eB3ded185c9962676F107cB4D6",
+      "contractName": "Safe",
       "entity": null,
-      "id": "165:eth:0xe3458a0BdBd5A413d3731595C5Eb7C4CD6a14DD1:contract-added",
-      "type": "contract-added"
-    },
-    {
-      "timestamp": "2026-05-08T08:29:40.000Z",
-      "updateNotifierId": 165,
-      "address": "eth:0xfF30586cD0F29eD462364C7e81375FC0C71219b1",
-      "contractName": "EACAggregatorProxy",
-      "entity": null,
-      "id": "165:eth:0xfF30586cD0F29eD462364C7e81375FC0C71219b1:contract-added",
-      "type": "contract-added"
+      "id": "174:eth:0x55bea483873291eB3ded185c9962676F107cB4D6:role:Safe.owners",
+      "type": "role-update",
+      "roleName": "Safe.owners",
+      "changes": [
+        {
+          "field": "values.$members.0",
+          "after": "eth:0xb279f11cB50fa9302DFC93ee136C3D368ce9C5f2"
+        },
+        {
+          "field": "values.$members.1",
+          "after": "eth:0x2B537a7c3b92F78601379839c346cBAF578d86c1"
+        },
+        {
+          "field": "values.$members.0",
+          "before": "eth:0x0FFf5FeC65b98c556C8baEd531d93507C132ee4f",
+          "after": "eth:0x65A62CDd42aB34AC483d1ADe53CC8d9f1e29F637"
+        },
+        {
+          "field": "values.$members.1",
+          "before": "eth:0xC0ffeE04fFF1c6A23351b55dd3925aBcad5b670b",
+          "after": "eth:0x882c937EdABbC4FBd5DC0f863570b6f654520BaD"
+        },
+        {
+          "field": "values.$members.3",
+          "before": "eth:0xA049290eaE17454b64e3728BE261AD748368f30b"
+        }
+      ]
     }
   ]
 }

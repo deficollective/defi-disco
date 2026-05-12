@@ -1,8 +1,36 @@
 {
   "name": "Sentora-PYUSD",
-  "timestamp": 1778228980,
-  "configHash": "0x9856febce9a31e5e71864f7144887e9a04b7385f6fe863bceea0392f94200efd",
+  "timestamp": 1778579383,
+  "configHash": "0x78de201b01ad9a333dd1d3e7117b41972af858113484a0051e9473ed29d9801e",
   "entries": [
+    {
+      "name": "MorphoChainlinkOracleV2",
+      "address": "eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18",
+      "type": "Contract",
+      "sourceHashes": [
+        "0x6c540760ca3541be0adea9ccd74bb96e621286f2f25c24538260e302c5b661a2"
+      ],
+      "proxyType": "immutable",
+      "ignoreInWatchMode": ["price"],
+      "sinceTimestamp": 1776453083,
+      "sinceBlock": 24901582,
+      "values": {
+        "$immutable": true,
+        "BASE_FEED_1": "eth:0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c",
+        "BASE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
+        "BASE_VAULT": "eth:0x0000000000000000000000000000000000000000",
+        "BASE_VAULT_CONVERSION_SAMPLE": 1,
+        "price": "807831861339349283068134364748526021748",
+        "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
+        "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
+        "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
+        "QUOTE_VAULT_CONVERSION_SAMPLE": 1,
+        "SCALE_FACTOR": "10000000000000000000000000000000000"
+      },
+      "implementationNames": {
+        "eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18": "MorphoChainlinkOracleV2"
+      }
+    },
     {
       "name": "MorphoChainlinkOracleV2",
       "address": "eth:0x0AeAa9320d78a5Edb9387A08682d1738BCc64b1f",
@@ -20,7 +48,7 @@
         "BASE_FEED_2": "eth:0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c",
         "BASE_VAULT": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT_CONVERSION_SAMPLE": 1,
-        "price": "799745297003576595696771068462416429415",
+        "price": "810953662940946291224608524550347520677",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -99,17 +127,17 @@
         "feedCap_0x4F67e4d9BD67eFa28236013288737D39AeF48e79": "50000000000000",
         "feedCap_0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22": "75000000000000",
         "feedCap_0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419": "125000000000000",
-        "feedCap_0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1": "425000000000000",
+        "feedCap_0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1": "455000000000000",
         "feedCap_0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6": "0",
         "feedCap_0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961": "0",
         "feedCap_0xb415eAA355D8440ac7eCB602D3fb67ccC1f0bc81": "50000000000000",
         "feedCap_0xC6Be540fF8A71B413b4E56C00B4B4Ea31cc396dd": "0",
-        "feedCap_0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c": "100000000000000",
+        "feedCap_0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c": "130000000000000",
         "feedCap_0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23": "50000000000000",
         "feedCap_0xfF30586cD0F29eD462364C7e81375FC0C71219b1": "0",
         "feeRecipient": "eth:0x0000000000000000000000000000000000000000",
         "guardian": "eth:0x9e396dE3312D373b87F9BD8763fb48184b42aac0",
-        "lastTotalAssets": 246382078748020,
+        "lastTotalAssets": 248948288158404,
         "lostAssets": 0,
         "marketCap_oracle_0x0AeAa9320d78a5Edb9387A08682d1738BCc64b1f": "50000000000000",
         "marketCap_oracle_0x221898dA0890Fc5fb6c890Fcdc051FA97946eE11": "75000000000000",
@@ -130,7 +158,8 @@
           "eth:0x0AeAa9320d78a5Edb9387A08682d1738BCc64b1f",
           "eth:0x221898dA0890Fc5fb6c890Fcdc051FA97946eE11",
           "eth:0x3B1BFDB445Eb31bCFB7932A33309cBf1089681dA",
-          "eth:0x4124b5Cb815A21E26fF86c8A6A0A074c7fa2Dd1D"
+          "eth:0x4124b5Cb815A21E26fF86c8A6A0A074c7fa2Dd1D",
+          "eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18"
         ],
         "marketParams": [
           {
@@ -212,6 +241,14 @@
             "oracle": "eth:0x4124b5Cb815A21E26fF86c8A6A0A074c7fa2Dd1D",
             "irm": "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
             "lltv": "860000000000000000"
+          },
+          {
+            "marketId": "0xe51f9aaad25d0e755429cf77076b3c2d37cb1228ed81f8a5482f2102c220eef5",
+            "loanToken": "eth:0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
+            "collateralToken": "eth:0x73E0C0d45E048D25Fc26Fa3159b0aA04BfA4Db98",
+            "oracle": "eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18",
+            "irm": "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+            "lltv": "860000000000000000"
           }
         ],
         "MAX_FEE": "500000000000000000",
@@ -234,8 +271,8 @@
         "supplyQueueLength": 1,
         "symbol": "senPYUSD",
         "timelock": 259200,
-        "totalAssets": 246382948999901,
-        "totalSupply": "122421027910408353979499314",
+        "totalAssets": 248948570514321,
+        "totalSupply": "123659589054972277094972238",
         "withdrawQueue": [
           "0xf8c13c80ab8666c21fc5afa13105745cae7c1da13df596eb5054319f36655cc9",
           "0xd8a8e6667f58aa9229e8979bd619742b1660ee856c200a93e407dbccb7222323",
@@ -246,9 +283,10 @@
           "0x6a7e36eb088bd501d73f7ab4c5b8671358559341a78ce521c9e499dc0bc642b9",
           "0x85d59152eeeab7ca024804895b358868d8dd1e134171be400d7792d5604a212c",
           "0xcb12dcbc7c6c4f20ca1537a3cc1a41ec27501f85a3e322a710d9a16a88a28c0e",
-          "0xbe50eed784490d6c32f398902b55eb5e1bd5af89e1f554993ad5fea899be090b"
+          "0xbe50eed784490d6c32f398902b55eb5e1bd5af89e1f554993ad5fea899be090b",
+          "0xe51f9aaad25d0e755429cf77076b3c2d37cb1228ed81f8a5482f2102c220eef5"
         ],
-        "withdrawQueueLength": 10
+        "withdrawQueueLength": 11
       },
       "fieldMeta": {
         "MAX_TIMELOCK": { "description": "Maximum timelock delay (2 weeks)" },
@@ -282,7 +320,7 @@
         "BASE_FEED_2": "eth:0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
         "BASE_VAULT": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT_CONVERSION_SAMPLE": 1,
-        "price": "2489857315080506654550092596",
+        "price": "2501301596820089643652505586",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -370,7 +408,7 @@
         "BASE_FEED_2": "eth:0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961",
         "BASE_VAULT": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT_CONVERSION_SAMPLE": 1,
-        "price": "999108415114275609078023",
+        "price": "999326519656525024827762",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -398,7 +436,7 @@
         "BASE_FEED_2": "eth:0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c",
         "BASE_VAULT": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT_CONVERSION_SAMPLE": 1,
-        "price": "794443942564411852543570651882857136800",
+        "price": "806014239651335747181231062427841838199",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -425,11 +463,11 @@
         "decimals": 8,
         "description": "Custom price feed for wstETH / ETH",
         "latestRoundData": {
-          "roundId": "36893488147419103997",
-          "answer": 123359735,
-          "startedAt": 1778190923,
-          "updatedAt": 1778190935,
-          "answeredInRound": "36893488147419103997"
+          "roundId": "36893488147419104001",
+          "answer": 123385261,
+          "startedAt": 1778536607,
+          "updatedAt": 1778536619,
+          "answeredInRound": "36893488147419104001"
         },
         "stETHtoETHPriceFeed": "eth:0x86392dC19c0b719886221c78AB11eb8Cf5c52812",
         "stETHToETHPriceFeedDecimals": 18,
@@ -458,7 +496,7 @@
         "BASE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT": "eth:0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD",
         "BASE_VAULT_CONVERSION_SAMPLE": "1000000000000000000",
-        "price": "1095270295283523169242923",
+        "price": "1095837684668128123098596",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -545,7 +583,7 @@
         "BASE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT_CONVERSION_SAMPLE": 1,
-        "price": "800654113174106586309372516139978187126",
+        "price": "808254569558830475003542251806548421339",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -574,10 +612,10 @@
         "DOMAIN_SEPARATOR": "0xd4a8ff90a402dc7d4fcbf60f5488291263c743ccff180e139f47d139cedfd5fe",
         "name": "Wrapped liquid staked Ether 2.0",
         "stETH": "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
-        "stEthPerToken": "1233865925767819611",
+        "stEthPerToken": "1234205034384860776",
         "symbol": "wstETH",
-        "tokensPerStEth": "810460828130667667",
-        "totalSupply": "3374912330316830155192378"
+        "tokensPerStEth": "810238146936752097",
+        "totalSupply": "3346731908826808760429592"
       },
       "implementationNames": {
         "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0": "WstETH"
@@ -738,7 +776,7 @@
         "getChainId": 1,
         "GnosisSafe_modules": [],
         "multisigThreshold": "1 of 1 (100%)",
-        "nonce": 41,
+        "nonce": 48,
         "VERSION": "1.4.1"
       },
       "implementationNames": {
@@ -763,7 +801,7 @@
         "BASE_FEED_2": "eth:0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
         "BASE_VAULT": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT_CONVERSION_SAMPLE": 1,
-        "price": "2813535407392739342566934959",
+        "price": "2821176977233693713483793876",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -859,8 +897,8 @@
         "latestRoundData": {
           "roundId": 1,
           "answer": 100386442,
-          "startedAt": 1778156303,
-          "updatedAt": 1778156303,
+          "startedAt": 1778501963,
+          "updatedAt": 1778501963,
           "answeredInRound": 1
         },
         "version": 1
@@ -923,7 +961,7 @@
           "roundId": 0,
           "answer": "1000000000000000000",
           "startedAt": 0,
-          "updatedAt": 1778228963,
+          "updatedAt": 1778579375,
           "answeredInRound": 0
         },
         "market": "eth:0x8dAe8ECe668cf80d348873F23D456448E8694883",
@@ -952,7 +990,7 @@
         "BASE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT": "eth:0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b",
         "BASE_VAULT_CONVERSION_SAMPLE": 1000000,
-        "price": "1162995340577067238467000340403685734",
+        "price": "1163605240401552604791828443832506354",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -1042,7 +1080,7 @@
         ],
         "$upgradeCount": 3,
         "getUniqueSignersThreshold": 3,
-        "priceOfETH": "2279646800650000000000"
+        "priceOfETH": "2289353892000000000000"
       },
       "errors": {
         "extractTimestampsAndAssertAllAreEqual": "Processing error occurred.",
@@ -1075,7 +1113,7 @@
         "BASE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT": "eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
         "BASE_VAULT_CONVERSION_SAMPLE": "1000000000000000000",
-        "price": "1229441318045072486835814",
+        "price": "1230212004084570244468148",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -1108,7 +1146,7 @@
         "getChainId": 1,
         "GnosisSafe_modules": [],
         "multisigThreshold": "1 of 1 (100%)",
-        "nonce": 178,
+        "nonce": 186,
         "VERSION": "1.4.1"
       },
       "implementationNames": {
@@ -1217,6 +1255,20 @@
     }
   ],
   "abis": {
+    "eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18": [
+      "constructor(address baseVault, uint256 baseVaultConversionSample, address baseFeed1, address baseFeed2, uint256 baseTokenDecimals, address quoteVault, uint256 quoteVaultConversionSample, address quoteFeed1, address quoteFeed2, uint256 quoteTokenDecimals)",
+      "error MathOverflowedMulDiv()",
+      "function BASE_FEED_1() view returns (address)",
+      "function BASE_FEED_2() view returns (address)",
+      "function BASE_VAULT() view returns (address)",
+      "function BASE_VAULT_CONVERSION_SAMPLE() view returns (uint256)",
+      "function QUOTE_FEED_1() view returns (address)",
+      "function QUOTE_FEED_2() view returns (address)",
+      "function QUOTE_VAULT() view returns (address)",
+      "function QUOTE_VAULT_CONVERSION_SAMPLE() view returns (uint256)",
+      "function SCALE_FACTOR() view returns (uint256)",
+      "function price() view returns (uint256)"
+    ],
     "eth:0x0AeAa9320d78a5Edb9387A08682d1738BCc64b1f": [
       "constructor(address baseVault, uint256 baseVaultConversionSample, address baseFeed1, address baseFeed2, uint256 baseTokenDecimals, address quoteVault, uint256 quoteVaultConversionSample, address quoteFeed1, address quoteFeed2, uint256 quoteTokenDecimals)",
       "error MathOverflowedMulDiv()",
@@ -2196,6 +2248,6 @@
     "Steakhouse-USDC/EACAggregatorProxy": "0x3ba2cbd9a884cdfea15efe908af481b5a5a9c747391c8580bd38b0f8b1603921",
     "tokens/Lido/wstETH": "0xd55ccc93c3f52e654ebbffee9194b0b8a0d974753091db2a43a185679e002e88"
   },
-  "usedBlockNumbers": { "ethereum": 25049148 },
-  "permissionsConfigHash": "0x34f9015a8479abf8b1ed4d82be8558b44b5d1691214c104a3285c300b326c150"
+  "usedBlockNumbers": { "ethereum": 25078246 },
+  "permissionsConfigHash": "0xa51795a585c9a6bfee5b596c32df20b4ad4484008769fac1f13437b633734d47"
 }

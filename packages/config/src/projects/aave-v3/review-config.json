@@ -54,7 +54,7 @@
     },
     "eth:0x53cb4BB8F61fa45405dC75F476FaDAd801e653D9": {
       "name": "Aave Recovery Guardian (3-of-5 Multisig)",
-      "description": "3-of-5 Gnosis Safe sharing Umbrella's DEFAULT_ADMIN_ROLE with the Aave Governance V3 Executor. Can update slashing configs and the deficit offset on Umbrella, but cannot redirect slashed funds — SLASHED_FUNDS_RECIPIENT is fixed at deployment to the Aave Collector. Two of its five signers are themselves multisigs (0x3CD9a2... 2-of-3, 0x985F32... 3-of-4). The Executor retains DEFAULT_ADMIN_ROLE and can revoke this multisig at any time."
+      "description": "3-of-5 Gnosis Safe sharing Umbrella's DEFAULT_ADMIN_ROLE with the Aave Governance V3 Executor. Can update slashing configs and the deficit offset on Umbrella, but cannot redirect slashed funds — SLASHED_FUNDS_RECIPIENT is fixed at deployment to the Aave Collector. Two of its five signers are themselves multisigs (0x3CD9a2... 2-of-3, 0x985F32... 2-of-5). The Executor retains DEFAULT_ADMIN_ROLE and can revoke this multisig at any time."
     },
     "eth:0x98217A06721Ebf727f2C8d9aD7718ec28b7aAe34": {
       "name": "Unknown (0x9821...Ae34)",
@@ -238,11 +238,7 @@
     },
     "eth:0x47c71dFEB55Ebaa431Ae3fbF99Ea50e0D3d30fA8": {
       "name": "Risk Stewards Council (2/2 Safe)",
-      "description": "2 of 2 Gnosis Safe operating Aave's Core and Lido Risk Stewards (RISK_COUNCIL on RiskSteward 0x7e6a6B..., RiskSteward 0xBF79d8..., CapsPlusRiskSteward 0x1EBdbE...). Within DAO-set bounds (e.g. +/-50 bps absolute on LTV / LiquidationThreshold / LiquidationBonus, +/-100 bps absolute on base rate, all per-asset per 3-day cooldown), the council can adjust caps, interest rates, collateral parameters, and price-cap ceilings on those reserves. The DAO Executor owns every steward and can revoke RISK_COUNCIL at any time."
-    },
-    "eth:0xDe841Bf4B67970f5a19165443B0e9ec808E1cC85": {
-      "name": "3 of 7 (43%) Multisig",
-      "description": "3 of 7 (43%) Gnosis Safe controlling 7 permissioned functions across 1 contract."
+      "description": "2 of 2 Gnosis Safe operating Aave's Core and Lido Risk Stewards (RISK_COUNCIL on RiskSteward 0x7e6a6B..., RiskSteward 0xBF79d8..., CapsPlusRiskSteward 0x1EBdbE...) and owner of the RiskOracle (0x7ABB46...) — Aave's risk-parameter publication oracle whose updates feed the AaveCapoAgent / AaveDiscountRateAgent / AaveEModeAgent / AaveRatesAgent via AgentHub. Within DAO-set bounds (e.g. +/-50 bps absolute on LTV / LiquidationThreshold / LiquidationBonus, +/-100 bps absolute on base rate, all per-asset per 3-day cooldown), the council can adjust caps, interest rates, collateral parameters, and price-cap ceilings on those reserves; on the RiskOracle, the council can publish risk-parameter updates, manage authorized senders, and add new update types. The DAO Executor owns every steward and can revoke RISK_COUNCIL at any time."
     },
     "eth:0x95E3015c67EF62B866cC28ca5A9AB5017A55e336": {
       "name": "AgentHub",
