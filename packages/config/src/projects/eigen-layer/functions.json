@@ -1,0 +1,4032 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-13T10:50:09.149Z",
+  "contracts": {
+    "eth:0x948a420b8CC1d6BFd0B6087C2E7c344a2CD0bc39": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this contract. While paused, user operations (deposit, withdraw, delegate, etc.) on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:46.343Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:46.343Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this contract, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:46.352Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:46.352Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:46.359Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:46.359Z"
+          }
+        }
+      ]
+    },
+    "eth:0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this contract. While paused, user operations (deposit, withdraw, delegate, etc.) on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:49.393Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:49.393Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this contract, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:49.402Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:49.402Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:49.413Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:49.413Z"
+          }
+        }
+      ]
+    },
+    "eth:0x91E677b07F7AF907ec9a428aafA9fc14a0d3A338": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on EigenPodManager. While paused, user operations (deposit, withdraw, delegate, etc.) on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:22.977Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:22.977Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on EigenPodManager, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:22.987Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:22.987Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:22.997Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:22.997Z"
+          }
+        },
+        {
+          "functionName": "setProofTimestampSetter",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:23.005Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:23.005Z"
+          }
+        },
+        {
+          "functionName": "setPectraForkTimestamp",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.proofTimestampSetter"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:23.015Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:23.015Z"
+          }
+        }
+      ]
+    },
+    "eth:0x858646372CC42E1A627fcE94aa7A7033e7CF075A": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on StrategyManager. While paused, user operations (deposit, withdraw, delegate, etc.) on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:14.336Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:14.336Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on StrategyManager, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:14.345Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:14.345Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:14.355Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:14.355Z"
+          }
+        },
+        {
+          "functionName": "setStrategyWhitelister",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:14.363Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:14.363Z"
+          }
+        },
+        {
+          "functionName": "addStrategiesToDepositWhitelist",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.strategyWhitelister"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:14.371Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:14.371Z"
+          }
+        },
+        {
+          "functionName": "removeStrategiesFromDepositWhitelist",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.strategyWhitelister"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:14.380Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:14.380Z"
+          }
+        }
+      ]
+    },
+    "eth:0x7750d328b314EfFa365A0402CcfD489B80B0adda": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on RewardsCoordinator. While paused, user operations (deposit, withdraw, delegate, etc.) on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.011Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.011Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on RewardsCoordinator, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.020Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.020Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.029Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.029Z"
+          }
+        },
+        {
+          "functionName": "submitRoot",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.rewardsUpdater"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "activation-delay-bound",
+              "description": "Submitted root activates after 7-day delay (activationDelay). During this window, the root can be reviewed and a new correct root submitted, overriding the malicious one."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.040Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.040Z"
+          }
+        },
+        {
+          "functionName": "disableRoot",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.rewardsUpdater"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.048Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.048Z"
+          }
+        },
+        {
+          "functionName": "setActivationDelay",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.055Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.055Z"
+          }
+        },
+        {
+          "functionName": "setDefaultOperatorSplit",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.063Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.063Z"
+          }
+        },
+        {
+          "functionName": "setFeeRecipient",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.071Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.071Z"
+          }
+        },
+        {
+          "functionName": "setRewardsUpdater",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.079Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.079Z"
+          }
+        },
+        {
+          "functionName": "setRewardsForAllSubmitter",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.086Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.086Z"
+          }
+        },
+        {
+          "functionName": "createRewardsForAllSubmission",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.092Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.092Z"
+          }
+        },
+        {
+          "functionName": "createRewardsForAllEarners",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:37.101Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:37.101Z"
+          }
+        }
+      ]
+    },
+    "eth:0x619F988b4EA2f896ED068d84cE6F52550d6acE84": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this contract. While paused, user operations on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:45.364Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:45.364Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this contract, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:45.373Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:45.373Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:45.382Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:45.382Z"
+          }
+        },
+        {
+          "functionName": "setIncentiveCouncil",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:45.392Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:45.392Z"
+          }
+        },
+        {
+          "functionName": "sweep",
+          "isPermissioned": false,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.incentiveCouncil"
+            }
+          ],
+          "timestamp": "2026-05-12T17:08:33.888Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:08:33.888Z"
+          }
+        },
+        {
+          "functionName": "addDistribution",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.incentiveCouncil"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:45.400Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:45.400Z"
+          }
+        },
+        {
+          "functionName": "updateDistribution",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.incentiveCouncil"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:45.407Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:45.407Z"
+          }
+        }
+      ]
+    },
+    "eth:0x135DDa560e946695d6f155dACaFC6f1F25C1F5AF": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this contract. While paused, user operations (deposit, withdraw, delegate, etc.) on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:52.239Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:52.239Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this contract, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:52.251Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:52.251Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:52.262Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:52.262Z"
+          }
+        }
+      ]
+    },
+    "eth:0xB427E2Eb4Bb33eE3f1ee72dc9e347e8625a72230": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:52.419Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:52.419Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:52.430Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:52.430Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:52.440Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:52.440Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:04:52.449Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:04:52.449Z"
+          }
+        }
+      ]
+    },
+    "eth:0x509Aadb99487182b21fF4E9e7Eb362a9Ea8E8f40": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this contract. While paused, user operations (deposit, withdraw, delegate, etc.) on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:56.842Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:56.842Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this contract, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:56.852Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:56.852Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:56.862Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:56.862Z"
+          }
+        }
+      ]
+    },
+    "eth:0x0BAAc79acD45A023E19345c352d8a7a83C4e5656": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on RegistryCoordinator. While paused, user operations on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:03.639Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:03.639Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on RegistryCoordinator, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:03.650Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:03.650Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:03.660Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:03.660Z"
+          }
+        },
+        {
+          "functionName": "ejectOperator",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.ejector"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:03.669Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:03.669Z"
+          }
+        },
+        {
+          "functionName": "createQuorum",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:03.676Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:03.676Z"
+          }
+        },
+        {
+          "functionName": "setOperatorSetParams",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:03.684Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:03.684Z"
+          }
+        },
+        {
+          "functionName": "setChurnApprover",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:03.692Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:03.692Z"
+          }
+        },
+        {
+          "functionName": "setEjector",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:03.699Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:03.699Z"
+          }
+        },
+        {
+          "functionName": "setEjectionCooldown",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:03.707Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:03.707Z"
+          }
+        }
+      ]
+    },
+    "eth:0x006124Ae7976137266feeBFb3F4D2BE4C073139D": {
+      "functions": [
+        {
+          "functionName": "setMinimumStakeForQuorum",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@registryCoordinator.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:10.324Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:10.324Z"
+          }
+        },
+        {
+          "functionName": "addStrategies",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@registryCoordinator.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:10.334Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:10.334Z"
+          }
+        },
+        {
+          "functionName": "removeStrategies",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@registryCoordinator.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:10.344Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:10.344Z"
+          }
+        },
+        {
+          "functionName": "modifyStrategyParams",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@registryCoordinator.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:10.353Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:10.353Z"
+          }
+        }
+      ]
+    },
+    "eth:0x00A5Fd09F6CeE6AE9C8b0E5e33287F7c82880505": {
+      "functions": [
+        {
+          "functionName": "registerOperator",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.registryCoordinator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:14.185Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:14.185Z"
+          }
+        },
+        {
+          "functionName": "deregisterOperator",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.registryCoordinator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:14.195Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:14.195Z"
+          }
+        },
+        {
+          "functionName": "initializeQuorum",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.registryCoordinator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:14.203Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:14.203Z"
+          }
+        }
+      ]
+    },
+    "eth:0xBd35a7a1CDeF403a6a99e4E8BA0974D198455030": {
+      "functions": [
+        {
+          "functionName": "registerOperator",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.registryCoordinator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:17.322Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:17.322Z"
+          }
+        },
+        {
+          "functionName": "deregisterOperator",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.registryCoordinator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:17.331Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:17.331Z"
+          }
+        },
+        {
+          "functionName": "initializeQuorum",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.registryCoordinator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:17.339Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:17.339Z"
+          }
+        }
+      ]
+    },
+    "eth:0x5a3eD432f2De9645940333e4474bBAAB8cf64cf2": {
+      "functions": [
+        {
+          "functionName": "setOperatorSocket",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.registryCoordinator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:22.213Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:22.213Z"
+          }
+        },
+        {
+          "functionName": "migrateOperatorSockets",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@registryCoordinator.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:22.223Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:22.223Z"
+          }
+        }
+      ]
+    },
+    "eth:0x870679E138bCdf293b7Ff14dD44b70FC97e12fc0": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on EigenDAServiceManager. While paused, user operations on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.032Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.032Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on EigenDAServiceManager, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.041Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.041Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.049Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.049Z"
+          }
+        },
+        {
+          "functionName": "updateAVSMetadataURI",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.055Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.055Z"
+          }
+        },
+        {
+          "functionName": "setRewardsInitiator",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.062Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.062Z"
+          }
+        },
+        {
+          "functionName": "setClaimerFor",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.069Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.069Z"
+          }
+        },
+        {
+          "functionName": "setBatchConfirmer",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.076Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.076Z"
+          }
+        },
+        {
+          "functionName": "confirmBatch",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.batchConfirmers"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.084Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.084Z"
+          }
+        },
+        {
+          "functionName": "createAVSRewardsSubmission",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.rewardsInitiator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.091Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.091Z"
+          }
+        },
+        {
+          "functionName": "createOperatorDirectedAVSRewardsSubmission",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.rewardsInitiator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.098Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.098Z"
+          }
+        },
+        {
+          "functionName": "setStaleStakesForbidden",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@registryCoordinator.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:35.106Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:35.106Z"
+          }
+        }
+      ]
+    },
+    "eth:0x3f5Ab2D4418d38568705bFd6672630fCC3435CC9": {
+      "functions": [
+        {
+          "functionName": "upgradeAndCall",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:43.062Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:43.062Z"
+          }
+        },
+        {
+          "functionName": "upgrade",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:43.072Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:43.072Z"
+          }
+        },
+        {
+          "functionName": "changeProxyAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:43.080Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:43.080Z"
+          }
+        }
+      ]
+    },
+    "eth:0x8247EF5705d3345516286B72bFE6D690197C2E99": {
+      "functions": [
+        {
+          "functionName": "upgradeAndCall",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:43.087Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:43.087Z"
+          }
+        },
+        {
+          "functionName": "upgrade",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:43.093Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:43.093Z"
+          }
+        },
+        {
+          "functionName": "changeProxyAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:43.100Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:43.100Z"
+          }
+        }
+      ]
+    },
+    "eth:0x8b9566AdA63B64d1E1dcF1418b43fd1433b72444": {
+      "functions": [
+        {
+          "functionName": "upgradeAndCall",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:43.107Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:43.107Z"
+          }
+        },
+        {
+          "functionName": "upgrade",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:43.114Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:43.114Z"
+          }
+        },
+        {
+          "functionName": "changeProxyAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:43.120Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:43.120Z"
+          }
+        }
+      ]
+    },
+    "eth:0x0ed6703C298d28aE0878d1b28e88cA87F9662fE9": {
+      "functions": [
+        {
+          "functionName": "upgradeTo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:47.576Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:47.576Z"
+          }
+        }
+      ]
+    },
+    "eth:0x0fCE0A591D96BB76883323eF555867111E2050a9": {
+      "functions": [
+        {
+          "functionName": "upgradeTo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:47.586Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:47.586Z"
+          }
+        }
+      ]
+    },
+    "eth:0x5a2a4F2F3C18f09179B6703e63D9eDD165909073": {
+      "functions": [
+        {
+          "functionName": "upgradeTo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:47.595Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:47.595Z"
+          }
+        }
+      ]
+    },
+    "eth:0x738130BC8eADe1Bc65A9c056DEa636835896bc53": {
+      "functions": [
+        {
+          "functionName": "schedule",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.PROPOSER_ROLE.members"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Action queued in timelock; at minimum 24 days must pass before execution.",
+              "value": 2073600
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:56.021Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:56.021Z"
+          }
+        },
+        {
+          "functionName": "scheduleBatch",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.PROPOSER_ROLE.members"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Action queued in timelock; at minimum 24 days must pass before execution.",
+              "value": 2073600
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:56.033Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:56.033Z"
+          }
+        },
+        {
+          "functionName": "cancel",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CANCELLER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:56.043Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:56.043Z"
+          }
+        },
+        {
+          "functionName": "execute",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.EXECUTOR_ROLE.members"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Action queued in timelock; at minimum 24 days must pass before execution.",
+              "value": 2073600
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:56.051Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:56.051Z"
+          }
+        },
+        {
+          "functionName": "executeBatch",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.EXECUTOR_ROLE.members"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Action queued in timelock; at minimum 24 days must pass before execution.",
+              "value": 2073600
+            }
+          ],
+          "timestamp": "2026-05-12T17:05:56.058Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:05:56.058Z"
+          }
+        }
+      ]
+    },
+    "eth:0xC06Fd4F821eaC1fF1ae8067b36342899b57BAa2d": {
+      "functions": [
+        {
+          "functionName": "schedule",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.PROPOSER_ROLE.members"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Action queued in timelock; at minimum 10 days must pass before execution.",
+              "value": 864000
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:01.204Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:01.204Z"
+          }
+        },
+        {
+          "functionName": "scheduleBatch",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.PROPOSER_ROLE.members"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Action queued in timelock; at minimum 10 days must pass before execution.",
+              "value": 864000
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:01.213Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:01.213Z"
+          }
+        },
+        {
+          "functionName": "cancel",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.CANCELLER_ROLE.members"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:01.223Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:01.223Z"
+          }
+        },
+        {
+          "functionName": "execute",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.EXECUTOR_ROLE.members"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Action queued in timelock; at minimum 10 days must pass before execution.",
+              "value": 864000
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:01.234Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:01.234Z"
+          }
+        },
+        {
+          "functionName": "executeBatch",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.accessControl.EXECUTOR_ROLE.members"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "Action queued in timelock; at minimum 10 days must pass before execution.",
+              "value": 864000
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:01.244Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:01.244Z"
+          }
+        }
+      ]
+    },
+    "eth:0x83E9115d334D248Ce39a6f36144aEaB5b3456e75": {
+      "functions": [
+        {
+          "functionName": "setIsMinter",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:08.746Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:08.746Z"
+          }
+        },
+        {
+          "functionName": "setAllowedFrom",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:08.757Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:08.757Z"
+          }
+        },
+        {
+          "functionName": "setAllowedTo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:08.765Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:08.765Z"
+          }
+        },
+        {
+          "functionName": "disableTransferRestrictions",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:08.772Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:08.772Z"
+          }
+        },
+        {
+          "functionName": "mint",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:08.780Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:08.780Z"
+          }
+        }
+      ]
+    },
+    "eth:0xec53bF9167f50cDEB3Ae105f56099aaaB9061F83": {
+      "functions": [
+        {
+          "functionName": "setAllowedFrom",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:11.977Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:11.977Z"
+          }
+        },
+        {
+          "functionName": "setAllowedTo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:11.987Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:11.987Z"
+          }
+        },
+        {
+          "functionName": "disableTransferRestrictions",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:11.995Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:11.995Z"
+          }
+        }
+      ]
+    },
+    "eth:0x130d8EA0052B45554e4C99079B84df292149Bd5E": {
+      "functions": [
+        {
+          "functionName": "ejectOperators",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            },
+            {
+              "path": "$self.ejectors"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:18.110Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:18.110Z"
+          }
+        },
+        {
+          "functionName": "setQuorumEjectionParams",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:18.121Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:18.121Z"
+          }
+        },
+        {
+          "functionName": "setEjector",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:18.133Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:18.133Z"
+          }
+        }
+      ]
+    },
+    "eth:0x5e4C39Ad7A3E881585e383dB9827EB4811f6F647": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on StrategyFactory. While paused, user operations on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:25.655Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:25.655Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on StrategyFactory, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:25.664Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:25.664Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:25.673Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:25.673Z"
+          }
+        },
+        {
+          "functionName": "blacklistTokens",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:25.683Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:25.683Z"
+          }
+        },
+        {
+          "functionName": "whitelistStrategies",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:25.691Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:25.691Z"
+          }
+        },
+        {
+          "functionName": "removeStrategiesFromWhitelist",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:25.699Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:25.699Z"
+          }
+        }
+      ]
+    },
+    "eth:0x53cC2D82E08370Fe1e44a96f69CEc7d5b54ae868": {
+      "functions": [
+        {
+          "functionName": "setProofSubmitter",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.podOwner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:33.973Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:33.973Z"
+          }
+        },
+        {
+          "functionName": "recoverTokens",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.podOwner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:33.981Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:33.981Z"
+          }
+        },
+        {
+          "functionName": "startCheckpoint",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.podOwner"
+            },
+            {
+              "path": "$self.proofSubmitter"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:33.988Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:33.988Z"
+          }
+        },
+        {
+          "functionName": "verifyWithdrawalCredentials",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.podOwner"
+            },
+            {
+              "path": "$self.proofSubmitter"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:33.995Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:33.995Z"
+          }
+        },
+        {
+          "functionName": "requestConsolidation",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.podOwner"
+            },
+            {
+              "path": "$self.proofSubmitter"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:34.002Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:34.002Z"
+          }
+        },
+        {
+          "functionName": "requestWithdrawal",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.podOwner"
+            },
+            {
+              "path": "$self.proofSubmitter"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:34.009Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:34.009Z"
+          }
+        }
+      ]
+    },
+    "eth:0x0c431C66F4dE941d089625E5B423D00707977060": {
+      "functions": [
+        {
+          "functionName": "setIsPauser",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:38.020Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:38.020Z"
+          }
+        },
+        {
+          "functionName": "setUnpauser",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:38.031Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:38.031Z"
+          }
+        }
+      ]
+    },
+    "eth:0xB8765ed72235d279c3Fb53936E4606db0Ef12806": {
+      "functions": [
+        {
+          "functionName": "setIsPauser",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:38.040Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:38.040Z"
+          }
+        },
+        {
+          "functionName": "setUnpauser",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:38.049Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:38.049Z"
+          }
+        }
+      ]
+    },
+    "eth:0x78cb05379a3b66E5227f2C1496432D7FFE794Fad": {
+      "functions": [
+        {
+          "functionName": "setDisperserInfo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:42.687Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:42.687Z"
+          }
+        }
+      ]
+    },
+    "eth:0xD160e6C1543f562fc2B0A5bf090aED32640Ec55B": {
+      "functions": [
+        {
+          "functionName": "addRelayInfo",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:45.463Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:45.463Z"
+          }
+        }
+      ]
+    },
+    "eth:0xdb4c89956eEa6F606135E7d366322F2bDE609F15": {
+      "functions": [
+        {
+          "functionName": "addVersionedBlobParams",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:47.800Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:47.800Z"
+          }
+        }
+      ]
+    },
+    "eth:0x3F55654b2b2b86bB11bE2f72657f9C33bf88120A": {
+      "functions": [
+        {
+          "functionName": "updateOperatorTable",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operatorTableUpdater"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:53.985Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:53.985Z"
+          }
+        }
+      ]
+    },
+    "eth:0xd0930ee96D07de4F9d493c259232222e46B6EC25": {
+      "functions": [
+        {
+          "functionName": "updateOperatorTable",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operatorTableUpdater"
+            }
+          ],
+          "timestamp": "2026-05-12T17:06:53.997Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:06:53.997Z"
+          }
+        }
+      ]
+    },
+    "eth:0x5557E1fE3068A1e823cE5Dcd052c6C352E2617B5": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on OperatorTableUpdater. While paused, user operations on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:04.552Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:04.552Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on OperatorTableUpdater, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:04.560Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:04.560Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:04.569Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:04.569Z"
+          }
+        },
+        {
+          "functionName": "setGlobalRootConfirmationThreshold",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:04.579Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:04.579Z"
+          }
+        },
+        {
+          "functionName": "disableRoot",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:04.587Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:04.587Z"
+          }
+        },
+        {
+          "functionName": "updateGenerator",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:04.596Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:04.596Z"
+          }
+        }
+      ]
+    },
+    "eth:0x9376A5863F2193cdE13e1aB7c678F22554E2Ea2b": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on CrossChainRegistry. While paused, user operations on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:13.252Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:13.252Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on CrossChainRegistry, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:13.261Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:13.261Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:13.271Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:13.271Z"
+          }
+        },
+        {
+          "functionName": "addChainIDsToWhitelist",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:13.279Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:13.279Z"
+          }
+        },
+        {
+          "functionName": "removeChainIDsFromWhitelist",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:13.287Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:13.287Z"
+          }
+        },
+        {
+          "functionName": "setTableUpdateCadence",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:13.296Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:13.296Z"
+          }
+        }
+      ]
+    },
+    "eth:0xC355123d0a51b4B5185aA7f21150904CEE3EAC97": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on DurationVaultStrategy. While paused, user operations on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.143Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.143Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on DurationVaultStrategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.154Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.154Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.163Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.163Z"
+          }
+        },
+        {
+          "functionName": "lock",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.vaultAdmin"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.173Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.173Z"
+          }
+        },
+        {
+          "functionName": "advanceToWithdrawals",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.arbitrator"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.180Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.180Z"
+          }
+        },
+        {
+          "functionName": "updateMetadataURI",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.vaultAdmin"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.188Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.188Z"
+          }
+        },
+        {
+          "functionName": "updateDelegationApprover",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.vaultAdmin"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.195Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.195Z"
+          }
+        },
+        {
+          "functionName": "updateOperatorMetadataURI",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.vaultAdmin"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.203Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.203Z"
+          }
+        },
+        {
+          "functionName": "setRewardsClaimer",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.vaultAdmin"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.211Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.211Z"
+          }
+        },
+        {
+          "functionName": "updateTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.vaultAdmin"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.219Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.219Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:26.227Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:26.227Z"
+          }
+        }
+      ]
+    },
+    "eth:0x27a84740FdDed5B7D66d9bb6E5d1DEA6eb0C0129": {
+      "functions": [
+        {
+          "functionName": "ship",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.DEFAULT_ADMIN_ROLE"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:32.529Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:32.529Z"
+          }
+        },
+        {
+          "functionName": "configure",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.DEFAULT_ADMIN_ROLE"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:32.540Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:32.540Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "eth:0x5050389572f2d220ad927CcbeA0D406831012390"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Pauses all registered contracts in the ProtocolRegistry, blocking operations across the entire registered protocol. The unpauser can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T07:40:00.972Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T07:40:00.972Z"
+          }
+        }
+      ]
+    },
+    "eth:0xb2e7ef419a2A399472ae22ef5cFcCb8bE97A4B05": {
+      "functions": [
+        {
+          "functionName": "setReservation",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:39.609Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:39.609Z"
+          }
+        },
+        {
+          "functionName": "setPriceParams",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:39.620Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:39.620Z"
+          }
+        },
+        {
+          "functionName": "setGlobalSymbolsPerPeriod",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:39.631Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:39.631Z"
+          }
+        },
+        {
+          "functionName": "setReservationPeriodInterval",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:39.638Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:39.638Z"
+          }
+        },
+        {
+          "functionName": "setGlobalRatePeriodInterval",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:39.646Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:39.646Z"
+          }
+        },
+        {
+          "functionName": "withdraw",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:39.657Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:39.657Z"
+          }
+        },
+        {
+          "functionName": "withdrawERC20",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:39.665Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:39.665Z"
+          }
+        }
+      ]
+    },
+    "eth:0x132b466d9d5723531F68797519DfED701aC2C749": {
+      "functions": [
+        {
+          "functionName": "setFeeSplit",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:44.589Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:44.589Z"
+          }
+        },
+        {
+          "functionName": "setFeeSplitCollector",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-12T17:07:44.601Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:07:44.601Z"
+          }
+        }
+      ]
+    },
+    "eth:0x8F6be4A906376bB4481E78cBF6FC783Cc0f8D1Ce": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this contract. While paused, user operations (deposit, withdraw, delegate, etc.) on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:59.764Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:59.764Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this contract, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:59.773Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:59.773Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-12T17:03:59.783Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-12T17:03:59.783Z"
+          }
+        }
+      ]
+    },
+    "eth:0x0Fe4F44beE93503346A3Ac9EE5A26b130a5796d6": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.076Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.076Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.080Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.080Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.083Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.083Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.084Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.084Z"
+          }
+        }
+      ]
+    },
+    "eth:0x13760F50a9d7377e4F20CB8CF9e4c26586c658ff": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.085Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.085Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.087Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.087Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.089Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.089Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.090Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.090Z"
+          }
+        }
+      ]
+    },
+    "eth:0x1BeE69b7dFFfA4E2d53C2a2Df135C388AD25dCD2": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.092Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.092Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.094Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.094Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.095Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.095Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.097Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.097Z"
+          }
+        }
+      ]
+    },
+    "eth:0x298aFB19A105D59E74658C4C334Ff360BadE6dd2": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.098Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.098Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.099Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.099Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.101Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.101Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.102Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.102Z"
+          }
+        }
+      ]
+    },
+    "eth:0x54945180dB7943c0ed0FEE7EdaB2Bd24620256bc": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.104Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.104Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.106Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.106Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.107Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.107Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.108Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.108Z"
+          }
+        }
+      ]
+    },
+    "eth:0x57ba429517c3473B6d34CA9aCd56c0e735b94c02": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.110Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.110Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.111Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.111Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.112Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.112Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.114Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.114Z"
+          }
+        }
+      ]
+    },
+    "eth:0x7CA911E83dabf90C90dD3De5411a10F1A6112184": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.115Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.115Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.117Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.117Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.118Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.118Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.119Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.119Z"
+          }
+        }
+      ]
+    },
+    "eth:0x8CA7A5d6f3acd3A7A8bC468a8CD0FB14B6BD28b6": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.120Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.120Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.121Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.121Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.122Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.122Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.124Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.124Z"
+          }
+        }
+      ]
+    },
+    "eth:0x93c4b944D05dfe6df7645A86cd2206016c51564D": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.125Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.125Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.126Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.126Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.127Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.127Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.129Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.129Z"
+          }
+        }
+      ]
+    },
+    "eth:0x9d7eD45EE2E8FC5482fa2428f15C971e6369011d": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.130Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.130Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.131Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.131Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.133Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.133Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.134Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.134Z"
+          }
+        }
+      ]
+    },
+    "eth:0xa4C637e0F704745D182e4D38cAb7E7485321d059": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.135Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.135Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.136Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.136Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.138Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.138Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.139Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.139Z"
+          }
+        }
+      ]
+    },
+    "eth:0xAe60d8180437b5C34bB956822ac2710972584473": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this strategy contract. While paused, user deposit and withdrawal operations on this strategy are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.141Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.141Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this strategy, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.142Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.142Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.143Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.143Z"
+          }
+        },
+        {
+          "functionName": "setTVLLimits",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.144Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.144Z"
+          }
+        }
+      ]
+    },
+    "eth:0xaCB55C530Acdb2849e6d4f36992Cd8c9D50ED8F7": {
+      "functions": [
+        {
+          "functionName": "pause",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets bitmask paused status on this contract. While paused, user operations (deposit, withdraw, delegate, etc.) on this contract are blocked. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.146Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.146Z"
+          }
+        },
+        {
+          "functionName": "pauseAll",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.pausers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "pause-bound",
+              "description": "Sets all bits in bitmask paused status on this contract, blocking all user operations. The unpauser (EigenLayerOwningMultisig) can restore operations."
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.148Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.148Z"
+          }
+        },
+        {
+          "functionName": "unpause",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "@pauserRegistry.unpauser"
+            }
+          ],
+          "timestamp": "2026-05-13T10:50:09.149Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-13T10:50:09.149Z"
+          }
+        }
+      ]
+    }
+  }
+}
