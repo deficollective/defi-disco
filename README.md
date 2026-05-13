@@ -2,7 +2,7 @@
 
 DeFiScan is dedicated to increasing transparency and trust in the decentralized finance (DeFi) ecosystem. We provide comprehensive analysis and ratings of DeFi protocols, helping users make informed decisions about their participation in various protocols.
 
-View the results of our work here: https://v2.defiscan.info.
+View the results of our work here: https://defiscan.info.
 
 ## Getting Started with DeFiDisco
 
