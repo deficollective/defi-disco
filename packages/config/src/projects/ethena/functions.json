@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-05-11T11:51:34.941Z",
+  "lastModified": "2026-05-13T11:30:01.804Z",
   "contracts": {
     "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3": {
       "functions": [
@@ -683,8 +683,13 @@
             {
               "type": "valueRange",
               "description": "Capped at MAX_COOLDOWN_DURATION = 7,776,000 seconds (90 days). Bounded by require(duration <= MAX_COOLDOWN_DURATION).",
-              "maxValue": "7776000",
-              "valueUnit": "seconds"
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "7776000"
+                },
+                "unit": "seconds"
+              }
             },
             {
               "type": "other",
@@ -692,10 +697,10 @@
               "description": "New cooldown duration only applies to cooldownAssets/cooldownShares calls made after the change. Cooldowns already in flight (with cooldownEnd already set) are not extended."
             }
           ],
-          "timestamp": "2026-05-11T09:59:40.256Z",
+          "timestamp": "2026-05-13T11:30:01.798Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-11T09:59:40.256Z"
+            "date": "2026-05-13T11:30:01.798Z"
           }
         },
         {
@@ -992,8 +997,13 @@
             {
               "type": "valueRange",
               "description": "Capped at MAX_COOLDOWN_DURATION = 7,776,000 seconds (90 days). Bounded by require(duration <= MAX_COOLDOWN_DURATION).",
-              "maxValue": "7776000",
-              "valueUnit": "seconds"
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "7776000"
+                },
+                "unit": "seconds"
+              }
             },
             {
               "type": "other",
@@ -1001,10 +1011,10 @@
               "description": "New cooldown duration only applies to cooldownAssets/cooldownShares calls made after the change. Cooldowns already in flight are not extended."
             }
           ],
-          "timestamp": "2026-05-11T09:59:58.432Z",
+          "timestamp": "2026-05-13T11:30:01.801Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-11T09:59:58.432Z"
+            "date": "2026-05-13T11:30:01.801Z"
           }
         },
         {
@@ -1020,8 +1030,13 @@
             {
               "type": "valueRange",
               "description": "Capped at MAX_VESTING_PERIOD = 7,776,000 seconds (90 days). Bounded by require(newVestingPeriod <= MAX_VESTING_PERIOD).",
-              "maxValue": "7776000",
-              "valueUnit": "seconds"
+              "valueRange": {
+                "max": {
+                  "mode": "hardcoded",
+                  "value": "7776000"
+                },
+                "unit": "seconds"
+              }
             },
             {
               "type": "other",
@@ -1029,10 +1044,10 @@
               "description": "Changes how long subsequent reward distributions vest. Already-vesting rewards continue under the original period; no effect on existing staker balances."
             }
           ],
-          "timestamp": "2026-05-11T09:59:58.440Z",
+          "timestamp": "2026-05-13T11:30:01.804Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-11T09:59:58.440Z"
+            "date": "2026-05-13T11:30:01.804Z"
           }
         },
         {
