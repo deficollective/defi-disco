@@ -1,10 +1,10 @@
-Generated with discovered.json: 0x75e79eeebe3402bab0190405de2669d5727bc4a0
+Generated with discovered.json: 0x30bf7aea584f1d11d88061b384e1d6622038c8f8
 
-# Diff at Thu, 14 May 2026 08:14:10 GMT:
+# Diff at Thu, 14 May 2026 17:09:36 GMT:
 
 - author: emduc (<emilien.duc@gmail.com>)
-- comparing to: main@8909ab952cbb62f7c1d4268070f55b1a3a52c605 block: 1778680302
-- current timestamp: 1778680302
+- comparing to: main@bf5a31b9a7e4b87516c5a65c21a524847bac79a5 block: 1778751773
+- current timestamp: 1778751773
 
 ## Description
 
@@ -14,7 +14,7 @@ Discovery rerun on the same block number with only config-related changes.
 
 Following changes come from updates made to the config file,
 or/and contracts becoming verified, not from differences found during
-discovery. Values are for block 1778680302 (main branch discovery), not current.
+discovery. Values are for block 1778751773 (main branch discovery), not current.
 
 ```diff
     contract AuctionManager (eth:0x00C452aFFee3a17d9Cecc1Bcd2B8d5C7635C4CB9) {
