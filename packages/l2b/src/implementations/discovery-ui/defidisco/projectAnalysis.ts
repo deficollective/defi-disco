@@ -75,6 +75,10 @@ export interface AdminEntry {
   isExternal: boolean
   isGovernance: boolean
   entity: string | null
+  /** Gnosis Safe signing threshold (`values.$threshold`), when the admin is a multisig. */
+  multisigThreshold?: number
+  /** Gnosis Safe owner count (`values.$members.length`), when the admin is a multisig. */
+  multisigSize?: number
   functions: AdminFunctionEntry[]
   totalDirectCapital: number
   totalDirectTokenValue: number
@@ -889,10 +893,28 @@ export class ProjectAnalysis {
 
     const admins: AdminEntry[] = []
 
+    // Discovery entry lookup for structured multisig metadata
+    // (`$threshold` / `$members`) read straight off Gnosis Safe entries.
+    const entryByAddress = new Map<string, (typeof this.discovered.entries)[number]>()
+    for (const entry of this.discovered.entries ?? []) {
+      entryByAddress.set(normalizeChainAddress(entry.address), entry)
+    }
+
     for (const admin of adminsMap.values()) {
       const tag = this.tagsByAddress.get(
         normalizeChainAddress(admin.adminAddress),
       )
+
+      const adminEntry = entryByAddress.get(
+        normalizeChainAddress(admin.adminAddress),
+      )
+      const thresholdRaw = adminEntry?.values?.['$threshold']
+      const membersRaw = adminEntry?.values?.['$members']
+      const multisigThreshold =
+        typeof thresholdRaw === 'number' ? thresholdRaw : undefined
+      const multisigSize = Array.isArray(membersRaw)
+        ? membersRaw.length
+        : undefined
 
       // Run capital analysis if possible
       let capitalData: {
@@ -970,6 +992,8 @@ export class ProjectAnalysis {
         isExternal: tag?.isExternal ?? false,
         isGovernance: tag?.isGovernance ?? false,
         entity: tag?.entity ?? null,
+        multisigThreshold,
+        multisigSize,
         functions,
         totalDirectCapital: capitalData?.totalDirectCapital ?? 0,
         totalDirectTokenValue: capitalData?.totalDirectTokenValue ?? 0,

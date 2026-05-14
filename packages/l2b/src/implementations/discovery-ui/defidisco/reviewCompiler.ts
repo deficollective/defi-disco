@@ -492,13 +492,6 @@ export class ReviewCompiler {
       fundsLookup.set(normalizeChainAddress(addr), data)
     }
 
-    // Discovery entry lookup for pulling structured multisig metadata
-    // (`$threshold` / `$members`) straight off Gnosis Safe entries.
-    const entryByAddress = new Map<string, DiscoveryOutput['entries'][number]>()
-    for (const entry of discovery.entries) {
-      entryByAddress.set(normalizeChainAddress(entry.address), entry)
-    }
-
     // Build admins from ProjectAnalysis admins result
     const admins: CompiledAdmin[] = []
     for (const admin of adminsResult.admins) {
@@ -508,25 +501,14 @@ export class ReviewCompiler {
 
       const desc = getFromAddressRecord(reviewConfig.admins, admin.address)
 
-      const adminEntry = entryByAddress.get(
-        normalizeChainAddress(admin.address),
-      )
-      const thresholdRaw = adminEntry?.values?.['$threshold']
-      const membersRaw = adminEntry?.values?.['$members']
-      const multisigThreshold =
-        typeof thresholdRaw === 'number' ? thresholdRaw : undefined
-      const multisigSize = Array.isArray(membersRaw)
-        ? membersRaw.length
-        : undefined
-
       admins.push({
         address: admin.address,
         name: desc?.name ?? admin.name,
         description: desc?.description ?? '',
         adminType: admin.type,
         isGovernance: admin.isGovernance,
-        multisigThreshold,
-        multisigSize,
+        multisigThreshold: admin.multisigThreshold,
+        multisigSize: admin.multisigSize,
         functions: admin.functions.map((f) => ({
           contractAddress: f.contractAddress,
           contractName: f.contractName,
