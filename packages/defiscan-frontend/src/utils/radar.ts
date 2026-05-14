@@ -227,15 +227,51 @@ function computeControl(review: CompiledReview): number {
   return Math.round(100 * (1 - worstRisk))
 }
 
-export function deriveRadarData(review: CompiledReview) {
-  const { dependencies, totals, resources = [] } = review
+// Dependency score is worst-exposure driven. DEP_K_WORST sets how hard a
+// fully-exposed entity hits — it caps the score at 100·(1−DEP_K_WORST).
+// DEP_K_TAIL is the concave penalty applied to every other exposed entity.
+const DEP_K_WORST = 0.65
+const DEP_K_TAIL = 7.5
 
-  const depCount = dependencies.length
+function computeDependencies(review: CompiledReview): number {
+  const { dependencies, totals } = review
+  const tvs = totals.totalCapitalAtRisk + (totals.totalTokenValue ?? 0)
+
+  // Group by entity (fall back to address when untagged) — depending on a
+  // protocol with N contracts is one dependency risk, not N. Within an
+  // entity the contracts cover disjoint capital (losing the entity loses
+  // all of them), so exposure is the summed TVS share, capped at 1.
+  const exposureByEntity = new Map<string, number>()
+  for (const d of dependencies) {
+    const impact = (d.totalFundsAtRisk ?? 0) + (d.totalTokenValueAtRisk ?? 0)
+    if (impact < DUST_USD) continue
+    const key = d.entity ?? d.address
+    const share = tvs > 0 ? Math.min(1, impact / tvs) : 1
+    exposureByEntity.set(
+      key,
+      Math.min(1, (exposureByEntity.get(key) ?? 0) + share),
+    )
+  }
+
+  const shares = [...exposureByEntity.values()].sort((a, b) => b - a)
+  if (shares.length === 0) return 100
+
+  // The single worst entity defines the dependency risk; everything beyond
+  // it is a concave (√) tail, so dependency-heavy protocols degrade smoothly
+  // rather than cratering to 0.
+  const worst = shares[0]
+  const tail = shares.reduce((s, x) => s + x, 0) - worst
+  const score = 100 * (1 - DEP_K_WORST * worst) - DEP_K_TAIL * Math.sqrt(tail)
+  return Math.round(Math.max(0, Math.min(100, score)))
+}
+
+export function deriveRadarData(review: CompiledReview) {
+  const { resources = [] } = review
+
   const frontendCount = resources.filter((r) => r.type === 'frontend').length
 
   const control = computeControl(review)
-  const deps =
-    depCount === 0 ? 100 : depCount <= 2 ? 70 : depCount <= 5 ? 50 : 30
+  const deps = computeDependencies(review)
   const access =
     frontendCount === 0
       ? 20

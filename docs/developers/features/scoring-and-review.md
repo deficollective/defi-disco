@@ -371,7 +371,14 @@ The multisig threshold and size come from structured fields on `CompiledAdmin` �
 
 ### DEPENDENCIES
 
-Count-based: `0 → 100`, `1–2 → 70`, `3–5 → 50`, `6+ → 30`.
+Worst-exposure driven (`computeDependencies`). No dependencies → **100**.
+
+1. **Group by `entity`** (fall back to address when untagged) — depending on a protocol with N contracts is one dependency risk, not N. Drop entries with impact below `DUST_USD` ($1).
+2. **Within an entity, exposure = `min(1, Σ contract TVS shares)`** — an entity's contracts cover disjoint capital (losing the entity loses all of them), so contract shares are additive, capped at the whole TVS. Per-contract share = `(totalFundsAtRisk + totalTokenValueAtRisk) / TVS` (`TVS = totalCapitalAtRisk + totalTokenValue`; if TVS is `0`, share is 1).
+3. `worst` = highest entity exposure. `tail` = `Σ(all entity exposures) − worst`.
+4. **`score = clamp(0, 100, 100·(1 − 0.65·worst) − 7.5·√tail)`**
+
+The single worst entity is the primary signal — one entity that can touch most of the TVL *defines* the dependency risk. `DEP_K_WORST = 0.65` caps a fully-exposed protocol at `35` before any tail. `DEP_K_TAIL = 7.5` applies a concave (`√`) penalty for every other exposed entity, so dependency-heavy protocols degrade smoothly instead of cratering to 0. Low-impact dependencies barely move the score (a protocol whose worst entity touches 30% of TVS with a negligible tail scores ~79).
 
 ### ACCESS
 
