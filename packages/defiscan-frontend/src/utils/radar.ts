@@ -1,5 +1,6 @@
 import type {
   CompiledAdmin,
+  CompiledAdminFunction,
   CompiledGovernanceDuration,
   CompiledReview,
 } from '../types'
@@ -151,6 +152,47 @@ function computeGovernance(review: CompiledReview): number {
   return Math.min(100, Math.round(execScore + delayScore + impactScore))
 }
 
+// A timelock long enough to let users exit neutralises an admin action.
+// Tiers express how much of the action's fund impact survives the delay.
+function delayAttenuation(delaySeconds: number): number {
+  if (delaySeconds >= 7 * DAY) return 0
+  if (delaySeconds >= 3 * DAY) return 0.4
+  if (delaySeconds >= 1 * DAY) return 0.7
+  return 1
+}
+
+// Shortest delay gating a function's fund-impacting paths — an attacker takes
+// the fastest route, so a single undelayed path means the function is undelayed.
+function functionDelaySeconds(f: CompiledAdminFunction): number {
+  const delays = (f.mitigations ?? [])
+    .filter((m) => m.type === 'delay' && typeof m.delaySeconds === 'number')
+    .map((m) => m.delaySeconds as number)
+  return delays.length > 0 ? Math.min(...delays) : 0
+}
+
+function functionImpactUsd(f: CompiledAdminFunction): number {
+  let impact = f.directFundsUsd + f.directTokenValueUsd
+  for (const rc of f.reachableContracts) {
+    if (!rc.fundsAtRisk) continue
+    const raw = rc.fundsUsd + rc.tokenValueUsd
+    impact +=
+      rc.effectiveCapUsd !== undefined ? Math.min(raw, rc.effectiveCapUsd) : raw
+  }
+  return impact
+}
+
+// "How many independent keys must be compromised." EOA and a 1/N multisig
+// both anchor at 1.0 (worst case); each extra required signer buys safety.
+function adminRiskMultiplier(a: CompiledAdmin): number {
+  if (a.adminType === 'EOA' || a.adminType === 'EOAPermissioned') return 1
+  if (a.adminType === 'Multisig') {
+    const t = a.multisigThreshold
+    if (t === undefined || t < 1) return 0.7
+    return Math.max(0.35, 1 - 0.15 * (t - 1))
+  }
+  return 0.5
+}
+
 function computeControl(review: CompiledReview): number {
   const { admins, totals } = review
   const tvs = totals.totalCapitalAtRisk + (totals.totalTokenValue ?? 0)
@@ -158,19 +200,31 @@ function computeControl(review: CompiledReview): number {
   const impacting = admins.filter(hasMeaningfulImpact)
   if (impacting.length === 0) return 100
 
-  const hasEOA = impacting.some(
-    (a) => a.adminType === 'EOA' || a.adminType === 'EOAPermissioned',
-  )
-  if (hasEOA) return 25
+  // Worst admin sets the score. Capital analysis over-flares — many admins
+  // all show 100% of TVS reachable — so combining risks across admins isn't
+  // meaningful yet; the single worst admin is the honest signal.
+  let worstRisk = 0
+  for (const a of impacting) {
+    let effectiveImpact = 0
+    for (const f of a.functions) {
+      const raw = functionImpactUsd(f)
+      if (raw <= 0) continue
+      effectiveImpact += raw * delayAttenuation(functionDelaySeconds(f))
+    }
+    // Per-function sums can double-count shared reachable contracts — cap at
+    // the admin's deduplicated reachable total.
+    effectiveImpact = Math.min(effectiveImpact, adminImpact(a))
 
-  const multisigs = impacting.filter((a) => a.adminType === 'Multisig')
-  if (multisigs.length > 0) {
-    const multisigImpact = multisigs.reduce((s, a) => s + adminImpact(a), 0)
-    const share = tvs > 0 ? multisigImpact / tvs : 1
-    return share < 0.3 ? 75 : 50
+    const fundShare =
+      tvs > 0
+        ? Math.min(1, effectiveImpact / tvs)
+        : effectiveImpact > 0
+          ? 1
+          : 0
+    worstRisk = Math.max(worstRisk, adminRiskMultiplier(a) * fundShare)
   }
 
-  return 80
+  return Math.round(100 * (1 - worstRisk))
 }
 
 export function deriveRadarData(review: CompiledReview) {
