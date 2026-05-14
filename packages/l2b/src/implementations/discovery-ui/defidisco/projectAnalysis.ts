@@ -895,7 +895,10 @@ export class ProjectAnalysis {
 
     // Discovery entry lookup for structured multisig metadata
     // (`$threshold` / `$members`) read straight off Gnosis Safe entries.
-    const entryByAddress = new Map<string, (typeof this.discovered.entries)[number]>()
+    const entryByAddress = new Map<
+      string,
+      (typeof this.discovered.entries)[number]
+    >()
     for (const entry of this.discovered.entries ?? []) {
       entryByAddress.set(normalizeChainAddress(entry.address), entry)
     }
