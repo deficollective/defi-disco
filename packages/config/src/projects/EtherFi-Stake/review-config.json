@@ -20,7 +20,7 @@
     },
     "eth:0xcD425f44758a08BaAB3C4908f3e3dE5776e45d7a": {
       "name": "EtherFi Operational Timelock (2-day delay)",
-      "description": "A second TimelockController with a 2-day (172800-second) delay holding operational RoleRegistry roles — LIQUIDITY_POOL_ADMIN_ROLE, ETHERFI_REDEMPTION_MANAGER_ADMIN_ROLE, ETHERFI_NODES_MANAGER_ADMIN_ROLE, ETHERFI_ORACLE_EXECUTOR_ADMIN_ROLE and others. It tunes redemption parameters (exit fees, capacity, refill rate), registers validator spawners, manages EigenPod operations, and queues withdrawals, with {{operationalTimelockCapital}} in direct capital exposure."
+      "description": "A second TimelockController with a 2-day (172800-second) delay holding operational RoleRegistry roles — LIQUIDITY_POOL_ADMIN_ROLE, ETHERFI_REDEMPTION_MANAGER_ADMIN_ROLE, ETHERFI_NODES_MANAGER_ADMIN_ROLE, ETHERFI_ORACLE_EXECUTOR_ADMIN_ROLE and others. It tunes redemption parameters (exit fees, capacity, refill rate), registers validator spawners, manages EigenPod operations, and queues withdrawals, with {{operationalTimelockCapital}} in direct capital exposure. Its EtherFiNodesManager call-forwarding allowlist is currently limited to EigenLayer delegation management (delegateTo, redelegate, undelegate)."
     },
     "eth:0x2aCA71020De61bb532008049e1Bd41E451aE8AdC": {
       "name": "EtherFi Operations Multisig (4-of-7)",
@@ -32,7 +32,7 @@
     },
     "eth:0x7835fB36A8143a014A2c381363cD1A4DeE586d2A": {
       "name": "EigenPod Checkpoint Prover (EOA)",
-      "description": "Externally owned account holding ETHERFI_NODES_MANAGER_POD_PROVER_ROLE and ETHERFI_NODES_MANAGER_CALL_FORWARDER_ROLE. It starts and verifies EigenPod checkpoint proofs and forwards calls to EigenPods and external contracts on behalf of EtherFiNodesManager."
+      "description": "Externally owned account holding ETHERFI_NODES_MANAGER_POD_PROVER_ROLE and ETHERFI_NODES_MANAGER_CALL_FORWARDER_ROLE. It starts and verifies EigenPod checkpoint proofs and forwards calls to EigenPods and external contracts on behalf of EtherFiNodesManager. Forwarded calls are constrained by an on-chain allowlist set by the admin role: it is currently limited to EigenLayer reward claiming and EigenPod checkpoint and withdrawal-credential proofs, none of which can move protocol principal."
     },
     "eth:0x9AF1298993DC1f397973C62A5D47a284CF76844D": {
       "name": "Protocol Pauser (EOA)",
