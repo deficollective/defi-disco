@@ -1,6 +1,6 @@
 {
   "name": "liquity-v2",
-  "timestamp": 1778680302,
+  "timestamp": 1778751773,
   "configHash": "0xe6f23d7463dd08835d2df7e2377dad95fbb5b7745a7b56df633645137f9b2734",
   "entries": [
     {
@@ -23,11 +23,11 @@
       "values": {
         "$immutable": true,
         "borrowerOperationsAddress": "eth:0xe8119fC02953B27a1b48D2573855738485A17329",
-        "getSize": 14,
+        "getSize": 15,
         "isBatchedNode": [false, false, false, false, false],
         "isEmpty": false,
         "NAME": "SortedTroves",
-        "size": 14,
+        "size": 15,
         "troveManager": "eth:0xb2B2ABEb5C357a234363FF5D180912D319e3e19e"
       },
       "errors": { "isBatchedNode": "Processing error occurred." },
@@ -166,7 +166,7 @@
           "stalenessThreshold": 86400,
           "decimals": 8
         },
-        "lastGoodPrice": "2664201081925103851378",
+        "lastGoodPrice": "2627173298716717908687",
         "priceSource": 0,
         "rateProviderAddress": "eth:0xae78736Cd615f374D3085123A210448E74Fc6393",
         "RETH_ETH_DEVIATION_THRESHOLD": "20000000000000000",
@@ -197,6 +197,11 @@
       "implementationNames": {
         "eth:0x362f822dF79790C8077e61110484Fffa48F682A1": "MetadataNFT"
       }
+    },
+    {
+      "address": "eth:0x3726671804785700025912717000000000000000",
+      "type": "EOA",
+      "proxyType": "EOA"
     },
     {
       "name": "BorrowerOperations",
@@ -267,11 +272,6 @@
       }
     },
     {
-      "address": "eth:0x3733866144823857285421557000000000000000",
-      "type": "EOA",
-      "proxyType": "EOA"
-    },
-    {
       "address": "eth:0x47A1dD4E277530fffb5B5f70A43CCbD542F54e17",
       "type": "EOA",
       "proxyType": "EOA"
@@ -308,22 +308,22 @@
       "values": {
         "$immutable": true,
         "aggBatchManagementFees": "71004169829648993059",
-        "aggRecordedDebt": "22588951248503821828625438",
+        "aggRecordedDebt": "22744432411007591240889689",
         "aggWeightedBatchManagementFeeSum": "34222655562132440051041248000000000000000",
-        "aggWeightedDebtSum": "201918548208918311189000608530005926231698",
+        "aggWeightedDebtSum": "203624095293203876727760570530005926231698",
         "boldToken": "eth:0x6440f144b7e50D6a8439336510312d2F54beB01D",
         "borrowerOperationsAddress": "eth:0xa741A32f9dcFe6aDBa088fD0f97e90742d7d5DA3",
-        "calcPendingAggBatchManagementFee": "1979392559149212667",
-        "calcPendingAggInterest": "11678698374336218912",
-        "calcPendingSPYield": "8759023780752164184",
+        "calcPendingAggBatchManagementFee": "79540327311074940576",
+        "calcPendingAggInterest": "15961401685844748328",
+        "calcPendingSPYield": "11971051264383561246",
         "collToken": "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
         "defaultPoolAddress": "eth:0xD796e1648526400386CC4d12FA05E5F11e6a22A1",
-        "getBoldDebt": "22589035910764584963050076",
-        "getCollBalance": "27910468365761016546938",
+        "getBoldDebt": "22744598916906417809571652",
+        "getCollBalance": "28020706153876893594253",
         "hasBeenShutDown": false,
         "interestRouter": "eth:0x807DEf5E7d057DF05C796F4bc75C3Fe82Bd6EeE1",
         "lastAggBatchManagementFeesUpdateTime": 1778678459,
-        "lastAggUpdateTime": 1778678459,
+        "lastAggUpdateTime": 1778749283,
         "NAME": "ActivePool",
         "shutdownTime": 0,
         "stabilityPool": "eth:0x9502b7c397E9aa22FE9dB7EF7DAF21cD2AEBe56B",
@@ -389,10 +389,10 @@
         "collToken": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
         "currentScale": 0,
         "getCollBalance": "22272128287809553801",
-        "getEntireBranchColl": "6579283644266212123599",
-        "getEntireBranchDebt": "7909834289418427026162752",
-        "getTotalBoldDeposits": "7768553001945896484750773",
-        "getYieldGainsOwed": "16043618656198614623103",
+        "getEntireBranchColl": "6576263454819558067009",
+        "getEntireBranchDebt": "7907978899800526312563902",
+        "getTotalBoldDeposits": "7699289697547346719096702",
+        "getYieldGainsOwed": "16106075548498677172882",
         "getYieldGainsPending": 0,
         "MAX_SCALE_FACTOR_EXPONENT": 8,
         "NAME": "StabilityPool",
@@ -400,7 +400,7 @@
         "P_PRECISION": "1000000000000000000000000000000000000",
         "SCALE_FACTOR": 1000000000,
         "SCALE_SPAN": 2,
-        "scaleToB": ["97921001767914326341231176832265332", 0, 0, 0, 0],
+        "scaleToB": ["97961212433895669467503414611970690", 0, 0, 0, 0],
         "scaleToS": ["91973646659030210071285211989882", 0, 0, 0, 0],
         "troveManager": "eth:0x7bcb64B2c9206a5B699eD43363f6F98D4776Cf5A"
       },
@@ -490,7 +490,7 @@
         "name": "BOLD Stablecoin",
         "owner": "eth:0x0000000000000000000000000000000000000000",
         "symbol": "BOLD",
-        "totalSupply": "35093629843659028583172635"
+        "totalSupply": "35250403068292416922979763"
       },
       "implementationNames": {
         "eth:0x6440f144b7e50D6a8439336510312d2F54beB01D": "BoldToken"
@@ -548,9 +548,9 @@
         "activePool": "eth:0xeB5A8C825582965f1d84606E078620a84ab16AfE",
         "borrowerOperations": "eth:0x372ABD1810eAF23Cb9D941BbE7596DFb2c46BC65",
         "CCR": "1500000000000000000",
-        "getEntireBranchColl": "6579283644266212123599",
-        "getEntireBranchDebt": "7909834289418427026162752",
-        "getTroveIdsCount": 106,
+        "getEntireBranchColl": "6576263454819558067009",
+        "getEntireBranchDebt": "7907978899800526312563902",
+        "getTroveIdsCount": 105,
         "lastZombieTroveId": 0,
         "rewardSnapshots": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
         "shutdownTime": 0,
@@ -584,7 +584,7 @@
         "stEthPerToken": "1234372613551727878",
         "symbol": "wstETH",
         "tokensPerStEth": "810128148519631579",
-        "totalSupply": "3346808293276696151885008"
+        "totalSupply": "3350524734432341667394780"
       },
       "implementationNames": {
         "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0": "WstETH"
@@ -614,28 +614,28 @@
       "values": {
         "$immutable": true,
         "bold": "eth:0x6440f144b7e50D6a8439336510312d2F54beB01D",
-        "boldAccrued": "7437734124471345073725",
+        "boldAccrued": "7223695877298740044730",
         "calculateVotingThreshold": [0, 0, 0, 0, 0],
-        "epoch": 53,
+        "epoch": 54,
         "EPOCH_DURATION": 604800,
         "EPOCH_START": 1746662400,
         "EPOCH_VOTING_CUTOFF": 518400,
-        "epochStart": 1778112000,
-        "getLatestVotingThreshold": "18784566591029072297873540132581",
+        "epochStart": 1778716800,
+        "getLatestVotingThreshold": "19208474904746805208983462743138",
         "getTotalVotesAndState": {
           "snapshot": {
-            "votes": "939228329551453614893677006629092",
-            "forEpoch": 52
+            "votes": "960423745237340260449173137156910",
+            "forEpoch": 53
           },
           "state": {
-            "countedVoteLQTY": "36411925328970870296993559",
-            "countedVoteOffset": "63806079557748673447434259747934290"
+            "countedVoteLQTY": "36390124290770870296993559",
+            "countedVoteOffset": "63767840102347264118434259747934290"
           },
           "shouldUpdate": false
         },
         "globalState": {
-          "countedVoteLQTY": "36411925328970870296993559",
-          "countedVoteOffset": "63806079557748673447434259747934290"
+          "countedVoteLQTY": "36390124290770870296993559",
+          "countedVoteOffset": "63767840102347264118434259747934290"
         },
         "isOwner": false,
         "lqty": "eth:0x6DEA81C8171D0bA574754EF6F8b412F2Ed88c54D",
@@ -644,14 +644,14 @@
         "owner": "eth:0x0000000000000000000000000000000000000000",
         "REGISTRATION_FEE": "100000000000000000000",
         "REGISTRATION_THRESHOLD_FACTOR": 100000000000000,
-        "secondsWithinEpoch": 568283,
+        "secondsWithinEpoch": 34955,
         "stakingV1": "eth:0x4f9Fbb3f1E99B56e0Fe2892e623Ed36A76Fc605d",
         "UNREGISTRATION_AFTER_EPOCHS": 4,
         "UNREGISTRATION_THRESHOLD_FACTOR": "1000000000000000001",
         "userProxyImplementation": "eth:0x65f9A98009Aecaa3fc8A3A83FEF44e2b6931A7b2",
         "votesSnapshot": {
-          "votes": "939228329551453614893677006629092",
-          "forEpoch": 52
+          "votes": "960423745237340260449173137156910",
+          "forEpoch": 53
         },
         "VOTING_THRESHOLD_FACTOR": "20000000000000000"
       },
@@ -758,22 +758,22 @@
       "values": {
         "$immutable": true,
         "aggBatchManagementFees": "218905426939428971461",
-        "aggRecordedDebt": "4594871069359338222445214",
+        "aggRecordedDebt": "4598002626555414959431021",
         "aggWeightedBatchManagementFeeSum": "13441830506024097756710148000000000000000",
-        "aggWeightedDebtSum": "241337394415388815775160615755299362236716",
+        "aggWeightedDebtSum": "241349919703572050971136860755299362236716",
         "boldToken": "eth:0x6440f144b7e50D6a8439336510312d2F54beB01D",
         "borrowerOperationsAddress": "eth:0xe8119fC02953B27a1b48D2573855738485A17329",
-        "calcPendingAggBatchManagementFee": "8654329229905925953",
-        "calcPendingAggInterest": "98445086306429532158",
-        "calcPendingSPYield": "73833814729822149118",
+        "calcPendingAggBatchManagementFee": "39118386495461301235",
+        "calcPendingAggInterest": "18918601011771629567",
+        "calcPendingSPYield": "14188950758828722175",
         "collToken": "eth:0xae78736Cd615f374D3085123A210448E74Fc6393",
         "defaultPoolAddress": "eth:0x5cc5ceFD034Fdc4728D487a72Ca58A410CDdCD6b",
-        "getBoldDebt": "4595197074201813986874786",
-        "getCollBalance": "5500379443365091600390",
+        "getBoldDebt": "4598279568969861621333284",
+        "getCollBalance": "5503879443365091600390",
         "hasBeenShutDown": false,
         "interestRouter": "eth:0x807DEf5E7d057DF05C796F4bc75C3Fe82Bd6EeE1",
         "lastAggBatchManagementFeesUpdateTime": 1778659979,
-        "lastAggUpdateTime": 1778667419,
+        "lastAggUpdateTime": 1778749283,
         "NAME": "ActivePool",
         "shutdownTime": 0,
         "stabilityPool": "eth:0xd442E41019B7F5C4dD78F50dc03726C446148695",
@@ -812,10 +812,10 @@
         "collToken": "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
         "currentScale": 0,
         "getCollBalance": "32233199283011582296",
-        "getEntireBranchColl": "27910468365761016546938",
-        "getEntireBranchDebt": "22589035910764584963050076",
-        "getTotalBoldDeposits": "8606576648814053255400564",
-        "getYieldGainsOwed": "25933149687224047107931",
+        "getEntireBranchColl": "28020706153876893594253",
+        "getEntireBranchDebt": "22744598916906417809571652",
+        "getTotalBoldDeposits": "8657004421243090199036429",
+        "getYieldGainsOwed": "26018914233259983302790",
         "getYieldGainsPending": 0,
         "MAX_SCALE_FACTOR_EXPONENT": 8,
         "NAME": "StabilityPool",
@@ -823,7 +823,7 @@
         "P_PRECISION": "1000000000000000000000000000000000000",
         "SCALE_FACTOR": 1000000000,
         "SCALE_SPAN": 2,
-        "scaleToB": ["59829428971067681123556488111319100", 0, 0, 0, 0],
+        "scaleToB": ["59864018108387185078948683996578799", 0, 0, 0, 0],
         "scaleToS": ["49484103944342211213589019074888", 0, 0, 0, 0],
         "troveManager": "eth:0xA2895d6A3bf110561Dfe4b71cA539d84e1928B22"
       },
@@ -868,11 +868,11 @@
       "values": {
         "$immutable": true,
         "borrowerOperationsAddress": "eth:0x372ABD1810eAF23Cb9D941BbE7596DFb2c46BC65",
-        "getSize": 97,
+        "getSize": 96,
         "isBatchedNode": [false, false, false, false, false],
         "isEmpty": false,
         "NAME": "SortedTroves",
-        "size": 97,
+        "size": 96,
         "troveManager": "eth:0x7bcb64B2c9206a5B699eD43363f6F98D4776Cf5A"
       },
       "errors": { "isBatchedNode": "Processing error occurred." },
@@ -903,8 +903,8 @@
         "activePool": "eth:0x531a8f99c70D6A56A7CEe02d6B4281650d7919a0",
         "borrowerOperations": "eth:0xa741A32f9dcFe6aDBa088fD0f97e90742d7d5DA3",
         "CCR": "1600000000000000000",
-        "getEntireBranchColl": "27910468365761016546938",
-        "getEntireBranchDebt": "22589035910764584963050076",
+        "getEntireBranchColl": "28020706153876893594253",
+        "getEntireBranchDebt": "22744598916906417809571652",
         "getTroveIdsCount": 100,
         "lastZombieTroveId": 0,
         "rewardSnapshots": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
@@ -1018,12 +1018,12 @@
       "values": {
         "$immutable": true,
         "decimals": 18,
-        "getCollateralRate": 6518972844975686,
-        "getExchangeRate": "1163328169526153794",
-        "getTotalCollateral": "2530301712989454512272",
+        "getCollateralRate": 6320651496990391,
+        "getExchangeRate": "1163390035549262541",
+        "getTotalCollateral": "2452964308131471518260",
         "name": "Rocket Pool ETH",
         "symbol": "rETH",
-        "totalSupply": "333649818581303282590645",
+        "totalSupply": "333583102935474692879105",
         "version": 1
       },
       "implementationNames": {
@@ -1053,9 +1053,9 @@
         "activePool": "eth:0x9074D72cc82DaD1e13E454755Aa8f144c479532F",
         "borrowerOperations": "eth:0xe8119fC02953B27a1b48D2573855738485A17329",
         "CCR": "1600000000000000000",
-        "getEntireBranchColl": "5500379443365091600390",
-        "getEntireBranchDebt": "4595197074201813986874786",
-        "getTroveIdsCount": 19,
+        "getEntireBranchColl": "5503879443365091600390",
+        "getEntireBranchDebt": "4598279568969861621333284",
+        "getTroveIdsCount": 20,
         "lastZombieTroveId": 0,
         "rewardSnapshots": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
         "shutdownTime": 0,
@@ -1095,7 +1095,7 @@
         "decimals": 18,
         "name": "Wrapped Ether",
         "symbol": "WETH",
-        "totalSupply": "2211278437897812818659334"
+        "totalSupply": "2206712251146999600171281"
       },
       "implementationNames": {
         "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2": "WETH9"
@@ -1119,7 +1119,7 @@
           "stalenessThreshold": 86400,
           "decimals": 8
         },
-        "lastGoodPrice": "2272976810510000000000",
+        "lastGoodPrice": "2258325180750000000000",
         "priceSource": 0
       },
       "implementationNames": {
@@ -1197,10 +1197,10 @@
         "collToken": "eth:0xae78736Cd615f374D3085123A210448E74Fc6393",
         "currentScale": 0,
         "getCollBalance": "3000748564770385418",
-        "getEntireBranchColl": "5500379443365091600390",
-        "getEntireBranchDebt": "4595197074201813986874786",
-        "getTotalBoldDeposits": "5232393215498900405132354",
-        "getYieldGainsOwed": "12017960510361806044859",
+        "getEntireBranchColl": "5503879443365091600390",
+        "getEntireBranchDebt": "4598279568969861621333284",
+        "getTotalBoldDeposits": "5232666946368554760142202",
+        "getYieldGainsOwed": "12106902075303889120777",
         "getYieldGainsPending": 0,
         "MAX_SCALE_FACTOR_EXPONENT": 8,
         "NAME": "StabilityPool",
@@ -1208,7 +1208,7 @@
         "P_PRECISION": "1000000000000000000000000000000000000",
         "SCALE_FACTOR": 1000000000,
         "SCALE_SPAN": 2,
-        "scaleToB": ["71651830345628565056119420907957914", 0, 0, 0, 0],
+        "scaleToB": ["71739735647301489730777332965597012", 0, 0, 0, 0],
         "scaleToS": ["12516419898161033555263713090285", 0, 0, 0, 0],
         "troveManager": "eth:0xb2B2ABEb5C357a234363FF5D180912D319e3e19e"
       },
@@ -1290,7 +1290,7 @@
           "stalenessThreshold": 86400,
           "decimals": 8
         },
-        "lastGoodPrice": "2809037114150902956825",
+        "lastGoodPrice": "2790021779295362260939",
         "priceSource": 0,
         "rateProviderAddress": "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
         "STETH_USD_DEVIATION_THRESHOLD": "10000000000000000",
@@ -1396,23 +1396,23 @@
       "sinceBlock": 22516081,
       "values": {
         "$immutable": true,
-        "aggBatchManagementFees": "507739710901858761",
-        "aggRecordedDebt": "7909807525795868532101983",
-        "aggWeightedBatchManagementFeeSum": "eth:0x3733866144823857285421557000000000000000",
-        "aggWeightedDebtSum": "221023332954434471302514700704157374938453",
+        "aggBatchManagementFees": "712454676186308063",
+        "aggRecordedDebt": "7907968030729410722659053",
+        "aggWeightedBatchManagementFeeSum": "eth:0x3726671804785700025912717000000000000000",
+        "aggWeightedDebtSum": "221003456974493357718141939984861758279649",
         "boldToken": "eth:0x6440f144b7e50D6a8439336510312d2F54beB01D",
         "borrowerOperationsAddress": "eth:0x372ABD1810eAF23Cb9D941BbE7596DFb2c46BC65",
-        "calcPendingAggBatchManagementFee": "436186037466105094",
-        "calcPendingAggInterest": "25819696810126096914",
-        "calcPendingSPYield": "19364772607594572685",
+        "calcPendingAggBatchManagementFee": "4522205626126939644",
+        "calcPendingAggInterest": "5634410813276657142",
+        "calcPendingSPYield": "4225808109957492856",
         "collToken": "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
         "defaultPoolAddress": "eth:0xD4558240d50C2E219a21c9d25afD513Bb6e5B1A0",
-        "getBoldDebt": "7909834289418427026162752",
-        "getCollBalance": "6579283644266212123599",
+        "getBoldDebt": "7907978899800526312563902",
+        "getCollBalance": "6576263454819558067009",
         "hasBeenShutDown": false,
         "interestRouter": "eth:0x807DEf5E7d057DF05C796F4bc75C3Fe82Bd6EeE1",
-        "lastAggBatchManagementFeesUpdateTime": 1778676599,
-        "lastAggUpdateTime": 1778676599,
+        "lastAggBatchManagementFeesUpdateTime": 1778713487,
+        "lastAggUpdateTime": 1778750951,
         "NAME": "ActivePool",
         "shutdownTime": 0,
         "stabilityPool": "eth:0x5721cbbd64fc7Ae3Ef44A0A3F9a790A9264Cf9BF",
@@ -1447,10 +1447,10 @@
         "getRedemptionFeeWithDecay": [0, 0, 0, 0, 0],
         "getRedemptionRate": "9305871623828041",
         "getRedemptionRateForRedeemedAmount": [
-          5000000000068593, 5000000000068593, 5000000000068593,
-          5000000000068593, 5000000000068593
+          5000000000006924, 5000000000006924, 5000000000006924,
+          5000000000006924, 5000000000006924
         ],
-        "getRedemptionRateWithDecay": 5000000000068593,
+        "getRedemptionRateWithDecay": 5000000000006924,
         "getToken": [
           "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
           "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
@@ -2889,6 +2889,6 @@
     "tokens": "0x9cb0edfecd174d91d81f651ad52d7c288ec44b877a0e2f8ad0ff293a553bfe30",
     "tokens/Lido/wstETH": "0xd55ccc93c3f52e654ebbffee9194b0b8a0d974753091db2a43a185679e002e88"
   },
-  "usedBlockNumbers": { "ethereum": 25086628 },
-  "permissionsConfigHash": "0x7488464e1bc247732636e7e5edbb62e6f009c28cdbefc6c4f10e8bb4332cdda9"
+  "usedBlockNumbers": { "ethereum": 25092546 },
+  "permissionsConfigHash": "0x3c160da340622c374cad3c6563f137a68cc6795ea914af5fd3085305d3c48489"
 }
