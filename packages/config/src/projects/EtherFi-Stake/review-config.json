@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-05-14T07:07:10.245Z",
+  "lastModified": "2026-05-14T08:20:20.000Z",
   "publishedAt": "2026-04-01T00:00:00.000Z",
   "verified": true,
   "protocolSlug": "EtherFi-Stake",
@@ -8,27 +8,43 @@
   "tokenName": "eETH",
   "chain": "Ethereum",
   "projectType": "liquid-staking",
-  "description": "ether.fi is a liquid staking and restaking protocol where users deposit ETH into the LiquidityPool and receive eETH, a rebasing receipt token with a market capitalization of {{eethMarketCap}}. Deposited ETH is used to provision Ethereum validators through the StakingManager and EtherFiNodesManager, which run validators via EigenLayer EigenPods, and idle liquidity is restaked through EigenLayer strategies and Lido stETH by the EtherFiRestaker. The protocol is fully upgradeable: nearly every core contract is owned by an OpenZeppelin TimelockController with a 10-day delay, whose proposer, executor and canceller roles are held by a single 6-of-10 multisig. Validator accounting and rebases depend on the EtherFiOracle, and the protocol relies on EigenLayer for restaking, Lido for stETH withdrawals, and LayerZero for cross-chain messaging.",
+  "description": "ether.fi is a liquid staking and restaking protocol where users deposit ETH into the LiquidityPool and receive eETH, a rebasing receipt token with a market capitalization of {{eethMarketCap}}. Deposited ETH is used to provision Ethereum validators through the StakingManager and EtherFiNodesManager, which run validators via EigenLayer EigenPods, and idle liquidity is restaked through EigenLayer strategies and Lido stETH by the EtherFiRestaker. Upgrades and protocol-wide changes route through a 10-day TimelockController controlled by a 6-of-10 multisig, while a separate 2-day operational timelock, a 4-of-7 operations multisig, and several EOAs hold lower-tier roles for validator operations, parameter tuning, and pausing. The protocol relies on EigenLayer for restaking, Lido for stETH withdrawals, and LayerZero for cross-chain messaging.",
   "admins": {
     "eth:0x9f26d4C958fD811A1F59B01B86Be7dFFc9d20761": {
       "name": "EtherFi Timelock (10-day delay)",
-      "description": "OpenZeppelin TimelockController that directly owns 41 protocol contracts, controlling {{timelockDirectCapital}} in capital and {{timelockTokenValue}} in eETH token value. It can upgrade every core contract (LiquidityPool, StakingManager, EtherFiNodesManager, WithdrawRequestNFT, MembershipManager, EtherFiOracle and others), grant and revoke roles, change fee and rate parameters, and move funds via withdraw and sweep functions. All actions are subject to a 10-day (864000-second) minimum delay before execution."
+      "description": "OpenZeppelin TimelockController that directly owns 42 protocol contracts, controlling {{timelockDirectCapital}} in capital and {{timelockTokenValue}} in eETH token value. It can upgrade every core contract (LiquidityPool, StakingManager, EtherFiNodesManager, WithdrawRequestNFT, MembershipManager, EtherFiOracle and others), grant and revoke RoleRegistry roles, change fee and rate parameters, and move funds via withdraw and sweep functions. All actions are subject to a 10-day (864000-second) minimum delay before execution."
     },
     "eth:0xcdd57D11476c22d265722F68390b036f3DA48c21": {
       "name": "EtherFi Governance Multisig (6-of-10)",
-      "description": "Gnosis Safe holding the PROPOSER, EXECUTOR and CANCELLER roles on the EtherFi Timelock. It is the sole entity able to schedule, execute and cancel timelock operations, so it effectively controls every contract the timelock owns ({{governanceMultisigReachable}} in reachable capital), with all changes gated behind the 10-day timelock delay."
+      "description": "Gnosis Safe holding the PROPOSER, EXECUTOR and CANCELLER roles on the 10-day EtherFi Timelock. It is the sole entity able to schedule, execute and cancel timelock operations, so it effectively controls every contract the timelock owns ({{governanceMultisigReachable}} in reachable capital), with all changes gated behind the 10-day delay."
+    },
+    "eth:0xcD425f44758a08BaAB3C4908f3e3dE5776e45d7a": {
+      "name": "EtherFi Operational Timelock (2-day delay)",
+      "description": "A second TimelockController with a 2-day (172800-second) delay holding operational RoleRegistry roles — LIQUIDITY_POOL_ADMIN_ROLE, ETHERFI_REDEMPTION_MANAGER_ADMIN_ROLE, ETHERFI_NODES_MANAGER_ADMIN_ROLE, ETHERFI_ORACLE_EXECUTOR_ADMIN_ROLE and others. It tunes redemption parameters (exit fees, capacity, refill rate), registers validator spawners, manages EigenPod operations, and queues withdrawals, with {{operationalTimelockCapital}} in direct capital exposure."
     },
     "eth:0x2aCA71020De61bb532008049e1Bd41E451aE8AdC": {
-      "name": "ProxyAdmin Owner Multisig (4-of-7)",
-      "description": "Gnosis Safe that owns six ProxyAdmin contracts and the EtherfiOFTAdapterUpgradeable. It can upgrade the EtherfiL1SyncPoolETH cross-chain contract and several DummyTokenUpgradeable proxies, and configure LayerZero peers, delegates and rate limits. Unlike the core protocol contracts, these upgrades are not routed through the timelock and take effect immediately."
+      "name": "EtherFi Operations Multisig (4-of-7)",
+      "description": "Gnosis Safe holding broad operating-admin roles — EETH_OPERATING_ADMIN_ROLE, STAKING_MANAGER_ADMIN_ROLE, ETHERFI_RATE_LIMITER_ADMIN_ROLE, PRIORITY_WITHDRAWAL_QUEUE_ADMIN_ROLE, plus PROTOCOL_PAUSER and PROTOCOL_UNPAUSER. It also owns six ProxyAdmin contracts and the EtherfiOFTAdapterUpgradeable, letting it upgrade the EtherfiL1SyncPoolETH cross-chain contract and configure LayerZero peers and rate limits without timelock delay. Direct capital exposure is {{operationsMultisigCapital}}."
+    },
+    "eth:0x12582A27E5e19492b4FcD194a60F8f5e1aa31B0F": {
+      "name": "EtherFi Validator Operations (EOA)",
+      "description": "Externally owned account holding day-to-day validator and node-operation roles — STAKING_MANAGER_NODE_CREATOR_ROLE, LIQUIDITY_POOL_VALIDATOR_CREATOR_ROLE, ETHERFI_NODES_MANAGER_EIGENLAYER_ADMIN_ROLE, ETHERFI_ORACLE_EXECUTOR_TASK_MANAGER_ROLE and related. It creates beacon validators, executes oracle and approval tasks, creates EigenPods, and queues and completes withdrawals, with {{validatorOpsEoaCapital}} in direct capital exposure."
+    },
+    "eth:0x7835fB36A8143a014A2c381363cD1A4DeE586d2A": {
+      "name": "EigenPod Checkpoint Prover (EOA)",
+      "description": "Externally owned account holding ETHERFI_NODES_MANAGER_POD_PROVER_ROLE and ETHERFI_NODES_MANAGER_CALL_FORWARDER_ROLE. It starts and verifies EigenPod checkpoint proofs and forwards calls to EigenPods and external contracts on behalf of EtherFiNodesManager."
+    },
+    "eth:0x9AF1298993DC1f397973C62A5D47a284CF76844D": {
+      "name": "Protocol Pauser (EOA)",
+      "description": "Externally owned account holding the PROTOCOL_PAUSER role. It can pause protocol contracts but cannot unpause them — unpausing requires the PROTOCOL_UNPAUSER role held by the EtherFi Operations Multisig."
     },
     "eth:0x25e821b7197B146F7713C3b89B6A4D83516B912d": {
       "name": "StakingManager",
-      "description": "Protocol-internal contract that owns the UpgradeableBeacon backing all EtherFiNode instances, so it can upgrade the implementation used by every node. It also handles validator key linking and auction settlement. Its own owner is the EtherFi Timelock, so external control traces back to the governance multisig."
+      "description": "Protocol-internal contract that owns the UpgradeableBeacon backing all EtherFiNode instances, so it can upgrade the implementation used by every node. It also handles validator key linking, auction settlement, and EigenPod creation. Its own owner is the EtherFi Timelock, so external control traces back to the governance multisig."
     },
     "eth:0x8B71140AD2e5d1E7018d2a7f8a288BD3CD38916F": {
       "name": "EtherFiNodesManager",
-      "description": "Protocol-internal contract that manages validator nodes and their EigenLayer EigenPods: creating pods, queueing and completing ETH withdrawals, running checkpoint proofs, forwarding pod calls, and sweeping funds. It is owned by the EtherFi Timelock."
+      "description": "Protocol-internal contract that manages validator nodes and their EigenLayer EigenPods: creating pods, queueing and completing ETH withdrawals, running checkpoint proofs, forwarding pod calls, distributing auction revenue, and sweeping funds. It is owned by the EtherFi Timelock."
     },
     "eth:0x308861A430be4cce5502d0A12724771Fc6DaF216": {
       "name": "LiquidityPool",
@@ -40,7 +56,7 @@
     },
     "eth:0x0EF8fa4760Db8f5Cd4d993f3e3416f30f942D705": {
       "name": "EtherFiAdmin",
-      "description": "Protocol-internal contract that applies oracle reports: it triggers rebases, pays protocol fees, deposits to recipients, and locks ETH for withdrawals. It has {{etherFiAdminCapital}} in direct capital exposure and is owned by the EtherFi Timelock."
+      "description": "Protocol-internal contract that applies oracle reports and aggregates operator actions: it triggers rebases, pays protocol fees, confirms and funds beacon validators, registers validator spawners, sets the fee recipient and validator size, and pauses contracts. It has {{etherFiAdminCapital}} in direct capital exposure and is owned by the EtherFi Timelock."
     },
     "eth:0x62247D29B4B9BECf4BB73E0c722cf6445cfC7cE9": {
       "name": "RoleRegistry",
@@ -64,7 +80,7 @@
     },
     "eth:0xD789870beA40D056A4d26055d0bEFcC8755DA146": {
       "name": "EtherfiL1SyncPoolETH",
-      "description": "Protocol-internal contract that mints eETH against cross-chain deposits bridged via LayerZero and unwraps L2 ETH. Its proxy is upgradeable by the ProxyAdmin Owner Multisig (4-of-7) without timelock delay."
+      "description": "Protocol-internal contract that mints eETH against cross-chain deposits bridged via LayerZero and unwraps L2 ETH. Its proxy is upgradeable by the EtherFi Operations Multisig (4-of-7) without timelock delay."
     },
     "eth:0x00C452aFFee3a17d9Cecc1Bcd2B8d5C7635C4CB9": {
       "name": "AuctionManager",
@@ -163,34 +179,18 @@
               "type": "dataTable",
               "dataSource": "project.contracts",
               "columns": [
-                {
-                  "field": "name",
-                  "header": "Name"
-                },
-                {
-                  "field": "address",
-                  "header": "Address",
-                  "format": "address"
-                },
-                {
-                  "field": "proxyType",
-                  "header": "Proxy Type",
-                  "format": "badge"
-                }
+                { "field": "name", "header": "Name" },
+                { "field": "address", "header": "Address", "format": "address" },
+                { "field": "proxyType", "header": "Proxy Type", "format": "badge" }
               ],
-              "filters": {
-                "excludeExternal": true
-              }
+              "filters": { "excludeExternal": true }
             }
           ]
         },
         {
           "title": "Audits",
           "content": [
-            {
-              "type": "text",
-              "content": ""
-            }
+            { "type": "text", "content": "" }
           ]
         }
       ]
@@ -204,6 +204,9 @@
     "timelockDirectCapital": "v2score.inventory.admins.breakdown[\"eth:0x9f26d4C958fD811A1F59B01B86Be7dFFc9d20761\"].totalDirectCapital",
     "timelockTokenValue": "v2score.inventory.admins.breakdown[\"eth:0x9f26d4C958fD811A1F59B01B86Be7dFFc9d20761\"].totalDirectTokenValue",
     "governanceMultisigReachable": "v2score.inventory.admins.breakdown[\"eth:0xcdd57D11476c22d265722F68390b036f3DA48c21\"].totalReachableCapital",
+    "operationalTimelockCapital": "v2score.inventory.admins.breakdown[\"eth:0xcD425f44758a08BaAB3C4908f3e3dE5776e45d7a\"].totalDirectCapital",
+    "operationsMultisigCapital": "v2score.inventory.admins.breakdown[\"eth:0x2aCA71020De61bb532008049e1Bd41E451aE8AdC\"].totalDirectCapital",
+    "validatorOpsEoaCapital": "v2score.inventory.admins.breakdown[\"eth:0x12582A27E5e19492b4FcD194a60F8f5e1aa31B0F\"].totalDirectCapital",
     "redemptionManagerCapital": "v2score.inventory.admins.breakdown[\"eth:0xDadEf1fFBFeaAB4f68A9fD181395F68b4e4E7Ae0\"].totalDirectCapital",
     "etherFiAdminCapital": "v2score.inventory.admins.breakdown[\"eth:0x0EF8fa4760Db8f5Cd4d993f3e3416f30f942D705\"].totalDirectCapital",
     "delegationManagerFundsAtRisk": "v2score.inventory.admins.totalCapitalAtRisk"
