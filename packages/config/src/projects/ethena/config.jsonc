@@ -33,7 +33,6 @@
         "accessControl": {
           "handler": {
             "type": "accessControl",
-            "ignoreRelative": true,
             "roleNames": {
               "0xbeec13769b5f410b0584f69811bfd923818456d5edcf426b0e31cf90eed7a3f6": "REWARDER_ROLE",
               "0xf988e4fb62b8e14f4820fed03192306ddf4d7dbfa215595ba1c6ba4b76b369ee": "BLACKLIST_MANAGER_ROLE",
@@ -54,7 +53,7 @@
       // churn constantly. DEFAULT_ADMIN_ROLE transfers are still alerted via the `owner` field.
       "ignoreInWatchMode": ["accessControl", "getUnvestedAmount", "lastDistributionTimestamp", "totalAssets", "totalSupply", "vestingAmount"],
       "fields": {
-        "accessControl": { "handler": { "type": "accessControl", "ignoreRelative": true } },
+        "accessControl": { "handler": { "type": "accessControl" } },
         "pendingDefaultAdmin": {
           "description": "SingleAdminAccessControl._pendingDefaultAdmin (private storage on upgradeable layout); acceptAdmin caller",
           "handler": { "type": "storage", "slot": 152, "returnType": "address" }
@@ -99,6 +98,21 @@
             "type": "call",
             "method": "function balanceOf(address) view returns (uint256)",
             "args": ["0x7FC7c91D556B400AFa565013E3F32055a0713425"],
+            "address": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+          }
+        }
+      }
+    },
+    // StakingRewardsDistributorV1 — bound rescueTokens / ownership transfers by the USDe balance the contract actually custodies
+    "eth:0xf2fa332bD83149c66b09B45670bCe64746C6b439": {
+      "ignoreInWatchMode": ["usdeBalance"],
+      "fields": {
+        "usdeBalance": {
+          "description": "USDe held by this contract (bounds rescueTokens worst-case drain)",
+          "handler": {
+            "type": "call",
+            "method": "function balanceOf(address) view returns (uint256)",
+            "args": ["0xf2fa332bD83149c66b09B45670bCe64746C6b439"],
             "address": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
           }
         }

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-05-13T11:30:01.804Z",
+  "lastModified": "2026-05-18T10:07:30.608Z",
   "contracts": {
     "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3": {
       "functions": [
@@ -437,7 +437,7 @@
         {
           "functionName": "disableMintRedeem",
           "isPermissioned": true,
-          "score": "no-impact",
+          "score": "critical",
           "ownerDefinitions": [
             {
               "path": "$self.accessControl.GATEKEEPER_ROLE.members"
@@ -449,14 +449,25 @@
           "mitigations": [
             {
               "type": "other",
-              "label": "safety-pause-only",
-              "description": "Emergency safety: sets globalMaxMintPerBlock and globalMaxRedeemPerBlock to 0, halting all future mint/redeem orders. Cannot extract funds; existing USDe holders are unaffected (USDe remains transferable and stakeable). Recoverable by DEFAULT_ADMIN restoring the caps."
+              "label": "redeem-lock",
+              "description": "Gatekeeper sets globalMaxMintPerBlock and globalMaxRedeemPerBlock to 0, halting all future EthenaMinting mints and redeems block-by-block. Blocks the USDe → collateral exit path for existing holders for the duration; USDe remains transferable and stakeable and a DEX exit remains. No funds are extracted or devalued. Recoverable by DEFAULT_ADMIN_ROLE (Dev Multisig) calling setGlobalMaxMintPerBlock / setGlobalMaxRedeemPerBlock to restore the caps.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
+                  "fieldName": "totalSupply"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+                }
+              }
             }
           ],
-          "timestamp": "2026-05-11T09:59:09.161Z",
+          "timestamp": "2026-05-18T10:07:30.608Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-11T09:59:09.161Z"
+            "date": "2026-05-18T10:07:30.608Z"
           }
         },
         {
@@ -1522,6 +1533,241 @@
           "lastChangedBy": {
             "author": "unknown",
             "date": "2026-05-11T10:04:10.560Z"
+          }
+        }
+      ]
+    },
+    "eth:0xf2fa332bD83149c66b09B45670bCe64746C6b439": {
+      "functions": [
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "always-reverts",
+              "description": "Overridden to revert unconditionally with CantRenounceOwnership — owner cannot abandon the role even if they try."
+            }
+          ],
+          "timestamp": "2026-05-18T10:02:01.390Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-18T10:02:01.390Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "bounded-by-self-balance",
+              "description": "Starts Ownable2Step handoff to a pending owner who must call acceptOwnership. A hostile new owner only gains the rescueTokens drain path, bounded by USDe currently held by this contract (does not touch sUSDe vault or USDe minting authority).",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xf2fa332bD83149c66b09B45670bCe64746C6b439",
+                  "fieldName": "usdeBalance"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-18T10:02:01.404Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-18T10:02:01.404Z"
+          }
+        },
+        {
+          "functionName": "acceptOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingOwner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "bounded-by-self-balance",
+              "description": "Completes Ownable2Step handoff (pendingOwner is zero today, so no transfer is currently pending). Worst case after completion is the rescueTokens drain bounded by USDe currently held.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xf2fa332bD83149c66b09B45670bCe64746C6b439",
+                  "fieldName": "usdeBalance"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-18T10:02:01.413Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-18T10:02:01.413Z"
+          }
+        },
+        {
+          "functionName": "transferInRewards",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.operator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "push-only-to-vault",
+              "description": "Operator can only push USDe from this contract into the sUSDe vault, where it vests to stakers over the 8h reward cycle. Destination is hardcoded to STAKING_VAULT and amount must satisfy USDE_TOKEN.balanceOf(this) >= amount; no destination control or theft surface."
+            }
+          ],
+          "timestamp": "2026-05-18T10:02:01.422Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-18T10:02:01.422Z"
+          }
+        },
+        {
+          "functionName": "rescueTokens",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "bounded-by-self-balance",
+              "description": "Owner can sweep any ERC20 (or ETH, though this contract never holds ETH) from this contract to an arbitrary address. Drainable surface is bounded by USDe currently held; sUSDe vault deposits and USDe global supply are untouched.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xf2fa332bD83149c66b09B45670bCe64746C6b439",
+                  "fieldName": "usdeBalance"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-18T10:02:01.431Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-18T10:02:01.431Z"
+          }
+        },
+        {
+          "functionName": "setMintingContract",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "config-pointer",
+              "description": "Updates the mintContract pointer used by future approveToMintContract / setOperator calls. Does not move funds itself; existing token approvals on the previous mintContract remain in place until separately revoked."
+            }
+          ],
+          "timestamp": "2026-05-18T10:02:01.442Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-18T10:02:01.442Z"
+          }
+        },
+        {
+          "functionName": "approveToMintContract",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-config",
+              "description": "Grants max ERC20 approval from this contract to the current mintContract (today the legit EthenaMinting). A redirected mintContract would still require chaining with setMintingContract; owner already has a more direct drain via rescueTokens, so this function adds no new extraction surface."
+            }
+          ],
+          "timestamp": "2026-05-18T10:02:01.453Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-18T10:02:01.453Z"
+          }
+        },
+        {
+          "functionName": "revokeApprovals",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "DoS-only",
+              "description": "Owner revokes ERC20 approvals from a non-mintContract target (the current mintContract is explicitly blocked by an InvalidAddressCurrentMintContract guard). Worst case is revoking the USDe→sUSDe approval set in the constructor, breaking future transferInRewards calls until re-approved — no fund movement."
+            }
+          ],
+          "timestamp": "2026-05-18T10:02:01.465Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-18T10:02:01.465Z"
+          }
+        },
+        {
+          "functionName": "setOperator",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "rotation-only",
+              "description": "Rotates the operator EOA and re-delegates the signer on mintContract. The new operator can only call transferInRewards (push-only to STAKING_VAULT); no extraction surface granted by rotation."
+            }
+          ],
+          "timestamp": "2026-05-18T10:02:01.478Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-18T10:02:01.478Z"
           }
         }
       ]
