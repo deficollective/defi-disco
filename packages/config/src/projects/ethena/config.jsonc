@@ -25,19 +25,43 @@
     // ERC4626 preview/convert functions take uint256 input — discovery's index-probe returns noise
     "eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497": {
       "ignoreMethods": ["convertToAssets", "convertToShares", "previewDeposit", "previewMint", "previewRedeem", "previewWithdraw"],
-      // accessControl is ignored in watch mode because FULL_RESTRICTED_STAKER_ROLE has hundreds
-      // of blacklisted-user members that churn constantly. DEFAULT_ADMIN_ROLE transfers are
-      // still alerted via the separate `owner` field (mirrors _currentDefaultAdmin).
-      "ignoreInWatchMode": ["accessControl", "getUnvestedAmount", "lastDistributionTimestamp", "totalAssets", "totalSupply", "vestingAmount"],
+      // accessControl intentionally watched: catches new-role additions and role rotations.
+      // Blacklist churn (FULL_RESTRICTED_STAKER_ROLE) collapses to one role-update event per
+      // cycle thanks to v1.1 per-role grouping in the activity classifier.
+      "ignoreInWatchMode": ["getUnvestedAmount", "lastDistributionTimestamp", "totalAssets", "totalSupply", "vestingAmount"],
       "fields": {
+        // Full nested accessControl is kept for visibility + path resolution,
+        // but ignoreRelative:true so the 500+ blacklist members don't pollute discovery.
+        // Legit role holders are pulled in via the dedicated companion fields below.
         "accessControl": {
           "handler": {
             "type": "accessControl",
+            "ignoreRelative": true,
             "roleNames": {
               "0xbeec13769b5f410b0584f69811bfd923818456d5edcf426b0e31cf90eed7a3f6": "REWARDER_ROLE",
               "0xf988e4fb62b8e14f4820fed03192306ddf4d7dbfa215595ba1c6ba4b76b369ee": "BLACKLIST_MANAGER_ROLE",
               "0x8f7080408a06296c6347c87c115ad99669141ae35eae974c12dff8bd01680cb6": "SOFT_RESTRICTED_STAKER_ROLE",
               "0x0a4af4bcc1942295207d9f047442ebdae6170a6e324850f758b14cf99b65c3bd": "FULL_RESTRICTED_STAKER_ROLE"
+            }
+          }
+        },
+        "rewarderRoleMembers": {
+          "description": "REWARDER_ROLE holders (auto-crawled). Companion field to surface legit holders without pulling in FULL_RESTRICTED_STAKER_ROLE blacklist. roleNames duplicated here because sUSDe declares role constants as `private`, so the handler's ABI-based name auto-detection finds nothing.",
+          "handler": {
+            "type": "accessControl",
+            "pickRoleMembers": "REWARDER_ROLE",
+            "roleNames": {
+              "0xbeec13769b5f410b0584f69811bfd923818456d5edcf426b0e31cf90eed7a3f6": "REWARDER_ROLE"
+            }
+          }
+        },
+        "blacklistManagerRoleMembers": {
+          "description": "BLACKLIST_MANAGER_ROLE holders (auto-crawled).",
+          "handler": {
+            "type": "accessControl",
+            "pickRoleMembers": "BLACKLIST_MANAGER_ROLE",
+            "roleNames": {
+              "0xf988e4fb62b8e14f4820fed03192306ddf4d7dbfa215595ba1c6ba4b76b369ee": "BLACKLIST_MANAGER_ROLE"
             }
           }
         },
@@ -49,11 +73,28 @@
     },
     "eth:0x8bE3460A480c80728a8C4D7a5D5303c85ba7B3b9": {
       "ignoreMethods": ["convertToAssets", "convertToShares", "previewDeposit", "previewMint", "previewRedeem", "previewWithdraw"],
-      // accessControl is ignored in watch mode because BLACKLISTED_ROLE has 500+ members that
-      // churn constantly. DEFAULT_ADMIN_ROLE transfers are still alerted via the `owner` field.
-      "ignoreInWatchMode": ["accessControl", "getUnvestedAmount", "lastDistributionTimestamp", "totalAssets", "totalSupply", "vestingAmount"],
+      // accessControl intentionally watched: catches new-role additions and role rotations.
+      // Blacklist churn (BLACKLISTED_ROLE) collapses to one role-update event per cycle
+      // thanks to v1.1 per-role grouping in the activity classifier.
+      "ignoreInWatchMode": ["getUnvestedAmount", "lastDistributionTimestamp", "totalAssets", "totalSupply", "vestingAmount"],
       "fields": {
-        "accessControl": { "handler": { "type": "accessControl" } },
+        // Same pattern as sUSDe above: full nested accessControl with ignoreRelative,
+        // legit roles surfaced via dedicated companion fields, blacklist members never crawled.
+        "accessControl": { "handler": { "type": "accessControl", "ignoreRelative": true } },
+        "rewarderRoleMembers": {
+          "description": "REWARDER_ROLE holders (auto-crawled). Companion field to surface legit holders without pulling in BLACKLISTED_ROLE blacklist.",
+          "handler": {
+            "type": "accessControl",
+            "pickRoleMembers": "REWARDER_ROLE"
+          }
+        },
+        "blacklistManagerRoleMembers": {
+          "description": "BLACKLIST_MANAGER_ROLE holders (auto-crawled).",
+          "handler": {
+            "type": "accessControl",
+            "pickRoleMembers": "BLACKLIST_MANAGER_ROLE"
+          }
+        },
         "pendingDefaultAdmin": {
           "description": "SingleAdminAccessControl._pendingDefaultAdmin (private storage on upgradeable layout); acceptAdmin caller",
           "handler": { "type": "storage", "slot": 152, "returnType": "address" }
@@ -132,6 +173,11 @@
           }
         }
       }
-    }
+    },
+    // GnosisSafe nonce bumps on every executed tx — pure activity counter, never a security signal.
+    // Real Safe signals (`$members`, `$threshold`, `GnosisSafe_modules`) remain watched.
+    "eth:0x3B0AAf6e6fCd4a7cEEf8c92C32DFeA9E64dC1862": { "ignoreInWatchMode": ["nonce"] },
+    "eth:0x71E4f98e8f20C88112489de3DDEd4489802a3A87": { "ignoreInWatchMode": ["nonce"] },
+    "eth:0xdeDc15Fa923D4e147875C63C0a97F85F178dfE96": { "ignoreInWatchMode": ["nonce"] }
   }
 }
