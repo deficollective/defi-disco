@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-05-18T10:07:30.608Z",
+  "lastModified": "2026-05-18T12:05:52.198Z",
   "contracts": {
     "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3": {
       "functions": [
@@ -350,13 +350,24 @@
             {
               "type": "other",
               "label": "per-block-bounded",
-              "description": "MINTER_ROLE EOAs (currently 20 operational bots) alone CANNOT mint USDe freely — they can only execute orders signed by whitelisted benefactors, with on-chain collateral pulled via safeTransferFrom from the benefactor, routed to whitelisted custodians. Per call capped at globalConfig.globalMaxMintPerBlock = 200M USDe and tokenConfig[asset].maxMintPerBlock. For stable collateral assets the USDe:collateral ratio is locked 1:1 by verifyStablesLimit (stablesDeltaLimit currently = 0 bps). Unbounded extraction requires DEFAULT_ADMIN to add malicious benefactor + malicious custodian + grant MINTER_ROLE; or bypassed entirely via USDe.setMinter."
+              "description": "MINTER_ROLE EOAs (currently 20 operational bots) alone CANNOT mint USDe freely — they can only execute orders signed by whitelisted benefactors, with on-chain collateral pulled via safeTransferFrom from the benefactor, routed to whitelisted custodians. Per call capped at globalConfig.globalMaxMintPerBlock (200M USDe today) and tokenConfig[asset].maxMintPerBlock. For stable collateral assets the USDe:collateral ratio is locked 1:1 by verifyStablesLimit (stablesDeltaLimit currently = 0 bps). Unbounded extraction requires DEFAULT_ADMIN to add malicious benefactor + malicious custodian + grant MINTER_ROLE; or bypassed entirely via USDe.setMinter.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3",
+                  "fieldName": "globalConfig.globalMaxMintPerBlock"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+                }
+              }
             }
           ],
-          "timestamp": "2026-05-11T11:51:34.901Z",
+          "timestamp": "2026-05-18T12:05:52.047Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-11T11:51:34.901Z"
+            "date": "2026-05-18T12:05:52.047Z"
           }
         },
         {
@@ -375,13 +386,24 @@
             {
               "type": "other",
               "label": "per-block-bounded",
-              "description": "MINTER_ROLE EOAs (currently 20 operational bots) alone CANNOT mint USDe freely — they can only execute orders signed by whitelisted benefactors, with on-chain collateral pulled via safeTransferFrom from the benefactor, routed to whitelisted custodians. Per call capped at globalConfig.globalMaxMintPerBlock = 200M USDe and tokenConfig[asset].maxMintPerBlock. For stable collateral assets the USDe:collateral ratio is locked 1:1 by verifyStablesLimit (stablesDeltaLimit currently = 0 bps). Unbounded extraction requires DEFAULT_ADMIN to add malicious benefactor + malicious custodian + grant MINTER_ROLE; or bypassed entirely via USDe.setMinter."
+              "description": "MINTER_ROLE EOAs (currently 20 operational bots) alone CANNOT mint USDe freely — they can only execute orders signed by whitelisted benefactors, with on-chain collateral pulled via safeTransferFrom from the benefactor, routed to whitelisted custodians. Per call capped at globalConfig.globalMaxMintPerBlock (200M USDe today) and tokenConfig[asset].maxMintPerBlock. For stable collateral assets the USDe:collateral ratio is locked 1:1 by verifyStablesLimit (stablesDeltaLimit currently = 0 bps). Unbounded extraction requires DEFAULT_ADMIN to add malicious benefactor + malicious custodian + grant MINTER_ROLE; or bypassed entirely via USDe.setMinter.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3",
+                  "fieldName": "globalConfig.globalMaxMintPerBlock"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+                }
+              }
             }
           ],
-          "timestamp": "2026-05-11T11:51:34.912Z",
+          "timestamp": "2026-05-18T12:05:52.154Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-11T11:51:34.912Z"
+            "date": "2026-05-18T12:05:52.154Z"
           }
         },
         {
@@ -400,13 +422,24 @@
             {
               "type": "other",
               "label": "per-block-bounded",
-              "description": "REDEEMER_ROLE EOAs alone CANNOT redeem USDe freely — they can only execute orders signed by whitelisted benefactors, burning USDe from the benefactor (who must have approved EthenaMinting) and releasing collateral to the benefactor-approved beneficiary. Per call capped at globalConfig.globalMaxRedeemPerBlock = 10M USDe and tokenConfig[asset].maxRedeemPerBlock. Unbounded extraction requires DEFAULT_ADMIN compromise to add a malicious benefactor that signs over their existing USDe balance to an attacker beneficiary."
+              "description": "REDEEMER_ROLE EOAs alone CANNOT redeem USDe freely — they can only execute orders signed by whitelisted benefactors, burning USDe from the benefactor (who must have approved EthenaMinting) and releasing collateral to the benefactor-approved beneficiary. Per call capped at globalConfig.globalMaxRedeemPerBlock (10M USDe today) and tokenConfig[asset].maxRedeemPerBlock. Unbounded extraction requires DEFAULT_ADMIN compromise to add a malicious benefactor that signs over their existing USDe balance to an attacker beneficiary.",
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0xe3490297a08d6fC8Da46Edb7B6142E4F461b62D3",
+                  "fieldName": "globalConfig.globalMaxRedeemPerBlock"
+                },
+                "unit": {
+                  "kind": "token",
+                  "tokenAddress": "eth:0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+                }
+              }
             }
           ],
-          "timestamp": "2026-05-11T11:51:34.920Z",
+          "timestamp": "2026-05-18T12:05:52.198Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-11T11:51:34.920Z"
+            "date": "2026-05-18T12:05:52.198Z"
           }
         },
         {

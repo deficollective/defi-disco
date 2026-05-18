@@ -203,7 +203,17 @@ function resolveImpactCap(
   } else {
     try {
       const contract = dataAccess.findContract(cap.value.contractAddress)
-      const raw = dataAccess.getValuesObject(contract)[cap.value.fieldName]
+      // Walk dotted paths so nested fields (e.g. `globalConfig.globalMaxMintPerBlock`) resolve.
+      const values = dataAccess.getValuesObject(contract)
+      const raw = cap.value.fieldName
+        .split('.')
+        .reduce<unknown>(
+          (acc, part) =>
+            acc !== undefined && acc !== null
+              ? (acc as Record<string, unknown>)[part]
+              : undefined,
+          values,
+        )
       if (raw === undefined) {
         console.warn(
           `[impactCap] Field "${cap.value.fieldName}" not found on contract ${cap.value.contractAddress}`,
