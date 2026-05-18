@@ -1,3 +1,49 @@
+Generated with discovered.json: 0x2cd8f89ecf3add93e746134c4f337615726d6a27
+
+# Diff at Sun, 17 May 2026 14:21:21 GMT:
+
+- author: emduc (<emilien.duc@gmail.com>)
+- comparing to: main@302810730bf0d85b1575de6da5d1858c4d61bc16 block: 1779009250
+- current timestamp: 1779009250
+
+## Description
+
+Discovery rerun on the same block number with only config-related changes.
+
+## Config/verification related changes
+
+Following changes come from updates made to the config file,
+or/and contracts becoming verified, not from differences found during
+discovery. Values are for block 1779009250 (main branch discovery), not current.
+
+```diff
+    contract MetaMorpho (eth:0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB) {
+    +++ description: None
+      values.marketOracles.0:
++        "eth:0x0000000000000000000000000000000000000000"
+      values.marketOracles.7:
+-        "eth:0x0000000000000000000000000000000000000000"
+      values.marketParams.0:
++        {"marketId":"0x54efdee08e272e929034a8f26f7ca34b1ebe364b275391169b28c6d7db24dbc8","loanToken":"eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48","collateralToken":"eth:0x0000000000000000000000000000000000000000","oracle":"eth:0x0000000000000000000000000000000000000000","irm":"eth:0x0000000000000000000000000000000000000000","lltv":0}
+      values.marketParams.7:
+-        {"marketId":"0x54efdee08e272e929034a8f26f7ca34b1ebe364b275391169b28c6d7db24dbc8","loanToken":"eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48","collateralToken":"eth:0x0000000000000000000000000000000000000000","oracle":"eth:0x0000000000000000000000000000000000000000","irm":"eth:0x0000000000000000000000000000000000000000","lltv":0}
+      values.withdrawQueue:
++        ["0x54efdee08e272e929034a8f26f7ca34b1ebe364b275391169b28c6d7db24dbc8","0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64","0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49","0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc","0x94b823e6bd8ea533b4e33fbc307faea0b307301bc48763acc4d4aa4def7636cd","0x7e585a933ffe8443c371b4f8cfeb4430f5f6a14c2f32a898c26662c67a1cb8b8","0x09dc9e7eb5d8fc54b2bc41d1135fd4e99057a580f680321faeb90c7a21e631c1","0xbc99de6a88904cd0e69042ad6f266e63182801f030c636507c3caf590ffd84fe"]
+    }
+```
+
+```diff
+    contract EACAggregatorProxy (eth:0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23) {
+    +++ description: None
+      values.getAnswer:
+-        [0,0,0,0,0]
+      values.latestAnswer:
++        99719496
+      errors:
+-        {"getAnswer":"Processing error occurred."}
+    }
+```
+
 Generated with discovered.json: 0x6f3eefac369bb75f1d75e98474beb58a014e2463
 
 # Diff at Tue, 03 Mar 2026 14:40:10 GMT:

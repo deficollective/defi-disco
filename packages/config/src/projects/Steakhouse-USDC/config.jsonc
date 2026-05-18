@@ -24,8 +24,7 @@
         "previewDeposit",
         "previewMint",
         "previewRedeem",
-        "previewWithdraw",
-        "withdrawQueue"
+        "previewWithdraw"
       ],
       "fields": {
         "supplyQueue": {
@@ -35,10 +34,18 @@
             "length": "{{ supplyQueueLength }}"
           }
         },
+        "withdrawQueue": {
+          "handler": {
+            "type": "array",
+            "method": "withdrawQueue",
+            "length": "{{ withdrawQueueLength }}"
+          }
+        },
         "marketParams": {
           "handler": {
             "type": "morphoMarkets",
             "morphoAddressField": "MORPHO",
+            "queueField": "withdrawQueue",
             "ignoreRelative": true
           }
         },
@@ -93,9 +100,43 @@
         },
         "fee": {
           "severity": "HIGH"
+        },
+        // Per-feed caps: SUM of caps across markets that consume this Chainlink feed.
+        // queueField=withdrawQueue so the cap aggregation considers the full universe (the handler skips oracle=0x0).
+        "feedCap_0x86392dC19c0b719886221c78AB11eb8Cf5c52812": {
+          "handler": { "type": "metaMorphoCap", "mode": "feed", "feed": "0x86392dC19c0b719886221c78AB11eb8Cf5c52812", "queueField": "withdrawQueue" }
+        },
+        "feedCap_0x986b5E1e1755e3C2440e960477f25201B0a8bbD4": {
+          "handler": { "type": "metaMorphoCap", "mode": "feed", "feed": "0x986b5E1e1755e3C2440e960477f25201B0a8bbD4", "queueField": "withdrawQueue" }
+        },
+        "feedCap_0xc0053f3FBcCD593758258334Dfce24C2A9A673aD": {
+          "handler": { "type": "metaMorphoCap", "mode": "feed", "feed": "0xc0053f3FBcCD593758258334Dfce24C2A9A673aD", "queueField": "withdrawQueue" }
+        },
+        "feedCap_0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6": {
+          "handler": { "type": "metaMorphoCap", "mode": "feed", "feed": "0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6", "queueField": "withdrawQueue" }
+        },
+        "feedCap_0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c": {
+          "handler": { "type": "metaMorphoCap", "mode": "feed", "feed": "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c", "queueField": "withdrawQueue" }
+        },
+        "feedCap_0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23": {
+          "handler": { "type": "metaMorphoCap", "mode": "feed", "feed": "0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23", "queueField": "withdrawQueue" }
+        },
+        "feedCap_0x4F67e4d9BD67eFa28236013288737D39AeF48e79": {
+          "handler": { "type": "metaMorphoCap", "mode": "feed", "feed": "0x4F67e4d9BD67eFa28236013288737D39AeF48e79", "queueField": "withdrawQueue" }
         }
       },
-      "ignoreInWatchMode": ["totalAssets", "totalSupply", "lastTotalAssets"]
+      "ignoreInWatchMode": [
+        "totalAssets",
+        "totalSupply",
+        "lastTotalAssets",
+        "feedCap_0x86392dC19c0b719886221c78AB11eb8Cf5c52812",
+        "feedCap_0x986b5E1e1755e3C2440e960477f25201B0a8bbD4",
+        "feedCap_0xc0053f3FBcCD593758258334Dfce24C2A9A673aD",
+        "feedCap_0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
+        "feedCap_0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c",
+        "feedCap_0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23",
+        "feedCap_0x4F67e4d9BD67eFa28236013288737D39AeF48e79"
+      ]
     },
     "eth:0x4a3411ac2948B33c69666B35cc6d055B27Ea84f1": {
       "ignoreMethods": ["getTransmitters"]
@@ -104,7 +145,7 @@
       "ignoreRelatives": ["aggregator"]
     },
     "eth:0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23": {
-      "ignoreMethods": ["proposedAggregator"],
+      "ignoreMethods": ["proposedAggregator", "getAnswer", "getTimestamp"],
       "ignoreRelatives": ["aggregator"]
     },
     "eth:0x86392dC19c0b719886221c78AB11eb8Cf5c52812": {
