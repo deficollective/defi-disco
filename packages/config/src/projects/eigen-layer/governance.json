@@ -1,9 +1,9 @@
 {
-  "framework": "EigenGov",
+  "framework": "EigenGov (ELIP + Protocol Council + Timelock)",
   "voteExecution": "onchain",
-  "votingUnit": "Multisig signers",
-  "proposalRequirements": "ELIP submitted on forum.eigenlayer.xyz; Protocol Council (3/5) or Operations Multisig (3/6) can queue upgrades in the timelock.",
-  "votingProcess": "ELIP forum discussion → Protocol Council (3/5) approves → queued in TimelockController → 10-day delay → execute. Ops Multisig can cancel.",
+  "votingUnit": "Multisig signers (no token-based voting)",
+  "proposalRequirements": "ELIP submitted on forum.eigenlayer.xyz. Only the Protocol Council (3-of-5 Safe) and Operations Multisig (3-of-6 Safe) can queue upgrades through the primary Timelock. The Operations Multisig also holds the CANCELLER_ROLE and can cancel Protocol Council proposals.",
+  "votingProcess": "ELIP discussion → Protocol Council (3/5) approves → queued in primary Timelock → 10-day delay → execute. Ops Multisig can cancel.",
   "proposalPeriod": {
     "kind": "none"
   },

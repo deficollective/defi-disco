@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-05-13T10:50:09.149Z",
+  "lastModified": "2026-05-19T15:03:56.033Z",
   "contracts": {
     "eth:0x948a420b8CC1d6BFd0B6087C2E7c344a2CD0bc39": {
       "functions": [
@@ -198,10 +198,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:04:23.005Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-transfer-affects-fork-timestamp",
+              "description": "Transfers the proofTimestampSetter role, which controls when the Pectra fork timestamp activates for beacon-chain withdrawal proof validation. A malicious setter could disable Pectra proof validation by setting the timestamp to far future, breaking withdrawal proof verification for all native-ETH restakers (beacon withdrawals stuck). Owner is EigenLayerOwningMultisig (1-of-2)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.565Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:23.005Z"
+            "date": "2026-05-19T15:03:24.565Z"
           }
         },
         {
@@ -213,10 +220,17 @@
               "path": "$self.proofTimestampSetter"
             }
           ],
-          "timestamp": "2026-05-12T17:04:23.015Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "fork-activation-control",
+              "description": "Sets the timestamp at which the Pectra hard fork's withdrawal proof format activates. A malicious value (far future) breaks beacon-chain withdrawal proof validation across all EigenPods; setting to past creates invalid-format reverts on legitimate withdrawal proofs. Callable only by proofTimestampSetter (single address)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.575Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:23.015Z"
+            "date": "2026-05-19T15:03:24.575Z"
           }
         }
       ]
@@ -291,10 +305,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:04:14.363Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-transfer",
+              "description": "Transfers the strategyWhitelister role. The whitelister can add new IStrategy contracts to the deposit whitelist (addStrategiesToDepositWhitelist) — a new strategy could custody user deposits malicially. A malicious whitelister cannot drain existing strategy balances (each StrategyBaseTVLLimits has its own deposit/withdraw flow), but can list a backdoored strategy for future deposits. Owner is EigenLayerOwningMultisig (1-of-2)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.583Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:14.363Z"
+            "date": "2026-05-19T15:03:24.583Z"
           }
         },
         {
@@ -415,31 +436,45 @@
         {
           "functionName": "disableRoot",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.rewardsUpdater"
             }
           ],
-          "timestamp": "2026-05-12T17:04:37.048Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "root-veto",
+              "description": "Marks a distribution root as disabled before activation. onlyRewardsUpdater + onlyWhenNotPaused(PAUSED_SUBMIT_DISABLE_ROOTS). Vetoes a single root from being claimed (defensive); cannot extract funds. Same semantics as a cancel-payload."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.591Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:37.048Z"
+            "date": "2026-05-19T15:03:24.591Z"
           }
         },
         {
           "functionName": "setActivationDelay",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:04:37.055Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Sets the delay between a distribution root submission and its activation. Future-only — applies to subsequent submitted roots, not existing pending roots. Bounded by MAX_ACTIVATION_DELAY in the contract."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.599Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:37.055Z"
+            "date": "2026-05-19T15:03:24.599Z"
           }
         },
         {
@@ -466,10 +501,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:04:37.071Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-fee-redirect",
+              "description": "Sets the protocol fee recipient address for rewards distribution. Future fees on distribution roots go to the new recipient; cannot extract historical fees already settled. Owner is EigenLayerOwningMultisig (1-of-2)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.607Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:37.071Z"
+            "date": "2026-05-19T15:03:24.607Z"
           }
         },
         {
@@ -481,25 +523,39 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:04:37.079Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-transfer-rewards-control",
+              "description": "Sets the rewardsUpdater address — the single address allowed to submit and disable distribution roots. A malicious updater could submit a fraudulent root claiming all earners' rewards to attacker-controlled addresses, but each root has activationDelay before becoming claimable, giving a window for governance to disableRoot."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.615Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:37.079Z"
+            "date": "2026-05-19T15:03:24.615Z"
           }
         },
         {
           "functionName": "setRewardsForAllSubmitter",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:04:37.086Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-grant",
+              "description": "Adds/removes an address from the rewardsForAllSubmitter whitelist. Those addresses can call createRewardsForAllSubmission, which depositors of incentives use to fund rewards from their own balance — no extraction surface."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.628Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:37.086Z"
+            "date": "2026-05-19T15:03:24.628Z"
           }
         },
         {
@@ -604,10 +660,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:04:45.392Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-transfer-emissions-control",
+              "description": "Sets the IncentiveCouncil — the only address that can add or update distributions on the EmissionsController. A malicious council can configure new distributions that direct emitted EIGEN inflation to chosen recipients. Owner is EigenLayerOperationsMultisig (3-of-6)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.637Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:45.392Z"
+            "date": "2026-05-19T15:03:24.637Z"
           }
         },
         {
@@ -634,10 +697,17 @@
               "path": "$self.incentiveCouncil"
             }
           ],
-          "timestamp": "2026-05-12T17:04:45.400Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-emissions-only",
+              "description": "Adds a new emissions distribution starting from a future epoch. Bounded by per-epoch emission rates configured in the protocol; cannot directly extract existing funds. The council can direct future EIGEN emissions to chosen recipients (operators/AVSs)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.647Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:45.400Z"
+            "date": "2026-05-19T15:03:24.647Z"
           }
         },
         {
@@ -649,10 +719,17 @@
               "path": "$self.incentiveCouncil"
             }
           ],
-          "timestamp": "2026-05-12T17:04:45.407Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-emissions-only",
+              "description": "Replaces an existing distribution's parameters. Affects future epochs only; cannot rewrite past emissions. Same scope risk as addDistribution."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:24.656Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:04:45.407Z"
+            "date": "2026-05-19T15:03:24.656Z"
           }
         }
       ]
@@ -970,31 +1047,45 @@
         {
           "functionName": "setChurnApprover",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:03.692Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-management",
+              "description": "Sets the address that approves operator churn (replacing operators when quorum is full). Operational role; no direct fund movement. A malicious approver could enable bad operators to replace honest ones, but this affects AVS correctness, not protocol funds."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.135Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:03.692Z"
+            "date": "2026-05-19T15:02:05.135Z"
           }
         },
         {
           "functionName": "setEjector",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:03.699Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-management",
+              "description": "Sets the ejector role on the registry coordinator. Same scope as EjectionManager.setEjector — operational role for AVS membership management, no fund movement."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.144Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:03.699Z"
+            "date": "2026-05-19T15:02:05.144Z"
           }
         },
         {
@@ -1289,16 +1380,23 @@
         {
           "functionName": "setRewardsInitiator",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:35.062Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-management",
+              "description": "Sets the address allowed to initiate rewards distribution events for this AVS. Doesn't move funds itself; the initiator can only submit reward distributions (depositing rewards from their own balance)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.003Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:35.062Z"
+            "date": "2026-05-19T15:02:05.003Z"
           }
         },
         {
@@ -1310,25 +1408,39 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:35.069Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "rewards-redirect",
+              "description": "Calls RewardsCoordinator.setClaimerFor(claimer) for THIS AVS. The new claimer can then call RewardsCoordinator.processClaim to redirect this AVS's accrued rewards to themselves. Bounded by the rewards already accrued + future rewards until the claimer is changed back. Owner is EigenDAOperationsMultisig (3-of-4)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:04.994Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:35.069Z"
+            "date": "2026-05-19T15:02:04.994Z"
           }
         },
         {
           "functionName": "setBatchConfirmer",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:35.076Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-management",
+              "description": "Sets the address allowed to call confirmBatch. The batch confirmer is an operational role for EigenDA data availability — no direct fund movement. A malicious confirmer could confirm bad batches (DA layer correctness impact, not protocol fund impact)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.013Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:35.076Z"
+            "date": "2026-05-19T15:02:05.013Z"
           }
         },
         {
@@ -1379,16 +1491,23 @@
         {
           "functionName": "setStaleStakesForbidden",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "@registryCoordinator.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:35.106Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only-validity-check",
+              "description": "Toggles whether stale-stake signatures are forbidden on batch confirmation. Operational data-availability correctness param; no fund movement."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.021Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:35.106Z"
+            "date": "2026-05-19T15:02:05.021Z"
           }
         }
       ]
@@ -1404,10 +1523,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:43.062Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proxy-admin-upgrade",
+              "description": "Replaces or repoints the BackingEigen token implementation. A malicious impl could remint, redirect transfers, or break the wrapping invariant with Eigen Token. Owner is EigenLayerBeigenOwningMultisig (1-of-2 GnosisSafe, low threshold)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.894Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:43.062Z"
+            "date": "2026-05-19T14:58:05.894Z"
           }
         },
         {
@@ -1419,10 +1545,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:43.072Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proxy-admin-upgrade",
+              "description": "Replaces or repoints the BackingEigen token implementation. A malicious impl could remint, redirect transfers, or break the wrapping invariant with Eigen Token. Owner is EigenLayerBeigenOwningMultisig (1-of-2 GnosisSafe, low threshold)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.885Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:43.072Z"
+            "date": "2026-05-19T14:58:05.885Z"
           }
         },
         {
@@ -1434,10 +1567,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:43.080Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proxy-admin-upgrade",
+              "description": "Replaces or repoints the BackingEigen token implementation. A malicious impl could remint, redirect transfers, or break the wrapping invariant with Eigen Token. Owner is EigenLayerBeigenOwningMultisig (1-of-2 GnosisSafe, low threshold)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.902Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:43.080Z"
+            "date": "2026-05-19T14:58:05.902Z"
           }
         }
       ]
@@ -1453,10 +1593,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:43.087Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proxy-admin-upgrade",
+              "description": "Upgrade authority for 11 EigenDA proxies: BLSApkRegistry, EigenDADisperserRegistry, EigenDARelayRegistry, EigenDAServiceManager, EigenDAThresholdRegistry, etc. A malicious impl could break operator registration, ejection, or batch confirmation. Owner is EigenDAOperationsMultisig (3-of-4 GnosisSafe)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.919Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:43.087Z"
+            "date": "2026-05-19T14:58:05.919Z"
           }
         },
         {
@@ -1468,10 +1615,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:43.093Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proxy-admin-upgrade",
+              "description": "Upgrade authority for 11 EigenDA proxies: BLSApkRegistry, EigenDADisperserRegistry, EigenDARelayRegistry, EigenDAServiceManager, EigenDAThresholdRegistry, etc. A malicious impl could break operator registration, ejection, or batch confirmation. Owner is EigenDAOperationsMultisig (3-of-4 GnosisSafe)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.911Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:43.093Z"
+            "date": "2026-05-19T14:58:05.911Z"
           }
         },
         {
@@ -1483,10 +1637,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:43.100Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proxy-admin-upgrade",
+              "description": "Upgrade authority for 11 EigenDA proxies: BLSApkRegistry, EigenDADisperserRegistry, EigenDARelayRegistry, EigenDAServiceManager, EigenDAThresholdRegistry, etc. A malicious impl could break operator registration, ejection, or batch confirmation. Owner is EigenDAOperationsMultisig (3-of-4 GnosisSafe)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.928Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:43.100Z"
+            "date": "2026-05-19T14:58:05.928Z"
           }
         }
       ]
@@ -1502,10 +1663,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:43.107Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proxy-admin-upgrade",
+              "description": "Upgrade authority for the entire EigenLayer core: 31 proxies including AllocationManager, AVSDirectory, DelegationManager, EigenPodManager, EmissionsController, StrategyManager, RewardsCoordinator, and all 12 StrategyBaseTVLLimits restaking pools. A malicious impl on DelegationManager or StrategyManager could drain all restaked LST balances. Owner is EigenLayerOwningMultisig (1-of-2 GnosisSafe, low threshold — single point of compromise)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.946Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:43.107Z"
+            "date": "2026-05-19T14:58:05.946Z"
           }
         },
         {
@@ -1517,10 +1685,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:43.114Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proxy-admin-upgrade",
+              "description": "Upgrade authority for the entire EigenLayer core: 31 proxies including AllocationManager, AVSDirectory, DelegationManager, EigenPodManager, EmissionsController, StrategyManager, RewardsCoordinator, and all 12 StrategyBaseTVLLimits restaking pools. A malicious impl on DelegationManager or StrategyManager could drain all restaked LST balances. Owner is EigenLayerOwningMultisig (1-of-2 GnosisSafe, low threshold — single point of compromise)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.936Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:43.114Z"
+            "date": "2026-05-19T14:58:05.936Z"
           }
         },
         {
@@ -1532,10 +1707,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:43.120Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "proxy-admin-upgrade",
+              "description": "Upgrade authority for the entire EigenLayer core: 31 proxies including AllocationManager, AVSDirectory, DelegationManager, EigenPodManager, EmissionsController, StrategyManager, RewardsCoordinator, and all 12 StrategyBaseTVLLimits restaking pools. A malicious impl on DelegationManager or StrategyManager could drain all restaked LST balances. Owner is EigenLayerOwningMultisig (1-of-2 GnosisSafe, low threshold — single point of compromise)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.955Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:43.120Z"
+            "date": "2026-05-19T14:58:05.955Z"
           }
         }
       ]
@@ -1551,10 +1733,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:47.576Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "beacon-upgrade",
+              "description": "Replaces the StrategyBase implementation shared by all 12 StrategyBaseTVLLimits restaking pools (LST collateral strategies). A malicious impl could drain the entire LST balance across all 12 pools simultaneously. Owner is EigenLayerOwningMultisig (1-of-2 GnosisSafe)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.964Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:47.576Z"
+            "date": "2026-05-19T14:58:05.964Z"
           }
         }
       ]
@@ -1570,10 +1759,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:47.586Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "beacon-upgrade",
+              "description": "Replaces the DurationVaultStrategy implementation. The strategy currently has 0 shares (placeholder/unused), so immediate fund exposure is 0; if it is activated in the future a malicious impl would have full control of any deposited funds. Owner is EigenLayerOwningMultisig (1-of-2 GnosisSafe)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.972Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:47.586Z"
+            "date": "2026-05-19T14:58:05.972Z"
           }
         }
       ]
@@ -1589,10 +1785,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:05:47.595Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "beacon-upgrade",
+              "description": "Replaces the EigenPod implementation. Every user EigenPod (factory-deployed proxy) reads from this beacon, so a malicious impl could redirect beacon-chain withdrawal proofs or arbitrary native-ETH from all native restaking participants. Owner is EigenLayerOwningMultisig (1-of-2 GnosisSafe)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:58:05.980Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:05:47.595Z"
+            "date": "2026-05-19T14:58:05.980Z"
           }
         }
       ]
@@ -1822,40 +2025,61 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:08.746Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "unlimited-mint-grant",
+              "description": "Adds/removes addresses to/from the isMinter mapping. A newly granted minter can call BackingEigen.mint with no on-chain cap, diluting the bEIGEN supply that backs EIGEN 1:1. Owner is EigenLayerBeigenOwningMultisig (1-of-2 GnosisSafe)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:01.682Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:08.746Z"
+            "date": "2026-05-19T14:59:01.682Z"
           }
         },
         {
           "functionName": "setAllowedFrom",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:08.757Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "restrictions-already-disabled",
+              "description": "Updates the allowedFrom/To whitelist used during transfer restrictions. On-chain state shows transferRestrictionsDisabledAfter = 0, so transfer restrictions are permanently OFF and these whitelist updates have no read sites that affect transfers. Cannot re-enable restrictions (disableTransferRestrictions is one-way)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:01.706Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:08.757Z"
+            "date": "2026-05-19T14:59:01.706Z"
           }
         },
         {
           "functionName": "setAllowedTo",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:08.765Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "restrictions-already-disabled",
+              "description": "Updates the allowedFrom/To whitelist used during transfer restrictions. On-chain state shows transferRestrictionsDisabledAfter = 0, so transfer restrictions are permanently OFF and these whitelist updates have no read sites that affect transfers. Cannot re-enable restrictions (disableTransferRestrictions is one-way)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:01.714Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:08.765Z"
+            "date": "2026-05-19T14:59:01.714Z"
           }
         },
         {
@@ -1882,10 +2106,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:08.780Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "unlimited-issuance",
+              "description": "Mints arbitrary amounts of bEIGEN to any address. Gated only by isMinter mapping (no on-chain cap, no per-block limit). Each minted bEIGEN dilutes the 1:1 backing of EIGEN (current total supply: 1.82B bEIGEN backing 1.82B EIGEN). New minters can be added by the BeigenOwningMultisig."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:01.695Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:08.780Z"
+            "date": "2026-05-19T14:59:01.695Z"
           }
         }
       ]
@@ -1895,31 +2126,45 @@
         {
           "functionName": "setAllowedFrom",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:11.977Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "restrictions-already-disabled",
+              "description": "Updates the allowedFrom/To whitelist on the EIGEN governance token. On-chain transferRestrictionsDisabledAfter = 0 means restrictions are permanently OFF; whitelist updates have no read sites affecting transfers."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:01.724Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:11.977Z"
+            "date": "2026-05-19T14:59:01.724Z"
           }
         },
         {
           "functionName": "setAllowedTo",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:11.987Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "restrictions-already-disabled",
+              "description": "Updates the allowedFrom/To whitelist on the EIGEN governance token. On-chain transferRestrictionsDisabledAfter = 0 means restrictions are permanently OFF; whitelist updates have no read sites affecting transfers."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:01.733Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:11.987Z"
+            "date": "2026-05-19T14:59:01.733Z"
           }
         },
         {
@@ -1977,16 +2222,23 @@
         {
           "functionName": "setEjector",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:18.133Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-management",
+              "description": "Sets/unsets an address in the ejector role. The ejector can eject operators from the AVS (kicking them out of the operator set) but cannot extract protocol funds — ejection is an AVS operational action, not a financial one. EigenLayer slashing is governed separately by AllocationManager."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.126Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:18.133Z"
+            "date": "2026-05-19T15:02:05.126Z"
           }
         }
       ]
@@ -2216,10 +2468,17 @@
               "path": "$self.unpauser"
             }
           ],
-          "timestamp": "2026-05-12T17:06:38.020Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-management",
+              "description": "Sets the isPauser mapping; the resulting pauser can pause/unpause protocol functions on EigenLayer contracts. The pause function itself is the critical surface — this setIsPauser is one step removed. A malicious unpauser could grant pauser to attacker who could then freeze deposits/withdrawals across the protocol via the various pausable contracts. No direct fund movement. Caller must hold the unpauser address (single-address role, not a multisig role)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:34.820Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:38.020Z"
+            "date": "2026-05-19T14:59:34.820Z"
           }
         },
         {
@@ -2231,10 +2490,17 @@
               "path": "$self.unpauser"
             }
           ],
-          "timestamp": "2026-05-12T17:06:38.031Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-transfer",
+              "description": "Transfers the unpauser role to a new single address. The unpauser is the most authoritative role in the pause system — can set/clear pausers and unpause. A malicious new unpauser could revoke all legitimate pausers (DoS on pause function) but cannot directly extract funds. Caller must hold the current unpauser address."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:34.830Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:38.031Z"
+            "date": "2026-05-19T14:59:34.830Z"
           }
         }
       ]
@@ -2250,10 +2516,17 @@
               "path": "$self.unpauser"
             }
           ],
-          "timestamp": "2026-05-12T17:06:38.040Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-management",
+              "description": "Sets the isPauser mapping; the resulting pauser can pause/unpause protocol functions on EigenLayer contracts. The pause function itself is the critical surface — this setIsPauser is one step removed. A malicious unpauser could grant pauser to attacker who could then freeze deposits/withdrawals across the protocol via the various pausable contracts. No direct fund movement. Caller must hold the unpauser address (single-address role, not a multisig role)."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:34.838Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:38.040Z"
+            "date": "2026-05-19T14:59:34.838Z"
           }
         },
         {
@@ -2265,10 +2538,17 @@
               "path": "$self.unpauser"
             }
           ],
-          "timestamp": "2026-05-12T17:06:38.049Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-transfer",
+              "description": "Transfers the unpauser role to a new single address. The unpauser is the most authoritative role in the pause system — can set/clear pausers and unpause. A malicious new unpauser could revoke all legitimate pausers (DoS on pause function) but cannot directly extract funds. Caller must hold the current unpauser address."
+            }
+          ],
+          "timestamp": "2026-05-19T14:59:34.846Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:38.049Z"
+            "date": "2026-05-19T14:59:34.846Z"
           }
         }
       ]
@@ -2278,16 +2558,23 @@
         {
           "functionName": "setDisperserInfo",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:42.687Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "data-availability-config",
+              "description": "Registers a disperser address against a key in the EigenDA disperser registry. Operational coordination data; no read sites that affect fund movement. A bad disperser would impact DA-layer message routing but not protocol-tracked funds."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.029Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:42.687Z"
+            "date": "2026-05-19T15:02:05.029Z"
           }
         }
       ]
@@ -2297,16 +2584,23 @@
         {
           "functionName": "addRelayInfo",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:45.463Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "data-availability-config",
+              "description": "Adds a relay to the EigenDA relay registry. Operational P2P data routing for EigenDA blob retrieval; no fund-movement read sites."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.037Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:45.463Z"
+            "date": "2026-05-19T15:02:05.037Z"
           }
         }
       ]
@@ -2316,16 +2610,23 @@
         {
           "functionName": "addVersionedBlobParams",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:06:47.800Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "data-availability-config",
+              "description": "Adds a versioned blob threshold parameter set. Used by EigenDA to validate blob attestations; no fund-movement read sites."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.045Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:47.800Z"
+            "date": "2026-05-19T15:02:05.045Z"
           }
         }
       ]
@@ -2335,16 +2636,23 @@
         {
           "functionName": "updateOperatorTable",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.operatorTableUpdater"
             }
           ],
-          "timestamp": "2026-05-12T17:06:53.985Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "operator-table-update",
+              "description": "Updates the certified operator table used by BN254 certificate verification. Operational coordination data for off-chain consensus; no read sites affect protocol funds."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.053Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:53.985Z"
+            "date": "2026-05-19T15:02:05.053Z"
           }
         }
       ]
@@ -2354,16 +2662,23 @@
         {
           "functionName": "updateOperatorTable",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.operatorTableUpdater"
             }
           ],
-          "timestamp": "2026-05-12T17:06:53.997Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "operator-table-update",
+              "description": "Updates the certified operator table for ECDSA certificate verification. Operational coordination data; no fund-movement read sites."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.062Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:06:53.997Z"
+            "date": "2026-05-19T15:02:05.062Z"
           }
         }
       ]
@@ -2432,46 +2747,67 @@
         {
           "functionName": "setGlobalRootConfirmationThreshold",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:07:04.579Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "operator-table-config",
+              "description": "Sets the confirmation threshold for global operator-table root updates. Operational consensus parameter; no read sites affect protocol funds."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.080Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:04.579Z"
+            "date": "2026-05-19T15:02:05.080Z"
           }
         },
         {
           "functionName": "disableRoot",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "@pauserRegistry.pausers"
             }
           ],
-          "timestamp": "2026-05-12T17:07:04.587Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "defensive-disable",
+              "description": "Marks an operator-table root as disabled (will not be confirmed). Defensive operational action — invalidates a single root but doesn't extract funds. Same shape as a payload-veto."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.090Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:04.587Z"
+            "date": "2026-05-19T15:02:05.090Z"
           }
         },
         {
           "functionName": "updateGenerator",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:07:04.596Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "role-update",
+              "description": "Updates the address that can generate operator-table updates. Role-management; the generator can submit operator-table updates which are then validated against the global confirmation threshold. No direct fund-movement path."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.100Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:04.596Z"
+            "date": "2026-05-19T15:02:05.100Z"
           }
         }
       ]
@@ -2540,31 +2876,45 @@
         {
           "functionName": "addChainIDsToWhitelist",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:07:13.279Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Whitelists chain IDs eligible for cross-chain operator-table distribution. Future-only configuration; no read sites affect protocol funds."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.109Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:13.279Z"
+            "date": "2026-05-19T15:02:05.109Z"
           }
         },
         {
           "functionName": "removeChainIDsFromWhitelist",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:07:13.287Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Removes chain IDs from the cross-chain whitelist. Blocks future cross-chain distribution to those chains; cannot recall data already distributed."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.118Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:13.287Z"
+            "date": "2026-05-19T15:02:05.118Z"
           }
         },
         {
@@ -2648,16 +2998,23 @@
         {
           "functionName": "lock",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.vaultAdmin"
             }
           ],
-          "timestamp": "2026-05-12T17:07:26.173Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "state-transition-only",
+              "description": "Transitions the vault from ALLOCATIONS to WITHDRAWALS state. onlyVaultAdmin gates. The lock prevents new deposits but enables withdrawals — no fund extraction. Currently the contract has 0 shares (unused placeholder), so immediate impact is null."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:55.992Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:26.173Z"
+            "date": "2026-05-19T15:03:55.992Z"
           }
         },
         {
@@ -2729,10 +3086,17 @@
               "path": "$self.vaultAdmin"
             }
           ],
-          "timestamp": "2026-05-12T17:07:26.211Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "rewards-redirect",
+              "description": "Calls RewardsCoordinator.setClaimerFor(this, claimer). A malicious claimer can redirect this vault's accrued rewards. Bounded by the vault's accumulated rewards (currently 0; vault is unused placeholder with 0 shares)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:56.004Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:26.211Z"
+            "date": "2026-05-19T15:03:56.004Z"
           }
         },
         {
@@ -2772,31 +3136,45 @@
         {
           "functionName": "ship",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.DEFAULT_ADMIN_ROLE"
             }
           ],
-          "timestamp": "2026-05-12T17:07:32.529Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "registry-bookkeeping",
+              "description": "Registers contract deployments into the ProtocolRegistry (name → address mapping). Bookkeeping/discovery aid — no read sites that affect protocol funds. The registry is consulted by tooling and external integrators, not by the protocol's fund-flow logic."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:56.022Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:32.529Z"
+            "date": "2026-05-19T15:03:56.022Z"
           }
         },
         {
           "functionName": "configure",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.DEFAULT_ADMIN_ROLE"
             }
           ],
-          "timestamp": "2026-05-12T17:07:32.540Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "registry-bookkeeping",
+              "description": "Updates a deployment's DeploymentConfig (e.g. ABI metadata, version) in the ProtocolRegistry. Off-chain/tooling-facing data; no fund-flow read sites."
+            }
+          ],
+          "timestamp": "2026-05-19T15:03:56.033Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:32.540Z"
+            "date": "2026-05-19T15:03:56.033Z"
           }
         },
         {
@@ -2828,16 +3206,23 @@
         {
           "functionName": "setReservation",
           "isPermissioned": true,
-          "score": "critical",
+          "score": "no-impact",
           "ownerDefinitions": [
             {
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:07:39.609Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Sets a payment reservation for a future depositor account. Only affects future on-demand-payment accounting; no current fund movement. Quorum split is validated on-chain."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:04.967Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:39.609Z"
+            "date": "2026-05-19T15:02:04.967Z"
           }
         },
         {
@@ -2909,10 +3294,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:07:39.657Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "bounded-by-vault-balance",
+              "description": "Withdraws native ETH from PaymentVault to owner(). Bounded by PaymentVault's own ETH balance (currently ~1.52 ETH). Owner is EigenDAOperationsMultisig (3-of-4 GnosisSafe), and the destination is hard-coded to owner() — cannot route to arbitrary address, only to the multisig itself."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:04.977Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:39.657Z"
+            "date": "2026-05-19T15:02:04.977Z"
           }
         },
         {
@@ -2924,10 +3316,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:07:39.665Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "bounded-by-vault-balance",
+              "description": "Withdraws any ERC20 from PaymentVault to owner(). Bounded by the vault's balance of the requested token. Destination is hard-coded to owner() (EigenDAOperationsMultisig 3-of-4)."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:04.986Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:39.665Z"
+            "date": "2026-05-19T15:02:04.986Z"
           }
         }
       ]
@@ -2958,10 +3357,17 @@
               "path": "$self.owner"
             }
           ],
-          "timestamp": "2026-05-12T17:07:44.601Z",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-fee-redirect",
+              "description": "Sets the address that receives the protocol fee split on tasks submitted via TaskMailbox. A malicious collector receives all future fees from task submissions. Bounded per-tx by individual task fees (no batch-extraction surface from this setter alone); cannot extract historical fees that already settled to the previous collector."
+            }
+          ],
+          "timestamp": "2026-05-19T15:02:05.152Z",
           "lastChangedBy": {
             "author": "unknown",
-            "date": "2026-05-12T17:07:44.601Z"
+            "date": "2026-05-19T15:02:05.152Z"
           }
         }
       ]

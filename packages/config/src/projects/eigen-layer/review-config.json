@@ -140,8 +140,8 @@
       "description": "Ankr's Staked ETH token held in the ankrETH strategy, representing {{ankrETHStrategyBalance}}. EigenLayer interacts via ERC-20 interface."
     },
     "eth:0xa2E3356610840701BDf5611a53974510Ae27E2e1": {
-      "name": "wBETH (Mantle/Binance)",
-      "description": "Wrapped Binance ETH token held in its dedicated strategy, representing {{wBETHStrategyBalance}}. EigenLayer interacts via ERC-20 interface for deposits and withdrawals."
+      "name": "wBETH (Binance)",
+      "description": "Binance's Wrapped Beacon ETH (wBETH) held in its dedicated strategy, representing {{wBETHStrategyBalance}}. EigenLayer interacts via balanceOf() reads only; a centrally controlled token issued by Binance staking infrastructure."
     }
   },
   "funds": {
@@ -222,18 +222,34 @@
               "type": "dataTable",
               "dataSource": "project.contracts",
               "columns": [
-                { "field": "name", "header": "Name" },
-                { "field": "address", "header": "Address", "format": "address" },
-                { "field": "proxyType", "header": "Proxy Type", "format": "badge" }
+                {
+                  "field": "name",
+                  "header": "Name"
+                },
+                {
+                  "field": "address",
+                  "header": "Address",
+                  "format": "address"
+                },
+                {
+                  "field": "proxyType",
+                  "header": "Proxy Type",
+                  "format": "badge"
+                }
               ],
-              "filters": { "excludeExternal": true }
+              "filters": {
+                "excludeExternal": true
+              }
             }
           ]
         },
         {
           "title": "Audits",
           "content": [
-            { "type": "text", "content": "" }
+            {
+              "type": "text",
+              "content": ""
+            }
           ]
         }
       ]
