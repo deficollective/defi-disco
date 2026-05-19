@@ -15,11 +15,11 @@
     },
     "eth:0xBE1685C81aA44FF9FB319dD389addd9374383e90": {
       "name": "EigenLayer Operations Multisig (3-of-6)",
-      "description": "Owner of RewardsCoordinator, DelegationManager, EigenPodManager, AllocationManager, EmissionsController, and several EigenDA contracts. Can set rewards updater, fee recipient, activation delay, withdrawal delay, and proof timestamp setter. Proposer and canceller on both TimelockControllers — queues routine upgrades and can cancel pending Protocol Council proposals. Direct capital under control: {{operationsMultisigCapital}}."
+      "description": "PROPOSER and CANCELLER on both TimelockControllers (the 10-day primary and 24-day bEIGEN). Direct owner of RewardsCoordinator, DelegationManager, EigenPodManager, AllocationManager, EmissionsController, and several EigenDA contracts. Can set rewards updater, fee recipient, activation delay, proof timestamp setter, and proposeProofTimestampSetter on EigenPodManager — affecting beacon-chain withdrawal validation for all native-ETH restakers ({{nativeEthRestaking}}). Auto-detected reach of {{operationsMultisigCapital}} covers the 12 LST strategies; the native-ETH exposure routes through the same proxy-upgrade authority (via ProxyAdmin owner)."
     },
     "eth:0x369e6F597e22EaB55fFb173C6d9cD234BD699111": {
       "name": "EigenLayer Owning Multisig (1-of-2)",
-      "description": "Sole unpauser for all EigenLayer contracts — can restore user operations after any pause event. Owner of the main EigenLayer ProxyAdmin (0x8b9566) which controls upgrades to all core protocol proxies including strategy contracts, DelegationManager, StrategyManager, and AllocationManager. The 1-of-2 threshold makes this effectively a single-key control for unpausing and upgrade authority. Direct capital: {{owningMultisigCapital}}."
+      "description": "Sole unpauser for all EigenLayer contracts. Owner of the main EigenLayer ProxyAdmin (0x8b9566) which controls upgrades to all 31 core protocol proxies (DelegationManager, StrategyManager, AllocationManager, EigenPodManager, EmissionsController, RewardsCoordinator, 12 StrategyBaseTVLLimits LST pools). Also owner of the EigenPodBeacon (UpgradeableBeacon at 0x5a2a4F...) — a malicious EigenPod implementation upgrade can fake or block beacon-chain withdrawal proofs across ALL native-ETH restakers, affecting the entire {{nativeEthRestaking}} restaked natively (the engine's auto-detected reach of {{owningMultisigCapital}} only covers the 12 LST strategies; native-ETH is tracked via aggregate handler and not auto-attributed). The 1-of-2 threshold makes this effectively a single-key control."
     },
     "eth:0x27a84740FdDed5B7D66d9bb6E5d1DEA6eb0C0129": {
       "name": "ProtocolRegistry (Pauser)",
