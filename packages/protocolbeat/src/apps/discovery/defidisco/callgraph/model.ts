@@ -62,6 +62,9 @@ export interface CallEdge {
   kind: EdgeKind
   /** Backend edge type, set only for edges that exist in the enhanced graph. */
   edgeType?: BackendEdgeType
+  /** Traversal scope (set by a scope override rule; default 'both'). 'backward'
+   *  = governance-only (no forward capital flare); 'forward' = capital-only. */
+  scope?: 'forward' | 'backward' | 'both'
   /** True when this edge was added by the user (vs derived from the API). */
   user?: boolean
   /** Optional human label override. Defaults to the target function name. */

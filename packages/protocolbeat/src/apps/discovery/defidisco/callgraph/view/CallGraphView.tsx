@@ -26,6 +26,7 @@ import {
 import type {
   ApiCallGraphOverridesResponse,
   EdgeOverrideRule,
+  EdgeScope,
 } from '../../../../../api/types'
 import { useCodeStore } from '../../../../../components/editor/store'
 import { useMultiViewStore } from '../../../multi-view/store'
@@ -201,26 +202,62 @@ export function CallGraphView(): JSX.Element {
     [rules, addRule, removeRule],
   )
 
-  // Structural cuts: remove all outgoing/incoming edges from/to a node
-  // (optionally one edge type, e.g. just 'permission' to kill an over-flare hub).
-  const suppressOutgoing = useCallback(
-    (nodeRef: string, edgeType?: BackendEdgeType) => {
+  // Set the scope of a single edge (replace any existing single-edge scope rule;
+  // 'both' = default → just delete the rule).
+  const setEdgeScope = useCallback(
+    (edge: CallEdge, scope: EdgeScope) => {
+      if (!edge.edgeType) return
+      const existing = rules.find(
+        (r) =>
+          r.type === 'setEdgeScope' &&
+          r.from === edge.from &&
+          r.to === edge.to &&
+          r.edgeType === edge.edgeType,
+      )
+      const without = existing
+        ? rules.filter((r) => r.id !== existing.id)
+        : rules
+      const next: EdgeOverrideRule[] =
+        scope === 'both'
+          ? without
+          : [
+              ...without,
+              {
+                id: makeRuleId(),
+                type: 'setEdgeScope',
+                from: edge.from,
+                to: edge.to,
+                edgeType: edge.edgeType,
+                scope,
+              },
+            ]
+      saveRules.mutate(next)
+    },
+    [rules, saveRules],
+  )
+
+  // Bulk scope: all outgoing/incoming edges of a node (optionally one type).
+  // The over-flare one-click is setOutgoingScope(contract, 'permission', 'backward').
+  const setOutgoingScope = useCallback(
+    (nodeRef: string, scope: EdgeScope, edgeType?: BackendEdgeType) => {
       addRule({
         id: makeRuleId(),
-        type: 'removeOutgoing',
+        type: 'setOutgoingScope',
         node: nodeRef,
         edgeType,
+        scope,
       })
     },
     [addRule],
   )
-  const suppressIncoming = useCallback(
-    (nodeRef: string, edgeType?: BackendEdgeType) => {
+  const setIncomingScope = useCallback(
+    (nodeRef: string, scope: EdgeScope, edgeType?: BackendEdgeType) => {
       addRule({
         id: makeRuleId(),
-        type: 'removeIncoming',
+        type: 'setIncomingScope',
         node: nodeRef,
         edgeType,
+        scope,
       })
     },
     [addRule],
@@ -687,8 +724,9 @@ export function CallGraphView(): JSX.Element {
           unmatchedRuleIds={enhancedEdgesQ.data?.unmatchedRuleIds}
           onRemoveEdge={removeEdgeAsRule}
           onAddEdge={addEdgeRule}
-          onSuppressOutgoing={suppressOutgoing}
-          onSuppressIncoming={suppressIncoming}
+          onSetEdgeScope={setEdgeScope}
+          onSetOutgoingScope={setOutgoingScope}
+          onSetIncomingScope={setIncomingScope}
           onDeleteRule={removeRule}
         />
       )}

@@ -32,12 +32,6 @@ interface RuleBase {
   note?: string
   /** Default true. Set false to keep a rule on disk but stop applying it. */
   enabled?: boolean
-  /**
-   * RESERVED — not yet honored. Which traversal direction the rule affects:
-   * 'forward' (capital), 'backward' (governance), or 'both' (default). Wire at
-   * the index level if a cut needs to apply to capital but not governance.
-   */
-  scope?: 'forward' | 'backward' | 'both'
 }
 
 /** Inject an edge static analysis missed (e.g. a Timelock's dynamic dispatch). */
@@ -56,27 +50,50 @@ export interface RemoveEdgeRule extends RuleBase {
   edgeType: BackendEdgeType
 }
 
-/** Remove every edge leaving a node (a function, or a whole contract). */
-export interface RemoveOutgoingRule extends RuleBase {
-  type: 'removeOutgoing'
-  /** `address` matches all functions on the contract; `address.function` is exact. */
-  node: string
-  /** Optional: only remove edges of this type (e.g. just 'permission' edges). */
-  edgeType?: BackendEdgeType
+/**
+ * Which traversal directions an edge participates in.
+ * - 'both' (default): normal.
+ * - 'backward': the relationship is real for governance/ownership chains but
+ *   does NOT propagate forward capital reach — the principled over-flare fix
+ *   (e.g. Pool owns AToken.mint stays in AToken's owner chain, but Pool reaching
+ *   setLiquidationGracePeriod no longer flares capital to every AToken).
+ * - 'forward': capital-only (rare).
+ */
+export type EdgeScope = 'forward' | 'backward' | 'both'
+
+/** Set the traversal scope of one specific edge. */
+export interface SetEdgeScopeRule extends RuleBase {
+  type: 'setEdgeScope'
+  from: string
+  to: string
+  edgeType: BackendEdgeType
+  scope: EdgeScope
 }
 
-/** Remove every edge arriving at a node (a function, or a whole contract). */
-export interface RemoveIncomingRule extends RuleBase {
-  type: 'removeIncoming'
+/** Set the scope of every edge leaving a node (a function, or whole contract). */
+export interface SetOutgoingScopeRule extends RuleBase {
+  type: 'setOutgoingScope'
+  /** `address` matches all functions on the contract; `address.function` is exact. */
+  node: string
+  /** Optional: only edges of this type (e.g. just 'permission'). */
+  edgeType?: BackendEdgeType
+  scope: EdgeScope
+}
+
+/** Set the scope of every edge arriving at a node (a function, or whole contract). */
+export interface SetIncomingScopeRule extends RuleBase {
+  type: 'setIncomingScope'
   node: string
   edgeType?: BackendEdgeType
+  scope: EdgeScope
 }
 
 export type EdgeOverrideRule =
   | AddEdgeRule
   | RemoveEdgeRule
-  | RemoveOutgoingRule
-  | RemoveIncomingRule
+  | SetEdgeScopeRule
+  | SetOutgoingScopeRule
+  | SetIncomingScopeRule
 
 export interface CallGraphOverridesFile {
   version: string
@@ -140,6 +157,20 @@ function removeWhere(
   return { edges: kept, matched: edges.length - kept.length }
 }
 
+function setScopeWhere(
+  edges: EnhancedEdge[],
+  predicate: (e: EnhancedEdge) => boolean,
+  scope: EdgeScope,
+): RuleResult {
+  let matched = 0
+  const out = edges.map((e) => {
+    if (!predicate(e)) return e
+    matched++
+    return { ...e, scope }
+  })
+  return { edges: out, matched }
+}
+
 const RULE_HANDLERS: {
   [K in EdgeOverrideRule['type']]: RuleHandler<
     Extract<EdgeOverrideRule, { type: K }>
@@ -168,20 +199,32 @@ const RULE_HANDLERS: {
         nodeMatches(rule.to, e.targetContract, e.targetFunction),
     ),
 
-  removeOutgoing: (edges, rule) =>
-    removeWhere(
+  setEdgeScope: (edges, rule) =>
+    setScopeWhere(
+      edges,
+      (e) =>
+        e.edgeType === rule.edgeType &&
+        nodeMatches(rule.from, e.sourceContract, e.sourceFunction) &&
+        nodeMatches(rule.to, e.targetContract, e.targetFunction),
+      rule.scope,
+    ),
+
+  setOutgoingScope: (edges, rule) =>
+    setScopeWhere(
       edges,
       (e) =>
         (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
         nodeMatches(rule.node, e.sourceContract, e.sourceFunction),
+      rule.scope,
     ),
 
-  removeIncoming: (edges, rule) =>
-    removeWhere(
+  setIncomingScope: (edges, rule) =>
+    setScopeWhere(
       edges,
       (e) =>
         (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
         nodeMatches(rule.node, e.targetContract, e.targetFunction),
+      rule.scope,
     ),
 }
 

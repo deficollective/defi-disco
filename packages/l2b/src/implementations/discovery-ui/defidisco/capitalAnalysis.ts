@@ -289,6 +289,12 @@ export class CapitalAnalysisCalculator {
       if (!edges) continue
 
       for (const edge of edges) {
+        // Honor scope: 'backward' edges are governance-only — they don't
+        // propagate forward capital reach (the principled over-flare fix:
+        // ownership stays real for chains, but Pool reaching setX doesn't
+        // flare to everything Pool owns).
+        if (edge.scope === 'backward') continue
+
         const isCallGraph = edge.edgeType === 'callgraph'
         const isDependency = edge.edgeType === 'dependency'
 

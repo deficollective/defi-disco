@@ -60,6 +60,13 @@ export interface EnhancedEdge {
    */
   edgeType: 'permission' | 'callgraph' | 'dependency'
   isViewCall?: boolean
+  /**
+   * Which traversal directions this edge participates in (set by a scope
+   * override rule; default 'both'). 'backward' = the relationship is real for
+   * governance/ownership chains but does NOT propagate forward capital reach
+   * (the principled over-flare fix). 'forward' = capital-only.
+   */
+  scope?: 'forward' | 'backward' | 'both'
 }
 
 /**
@@ -403,6 +410,9 @@ export function traverse(
 
   // Get backward edges (who points at this contract)
   const allEdges = lookupBackwardEdges(ctx, contractAddress)
+    // Honor scope: 'forward' edges are capital-only — excluded from
+    // governance/ownership (backward) traversal.
+    .filter((e) => e.scope !== 'forward')
 
   // Filter by function if specified
   const relevantEdges = functionName

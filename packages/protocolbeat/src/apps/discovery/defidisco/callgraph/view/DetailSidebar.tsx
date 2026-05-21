@@ -6,11 +6,11 @@
 import { useMemo, useState } from 'react'
 import { clsx } from 'clsx'
 import { useParams } from 'react-router-dom'
-import type { EdgeOverrideRule } from '../../../../../api/types'
+import type { EdgeOverrideRule, EdgeScope } from '../../../../../api/types'
 import type { BackendEdgeType, CallEdge, CallNode } from '../model'
 import { parseNodeId, shortAddr } from '../model'
 import { useCallgraphOverridesStore } from '../overridesStore'
-import { describeRule, findBulkSuppressors, findRemoveEdgeRule } from '../rules'
+import { describeRule, effectiveScope, findRemoveEdgeRule } from '../rules'
 
 interface Props {
   selectedId: string | null
@@ -29,13 +29,23 @@ interface Props {
   /** Server-persisted override rules + which are stale. */
   rules: EdgeOverrideRule[]
   unmatchedRuleIds?: string[]
-  /** Suppress an edge → removeEdge rule (or drops a user addEdge). */
+  /** Remove a callgraph edge → removeEdge rule (or drops a user addEdge). */
   onRemoveEdge: (edge: CallEdge) => void
   /** Add a manual edge from→to of the given type. */
   onAddEdge: (from: string, to: string, edgeType: BackendEdgeType) => void
-  /** Suppress all outgoing / incoming edges of a node (optionally one type). */
-  onSuppressOutgoing: (nodeRef: string, edgeType?: BackendEdgeType) => void
-  onSuppressIncoming: (nodeRef: string, edgeType?: BackendEdgeType) => void
+  /** Set the scope of one edge (perm/dependency edges — governance/capital/both). */
+  onSetEdgeScope: (edge: CallEdge, scope: EdgeScope) => void
+  /** Bulk scope all outgoing/incoming edges of a node (optionally one type). */
+  onSetOutgoingScope: (
+    nodeRef: string,
+    scope: EdgeScope,
+    edgeType?: BackendEdgeType,
+  ) => void
+  onSetIncomingScope: (
+    nodeRef: string,
+    scope: EdgeScope,
+    edgeType?: BackendEdgeType,
+  ) => void
   /** Delete a rule by id (also used to restore a single suppressed edge). */
   onDeleteRule: (id: string) => void
 }
@@ -65,9 +75,7 @@ export function DetailSidebar(props: Props): JSX.Element {
         </TabButton>
       </div>
       <div className="flex-1 overflow-y-auto p-4">
-        {tab === 'node' && (
-          <NodeTab {...props} onGoToRules={() => setTab('rules')} />
-        )}
+        {tab === 'node' && <NodeTab {...props} />}
         {tab === 'notes' && <NotesTab {...props} />}
         {tab === 'rules' && <RulesTab {...props} />}
       </div>
@@ -102,17 +110,23 @@ function TabButton({
 
 // ───────────────────── Node tab (+ edge editor) ─────────────────────
 
-/** One edge in the editor, with its derived override state. */
+/**
+ * One edge in the editor, with its derived override state. callgraph edges have
+ * existence states (active/added/suppressed); permission/dependency edges are
+ * curated at the source, so here they only carry a traversal `scope` control.
+ */
 interface EditableEdge {
   edge: CallEdge
   /** The node at the other end (what we navigate to / label). */
   otherId: string
-  state: 'active' | 'added' | 'suppressed-single' | 'suppressed-bulk'
-  /** For 'suppressed-single', the removeEdge rule id (to restore). */
+  state: 'callgraph' | 'added' | 'suppressed' | 'scoped'
+  /** For 'suppressed', the removeEdge rule id (to restore). */
   restoreRuleId?: string
+  /** For 'scoped' (perm/dependency edges), the effective traversal scope. */
+  scope?: EdgeScope
 }
 
-function NodeTab(props: Props & { onGoToRules: () => void }): JSX.Element {
+function NodeTab(props: Props): JSX.Element {
   const {
     selectedId,
     startId,
@@ -127,10 +141,10 @@ function NodeTab(props: Props & { onGoToRules: () => void }): JSX.Element {
     onOpenInCode,
     onRemoveEdge,
     onAddEdge,
-    onSuppressOutgoing,
-    onSuppressIncoming,
+    onSetEdgeScope,
+    onSetOutgoingScope,
+    onSetIncomingScope,
     onDeleteRule,
-    onGoToRules,
   } = props
 
   // Hooks must run unconditionally — compute before the early return.
@@ -139,23 +153,23 @@ function NodeTab(props: Props & { onGoToRules: () => void }): JSX.Element {
   const classify = (e: CallEdge, dir: 'out' | 'in'): EditableEdge => {
     const otherId = dir === 'out' ? e.to : e.from
     if (e.user) return { edge: e, otherId, state: 'added' }
-    if (finalIds.has(e.id)) return { edge: e, otherId, state: 'active' }
-    const single = findRemoveEdgeRule(rules, e)
-    if (single) {
+    if (!finalIds.has(e.id)) {
+      // Removed by a removeEdge rule (callgraph). Restorable by deleting it.
       return {
         edge: e,
         otherId,
-        state: 'suppressed-single',
-        restoreRuleId: single.id,
+        state: 'suppressed',
+        restoreRuleId: findRemoveEdgeRule(rules, e)?.id,
       }
     }
-    // Suppressed by a bulk removeOutgoing/removeIncoming (or unknown) rule.
-    const bulk = findBulkSuppressors(rules, e)
+    if (e.edgeType === 'callgraph')
+      return { edge: e, otherId, state: 'callgraph' }
+    // permission / dependency → scope control (existence edited at source).
     return {
       edge: e,
       otherId,
-      state: 'suppressed-bulk',
-      restoreRuleId: bulk[0]?.id,
+      state: 'scoped',
+      scope: effectiveScope(rules, e),
     }
   }
 
@@ -230,10 +244,9 @@ function NodeTab(props: Props & { onGoToRules: () => void }): JSX.Element {
         onSelectNode={onSelectNode}
         onRemoveEdge={onRemoveEdge}
         onRestore={onDeleteRule}
-        onGoToRules={onGoToRules}
-        onSuppressAll={() => onSuppressOutgoing(selectedId)}
-        onSuppressPermission={() =>
-          onSuppressOutgoing(selectedId, 'permission')
+        onSetEdgeScope={onSetEdgeScope}
+        onBulkOwnsScope={(scope) =>
+          onSetOutgoingScope(selectedId, scope, 'permission')
         }
       />
 
@@ -247,10 +260,9 @@ function NodeTab(props: Props & { onGoToRules: () => void }): JSX.Element {
         onSelectNode={onSelectNode}
         onRemoveEdge={onRemoveEdge}
         onRestore={onDeleteRule}
-        onGoToRules={onGoToRules}
-        onSuppressAll={() => onSuppressIncoming(selectedId)}
-        onSuppressPermission={() =>
-          onSuppressIncoming(selectedId, 'permission')
+        onSetEdgeScope={onSetEdgeScope}
+        onBulkOwnsScope={(scope) =>
+          onSetIncomingScope(selectedId, scope, 'permission')
         }
       />
 
@@ -287,9 +299,8 @@ function EdgeSection({
   onSelectNode,
   onRemoveEdge,
   onRestore,
-  onGoToRules,
-  onSuppressAll,
-  onSuppressPermission,
+  onSetEdgeScope,
+  onBulkOwnsScope,
 }: {
   title: string
   dir: 'out' | 'in'
@@ -298,34 +309,30 @@ function EdgeSection({
   onSelectNode: (id: string) => void
   onRemoveEdge: (e: CallEdge) => void
   onRestore: (ruleId: string) => void
-  onGoToRules: () => void
-  onSuppressAll: () => void
-  onSuppressPermission: () => void
+  onSetEdgeScope: (edge: CallEdge, scope: EdgeScope) => void
+  onBulkOwnsScope: (scope: EdgeScope) => void
 }): JSX.Element {
-  const hasPermission = rows.some((r) => r.edge.edgeType === 'permission')
+  // Over-flare convenience: if this side has ownership edges, offer a one-click
+  // "ownership → governance-only" (real ownership stays, no forward capital flare).
+  const ownsRows = rows.filter((r) => r.edge.edgeType === 'permission')
+  const ownsAllBackward =
+    ownsRows.length > 0 && ownsRows.every((r) => r.scope === 'backward')
   return (
     <div className="mt-4">
-      <div className="mb-1.5 flex items-center justify-between">
+      <div className="mb-1.5 flex items-center justify-between gap-2">
         <span className="font-mono text-[10px] text-coffee-400 uppercase tracking-wider">
           {title} ({rows.length})
         </span>
-        {rows.length > 0 && (
-          <div className="flex gap-1">
-            {hasPermission && (
-              <MiniBtn
-                onClick={onSuppressPermission}
-                title={`Suppress all ${dir === 'out' ? 'outgoing' : 'incoming'} ownership edges`}
-              >
-                ✂ owns
-              </MiniBtn>
-            )}
-            <MiniBtn
-              onClick={onSuppressAll}
-              title={`Suppress all ${dir === 'out' ? 'outgoing' : 'incoming'} edges`}
-            >
-              ✂ all
-            </MiniBtn>
-          </div>
+        {ownsRows.length > 0 && (
+          <MiniBtn
+            on={ownsAllBackward}
+            onClick={() =>
+              onBulkOwnsScope(ownsAllBackward ? 'both' : 'backward')
+            }
+            title="Ownership edges are real for governance but shouldn't flare forward capital. Toggle all of them to governance-only."
+          >
+            {ownsAllBackward ? '✓ owns: gov-only' : 'owns → gov-only'}
+          </MiniBtn>
         )}
       </div>
       {rows.length === 0 ? (
@@ -342,7 +349,7 @@ function EdgeSection({
             onSelectNode={onSelectNode}
             onRemoveEdge={onRemoveEdge}
             onRestore={onRestore}
-            onGoToRules={onGoToRules}
+            onSetEdgeScope={onSetEdgeScope}
           />
         ))
       )}
@@ -357,7 +364,7 @@ function EdgeRow({
   onSelectNode,
   onRemoveEdge,
   onRestore,
-  onGoToRules,
+  onSetEdgeScope,
 }: {
   row: EditableEdge
   dir: 'out' | 'in'
@@ -365,74 +372,129 @@ function EdgeRow({
   onSelectNode: (id: string) => void
   onRemoveEdge: (e: CallEdge) => void
   onRestore: (ruleId: string) => void
-  onGoToRules: () => void
+  onSetEdgeScope: (edge: CallEdge, scope: EdgeScope) => void
 }): JSX.Element {
   const { edge, otherId, state } = row
-  const off = state === 'suppressed-single' || state === 'suppressed-bulk'
+  const off = state === 'suppressed'
   return (
     <div
       className={clsx(
-        'mb-1 flex w-full items-center gap-2 rounded border bg-coffee-800 px-2 py-1.5 font-mono text-[11px]',
+        'mb-1 flex w-full flex-col gap-1 rounded border bg-coffee-800 px-2 py-1.5 font-mono text-[11px]',
         off ? 'border-coffee-700' : 'border-coffee-600 hover:border-coffee-400',
       )}
     >
-      <button
-        type="button"
-        onClick={() => onSelectNode(otherId)}
-        className="flex min-w-0 flex-1 items-center gap-2 text-left"
-      >
-        <span className="text-coffee-400">{dir === 'in' ? '←' : '→'}</span>
-        <span
-          className={clsx(
-            'flex-1 truncate',
-            off ? 'text-coffee-500 line-through' : 'text-coffee-200',
-          )}
-        >
-          {nodeLabel(otherId, nodes)}
-        </span>
-        <EdgeKindBadge kind={edge.kind} dimmed={off} />
-      </button>
-
-      {/* State-dependent control */}
-      {state === 'active' && (
-        <Toggle
-          on
-          title="In the graph — click to suppress"
-          onClick={() => onRemoveEdge(edge)}
-        />
-      )}
-      {state === 'added' && (
-        <div className="flex items-center gap-1">
-          <span className="rounded bg-aux-cyan/10 px-1 text-[8.5px] text-aux-cyan uppercase tracking-wider">
-            added
-          </span>
-          <button
-            type="button"
-            onClick={() => onRemoveEdge(edge)}
-            title="Remove this manually-added edge"
-            className="text-coffee-400 hover:text-aux-red"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-      {state === 'suppressed-single' && (
-        <Toggle
-          on={false}
-          title="Suppressed — click to restore"
-          onClick={() => row.restoreRuleId && onRestore(row.restoreRuleId)}
-        />
-      )}
-      {state === 'suppressed-bulk' && (
+      <div className="flex w-full items-center gap-2">
         <button
           type="button"
-          onClick={onGoToRules}
-          title="Suppressed by a bulk rule — manage it in the Rules tab"
-          className="rounded border border-coffee-600 px-1 text-[8.5px] text-coffee-400 uppercase tracking-wider hover:text-coffee-200"
+          onClick={() => onSelectNode(otherId)}
+          className="flex min-w-0 flex-1 items-center gap-2 text-left"
         >
-          by rule
+          <span className="text-coffee-400">{dir === 'in' ? '←' : '→'}</span>
+          <span
+            className={clsx(
+              'flex-1 truncate',
+              off ? 'text-coffee-500 line-through' : 'text-coffee-200',
+            )}
+          >
+            {nodeLabel(otherId, nodes)}
+          </span>
+          <EdgeKindBadge kind={edge.kind} dimmed={off} />
         </button>
+
+        {/* callgraph: on/off toggle (existence) */}
+        {state === 'callgraph' && (
+          <Toggle
+            on
+            title="In the graph — click to suppress this call"
+            onClick={() => onRemoveEdge(edge)}
+          />
+        )}
+        {state === 'suppressed' && (
+          <Toggle
+            on={false}
+            title="Suppressed — click to restore"
+            onClick={() => row.restoreRuleId && onRestore(row.restoreRuleId)}
+          />
+        )}
+        {state === 'added' && (
+          <div className="flex items-center gap-1">
+            <span className="rounded bg-aux-cyan/10 px-1 text-[8.5px] text-aux-cyan uppercase tracking-wider">
+              added
+            </span>
+            <button
+              type="button"
+              onClick={() => onRemoveEdge(edge)}
+              title="Remove this manually-added edge"
+              className="text-coffee-400 hover:text-aux-red"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* permission / dependency: scope control (existence is edited at source) */}
+      {state === 'scoped' && (
+        <div className="flex items-center justify-between gap-2 pl-4">
+          <ScopeControl
+            scope={row.scope ?? 'both'}
+            onChange={(s) => onSetEdgeScope(edge, s)}
+          />
+          <span
+            className="shrink-0 text-[9px] text-coffee-500"
+            title="To remove this edge entirely, edit its owner definition / dependency in the Permissions panel (functions.json)."
+          >
+            edit at source
+          </span>
+        </div>
       )}
+    </div>
+  )
+}
+
+/** Three-way traversal-scope control for permission/dependency edges. */
+function ScopeControl({
+  scope,
+  onChange,
+}: {
+  scope: EdgeScope
+  onChange: (s: EdgeScope) => void
+}): JSX.Element {
+  const opts: { value: EdgeScope; label: string; title: string }[] = [
+    {
+      value: 'both',
+      label: 'both',
+      title: 'Counts for governance and capital',
+    },
+    {
+      value: 'backward',
+      label: 'gov',
+      title: 'Governance-only — real ownership, no forward capital flare',
+    },
+    {
+      value: 'forward',
+      label: 'capital',
+      title: 'Capital-only — excluded from governance chains',
+    },
+  ]
+  return (
+    <div className="flex overflow-hidden rounded border border-coffee-600">
+      {opts.map((o) => (
+        <button
+          key={o.value}
+          type="button"
+          onClick={() => onChange(o.value)}
+          title={o.title}
+          className={clsx(
+            'px-1.5 py-0.5 text-[9.5px] uppercase tracking-wider',
+            scope === o.value
+              ? 'bg-coffee-600 text-coffee-100'
+              : 'text-coffee-400 hover:text-coffee-200',
+          )}
+        >
+          {o.label}
+        </button>
+      ))}
     </div>
   )
 }

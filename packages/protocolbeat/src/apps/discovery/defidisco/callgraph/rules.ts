@@ -78,27 +78,80 @@ export function applyRulesToCallEdges(
             ),
         )
         break
-      case 'removeOutgoing':
-        current = current.filter(
-          (e) =>
-            !(
-              (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
-              fromMatches(e, rule.node)
-            ),
+      case 'setEdgeScope':
+        current = current.map((e) =>
+          e.edgeType === rule.edgeType &&
+          fromMatches(e, rule.from) &&
+          toMatches(e, rule.to)
+            ? { ...e, scope: rule.scope }
+            : e,
         )
         break
-      case 'removeIncoming':
-        current = current.filter(
-          (e) =>
-            !(
-              (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
-              toMatches(e, rule.node)
-            ),
+      case 'setOutgoingScope':
+        current = current.map((e) =>
+          (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
+          fromMatches(e, rule.node)
+            ? { ...e, scope: rule.scope }
+            : e,
+        )
+        break
+      case 'setIncomingScope':
+        current = current.map((e) =>
+          (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
+          toMatches(e, rule.node)
+            ? { ...e, scope: rule.scope }
+            : e,
         )
         break
     }
   }
   return current
+}
+
+/** The effective scope of an edge after applying all scope rules (default 'both'). */
+export function effectiveScope(
+  rules: EdgeOverrideRule[],
+  edge: CallEdge,
+): 'forward' | 'backward' | 'both' {
+  let scope: 'forward' | 'backward' | 'both' = 'both'
+  for (const r of rules) {
+    if (r.enabled === false) continue
+    if (
+      r.type === 'setEdgeScope' &&
+      r.edgeType === edge.edgeType &&
+      fromMatches(edge, r.from) &&
+      toMatches(edge, r.to)
+    ) {
+      scope = r.scope
+    } else if (
+      r.type === 'setOutgoingScope' &&
+      (r.edgeType === undefined || r.edgeType === edge.edgeType) &&
+      fromMatches(edge, r.node)
+    ) {
+      scope = r.scope
+    } else if (
+      r.type === 'setIncomingScope' &&
+      (r.edgeType === undefined || r.edgeType === edge.edgeType) &&
+      toMatches(edge, r.node)
+    ) {
+      scope = r.scope
+    }
+  }
+  return scope
+}
+
+/** The single-edge scope rule targeting this exact edge, if any. */
+export function findEdgeScopeRule(
+  rules: EdgeOverrideRule[],
+  edge: CallEdge,
+): EdgeOverrideRule | undefined {
+  return rules.find(
+    (r) =>
+      r.type === 'setEdgeScope' &&
+      r.edgeType === edge.edgeType &&
+      fromMatches(edge, r.from) &&
+      toMatches(edge, r.to),
+  )
 }
 
 // ── Per-edge rule lookups (for the sidebar's toggle / restore actions) ──────
@@ -132,30 +185,6 @@ export function findAddEdgeRule(
   )
 }
 
-/** Bulk rules (removeOutgoing/removeIncoming) that suppress this edge. These
- *  can't be undone per-edge — the whole rule must be removed (in the Rules tab). */
-export function findBulkSuppressors(
-  rules: EdgeOverrideRule[],
-  edge: CallEdge,
-): EdgeOverrideRule[] {
-  return rules.filter((r) => {
-    if (r.enabled === false) return false
-    if (r.type === 'removeOutgoing') {
-      return (
-        (r.edgeType === undefined || r.edgeType === edge.edgeType) &&
-        fromMatches(edge, r.node)
-      )
-    }
-    if (r.type === 'removeIncoming') {
-      return (
-        (r.edgeType === undefined || r.edgeType === edge.edgeType) &&
-        toMatches(edge, r.node)
-      )
-    }
-    return false
-  })
-}
-
 /** Stable-ish unique id for a new rule. */
 export function makeRuleId(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
@@ -171,11 +200,21 @@ export function describeRule(rule: EdgeOverrideRule): string {
       return `add ${rule.edgeType}: ${shortRef(rule.from)} → ${shortRef(rule.to)}`
     case 'removeEdge':
       return `remove ${rule.edgeType}: ${shortRef(rule.from)} → ${shortRef(rule.to)}`
-    case 'removeOutgoing':
-      return `remove ${rule.edgeType ?? 'all'} outgoing from ${shortRef(rule.node)}`
-    case 'removeIncoming':
-      return `remove ${rule.edgeType ?? 'all'} incoming to ${shortRef(rule.node)}`
+    case 'setEdgeScope':
+      return `${scopeVerb(rule.scope)}: ${shortRef(rule.from)} → ${shortRef(rule.to)}`
+    case 'setOutgoingScope':
+      return `${scopeVerb(rule.scope)}: ${rule.edgeType ?? 'all'} outgoing from ${shortRef(rule.node)}`
+    case 'setIncomingScope':
+      return `${scopeVerb(rule.scope)}: ${rule.edgeType ?? 'all'} incoming to ${shortRef(rule.node)}`
   }
+}
+
+function scopeVerb(scope: 'forward' | 'backward' | 'both'): string {
+  return scope === 'backward'
+    ? 'governance-only'
+    : scope === 'forward'
+      ? 'capital-only'
+      : 'both directions'
 }
 
 function shortRef(ref: string): string {

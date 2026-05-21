@@ -934,8 +934,10 @@ interface EdgeRuleBase {
   id: string
   note?: string
   enabled?: boolean
-  scope?: 'forward' | 'backward' | 'both'
 }
+/** Which traversal directions an edge participates in. 'backward' = governance-
+ *  only (real ownership, no forward capital flare — the over-flare fix). */
+export type EdgeScope = 'forward' | 'backward' | 'both'
 export interface AddEdgeRule extends EdgeRuleBase {
   type: 'addEdge'
   from: string
@@ -948,21 +950,31 @@ export interface RemoveEdgeRule extends EdgeRuleBase {
   to: string
   edgeType: EnhancedEdgeKind
 }
-export interface RemoveOutgoingRule extends EdgeRuleBase {
-  type: 'removeOutgoing'
-  node: string
-  edgeType?: EnhancedEdgeKind
+export interface SetEdgeScopeRule extends EdgeRuleBase {
+  type: 'setEdgeScope'
+  from: string
+  to: string
+  edgeType: EnhancedEdgeKind
+  scope: EdgeScope
 }
-export interface RemoveIncomingRule extends EdgeRuleBase {
-  type: 'removeIncoming'
+export interface SetOutgoingScopeRule extends EdgeRuleBase {
+  type: 'setOutgoingScope'
   node: string
   edgeType?: EnhancedEdgeKind
+  scope: EdgeScope
+}
+export interface SetIncomingScopeRule extends EdgeRuleBase {
+  type: 'setIncomingScope'
+  node: string
+  edgeType?: EnhancedEdgeKind
+  scope: EdgeScope
 }
 export type EdgeOverrideRule =
   | AddEdgeRule
   | RemoveEdgeRule
-  | RemoveOutgoingRule
-  | RemoveIncomingRule
+  | SetEdgeScopeRule
+  | SetOutgoingScopeRule
+  | SetIncomingScopeRule
 
 export interface ApiCallGraphOverridesResponse {
   version: string
