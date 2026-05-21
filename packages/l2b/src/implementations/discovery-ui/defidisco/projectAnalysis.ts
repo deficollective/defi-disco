@@ -17,6 +17,7 @@ import {
 } from './addressUtils'
 import { getCallGraphData } from './callGraph'
 import { CapitalAnalysisCalculator } from './capitalAnalysis'
+import { getEdgeOverrideRules } from './callGraphOverrides'
 import { getContractTags } from './contractTags'
 import {
   buildEnhancedGraph,
@@ -632,6 +633,7 @@ export class ProjectAnalysis {
         this.functionsData,
         dataAccess,
         this.discovered,
+        getEdgeOverrideRules(this.paths, this.projectName),
       )
       this._enhancedGraph = buildIndices(edges)
     }
@@ -1357,6 +1359,7 @@ export class ProjectAnalysis {
       this.functionsData,
       dataAccess,
       this.discovered,
+      getEdgeOverrideRules(this.paths, this.projectName),
     )
     const graph = buildIndices(edges)
 

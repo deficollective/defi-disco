@@ -21,6 +21,9 @@ import type {
   ApiV2ScoreResponse,
   ApiFundsDataResponse,
   ApiCallGraphResponse,
+  ApiCallGraphOverridesResponse,
+  ApiEnhancedGraphEdgesResponse,
+  EdgeOverrideRule,
   ApiAIModelsResponse,
   ApiTokenInfoResponse,
   ApiReviewConfigResponse,
@@ -582,6 +585,42 @@ export async function getCallGraphData(project: string): Promise<ApiCallGraphRes
   }
   const data = await res.json()
   return data as ApiCallGraphResponse
+}
+
+export async function getEnhancedGraphEdges(
+  project: string,
+): Promise<ApiEnhancedGraphEdgesResponse> {
+  const res = await fetch(`/api/projects/${project}/enhanced-graph-edges`)
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+  const data = await res.json()
+  return data as ApiEnhancedGraphEdgesResponse
+}
+
+export async function getCallGraphOverrides(
+  project: string,
+): Promise<ApiCallGraphOverridesResponse> {
+  const res = await fetch(`/api/projects/${project}/call-graph-overrides`)
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+  const data = await res.json()
+  return data as ApiCallGraphOverridesResponse
+}
+
+export async function updateCallGraphOverrides(
+  project: string,
+  rules: EdgeOverrideRule[],
+): Promise<void> {
+  const res = await fetch(`/api/projects/${project}/call-graph-overrides`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(rules),
+  })
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
 }
 
 export function executeGenerateCallGraph(project: string, devMode: boolean): EventSource {

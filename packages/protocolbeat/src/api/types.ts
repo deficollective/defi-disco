@@ -910,6 +910,76 @@ export interface ExternalCall {
   resolutionCandidates?: ResolutionCandidate[] // All matches when multiple found
 }
 
+// Enhanced graph edges (call-graph walker). Mirrors the backend
+// EnhancedGraphEdge / ApiEnhancedGraphEdgesResponse in enhancedTraversal.ts.
+export type EnhancedEdgeKind = 'permission' | 'callgraph' | 'dependency'
+
+export interface EnhancedGraphEdge {
+  /** Stable semantic identity: `${from}|${to}|${edgeType}`. */
+  key: string
+  sourceContract: string
+  sourceFunction?: string
+  sourceName: string
+  targetContract: string
+  targetFunction: string
+  targetName: string
+  edgeType: EnhancedEdgeKind
+  isViewCall?: boolean
+}
+
+// Call-graph edge override rules. Mirrors the backend EdgeOverrideRule union in
+// callGraphOverrides.ts. Adding a rule type = add a variant here + a handler in
+// both the backend engine and the frontend applyRulesToCallEdges.
+interface EdgeRuleBase {
+  id: string
+  note?: string
+  enabled?: boolean
+  scope?: 'forward' | 'backward' | 'both'
+}
+export interface AddEdgeRule extends EdgeRuleBase {
+  type: 'addEdge'
+  from: string
+  to: string
+  edgeType: EnhancedEdgeKind
+}
+export interface RemoveEdgeRule extends EdgeRuleBase {
+  type: 'removeEdge'
+  from: string
+  to: string
+  edgeType: EnhancedEdgeKind
+}
+export interface RemoveOutgoingRule extends EdgeRuleBase {
+  type: 'removeOutgoing'
+  node: string
+  edgeType?: EnhancedEdgeKind
+}
+export interface RemoveIncomingRule extends EdgeRuleBase {
+  type: 'removeIncoming'
+  node: string
+  edgeType?: EnhancedEdgeKind
+}
+export type EdgeOverrideRule =
+  | AddEdgeRule
+  | RemoveEdgeRule
+  | RemoveOutgoingRule
+  | RemoveIncomingRule
+
+export interface ApiCallGraphOverridesResponse {
+  version: string
+  lastModified: string
+  rules: EdgeOverrideRule[]
+}
+
+export interface ApiEnhancedGraphEdgesResponse {
+  version: string
+  lastModified: string
+  edges: EnhancedGraphEdge[]
+  /** Override rules currently on disk. */
+  appliedRules: EdgeOverrideRule[]
+  /** Ids of enabled rules that matched no edge — stale cuts to re-verify. */
+  unmatchedRuleIds: string[]
+}
+
 export interface ApiAIModelsResponse {
   key: string
   config: {

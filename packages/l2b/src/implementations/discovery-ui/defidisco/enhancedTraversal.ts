@@ -9,6 +9,11 @@ import { getProject } from '../getProject'
 import { buildImplToProxiesMap, normalizeChainAddress } from './addressUtils'
 import { getCallGraphData } from './callGraph'
 import {
+  applyEdgeOverrides,
+  type EdgeOverrideRule,
+  getEdgeOverrideRules,
+} from './callGraphOverrides'
+import {
   extractAddressesFromResolvedOwners,
   getFunctions,
   resolveOwnersWithDataAccess,
@@ -81,7 +86,12 @@ export function buildEnhancedGraph(
   functionsData: ApiFunctionsResponse,
   dataAccess: DiscoveredDataAccess,
   discovered?: any,
-): { edges: EnhancedEdge[]; constructionErrors: Map<string, string[]> } {
+  edgeOverrides: EdgeOverrideRule[] = [],
+): {
+  edges: EnhancedEdge[]
+  constructionErrors: Map<string, string[]>
+  unmatchedRuleIds: string[]
+} {
   const edges: EnhancedEdge[] = []
   const constructionErrors = new Map<string, string[]>()
 
@@ -268,7 +278,16 @@ export function buildEnhancedGraph(
     }
   }
 
-  return { edges, constructionErrors }
+  // 4. Apply researcher-authored manual overrides (add/remove edges). This is
+  //    the single place the call-graph-overrides rules take effect, so every
+  //    consumer — capital, governance, dependencies, mitigations — sees the
+  //    corrected edge set, and they are re-applied on every recompute.
+  const { edges: finalEdges, unmatchedRuleIds } = applyEdgeOverrides(
+    edges,
+    edgeOverrides,
+  )
+
+  return { edges: finalEdges, constructionErrors, unmatchedRuleIds }
 }
 
 /**
@@ -693,13 +712,29 @@ export function deduplicateTerminals(
  * Builds a unified graph (call graph + permission edges) and traverses it
  * backward to find terminal entities (EOAs, Multisigs) that control each function.
  */
-export function resolveEnhancedTraversal(
+/**
+ * Bundle of the on-disk inputs needed to build the enhanced graph. Shared by
+ * `resolveEnhancedTraversal` and `getEnhancedGraphEdges` so the ~70 lines of
+ * file loading + name/type map + impl↔proxy map construction live in one place.
+ * Returns `null` when discovered.json can't be read (callers degrade gracefully).
+ */
+export interface EnhancedGraphInputs {
+  functionsData: ApiFunctionsResponse
+  callGraphData: ApiCallGraphResponse
+  contractNameMap: Map<string, string>
+  contractTypeMap: Map<string, ApiAddressType>
+  dataAccess: DiscoveredDataAccess
+  discovered: any
+  implToProxyMap: Map<string, string>
+  proxyToImplsMap: Map<string, string[]>
+}
+
+export function loadEnhancedGraphInputs(
   paths: DiscoveryPaths,
   configReader: ConfigReader,
   templateService: TemplateService,
   projectName: string,
-): ApiEnhancedTraversalResponse {
-  // Load data
+): EnhancedGraphInputs | null {
   const functionsData = getFunctions(paths, projectName)
   const callGraphData = getCallGraphData(paths, projectName)
   const projectData = getProject(configReader, templateService, projectName)
@@ -737,12 +772,7 @@ export function resolveEnhancedTraversal(
     discovered = JSON.parse(fileContent)
     dataAccess = new DiscoveredDataAccess(discovered)
   } catch {
-    return {
-      version: '1.0',
-      lastModified: new Date().toISOString(),
-      contracts: {},
-      callGraphStale: false,
-    }
+    return null
   }
 
   // Build bidirectional impl↔proxy address mapping
@@ -771,13 +801,172 @@ export function resolveEnhancedTraversal(
     })
   })
 
+  return {
+    functionsData,
+    callGraphData,
+    contractNameMap,
+    contractTypeMap,
+    dataAccess,
+    discovered,
+    implToProxyMap,
+    proxyToImplsMap,
+  }
+}
+
+/**
+ * Flattened edge for the call-graph walker UI. Carries the resolved contract
+ * names/types so the frontend can label nodes without a second round-trip, and
+ * a stable `key` (`from|to|edgeType`) that survives call-graph regeneration —
+ * the identity the (future) edge-override file keys on.
+ */
+export interface EnhancedGraphEdge {
+  key: string
+  sourceContract: string
+  sourceFunction?: string
+  sourceName: string
+  targetContract: string
+  targetFunction: string
+  targetName: string
+  edgeType: 'permission' | 'callgraph' | 'dependency'
+  isViewCall?: boolean
+}
+
+export interface ApiEnhancedGraphEdgesResponse {
+  version: string
+  lastModified: string
+  edges: EnhancedGraphEdge[]
+  /** Researcher-authored override rules currently on disk. */
+  appliedRules: EdgeOverrideRule[]
+  /** Ids of enabled rules that matched no edge — stale cuts to re-verify. */
+  unmatchedRuleIds: string[]
+}
+
+/** Stable semantic identity for an enhanced-graph edge. */
+export function enhancedEdgeKey(e: {
+  sourceContract: string
+  sourceFunction?: string
+  targetContract: string
+  targetFunction: string
+  edgeType: string
+}): string {
+  const from = e.sourceFunction
+    ? `${e.sourceContract}.${e.sourceFunction}`
+    : e.sourceContract
+  return `${from}|${e.targetContract}.${e.targetFunction}|${e.edgeType}`
+}
+
+/**
+ * Build the raw enhanced-graph edge set (callgraph + permission + dependency)
+ * for the walker UI. This is the same edge set `buildEnhancedGraph` feeds to
+ * capital/governance traversal — exposing it read-only lets the UI render and
+ * (later) edit exactly the edges the analysis consumes.
+ */
+export function getEnhancedGraphEdges(
+  paths: DiscoveryPaths,
+  configReader: ConfigReader,
+  templateService: TemplateService,
+  projectName: string,
+): ApiEnhancedGraphEdgesResponse {
+  const inputs = loadEnhancedGraphInputs(
+    paths,
+    configReader,
+    templateService,
+    projectName,
+  )
+  if (!inputs) {
+    return {
+      version: '1.0',
+      lastModified: new Date().toISOString(),
+      edges: [],
+      appliedRules: [],
+      unmatchedRuleIds: [],
+    }
+  }
+
+  // Return the RAW edge set (no overrides applied) plus the rules, so the
+  // walker can apply them client-side over its complete edge set (callgraph +
+  // permission + dependency) and show which rules are stale. The backend
+  // analysis applies the same rules independently inside buildEnhancedGraph.
+  const rules = getEdgeOverrideRules(paths, projectName)
+  const { edges } = buildEnhancedGraph(
+    inputs.callGraphData,
+    inputs.functionsData,
+    inputs.dataAccess,
+    inputs.discovered,
+    [],
+  )
+  const { unmatchedRuleIds } = applyEdgeOverrides(edges, rules)
+
+  const nameOf = (addr: string) =>
+    inputs.contractNameMap.get(addr) ?? contractNameFallback(addr)
+
+  const apiEdges: EnhancedGraphEdge[] = edges.map((e) => ({
+    key: enhancedEdgeKey(e),
+    sourceContract: e.sourceContract,
+    sourceFunction: e.sourceFunction,
+    sourceName: nameOf(e.sourceContract),
+    targetContract: e.targetContract,
+    targetFunction: e.targetFunction,
+    targetName: nameOf(e.targetContract),
+    edgeType: e.edgeType,
+    isViewCall: e.isViewCall,
+  }))
+
+  return {
+    version: '1.0',
+    lastModified: inputs.callGraphData.lastModified || new Date().toISOString(),
+    edges: apiEdges,
+    appliedRules: rules,
+    unmatchedRuleIds,
+  }
+}
+
+function contractNameFallback(addr: string): string {
+  const raw = addr.includes(':') ? (addr.split(':')[1] ?? addr) : addr
+  return raw.length >= 10 ? `${raw.slice(0, 6)}…${raw.slice(-4)}` : raw
+}
+
+export function resolveEnhancedTraversal(
+  paths: DiscoveryPaths,
+  configReader: ConfigReader,
+  templateService: TemplateService,
+  projectName: string,
+): ApiEnhancedTraversalResponse {
+  const inputs = loadEnhancedGraphInputs(
+    paths,
+    configReader,
+    templateService,
+    projectName,
+  )
+  if (!inputs) {
+    return {
+      version: '1.0',
+      lastModified: new Date().toISOString(),
+      contracts: {},
+      callGraphStale: false,
+    }
+  }
+  const {
+    functionsData,
+    callGraphData,
+    contractNameMap,
+    contractTypeMap,
+    dataAccess,
+    discovered,
+    implToProxyMap,
+    proxyToImplsMap,
+  } = inputs
+
   // Build enhanced graph (permission resolution happens here).
-  // Pass `discovered` so shared-impl metadata can fan out to per-proxy edges.
+  // Pass `discovered` so shared-impl metadata can fan out to per-proxy edges,
+  // and the manual edge-override rules so capital/governance traversal sees the
+  // corrected edge set.
   const { edges, constructionErrors } = buildEnhancedGraph(
     callGraphData,
     functionsData,
     dataAccess,
     discovered,
+    getEdgeOverrideRules(paths, projectName),
   )
 
   // Build bidirectional indices
