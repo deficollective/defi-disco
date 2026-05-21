@@ -164,6 +164,14 @@ Researcher-authored rules that add/remove edges from the enhanced graph, persist
   - To show suppressed edges, `buildCallgraph` returns both `edges` (post-override) and `rawEdges` (pre-override); the sidebar diffs them and computes per-edge scope via `rules.ts` helpers (`findRemoveEdgeRule`, `effectiveScope`). The standalone "Edges" tab was removed. The **Rules tab** is the full ledger with delete + stale-cut ⚠. The canvas drag-to-add handle still works as a secondary path.
 - **Consistency note:** the `enhanced-graph-edges` endpoint returns the **raw** (pre-override) edge set plus `appliedRules` + `unmatchedRuleIds`; the walker applies rules itself over its complete edge set (callgraph from `ApiCallGraphResponse` + permission/dependency from the endpoint). The backend analysis applies the same rules independently in `buildEnhancedGraph`.
 
+### Suggestion backlog (agent-proposed overrides, researcher-reviewed)
+
+Agents don't apply edge overrides directly — they **propose** them into a separate `call-graph-suggestions.json`, and a researcher accepts/rejects each in the walker. The safety property is structural: `buildEnhancedGraph` never reads the suggestions file, so an unreviewed suggestion is inert by construction, not by convention.
+
+- **Backend** `callGraphSuggestions.ts`: `RuleSuggestion = { id, rule: EdgeOverrideRule, reasoning, status: 'pending'|'accepted'|'rejected', createdBy?, createdAt, reviewedAt? }` stored in `call-graph-suggestions.json`. `acceptSuggestion` promotes `rule` into `call-graph-overrides.json` (carrying `reasoning` into the rule's `note`, preserving provenance) and marks it accepted; `rejectSuggestion` marks rejected; both are no-ops on already-resolved suggestions (idempotent). Endpoints: `GET /api/projects/:project/call-graph-suggestions`, `POST .../call-graph-suggestions` (add — parity/programmatic; the usual agent path is a direct file write), `POST .../call-graph-suggestions/:id/:action` (`accept`|`reject`, gated on `--readonly`).
+- **Agent path:** a skill appends to `call-graph-suggestions.json` directly (file write, like other skills edit `functions.json`) — no running server needed at agent time.
+- **Frontend:** a **Suggestions ("inbox") tab** in the DetailSidebar (pending-count badge). Each card shows `describeRule(rule)` + the agent's reasoning + `createdBy`, a **⊙ focus** button that re-roots/centers the walker on the rule's node (`ruleFocusNode`), a stale flag (`ruleMatchesAnyEdge` — rule matches no current edge), and **✓ accept / ✕ reject**. Accept promotes via the overrides mutation; the inbox + overrides + enhanced-edges queries refetch. Resolved suggestions stay listed (dimmed) for an audit trail.
+
 ### Function Analysis
 
 `functionAnalysis.ts` iterates all write functions from `discovered.json` ABIs (the same set shown in the UI's permissions section), ensuring dependency detection covers every write function visible to reviewers.

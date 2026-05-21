@@ -185,6 +185,50 @@ export function findAddEdgeRule(
   )
 }
 
+/** The node a rule is "about" — what the walker should focus when reviewing it. */
+export function ruleFocusNode(rule: EdgeOverrideRule): string {
+  switch (rule.type) {
+    case 'addEdge':
+    case 'removeEdge':
+    case 'setEdgeScope':
+      return rule.from
+    case 'setOutgoingScope':
+    case 'setIncomingScope':
+      return rule.node
+  }
+}
+
+/** Does a rule currently match ≥1 edge? (addEdge always "matches" — it injects.) */
+export function ruleMatchesAnyEdge(
+  rule: EdgeOverrideRule,
+  edges: CallEdge[],
+): boolean {
+  switch (rule.type) {
+    case 'addEdge':
+      return true
+    case 'removeEdge':
+    case 'setEdgeScope':
+      return edges.some(
+        (e) =>
+          e.edgeType === rule.edgeType &&
+          fromMatches(e, rule.from) &&
+          toMatches(e, rule.to),
+      )
+    case 'setOutgoingScope':
+      return edges.some(
+        (e) =>
+          (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
+          fromMatches(e, rule.node),
+      )
+    case 'setIncomingScope':
+      return edges.some(
+        (e) =>
+          (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
+          toMatches(e, rule.node),
+      )
+  }
+}
+
 /** Stable-ish unique id for a new rule. */
 export function makeRuleId(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {

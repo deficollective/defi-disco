@@ -982,6 +982,23 @@ export interface ApiCallGraphOverridesResponse {
   rules: EdgeOverrideRule[]
 }
 
+// Agent-proposed override rules pending researcher review. Mirrors the backend
+// callGraphSuggestions.ts. Stored in a separate file analysis never reads.
+export type SuggestionStatus = 'pending' | 'accepted' | 'rejected'
+export interface RuleSuggestion {
+  id: string
+  rule: EdgeOverrideRule
+  reasoning: string
+  status: SuggestionStatus
+  createdBy?: string
+  createdAt: string
+  reviewedAt?: string
+}
+export interface ApiCallGraphSuggestionsResponse {
+  version: string
+  suggestions: RuleSuggestion[]
+}
+
 export interface ApiEnhancedGraphEdgesResponse {
   version: string
   lastModified: string

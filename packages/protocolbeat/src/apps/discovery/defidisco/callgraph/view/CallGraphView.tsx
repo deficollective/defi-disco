@@ -17,16 +17,19 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   getCallGraphData,
   getCallGraphOverrides,
+  getCallGraphSuggestions,
   getCode,
   getEnhancedGraphEdges,
   getFunctions,
   getProject,
+  resolveCallGraphSuggestion,
   updateCallGraphOverrides,
 } from '../../../../../api/api'
 import type {
   ApiCallGraphOverridesResponse,
   EdgeOverrideRule,
   EdgeScope,
+  RuleSuggestion,
 } from '../../../../../api/types'
 import { useCodeStore } from '../../../../../components/editor/store'
 import { useMultiViewStore } from '../../../multi-view/store'
@@ -86,6 +89,7 @@ function findAllFunctionOccurrences(
 // Stable fallbacks for selectors/queries — see the NOTE below on React #185.
 const EMPTY_STRINGS: string[] = []
 const EMPTY_RULES: EdgeOverrideRule[] = []
+const EMPTY_SUGGESTIONS: RuleSuggestion[] = []
 
 // Canvas padding (also the offset between layout coords and the scroll container).
 const PAD_X = 40
@@ -162,6 +166,27 @@ export function CallGraphView(): JSX.Element {
     (id: string) => saveRules.mutate(rules.filter((r) => r.id !== id)),
     [rules, saveRules],
   )
+
+  // Agent-proposed suggestions (separate file; never affects analysis until accepted).
+  const suggestionsQ = useQuery({
+    queryKey: ['call-graph-suggestions', project],
+    queryFn: () => getCallGraphSuggestions(project),
+  })
+  const suggestions = suggestionsQ.data?.suggestions ?? EMPTY_SUGGESTIONS
+  const resolveSuggestion = useMutation({
+    mutationFn: (v: { id: string; action: 'accept' | 'reject' }) =>
+      resolveCallGraphSuggestion(project, v.id, v.action),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['call-graph-suggestions', project],
+      })
+      // Accept promotes a rule into the overrides → refetch the dependent data.
+      queryClient.invalidateQueries({ queryKey: overridesKey })
+      queryClient.invalidateQueries({
+        queryKey: ['enhanced-graph-edges', project],
+      })
+    },
+  })
 
   // NOTE: select the raw per-project value WITHOUT a `?? []` fallback. Returning
   // a fresh `[]` literal from a zustand selector makes useSyncExternalStore see a
@@ -728,6 +753,11 @@ export function CallGraphView(): JSX.Element {
           onSetOutgoingScope={setOutgoingScope}
           onSetIncomingScope={setIncomingScope}
           onDeleteRule={removeRule}
+          suggestions={suggestions}
+          onFocusNode={handleReFocus}
+          onResolveSuggestion={(id, action) =>
+            resolveSuggestion.mutate({ id, action })
+          }
         />
       )}
     </div>

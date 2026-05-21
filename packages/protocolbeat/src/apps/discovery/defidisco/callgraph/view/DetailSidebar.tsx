@@ -6,11 +6,21 @@
 import { useMemo, useState } from 'react'
 import { clsx } from 'clsx'
 import { useParams } from 'react-router-dom'
-import type { EdgeOverrideRule, EdgeScope } from '../../../../../api/types'
+import type {
+  EdgeOverrideRule,
+  EdgeScope,
+  RuleSuggestion,
+} from '../../../../../api/types'
 import type { BackendEdgeType, CallEdge, CallNode } from '../model'
 import { parseNodeId, shortAddr } from '../model'
 import { useCallgraphOverridesStore } from '../overridesStore'
-import { describeRule, effectiveScope, findRemoveEdgeRule } from '../rules'
+import {
+  describeRule,
+  effectiveScope,
+  findRemoveEdgeRule,
+  ruleFocusNode,
+  ruleMatchesAnyEdge,
+} from '../rules'
 
 interface Props {
   selectedId: string | null
@@ -48,15 +58,23 @@ interface Props {
   ) => void
   /** Delete a rule by id (also used to restore a single suppressed edge). */
   onDeleteRule: (id: string) => void
+  /** Agent-proposed rules pending review. */
+  suggestions: RuleSuggestion[]
+  /** Re-root the trace on a node (used to focus a suggestion's edge). */
+  onFocusNode: (nodeId: string) => void
+  onResolveSuggestion: (id: string, action: 'accept' | 'reject') => void
 }
 
-type Tab = 'node' | 'notes' | 'rules'
+type Tab = 'node' | 'notes' | 'rules' | 'suggest'
 
 // Stable fallback for the notes selector (see React #185 note below).
 const EMPTY_NOTES: Record<string, string> = {}
 
 export function DetailSidebar(props: Props): JSX.Element {
   const [tab, setTab] = useState<Tab>('node')
+  const pendingCount = props.suggestions.filter(
+    (s) => s.status === 'pending',
+  ).length
 
   return (
     <div className="flex h-full w-[340px] flex-col border-coffee-500 border-l bg-coffee-700">
@@ -73,11 +91,20 @@ export function DetailSidebar(props: Props): JSX.Element {
             {props.rules.length}
           </span>
         </TabButton>
+        <TabButton on={tab === 'suggest'} onClick={() => setTab('suggest')}>
+          inbox{pendingCount > 0 && ' '}
+          {pendingCount > 0 && (
+            <span className="ml-1.5 rounded bg-aux-pink px-1 text-[10px] text-coffee-900">
+              {pendingCount}
+            </span>
+          )}
+        </TabButton>
       </div>
       <div className="flex-1 overflow-y-auto p-4">
         {tab === 'node' && <NodeTab {...props} />}
         {tab === 'notes' && <NotesTab {...props} />}
         {tab === 'rules' && <RulesTab {...props} />}
+        {tab === 'suggest' && <SuggestionsTab {...props} />}
       </div>
     </div>
   )
@@ -849,6 +876,140 @@ function RulesTab({
           </div>
         )
       })}
+    </div>
+  )
+}
+
+// ───────────────────── Suggestions tab (agent inbox) ─────────────────────
+
+function SuggestionsTab({
+  suggestions,
+  rawEdges,
+  onFocusNode,
+  onResolveSuggestion,
+}: Props): JSX.Element {
+  const pending = suggestions.filter((s) => s.status === 'pending')
+  const resolved = suggestions.filter((s) => s.status !== 'pending')
+
+  if (suggestions.length === 0) {
+    return (
+      <p className="text-coffee-400 italic">
+        No agent suggestions. Agents propose edge rules into{' '}
+        <span className="font-mono">call-graph-suggestions.json</span>; they
+        stay inert (never affect analysis) until you accept one here.
+      </p>
+    )
+  }
+  return (
+    <div className="font-mono text-[11px]">
+      <p className="mb-2 text-[10px] text-coffee-400">
+        {pending.length} pending · {resolved.length} resolved
+      </p>
+      {pending.map((s) => (
+        <SuggestionCard
+          key={s.id}
+          s={s}
+          rawEdges={rawEdges}
+          onFocusNode={onFocusNode}
+          onResolveSuggestion={onResolveSuggestion}
+        />
+      ))}
+      {resolved.length > 0 && (
+        <div className="mt-3 border-coffee-600 border-t pt-2">
+          <div className="mb-1.5 text-[10px] text-coffee-500 uppercase tracking-wider">
+            resolved
+          </div>
+          {resolved.map((s) => (
+            <SuggestionCard
+              key={s.id}
+              s={s}
+              rawEdges={rawEdges}
+              onFocusNode={onFocusNode}
+              onResolveSuggestion={onResolveSuggestion}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function SuggestionCard({
+  s,
+  rawEdges,
+  onFocusNode,
+  onResolveSuggestion,
+}: {
+  s: RuleSuggestion
+  rawEdges: CallEdge[]
+  onFocusNode: (nodeId: string) => void
+  onResolveSuggestion: (id: string, action: 'accept' | 'reject') => void
+}): JSX.Element {
+  const pending = s.status === 'pending'
+  const stale = !ruleMatchesAnyEdge(s.rule, rawEdges)
+  return (
+    <div
+      className={clsx(
+        'mb-1.5 rounded border bg-coffee-800 px-2 py-2',
+        pending ? 'border-coffee-600' : 'border-coffee-700 opacity-70',
+      )}
+    >
+      <div className="mb-1 flex items-start justify-between gap-2">
+        <span className="break-words text-[10.5px] text-coffee-100">
+          {describeRule(s.rule)}
+        </span>
+        {!pending && (
+          <span
+            className={clsx(
+              'shrink-0 rounded px-1 text-[8.5px] uppercase tracking-wider',
+              s.status === 'accepted'
+                ? 'bg-aux-green/15 text-aux-green'
+                : 'bg-coffee-700 text-coffee-400',
+            )}
+          >
+            {s.status}
+          </span>
+        )}
+      </div>
+      {s.reasoning && (
+        <p className="mb-1.5 text-[10px] text-coffee-300 leading-snug">
+          {s.reasoning}
+        </p>
+      )}
+      <div className="mb-1.5 flex items-center gap-2 text-[9px] text-coffee-500">
+        {s.createdBy && <span>by {s.createdBy}</span>}
+        {stale && (
+          <span
+            className="text-aux-yellow"
+            title="This rule matches no current edge — the graph may have changed since it was suggested."
+          >
+            ⚠ edge not present
+          </span>
+        )}
+      </div>
+      <div className="flex items-center gap-1.5">
+        <MiniBtn onClick={() => onFocusNode(ruleFocusNode(s.rule))}>
+          ⊙ focus
+        </MiniBtn>
+        {pending && (
+          <>
+            <button
+              type="button"
+              onClick={() => onResolveSuggestion(s.id, 'accept')}
+              className="rounded border border-aux-green/50 bg-aux-green/10 px-2 py-0.5 font-mono text-[10px] text-aux-green hover:bg-aux-green/20"
+            >
+              ✓ accept
+            </button>
+            <button
+              type="button"
+              onClick={() => onResolveSuggestion(s.id, 'reject')}
+              className="rounded border border-coffee-600 px-2 py-0.5 font-mono text-[10px] text-coffee-400 hover:text-aux-red"
+            >
+              ✕ reject
+            </button>
+          </>
+        )}
+      </div>
     </div>
   )
 }

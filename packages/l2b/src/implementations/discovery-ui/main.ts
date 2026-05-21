@@ -75,6 +75,12 @@ import {
   getCallGraphOverrides,
   updateCallGraphOverrides,
 } from './defidisco/callGraphOverrides'
+import {
+  acceptSuggestion,
+  addSuggestion,
+  getCallGraphSuggestions,
+  rejectSuggestion,
+} from './defidisco/callGraphSuggestions'
 import { getGovernance, updateGovernance } from './defidisco/governance'
 import { countLinesOfCode } from './defidisco/countLinesOfCode'
 import { ReviewCompiler } from './defidisco/reviewCompiler'
@@ -844,6 +850,79 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
       res.status(500).json({ error: 'Failed to update call-graph overrides' })
     }
   })
+
+  // Call-graph edge-override SUGGESTIONS — agent-proposed rules pending review.
+  // Stored in a separate file that buildEnhancedGraph never reads, so unreviewed
+  // suggestions can't affect analysis. Accept promotes the rule into the
+  // overrides file (the only thing analysis consumes).
+  app.get('/api/projects/:project/call-graph-suggestions', (req, res) => {
+    const v = projectParamsSchema.safeParse(req.params)
+    if (!v.success) {
+      res.status(400).json({ errors: v.message })
+      return
+    }
+    try {
+      res.json(getCallGraphSuggestions(paths, v.data.project))
+    } catch (error) {
+      console.error('Error loading call-graph suggestions:', error)
+      res.status(500).json({ error: 'Failed to load call-graph suggestions' })
+    }
+  })
+
+  // Add a suggestion (the agent path is usually a direct file write; this exists
+  // for parity / programmatic use). Body: { rule, reasoning, createdBy? }.
+  app.post('/api/projects/:project/call-graph-suggestions', (req, res) => {
+    if (readonly) {
+      res.status(403).json({ error: 'Server is in readonly mode' })
+      return
+    }
+    const v = projectParamsSchema.safeParse(req.params)
+    if (!v.success) {
+      res.status(400).json({ errors: v.message })
+      return
+    }
+    try {
+      const { rule, reasoning, createdBy } = req.body ?? {}
+      if (!rule || typeof reasoning !== 'string') {
+        res.status(400).json({ error: 'Body requires { rule, reasoning }' })
+        return
+      }
+      res.json(addSuggestion(paths, v.data.project, { rule, reasoning, createdBy }))
+    } catch (error) {
+      console.error('Error adding call-graph suggestion:', error)
+      res.status(500).json({ error: 'Failed to add call-graph suggestion' })
+    }
+  })
+
+  app.post(
+    '/api/projects/:project/call-graph-suggestions/:id/:action',
+    (req, res) => {
+      if (readonly) {
+        res.status(403).json({ error: 'Server is in readonly mode' })
+        return
+      }
+      const v = projectParamsSchema.safeParse(req.params)
+      if (!v.success) {
+        res.status(400).json({ errors: v.message })
+        return
+      }
+      const { id, action } = req.params
+      if (action !== 'accept' && action !== 'reject') {
+        res.status(400).json({ error: 'action must be accept or reject' })
+        return
+      }
+      try {
+        const result =
+          action === 'accept'
+            ? acceptSuggestion(paths, v.data.project, id)
+            : rejectSuggestion(paths, v.data.project, id)
+        res.json(result)
+      } catch (error) {
+        console.error(`Error on suggestion ${action}:`, error)
+        res.status(500).json({ error: `Failed to ${action} suggestion` })
+      }
+    },
+  )
 
   // Compile all reviews endpoint
   app.post('/api/compile-all-reviews', (_req, res) => {

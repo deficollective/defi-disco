@@ -22,6 +22,7 @@ import type {
   ApiFundsDataResponse,
   ApiCallGraphResponse,
   ApiCallGraphOverridesResponse,
+  ApiCallGraphSuggestionsResponse,
   ApiEnhancedGraphEdgesResponse,
   EdgeOverrideRule,
   ApiAIModelsResponse,
@@ -618,6 +619,30 @@ export async function updateCallGraphOverrides(
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(rules),
   })
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+}
+
+export async function getCallGraphSuggestions(
+  project: string,
+): Promise<ApiCallGraphSuggestionsResponse> {
+  const res = await fetch(`/api/projects/${project}/call-graph-suggestions`)
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  }
+  return (await res.json()) as ApiCallGraphSuggestionsResponse
+}
+
+export async function resolveCallGraphSuggestion(
+  project: string,
+  id: string,
+  action: 'accept' | 'reject',
+): Promise<void> {
+  const res = await fetch(
+    `/api/projects/${project}/call-graph-suggestions/${id}/${action}`,
+    { method: 'POST' },
+  )
   if (!res.ok) {
     throw new Error(res.statusText)
   }
