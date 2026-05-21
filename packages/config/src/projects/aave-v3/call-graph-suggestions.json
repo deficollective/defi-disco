@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "suggestions": [
+    {
+      "id": "demo-overflare",
+      "status": "rejected",
+      "createdBy": "over-flare-agent",
+      "createdAt": "2026-05-21T09:16:46.736Z",
+      "rule": {
+        "id": "r-demo-overflare",
+        "type": "setOutgoingScope",
+        "node": "eth:0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
+        "edgeType": "permission",
+        "scope": "backward"
+      },
+      "reasoning": "PoolInstance owns mint/burn/transfer on every aToken across all markets (hundreds of permission edges). An admin that merely reaches one Pool setter shouldn't have its capital reach flared to all of them. The ownership is real for governance chains, so scope it to governance-only (backward): keeps the aTokens' owner chains intact, removes the spurious forward capital flare.",
+      "reviewedAt": "2026-05-21T09:24:04.734Z"
+    },
+    {
+      "id": "demo-singlescope",
+      "status": "rejected",
+      "createdBy": "over-flare-agent",
+      "createdAt": "2026-05-21T09:16:46.736Z",
+      "rule": {
+        "id": "r-demo-single",
+        "type": "setEdgeScope",
+        "from": "eth:0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
+        "to": "eth:0x786dBff3f1292ae8F92ea68Cf93c30b34B1ed04B.mint",
+        "edgeType": "permission",
+        "scope": "backward"
+      },
+      "reasoning": "Single-edge example: scope just this one ownership edge (PoolInstance → VariableDebtTokenMainnetInstanceGHO.mint) to governance-only, instead of the whole contract.",
+      "reviewedAt": "2026-05-21T09:23:59.717Z"
+    },
+    {
+      "id": "demo-stale",
+      "status": "rejected",
+      "createdBy": "demo",
+      "createdAt": "2026-05-21T09:16:46.736Z",
+      "rule": {
+        "id": "r-demo-stale",
+        "type": "removeEdge",
+        "from": "eth:0x000000000000000000000000000000000000dEaD.ghost",
+        "to": "eth:0x000000000000000000000000000000000000bEEF.vanish",
+        "edgeType": "callgraph"
+      },
+      "reasoning": "Demo of the stale flag: this edge no longer exists in the graph, so the card shows \"⚠ edge not present\".",
+      "reviewedAt": "2026-05-21T09:23:48.879Z"
+    }
+  ]
+}

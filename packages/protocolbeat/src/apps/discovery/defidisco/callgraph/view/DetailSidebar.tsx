@@ -3,7 +3,7 @@
 // selected node — its edges are listed with reversible on/off toggles, plus an
 // inline "add edge" form. The Rules tab is the full ledger of persisted overrides.
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import { useParams } from 'react-router-dom'
 import type {
@@ -75,6 +75,18 @@ export function DetailSidebar(props: Props): JSX.Element {
   const pendingCount = props.suggestions.filter(
     (s) => s.status === 'pending',
   ).length
+
+  // Open straight to the inbox when there are pending suggestions and no trace
+  // has been started yet — so a researcher can review without picking a function
+  // first. Runs once (when suggestions finish loading); never hijacks after the
+  // user has started tracing or manually changed tabs.
+  const autoOpened = useRef(false)
+  useEffect(() => {
+    if (!autoOpened.current && !props.startId && pendingCount > 0) {
+      autoOpened.current = true
+      setTab('suggest')
+    }
+  }, [pendingCount, props.startId])
 
   return (
     <div className="flex h-full w-[340px] flex-col border-coffee-500 border-l bg-coffee-700">

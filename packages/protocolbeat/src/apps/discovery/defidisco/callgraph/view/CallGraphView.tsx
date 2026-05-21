@@ -732,34 +732,34 @@ export function CallGraphView(): JSX.Element {
         />
       </div>
 
-      {startId && (
-        <DetailSidebar
-          selectedId={selected}
-          startId={startId}
-          nodes={nodes}
-          allEdges={edges}
-          visibleNodeIds={visibleNodeIds}
-          onSelectNode={handleSelectNode}
-          onSetStart={setStartId}
-          onToggleCollapse={(c) => toggleCollapsed(project, c)}
-          collapsedContracts={collapsed}
-          onOpenInCode={handleOpenInCode}
-          rawEdges={rawEdges}
-          rules={rules}
-          unmatchedRuleIds={enhancedEdgesQ.data?.unmatchedRuleIds}
-          onRemoveEdge={removeEdgeAsRule}
-          onAddEdge={addEdgeRule}
-          onSetEdgeScope={setEdgeScope}
-          onSetOutgoingScope={setOutgoingScope}
-          onSetIncomingScope={setIncomingScope}
-          onDeleteRule={removeRule}
-          suggestions={suggestions}
-          onFocusNode={handleReFocus}
-          onResolveSuggestion={(id, action) =>
-            resolveSuggestion.mutate({ id, action })
-          }
-        />
-      )}
+      {/* Sidebar is always rendered (even with no trace) so the agent-suggestion
+          inbox and Rules ledger are reachable without first picking a function. */}
+      <DetailSidebar
+        selectedId={selected}
+        startId={startId}
+        nodes={nodes}
+        allEdges={edges}
+        visibleNodeIds={visibleNodeIds}
+        onSelectNode={handleSelectNode}
+        onSetStart={setStartId}
+        onToggleCollapse={(c) => toggleCollapsed(project, c)}
+        collapsedContracts={collapsed}
+        onOpenInCode={handleOpenInCode}
+        rawEdges={rawEdges}
+        rules={rules}
+        unmatchedRuleIds={enhancedEdgesQ.data?.unmatchedRuleIds}
+        onRemoveEdge={removeEdgeAsRule}
+        onAddEdge={addEdgeRule}
+        onSetEdgeScope={setEdgeScope}
+        onSetOutgoingScope={setOutgoingScope}
+        onSetIncomingScope={setIncomingScope}
+        onDeleteRule={removeRule}
+        suggestions={suggestions}
+        onFocusNode={handleReFocus}
+        onResolveSuggestion={(id, action) =>
+          resolveSuggestion.mutate({ id, action })
+        }
+      />
     </div>
   )
 }
