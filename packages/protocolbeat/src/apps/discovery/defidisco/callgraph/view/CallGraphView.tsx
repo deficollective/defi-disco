@@ -42,9 +42,15 @@ import {
   type LayoutMode,
   nodeHeight,
 } from '../layout'
-import { type BackendEdgeType, type CallEdge, parseNodeId } from '../model'
+import {
+  type BackendEdgeType,
+  type CallEdge,
+  type CallNode,
+  edgeKey,
+  parseNodeId,
+} from '../model'
 import { useCallgraphOverridesStore } from '../overridesStore'
-import { makeRuleId } from '../rules'
+import { makeRuleId, ruleFocusNode } from '../rules'
 
 import { ArrowDefs, EdgePath } from './EdgePath'
 import { Controls } from './Controls'
@@ -346,6 +352,14 @@ export function CallGraphView(): JSX.Element {
   const [depth, setDepth] = useState(4)
   const [selected, setSelected] = useState<string | null>(null)
   const [hoveredEdge, setHoveredEdge] = useState<CallEdge | null>(null)
+  // The edge a suggestion is being reviewed against — highlighted red (remove)
+  // or green (add) on the canvas while previewing.
+  const [previewEdge, setPreviewEdge] = useState<{
+    from: string
+    to: string
+    edgeType: BackendEdgeType
+    action: 'add' | 'remove'
+  } | null>(null)
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('tree')
   const [filters, setFilters] = useState({
     hideInternal: false,
@@ -365,18 +379,55 @@ export function CallGraphView(): JSX.Element {
     if (collapsed.has(address)) toggleCollapsed(project, address)
   }, [startId, collapsed, project, toggleCollapsed])
 
+  // For an addEdge preview the proposed edge doesn't exist in the graph yet, so
+  // inject a synthetic edge (+ endpoint nodes) into the render set so it shows
+  // green. removeEdge previews highlight an existing edge, so no injection.
+  const displayEdges = useMemo(() => {
+    if (previewEdge?.action !== 'add') return edges
+    const id = edgeKey(previewEdge.from, previewEdge.to, previewEdge.edgeType)
+    if (edges.some((e) => e.id === id)) return edges
+    const synthetic: CallEdge = {
+      id,
+      from: previewEdge.from,
+      to: previewEdge.to,
+      kind: 'external',
+      edgeType: previewEdge.edgeType,
+      user: true,
+    }
+    return [...edges, synthetic]
+  }, [edges, previewEdge])
+
+  const displayNodes = useMemo(() => {
+    if (previewEdge?.action !== 'add') return nodes
+    const dn = new Map(nodes)
+    for (const ref of [previewEdge.from, previewEdge.to]) {
+      if (dn.has(ref)) continue
+      const { address, functionName } = parseNodeId(ref)
+      const parent = dn.get(address)
+      dn.set(ref, {
+        id: ref,
+        contractAddress: address,
+        contractName: parent?.contractName ?? address,
+        contractType: parent?.contractType ?? 'Contract',
+        kind: parent?.kind ?? 'external',
+        functionName,
+      } as CallNode)
+    }
+    return dn
+  }, [nodes, previewEdge])
+
   const layout = useMemo(() => {
-    if (!startId || !nodes.size) return null
+    if (!startId || !displayNodes.size) return null
     return computeLayout({
       startId,
-      nodes,
-      edges,
+      nodes: displayNodes,
+      edges: displayEdges,
       depth,
       collapsedContracts: collapsed,
       mode: layoutMode,
       filters,
     })
-  }, [startId, nodes, edges, depth, collapsed, layoutMode, filters])
+  }, [startId, displayNodes, displayEdges, depth, collapsed, layoutMode, filters])
 
   // Selected → path-from-start (cyan highlight + breadcrumb)
   const pathFromStart = useMemo(() => {
@@ -499,6 +550,36 @@ export function CallGraphView(): JSX.Element {
     [handleSelectNode],
   )
 
+  // Review a suggestion: re-root on the rule's node and highlight the exact edge
+  // — red if it removes one, green if it adds one. Scope rules just focus.
+  const focusSuggestion = useCallback(
+    (rule: EdgeOverrideRule) => {
+      const node = ruleFocusNode(rule)
+      if (!node.startsWith('unresolved:')) {
+        setStartId(node)
+        handleSelectNode(node)
+      }
+      if (rule.type === 'addEdge') {
+        setPreviewEdge({
+          from: rule.from,
+          to: rule.to,
+          edgeType: rule.edgeType,
+          action: 'add',
+        })
+      } else if (rule.type === 'removeEdge') {
+        setPreviewEdge({
+          from: rule.from,
+          to: rule.to,
+          edgeType: rule.edgeType,
+          action: 'remove',
+        })
+      } else {
+        setPreviewEdge(null)
+      }
+    },
+    [handleSelectNode],
+  )
+
   // Node ids placed ABOVE the start (negative BFS levels) — caller nodes.
   const upstreamIds = useMemo(() => {
     const set = new Set<string>()
@@ -582,7 +663,10 @@ export function CallGraphView(): JSX.Element {
               'radial-gradient(circle, rgba(150,130,200,0.10) 1px, transparent 1px)',
             backgroundSize: '18px 18px',
           }}
-          onClick={() => setSelected(null)}
+          onClick={() => {
+            setSelected(null)
+            setPreviewEdge(null)
+          }}
         >
           {!startId ? (
             <StartPicker entrypoints={entrypoints} onPick={setStartId} />
@@ -612,16 +696,25 @@ export function CallGraphView(): JSX.Element {
                   const fp = layout.positions[e.from]
                   const tp = layout.positions[e.to]
                   if (!fp || !tp) return null
-                  const fromNode = nodes.get(parseNodeId(e.from).address)
+                  const fromNode = displayNodes.get(parseNodeId(e.from).address)
                   const fromH = nodeHeight(fromNode, layoutMode)
-                  const onPath = !!(
-                    pathFromStart &&
-                    pathFromStart.includes(e.from) &&
-                    pathFromStart.includes(e.to) &&
-                    pathFromStart.indexOf(e.to) ===
-                      pathFromStart.indexOf(e.from) + 1
-                  )
-                  const dimmed = !!pathFromStart && !onPath
+                  const preview =
+                    previewEdge &&
+                    e.from === previewEdge.from &&
+                    e.to === previewEdge.to &&
+                    e.edgeType === previewEdge.edgeType
+                      ? previewEdge.action
+                      : undefined
+                  const onPath =
+                    !preview &&
+                    !!(
+                      pathFromStart &&
+                      pathFromStart.includes(e.from) &&
+                      pathFromStart.includes(e.to) &&
+                      pathFromStart.indexOf(e.to) ===
+                        pathFromStart.indexOf(e.from) + 1
+                    )
+                  const dimmed = !preview && !!pathFromStart && !onPath
                   const isHovered = hoveredEdge?.id === e.id
                   return (
                     <g key={e.id} style={{ pointerEvents: 'auto' }}>
@@ -634,7 +727,8 @@ export function CallGraphView(): JSX.Element {
                         hovered={isHovered}
                         onPath={onPath}
                         dimmed={dimmed}
-                        showLabel={isHovered || onPath}
+                        preview={preview}
+                        showLabel={isHovered || onPath || !!preview}
                         onHover={setHoveredEdge}
                         onClick={(ed) => setSelected(ed.to)}
                       />
@@ -674,7 +768,7 @@ export function CallGraphView(): JSX.Element {
                 {layout &&
                   Object.entries(layout.positions).map(([id, pos]) => {
                     const { address } = parseNodeId(id)
-                    const node = nodes.get(id) ?? nodes.get(address)
+                    const node = displayNodes.get(id) ?? displayNodes.get(address)
                     if (!node) return null
                     const onPath = !!(
                       pathFromStart && pathFromStart.includes(id)
@@ -724,6 +818,7 @@ export function CallGraphView(): JSX.Element {
           onClearStart={() => {
             setStartId(null)
             setSelected(null)
+            setPreviewEdge(null)
           }}
           onReset={() => resetView(project)}
           trail={pathFromStart}
@@ -755,7 +850,7 @@ export function CallGraphView(): JSX.Element {
         onSetIncomingScope={setIncomingScope}
         onDeleteRule={removeRule}
         suggestions={suggestions}
-        onFocusNode={handleReFocus}
+        onFocusSuggestion={focusSuggestion}
         onResolveSuggestion={(id, action) =>
           resolveSuggestion.mutate({ id, action })
         }

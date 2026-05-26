@@ -15,6 +15,8 @@ interface Props {
   onPath: boolean
   dimmed: boolean
   showLabel: boolean
+  /** Suggestion review highlight: 'remove' → red, 'add' → green. */
+  preview?: 'add' | 'remove'
   onHover: (edge: CallEdge | null) => void
   onClick?: (edge: CallEdge) => void
 }
@@ -51,6 +53,7 @@ export function EdgePath({
   onPath,
   dimmed,
   showLabel,
+  preview,
   onHover,
   onClick,
 }: Props): JSX.Element {
@@ -64,11 +67,16 @@ export function EdgePath({
     }
   }, [fromX, fromY, toX, toY])
 
-  const stroke = onPath
-    ? 'var(--aux-cyan, #1c92a8)'
-    : (COLOR_BY_KIND[edge.kind] ?? COLOR_BY_KIND.internal)
-  const opacity = dimmed ? 0.15 : hovered ? 1 : 0.85
-  const strokeWidth = onPath || hovered ? 2 : 1.2
+  // Preview (suggestion review) overrides everything: red to remove, green to add.
+  const stroke = preview
+    ? preview === 'remove'
+      ? 'var(--aux-red, #FB4A35)'
+      : 'var(--aux-green, #9DDE6C)'
+    : onPath
+      ? 'var(--aux-cyan, #1c92a8)'
+      : (COLOR_BY_KIND[edge.kind] ?? COLOR_BY_KIND.internal)
+  const opacity = preview ? 1 : dimmed ? 0.15 : hovered ? 1 : 0.85
+  const strokeWidth = preview ? 3 : onPath || hovered ? 2 : 1.2
 
   const label = edge.label ?? parseNodeId(edge.to).functionName ?? ''
   const labelText = label.length > 22 ? `${label.slice(0, 21)}…` : label
@@ -93,10 +101,18 @@ export function EdgePath({
         d={d}
         stroke={stroke}
         strokeWidth={strokeWidth}
-        strokeDasharray={DASH_BY_KIND[edge.kind]}
+        strokeDasharray={preview === 'add' ? '6 4' : DASH_BY_KIND[edge.kind]}
         fill="none"
         opacity={opacity}
-        markerEnd={`url(#arrow-${onPath ? 'cyan' : edge.kind})`}
+        markerEnd={`url(#arrow-${
+          preview === 'remove'
+            ? 'permission'
+            : preview === 'add'
+              ? 'external'
+              : onPath
+                ? 'cyan'
+                : edge.kind
+        })`}
       />
       {showLabel && labelText && (
         <>

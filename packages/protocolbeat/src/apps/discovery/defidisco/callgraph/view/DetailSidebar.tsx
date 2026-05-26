@@ -18,7 +18,6 @@ import {
   describeRule,
   effectiveScope,
   findRemoveEdgeRule,
-  ruleFocusNode,
   ruleMatchesAnyEdge,
 } from '../rules'
 
@@ -60,8 +59,8 @@ interface Props {
   onDeleteRule: (id: string) => void
   /** Agent-proposed rules pending review. */
   suggestions: RuleSuggestion[]
-  /** Re-root the trace on a node (used to focus a suggestion's edge). */
-  onFocusNode: (nodeId: string) => void
+  /** Review a suggestion: re-root on its node and highlight its edge (red/green). */
+  onFocusSuggestion: (rule: EdgeOverrideRule) => void
   onResolveSuggestion: (id: string, action: 'accept' | 'reject') => void
 }
 
@@ -897,7 +896,7 @@ function RulesTab({
 function SuggestionsTab({
   suggestions,
   rawEdges,
-  onFocusNode,
+  onFocusSuggestion,
   onResolveSuggestion,
 }: Props): JSX.Element {
   const pending = suggestions.filter((s) => s.status === 'pending')
@@ -922,7 +921,7 @@ function SuggestionsTab({
           key={s.id}
           s={s}
           rawEdges={rawEdges}
-          onFocusNode={onFocusNode}
+          onFocusSuggestion={onFocusSuggestion}
           onResolveSuggestion={onResolveSuggestion}
         />
       ))}
@@ -936,7 +935,7 @@ function SuggestionsTab({
               key={s.id}
               s={s}
               rawEdges={rawEdges}
-              onFocusNode={onFocusNode}
+              onFocusSuggestion={onFocusSuggestion}
               onResolveSuggestion={onResolveSuggestion}
             />
           ))}
@@ -949,12 +948,12 @@ function SuggestionsTab({
 function SuggestionCard({
   s,
   rawEdges,
-  onFocusNode,
+  onFocusSuggestion,
   onResolveSuggestion,
 }: {
   s: RuleSuggestion
   rawEdges: CallEdge[]
-  onFocusNode: (nodeId: string) => void
+  onFocusSuggestion: (rule: EdgeOverrideRule) => void
   onResolveSuggestion: (id: string, action: 'accept' | 'reject') => void
 }): JSX.Element {
   const pending = s.status === 'pending'
@@ -1000,7 +999,7 @@ function SuggestionCard({
         )}
       </div>
       <div className="flex items-center gap-1.5">
-        <MiniBtn onClick={() => onFocusNode(ruleFocusNode(s.rule))}>
+        <MiniBtn onClick={() => onFocusSuggestion(s.rule)}>
           ⊙ focus
         </MiniBtn>
         {pending && (
