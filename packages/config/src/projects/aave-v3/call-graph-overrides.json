@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "lastModified": "2026-05-26T11:47:41.708Z",
+  "lastModified": "2026-05-26T16:44:39.040Z",
   "rules": [
     {
       "id": "r-stata-init-pool-remove",
@@ -72,7 +72,7 @@
       "node": "eth:0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
       "edgeType": "permission",
       "scope": "backward",
-      "note": "MEASUREMENT: scope PoolInstance outgoing permission edges (mint/burn on all aTokens+debt tokens) to governance-only, removing forward capital over-flare. Temporary - evaluate before keeping."
+      "note": "PoolInstance owns mint/burn/mintToTreasury/transferUnderlyingTo/handleRepayment on every aToken and debt token across all markets (528 outgoing permission edges to 132 token contracts). Following these FORWARD flared the full ~20B market token value onto every admin that merely reaches a Pool/PoolConfigurator setter (RiskSteward, config setters, stewards) even though those setters cannot move the tokens. Scoping Pool outgoing permission edges to backward keeps the ownership chains intact for governance/who-controls-what, but removes the spurious forward capital flare. Genuinely powerful admins (ProxyAdmin/Executor) retain reach via their own direct upgradeTo edges. Verified: RiskSteward 19B->33K, stewards 19B->197M, totals/union unchanged (~20B)."
     }
   ]
 }
