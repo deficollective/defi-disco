@@ -6,6 +6,8 @@ import type {
   ApiAddressType,
   ContractCallGraph,
   ExternalCall,
+  ImpactCap,
+  Mitigation,
 } from '../../../../api/types'
 
 /** Edge kinds rendered with distinct colors / dash patterns. */
@@ -65,6 +67,13 @@ export interface CallEdge {
   /** Traversal scope (set by a scope override rule; default 'both'). 'backward'
    *  = governance-only (no forward capital flare); 'forward' = capital-only. */
   scope?: 'forward' | 'backward' | 'both'
+  /** Edge-centric impact cap (set by a setEdgeCap/setOutgoingCap/setIncomingCap
+   *  rule). Bounds the forward capital this edge propagates. Relationship-level,
+   *  distinct from a function-intrinsic cap on a mitigation. */
+  cap?: ImpactCap
+  /** Edge-centric mitigations (set by a setEdgeMitigation rule) — relationship-
+   *  level constraints, distinct from a function's own mitigations. */
+  mitigations?: Mitigation[]
   /** True when this edge was added by the user (vs derived from the API). */
   user?: boolean
   /** Optional human label override. Defaults to the target function name. */

@@ -22,6 +22,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { addressesEqual, normalizeChainAddress } from './addressUtils'
 import type { EnhancedEdge } from './enhancedTraversal'
+import type { ImpactCap, Mitigation } from './types'
 
 export type BackendEdgeType = 'callgraph' | 'permission' | 'dependency'
 
@@ -88,12 +89,67 @@ export interface SetIncomingScopeRule extends RuleBase {
   scope: EdgeScope
 }
 
+/**
+ * Edge-centric impact cap — a *relationship* cap (bounds the forward capital a
+ * specific edge propagates), as opposed to a function-intrinsic cap authored on
+ * a function's mitigation. Carries a raw `ImpactCap`; resolution to USD happens
+ * in projectAnalysis (where discovered data + funds are available), keyed by the
+ * stable enhancedEdgeKey. Folded into the per-edge cap in capitalAnalysis
+ * (min wins, same as function caps). See docs/developers/designs/edge-centric-constraints.md.
+ */
+export interface SetEdgeCapRule extends RuleBase {
+  type: 'setEdgeCap'
+  from: string
+  to: string
+  edgeType: BackendEdgeType
+  cap: ImpactCap
+}
+
+/** Cap every edge leaving a node (a function, or whole contract). */
+export interface SetOutgoingCapRule extends RuleBase {
+  type: 'setOutgoingCap'
+  /** `address` matches all functions on the contract; `address.function` is exact. */
+  node: string
+  /** Optional: only edges of this type (e.g. just 'permission'). */
+  edgeType?: BackendEdgeType
+  cap: ImpactCap
+}
+
+/** Cap every edge arriving at a node (a function, or whole contract). */
+export interface SetIncomingCapRule extends RuleBase {
+  type: 'setIncomingCap'
+  node: string
+  edgeType?: BackendEdgeType
+  cap: ImpactCap
+}
+
+/**
+ * Edge-centric mitigations — relationship-level constraints (e.g. a timelock
+ * delay that only applies on the owner→function edge), as opposed to
+ * function-intrinsic mitigations authored on a function's `mitigations[]`.
+ * Mitigations are *appended* to the matched edge(s), so multiple rules stack.
+ * Merged into the function's effective mitigations in projectAnalysis
+ * (getMitigationsForOwner), deduped against function mitigations by the shared
+ * visible-identity key. See docs/developers/designs/edge-centric-constraints.md.
+ */
+export interface SetEdgeMitigationRule extends RuleBase {
+  type: 'setEdgeMitigation'
+  from: string
+  to: string
+  edgeType: BackendEdgeType
+  mitigations: Mitigation[]
+}
+
 export type EdgeOverrideRule =
   | AddEdgeRule
   | RemoveEdgeRule
   | SetEdgeScopeRule
   | SetOutgoingScopeRule
   | SetIncomingScopeRule
+  | SetEdgeCapRule
+  | SetOutgoingCapRule
+  | SetIncomingCapRule
+  | SetEdgeMitigationRule
 
 export interface CallGraphOverridesFile {
   version: string
@@ -171,6 +227,34 @@ function setScopeWhere(
   return { edges: out, matched }
 }
 
+function setCapWhere(
+  edges: EnhancedEdge[],
+  predicate: (e: EnhancedEdge) => boolean,
+  cap: ImpactCap,
+): RuleResult {
+  let matched = 0
+  const out = edges.map((e) => {
+    if (!predicate(e)) return e
+    matched++
+    return { ...e, cap }
+  })
+  return { edges: out, matched }
+}
+
+function appendMitigationsWhere(
+  edges: EnhancedEdge[],
+  predicate: (e: EnhancedEdge) => boolean,
+  mitigations: Mitigation[],
+): RuleResult {
+  let matched = 0
+  const out = edges.map((e) => {
+    if (!predicate(e)) return e
+    matched++
+    return { ...e, mitigations: [...(e.mitigations ?? []), ...mitigations] }
+  })
+  return { edges: out, matched }
+}
+
 const RULE_HANDLERS: {
   [K in EdgeOverrideRule['type']]: RuleHandler<
     Extract<EdgeOverrideRule, { type: K }>
@@ -225,6 +309,44 @@ const RULE_HANDLERS: {
         (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
         nodeMatches(rule.node, e.targetContract, e.targetFunction),
       rule.scope,
+    ),
+
+  setEdgeCap: (edges, rule) =>
+    setCapWhere(
+      edges,
+      (e) =>
+        e.edgeType === rule.edgeType &&
+        nodeMatches(rule.from, e.sourceContract, e.sourceFunction) &&
+        nodeMatches(rule.to, e.targetContract, e.targetFunction),
+      rule.cap,
+    ),
+
+  setOutgoingCap: (edges, rule) =>
+    setCapWhere(
+      edges,
+      (e) =>
+        (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
+        nodeMatches(rule.node, e.sourceContract, e.sourceFunction),
+      rule.cap,
+    ),
+
+  setIncomingCap: (edges, rule) =>
+    setCapWhere(
+      edges,
+      (e) =>
+        (rule.edgeType === undefined || e.edgeType === rule.edgeType) &&
+        nodeMatches(rule.node, e.targetContract, e.targetFunction),
+      rule.cap,
+    ),
+
+  setEdgeMitigation: (edges, rule) =>
+    appendMitigationsWhere(
+      edges,
+      (e) =>
+        e.edgeType === rule.edgeType &&
+        nodeMatches(rule.from, e.sourceContract, e.sourceFunction) &&
+        nodeMatches(rule.to, e.targetContract, e.targetFunction),
+      rule.mitigations,
     ),
 }
 

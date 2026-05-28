@@ -29,12 +29,16 @@ import type {
   ApiCallGraphOverridesResponse,
   EdgeOverrideRule,
   EdgeScope,
+  ImpactCap,
+  Mitigation,
   RuleSuggestion,
 } from '../../../../../api/types'
 import { useCodeStore } from '../../../../../components/editor/store'
 import { useMultiViewStore } from '../../../multi-view/store'
 import { usePanelStore } from '../../../store/panel-store'
 
+import { addressesEqual } from '../../addressUtils'
+import { useFunctionNavigationStore } from '../../functionNavigationStore'
 import { buildCallgraph } from '../buildCallgraph'
 import {
   computeLayout,
@@ -267,6 +271,75 @@ export function CallGraphView(): JSX.Element {
     [rules, saveRules],
   )
 
+  // Edge-centric cap: upsert (or clear) a setEdgeCap rule for one exact edge.
+  // Bounds the forward capital this edge propagates without removing it.
+  const setEdgeCap = useCallback(
+    (edge: CallEdge, cap: ImpactCap | undefined) => {
+      if (!edge.edgeType) return
+      const existing = rules.find(
+        (r) =>
+          r.type === 'setEdgeCap' &&
+          r.from === edge.from &&
+          r.to === edge.to &&
+          r.edgeType === edge.edgeType,
+      )
+      const without = existing
+        ? rules.filter((r) => r.id !== existing.id)
+        : rules
+      const next: EdgeOverrideRule[] =
+        cap === undefined
+          ? without
+          : [
+              ...without,
+              {
+                id: makeRuleId(),
+                type: 'setEdgeCap',
+                from: edge.from,
+                to: edge.to,
+                edgeType: edge.edgeType,
+                cap,
+              },
+            ]
+      saveRules.mutate(next)
+    },
+    [rules, saveRules],
+  )
+
+  // Edge-centric mitigations: replace the edge's mitigation set. Removes any
+  // existing setEdgeMitigation rules for the exact edge, then (if non-empty)
+  // adds one rule carrying the full list. The sidebar manages add/remove of
+  // individual mitigations and calls this with the resulting list.
+  const setEdgeMitigations = useCallback(
+    (edge: CallEdge, mitigations: Mitigation[]) => {
+      if (!edge.edgeType) return
+      const without = rules.filter(
+        (r) =>
+          !(
+            r.type === 'setEdgeMitigation' &&
+            r.from === edge.from &&
+            r.to === edge.to &&
+            r.edgeType === edge.edgeType
+          ),
+      )
+      const next: EdgeOverrideRule[] =
+        mitigations.length === 0
+          ? without
+          : [
+              ...without,
+              {
+                id: makeRuleId(),
+                type: 'setEdgeMitigation',
+                from: edge.from,
+                to: edge.to,
+                edgeType: edge.edgeType,
+                mitigations,
+              },
+            ]
+      saveRules.mutate(next)
+    },
+    [rules, saveRules],
+  )
+
   // Bulk scope: all outgoing/incoming edges of a node (optionally one type).
   // The over-flare one-click is setOutgoingScope(contract, 'permission', 'backward').
   const setOutgoingScope = useCallback(
@@ -427,7 +500,15 @@ export function CallGraphView(): JSX.Element {
       mode: layoutMode,
       filters,
     })
-  }, [startId, displayNodes, displayEdges, depth, collapsed, layoutMode, filters])
+  }, [
+    startId,
+    displayNodes,
+    displayEdges,
+    depth,
+    collapsed,
+    layoutMode,
+    filters,
+  ])
 
   // Selected → path-from-start (cyan highlight + breadcrumb)
   const pathFromStart = useMemo(() => {
@@ -528,14 +609,44 @@ export function CallGraphView(): JSX.Element {
   const setActivePanel = useMultiViewStore((s) => s.setActivePanel)
   const { showRange, setSourceIndex } = useCodeStore()
 
+  // Address the walker itself last pushed to the shared selection — used to
+  // ignore our own echo in the cross-panel focus effect (so a single-click in
+  // the walker selects without re-rooting; only Values-panel selections re-root).
+  const selfPushedAddress = useRef<string | null>(null)
+  const navigateToFunction = useFunctionNavigationStore(
+    (s) => s.navigateToFunction,
+  )
   const handleSelectNode = useCallback(
     (id: string) => {
       setSelected(id)
-      const { address } = parseNodeId(id)
+      const { address, functionName } = parseNodeId(id)
+      selfPushedAddress.current = address
       selectGlobal(address)
+      // If a function node, also open/expand that exact function in the Values
+      // panel (FunctionFolder consumes this navigation target).
+      if (functionName) navigateToFunction(address, functionName)
     },
-    [selectGlobal],
+    [selectGlobal, navigateToFunction],
   )
+
+  // Cross-panel focus: when a contract is selected in the Values panel (the
+  // shared panel-store selection), re-root the walker on it and center. Skip
+  // selections the walker itself originated (the selfPushedAddress echo) so a
+  // single-click in the walker doesn't re-root — only an external selection does.
+  // Re-rooting is the "focus" gesture; the scroll-to-center effect below fires.
+  const selectedFromPanel = usePanelStore((s) => s.selected)
+  useEffect(() => {
+    if (!selectedFromPanel) return
+    if (
+      selfPushedAddress.current &&
+      addressesEqual(selfPushedAddress.current, selectedFromPanel)
+    )
+      return
+    const currentRoot = startId ? parseNodeId(startId).address : undefined
+    if (currentRoot && addressesEqual(currentRoot, selectedFromPanel)) return
+    setStartId(selectedFromPanel)
+    setSelected(selectedFromPanel)
+  }, [selectedFromPanel, startId])
 
   // Double-click any node → take it as the new trace start. Its own callers
   // then appear above and its callees below, so you can walk the graph in
@@ -669,7 +780,7 @@ export function CallGraphView(): JSX.Element {
           }}
         >
           {!startId ? (
-            <StartPicker entrypoints={entrypoints} onPick={setStartId} />
+            <StartPicker entrypoints={entrypoints} onPick={handleReFocus} />
           ) : (
             <div
               ref={canvasRef}
@@ -768,7 +879,8 @@ export function CallGraphView(): JSX.Element {
                 {layout &&
                   Object.entries(layout.positions).map(([id, pos]) => {
                     const { address } = parseNodeId(id)
-                    const node = displayNodes.get(id) ?? displayNodes.get(address)
+                    const node =
+                      displayNodes.get(id) ?? displayNodes.get(address)
                     if (!node) return null
                     const onPath = !!(
                       pathFromStart && pathFromStart.includes(id)
@@ -836,7 +948,8 @@ export function CallGraphView(): JSX.Element {
         allEdges={edges}
         visibleNodeIds={visibleNodeIds}
         onSelectNode={handleSelectNode}
-        onSetStart={setStartId}
+        onSetStart={handleReFocus}
+        onHoverEdge={setHoveredEdge}
         onToggleCollapse={(c) => toggleCollapsed(project, c)}
         collapsedContracts={collapsed}
         onOpenInCode={handleOpenInCode}
@@ -846,6 +959,8 @@ export function CallGraphView(): JSX.Element {
         onRemoveEdge={removeEdgeAsRule}
         onAddEdge={addEdgeRule}
         onSetEdgeScope={setEdgeScope}
+        onSetEdgeCap={setEdgeCap}
+        onSetEdgeMitigations={setEdgeMitigations}
         onSetOutgoingScope={setOutgoingScope}
         onSetIncomingScope={setIncomingScope}
         onDeleteRule={removeRule}

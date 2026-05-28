@@ -26,6 +26,8 @@ import type {
   ApiEnhancedTraversalResponse,
   ApiFunctionsResponse,
   FunctionTraversalResult,
+  ImpactCap,
+  Mitigation,
   OwnershipChainStep,
   TraversalTerminal,
 } from './types'
@@ -67,6 +69,22 @@ export interface EnhancedEdge {
    * (the principled over-flare fix). 'forward' = capital-only.
    */
   scope?: 'forward' | 'backward' | 'both'
+  /**
+   * Edge-centric impact cap (relationship cap), set by a setEdgeCap /
+   * setOutgoingCap / setIncomingCap override rule. Raw ImpactCap; resolved to
+   * USD in projectAnalysis (keyed by enhancedEdgeKey) and folded into the
+   * per-edge cap during forward capital traversal (min wins, alongside
+   * function-intrinsic caps). See docs/developers/designs/edge-centric-constraints.md.
+   */
+  cap?: ImpactCap
+  /**
+   * Edge-centric mitigations (relationship-level), appended by a
+   * setEdgeMitigation override rule. Merged into a function's effective
+   * mitigations in projectAnalysis.getMitigationsForOwner when this edge is the
+   * owner→function relationship, deduped against function mitigations by the
+   * shared visible-identity key. See edge-centric-constraints.md.
+   */
+  mitigations?: Mitigation[]
 }
 
 /**

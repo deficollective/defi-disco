@@ -81,6 +81,12 @@ export function EdgePath({
   const label = edge.label ?? parseNodeId(edge.to).functionName ?? ''
   const labelText = label.length > 22 ? `${label.slice(0, 21)}…` : label
   const labelW = labelText.length * 6.3 + 12
+  // Edge-centric markers: relationship constraints live on the edge (vs a
+  // function-intrinsic cap/mitigation, which would render on a node). Shown as
+  // small glyphs so edge-level constraints are distinguishable on the canvas.
+  const hasCap = !!edge.cap
+  const hasMit = !!edge.mitigations && edge.mitigations.length > 0
+  const markerText = `${hasCap ? '◆' : ''}${hasMit ? '🛡' : ''}`
 
   return (
     <g
@@ -141,6 +147,20 @@ export function EdgePath({
           >
             {labelText}
           </text>
+          {markerText && (
+            <text
+              x={mx + labelW / 2 + 4}
+              y={my + 3}
+              textAnchor="start"
+              fill="var(--aux-yellow, #FABD30)"
+              style={{
+                font: '11px ui-monospace, monospace',
+                pointerEvents: 'none',
+              }}
+            >
+              {markerText}
+            </text>
+          )}
         </>
       )}
     </g>

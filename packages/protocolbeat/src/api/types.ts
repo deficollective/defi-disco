@@ -969,12 +969,46 @@ export interface SetIncomingScopeRule extends EdgeRuleBase {
   edgeType?: EnhancedEdgeKind
   scope: EdgeScope
 }
+/** Edge-centric impact cap (relationship cap): bounds the forward capital this
+ *  edge propagates. Folded into the per-edge cap (min) in capital analysis. */
+export interface SetEdgeCapRule extends EdgeRuleBase {
+  type: 'setEdgeCap'
+  from: string
+  to: string
+  edgeType: EnhancedEdgeKind
+  cap: ImpactCap
+}
+export interface SetOutgoingCapRule extends EdgeRuleBase {
+  type: 'setOutgoingCap'
+  node: string
+  edgeType?: EnhancedEdgeKind
+  cap: ImpactCap
+}
+export interface SetIncomingCapRule extends EdgeRuleBase {
+  type: 'setIncomingCap'
+  node: string
+  edgeType?: EnhancedEdgeKind
+  cap: ImpactCap
+}
+/** Edge-centric mitigations (relationship-level): appended to the matched edge,
+ *  merged into the function's effective mitigations for that owner. */
+export interface SetEdgeMitigationRule extends EdgeRuleBase {
+  type: 'setEdgeMitigation'
+  from: string
+  to: string
+  edgeType: EnhancedEdgeKind
+  mitigations: Mitigation[]
+}
 export type EdgeOverrideRule =
   | AddEdgeRule
   | RemoveEdgeRule
   | SetEdgeScopeRule
   | SetOutgoingScopeRule
   | SetIncomingScopeRule
+  | SetEdgeCapRule
+  | SetOutgoingCapRule
+  | SetIncomingCapRule
+  | SetEdgeMitigationRule
 
 export interface ApiCallGraphOverridesResponse {
   version: string

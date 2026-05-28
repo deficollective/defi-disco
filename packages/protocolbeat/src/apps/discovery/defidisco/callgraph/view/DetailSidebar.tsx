@@ -9,13 +9,18 @@ import { useParams } from 'react-router-dom'
 import type {
   EdgeOverrideRule,
   EdgeScope,
+  ImpactCap,
+  Mitigation,
   RuleSuggestion,
 } from '../../../../../api/types'
 import type { BackendEdgeType, CallEdge, CallNode } from '../model'
 import { parseNodeId, shortAddr } from '../model'
 import { useCallgraphOverridesStore } from '../overridesStore'
 import {
+  capLabel,
   describeRule,
+  effectiveCap,
+  effectiveEdgeMitigations,
   effectiveScope,
   findRemoveEdgeRule,
   ruleMatchesAnyEdge,
@@ -32,6 +37,8 @@ interface Props {
   visibleNodeIds: Set<string>
   onSelectNode: (id: string) => void
   onSetStart: (id: string) => void
+  /** Highlight an edge on the canvas (e.g. hovering an edge row); null clears. */
+  onHoverEdge: (edge: CallEdge | null) => void
   onToggleCollapse: (contract: string) => void
   collapsedContracts: Set<string>
   onOpenInCode?: (contractAddress: string, functionName: string) => void
@@ -44,6 +51,10 @@ interface Props {
   onAddEdge: (from: string, to: string, edgeType: BackendEdgeType) => void
   /** Set the scope of one edge (perm/dependency edges — governance/capital/both). */
   onSetEdgeScope: (edge: CallEdge, scope: EdgeScope) => void
+  /** Set (or clear, with undefined) an edge-centric impact cap on one edge. */
+  onSetEdgeCap: (edge: CallEdge, cap: ImpactCap | undefined) => void
+  /** Replace the edge-centric mitigation list on one edge (empty clears). */
+  onSetEdgeMitigations: (edge: CallEdge, mitigations: Mitigation[]) => void
   /** Bulk scope all outgoing/incoming edges of a node (optionally one type). */
   onSetOutgoingScope: (
     nodeRef: string,
@@ -162,6 +173,10 @@ interface EditableEdge {
   restoreRuleId?: string
   /** For 'scoped' (perm/dependency edges), the effective traversal scope. */
   scope?: EdgeScope
+  /** Effective edge-centric impact cap (any edge type), if a cap rule applies. */
+  cap?: ImpactCap
+  /** Effective edge-centric mitigations (any edge type). */
+  mitigations?: Mitigation[]
 }
 
 function NodeTab(props: Props): JSX.Element {
@@ -180,6 +195,9 @@ function NodeTab(props: Props): JSX.Element {
     onRemoveEdge,
     onAddEdge,
     onSetEdgeScope,
+    onSetEdgeCap,
+    onSetEdgeMitigations,
+    onHoverEdge,
     onSetOutgoingScope,
     onSetIncomingScope,
     onDeleteRule,
@@ -201,13 +219,21 @@ function NodeTab(props: Props): JSX.Element {
       }
     }
     if (e.edgeType === 'callgraph')
-      return { edge: e, otherId, state: 'callgraph' }
+      return {
+        edge: e,
+        otherId,
+        state: 'callgraph',
+        cap: effectiveCap(rules, e),
+        mitigations: effectiveEdgeMitigations(rules, e),
+      }
     // permission / dependency → scope control (existence edited at source).
     return {
       edge: e,
       otherId,
       state: 'scoped',
       scope: effectiveScope(rules, e),
+      cap: effectiveCap(rules, e),
+      mitigations: effectiveEdgeMitigations(rules, e),
     }
   }
 
@@ -283,6 +309,9 @@ function NodeTab(props: Props): JSX.Element {
         onRemoveEdge={onRemoveEdge}
         onRestore={onDeleteRule}
         onSetEdgeScope={onSetEdgeScope}
+        onSetEdgeCap={onSetEdgeCap}
+        onSetEdgeMitigations={onSetEdgeMitigations}
+        onHoverEdge={onHoverEdge}
         onBulkOwnsScope={(scope) =>
           onSetOutgoingScope(selectedId, scope, 'permission')
         }
@@ -299,6 +328,9 @@ function NodeTab(props: Props): JSX.Element {
         onRemoveEdge={onRemoveEdge}
         onRestore={onDeleteRule}
         onSetEdgeScope={onSetEdgeScope}
+        onSetEdgeCap={onSetEdgeCap}
+        onSetEdgeMitigations={onSetEdgeMitigations}
+        onHoverEdge={onHoverEdge}
         onBulkOwnsScope={(scope) =>
           onSetIncomingScope(selectedId, scope, 'permission')
         }
@@ -338,6 +370,9 @@ function EdgeSection({
   onRemoveEdge,
   onRestore,
   onSetEdgeScope,
+  onSetEdgeCap,
+  onSetEdgeMitigations,
+  onHoverEdge,
   onBulkOwnsScope,
 }: {
   title: string
@@ -348,6 +383,9 @@ function EdgeSection({
   onRemoveEdge: (e: CallEdge) => void
   onRestore: (ruleId: string) => void
   onSetEdgeScope: (edge: CallEdge, scope: EdgeScope) => void
+  onSetEdgeCap: (edge: CallEdge, cap: ImpactCap | undefined) => void
+  onSetEdgeMitigations: (edge: CallEdge, mitigations: Mitigation[]) => void
+  onHoverEdge: (edge: CallEdge | null) => void
   onBulkOwnsScope: (scope: EdgeScope) => void
 }): JSX.Element {
   // Over-flare convenience: if this side has ownership edges, offer a one-click
@@ -388,6 +426,9 @@ function EdgeSection({
             onRemoveEdge={onRemoveEdge}
             onRestore={onRestore}
             onSetEdgeScope={onSetEdgeScope}
+            onSetEdgeCap={onSetEdgeCap}
+            onSetEdgeMitigations={onSetEdgeMitigations}
+            onHoverEdge={onHoverEdge}
           />
         ))
       )}
@@ -403,6 +444,9 @@ function EdgeRow({
   onRemoveEdge,
   onRestore,
   onSetEdgeScope,
+  onSetEdgeCap,
+  onSetEdgeMitigations,
+  onHoverEdge,
 }: {
   row: EditableEdge
   dir: 'out' | 'in'
@@ -411,11 +455,21 @@ function EdgeRow({
   onRemoveEdge: (e: CallEdge) => void
   onRestore: (ruleId: string) => void
   onSetEdgeScope: (edge: CallEdge, scope: EdgeScope) => void
+  onSetEdgeCap: (edge: CallEdge, cap: ImpactCap | undefined) => void
+  onSetEdgeMitigations: (edge: CallEdge, mitigations: Mitigation[]) => void
+  onHoverEdge: (edge: CallEdge | null) => void
 }): JSX.Element {
   const { edge, otherId, state } = row
   const off = state === 'suppressed'
+  // A cap is meaningful on any live (non-suppressed) backend edge. A 'backward'
+  // scope makes it a no-op (edge carries no forward capital) — flagged in the UI.
+  const capEditable = state === 'callgraph' || state === 'scoped'
   return (
     <div
+      // Hovering the row highlights (and labels) the matching edge on the
+      // canvas. Suppressed edges aren't on the canvas, so skip the highlight.
+      onMouseEnter={() => !off && onHoverEdge(edge)}
+      onMouseLeave={() => onHoverEdge(null)}
       className={clsx(
         'mb-1 flex w-full flex-col gap-1 rounded border bg-coffee-800 px-2 py-1.5 font-mono text-[11px]',
         off ? 'border-coffee-700' : 'border-coffee-600 hover:border-coffee-400',
@@ -485,6 +539,291 @@ function EdgeRow({
             edit at source
           </span>
         </div>
+      )}
+
+      {/* edge-centric impact cap — bounds the forward capital this edge propagates */}
+      {capEditable && (
+        <CapControl
+          cap={row.cap}
+          noop={row.scope === 'backward'}
+          onSet={(cap) => onSetEdgeCap(edge, cap)}
+        />
+      )}
+
+      {/* edge-centric mitigations — relationship-level constraints on this edge */}
+      {capEditable && (
+        <EdgeMitigationControl
+          mitigations={row.mitigations ?? []}
+          onChange={(ms) => onSetEdgeMitigations(edge, ms)}
+        />
+      )}
+    </div>
+  )
+}
+
+/** Inline edge-mitigation editor: lists the edge's relationship mitigations with
+ *  remove, and an add form for the two relationship-typical kinds — a `delay`
+ *  (seconds) and an `other` (label + description). Richer types (valueRange,
+ *  relativeValue, impactCap) are authored on the function or via the rules file. */
+function EdgeMitigationControl({
+  mitigations,
+  onChange,
+}: {
+  mitigations: Mitigation[]
+  onChange: (mitigations: Mitigation[]) => void
+}): JSX.Element {
+  const [adding, setAdding] = useState<null | 'delay' | 'other'>(null)
+  const [delaySecs, setDelaySecs] = useState('')
+  const [label, setLabel] = useState('')
+  const [desc, setDesc] = useState('')
+
+  const reset = () => {
+    setAdding(null)
+    setDelaySecs('')
+    setLabel('')
+    setDesc('')
+  }
+  const commit = () => {
+    if (adding === 'delay') {
+      const n = Number(delaySecs.replace(/[, _]/g, ''))
+      if (isFinite(n) && n > 0) {
+        onChange([
+          ...mitigations,
+          {
+            type: 'delay',
+            description: `${n}s delay on this relationship`,
+            delaySeconds: n,
+          },
+        ])
+      }
+    } else if (adding === 'other') {
+      if (label.trim() || desc.trim()) {
+        onChange([
+          ...mitigations,
+          {
+            type: 'other',
+            label: label.trim() || undefined,
+            description: desc.trim() || label.trim(),
+          },
+        ])
+      }
+    }
+    reset()
+  }
+
+  return (
+    <div className="flex flex-col gap-1 pl-4 text-[10px]">
+      <div className="flex items-center gap-2">
+        <span className="text-coffee-500">mitigations</span>
+        {mitigations.length === 0 && adding === null && (
+          <button
+            type="button"
+            onClick={() => setAdding('other')}
+            className="text-coffee-400 hover:text-coffee-200"
+          >
+            ＋ add
+          </button>
+        )}
+      </div>
+
+      {mitigations.map((m, i) => (
+        <div
+          key={`${m.type}-${i}`}
+          className="flex items-center gap-1.5"
+          title={m.description}
+        >
+          <span className="rounded bg-aux-green/10 px-1 py-0.5 font-mono text-aux-green">
+            🛡{' '}
+            {m.label ??
+              (m.type === 'delay' ? `${m.delaySeconds ?? '?'}s` : m.type)}
+          </span>
+          <button
+            type="button"
+            onClick={() => onChange(mitigations.filter((_, j) => j !== i))}
+            title="Remove this edge mitigation"
+            className="text-coffee-400 hover:text-aux-red"
+          >
+            ✕
+          </button>
+        </div>
+      ))}
+
+      {adding === null && mitigations.length > 0 && (
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setAdding('delay')}
+            className="text-coffee-400 hover:text-coffee-200"
+          >
+            ＋ delay
+          </button>
+          <button
+            type="button"
+            onClick={() => setAdding('other')}
+            className="text-coffee-400 hover:text-coffee-200"
+          >
+            ＋ other
+          </button>
+        </div>
+      )}
+
+      {adding === 'delay' && (
+        <div className="flex items-center gap-1">
+          <input
+            autoFocus
+            value={delaySecs}
+            onChange={(e) => setDelaySecs(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') commit()
+              if (e.key === 'Escape') reset()
+            }}
+            placeholder="delay seconds"
+            className="w-28 rounded border border-coffee-600 bg-coffee-900 px-1 py-0.5 font-mono text-coffee-100"
+          />
+          <button
+            type="button"
+            onClick={commit}
+            className="text-aux-green hover:underline"
+          >
+            save
+          </button>
+          <button
+            type="button"
+            onClick={reset}
+            className="text-coffee-400 hover:text-aux-red"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      {adding === 'other' && (
+        <div className="flex flex-col gap-1">
+          <input
+            autoFocus
+            value={label}
+            onChange={(e) => setLabel(e.target.value)}
+            placeholder="label (1-2 words)"
+            className="rounded border border-coffee-600 bg-coffee-900 px-1 py-0.5 font-mono text-coffee-100"
+          />
+          <input
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') commit()
+              if (e.key === 'Escape') reset()
+            }}
+            placeholder="description"
+            className="rounded border border-coffee-600 bg-coffee-900 px-1 py-0.5 font-mono text-coffee-100"
+          />
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={commit}
+              className="text-aux-green hover:underline"
+            >
+              save
+            </button>
+            <button
+              type="button"
+              onClick={reset}
+              className="text-coffee-400 hover:text-aux-red"
+            >
+              cancel
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/** Inline edge-cap editor: shows the current cap (or a "set cap" affordance) and
+ *  lets the researcher enter a hardcoded USD cap or clear it. fieldRef caps are
+ *  authored via the rules file / agent suggestions; this inline form is USD-only. */
+function CapControl({
+  cap,
+  noop,
+  onSet,
+}: {
+  cap?: ImpactCap
+  noop?: boolean
+  onSet: (cap: ImpactCap | undefined) => void
+}): JSX.Element {
+  const [editing, setEditing] = useState(false)
+  const [val, setVal] = useState('')
+  const isUsdHardcoded =
+    cap?.value.mode === 'hardcoded' && cap.unit.kind === 'usd'
+
+  const commit = () => {
+    const n = Number(val.replace(/[, _]/g, ''))
+    if (isFinite(n) && n > 0) {
+      onSet({ value: { mode: 'hardcoded', amount: n }, unit: { kind: 'usd' } })
+    }
+    setEditing(false)
+    setVal('')
+  }
+
+  return (
+    <div className="flex items-center gap-2 pl-4 text-[10px]">
+      <span className="text-coffee-500">cap</span>
+      {cap && !editing ? (
+        <>
+          <span
+            className={clsx(
+              'rounded bg-aux-yellow/10 px-1 py-0.5 font-mono text-aux-yellow',
+              noop && 'opacity-50',
+            )}
+            title={
+              noop
+                ? 'This edge is governance-only (backward) — the cap has no effect on forward capital.'
+                : 'Forward capital through this edge is bounded to this amount.'
+            }
+          >
+            ◆ {capLabel(cap)}
+            {!isUsdHardcoded && ''}
+          </span>
+          <button
+            type="button"
+            onClick={() => onSet(undefined)}
+            title="Remove this edge cap"
+            className="text-coffee-400 hover:text-aux-red"
+          >
+            ✕
+          </button>
+          {noop && (
+            <span className="text-[9px] text-coffee-500">
+              (no effect while gov-only)
+            </span>
+          )}
+        </>
+      ) : editing ? (
+        <span className="flex items-center gap-1">
+          <span className="text-coffee-400">$</span>
+          <input
+            autoFocus
+            value={val}
+            onChange={(e) => setVal(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') commit()
+              if (e.key === 'Escape') {
+                setEditing(false)
+                setVal('')
+              }
+            }}
+            onBlur={commit}
+            placeholder="USD amount"
+            className="w-24 rounded border border-coffee-600 bg-coffee-900 px-1 py-0.5 font-mono text-coffee-100"
+          />
+        </span>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setEditing(true)}
+          className="text-coffee-400 hover:text-coffee-200"
+        >
+          ＋ set cap
+        </button>
       )}
     </div>
   )
@@ -999,9 +1338,7 @@ function SuggestionCard({
         )}
       </div>
       <div className="flex items-center gap-1.5">
-        <MiniBtn onClick={() => onFocusSuggestion(s.rule)}>
-          ⊙ focus
-        </MiniBtn>
+        <MiniBtn onClick={() => onFocusSuggestion(s.rule)}>⊙ focus</MiniBtn>
         {pending && (
           <>
             <button
