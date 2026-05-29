@@ -1,0 +1,121 @@
+{
+  "$schema": "../../../../discovery/schemas/config.v2.schema.json",
+  "name": "stakewise-v3",
+  "import": ["../globalConfig.jsonc"],
+  "initialAddresses": [
+    // Core protocol contracts
+    "eth:0x3a0008a588772446f6e656133C2D5029CC4FC20E", // VaultsRegistry
+    "eth:0x7A8cbBf690084E43De778173cfAcf7313c9122DD", // EthVaultFactory
+    "eth:0x6B5815467da09DaA7DC83Db21c9239d98Bb487b5", // Keeper
+    "eth:0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38", // OsToken (osETH)
+    "eth:0x2A261e60FB14586B474C208b1B7AC6D0f5000306", // OsTokenVaultController
+    "eth:0x287d1e2A8dE183A8bf8f2b09Fa1340fBd766eb59", // OsTokenConfig
+    "eth:0xdF3123dD182b8d3e0266a2dC37eEb8366d149B5A", // EthOsTokenRedeemer
+    "eth:0x75AB6DdCe07556639333d3Df1eaa684F5735223e"  // DepositDataRegistry
+  ],
+  "maxAddresses": 100,
+  "maxDepth": 5,
+  "overrides": {
+    // VaultsRegistry — enumerate factories & vault implementations
+    "eth:0x3a0008a588772446f6e656133C2D5029CC4FC20E": {
+      "fields": {
+        "factories": {
+          "handler": {
+            "type": "event",
+            "select": "factory",
+            "add": { "event": "FactoryAdded" },
+            "remove": { "event": "FactoryRemoved" }
+          },
+          "permissions": [{ "type": "interact", "delay": 0 }]
+        },
+        "vaultImpls": {
+          "handler": {
+            "type": "event",
+            "select": "impl",
+            "add": { "event": "VaultImplAdded" },
+            "remove": { "event": "VaultImplRemoved" }
+          }
+        }
+      }
+    },
+    // OsTokenVaultController — accumulators
+    "eth:0x2A261e60FB14586B474C208b1B7AC6D0f5000306": {
+      "ignoreMethods": ["convertToAssets", "convertToShares"],
+      "ignoreInWatchMode": ["cumulativeFeePerShare", "totalAssets", "totalShares"]
+    },
+    // EthVault — sample vault; operational state
+    "eth:0x927A83c679A5e1a6435D6BfaEF7F20D4db23e2cC": {
+      "ignoreMethods": ["convertToAssets", "convertToShares", "getExitQueueIndex"],
+      "ignoreInWatchMode": [
+        "getExitQueueData",
+        "isStateUpdateRequired",
+        "totalAssets",
+        "totalShares",
+        "validatorsManagerNonce",
+        "withdrawableAssets"
+      ]
+    },
+    // EthOsTokenRedeemer — exit queue state
+    "eth:0xdF3123dD182b8d3e0266a2dC37eEb8366d149B5A": {
+      "ignoreMethods": ["getExitQueueIndex"],
+      "ignoreInWatchMode": [
+        "canProcessExitQueue",
+        "exitQueueTimestamp",
+        "getExitQueueData",
+        "nonce",
+        "pendingRedeemablePositions",
+        "queuedShares",
+        "redeemablePositions",
+        "redeemedAssets",
+        "redeemedShares",
+        "swappedAssets",
+        "swappedShares",
+        "unclaimedAssets"
+      ]
+    },
+    // Keeper — rewards round state + enumerate oracle set
+    "eth:0x6B5815467da09DaA7DC83Db21c9239d98Bb487b5": {
+      "ignoreInWatchMode": [
+        "canUpdateRewards",
+        "lastRewardsTimestamp",
+        "prevRewardsRoot",
+        "rewardsNonce",
+        "rewardsRoot"
+      ],
+      "fields": {
+        "oracles": {
+          "handler": {
+            "type": "event",
+            "select": "oracle",
+            "add": { "event": "OracleAdded" },
+            "remove": { "event": "OracleRemoved" }
+          },
+          "permissions": [{ "type": "interact", "delay": 0 }]
+        }
+      }
+    },
+    // OsToken — enumerate controllers set
+    "eth:0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38": {
+      "ignoreInWatchMode": ["totalSupply"],
+      "fields": {
+        "controllers": {
+          "handler": {
+            "type": "event",
+            "select": "controller",
+            "add": { "event": "ControllerUpdated", "where": ["=", "#registered", true] },
+            "remove": { "event": "ControllerUpdated", "where": ["=", "#registered", false] }
+          }
+        }
+      }
+    },
+    // External Reality.eth oracle infrastructure — leaf, ignore relatives
+    "eth:0x5b7dD1E86623548AF054A4985F7fc8Ccbb554E2c": {
+      "ignoreMethods": ["template_hashes", "templates"],
+      "ignoreRelatives": ["arbitrator", "token"]
+    },
+    "eth:0x867092A32bC16816F12Fb326EfF7A2865E1ec138": {
+      "ignoreMethods": ["template_hashes", "templates"],
+      "ignoreRelatives": ["arbitrator", "token"]
+    }
+  }
+}
