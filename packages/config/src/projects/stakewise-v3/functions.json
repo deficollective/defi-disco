@@ -1,0 +1,1594 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-26T08:24:49.210Z",
+  "contracts": {
+    "eth:0x75AB6DdCe07556639333d3Df1eaa684F5735223e": {
+      "functions": [
+        {
+          "functionName": "setDepositDataManager",
+          "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-vault-admin-only",
+              "description": "Caller must equal the vault’s own admin. Scope is bounded to one vault’s deposit-data-manager designation; only the vault admin (set per-vault) is authorized."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.996Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.996Z"
+          }
+        },
+        {
+          "functionName": "setDepositDataRoot",
+          "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-vault-manager-only",
+              "description": "Caller must be the per-vault deposit data manager (defaults to vault admin). Affects only the calling vault’s validator registration manifest; cannot impact other vaults’ data."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.005Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.005Z"
+          }
+        },
+        {
+          "functionName": "migrate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "one-shot-per-vault",
+              "description": "Callable once per vault during V2→V3 upgrade only; _migrated[msg.sender] flag is set permanently after first call."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.012Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.012Z"
+          }
+        }
+      ]
+    },
+    "eth:0xdF3123dD182b8d3e0266a2dC37eEb8366d149B5A": {
+      "functions": [
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.931Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.931Z"
+          }
+        },
+        {
+          "functionName": "acceptOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingOwner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.946Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.946Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.939Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.939Z"
+          }
+        },
+        {
+          "functionName": "setPositionsManager",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Sets the address allowed to propose redeemable-position Merkle roots (proposeRedeemablePositions). Currently address(0) — redemptions effectively disabled until governance appoints a manager. Acceptance still requires the owner (2/2 Safe)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.955Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.955Z"
+          }
+        },
+        {
+          "functionName": "proposeRedeemablePositions",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.positionsManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Proposes a new Merkle root; takes effect only after the owner (2/2 Safe) calls acceptRedeemablePositions. Until acceptance, the pending root is non-binding state."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.964Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.964Z"
+          }
+        },
+        {
+          "functionName": "acceptRedeemablePositions",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Activates the pending redeemable-positions Merkle root. Subsequent redeemers can then redeem osETH against positions covered by the root. Worst case: a malicious root could allow targeted users to redeem against under-collateralized positions, but each redemption still settles 1:1 between osETH and underlying ETH from a covered vault."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.972Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.972Z"
+          }
+        },
+        {
+          "functionName": "denyRedeemablePositions",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Discards the pending Merkle root proposal; no live state change."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.981Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.981Z"
+          }
+        },
+        {
+          "functionName": "removeRedeemablePositions",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Clears the active redeemable-positions root; disables future redemptions until a new root is accepted. Does not extract funds."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.988Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.988Z"
+          }
+        }
+      ]
+    },
+    "eth:0x6B5815467da09DaA7DC83Db21c9239d98Bb487b5": {
+      "functions": [
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.681Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.681Z"
+          }
+        },
+        {
+          "functionName": "acceptOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingOwner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.696Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.696Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.689Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.689Z"
+          }
+        },
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "init-guarded",
+              "description": "One-shot initializer; KeeperOracles initialization can only run once."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.703Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.703Z"
+          }
+        },
+        {
+          "functionName": "setValidatorsMinOracles",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Adjusts the validator attestation threshold. Lowering it to 1 would allow a single oracle to collateralize fraudulent vaults on the next approveValidators call; existing collateralized vaults unaffected."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.726Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.726Z"
+          }
+        },
+        {
+          "functionName": "setRewardsMinOracles",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Adjusts the rewards attestation threshold. Lowering it lets fewer oracles update rewardsRoot/avgRewardPerSecond on the next round (rewardsDelay=12h between rounds bounds frequency)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.733Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.733Z"
+          }
+        },
+        {
+          "functionName": "addOracle",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Adds an oracle to the m-of-n attestation set. Past rewards roots and validator approvals are immutable; new attestations require the updated set. Threshold (rewardsMinOracles/validatorsMinOracles, currently 6 of 11) bounds the impact of any single added oracle."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.710Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.710Z"
+          }
+        },
+        {
+          "functionName": "removeOracle",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Removes an oracle from the attestation set; impacts only future attestations. Existing rewardsRoot and previously-collateralized vaults remain valid."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.719Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.719Z"
+          }
+        },
+        {
+          "functionName": "updateConfig",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Updates the oracles IPFS config hash (off-chain coordination metadata). Pure event emission — no on-chain state changes affecting funds."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.740Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.740Z"
+          }
+        },
+        {
+          "functionName": "approveValidators",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.oracles"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "oracle-threshold-gated",
+              "description": "Requires a 6-of-11 oracle signature attestation per validator approval. Callable only by a vault that is itself registered in VaultsRegistry. Collateralizes the calling vault; cannot drain existing positions."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.747Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.747Z"
+          }
+        },
+        {
+          "functionName": "updateRewards",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.oracles"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "oracle-threshold-gated",
+              "description": "Requires 6-of-11 oracle signatures. Updates rewardsRoot and avgRewardPerSecond globally. Bounded by rewardsDelay (12h) between rounds. A malicious quorum can inflate rewards but avgRewardPerSecond is capped by _maxAvgRewardPerSecond (immutable)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.755Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.755Z"
+          }
+        },
+        {
+          "functionName": "updateExitSignatures",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.oracles"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "oracle-threshold-gated",
+              "description": "Updates the IPFS hash of validator exit signatures for a vault. Off-chain coordination data only; no fund impact on-chain."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.762Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.762Z"
+          }
+        }
+      ]
+    },
+    "eth:0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38": {
+      "functions": [
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "disabled-by-state",
+              "description": "Owner has been set to address(0) — Ownable functions are uncallable. Discovery confirms owner=ZERO."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.770Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.770Z"
+          }
+        },
+        {
+          "functionName": "acceptOwnership",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingOwner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "disabled-by-state",
+              "description": "No pending owner exists; pendingOwner=ZERO."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.787Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.787Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "disabled-by-state",
+              "description": "Owner is already address(0); no-op call."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.778Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.778Z"
+          }
+        },
+        {
+          "functionName": "setController",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "disabled-by-state",
+              "description": "Owner is address(0); the controllers set is now frozen at OsTokenVaultController (immutable) plus OsTokenFlashLoans (only registered controller)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.794Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.794Z"
+          }
+        },
+        {
+          "functionName": "mint",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.controllers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "controllers-only",
+              "description": "Callable only by the immutable _vaultController (OsTokenVaultController) or addresses in controllers[] (currently only OsTokenFlashLoans). New controllers cannot be added (owner=ZERO)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.802Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.802Z"
+          }
+        },
+        {
+          "functionName": "burn",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.controllers"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "controllers-only",
+              "description": "Same access set as mint. Burns are part of normal redemption/exit flow; not an extraction primitive."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.809Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.809Z"
+          }
+        }
+      ]
+    },
+    "eth:0x287d1e2A8dE183A8bf8f2b09Fa1340fBd766eb59": {
+      "functions": [
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.816Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.816Z"
+          }
+        },
+        {
+          "functionName": "acceptOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingOwner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.830Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.830Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.823Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.823Z"
+          }
+        },
+        {
+          "functionName": "setRedeemer",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Sets the address authorized to call OsTokenVaultController-routed redemption flows. A malicious redeemer can drain at the rate of the redemption mechanism, but each redemption still requires posting osETH 1:1 against ETH. Currently set to the DAO Safe itself."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.838Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.838Z"
+          }
+        },
+        {
+          "functionName": "updateConfig",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "position-economics",
+              "description": "Adjusts ltvPercent / liqThresholdPercent / liqBonusPercent globally or per-vault. Lowering liqThresholdPercent can make existing osETH-borrow positions immediately liquidatable; raising liqBonusPercent inflates liquidator profits. Affects live positions across all vaults. Bounded by code-level _maxPercent guard preventing >100% values."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.844Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.844Z"
+          }
+        }
+      ]
+    },
+    "eth:0x2A261e60FB14586B474C208b1B7AC6D0f5000306": {
+      "functions": [
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.852Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.852Z"
+          }
+        },
+        {
+          "functionName": "acceptOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingOwner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.866Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.866Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.859Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.859Z"
+          }
+        },
+        {
+          "functionName": "setCapacity",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Sets the max osETH that can be minted protocol-wide. Capacity is checked only on mintShares; existing minted osETH unaffected. Lowering capacity below current totalAssets simply blocks future mints."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.873Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.873Z"
+          }
+        },
+        {
+          "functionName": "setTreasury",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-fee-only",
+              "description": "Sets the recipient of protocol fees. Fees are accrued continuously via cumulativeFeePerShare; treasury collects on the next state update. Currently the DAO Safe. Bound: future fee accruals only, capped by feePercent (5% of staking rewards)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.880Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.880Z"
+          }
+        },
+        {
+          "functionName": "setFeePercent",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Sets the protocol fee taken on osETH minted by vaults. Applies to future fee accruals only; existing share/asset balances unchanged. Bounded by the on-chain validation feePercent <= MAX_FEE_PERCENT."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.888Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.888Z"
+          }
+        },
+        {
+          "functionName": "setKeeper",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Replaces the Keeper authorized to call setAvgRewardPerSecond. Affects future reward-rate updates; existing osETH supply unchanged. Currently set to Keeper (0x6B58...)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.895Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.895Z"
+          }
+        },
+        {
+          "functionName": "setAvgRewardPerSecond",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.keeper"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "keeper-only",
+              "description": "Caller must be the Keeper; the Keeper itself can only invoke this via updateRewards which is 6-of-11 oracle-signed. avgRewardPerSecond is a forward-only rate used to project osETH minting capacity, not to mint shares retroactively."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.902Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.902Z"
+          }
+        },
+        {
+          "functionName": "mintShares",
+          "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "vault-only",
+              "description": "Callable only by addresses registered as both vaults[] AND running an approved vaultImpls[] implementation in VaultsRegistry. Mints osETH against the calling vault’s collateral; the vault must hold backing ETH to remain solvent."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.909Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.909Z"
+          }
+        },
+        {
+          "functionName": "burnShares",
+          "isPermissioned": true,
+          "score": "critical",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "vault-only",
+              "description": "Callable only by registered vaults. Burns osETH on behalf of a user closing their position; part of normal exit flow."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.916Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.916Z"
+          }
+        },
+        {
+          "functionName": "updateState",
+          "isPermissioned": false,
+          "score": "no-impact",
+          "timestamp": "2026-05-26T08:24:48.923Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.923Z"
+          }
+        }
+      ]
+    },
+    "eth:0x3a0008a588772446f6e656133C2D5029CC4FC20E": {
+      "functions": [
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.605Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.605Z"
+          }
+        },
+        {
+          "functionName": "acceptOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.pendingOwner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.627Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.627Z"
+          }
+        },
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.618Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.618Z"
+          }
+        },
+        {
+          "functionName": "addVault",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.factories"
+            },
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Marks an address as a recognized vault; downstream callers (OsTokenVaultController.mintShares, SharedMevEscrow.harvest, Keeper.approveValidators) gate on this membership. Adding a malicious vault enables it to mint osETH against fake assets. Bound: the malicious vault must still pass each call site’s additional checks (vaultImpls in mintShares, etc.)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.644Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.644Z"
+          }
+        },
+        {
+          "functionName": "addVaultImpl",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Adds an approved vault implementation; required for new mintShares calls (OsTokenVaultController checks vaultImpls). Existing vaults and minted osETH unaffected; only enables future minting from new vault types."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.652Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.652Z"
+          }
+        },
+        {
+          "functionName": "removeVaultImpl",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Removes an implementation from the approved set. Existing vault instances continue to operate (only mintShares is gated); only blocks future mints from that implementation type."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.659Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.659Z"
+          }
+        },
+        {
+          "functionName": "addFactory",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Grants a factory the ability to register new vaults via addVault. Existing vaults unaffected; only enables future vault registrations."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.667Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.667Z"
+          }
+        },
+        {
+          "functionName": "removeFactory",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Revokes a factory’s permission to register new vaults. Existing vaults remain registered."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.674Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.674Z"
+          }
+        },
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "init-guarded",
+              "description": "One-shot initializer; reverts after first call (initialized flag set)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:48.637Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:48.637Z"
+          }
+        }
+      ]
+    },
+    "eth:0x927A83c679A5e1a6435D6BfaEF7F20D4db23e2cC": {
+      "functions": [
+        {
+          "functionName": "initialize",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "reinitializer",
+              "description": "Versioned reinitializer guard — callable once per version on each clone."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.021Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.021Z"
+          }
+        },
+        {
+          "functionName": "rescueAssets",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "mistakenly-sent-only",
+              "description": "Sweeps tokens accidentally sent to the vault that are NOT the vault’s own underlying (ETH). The vault’s ETH balance is custody-protected by the lack of any direct-ETH sweep in this function."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.084Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.084Z"
+          }
+        },
+        {
+          "functionName": "fundValidators",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.validatorsManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-vault-manager-only",
+              "description": "Requires a signature from the vault’s validatorsManager AND that the encoded validator deposits pass merkle/proof checks. Calls deposit() on the Ethereum DepositContract for each validator — funds at risk are bounded by the vault’s availableAssets (uninvested + ready-to-stake)."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.069Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.069Z"
+          }
+        },
+        {
+          "functionName": "withdrawValidators",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.validatorsManager"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-vault-manager-only",
+              "description": "Same access as fundValidators. Triggers validator exits to a manager-controlled address. Eligible withdrawal amounts are gated by the Ethereum beacon chain’s withdrawal queue."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.076Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.076Z"
+          }
+        },
+        {
+          "functionName": "setValidatorsManager",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-vault",
+              "description": "Per-vault role: sets who can sign validator deposit signatures. A compromised validatorsManager can fundValidators with attacker-controlled deposit data, exposing the vault’s pending-deposits balance. Scope bounded to a single vault."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.061Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.061Z"
+          }
+        },
+        {
+          "functionName": "setFeeRecipient",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-fee-only",
+              "description": "Per-vault future fee recipient change. Already-accrued shares remain with prior recipient until next state update; affects only future fee accruals within the calling vault."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.045Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.045Z"
+          }
+        },
+        {
+          "functionName": "setFeePercent",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Per-vault fee rate change applied to future staking rewards. Bounded by the protocol-wide _maxFeePercent require."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.053Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.053Z"
+          }
+        },
+        {
+          "functionName": "setMetadata",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "metadata-only",
+              "description": "Pure event emission — updates an IPFS hash for off-chain metadata; no on-chain state changes affecting funds."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.037Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.037Z"
+          }
+        },
+        {
+          "functionName": "setAdmin",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-vault",
+              "description": "Per-vault admin transfer; scope is bounded to a single vault’s capital. The protocol-wide TVS aggregate is split across many independently-administered vaults."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.029Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.029Z"
+          }
+        },
+        {
+          "functionName": "upgradeToAndCall",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.admin"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "per-vault-admin",
+              "description": "UUPS upgrade gated by _checkAdmin. New implementation must be registered in VaultsRegistry.vaultImpls AND match vaultId() AND increment version() by 1 — a malicious vault admin can only upgrade to a governance-approved impl. Bound: vault admin alone cannot deploy arbitrary code; they can only switch among vaultImpls."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.104Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.104Z"
+          }
+        },
+        {
+          "functionName": "receiveFromMevEscrow",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "ownerDefinitions": [
+            {
+              "path": "$self.mevEscrow"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "system-only",
+              "description": "Callable only by the vault’s mevEscrow contract; sweep of MEV rewards into the vault for distribution. Cannot be invoked adversarially."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.092Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.092Z"
+          }
+        }
+      ]
+    },
+    "eth:0xB5cF5363c3e766e64B37b2fB9554bFE8D48ED1A0": {
+      "functions": [
+        {
+          "functionName": "renounceOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.123Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.123Z"
+          }
+        },
+        {
+          "functionName": "transferOwnership",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.114Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.114Z"
+          }
+        },
+        {
+          "functionName": "setGuard",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Sets a per-tx guard checked on each module execution. Affects future executions only; cannot retroactively block already-executed proposals."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.140Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.140Z"
+          }
+        },
+        {
+          "functionName": "setAvatar",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Re-targets the Safe that this module executes against. Future Reality.eth-resolved proposals would execute against the new avatar."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.148Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.148Z"
+          }
+        },
+        {
+          "functionName": "setTarget",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Re-targets the address that module-executed transactions act on."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.155Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.155Z"
+          }
+        },
+        {
+          "functionName": "setQuestionTimeout",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Adjusts the Reality.eth answer dispute window. Lowering it shortens the time to challenge a malicious answer; applies only to future questions."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.162Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.162Z"
+          }
+        },
+        {
+          "functionName": "setQuestionCooldown",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Time between a Reality.eth answer becoming final and the module executing it. Lowering it tightens the execution window for new proposals."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.170Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.170Z"
+          }
+        },
+        {
+          "functionName": "setAnswerExpiration",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Window after which a finalized answer can no longer be executed; reset only affects future proposals."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.178Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.178Z"
+          }
+        },
+        {
+          "functionName": "setArbitrator",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Sets the Reality.eth arbitrator for new questions; existing questions retain their original arbitrator."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.187Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.187Z"
+          }
+        },
+        {
+          "functionName": "setMinimumBond",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Minimum bond required to answer new questions. Affects future proposals only."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.195Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.195Z"
+          }
+        },
+        {
+          "functionName": "setTemplate",
+          "isPermissioned": true,
+          "score": "critical",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "future-only",
+              "description": "Sets the Reality.eth question template id used by future proposals."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.203Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.203Z"
+          }
+        },
+        {
+          "functionName": "setUp",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "init-guarded",
+              "description": "Initializer modifier; one-shot setup."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.131Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.131Z"
+          }
+        }
+      ]
+    },
+    "eth:0x48319f97E5Da1233c21c48b80097c0FB7a20Ff86": {
+      "functions": [
+        {
+          "functionName": "harvest",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "vault-self-only",
+              "description": "Callable only by addresses registered in VaultsRegistry.vaults. Transfers MEV escrow balance to the calling vault — cannot extract to attacker. Total funds at risk in escrow: ~$16k MEV awaiting distribution."
+            }
+          ],
+          "timestamp": "2026-05-26T08:24:49.210Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T08:24:49.210Z"
+          }
+        }
+      ]
+    }
+  }
+}

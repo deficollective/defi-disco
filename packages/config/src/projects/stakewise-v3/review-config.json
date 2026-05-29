@@ -1,0 +1,106 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-26T11:30:00.000Z",
+  "publishedAt": "2026-05-26",
+  "verified": false,
+  "protocolSlug": "stakewise-v3",
+  "protocolName": "StakeWise V3",
+  "tokenName": "osETH",
+  "chain": "Ethereum",
+  "projectType": "liquid-staking",
+  "description": "StakeWise V3 is a vault-based Ethereum liquid staking protocol where node operators deploy isolated vaults via permissionless factories registered in the VaultsRegistry. Stakers deposit ETH into a vault of their choice and receive a vault-specific share token; depositors can then mint osETH, a fungible LST backed by the underlying staked ETH, by collateralising their vault shares through the OsTokenVaultController. Total deposited capital across all vaults amounts to {{totalProtocolTvs}}, with {{ostokenMarketCap}} of osETH minted against it. Validator rewards and slashing data are attested every 12 hours by an 11-oracle Keeper committee with a 6-of-11 signature threshold; protocol parameters (capacity, fee, LTV / liquidation thresholds, oracle set, approved vault implementations) are controlled by the StakeWise DAO Safe and executed via a Snapshot + Reality.eth Zodiac module.",
+  "admins": {
+    "eth:0x144a98cb1CdBb23610501fE6108858D9B7D24934": {
+      "name": "StakeWise DAO Safe (4-of-7 Multisig)",
+      "description": "Primary governance multisig. Owns VaultsRegistry, OsTokenConfig, OsTokenVaultController, Keeper, and the RealityModuleERC20 Zodiac module. Can approve / remove vault implementations and factories, change osETH borrow LTV and liquidation thresholds, set protocol fee percent and capacity, swap the Keeper, rotate the oracle set, and re-target the Zodiac module. Tokens already minted are not directly drainable from this Safe, but updateConfig on OsTokenConfig affects existing osETH-borrow position economics. Controls reachable token value of {{daoSafeReachableTokenValue}}."
+    },
+    "eth:0x2685C0e39EEAAd383fB71ec3F493991d532A87ae": {
+      "name": "OsTokenRedeemer Owner (2-of-2 Multisig)",
+      "description": "Operational Safe that owns EthOsTokenRedeemer. Appoints the positionsManager (currently address(0), so redemptions are effectively disabled), and accepts / denies / removes redeemable-position Merkle roots proposed by that manager. Direct control over {{redeemerDirectCapital}} of pending redemption escrow."
+    },
+    "eth:0x0000000000000000000000000000000000000000": {
+      "name": "Zero Address (Renounced)",
+      "description": "OsToken ownership has been renounced: setController, transferOwnership, and renounceOwnership on the OsToken contract are no longer callable. The set of authorised minters is now permanently frozen at the immutable OsTokenVaultController plus the currently registered OsTokenFlashLoans contract."
+    },
+    "eth:0xeBe12d858E55DDc5FC5A8153dC3e117824fbf5d2": {
+      "name": "OsTokenFlashLoans",
+      "description": "Immutable contract registered as a controller on OsToken, allowing it to mint and burn osETH within a single transaction for atomic flash-loan callers. Has no external admin path and no parameters: the only entrypoint is flashLoan(), which is nonReentrant and requires the borrowed amount to be returned in the same call."
+    },
+    "eth:0x6D403394848EaD12356C9Bb667ED27bCe1945914": { "name": "Keeper Oracle 1 (EOA)", "description": "One of 11 EOAs in the Keeper oracle committee. updateRewards, approveValidators, and updateExitSignatures require attestations from at least 6 of the 11 oracles; no single oracle can act unilaterally." },
+    "eth:0xED5a1c366984215A28a95bE95A9a49d59a065e91": { "name": "Keeper Oracle 2 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." },
+    "eth:0x20B04EcB2bc5E44Ac5AaAd9c8DD3cd04d9Fb87c8": { "name": "Keeper Oracle 3 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." },
+    "eth:0x4E81bfde2eb1574bf0839aDEFb65cEA0D8B07EFC": { "name": "Keeper Oracle 4 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." },
+    "eth:0x49F436341dbB3ffFce92C59fBcfcAEdaD22D0b0e": { "name": "Keeper Oracle 5 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." },
+    "eth:0x624EC1141Eb0C3bE58b382737718852665c35Cf0": { "name": "Keeper Oracle 6 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." },
+    "eth:0x671D846eCd7D945011912a6fa42E6F3E39eD0569": { "name": "Keeper Oracle 7 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." },
+    "eth:0x3F77cC37b5F49561E84e36D87FAe1F032E1f771e": { "name": "Keeper Oracle 8 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." },
+    "eth:0xa9Ccb8ba942C45F6Fa786F936679812591dA012a": { "name": "Keeper Oracle 9 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." },
+    "eth:0xb5dBd61DAb7138aF20A61614e0A4587566C2A15A": { "name": "Keeper Oracle 10 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." },
+    "eth:0x8Ce4f2800dE6476F42a070C79AfA58E0E209173e": { "name": "Keeper Oracle 11 (EOA)", "description": "Keeper oracle; one of 11 attesters with a 6-of-11 threshold for rewards and validator-approval messages." }
+  },
+  "dependencies": {
+    "eth:0x5b7dD1E86623548AF054A4985F7fc8Ccbb554E2c": {
+      "name": "Reality.eth v3 (Gnosis)",
+      "description": "Reality.eth optimistic oracle used as the arbitrator wired into the RealityModuleERC20 Zodiac module. When a SWISE Snapshot proposal passes, the result is posted here with a SWISE bond, becomes final after the 1-day question timeout, and is executable on the DAO Safe after a further 1-day cooldown. A successful malicious answer would have to outbid honest bonders for the full dispute window."
+    },
+    "eth:0x867092A32bC16816F12Fb326EfF7A2865E1ec138": {
+      "name": "Reality.eth ERC20 v3 (Gnosis)",
+      "description": "ERC20-bonded variant of Reality.eth, configured as the oracle on the RealityModuleERC20 Zodiac module with SWISE as the bond token. Carries the same dispute window and finalisation semantics as Reality.eth v3, but bonds are denominated in SWISE rather than ETH."
+    }
+  },
+  "funds": {
+    "eth:0x3a0008a588772446f6e656133C2D5029CC4FC20E": {
+      "name": "VaultsRegistry (aggregate of all V3 vaults)",
+      "description": "Aggregate handle for total ETH staked across every StakeWise V3 vault registered via VaultAdded events on the registry. Resolves to {{totalProtocolTvs}}, fetched from DeFiLlama's StakeWise adapter which sums staked ETH across all V3 vaults plus Gnosis. Individual vaults are deployed by permissionless factories (EthVaultFactory, EthRestakeVaultFactory, EthMetaVaultFactory) and each has its own per-vault admin."
+    },
+    "eth:0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38": {
+      "name": "OsToken (osETH)",
+      "description": "The protocol's liquid staking token, minted against staker collateral in V3 vaults via OsTokenVaultController. Current market capitalisation: {{ostokenMarketCap}}. Ownership has been renounced — the set of authorised minters is permanently frozen at the immutable OsTokenVaultController plus the OsTokenFlashLoans contract."
+    },
+    "eth:0x48319f97E5Da1233c21c48b80097c0FB7a20Ff86": {
+      "name": "SharedMevEscrow",
+      "description": "Holds MEV-Boost rewards routed by external relays before redistribution to the originating vaults. Current balance: {{sharedMevEscrowBalance}}. harvest() is callable only by addresses registered in VaultsRegistry.vaults; each vault can claim only the rewards routed to its own validators."
+    },
+    "eth:0xdF3123dD182b8d3e0266a2dC37eEb8366d149B5A": {
+      "name": "EthOsTokenRedeemer",
+      "description": "Escrows osETH and ETH during the redeemable-positions flow. Current balance: {{redeemerBalance}}. positionsManager is currently address(0), so redemptions are effectively disabled until the 2-of-2 Safe appoints one and accepts a Merkle root of redeemable positions."
+    }
+  },
+  "sections": {
+    "codeAndAudits": {
+      "title": "Code & Audits",
+      "description": "Smart contract analysis and audit history",
+      "subsections": [
+        {
+          "title": "Contracts",
+          "content": [
+            {
+              "type": "dataTable",
+              "dataSource": "project.contracts",
+              "columns": [
+                { "field": "name", "header": "Name" },
+                { "field": "address", "header": "Address", "format": "address" },
+                { "field": "proxyType", "header": "Proxy Type", "format": "badge" }
+              ],
+              "filters": { "excludeExternal": true }
+            }
+          ]
+        },
+        {
+          "title": "Audits",
+          "content": [
+            { "type": "text", "content": "" }
+          ]
+        }
+      ]
+    }
+  },
+  "dataKeys": {
+    "totalProtocolTvs": "fundsdata.contracts[\"eth:0x3a0008a588772446f6e656133C2D5029CC4FC20E\"].aggregate.totalUsdValue",
+    "ostokenMarketCap": "fundsdata.contracts[\"eth:0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38\"].tokenInfo.tokenValue",
+    "sharedMevEscrowBalance": "fundsdata.contracts[\"eth:0x48319f97E5Da1233c21c48b80097c0FB7a20Ff86\"].balances.totalUsdValue",
+    "redeemerBalance": "fundsdata.contracts[\"eth:0xdF3123dD182b8d3e0266a2dC37eEb8366d149B5A\"].balances.totalUsdValue",
+    "redeemerDirectCapital": "v2score.inventory.admins.breakdown[\"eth:0x2685C0e39EEAAd383fB71ec3F493991d532A87ae\"].totalDirectCapital",
+    "daoSafeReachableTokenValue": "v2score.inventory.admins.breakdown[\"eth:0x144a98cb1CdBb23610501fE6108858D9B7D24934\"].totalReachableTokenValue"
+  }
+}

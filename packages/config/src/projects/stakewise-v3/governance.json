@@ -1,0 +1,18 @@
+{
+  "framework": "Snapshot + Reality.eth (Zodiac SafeSnap)",
+  "voteExecution": "onchain",
+  "votingUnit": "SWISE token",
+  "proposalRequirements": "SWIPs are posted on the StakeWise governance forum and progress through three phases: Ideation (no formal threshold, community support required), Specification (5-day forum poll requiring a clear majority), and Snapshot vote.",
+  "votingProcess": "7-day SWISE Snapshot vote → result posted to Reality.eth with bond → 1d dispute → 1d cooldown → Zodiac module executes on DAO Safe.",
+  "proposalPeriod": {
+    "kind": "fixed",
+    "value": "7 days (Snapshot)"
+  },
+  "executionDelay": {
+    "kind": "fieldRef",
+    "ref": {
+      "contractAddress": "eth:0xB5cF5363c3e766e64B37b2fB9554bFE8D48ED1A0",
+      "fieldName": "questionCooldown"
+    }
+  }
+}
