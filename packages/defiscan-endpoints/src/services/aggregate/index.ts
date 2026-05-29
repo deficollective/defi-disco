@@ -4,6 +4,7 @@ export {
   AerodromeV2FactoryHandler,
   FrankencoinMintinghubHandler,
   PancakeswapV2FactoryHandler,
+  StakewiseVaultsRegistryHandler,
   UniswapV2FactoryHandler,
   UniswapV3FactoryHandler,
 } from './handlers'

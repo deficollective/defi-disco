@@ -18,6 +18,7 @@ import {
   AggregateService,
   FrankencoinMintinghubHandler,
   PancakeswapV2FactoryHandler,
+  StakewiseVaultsRegistryHandler,
   UniswapV2FactoryHandler,
   UniswapV3FactoryHandler,
 } from './services/aggregate'
@@ -119,6 +120,7 @@ export function createDefiscanServer(
       new UniswapV3FactoryHandler(),
       new FrankencoinMintinghubHandler(),
       new PancakeswapV2FactoryHandler(),
+      new StakewiseVaultsRegistryHandler(),
     ],
     aggregateCache,
     logger.for('AggregateService'),
