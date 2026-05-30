@@ -990,6 +990,17 @@ export interface SetIncomingCapRule extends EdgeRuleBase {
   edgeType?: EnhancedEdgeKind
   cap: ImpactCap
 }
+/** Bulk retarget: rewrite the *target contract* of every edge `from → fromTarget`
+ *  (optionally restricted to a `calledFunction`) to `toTarget`. One rule
+ *  collapses dozens of (removeEdge + addEdge) pairs in multi-instance protocols. */
+export interface SetOutgoingTargetRule extends EdgeRuleBase {
+  type: 'setOutgoingTarget'
+  from: string
+  fromTarget: string
+  toTarget: string
+  edgeType: EnhancedEdgeKind
+  calledFunction?: string
+}
 /** Edge-centric mitigations (relationship-level): appended to the matched edge,
  *  merged into the function's effective mitigations for that owner. */
 export interface SetEdgeMitigationRule extends EdgeRuleBase {
@@ -1009,6 +1020,7 @@ export type EdgeOverrideRule =
   | SetOutgoingCapRule
   | SetIncomingCapRule
   | SetEdgeMitigationRule
+  | SetOutgoingTargetRule
 
 export interface ApiCallGraphOverridesResponse {
   version: string

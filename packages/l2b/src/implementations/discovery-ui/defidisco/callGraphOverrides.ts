@@ -140,6 +140,35 @@ export interface SetEdgeMitigationRule extends RuleBase {
   mitigations: Mitigation[]
 }
 
+/**
+ * Bulk "retarget" rule — the structural counterpart to the noisy
+ * `removeEdge + addEdge` pair pattern that shows up when a multi-instance
+ * protocol (Liquity v2's 3 markets, MetaMorpho factory deployments, etc.)
+ * causes Slither to repeatedly resolve to the wrong instance.
+ *
+ * Matches every callgraph edge from `from` to `fromTarget` (and optionally
+ * restricted to a specific `calledFunction`) and rewrites the target contract
+ * to `toTarget` — preserving the original `targetFunction` on each edge.
+ *
+ * One rule can collapse dozens of (removeEdge, addEdge) pairs into a single
+ * legible structural fact ("this contract's edges to X really belong to Y").
+ */
+export interface SetOutgoingTargetRule extends RuleBase {
+  type: 'setOutgoingTarget'
+  /** Source node ref. `address` matches all functions on the contract;
+   *  `address.function` is exact. */
+  from: string
+  /** Current (wrong) target contract address. */
+  fromTarget: string
+  /** Corrected target contract address. */
+  toTarget: string
+  edgeType: BackendEdgeType
+  /** Optional: only retarget edges whose called function matches this name.
+   *  Use for selector-collision fixes (e.g. WETH.transferFrom vs ERC721
+   *  transferFrom) where bulk retargeting would otherwise capture legit edges. */
+  calledFunction?: string
+}
+
 export type EdgeOverrideRule =
   | AddEdgeRule
   | RemoveEdgeRule
@@ -150,6 +179,7 @@ export type EdgeOverrideRule =
   | SetOutgoingCapRule
   | SetIncomingCapRule
   | SetEdgeMitigationRule
+  | SetOutgoingTargetRule
 
 export interface CallGraphOverridesFile {
   version: string
@@ -348,6 +378,23 @@ const RULE_HANDLERS: {
         nodeMatches(rule.to, e.targetContract, e.targetFunction),
       rule.mitigations,
     ),
+
+  setOutgoingTarget: (edges, rule) => {
+    const fromTargetNorm = normalizeChainAddress(rule.fromTarget)
+    const toTargetNorm = normalizeChainAddress(rule.toTarget)
+    let matched = 0
+    const out = edges.map((e) => {
+      if (e.edgeType !== rule.edgeType) return e
+      if (!nodeMatches(rule.from, e.sourceContract, e.sourceFunction)) return e
+      if (!addressesEqual(e.targetContract, fromTargetNorm)) return e
+      if (rule.calledFunction && e.targetFunction !== rule.calledFunction)
+        return e
+      matched++
+      // Preserve targetFunction — only the contract address is rewritten.
+      return { ...e, targetContract: toTargetNorm }
+    })
+    return { edges: out, matched }
+  },
 }
 
 export interface ApplyOverridesResult {

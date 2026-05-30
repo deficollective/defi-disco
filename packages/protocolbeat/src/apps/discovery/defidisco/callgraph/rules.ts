@@ -144,6 +144,31 @@ export function applyRulesToCallEdges(
             : e,
         )
         break
+      case 'setOutgoingTarget': {
+        // Bulk retarget: edges matching (from, fromTarget) get their target
+        // address rewritten to toTarget; the target FUNCTION is preserved.
+        // CallEdge `to` is `address.function`, so rebuild it from the new
+        // address. Also refresh `id` (edgeKey of from|to|edgeType).
+        const fromTargetAddr = parseNodeId(rule.fromTarget).address
+        const toTargetAddr = parseNodeId(rule.toTarget).address
+        current = current.map((e) => {
+          if (e.edgeType !== rule.edgeType) return e
+          if (!fromMatches(e, rule.from)) return e
+          const tp = parseNodeId(e.to)
+          if (!addressesEqual(tp.address, fromTargetAddr)) return e
+          if (rule.calledFunction && tp.functionName !== rule.calledFunction)
+            return e
+          const newTo = tp.functionName
+            ? `${toTargetAddr}.${tp.functionName}`
+            : toTargetAddr
+          return {
+            ...e,
+            to: newTo,
+            id: edgeKey(e.from, newTo, e.edgeType ?? rule.edgeType),
+          }
+        })
+        break
+      }
     }
   }
   return current
@@ -304,6 +329,7 @@ export function ruleFocusNode(rule: EdgeOverrideRule): string {
     case 'setEdgeScope':
     case 'setEdgeCap':
     case 'setEdgeMitigation':
+    case 'setOutgoingTarget':
       return rule.from
     case 'setOutgoingScope':
     case 'setIncomingScope':
@@ -331,6 +357,17 @@ export function ruleMatchesAnyEdge(
           fromMatches(e, rule.from) &&
           toMatches(e, rule.to),
       )
+    case 'setOutgoingTarget': {
+      const ft = parseNodeId(rule.fromTarget).address
+      return edges.some(
+        (e) =>
+          e.edgeType === rule.edgeType &&
+          fromMatches(e, rule.from) &&
+          addressesEqual(parseNodeId(e.to).address, ft) &&
+          (!rule.calledFunction ||
+            parseNodeId(e.to).functionName === rule.calledFunction),
+      )
+    }
     case 'setOutgoingScope':
     case 'setOutgoingCap':
       return edges.some(
@@ -379,6 +416,8 @@ export function describeRule(rule: EdgeOverrideRule): string {
       const n = rule.mitigations.length
       return `mitigate (${n} ${n === 1 ? 'rule' : 'rules'}): ${shortRef(rule.from)} → ${shortRef(rule.to)}`
     }
+    case 'setOutgoingTarget':
+      return `retarget${rule.calledFunction ? ` .${rule.calledFunction}` : ''}: ${shortRef(rule.from)} → was ${shortRef(rule.fromTarget)}, now ${shortRef(rule.toTarget)}`
   }
 }
 
