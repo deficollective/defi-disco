@@ -423,6 +423,10 @@ export function CallGraphView(): JSX.Element {
   // Local UI state
   const [startId, setStartId] = useState<string | null>(null)
   const [depth, setDepth] = useState(4)
+  // Callers shown above the start; default 1 preserves the original behavior.
+  // The layout BFS walks upstream symmetrically with `upDepth`, so higher values
+  // expand additional caller rows.
+  const [upDepth, setUpDepth] = useState(1)
   const [selected, setSelected] = useState<string | null>(null)
   const [hoveredEdge, setHoveredEdge] = useState<CallEdge | null>(null)
   // The edge a suggestion is being reviewed against — highlighted red (remove)
@@ -496,6 +500,7 @@ export function CallGraphView(): JSX.Element {
       nodes: displayNodes,
       edges: displayEdges,
       depth,
+      upDepth,
       collapsedContracts: collapsed,
       mode: layoutMode,
       filters,
@@ -505,6 +510,7 @@ export function CallGraphView(): JSX.Element {
     displayNodes,
     displayEdges,
     depth,
+    upDepth,
     collapsed,
     layoutMode,
     filters,
@@ -516,22 +522,25 @@ export function CallGraphView(): JSX.Element {
     return findPathToNode(selected, startId, layout.visibleEdges)
   }, [selected, startId, layout])
 
-  // Scroll the start node to horizontal center whenever the focus changes
-  // (double-click re-focus, caller climb, or picking from the StartPicker).
-  // Guarded so it fires once per new start, not on every depth/filter reflow.
+  // Re-center the start node whenever the focus OR the trace shape changes
+  // (new start id, OR depth/upDepth slider moved — the start's horizontal
+  // position can shift as the BFS tree widens/narrows). Filter toggles and
+  // collapse changes intentionally do NOT trigger re-centering — the start
+  // stays where it is; only the surrounding tree reflows.
   const scrollRef = useRef<HTMLDivElement>(null)
-  const lastCenteredStart = useRef<string | null>(null)
+  const lastCenterKey = useRef<string | null>(null)
   useEffect(() => {
     if (!startId || !layout || !scrollRef.current) return
-    if (lastCenteredStart.current === startId) return
+    const key = `${startId}|${depth}|${upDepth}`
+    if (lastCenterKey.current === key) return
     const pos = layout.positions[layout.effectiveStartId]
     if (!pos) return
-    lastCenteredStart.current = startId
+    lastCenterKey.current = key
     const el = scrollRef.current
     el.scrollLeft = PAD_X + pos.x + layout.nodeWidth / 2 - el.clientWidth / 2
     // Bring the start (and its caller row above) comfortably into view.
     el.scrollTop = Math.max(0, PAD_Y + pos.y - 120)
-  }, [startId, layout])
+  }, [startId, depth, upDepth, layout])
 
   // ── Drag-to-create-edge ────────────────────────────────────────────────
   const canvasRef = useRef<HTMLDivElement>(null)
@@ -634,7 +643,18 @@ export function CallGraphView(): JSX.Element {
   // selections the walker itself originated (the selfPushedAddress echo) so a
   // single-click in the walker doesn't re-root — only an external selection does.
   // Re-rooting is the "focus" gesture; the scroll-to-center effect below fires.
+  //
+  // IMPORTANT: this effect intentionally depends ONLY on `selectedFromPanel`,
+  // NOT on `startId`. Including `startId` in the deps caused a clear-start
+  // regression: clearing the trace (setStartId(null)) would re-fire this effect
+  // with the still-set selectedFromPanel and instantly restore the previous
+  // trace — making the chooser flash and disappear. `startId` is read via a ref
+  // so the guard uses the current value without re-triggering on its change.
   const selectedFromPanel = usePanelStore((s) => s.selected)
+  const startIdRef = useRef<string | null>(null)
+  useEffect(() => {
+    startIdRef.current = startId
+  }, [startId])
   useEffect(() => {
     if (!selectedFromPanel) return
     if (
@@ -642,11 +662,12 @@ export function CallGraphView(): JSX.Element {
       addressesEqual(selfPushedAddress.current, selectedFromPanel)
     )
       return
-    const currentRoot = startId ? parseNodeId(startId).address : undefined
+    const cur = startIdRef.current
+    const currentRoot = cur ? parseNodeId(cur).address : undefined
     if (currentRoot && addressesEqual(currentRoot, selectedFromPanel)) return
     setStartId(selectedFromPanel)
     setSelected(selectedFromPanel)
-  }, [selectedFromPanel, startId])
+  }, [selectedFromPanel])
 
   // Double-click any node → take it as the new trace start. Its own callers
   // then appear above and its callees below, so you can walk the graph in
@@ -925,6 +946,8 @@ export function CallGraphView(): JSX.Element {
           setLayoutMode={setLayoutMode}
           depth={depth}
           setDepth={setDepth}
+          upDepth={upDepth}
+          setUpDepth={setUpDepth}
           filters={filters}
           setFilters={setFilters}
           onClearStart={() => {

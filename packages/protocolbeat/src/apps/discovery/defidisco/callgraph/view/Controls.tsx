@@ -20,8 +20,12 @@ type EdgeKindKey =
 interface Props {
   layoutMode: LayoutMode
   setLayoutMode: (m: LayoutMode) => void
+  /** Downstream BFS depth: how many caller→callee hops to expand below the start. */
   depth: number
   setDepth: (d: number) => void
+  /** Upstream BFS depth: how many caller rows to expand above the start. 0 hides callers. */
+  upDepth: number
+  setUpDepth: (d: number) => void
   filters: Record<EdgeKindKey, boolean>
   setFilters: (next: Record<EdgeKindKey, boolean>) => void
   onClearStart: () => void
@@ -47,6 +51,8 @@ export function Controls({
   setLayoutMode,
   depth,
   setDepth,
+  upDepth,
+  setUpDepth,
   filters,
   setFilters,
   onClearStart,
@@ -70,8 +76,22 @@ export function Controls({
         ))}
       </Group>
 
-      {/* Depth */}
-      <Group label="depth">
+      {/* Trace depth — separate sliders for upstream callers and downstream
+          callees. Upstream defaults to 1 (matches the original single-row caller
+          behavior); set 0 to hide callers entirely. */}
+      <Group label="↑ callers">
+        <input
+          type="range"
+          min={0}
+          max={6}
+          value={upDepth}
+          onChange={(e) => setUpDepth(+e.target.value)}
+          className="h-3 w-24 accent-aux-pink"
+          title="How many levels of callers to show above the start node"
+        />
+        <span className="w-4 text-center text-coffee-200">{upDepth}</span>
+      </Group>
+      <Group label="↓ callees">
         <input
           type="range"
           min={1}
@@ -79,22 +99,9 @@ export function Controls({
           value={depth}
           onChange={(e) => setDepth(+e.target.value)}
           className="h-3 w-24 accent-aux-pink"
+          title="How many levels of callees to expand below the start node"
         />
         <span className="w-4 text-center text-coffee-200">{depth}</span>
-      </Group>
-
-      {/* Edge filters */}
-      <Group label="edges">
-        {KIND_BUTTONS.map(({ key, label, dotClass }) => (
-          <PillButton
-            key={key}
-            on={!filters[key]}
-            onClick={() => setFilters({ ...filters, [key]: !filters[key] })}
-          >
-            <span className={clsx('h-1.5 w-1.5 rounded-full', dotClass)} />
-            {label}
-          </PillButton>
-        ))}
       </Group>
 
       <div className="min-w-2 flex-1" />
@@ -142,6 +149,20 @@ export function Controls({
       >
         reset
       </PillButton>
+
+      {/* Edge filters at the far right of the bottom strip. */}
+      <Group label="edges">
+        {KIND_BUTTONS.map(({ key, label, dotClass }) => (
+          <PillButton
+            key={key}
+            on={!filters[key]}
+            onClick={() => setFilters({ ...filters, [key]: !filters[key] })}
+          >
+            <span className={clsx('h-1.5 w-1.5 rounded-full', dotClass)} />
+            {label}
+          </PillButton>
+        ))}
+      </Group>
     </div>
   )
 }
