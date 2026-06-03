@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1779187646,
-  "lastConsumedUpdateNotifierId": 204,
+  "lastReconciledAt": 1779734868,
+  "lastConsumedUpdateNotifierId": 217,
   "events": [
     {
       "timestamp": "2026-03-02T13:49:30.000Z",
@@ -1929,6 +1929,170 @@
         {
           "field": "errors.motions",
           "before": "Processing error occurred."
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-20T10:32:41.000Z",
+      "updateNotifierId": 208,
+      "address": "eth:0x6baAd6D39673CEd726Ef9Da4dEd03dDc2C42ba95",
+      "contractName": "Safe",
+      "entity": null,
+      "id": "208:eth:0x6baAd6D39673CEd726Ef9Da4dEd03dDc2C42ba95:role:Safe.owners",
+      "type": "role-update",
+      "roleName": "Safe.owners",
+      "changes": [
+        {
+          "field": "values.$members.0",
+          "before": "eth:0xC6CaC32CC23C2cF9BF8e0B203d677458d87556cE",
+          "after": "eth:0xaDde18968eD03080262DefD572e7A9C6b0F05A05"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-20T10:32:41.000Z",
+      "updateNotifierId": 208,
+      "address": "eth:0xfeef177E6168F9b7fd59e6C5b6c2d87FF398c6FD",
+      "contractName": "GnosisSafe",
+      "entity": null,
+      "id": "208:eth:0xfeef177E6168F9b7fd59e6C5b6c2d87FF398c6FD:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.multisigThreshold",
+          "before": "2 of 3 (67%)",
+          "after": "2 of 2 (100%)"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-20T10:32:41.000Z",
+      "updateNotifierId": 208,
+      "address": "eth:0xfeef177E6168F9b7fd59e6C5b6c2d87FF398c6FD",
+      "contractName": "GnosisSafe",
+      "entity": null,
+      "id": "208:eth:0xfeef177E6168F9b7fd59e6C5b6c2d87FF398c6FD:role:Safe.owners",
+      "type": "role-update",
+      "roleName": "Safe.owners",
+      "changes": [
+        {
+          "field": "values.$members.0",
+          "before": "eth:0xc576b7bF977f15357Af8c935f7b8b543497fc072"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-23T09:11:42.000Z",
+      "updateNotifierId": 214,
+      "address": "eth:0x3B525F4c059F246Ca4aa995D21087204F30c9E2F",
+      "contractName": "AllowedRecipientsRegistry",
+      "entity": null,
+      "id": "214:eth:0x3B525F4c059F246Ca4aa995D21087204F30c9E2F:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.getLimitParameters.0",
+          "before": "250000000000000000000000",
+          "after": "5000000000000000000000000"
+        },
+        {
+          "field": "values.getLimitParameters.1",
+          "before": 3,
+          "after": 6
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-23T09:11:42.000Z",
+      "updateNotifierId": 214,
+      "address": "eth:0x7FaDB6358950c5fAA66Cb5EB8eE5147De3df355a",
+      "contractName": "HashConsensus",
+      "entity": null,
+      "id": "214:eth:0x7FaDB6358950c5fAA66Cb5EB8eE5147De3df355a:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.accessControl.MANAGE_FRAME_CONFIG_ROLE",
+          "after": {
+            "adminRole": "DEFAULT_ADMIN_ROLE",
+            "members": []
+          }
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-23T09:11:42.000Z",
+      "updateNotifierId": 214,
+      "address": "eth:0x9895F0F17cc1d1891b6f18ee0b483B6f221b37Bb",
+      "contractName": "ACL",
+      "entity": null,
+      "id": "214:eth:0x9895F0F17cc1d1891b6f18ee0b483B6f221b37Bb:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.permissions.eth:0x55032650b14df07b85bF18A3a3eC8E0Af2e028d5.0x75abc64490e17b40ea1e66691c3eb493647b24430b358bd87ec3e5127f1621ee.entities.0",
+          "after": "eth:0xF45C77EadD434612fCD93db978B3E36B0D58eC99"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-23T09:11:42.000Z",
+      "updateNotifierId": 214,
+      "address": "eth:0xCE0425301C85c5Ea2A0873A2dEe44d78E02D2316",
+      "contractName": "EmergencyProtectedTimelock",
+      "entity": null,
+      "id": "214:eth:0xCE0425301C85c5Ea2A0873A2dEe44d78E02D2316:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.getEmergencyProtectionDetails.emergencyProtectionEndsAfter",
+          "before": 1781913600,
+          "after": 1813449600
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-05-25T18:47:07.000Z",
+      "updateNotifierId": 217,
+      "address": "eth:0x4202860Fa6afAF3e2977cD139Ac693a05e4f9450",
+      "entity": null,
+      "id": "217:eth:0x4202860Fa6afAF3e2977cD139Ac693a05e4f9450:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "proxyType",
+          "before": "EOA",
+          "after": "EIP7702 EOA"
+        },
+        {
+          "field": "sourceHashes",
+          "after": [
+            "0x41c6ce964a4ef3e910f9ddf78152734dae8d1b1094ffc8334c50249a3b112bbf"
+          ]
+        },
+        {
+          "field": "values",
+          "after": {
+            "$implementation": "eth:0x63c0c19a282a1B52b07dD5a65b58948A07DAE32B",
+            "delegationManager": "eth:0xdb9B1e94B5b69Df7e401DDbedE43491141047dB3",
+            "DOMAIN_VERSION": "1",
+            "eip712Domain": {
+              "fields": "0x0f",
+              "name": "EIP7702StatelessDeleGator",
+              "version": "1",
+              "chainId": 1,
+              "verifyingContract": "eth:0x4202860Fa6afAF3e2977cD139Ac693a05e4f9450",
+              "salt": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "extensions": []
+            },
+            "entryPoint": "eth:0x0000000071727De22E5E9d8BAf0edAc6f37da032",
+            "getDeposit": 0,
+            "getDomainHash": "0x1c1eac34109260cde9c12e27efd579fdbf49bf454118204e077ff641a41ca399",
+            "getNonce": 0,
+            "NAME": "EIP7702StatelessDeleGator",
+            "PACKED_USER_OP_TYPEHASH": "0xbc37962d8bd1d319c95199bdfda6d3f92baa8903a61b32d5f4ec1f4b36a3bc18",
+            "VERSION": "1.3.0"
+          }
         }
       ]
     }
