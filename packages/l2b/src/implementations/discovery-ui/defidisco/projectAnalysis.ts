@@ -2105,6 +2105,20 @@ export class ProjectAnalysis {
           )
         }
       }
+      // Resolve delayRef → delaySeconds for any delay mitigation that hasn't
+      // been resolved yet. Function-level delay mitigations are pre-resolved
+      // in buildMergedMitigations; edge mitigations (set by setEdgeMitigation
+      // rules) bypass that path and arrive here with delayRef but no
+      // delaySeconds. Mirror the same resolution so admin-view badges render
+      // a correct value (e.g. "7d" instead of an empty badge).
+      if (m.type === 'delay' && m.delayRef && m.delaySeconds === undefined) {
+        const resolved = resolveDelayFromDiscovered(
+          this.paths,
+          this.projectName,
+          m.delayRef,
+        )
+        if (resolved.isResolved) m.delaySeconds = resolved.seconds
+      }
     }
     return merged
   }
