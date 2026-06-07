@@ -333,6 +333,8 @@ packages/
 │   ├── callGraph.ts                  # Slither-based external call detection
 │   ├── callGraphHeuristics.ts        # Heuristic engine for variable-to-address resolution
 │   ├── callGraphOverrides.ts         # Manual edge-override rules (call-graph-overrides.json): file CRUD + extensible rule engine (applyEdgeOverrides + RULE_HANDLERS) applied inside buildEnhancedGraph
+│   ├── callGraphSuggestions.ts       # Agent-proposed edge rules (call-graph-suggestions.json): RuleSuggestion CRUD + accept/reject; buildEnhancedGraph never reads this file (inert until accept promotes a rule into call-graph-overrides.json)
+│   ├── mitigationUtils.ts            # Canonical backend twin of defiscan-frontend/.../shared.tsx `mitigationDedupKey` — visible-identity dedup key (label OR delay-seconds OR valueRange tuple OR other:description). Used by projectAnalysis.getMitigationsForOwner to collapse function + edge mitigations that render as the same badge.
 │   ├── enhancedTraversal.ts          # Enhanced graph (call graph + permission edges), backward BFS governance chains. Exposes getEnhancedGraphEdges (raw edge set + appliedRules/unmatchedRuleIds for the walker)
 │   ├── capitalAnalysis.ts            # Capital computation via enhanced graph forward BFS
 │   ├── functionAnalysis.ts           # Forward BFS impact & dependencies

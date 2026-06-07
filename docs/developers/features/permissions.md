@@ -211,6 +211,16 @@ Two helpers in [`packages/defiscan-frontend/src/pages/review/views/explorer/shar
 
 The plain `deduplicateMitigations()` (same key, no impact filter) is retained for the small number of non-aggregated call sites that already work in a per-function context where the impact filter is not appropriate.
 
+#### Edge-anchored mitigations & impact caps
+
+The principle: **anchor a constraint where it originates.** Function-intrinsic constraints (a `require` value-range, a rate limit, a reward budget — true for every caller) stay on the function. **Relationship constraints** (a timelock delay on the curator's path, a cap that only applies because of *who* calls) live on the edge, in `call-graph-overrides.json`, keyed by the stable `enhancedEdgeKey`. Full design + as-built notes in [docs/developers/designs/edge-centric-constraints.md](../designs/edge-centric-constraints.md).
+
+- **Edge mitigations** (`setEdgeMitigation` override rule, appended to `EnhancedEdge.mitigations`). Merged in [projectAnalysis.ts](../../../packages/l2b/src/implementations/discovery-ui/defidisco/projectAnalysis.ts) `getMitigationsForOwner` from the owner→function permission edge (the edge IS the scope — no owner filtering needed; this is the relationship-level counterpart to a `scopedTo` function mitigation) **plus** transitively in `collectDownstreamScopedMitigations` on callgraph/dependency edges. After the union with direct + transitive function mitigations, the merged set is deduped through **`mitigationDedupKey`** so an edge mitigation visibly identical to a function mitigation never renders or counts twice. The backend twin of the frontend's dedup key lives at [`mitigationUtils.ts`](../../../packages/l2b/src/implementations/discovery-ui/defidisco/mitigationUtils.ts) — keep them in sync.
+- **`delayRef` resolution on edge mitigations.** After merging, `getMitigationsForOwner` resolves `delayRef → delaySeconds` for any delay mitigation lacking `delaySeconds` (mirrors what `buildMergedMitigations` already does for function mitigations). Without this, edge mitigations carrying `{type:'delay', delayRef:{...}}` would surface as empty badges in admin views.
+- **Edge impact caps** (`setEdgeCap` / `setOutgoingCap` / `setIncomingCap`). Resolved to USD in `projectAnalysis.buildResolvedEdgeCaps` (keyed by `enhancedEdgeKey`) and folded per-edge in `capitalAnalysis.traverseForward` via `minDefined(sourcePathCap, targetFuncCap, edgeCap)` — same merge as function caps; a cap on a `scope:'backward'` edge is a no-op because the edge is skipped before the fold.
+
+**`func.delay` field caveat.** A separate top-level `delay: { contractAddress, fieldName }` on a function (distinct from the `mitigations[]` array) causes `buildMergedMitigations` to **auto-synthesize** a delay mitigation that propagates as a global mitigation to every dependency the function reaches. For caller-relationship timelocks (MetaMorpho's 7-day vault timelock on `submit*` functions, etc.) prefer **anchoring on the edge** and omitting `func.delay` — otherwise the synthesized mitigation leaks onto downstream dependency rows (Morpho Blue, Chainlink, …) as a spurious "7d delay" badge. See `/review-morpho-vault` Step 7c for the canonical pattern.
+
 ### Impact Cap
 
 A mitigation may carry `impactCap` to bound the maximum potentially impacted TVL of a function. **One unified shape:**
