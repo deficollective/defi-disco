@@ -113,7 +113,17 @@ function buildMergedMitigations(
 
   // Include explicitly stored mitigations
   if (func.mitigations && func.mitigations.length > 0) {
-    mitigations.push(...func.mitigations)
+    for (const m of func.mitigations) {
+      if (
+        m.type === 'delay' &&
+        typeof (m as any).delay === 'number' &&
+        m.delaySeconds === undefined
+      ) {
+        mitigations.push({ ...m, delaySeconds: (m as any).delay })
+      } else {
+        mitigations.push(m)
+      }
+    }
   }
 
   return mitigations.length > 0 ? mitigations : undefined

@@ -848,8 +848,19 @@ export class ReviewCompiler {
       activity.push(raw)
     }
 
+    // Filter out events before the configured activity start date (e.g. vault
+    // deployment date) to suppress pre-deployment oracle/infrastructure history.
+    const activityStartDate = reviewConfig?.activityStartDate
+    const filteredActivity = activityStartDate
+      ? activity.filter(
+          (e) =>
+            new Date(e.timestamp).getTime() >=
+            new Date(activityStartDate).getTime(),
+        )
+      : activity
+
     // Sort newest first
-    activity.sort(
+    filteredActivity.sort(
       (a, b) =>
         new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
     )
@@ -936,7 +947,7 @@ export class ReviewCompiler {
       contracts,
       resources,
       audits,
-      activity: activity.length > 0 ? activity : undefined,
+      activity: filteredActivity.length > 0 ? filteredActivity : undefined,
       governance: resolveGovernance(
         getGovernance(this.paths, project),
         this.paths,

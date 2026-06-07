@@ -1,6 +1,6 @@
 import type { Logger } from '@l2beat/backend-tools'
 import { EthereumAddress } from '@l2beat/shared-pure'
-import type { MorphoRpcClient } from '../clients/MorphoRpcClient'
+import type { MorphoRpcClient, MorphoVaultV2Assets } from '../clients/MorphoRpcClient'
 import type { PositionResponse } from '../types/api'
 import type { DebankComplexProtocol } from '../types/debank'
 import type { Cache } from '../utils/cache'
@@ -38,9 +38,19 @@ export class MorphoVaultService {
       return cached
     }
 
-    const isVault = await this.morphoClient.isMetaMorphoVault(address)
-    this.vaultDetectionCache.set(cacheKey, isVault)
-    return isVault
+    const isV1 = await this.morphoClient.isMetaMorphoVault(address)
+    if (isV1) {
+      this.vaultDetectionCache.set(cacheKey, true)
+      return true
+    }
+
+    const isV2 = await this.morphoClient.isVaultV2(address)
+    this.vaultDetectionCache.set(cacheKey, isV2)
+    return isV2
+  }
+
+  private async isVaultV2(address: EthereumAddress): Promise<boolean> {
+    return this.morphoClient.isVaultV2(address)
   }
 
   async getPositions(
@@ -65,7 +75,15 @@ export class MorphoVaultService {
       address,
     })
 
-    // Step 1: Fetch onchain positions
+    const tokenPrices = await this.getTokenPrices()
+
+    // Dispatch to V2 path when applicable
+    const v2 = await this.isVaultV2(address)
+    if (v2) {
+      return this.getV2Positions(address, cacheKey, tokenPrices)
+    }
+
+    // V1 path: walk withdrawQueue → per-market positions
     const positions = await this.morphoClient.getVaultPositions(address)
 
     if (positions.length === 0) {
@@ -74,10 +92,6 @@ export class MorphoVaultService {
       return { data: emptyResult, cached: false }
     }
 
-    // Step 2: Get token prices from Morpho Blue singleton balances
-    const tokenPrices = await this.getTokenPrices()
-
-    // Step 3: Format as DebankComplexProtocol[]
     const portfolioItems = positions.map((pos) => {
       const loanTokenLower = pos.loanToken.toLowerCase()
       const tokenInfo = tokenPrices.get(loanTokenLower)
@@ -94,9 +108,7 @@ export class MorphoVaultService {
         )
       }
 
-      // Convert raw suppliedAssets to human-readable amount
       const amount = Number(pos.suppliedAssets) / 10 ** decimals
-
       const usdValue = amount * price
 
       return {
@@ -137,6 +149,70 @@ export class MorphoVaultService {
         (sum, item) => sum + item.stats.net_usd_value,
         0,
       ),
+    })
+
+    return { data: result, cached: false }
+  }
+
+  private async getV2Positions(
+    address: EthereumAddress,
+    cacheKey: string,
+    tokenPrices: Map<string, TokenPriceInfo>,
+  ): Promise<MorphoPositionResult> {
+    const vaultAssets: MorphoVaultV2Assets =
+      await this.morphoClient.getVaultV2Assets(address)
+
+    const loanTokenLower = vaultAssets.loanToken.toLowerCase()
+    const tokenInfo = tokenPrices.get(loanTokenLower)
+
+    const decimals = tokenInfo?.decimals ?? 18
+    const price = tokenInfo?.price ?? 0
+    const symbol = tokenInfo?.symbol ?? 'UNKNOWN'
+    const name = tokenInfo?.name ?? 'Unknown Token'
+
+    if (!tokenInfo) {
+      this.logger.warn(
+        'Vault V2 asset token not found in Morpho Blue balances, using price=0',
+        { loanToken: vaultAssets.loanToken },
+      )
+    }
+
+    const amount = Number(vaultAssets.totalAssets) / 10 ** decimals
+    const usdValue = amount * price
+
+    const protocol: DebankComplexProtocol = {
+      id: 'morphobluev2',
+      chain: 'eth',
+      name: 'Morpho Blue V2',
+      portfolio_item_list: [
+        {
+          name: 'Supply',
+          stats: {
+            asset_usd_value: usdValue,
+            debt_usd_value: 0,
+            net_usd_value: usdValue,
+          },
+          asset_token_list: [
+            {
+              id: loanTokenLower,
+              chain: 'eth',
+              name,
+              symbol,
+              decimals,
+              amount,
+              price,
+            },
+          ],
+        },
+      ],
+    }
+
+    const result: PositionResponse = [protocol]
+    this.cache.set(cacheKey, result)
+
+    this.logger.info('Morpho Vault V2 positions fetched successfully', {
+      address,
+      totalUsd: usdValue,
     })
 
     return { data: result, cached: false }

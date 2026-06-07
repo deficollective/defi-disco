@@ -5,14 +5,21 @@ const METAMORPHO_FACTORIES = [
   '0x1897A8997241C1cD4bD0698647e4EB7213535c24',
   '0xA9c3D3a366466Fa809d1Ae982Fb2c46E5fC41101',
 ]
+const VAULT_V2_FACTORY = '0xA1D94F746dEfa1928926b84fB2596c06926C0405'
 const MORPHO_BLUE = '0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb'
 
 const FACTORY_ABI = ['function isMetaMorpho(address) view returns (bool)']
+const VAULT_V2_FACTORY_ABI = ['function isVault(address) view returns (bool)']
 
 const VAULT_ABI = [
   'function withdrawQueueLength() view returns (uint256)',
   'function withdrawQueue(uint256) view returns (bytes32)',
   'function asset() view returns (address)',
+]
+
+const VAULT_V2_ABI = [
+  'function asset() view returns (address)',
+  'function totalAssets() view returns (uint256)',
 ]
 
 const MORPHO_BLUE_ABI = [
@@ -29,9 +36,15 @@ export interface MorphoMarketPosition {
   collateralToken: string
 }
 
+export interface MorphoVaultV2Assets {
+  loanToken: string
+  totalAssets: bigint
+}
+
 export class MorphoRpcClient {
   private readonly provider: providers.JsonRpcProvider
   private readonly factories: Contract[]
+  private readonly vaultV2Factory: Contract
   private readonly morphoBlue: Contract
   private readonly logger: Logger
 
@@ -40,6 +53,11 @@ export class MorphoRpcClient {
     this.provider = new providers.StaticJsonRpcProvider(rpcUrl, 1)
     this.factories = METAMORPHO_FACTORIES.map(
       (addr) => new Contract(addr, FACTORY_ABI, this.provider),
+    )
+    this.vaultV2Factory = new Contract(
+      VAULT_V2_FACTORY,
+      VAULT_V2_FACTORY_ABI,
+      this.provider,
     )
     this.morphoBlue = new Contract(MORPHO_BLUE, MORPHO_BLUE_ABI, this.provider)
   }
@@ -50,6 +68,17 @@ export class MorphoRpcClient {
       if (result) return true
     }
     return false
+  }
+
+  async isVaultV2(address: string): Promise<boolean> {
+    return this.vaultV2Factory.isVault(address)
+  }
+
+  async getVaultV2Assets(vaultAddress: string): Promise<MorphoVaultV2Assets> {
+    const vault = new Contract(vaultAddress, VAULT_V2_ABI, this.provider)
+    const [loanToken, rawTotalAssets]: [string, { toBigInt(): bigint }] =
+      await Promise.all([vault.asset(), vault.totalAssets()])
+    return { loanToken, totalAssets: rawTotalAssets.toBigInt() }
   }
 
   async getVaultPositions(

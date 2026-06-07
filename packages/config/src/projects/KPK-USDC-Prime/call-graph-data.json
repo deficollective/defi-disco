@@ -1,0 +1,1882 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-20T10:34:26.106Z",
+  "contracts": {
+    "eth:0x1897A8997241C1cD4bD0698647e4EB7213535c24": {
+      "address": "eth:0x1897A8997241C1cD4bD0698647e4EB7213535c24",
+      "name": "MetaMorphoV1_1Factory",
+      "externalCalls": [],
+      "generatedAt": "2026-05-20T10:32:50.145Z"
+    },
+    "eth:0x32BB1c0D48D8b1B3363e86eeB9A0300BAd61ccc1": {
+      "address": "eth:0x32BB1c0D48D8b1B3363e86eeB9A0300BAd61ccc1",
+      "name": "MorphoMarketV1AdapterV2Factory",
+      "externalCalls": [],
+      "generatedAt": "2026-05-20T10:32:53.614Z"
+    },
+    "eth:0x354C92aF243d53A24feb3dFF20372Af7b7c47478": {
+      "address": "eth:0x354C92aF243d53A24feb3dFF20372Af7b7c47478",
+      "name": "Safe",
+      "externalCalls": [
+        {
+          "callerFunction": "checkNSignatures",
+          "storageVariable": "TMP_355",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "checkSignatures",
+          "storageVariable": "TMP_355",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_275",
+          "interfaceType": "Guard",
+          "calledFunction": "checkTransaction"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_299",
+          "interfaceType": "Guard",
+          "calledFunction": "checkAfterExecution"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_355",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "setGuard",
+          "storageVariable": "TMP_2",
+          "interfaceType": "Guard",
+          "calledFunction": "supportsInterface"
+        }
+      ],
+      "generatedAt": "2026-05-20T10:33:12.814Z"
+    },
+    "eth:0x3696c5eAe4a7Ffd04Ea163564571E9CD8Ed9364e": {
+      "address": "eth:0x3696c5eAe4a7Ffd04Ea163564571E9CD8Ed9364e",
+      "name": "RegistryList",
+      "externalCalls": [
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_11",
+          "interfaceType": "IAdapterRegistry",
+          "calledFunction": "isInRegistry",
+          "resolvedAddress": "eth:0x3696c5eAe4a7Ffd04Ea163564571E9CD8Ed9364e",
+          "resolvedContractName": "RegistryList",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 30,
+          "resolutionCandidates": [
+            {
+              "address": "eth:0x3696c5eAe4a7Ffd04Ea163564571E9CD8Ed9364e",
+              "contractName": "RegistryList"
+            },
+            {
+              "address": "eth:0xa31788949D0FE443D3D1033222Fc9479499Bc3f5",
+              "contractName": "MorphoMarketV1Registry"
+            },
+            {
+              "address": "eth:0xcA38e878439E02f2FEb364a2B36B52789F983727",
+              "contractName": "MorphoVaultV1Registry"
+            },
+            {
+              "address": "eth:0xCef9Ee779Ef9428f50bB7a21B3E3b4eFdbc33844",
+              "contractName": "MorphoVaultV1Registry"
+            },
+            {
+              "address": "eth:0xFb4d38d93736A040993C50AAAc776a2Be2cff8Be",
+              "contractName": "MorphoMarketV1RegistryV2"
+            }
+          ],
+          "isViewCall": true
+        }
+      ],
+      "generatedAt": "2026-05-20T10:33:14.410Z"
+    },
+    "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6": {
+      "address": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+      "name": "VaultV2",
+      "externalCalls": [
+        {
+          "callerFunction": "accrueInterest",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "accrueInterest",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "accrueInterest",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "accrueInterest",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "accrueInterestView",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "accrueInterestView",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "accrueInterestView",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "accrueInterestView",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "addAdapter",
+          "storageVariable": "TMP_93",
+          "interfaceType": "IAdapterRegistry",
+          "calledFunction": "isInRegistry",
+          "resolvedAddress": "eth:0x3696c5eAe4a7Ffd04Ea163564571E9CD8Ed9364e",
+          "resolvedContractName": "RegistryList",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "allocate",
+          "storageVariable": "TMP_222",
+          "interfaceType": "IAdapter",
+          "calledFunction": "allocate",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "allocate",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "allocate",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "allocate",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "allocate",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "canReceiveAssets",
+          "storageVariable": "TMP_469",
+          "interfaceType": "IReceiveAssetsGate",
+          "calledFunction": "canReceiveAssets",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "canReceiveShares",
+          "storageVariable": "TMP_456",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "canSendAssets",
+          "storageVariable": "TMP_474",
+          "interfaceType": "ISendAssetsGate",
+          "calledFunction": "canSendAssets",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "canSendShares",
+          "storageVariable": "TMP_461",
+          "interfaceType": "ISendSharesGate",
+          "calledFunction": "canSendShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "convertToAssets",
+          "storageVariable": "shares",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "convertToAssets",
+          "storageVariable": "shares",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "convertToAssets",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "convertToAssets",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "convertToShares",
+          "storageVariable": "assets",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "convertToShares",
+          "storageVariable": "assets",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "convertToShares",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "convertToShares",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "deallocate",
+          "storageVariable": "TMP_247",
+          "interfaceType": "IAdapter",
+          "calledFunction": "deallocate",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "deposit",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "deposit",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "deposit",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "deposit",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "deposit",
+          "storageVariable": "assets",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "deposit",
+          "storageVariable": "assets",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "deposit",
+          "storageVariable": "onBehalf",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "deposit",
+          "storageVariable": "msg.sender",
+          "interfaceType": "ISendAssetsGate",
+          "calledFunction": "canSendAssets",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "deposit",
+          "storageVariable": "TMP_222",
+          "interfaceType": "IAdapter",
+          "calledFunction": "allocate",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "TMP_247",
+          "interfaceType": "IAdapter",
+          "calledFunction": "deallocate",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "assets",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "assets",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "TMP_367",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "onBehalf",
+          "interfaceType": "ISendSharesGate",
+          "calledFunction": "canSendShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "forceDeallocate",
+          "storageVariable": "receiver",
+          "interfaceType": "IReceiveAssetsGate",
+          "calledFunction": "canReceiveAssets",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "mint",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "mint",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "mint",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "mint",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "mint",
+          "storageVariable": "shares",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "mint",
+          "storageVariable": "shares",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "mint",
+          "storageVariable": "onBehalf",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "mint",
+          "storageVariable": "msg.sender",
+          "interfaceType": "ISendAssetsGate",
+          "calledFunction": "canSendAssets",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "mint",
+          "storageVariable": "TMP_222",
+          "interfaceType": "IAdapter",
+          "calledFunction": "allocate",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "previewDeposit",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewDeposit",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewDeposit",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewDeposit",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewMint",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewMint",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewMint",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewMint",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewRedeem",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewRedeem",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewRedeem",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewRedeem",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewWithdraw",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewWithdraw",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewWithdraw",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "previewWithdraw",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "shares",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "shares",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "TMP_367",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "onBehalf",
+          "interfaceType": "ISendSharesGate",
+          "calledFunction": "canSendShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "receiver",
+          "interfaceType": "IReceiveAssetsGate",
+          "calledFunction": "canReceiveAssets",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "redeem",
+          "storageVariable": "TMP_247",
+          "interfaceType": "IAdapter",
+          "calledFunction": "deallocate",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "setAdapterRegistry",
+          "storageVariable": "TMP_84",
+          "interfaceType": "IAdapterRegistry",
+          "calledFunction": "isInRegistry",
+          "resolvedAddress": "eth:0x3696c5eAe4a7Ffd04Ea163564571E9CD8Ed9364e",
+          "resolvedContractName": "RegistryList",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setManagementFee",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setManagementFee",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setManagementFee",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "setManagementFee",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "setManagementFeeRecipient",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setManagementFeeRecipient",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setManagementFeeRecipient",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "setManagementFeeRecipient",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "setMaxRate",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setMaxRate",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setMaxRate",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "setMaxRate",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "setPerformanceFee",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setPerformanceFee",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setPerformanceFee",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "setPerformanceFee",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "setPerformanceFeeRecipient",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setPerformanceFeeRecipient",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "setPerformanceFeeRecipient",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "setPerformanceFeeRecipient",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "totalAssets",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "totalAssets",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "totalAssets",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "totalAssets",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "transfer",
+          "storageVariable": "msg.sender",
+          "interfaceType": "ISendSharesGate",
+          "calledFunction": "canSendShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "transfer",
+          "storageVariable": "to",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "transferFrom",
+          "storageVariable": "from",
+          "interfaceType": "ISendSharesGate",
+          "calledFunction": "canSendShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "transferFrom",
+          "storageVariable": "to",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "TMP_280",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "TMP_284",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "performanceFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "managementFeeRecipient",
+          "interfaceType": "IReceiveSharesGate",
+          "calledFunction": "canReceiveShares",
+          "resolvedAddress": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+          "resolvedContractName": "Safe",
+          "resolutionType": "deterministic"
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "assets",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "assets",
+          "interfaceType": "IAdapter",
+          "calledFunction": "realAssets",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "TMP_367",
+          "interfaceType": "IERC20",
+          "calledFunction": "balanceOf",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "onBehalf",
+          "interfaceType": "ISendSharesGate",
+          "calledFunction": "canSendShares",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "receiver",
+          "interfaceType": "IReceiveAssetsGate",
+          "calledFunction": "canReceiveAssets",
+          "resolvedAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+          "resolvedContractName": "VaultV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "withdraw",
+          "storageVariable": "TMP_247",
+          "interfaceType": "IAdapter",
+          "calledFunction": "deallocate",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        }
+      ],
+      "generatedAt": "2026-05-20T10:33:18.183Z"
+    },
+    "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC": {
+      "address": "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+      "name": "AdaptiveCurveIrm",
+      "externalCalls": [],
+      "generatedAt": "2026-05-20T10:33:35.045Z"
+    },
+    "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639": {
+      "address": "eth:0x9F230218cf7FDe6A9246e6f8CB0b888377E92639",
+      "name": "Safe",
+      "externalCalls": [
+        {
+          "callerFunction": "checkNSignatures",
+          "storageVariable": "TMP_355",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "checkSignatures",
+          "storageVariable": "TMP_355",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_275",
+          "interfaceType": "Guard",
+          "calledFunction": "checkTransaction"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_299",
+          "interfaceType": "Guard",
+          "calledFunction": "checkAfterExecution"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_355",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "setGuard",
+          "storageVariable": "TMP_2",
+          "interfaceType": "Guard",
+          "calledFunction": "supportsInterface"
+        }
+      ],
+      "generatedAt": "2026-05-20T10:33:35.050Z"
+    },
+    "eth:0xa31788949D0FE443D3D1033222Fc9479499Bc3f5": {
+      "address": "eth:0xa31788949D0FE443D3D1033222Fc9479499Bc3f5",
+      "name": "MorphoMarketV1Registry",
+      "externalCalls": [
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_0",
+          "interfaceType": "IMorphoMarketV1AdapterFactory",
+          "calledFunction": "isMorphoMarketV1Adapter",
+          "resolvedAddress": "eth:0xb049465969ac6355127cDf9E88deE63d25204d5D",
+          "resolvedContractName": "MorphoMarketV1AdapterFactory",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_2",
+          "interfaceType": "IMorphoMarketV1Adapter",
+          "calledFunction": "morpho",
+          "resolvedAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+          "resolvedContractName": "MorphoMarketV1AdapterV2",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 50,
+          "resolutionCandidates": [
+            {
+              "address": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+              "contractName": "MorphoMarketV1AdapterV2"
+            },
+            {
+              "address": "eth:0x32BB1c0D48D8b1B3363e86eeB9A0300BAd61ccc1",
+              "contractName": "MorphoMarketV1AdapterV2Factory"
+            }
+          ],
+          "isViewCall": true
+        }
+      ],
+      "generatedAt": "2026-05-20T10:33:36.909Z"
+    },
+    "eth:0xA9c3D3a366466Fa809d1Ae982Fb2c46E5fC41101": {
+      "address": "eth:0xA9c3D3a366466Fa809d1Ae982Fb2c46E5fC41101",
+      "name": "MetaMorphoFactory",
+      "externalCalls": [],
+      "generatedAt": "2026-05-20T10:34:06.006Z"
+    },
+    "eth:0xb049465969ac6355127cDf9E88deE63d25204d5D": {
+      "address": "eth:0xb049465969ac6355127cDf9E88deE63d25204d5D",
+      "name": "MorphoMarketV1AdapterFactory",
+      "externalCalls": [],
+      "generatedAt": "2026-05-20T10:34:08.939Z"
+    },
+    "eth:0xcA38e878439E02f2FEb364a2B36B52789F983727": {
+      "address": "eth:0xcA38e878439E02f2FEb364a2B36B52789F983727",
+      "name": "MorphoVaultV1Registry",
+      "externalCalls": [
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_4",
+          "interfaceType": "IMorphoVaultV1AdapterFactory",
+          "calledFunction": "isMorphoVaultV1Adapter",
+          "resolvedAddress": "eth:0xD1B8E2dee25c2b89DCD2f98448a7ce87d6F63394",
+          "resolvedContractName": "MorphoVaultV1AdapterFactory",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_7",
+          "interfaceType": "IMorphoVaultV1Adapter",
+          "calledFunction": "morphoVaultV1",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_6",
+          "interfaceType": "IMetaMorphoFactory",
+          "calledFunction": "isMetaMorpho",
+          "resolvedAddress": "eth:0xA9c3D3a366466Fa809d1Ae982Fb2c46E5fC41101",
+          "resolvedContractName": "MetaMorphoFactory",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": true
+        }
+      ],
+      "generatedAt": "2026-05-20T10:34:11.119Z"
+    },
+    "eth:0xcBa28b38103307Ec8dA98377ffF9816C164f9AFa": {
+      "address": "eth:0xcBa28b38103307Ec8dA98377ffF9816C164f9AFa",
+      "name": "GnosisSafe",
+      "externalCalls": [
+        {
+          "callerFunction": "checkNSignatures",
+          "storageVariable": "TMP_330",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "checkSignatures",
+          "storageVariable": "TMP_330",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_253",
+          "interfaceType": "Guard",
+          "calledFunction": "checkTransaction"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_277",
+          "interfaceType": "Guard",
+          "calledFunction": "checkAfterExecution"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_330",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        }
+      ],
+      "generatedAt": "2026-05-20T10:34:13.773Z"
+    },
+    "eth:0xCef9Ee779Ef9428f50bB7a21B3E3b4eFdbc33844": {
+      "address": "eth:0xCef9Ee779Ef9428f50bB7a21B3E3b4eFdbc33844",
+      "name": "MorphoVaultV1Registry",
+      "externalCalls": [
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_4",
+          "interfaceType": "IMorphoVaultV1AdapterFactory",
+          "calledFunction": "isMorphoVaultV1Adapter",
+          "resolvedAddress": "eth:0xD1B8E2dee25c2b89DCD2f98448a7ce87d6F63394",
+          "resolvedContractName": "MorphoVaultV1AdapterFactory",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_7",
+          "interfaceType": "IMorphoVaultV1Adapter",
+          "calledFunction": "morphoVaultV1",
+          "callerIsView": true,
+          "isViewCall": true
+        },
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_6",
+          "interfaceType": "IMetaMorphoFactory",
+          "calledFunction": "isMetaMorpho",
+          "resolvedAddress": "eth:0x1897A8997241C1cD4bD0698647e4EB7213535c24",
+          "resolvedContractName": "MetaMorphoV1_1Factory",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": true
+        }
+      ],
+      "generatedAt": "2026-05-20T10:34:15.981Z"
+    },
+    "eth:0xD1B8E2dee25c2b89DCD2f98448a7ce87d6F63394": {
+      "address": "eth:0xD1B8E2dee25c2b89DCD2f98448a7ce87d6F63394",
+      "name": "MorphoVaultV1AdapterFactory",
+      "externalCalls": [],
+      "generatedAt": "2026-05-20T10:34:18.113Z"
+    },
+    "eth:0xD5b66FD462b46B9A08c427ddAf7DC50C05a8dF7d": {
+      "address": "eth:0xD5b66FD462b46B9A08c427ddAf7DC50C05a8dF7d",
+      "name": "Roles",
+      "externalCalls": [
+        {
+          "callerFunction": "execTransactionFromModule",
+          "storageVariable": "adapter",
+          "interfaceType": "ICustomCondition",
+          "calledFunction": "check"
+        },
+        {
+          "callerFunction": "execTransactionFromModule",
+          "storageVariable": "TMP_1559",
+          "interfaceType": "ITransactionUnwrapper",
+          "calledFunction": "unwrap"
+        },
+        {
+          "callerFunction": "execTransactionFromModule",
+          "storageVariable": "TMP_217",
+          "interfaceType": "IAvatar",
+          "calledFunction": "execTransactionFromModule",
+          "resolvedAddress": "eth:0xf8182E5827c06a47A985eC565A3bcd56437a97bE",
+          "resolvedContractName": "Safe",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "execTransactionFromModuleReturnData",
+          "storageVariable": "adapter",
+          "interfaceType": "ICustomCondition",
+          "calledFunction": "check"
+        },
+        {
+          "callerFunction": "execTransactionFromModuleReturnData",
+          "storageVariable": "TMP_1559",
+          "interfaceType": "ITransactionUnwrapper",
+          "calledFunction": "unwrap"
+        },
+        {
+          "callerFunction": "execTransactionFromModuleReturnData",
+          "storageVariable": "TMP_219",
+          "interfaceType": "IAvatar",
+          "calledFunction": "execTransactionFromModuleReturnData",
+          "resolvedAddress": "eth:0xf8182E5827c06a47A985eC565A3bcd56437a97bE",
+          "resolvedContractName": "Safe",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "execTransactionWithRole",
+          "storageVariable": "adapter",
+          "interfaceType": "ICustomCondition",
+          "calledFunction": "check"
+        },
+        {
+          "callerFunction": "execTransactionWithRole",
+          "storageVariable": "TMP_1559",
+          "interfaceType": "ITransactionUnwrapper",
+          "calledFunction": "unwrap"
+        },
+        {
+          "callerFunction": "execTransactionWithRole",
+          "storageVariable": "TMP_217",
+          "interfaceType": "IAvatar",
+          "calledFunction": "execTransactionFromModule",
+          "resolvedAddress": "eth:0xf8182E5827c06a47A985eC565A3bcd56437a97bE",
+          "resolvedContractName": "Safe",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "execTransactionWithRoleReturnData",
+          "storageVariable": "adapter",
+          "interfaceType": "ICustomCondition",
+          "calledFunction": "check"
+        },
+        {
+          "callerFunction": "execTransactionWithRoleReturnData",
+          "storageVariable": "TMP_1559",
+          "interfaceType": "ITransactionUnwrapper",
+          "calledFunction": "unwrap"
+        },
+        {
+          "callerFunction": "execTransactionWithRoleReturnData",
+          "storageVariable": "TMP_219",
+          "interfaceType": "IAvatar",
+          "calledFunction": "execTransactionFromModuleReturnData",
+          "resolvedAddress": "eth:0xf8182E5827c06a47A985eC565A3bcd56437a97bE",
+          "resolvedContractName": "Safe",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "discovered-values-scan",
+          "resolutionConfidence": 95,
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "scopeFunction",
+          "storageVariable": "buffer",
+          "interfaceType": "ISingletonFactory",
+          "calledFunction": "deploy"
+        }
+      ],
+      "generatedAt": "2026-05-20T10:34:24.592Z"
+    },
+    "eth:0xf8182E5827c06a47A985eC565A3bcd56437a97bE": {
+      "address": "eth:0xf8182E5827c06a47A985eC565A3bcd56437a97bE",
+      "name": "Safe",
+      "externalCalls": [
+        {
+          "callerFunction": "checkNSignatures",
+          "storageVariable": "TMP_355",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "checkSignatures",
+          "storageVariable": "TMP_355",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_275",
+          "interfaceType": "Guard",
+          "calledFunction": "checkTransaction"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_299",
+          "interfaceType": "Guard",
+          "calledFunction": "checkAfterExecution"
+        },
+        {
+          "callerFunction": "execTransaction",
+          "storageVariable": "TMP_355",
+          "interfaceType": "ISignatureValidator",
+          "calledFunction": "isValidSignature"
+        },
+        {
+          "callerFunction": "setGuard",
+          "storageVariable": "TMP_2",
+          "interfaceType": "Guard",
+          "calledFunction": "supportsInterface"
+        }
+      ],
+      "generatedAt": "2026-05-20T10:34:24.595Z"
+    },
+    "eth:0xFb4d38d93736A040993C50AAAc776a2Be2cff8Be": {
+      "address": "eth:0xFb4d38d93736A040993C50AAAc776a2Be2cff8Be",
+      "name": "MorphoMarketV1RegistryV2",
+      "externalCalls": [
+        {
+          "callerFunction": "isInRegistry",
+          "storageVariable": "TMP_0",
+          "interfaceType": "IMorphoMarketV1AdapterV2Factory",
+          "calledFunction": "isMorphoMarketV1AdapterV2",
+          "resolvedAddress": "eth:0x32BB1c0D48D8b1B3363e86eeB9A0300BAd61ccc1",
+          "resolvedContractName": "MorphoMarketV1AdapterV2Factory",
+          "resolutionType": "optimistic",
+          "resolutionHeuristic": "function-signature",
+          "resolutionConfidence": 99,
+          "isViewCall": true
+        }
+      ],
+      "generatedAt": "2026-05-20T10:34:26.106Z"
+    },
+    "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902": {
+      "address": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+      "name": "MarketsV1Adapter",
+      "generatedAt": "2026-05-20T00:00:00.000Z",
+      "externalCalls": [
+        {
+          "callerFunction": "allocate",
+          "storageVariable": "morpho",
+          "interfaceType": "IMorpho",
+          "calledFunction": "supply",
+          "resolvedAddress": "eth:0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+          "resolvedContractName": "Morpho",
+          "resolutionType": "deterministic",
+          "isViewCall": false
+        },
+        {
+          "callerFunction": "deallocate",
+          "storageVariable": "morpho",
+          "interfaceType": "IMorpho",
+          "calledFunction": "withdraw",
+          "resolvedAddress": "eth:0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+          "resolvedContractName": "Morpho",
+          "resolutionType": "deterministic",
+          "isViewCall": false
+        }
+      ]
+    }
+  }
+}

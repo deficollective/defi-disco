@@ -964,6 +964,13 @@ export interface ReviewConfig {
   /** First time the review-config was created. Preserved across regenerations. */
   publishedAt?: string
   /**
+   * Earliest ISO date (inclusive) to include in the activity feed. Events
+   * with a timestamp before this date are suppressed. Typically set to the
+   * vault / protocol deployment date so that pre-deployment oracle or
+   * infrastructure upgrade history does not pollute the feed.
+   */
+  activityStartDate?: string
+  /**
    * Researcher attestation flag. Missing = treated as verified (legacy reviews
    * were researcher-curated). New AI-generated reviews must explicitly write
    * `false`. Toggled via the TerminalExtensions button. Researcher edits via

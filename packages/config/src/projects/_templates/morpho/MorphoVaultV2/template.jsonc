@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../../../../discovery/schemas/contract.v2.schema.json",
+  "ignoreRelatives": ["asset"],
+  "ignoreMethods": [
+    "convertToAssets",
+    "convertToShares",
+    "previewDeposit",
+    "previewMint",
+    "previewRedeem",
+    "previewWithdraw",
+    // Enumerated via array handler in per-project config
+    "adapters"
+  ],
+  "ignoreInWatchMode": [
+    "totalAssets",
+    "totalSupply"
+  ]
+}

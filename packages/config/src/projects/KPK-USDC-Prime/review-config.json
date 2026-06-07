@@ -1,0 +1,100 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-19T00:00:00.000Z",
+  "publishedAt": "2026-05-19T00:00:00.000Z",
+  "activityStartDate": "2025-10-23",
+  "protocolSlug": "KPK-USDC-Prime",
+  "protocolName": "KPK USDC Prime",
+  "tokenName": "KPK_USDC_Prime",
+  "chain": "Ethereum",
+  "projectType": "yield",
+  "verified": true,
+  "description": "KPK USDC Prime, a Morpho V2 Vault, allocates USDC into selected Morpho Blue markets (WETH, WBTC, wstETH, cbBTC, rETH, OETH) via the Markets V1 Adapter under KPK's Risk Framework, with per-market caps and risk tiers limiting concentration. A 5-of-8 Safe holds ownership and can replace the curator or grant/revoke sentinel roles; KPK's 2-of-5 multisig acts as curator and allocator, submitting timelocked adapter, cap, and fee changes. Day-to-day allocation is run by KPK's automated agents executing against the 2/5 multisig through a Permissions Layer module that whitelists the calls and parameter ranges available to automation; three operator EOAs hold the allocator role independently for occasional manual intervention. Vault capital lands in Morpho Blue and is priced via Chainlink price feeds across the underlying markets; deposits and shares conform to the ERC-4626 standard. The adapter registry plus the receiveAssetsGate, receiveSharesGate, and sendSharesGate have been permanently abdicated, locking the adapter set and ensuring deposits and share transfers cannot be gated by future curator action.",
+  "admins": {
+    "eth:0x354C92aF243d53A24feb3dFF20372Af7b7c47478": {
+      "name": "KPK 5/8 Owner Safe",
+      "description": "Vault owner. Can replace the curator and grant/revoke sentinel roles. Controls {{ownerCapital}} in reachable capital."
+    },
+    "eth:0xf8182E5827c06a47A985eC565A3bcd56437a97bE": {
+      "name": "KPK 2/5 Multisig (Curator & Allocator)",
+      "description": "Curator and allocator. Submits timelocked operations for adapter additions, cap increases, and fee changes, and executes day-to-day allocation across approved markets within configured caps. Automated actions (KPK agents and Hypernative-triggered responses) flow through a Permissions Layer module on this multisig, which whitelists the calls and parameter ranges automation can execute. Manual multisig signing is not restricted by the Permissions Layer. Controls {{curatorCapital}} in reachable capital."
+    },
+    "eth:0xF0Cf1e3Ec6264b03241826f5b2aBda17B4352A75": {
+      "name": "KPK Operator EOA",
+      "description": "KPK operator EOA with the allocator role. Can call allocate and deallocate on the vault within configured caps."
+    },
+    "eth:0x331D9C769185AE25233314859d53c2b9203a1204": {
+      "name": "KPK Operator EOA (Vault Deployer)",
+      "description": "KPK operator EOA that deployed the vault, also holds the allocator role. Can call allocate and deallocate within configured caps."
+    },
+    "eth:0xAF150c6d108D0C2c96BbFC3CeF9B4848b5D99440": {
+      "name": "KPK Operator EOA",
+      "description": "KPK operator EOA with the allocator role. Can call allocate and deallocate on the vault within configured caps."
+    }
+  },
+  "dependencies": {
+    "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902": {
+      "name": "Markets V1 Adapter",
+      "description": "Routes vault deposits directly into individual Morpho Blue V1 markets without passing through an intermediate V1 vault. All vault capital flows through this adapter into Morpho Blue."
+    },
+    "eth:0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb": {
+      "name": "Morpho Blue",
+      "description": "The immutable Morpho Blue lending protocol where all vault deposits ultimately land as supply positions."
+    }
+  },
+  "funds": {
+    "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6": {
+      "name": "KPK USDC Prime Vault (USDC)",
+      "description": "The Morpho Vault V2 contract. Holds USDC supply positions in Morpho Blue markets across WETH, WBTC, wstETH, cbBTC, rETH, and OETH collateral."
+    }
+  },
+  "sections": {
+    "codeAndAudits": {
+      "title": "Code & Audits",
+      "description": "Smart contract analysis and audit history",
+      "subsections": [
+        {
+          "title": "Contracts",
+          "content": [
+            {
+              "type": "dataTable",
+              "dataSource": "project.contracts",
+              "columns": [
+                {
+                  "field": "name",
+                  "header": "Name"
+                },
+                {
+                  "field": "address",
+                  "header": "Address",
+                  "format": "address"
+                },
+                {
+                  "field": "proxyType",
+                  "header": "Proxy Type",
+                  "format": "badge"
+                }
+              ],
+              "filters": {
+                "excludeExternal": true
+              }
+            }
+          ]
+        },
+        {
+          "title": "Audits",
+          "content": [
+            {
+              "type": "text",
+              "content": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "dataKeys": {
+    "ownerCapital": "v2score.inventory.admins.breakdown[\"eth:0x354C92aF243d53A24feb3dFF20372Af7b7c47478\"].totalReachableCapital",
+    "curatorCapital": "v2score.inventory.admins.breakdown[\"eth:0xf8182E5827c06a47A985eC565A3bcd56437a97bE\"].totalReachableCapital"
+  }
+}

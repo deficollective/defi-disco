@@ -1,0 +1,199 @@
+{
+  "$schema": "../../../../discovery/schemas/config.v2.schema.json",
+  "name": "KPK-USDC-Prime",
+  "import": ["../globalConfig.jsonc"],
+  "initialAddresses": [
+    "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+    "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902"
+  ],
+  "maxAddresses": 100,
+  "maxDepth": 5,
+  "overrides": {
+    // Ignore USDC token — not interesting to discover
+    "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48": {
+      "ignoreDiscovery": true
+    },
+    "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6": {
+      "ignoreMethods": [
+        "convertToShares",
+        "convertToAssets",
+        "previewDeposit",
+        "previewMint",
+        "previewRedeem",
+        "previewWithdraw",
+        // Enumerated via array handler below
+        "adapters"
+      ],
+      "fields": {
+        "adapters": {
+          "handler": {
+            "type": "array",
+            "method": "adapters",
+            "length": "{{ adaptersLength }}"
+          }
+        },
+        "allocators": {
+          "handler": {
+            "type": "event",
+            "select": "account",
+            "add": { "event": "SetIsAllocator", "where": ["=", "#newIsAllocator", true] },
+            "remove": { "event": "SetIsAllocator", "where": ["!=", "#newIsAllocator", true] }
+          }
+        },
+        // Abdication state per selector — abdicated() returns true if the function can never be called again.
+        // Snapshot at 2026-05-25: 4 of 5 user-facing gate/registry setters are abdicated; setSendAssetsGate is not.
+        "abdicated_setAdapterRegistry": {
+          "handler": { "type": "call", "method": "abdicated", "args": ["0x5b34b823"] }
+        },
+        "abdicated_setReceiveAssetsGate": {
+          "handler": { "type": "call", "method": "abdicated", "args": ["0x04dbf0ce"] }
+        },
+        "abdicated_setReceiveSharesGate": {
+          "handler": { "type": "call", "method": "abdicated", "args": ["0x2cb19f98"] }
+        },
+        "abdicated_setSendSharesGate": {
+          "handler": { "type": "call", "method": "abdicated", "args": ["0xc21ad028"] }
+        },
+        "abdicated_setSendAssetsGate": {
+          "handler": { "type": "call", "method": "abdicated", "args": ["0x871c979c"] }
+        },
+        // Per-selector timelock durations (seconds). 0 = no delay. Surfaces the asymmetry between
+        // instant owner actions (setCurator/setOwner/setIsSentinel) and timelocked curator actions
+        // (increaseAbsoluteCap = 3 days).
+        "timelock_setCurator": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0xe90956cf"] }
+        },
+        "timelock_setOwner": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0x13af4035"] }
+        },
+        "timelock_setIsSentinel": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0x920ed706"] }
+        },
+        "timelock_increaseAbsoluteCap": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0xf6f98fd5"] }
+        },
+        "timelock_setForceDeallocatePenalty": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0x3e9d2ac7"] }
+        },
+        "timelock_setSendAssetsGate": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0x871c979c"] }
+        },
+        "timelock_abdicate": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0xb2e32848"] }
+        },
+        "timelock_addAdapter": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0x60d54d41"] }
+        },
+        "timelock_removeAdapter": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0x585cd34b"] }
+        },
+        "timelock_increaseRelativeCap": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0x2438525b"] }
+        },
+        "timelock_setPerformanceFee": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0x70897b23"] }
+        },
+        "timelock_setManagementFee": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0xfe56e232"] }
+        },
+        "timelock_increaseTimelock": {
+          "handler": { "type": "call", "method": "timelock", "args": ["0x47966291"] }
+        },
+        // Force-deallocate penalty for the Markets V1 Adapter (raw uint, 1e18-scaled).
+        "forceDeallocatePenalty_marketsV1Adapter": {
+          "handler": {
+            "type": "call",
+            "method": "forceDeallocatePenalty",
+            "args": ["0x1d511811ACA9d8817a3e50F29CadFf6243A02902"]
+          }
+        }
+      },
+      "ignoreInWatchMode": [
+        "totalAssets",
+        "totalSupply",
+        "timelock_addAdapter",
+        "timelock_removeAdapter",
+        "timelock_increaseRelativeCap",
+        "timelock_setPerformanceFee",
+        "timelock_setManagementFee",
+        "timelock_increaseTimelock"
+      ]
+    },
+    "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902": {
+      "ignoreMethods": ["marketIds"],
+      "fields": {
+        "marketIds": {
+          "handler": {
+            "type": "array",
+            "method": "marketIds",
+            "length": "{{ marketIdsLength }}"
+          }
+        },
+        "marketParams": {
+          "handler": {
+            "type": "morphoMarkets",
+            "morphoAddressField": "morpho",
+            "queueField": "marketIds",
+            "ignoreRelative": true,
+            // Fetch expectedSupplyAssets(marketId) from the adapter to identify active markets.
+            "fetchExpectedAssets": true,
+            // Fetch vault.absoluteCap(capId) per market.
+            // capId = keccak256(abi.encode("this/marketParams", adapterAddress, marketParams))
+            "fetchAbsoluteCap": true,
+            "vaultAddressField": "parentVault"
+          }
+        },
+        "marketOracles": {
+          "handler": {
+            "type": "morphoMarkets",
+            "extractField": "oracle",
+            "sourceField": "marketParams"
+          }
+        },
+        // Only oracles for markets with expectedAssets >= $1 (active markets).
+        // 1000000 = $1 in USDC 6-decimal — filters out dust residuals from inactive markets.
+        // Used by contract-tags dependencyFields to avoid pulling in stale oracles.
+        "activeMarketOracles": {
+          "handler": {
+            "type": "morphoMarkets",
+            "extractField": "oracle",
+            "sourceField": "marketParams",
+            "minAssetsThreshold": 1000000
+          }
+        },
+        // Per-oracle absoluteCap map: { "0x<oracle>": absoluteCap (USDC 6-decimal) }
+        // Keyed by oracle address; active markets only (dust filtered by minAssetsThreshold).
+        // Used by impactCap fieldRef on increaseAbsoluteCap mitigations in functions.json.
+        "absoluteCapByOracle": {
+          "handler": {
+            "type": "morphoMarkets",
+            "extractField": "absoluteCap",
+            "keyByField": "oracle",
+            "sourceField": "marketParams",
+            "minAssetsThreshold": 1000000
+          }
+        }
+      },
+      "ignoreInWatchMode": ["marketIds", "marketParams", "marketOracles", "activeMarketOracles", "absoluteCapByOracle"]
+    },
+    // wstETH collateral token — not relevant to discover
+    "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0": {
+      "ignoreDiscovery": true
+    },
+    // rETH token — array functions overflow, not relevant to discover
+    "eth:0xae78736Cd615f374D3085123A210448E74Fc6393": {
+      "ignoreMethods": ["getEthValue", "getRethValue"]
+    },
+    // RedStone multi-feed adapter — view functions revert (no data in current context)
+    "eth:0xd72a6BA4a87DDB33e801b3f1c7750b2d0911fC6C": {
+      "ignoreMethods": ["extractTimestampsAndAssertAllAreEqual", "getDataServiceId"]
+    },
+    // Oracle display names — derived from the Morpho Blue market each oracle prices
+    "eth:0x36Cb058364a811636685ef15a71E8ea99043f815": { "displayName": "rETH/USDC Oracle" },
+    "eth:0xE8aDfF9117151fb5ad7313873780b87cC56EEDB0": { "displayName": "OETH/USDC Oracle" },
+    "eth:0xA6D6950c9F177F1De7f7757FB33539e3Ec60182a": { "displayName": "cbBTC/USDC Oracle" },
+    "eth:0xDddd770BADd886dF3864029e4B377B5F6a2B6b83": { "displayName": "WBTC/USDC Oracle" },
+    "eth:0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2": { "displayName": "wstETH/USDC Oracle" },
+    "eth:0x0F948CBa8231Db7898ef36A4212581Ad7b1B4580": { "displayName": "WETH/USDC Oracle" }
+  }
+}

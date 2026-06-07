@@ -1,0 +1,779 @@
+{
+  "version": "1.0",
+  "lastModified": "2026-05-26T00:00:00.000Z",
+  "contracts": {
+    "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6": {
+      "functions": [
+        {
+          "functionName": "setOwner",
+          "isPermissioned": true,
+          "score": "critical",
+          "description": "Transfers ownership of the vault. Owner controls setCurator and setIsSentinel.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "5/8 Multisig",
+              "description": "Requires 5 of 8 signers on the KPK Owner Safe to agree before execution. No single key can act unilaterally."
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setCurator",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Sets the curator address. Curator can submit timelocked operations for most vault settings.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "5/8 Multisig",
+              "description": "Requires 5 of 8 signers on the KPK Owner Safe to agree before execution. No single key can act unilaterally."
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setIsSentinel",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Grants/revokes sentinel role. Sentinels can immediately decrease caps, deallocate, and revoke pending timelocked ops \u2014 a safety role.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "5/8 Multisig",
+              "description": "Requires 5 of 8 signers on the KPK Owner Safe to agree before execution. No single key can act unilaterally."
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setName",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Changes vault display name. No fund impact.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "5/8 Multisig",
+              "description": "Requires 5 of 8 signers on the KPK Owner Safe to agree before execution. No single key can act unilaterally."
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setSymbol",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Changes vault token symbol. No fund impact.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.owner"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "other",
+              "label": "5/8 Multisig",
+              "description": "Requires 5 of 8 signers on the KPK Owner Safe to agree before execution. No single key can act unilaterally."
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "submit",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Queues a timelocked operation. Curator-only. All cap increases, adapter changes, fee changes, and role changes flow through this. The delay is enforced per queued operation type, not on submit itself.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "addAdapter",
+          "isPermissioned": true,
+          "score": "critical",
+          "description": "3-day timelock before execution. Adds a new adapter, enabling fund allocation to it once caps are set.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "3-day timelock enforced by the vault before this operation can be executed.",
+              "delayRef": {
+                "contractAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+                "fieldName": "timelock_addAdapter"
+              }
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "removeAdapter",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "7-day timelock before execution. Removes an adapter, preventing future allocations to it.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "7-day timelock enforced by the vault before this operation can be executed.",
+              "delayRef": {
+                "contractAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+                "fieldName": "timelock_removeAdapter"
+              }
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "increaseAbsoluteCap",
+          "isPermissioned": true,
+          "score": "critical",
+          "description": "3-day timelock before execution. Increases the maximum USDC allocatable to a specific adapter market. Each active market's cap bounds the maximum capital that can be deployed to that oracle's Morpho Blue position.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "dependencies": [
+            {
+              "contractAddress": "eth:0x36Cb058364a811636685ef15a71E8ea99043f815"
+            },
+            {
+              "contractAddress": "eth:0xE8aDfF9117151fb5ad7313873780b87cC56EEDB0"
+            },
+            {
+              "contractAddress": "eth:0xA6D6950c9F177F1De7f7757FB33539e3Ec60182a"
+            },
+            {
+              "contractAddress": "eth:0xDddd770BADd886dF3864029e4B377B5F6a2B6b83"
+            },
+            {
+              "contractAddress": "eth:0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2"
+            },
+            {
+              "contractAddress": "eth:0x0F948CBa8231Db7898ef36A4212581Ad7b1B4580"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "3-day timelock enforced by the vault before this operation can be executed.",
+              "delayRef": {
+                "contractAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+                "fieldName": "timelock_increaseAbsoluteCap"
+              }
+            },
+            {
+              "type": "other",
+              "label": "Per-market cap",
+              "description": "Maximum USDC allocatable to the rETH/USDC Morpho Blue market via this vault.",
+              "scopedTo": {
+                "address": "eth:0x36Cb058364a811636685ef15a71E8ea99043f815",
+                "type": "dependency"
+              },
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+                  "fieldName": "absoluteCapByOracle.eth:0x36Cb058364a811636685ef15a71E8ea99043f815"
+                },
+                "unit": {
+                  "kind": "scaler",
+                  "factor": "1e6"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "label": "Per-market cap",
+              "description": "Maximum USDC allocatable to the OETH/USDC Morpho Blue market via this vault.",
+              "scopedTo": {
+                "address": "eth:0xE8aDfF9117151fb5ad7313873780b87cC56EEDB0",
+                "type": "dependency"
+              },
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+                  "fieldName": "absoluteCapByOracle.eth:0xE8aDfF9117151fb5ad7313873780b87cC56EEDB0"
+                },
+                "unit": {
+                  "kind": "scaler",
+                  "factor": "1e6"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "label": "Per-market cap",
+              "description": "Maximum USDC allocatable to the cbBTC/USDC Morpho Blue market via this vault.",
+              "scopedTo": {
+                "address": "eth:0xA6D6950c9F177F1De7f7757FB33539e3Ec60182a",
+                "type": "dependency"
+              },
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+                  "fieldName": "absoluteCapByOracle.eth:0xA6D6950c9F177F1De7f7757FB33539e3Ec60182a"
+                },
+                "unit": {
+                  "kind": "scaler",
+                  "factor": "1e6"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "label": "Per-market cap",
+              "description": "Maximum USDC allocatable to the WBTC/USDC Morpho Blue market via this vault.",
+              "scopedTo": {
+                "address": "eth:0xDddd770BADd886dF3864029e4B377B5F6a2B6b83",
+                "type": "dependency"
+              },
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+                  "fieldName": "absoluteCapByOracle.eth:0xDddd770BADd886dF3864029e4B377B5F6a2B6b83"
+                },
+                "unit": {
+                  "kind": "scaler",
+                  "factor": "1e6"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "label": "Per-market cap",
+              "description": "Maximum USDC allocatable to the wstETH/USDC Morpho Blue market via this vault.",
+              "scopedTo": {
+                "address": "eth:0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2",
+                "type": "dependency"
+              },
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+                  "fieldName": "absoluteCapByOracle.eth:0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2"
+                },
+                "unit": {
+                  "kind": "scaler",
+                  "factor": "1e6"
+                }
+              }
+            },
+            {
+              "type": "other",
+              "label": "Per-market cap",
+              "description": "Maximum USDC allocatable to the WETH/USDC Morpho Blue market via this vault.",
+              "scopedTo": {
+                "address": "eth:0x0F948CBa8231Db7898ef36A4212581Ad7b1B4580",
+                "type": "dependency"
+              },
+              "impactCap": {
+                "value": {
+                  "mode": "fieldRef",
+                  "contractAddress": "eth:0x1d511811ACA9d8817a3e50F29CadFf6243A02902",
+                  "fieldName": "absoluteCapByOracle.eth:0x0F948CBa8231Db7898ef36A4212581Ad7b1B4580"
+                },
+                "unit": {
+                  "kind": "scaler",
+                  "factor": "1e6"
+                }
+              }
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-26T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "decreaseAbsoluteCap",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Immediate (no timelock). Decreases the maximum assets allocatable \u2014 a protective action.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "increaseRelativeCap",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "3-day timelock before execution. Increases the relative cap (as fraction of totalAssets) for an adapter market.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "3-day timelock enforced by the vault before this operation can be executed.",
+              "delayRef": {
+                "contractAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+                "fieldName": "timelock_increaseRelativeCap"
+              }
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "decreaseRelativeCap",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Immediate (no timelock). Decreases the relative cap \u2014 a protective action.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setIsAllocator",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Immediate (no timelock). Grants or revokes allocator role. Allocators can move funds between adapters within configured caps.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setAdapterRegistry",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Abdicated. The curator has permanently and irreversibly disabled this function \u2014 the adapter registry can never be changed.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setPerformanceFee",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "14-day timelock before execution. Sets performance fee, capped at MAX_PERFORMANCE_FEE.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "14-day timelock enforced by the vault before this operation can be executed.",
+              "delayRef": {
+                "contractAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+                "fieldName": "timelock_setPerformanceFee"
+              }
+            },
+            {
+              "type": "valueRange",
+              "description": "Fee capped at MAX_PERFORMANCE_FEE by contract",
+              "valueRange": {
+                "min": 0,
+                "max": 50,
+                "unit": "%"
+              }
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setManagementFee",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "14-day timelock before execution. Sets management fee, capped at MAX_MANAGEMENT_FEE.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "14-day timelock enforced by the vault before this operation can be executed.",
+              "delayRef": {
+                "contractAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+                "fieldName": "timelock_setManagementFee"
+              }
+            },
+            {
+              "type": "valueRange",
+              "description": "Fee capped at MAX_MANAGEMENT_FEE by contract",
+              "valueRange": {
+                "min": 0,
+                "max": 5,
+                "unit": "%"
+              }
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setPerformanceFeeRecipient",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Sets address that receives performance fees.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setManagementFeeRecipient",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Sets address that receives management fees.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setReceiveSharesGate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Sets gate contract that controls who can receive vault shares.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setSendSharesGate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Sets gate contract that controls who can send vault shares.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setReceiveAssetsGate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Sets gate contract that controls who can deposit.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setSendAssetsGate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Sets gate contract that controls who can withdraw.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "increaseTimelock",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "7-day timelock before execution. Increases the delay for a specific function selector.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "7-day timelock enforced by the vault before this operation can be executed.",
+              "delayRef": {
+                "contractAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+                "fieldName": "timelock_increaseTimelock"
+              }
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "decreaseTimelock",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Immediate (no timelock). Decreases the delay for a specific function selector \u2014 a protective action.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "abdicate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "7-day timelock before execution. Permanently and irreversibly disables the ability to submit a specific function selector.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "mitigations": [
+            {
+              "type": "delay",
+              "description": "7-day timelock enforced by the vault before this operation can be executed.",
+              "delayRef": {
+                "contractAddress": "eth:0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6",
+                "fieldName": "timelock_abdicate"
+              }
+            }
+          ],
+          "timestamp": "2026-05-21T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-21T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setForceDeallocatePenalty",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Timelocked. Sets penalty applied when force-deallocating an adapter.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "revoke",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Cancels a pending timelocked operation. Callable by curator or sentinel \u2014 a protective action.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.curator"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "allocate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Moves vault assets into an adapter (e.g. Markets V1 Adapter \u2192 Morpho Blue markets). Constrained by absolute and relative caps. Callable by any allocator (KPK 2/5 multisig or individual KPK operator EOAs).",
+          "ownerDefinitions": [
+            {
+              "path": "$self.allocators"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "deallocate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Pulls assets back from an adapter into the vault. Callable by any allocator or sentinel.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.allocators"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setLiquidityAdapterAndData",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Allocator-only. Sets which adapter handles automatic liquidity provision for withdrawals. Callable by any allocator.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.allocators"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        },
+        {
+          "functionName": "setMaxRate",
+          "isPermissioned": true,
+          "score": "no-impact",
+          "description": "Allocator-only. Sets the maximum interest rate the vault will accept. Callable by any allocator.",
+          "ownerDefinitions": [
+            {
+              "path": "$self.allocators"
+            }
+          ],
+          "timestamp": "2026-05-20T00:00:00.000Z",
+          "lastChangedBy": {
+            "author": "unknown",
+            "date": "2026-05-20T00:00:00.000Z"
+          }
+        }
+      ]
+    }
+  }
+}

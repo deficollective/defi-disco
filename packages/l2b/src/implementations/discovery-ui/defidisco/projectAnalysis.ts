@@ -372,7 +372,27 @@ function buildMergedMitigations(
   }
 
   if (func.mitigations && func.mitigations.length > 0) {
-    mitigations.push(...func.mitigations)
+    for (const m of func.mitigations) {
+      if (m.type === 'delay' && m.delayRef && m.delaySeconds === undefined) {
+        const resolved = resolveDelayFromDiscovered(
+          paths,
+          projectName,
+          m.delayRef,
+        )
+        mitigations.push({
+          ...m,
+          delaySeconds: resolved.isResolved ? resolved.seconds : undefined,
+        })
+      } else if (
+        m.type === 'delay' &&
+        typeof (m as any).delay === 'number' &&
+        m.delaySeconds === undefined
+      ) {
+        mitigations.push({ ...m, delaySeconds: (m as any).delay })
+      } else {
+        mitigations.push(m)
+      }
+    }
   }
 
   return mitigations.length > 0 ? mitigations : undefined
@@ -1228,16 +1248,34 @@ export class ProjectAnalysis {
       if (!entry) continue
 
       for (const fieldName of tag.dependencyFields) {
-        const fieldValue = entry.values?.[fieldName]
-        if (!Array.isArray(fieldValue)) continue
+        const rawValue = entry.values?.[fieldName]
+        const fieldValue = Array.isArray(rawValue)
+          ? rawValue
+          : typeof rawValue === 'string'
+            ? [rawValue]
+            : []
+        if (fieldValue.length === 0) continue
 
         for (const addr of fieldValue) {
+          if (
+            !addr ||
+            addr === 'eth:0x0000000000000000000000000000000000000000'
+          )
+            continue
           const key = normalizeChainAddress(addr)
           if (depMap.has(key)) continue
           const addrTag = this.tagsByAddress.get(key)
+          const addrEntry = this.discovered.entries?.find(
+            (e: any) =>
+              e.type === 'Contract' && addressesEqual(e.address, addr),
+          )
           depMap.set(key, {
             address: addr,
-            name: addrTag?.entity ?? addr,
+            name:
+              addrEntry?.values?.description ??
+              addrEntry?.name ??
+              addrTag?.entity ??
+              addr,
             entity: addrTag?.entity,
             isAutoDetected: true,
             dependencyType: undefined,
