@@ -1,7 +1,7 @@
 {
   "name": "spark",
   "timestamp": 1781001705,
-  "configHash": "0xec183dd04775e5655d659db2eeaf153f234e49b567f7f79530cffef09d932741",
+  "configHash": "0xa4db4526fa76bce090004aa92ac8302026ffb7ead0a352dfa1405c4083688e4e",
   "entries": [
     {
       "name": "PoolAddressesProvider",
@@ -484,19 +484,6 @@
         "0xafb4d4f4dba8564baebcfdf60cf5d9b5492c799a722048d4ab6df9472f75c653"
       ],
       "proxyType": "immutable",
-      "sinceTimestamp": 1685119787,
-      "sinceBlock": 17344560,
-      "values": {
-        "$immutable": true,
-        "wards": [
-          "eth:0xBE8E3e3618f7474F8cB1d074A26afFef007E98FB",
-          "eth:0x09e05fF6142F2f9de8B6B65855A1d56B6cfE4c58",
-          "eth:0x6605aa120fe8b656482903E7757BaBF56947E45E"
-        ]
-      },
-      "implementationNames": {
-        "eth:0x3300f198988e4C9C63F75dF86De36421f06af8c4": "SubProxy"
-      },
       "receivedPermissions": [
         {
           "permission": "upgrade",
@@ -513,7 +500,20 @@
           "from": "eth:0xb137E7d16564c81ae2b0C8ee6B55De81dd46ECe5",
           "role": "admin"
         }
-      ]
+      ],
+      "sinceTimestamp": 1685119787,
+      "sinceBlock": 17344560,
+      "values": {
+        "$immutable": true,
+        "wards": [
+          "eth:0xBE8E3e3618f7474F8cB1d074A26afFef007E98FB",
+          "eth:0x09e05fF6142F2f9de8B6B65855A1d56B6cfE4c58",
+          "eth:0x6605aa120fe8b656482903E7757BaBF56947E45E"
+        ]
+      },
+      "implementationNames": {
+        "eth:0x3300f198988e4C9C63F75dF86De36421f06af8c4": "SubProxy"
+      }
     },
     {
       "name": "LRTOracle",
@@ -1863,40 +1863,6 @@
       }
     },
     {
-      "name": "GnosisSafe",
-      "address": "eth:0x8076807464DaC94Ac8Aa1f7aF31b58F73bD88A27",
-      "type": "Contract",
-      "template": "GnosisSafe",
-      "sourceHashes": [
-        "0x81a7349eebb98ac33b0bc6842e3cb258034a8f2a4ba004570bb8e2e25947f9ff",
-        "0xd42bbf9f7dcd3720a7fc6bdc6edfdfae8800a37d6dd4decfa0ef6ca4a2e88940"
-      ],
-      "proxyType": "gnosis safe",
-      "ignoreInWatchMode": ["nonce"],
-      "sinceTimestamp": 1676909783,
-      "sinceBlock": 16670886,
-      "values": {
-        "$immutable": false,
-        "$implementation": "eth:0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552",
-        "$members": [
-          "eth:0x981BdCFB1c98654BEF839C78E19E81C0D183A9e5",
-          "eth:0xf01D0A6F78180C4c9583a848192DD2F250ef4b8f",
-          "eth:0x52A8305f29f85bEc5fa6eE78B87Ddd2218d8E12E"
-        ],
-        "$threshold": 2,
-        "domainSeparator": "0x48ae0bf8081053c37a018b6800833e646425b0cd0b6c06c695d1f53ca89a9aa1",
-        "getChainId": 1,
-        "GnosisSafe_modules": [],
-        "multisigThreshold": "2 of 3 (67%)",
-        "nonce": 6,
-        "VERSION": "1.3.0"
-      },
-      "implementationNames": {
-        "eth:0x8076807464DaC94Ac8Aa1f7aF31b58F73bD88A27": "GnosisSafeProxy",
-        "eth:0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552": "GnosisSafe"
-      }
-    },
-    {
       "name": "AaveOracle",
       "address": "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9",
       "type": "Contract",
@@ -2183,9 +2149,78 @@
       }
     },
     {
+      "name": "Safe",
+      "address": "eth:0x8a25A24EDE9482C4Fc0738F99611BE58F1c839AB",
+      "type": "Contract",
+      "template": "GnosisSafe",
+      "sourceHashes": [
+        "0xfe0725afd3cf2e5fb7627005a6bcf13ef7e35f78034eed2211edbffdb6a9aab5",
+        "0x7d388119a66f3eae147d748f86136f073d907d6b36f7e87e9363c4c7a2899a8a"
+      ],
+      "proxyType": "gnosis safe",
+      "ignoreInWatchMode": ["nonce"],
+      "sinceTimestamp": 1729866755,
+      "sinceBlock": 21043249,
+      "values": {
+        "$immutable": false,
+        "$implementation": "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a",
+        "$members": [
+          "eth:0x062cE42caE04c51D04E77e3D64cc8953a2296FfE",
+          "eth:0x52A8305f29f85bEc5fa6eE78B87Ddd2218d8E12E"
+        ],
+        "$threshold": 1,
+        "domainSeparator": "0xf49f6677675663e20bd0fbb12dc0f929ba078d640a4dbc9e7a2b6f6c8d7f804e",
+        "getChainId": 1,
+        "GnosisSafe_modules": [],
+        "multisigThreshold": "1 of 2 (50%)",
+        "nonce": 74385,
+        "VERSION": "1.4.1"
+      },
+      "implementationNames": {
+        "eth:0x8a25A24EDE9482C4Fc0738F99611BE58F1c839AB": "SafeProxy",
+        "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a": "Safe"
+      }
+    },
+    {
       "address": "eth:0x8A714DA4cd3ad43442a092227dB52860329E0742",
       "type": "EOA",
       "proxyType": "EOA"
+    },
+    {
+      "name": "Safe",
+      "address": "eth:0x8Cc0Cb0cfB6B7e548cfd395B833c05C346534795",
+      "type": "Contract",
+      "template": "GnosisSafe",
+      "sourceHashes": [
+        "0xfe0725afd3cf2e5fb7627005a6bcf13ef7e35f78034eed2211edbffdb6a9aab5",
+        "0x7d388119a66f3eae147d748f86136f073d907d6b36f7e87e9363c4c7a2899a8a"
+      ],
+      "proxyType": "gnosis safe",
+      "ignoreInWatchMode": ["nonce"],
+      "sinceTimestamp": 1743003623,
+      "sinceBlock": 22132039,
+      "values": {
+        "$immutable": false,
+        "$implementation": "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a",
+        "$members": [
+          "eth:0x8049aF8D961ef3F88E05Be4bBc97ccBa5202DAd1",
+          "eth:0x747a6084a43E4Fd52c85C5BFF8fAb37ccCC42665",
+          "eth:0x52A8305f29f85bEc5fa6eE78B87Ddd2218d8E12E",
+          "eth:0x2a4df63f0dbE4630EE011821cF1fa69A9635f961",
+          "eth:0x51a9f9c3485CF88674ef825825076268b7B7ffBc"
+        ],
+        "$threshold": 2,
+        "domainSeparator": "0x7c0717f08015635ba619b99e8b86119599be85f2f20424bb56e3df89c9e93520",
+        "getChainId": 1,
+        "GnosisSafe_modules": [],
+        "multisigThreshold": "2 of 5 (40%)",
+        "nonce": 2,
+        "VERSION": "1.4.1"
+      },
+      "implementationNames": {
+        "eth:0x8Cc0Cb0cfB6B7e548cfd395B833c05C346534795": "SafeProxy",
+        "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a": "Safe"
+      }
     },
     {
       "name": "KillSwitchOracle",
@@ -2218,6 +2253,41 @@
       }
     },
     {
+      "name": "Safe",
+      "address": "eth:0x90D8c80C028B4C09C0d8dcAab9bbB057F0513431",
+      "type": "Contract",
+      "template": "GnosisSafe",
+      "sourceHashes": [
+        "0xfe0725afd3cf2e5fb7627005a6bcf13ef7e35f78034eed2211edbffdb6a9aab5",
+        "0x7d388119a66f3eae147d748f86136f073d907d6b36f7e87e9363c4c7a2899a8a"
+      ],
+      "proxyType": "gnosis safe",
+      "ignoreInWatchMode": ["nonce"],
+      "sinceTimestamp": 1730135783,
+      "sinceBlock": 21065563,
+      "values": {
+        "$immutable": false,
+        "$implementation": "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a",
+        "$members": [
+          "eth:0x52A8305f29f85bEc5fa6eE78B87Ddd2218d8E12E",
+          "eth:0x3126c94C032A1D9Be9294cF5be2da99255b00cc8",
+          "eth:0x8541cCfc6E7EAcEbD233C6789a0FbF7C708B0E68",
+          "eth:0xACD204885E9eA069C1CD3e4b12a75cE478De6f1D"
+        ],
+        "$threshold": 2,
+        "domainSeparator": "0x651f8808b266c6dc60128c8c8274c85c09b96a92dfe277dc0d10e73f4067d4b2",
+        "getChainId": 1,
+        "GnosisSafe_modules": [],
+        "multisigThreshold": "2 of 4 (50%)",
+        "nonce": 3,
+        "VERSION": "1.4.1"
+      },
+      "implementationNames": {
+        "eth:0x90D8c80C028B4C09C0d8dcAab9bbB057F0513431": "SafeProxy",
+        "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a": "Safe"
+      }
+    },
+    {
       "name": "CollectorController",
       "address": "eth:0x92eF091C5a1E01b3CE1ba0D0150C84412d818F7a",
       "type": "Contract",
@@ -2234,11 +2304,6 @@
       "implementationNames": {
         "eth:0x92eF091C5a1E01b3CE1ba0D0150C84412d818F7a": "CollectorController"
       }
-    },
-    {
-      "address": "eth:0x981BdCFB1c98654BEF839C78E19E81C0D183A9e5",
-      "type": "EOA",
-      "proxyType": "EOA"
     },
     {
       "name": "AToken",
@@ -3257,6 +3322,23 @@
       "sinceBlock": 25086620,
       "values": {
         "$immutable": true,
+        "accessControl": {
+          "DEFAULT_ADMIN_ROLE": {
+            "adminRole": "DEFAULT_ADMIN_ROLE",
+            "members": ["eth:0x3300f198988e4C9C63F75dF86De36421f06af8c4"]
+          },
+          "ALLOCATOR_ROLE": {
+            "adminRole": "DEFAULT_ADMIN_ROLE",
+            "members": [
+              "eth:0x8a25A24EDE9482C4Fc0738F99611BE58F1c839AB",
+              "eth:0x8Cc0Cb0cfB6B7e548cfd395B833c05C346534795"
+            ]
+          },
+          "FREEZER_ROLE": {
+            "adminRole": "DEFAULT_ADMIN_ROLE",
+            "members": ["eth:0x90D8c80C028B4C09C0d8dcAab9bbB057F0513431"]
+          }
+        },
         "ALLOCATOR_ROLE": "0x68bf109b95a5c15fb2bb99041323c27d15f8675e11bf7420a1cd6ad64c394f46",
         "DEFAULT_ADMIN_ROLE": "0x0000000000000000000000000000000000000000000000000000000000000000",
         "FREEZER_ROLE": "0x92de27771f92d6942691d73358b3a4673e4880de8356f8f2cf452be87e02d363"
@@ -3329,11 +3411,6 @@
       "implementationNames": {
         "eth:0xE98d51fa014C7Ed68018DbfE6347DE9C3f39Ca39": "WSTETHExchangeRateOracle"
       }
-    },
-    {
-      "address": "eth:0xf01D0A6F78180C4c9583a848192DD2F250ef4b8f",
-      "type": "EOA",
-      "proxyType": "EOA"
     },
     {
       "name": "EmissionManager",
@@ -4334,6 +4411,54 @@
       "function upgradeTo(address newImplementation)",
       "function upgradeToAndCall(address newImplementation, bytes data) payable"
     ],
+    "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a": [
+      "constructor()",
+      "event AddedOwner(address indexed owner)",
+      "event ApproveHash(bytes32 indexed approvedHash, address indexed owner)",
+      "event ChangedFallbackHandler(address indexed handler)",
+      "event ChangedGuard(address indexed guard)",
+      "event ChangedThreshold(uint256 threshold)",
+      "event DisabledModule(address indexed module)",
+      "event EnabledModule(address indexed module)",
+      "event ExecutionFailure(bytes32 indexed txHash, uint256 payment)",
+      "event ExecutionFromModuleFailure(address indexed module)",
+      "event ExecutionFromModuleSuccess(address indexed module)",
+      "event ExecutionSuccess(bytes32 indexed txHash, uint256 payment)",
+      "event RemovedOwner(address indexed owner)",
+      "event SafeReceived(address indexed sender, uint256 value)",
+      "event SafeSetup(address indexed initiator, address[] owners, uint256 threshold, address initializer, address fallbackHandler)",
+      "event SignMsg(bytes32 indexed msgHash)",
+      "function VERSION() view returns (string)",
+      "function addOwnerWithThreshold(address owner, uint256 _threshold)",
+      "function approveHash(bytes32 hashToApprove)",
+      "function approvedHashes(address, bytes32) view returns (uint256)",
+      "function changeThreshold(uint256 _threshold)",
+      "function checkNSignatures(bytes32 dataHash, bytes data, bytes signatures, uint256 requiredSignatures) view",
+      "function checkSignatures(bytes32 dataHash, bytes data, bytes signatures) view",
+      "function disableModule(address prevModule, address module)",
+      "function domainSeparator() view returns (bytes32)",
+      "function enableModule(address module)",
+      "function encodeTransactionData(address to, uint256 value, bytes data, uint8 operation, uint256 safeTxGas, uint256 baseGas, uint256 gasPrice, address gasToken, address refundReceiver, uint256 _nonce) view returns (bytes)",
+      "function execTransaction(address to, uint256 value, bytes data, uint8 operation, uint256 safeTxGas, uint256 baseGas, uint256 gasPrice, address gasToken, address refundReceiver, bytes signatures) payable returns (bool success)",
+      "function execTransactionFromModule(address to, uint256 value, bytes data, uint8 operation) returns (bool success)",
+      "function execTransactionFromModuleReturnData(address to, uint256 value, bytes data, uint8 operation) returns (bool success, bytes returnData)",
+      "function getChainId() view returns (uint256)",
+      "function getModulesPaginated(address start, uint256 pageSize) view returns (address[] array, address next)",
+      "function getOwners() view returns (address[])",
+      "function getStorageAt(uint256 offset, uint256 length) view returns (bytes)",
+      "function getThreshold() view returns (uint256)",
+      "function getTransactionHash(address to, uint256 value, bytes data, uint8 operation, uint256 safeTxGas, uint256 baseGas, uint256 gasPrice, address gasToken, address refundReceiver, uint256 _nonce) view returns (bytes32)",
+      "function isModuleEnabled(address module) view returns (bool)",
+      "function isOwner(address owner) view returns (bool)",
+      "function nonce() view returns (uint256)",
+      "function removeOwner(address prevOwner, address owner, uint256 _threshold)",
+      "function setFallbackHandler(address handler)",
+      "function setGuard(address guard)",
+      "function setup(address[] _owners, uint256 _threshold, address to, bytes data, address fallbackHandler, address paymentToken, uint256 payment, address paymentReceiver)",
+      "function signedMessages(bytes32) view returns (uint256)",
+      "function simulateAndRevert(address targetContract, bytes calldataPayload)",
+      "function swapOwner(address prevOwner, address oldOwner, address newOwner)"
+    ],
     "eth:0x4197ba364AE6698015AE5c1468f54087602715b2": [
       "constructor(address admin)",
       "event Upgraded(address indexed implementation)",
@@ -5237,9 +5362,6 @@
       "function unwrap(uint256 _wstETHAmount) returns (uint256)",
       "function wrap(uint256 _stETHAmount) returns (uint256)"
     ],
-    "eth:0x8076807464DaC94Ac8Aa1f7aF31b58F73bD88A27": [
-      "constructor(address _singleton)"
-    ],
     "eth:0x8105f69D9C41644c6A0803fDA7D03Aa70996cFD9": [
       "constructor(address provider, address[] assets, address[] sources, address fallbackOracle, address baseCurrency, uint256 baseCurrencyUnit)",
       "event AssetSourceUpdated(address indexed asset, address indexed source)",
@@ -5360,6 +5482,9 @@
       "function setController(address _accessController)",
       "function transferOwnership(address _to)",
       "function version() view returns (uint256)"
+    ],
+    "eth:0x8a25A24EDE9482C4Fc0738F99611BE58F1c839AB": [
+      "constructor(address _singleton)"
     ],
     "eth:0x8C35CaA5FD5bDC64b6B11344aD57594A3676256a": [
       "error AccessControlUnauthorizedAccount(address account, bytes32 role)",
@@ -5485,6 +5610,9 @@
       "function unpause()",
       "function wipeFrozenAddress(address addr)"
     ],
+    "eth:0x8Cc0Cb0cfB6B7e548cfd395B833c05C346534795": [
+      "constructor(address _singleton)"
+    ],
     "eth:0x909A86f78e1cdEd68F9c2Fe2c9CD922c401abe82": [
       "constructor(address poolAddressesProvider)",
       "error OwnableInvalidOwner(address owner)",
@@ -5510,6 +5638,9 @@
       "function transferOwnership(address newOwner)",
       "function trigger(address oracle)",
       "function triggered() view returns (bool)"
+    ],
+    "eth:0x90D8c80C028B4C09C0d8dcAab9bbB057F0513431": [
+      "constructor(address _singleton)"
     ],
     "eth:0x92eF091C5a1E01b3CE1ba0D0150C84412d818F7a": [
       "constructor(address owner)",
@@ -6263,5 +6394,5 @@
     "tokens/Lido/wstETH": "0xd55ccc93c3f52e654ebbffee9194b0b8a0d974753091db2a43a185679e002e88"
   },
   "usedBlockNumbers": { "ethereum": 25279336 },
-  "permissionsConfigHash": "0x066f15a952e1fb8324cca9817c94ce18bd53488f2ae7e2ade9b2e998b57936d8"
+  "permissionsConfigHash": "0x7fba0c6fcdc686861fe76c42f4df645a1cd8206e0928cf2e1aecbdc661c7565d"
 }
