@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1778519063,
-  "lastConsumedUpdateNotifierId": 183,
+  "lastReconciledAt": 1781089650,
+  "lastConsumedUpdateNotifierId": 251,
   "events": [
     {
       "timestamp": "2026-05-04T09:33:39.000Z",
@@ -238,6 +238,228 @@
       "contractName": "MorphoChainlinkOracleV2",
       "entity": null,
       "id": "172:eth:0x007db14ca0d171fA583955fEF3917B2b9A95CF18:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x19b3cD7032B8C062E8d44EaCad661a0970DD8c55",
+      "contractName": "MetaMorphoV1_1",
+      "isDependency": false,
+      "entity": null,
+      "id": "251:eth:0x19b3cD7032B8C062E8d44EaCad661a0970DD8c55:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.marketParams.11",
+          "after": {
+            "marketId": "0x80fea13225f27a1f4798c35d89e791711f963ed74eb3a86bcaffe28143095e94",
+            "loanToken": "eth:0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
+            "collateralToken": "eth:0x5A19fa369F2895dCD8d2cEE62E4Ceae58eF92BBb",
+            "oracle": "eth:0x7560CaC78c21F882d33355C45a44835653f69ec2",
+            "irm": "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+            "lltv": "915000000000000000"
+          }
+        },
+        {
+          "field": "values.marketOracles.11",
+          "after": "eth:0x7560CaC78c21F882d33355C45a44835653f69ec2"
+        },
+        {
+          "field": "values.withdrawQueue.11",
+          "after": "0x80fea13225f27a1f4798c35d89e791711f963ed74eb3a86bcaffe28143095e94"
+        },
+        {
+          "field": "values.withdrawQueueLength",
+          "before": 11,
+          "after": 12
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64",
+      "contractName": "ProxyAdmin",
+      "isDependency": true,
+      "entity": "Pendle",
+      "id": "251:eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "receivedPermissions",
+          "before": [
+            {
+              "from": "eth:0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2",
+              "role": "admin",
+              "permission": "upgrade"
+            }
+          ]
+        },
+        {
+          "field": "directlyReceivedPermissions",
+          "after": [
+            {
+              "permission": "upgrade",
+              "from": "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637",
+              "role": "admin"
+            },
+            {
+              "permission": "upgrade",
+              "from": "eth:0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2",
+              "role": "admin"
+            },
+            {
+              "permission": "upgrade",
+              "from": "eth:0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f",
+              "role": "admin"
+            },
+            {
+              "permission": "upgrade",
+              "from": "eth:0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2",
+              "role": "admin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x177768caf9D0e036725A51D3f60d7E20F2D4D194",
+      "contractName": "PendleMarketV7",
+      "entity": null,
+      "id": "251:eth:0x177768caf9D0e036725A51D3f60d7E20F2D4D194:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637",
+      "contractName": "PendleYieldContractFactoryUpg",
+      "entity": null,
+      "id": "251:eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x45A699A11A4a17fe0931EF3ceA4BFc3235e659F2",
+      "contractName": "PendleYieldToken",
+      "entity": null,
+      "id": "251:eth:0x45A699A11A4a17fe0931EF3ceA4BFc3235e659F2:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57",
+      "contractName": "PendleGaugeControllerUpg",
+      "entity": null,
+      "id": "251:eth:0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2",
+      "contractName": "PendlePYLpOracle",
+      "entity": null,
+      "id": "251:eth:0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x5A19fa369F2895dCD8d2cEE62E4Ceae58eF92BBb",
+      "contractName": "PendlePrincipalToken",
+      "entity": null,
+      "id": "251:eth:0x5A19fa369F2895dCD8d2cEE62E4Ceae58eF92BBb:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x601cECFf9CfFd14Ccb8A7084b40Ee576c2470abf",
+      "contractName": "",
+      "entity": null,
+      "id": "251:eth:0x601cECFf9CfFd14Ccb8A7084b40Ee576c2470abf:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x6502cda86f9110f3655512237C9FF2B9CE247c69",
+      "contractName": "PendleChainlinkOracleFactory",
+      "entity": null,
+      "id": "251:eth:0x6502cda86f9110f3655512237C9FF2B9CE247c69:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f",
+      "contractName": "PendleMarketFactoryV7Upg",
+      "isDependency": true,
+      "entity": "Pendle",
+      "id": "251:eth:0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x6e6F4CAB945859D66C78aF3d9917002e94bfa4E9",
+      "contractName": "",
+      "entity": null,
+      "id": "251:eth:0x6e6F4CAB945859D66C78aF3d9917002e94bfa4E9:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x7560CaC78c21F882d33355C45a44835653f69ec2",
+      "contractName": "MorphoChainlinkOracleV2",
+      "entity": null,
+      "id": "251:eth:0x7560CaC78c21F882d33355C45a44835653f69ec2:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x808507121B80c02388fAd14726482e061B8da827",
+      "contractName": "Pendle Token",
+      "isDependency": true,
+      "entity": "Pendle",
+      "id": "251:eth:0x808507121B80c02388fAd14726482e061B8da827:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0x8119EC16F0573B7dAc7C0CB94EB504FB32456ee1",
+      "contractName": "Safe",
+      "isDependency": true,
+      "entity": "Pendle",
+      "id": "251:eth:0x8119EC16F0573B7dAc7C0CB94EB504FB32456ee1:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0xb131D953712DB127308ef07fCe30c2aCe465bbcE",
+      "contractName": "PendleChainlinkOracle",
+      "entity": null,
+      "id": "251:eth:0xb131D953712DB127308ef07fCe30c2aCe465bbcE:contract-added",
+      "type": "contract-added"
+    },
+    {
+      "timestamp": "2026-06-10T11:04:49.000Z",
+      "updateNotifierId": 251,
+      "address": "eth:0xe8D28E2CA24BB16Fc7e6549eF937e05981d02606",
+      "contractName": "PendleLiquidityIncentivesMultisig",
+      "isDependency": true,
+      "entity": "Pendle",
+      "id": "251:eth:0xe8D28E2CA24BB16Fc7e6549eF937e05981d02606:contract-added",
       "type": "contract-added"
     }
   ]
