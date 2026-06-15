@@ -28,10 +28,6 @@
       "name": "SparkLend Freezer 3/5 Multisig",
       "description": "A 3-of-5 GnosisSafe that owns SparkLendFreezerMom and can instantly freeze or pause any SparkLend market without waiting for the 24-hour governance delay. Through SparkLendFreezerMom it calls `setReserveFreeze`, `setReservePause`, `freezeAllMarkets`, and `pauseAllMarkets`, blocking new borrows/supplies on all 22 reachable contracts (covering {{freezerMultisigReachableCapital}} in reachable capital). It cannot drain funds, only halt market activity."
     },
-    "eth:0x8076807464DaC94Ac8Aa1f7aF31b58F73bD88A27": {
-      "name": "Emission Admin 2/3 Multisig",
-      "description": "A 2-of-3 GnosisSafe registered as the emission admin on the EmissionManager. It configures reward distribution parameters — `configureAssets`, `setTransferStrategy`, `setRewardOracle`, `setDistributionEnd`, `setEmissionPerSecond` — affecting a limited reward-distribution scope ({{emissionMultisigReachableCapital}} in reachable capital). Cannot affect collateral or debt markets."
-    },
     "eth:0x8a25A24EDE9482C4Fc0738F99611BE58F1c839AB": {
       "name": "ALM Allocator 1/2 Multisig",
       "description": "A 1-of-2 Safe holding the ALLOCATOR_ROLE on ALMProxyFreezable, giving it `doCall` and `doCallWithValue` — the ability to execute arbitrary calls from the ALM proxy. The ALM proxy reaches {{almController12ReachableCapital}} in downstream capital; the 1-of-2 threshold means a single signer can trigger these calls."
@@ -354,7 +350,6 @@
     "subProxyDirectCapital": "v2score.inventory.admins.breakdown[\"eth:0x3300f198988e4C9C63F75dF86De36421f06af8c4\"].totalDirectCapital",
     "subProxyReachableCapital": "v2score.inventory.admins.breakdown[\"eth:0x3300f198988e4C9C63F75dF86De36421f06af8c4\"].totalReachableCapital",
     "freezerMultisigReachableCapital": "v2score.inventory.admins.breakdown[\"eth:0x44efFc473e81632B12486866AA1678edbb7BEeC3\"].totalReachableCapital",
-    "emissionMultisigReachableCapital": "v2score.inventory.admins.breakdown[\"eth:0x8076807464DaC94Ac8Aa1f7aF31b58F73bD88A27\"].totalReachableCapital",
     "almController12ReachableCapital": "v2score.inventory.admins.breakdown[\"eth:0x8a25A24EDE9482C4Fc0738F99611BE58F1c839AB\"].totalReachableCapital",
     "almController25ReachableCapital": "v2score.inventory.admins.breakdown[\"eth:0x8Cc0Cb0cfB6B7e548cfd395B833c05C346534795\"].totalReachableCapital",
     "almManagerReachableCapital": "v2score.inventory.admins.breakdown[\"eth:0x90D8c80C028B4C09C0d8dcAab9bbB057F0513431\"].totalReachableCapital",

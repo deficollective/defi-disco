@@ -1,7 +1,7 @@
 {
   "name": "Sentora-PYUSD",
   "timestamp": 1781529942,
-  "configHash": "0x78de201b01ad9a333dd1d3e7117b41972af858113484a0051e9473ed29d9801e",
+  "configHash": "0x1b09a9018a0894b7cf71b3c581e31ff886f578a880b0e627b749096c4c984488",
   "entries": [
     {
       "name": "MorphoChainlinkOracleV2",
@@ -65,57 +65,6 @@
       "proxyType": "EOA"
     },
     {
-      "name": "PendleMarketV7",
-      "address": "eth:0x177768caf9D0e036725A51D3f60d7E20F2D4D194",
-      "type": "Contract",
-      "sourceHashes": [
-        "0xa98d86872e41ee2ea913112638fc265bed2a59e71ad2ff1a9618345e2325a1a6"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1776525227,
-      "sinceBlock": 24907581,
-      "values": {
-        "_storage": {
-          "totalPt": "1721974449447180018961458",
-          "totalSy": "6273311241711534957007331",
-          "lastLnImpliedRate": "41588788268544837",
-          "observationIndex": 16,
-          "observationCardinality": 83,
-          "observationCardinalityNext": 83
-        },
-        "$immutable": true,
-        "decimals": 18,
-        "expiry": 1786579200,
-        "factory": "eth:0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f",
-        "getNonOverrideLnFeeRateRoot": 4390348301292894,
-        "getRewardTokens": ["eth:0x808507121B80c02388fAd14726482e061B8da827"],
-        "isExpired": false,
-        "lastRewardBlock": 25308519,
-        "name": "PLP Ethena sUSDE 13AUG2026",
-        "observations": [
-          [1781169431, "186659942392618039546332", true],
-          [1781199587, "187932320238667525989648", true],
-          [1781215331, "188596674273434827885200", true],
-          [1781234879, "189417777628270103067600", true],
-          [1781241875, "189712946187177853073760", true]
-        ],
-        "readTokens": {
-          "_SY": "eth:0xBF98480425A29197e5d99D003017f63a1e595D02",
-          "_PT": "eth:0x5A19fa369F2895dCD8d2cEE62E4Ceae58eF92BBb",
-          "_YT": "eth:0x45A699A11A4a17fe0931EF3ceA4BFc3235e659F2"
-        },
-        "reentrancyGuardEntered": false,
-        "symbol": "PLP-sUSDE-13AUG2026",
-        "totalActiveSupply": "3140192429330728456856583",
-        "totalSupply": "3140192429330728456856583",
-        "VERSION": 7
-      },
-      "errors": { "observations": "Processing error occurred." },
-      "implementationNames": {
-        "eth:0x177768caf9D0e036725A51D3f60d7E20F2D4D194": "PendleMarketV7"
-      }
-    },
-    {
       "name": "MetaMorphoV1_1",
       "address": "eth:0x19b3cD7032B8C062E8d44EaCad661a0970DD8c55",
       "type": "Contract",
@@ -148,7 +97,11 @@
         "feedCap_0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961",
         "feedCap_0xb415eAA355D8440ac7eCB602D3fb67ccC1f0bc81",
         "feedCap_0xfF30586cD0F29eD462364C7e81375FC0C71219b1",
-        "feedCap_0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23"
+        "feedCap_0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23",
+        "marketCap_oracle_0x007db14ca0d171fA583955fEF3917B2b9A95CF18",
+        "marketCap_oracle_0x7560CaC78c21F882d33355C45a44835653f69ec2",
+        "marketCap_oracle_0x1FcB6213410b0a97496189ab704A014af4FDbEBc",
+        "feedCap_0xb131D953712DB127308ef07fCe30c2aCe465bbcE"
       ],
       "sinceTimestamp": 1765885595,
       "sinceBlock": 24024959,
@@ -181,6 +134,7 @@
         "feedCap_0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1": "755000000000000",
         "feedCap_0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6": "75000000000000",
         "feedCap_0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961": "125000000000000",
+        "feedCap_0xb131D953712DB127308ef07fCe30c2aCe465bbcE": "5000000000000",
         "feedCap_0xb415eAA355D8440ac7eCB602D3fb67ccC1f0bc81": "50000000000000",
         "feedCap_0xC6Be540fF8A71B413b4E56C00B4B4Ea31cc396dd": "0",
         "feedCap_0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c": "180000000000000",
@@ -190,11 +144,14 @@
         "guardian": "eth:0x9e396dE3312D373b87F9BD8763fb48184b42aac0",
         "lastTotalAssets": 287716401364638,
         "lostAssets": 0,
+        "marketCap_oracle_0x007db14ca0d171fA583955fEF3917B2b9A95CF18": "80000000000000",
         "marketCap_oracle_0x0AeAa9320d78a5Edb9387A08682d1738BCc64b1f": "50000000000000",
+        "marketCap_oracle_0x1FcB6213410b0a97496189ab704A014af4FDbEBc": "50000000000000",
         "marketCap_oracle_0x221898dA0890Fc5fb6c890Fcdc051FA97946eE11": "75000000000000",
         "marketCap_oracle_0x3B1BFDB445Eb31bCFB7932A33309cBf1089681dA": "0",
         "marketCap_oracle_0x4124b5Cb815A21E26fF86c8A6A0A074c7fa2Dd1D": "50000000000000",
         "marketCap_oracle_0x59e347aEF154aDcAe639d0cE032Cb3f5dCB4a6E4": "0",
+        "marketCap_oracle_0x7560CaC78c21F882d33355C45a44835653f69ec2": "5000000000000",
         "marketCap_oracle_0x7681692A9F228fd7dAc0679238D467729Af4E9ca": "200000000000000",
         "marketCap_oracle_0x9f02D619a875B0CA383D21772e136fC18B637916": "50000000000000",
         "marketCap_oracle_0xc8043d248551Ed19B33cbc89dCCd69148c827039": "75000000000000",
@@ -340,7 +297,7 @@
         "supplyQueueLength": 1,
         "symbol": "senPYUSD",
         "timelock": 259200,
-        "totalAssets": 287716802424585,
+        "totalAssets": 287716805140793,
         "totalSupply": "142557137150341317408815353",
         "withdrawQueue": [
           "0xf8c13c80ab8666c21fc5afa13105745cae7c1da13df596eb5054319f36655cc9",
@@ -382,6 +339,7 @@
         "0x6c540760ca3541be0adea9ccd74bb96e621286f2f25c24538260e302c5b661a2"
       ],
       "proxyType": "immutable",
+      "ignoreInWatchMode": ["price"],
       "sinceTimestamp": 1776352619,
       "sinceBlock": 24893227,
       "values": {
@@ -518,47 +476,6 @@
       }
     },
     {
-      "name": "PendleYieldContractFactoryUpg",
-      "address": "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637",
-      "type": "Contract",
-      "sourceHashes": [
-        "0x993403059c5620e6c91110514f9f4a2f2331c55dab587699c67c19edddab92ad",
-        "0xb465a0762ec4be718e5bcb1ec2405e4e3842100184fe8e7abc17e1304046ccd5"
-      ],
-      "proxyType": "EIP1967 proxy",
-      "sinceTimestamp": 1761201035,
-      "sinceBlock": 23638428,
-      "values": {
-        "$admin": "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64",
-        "$implementation": "eth:0x21414E68da7658b5B2d9C04B06a1f03055763087",
-        "$pastUpgrades": [
-          [
-            "2025-10-23T06:30:35.000Z",
-            "0xd49675bb28720950e22c2ea2e5c608686b62aca69fa5f821d0c1098dab124ff3",
-            ["eth:0x21414E68da7658b5B2d9C04B06a1f03055763087"]
-          ]
-        ],
-        "$upgradeCount": 1,
-        "expiryDivisor": 86400,
-        "interestFeeRate": "50000000000000000",
-        "maxInterestFeeRate": "200000000000000000",
-        "maxRewardFeeRate": "200000000000000000",
-        "owner": "eth:0x8119EC16F0573B7dAc7C0CB94EB504FB32456ee1",
-        "pendingOwner": "eth:0x0000000000000000000000000000000000000000",
-        "rewardFeeRate": "50000000000000000",
-        "treasury": "eth:0x8270400d528c34e1596EF367eeDEc99080A1b592",
-        "VERSION": 6,
-        "ytCreationCodeContractA": "eth:0x3C02CfEFB6c2CeE8159E6466D5624ABa206a4539",
-        "ytCreationCodeContractB": "eth:0x9C0A08918DDfc2a703806Aa69f6e7C86e6349277",
-        "ytCreationCodeSizeA": 10357,
-        "ytCreationCodeSizeB": 10358
-      },
-      "implementationNames": {
-        "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637": "TransparentUpgradeableProxy",
-        "eth:0x21414E68da7658b5B2d9C04B06a1f03055763087": "PendleYieldContractFactoryUpg"
-      }
-    },
-    {
       "name": "MorphoChainlinkOracleV2",
       "address": "eth:0x4124b5Cb815A21E26fF86c8A6A0A074c7fa2Dd1D",
       "type": "Contract",
@@ -584,103 +501,6 @@
       },
       "implementationNames": {
         "eth:0x4124b5Cb815A21E26fF86c8A6A0A074c7fa2Dd1D": "MorphoChainlinkOracleV2"
-      }
-    },
-    {
-      "name": "PendleYieldToken",
-      "address": "eth:0x45A699A11A4a17fe0931EF3ceA4BFc3235e659F2",
-      "type": "Contract",
-      "sourceHashes": [
-        "0xe2416a37bf556f44df23d3a54168019e6181ebdfeb125d81ab7da4c91033ab80"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1776525227,
-      "sinceBlock": 24907581,
-      "values": {
-        "$immutable": true,
-        "decimals": 18,
-        "doCacheIndexSameBlock": true,
-        "expiry": 1786579200,
-        "factory": "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637",
-        "getRewardTokens": [],
-        "isExpired": false,
-        "name": "YT Ethena sUSDE 13AUG2026",
-        "postExpiry": { "firstPYIndex": 0, "totalSyInterestForTreasury": 0 },
-        "PT": "eth:0x5A19fa369F2895dCD8d2cEE62E4Ceae58eF92BBb",
-        "pyIndexLastUpdatedBlock": 25322614,
-        "pyIndexStored": "1235560696512429246",
-        "reentrancyGuardEntered": false,
-        "SY": "eth:0xBF98480425A29197e5d99D003017f63a1e595D02",
-        "symbol": "YT-sUSDE-13AUG2026",
-        "syReserve": "22314843235982019303566389",
-        "totalSupply": "27518327072442652389626375",
-        "VERSION": 6
-      },
-      "errors": { "getPostExpiryData": "Processing error occurred." },
-      "implementationNames": {
-        "eth:0x45A699A11A4a17fe0931EF3ceA4BFc3235e659F2": "PendleYieldToken"
-      }
-    },
-    {
-      "name": "PendleGaugeControllerUpg",
-      "address": "eth:0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57",
-      "type": "Contract",
-      "sourceHashes": [
-        "0x365fb3cd1ab944831c8e7937283df50be5404d7470d6ded1783a982e73d50271",
-        "0x87f342512d989243160b4f50abefb9bd5014eaca850471c6d08105a43fce6622"
-      ],
-      "proxyType": "EIP1967 proxy",
-      "sinceTimestamp": 1669199363,
-      "sinceBlock": 16032105,
-      "values": {
-        "$admin": "eth:0x2aD631F72fB16d91c4953A7f4260A97C2fE2f31e",
-        "$implementation": "eth:0xEf5579F4e7b0063a414a42A65DfD86a1562466E1",
-        "$pastUpgrades": [
-          [
-            "2022-11-23T10:29:23.000Z",
-            "0xeecbcf04aa85b71d4a72749c823f32e3c7bc90d6d82de60cdad5f7e50b58bb21",
-            ["eth:0x5a303A305ba68f4FAC08015eCADbcF683b7bDfab"]
-          ],
-          [
-            "2023-12-05T02:47:11.000Z",
-            "0xdc0cb94875ca5a76b0d6891177cded13a83b894ecefb69ab71f59eafb8a3fab8",
-            ["eth:0x11A72DC6D320F1De830d17634ae6524403fD5f47"]
-          ],
-          [
-            "2024-07-17T04:29:11.000Z",
-            "0xf8dea07e48f837b898e1918a2c7498a4759be1f3e4de83304c9ab8143409bddd",
-            ["eth:0x185186c57F2e06f437E47135273ada20E8f26C82"]
-          ],
-          [
-            "2024-08-13T06:00:47.000Z",
-            "0x37a0fd468d5581d880df98f4c467db123a0942d50978aa1d4707b7a5168b8373",
-            ["eth:0x7762CbfA8f62999A8A40D800b751686e99A31C9a"]
-          ],
-          [
-            "2025-11-05T03:16:35.000Z",
-            "0x1363807319c6f35e45b0ad996bc857d68e8e211e3873037ae38cd2534c538d89",
-            ["eth:0x55D2dC2dA5E2A8349883Fb46f5c6CbEA704139B4"]
-          ],
-          [
-            "2026-01-23T05:49:47.000Z",
-            "0x192ebc04ef5a0349e696d9d64164af689fa07a2baaeef832effd749974ea7508",
-            ["eth:0xEf5579F4e7b0063a414a42A65DfD86a1562466E1"]
-          ],
-          [
-            "2026-01-24T17:44:59.000Z",
-            "0xa4ee2f92f051bcaab2239bff1e998aeb6bcde171c65cfb86f18c11f62c4f3582",
-            ["eth:0xEf5579F4e7b0063a414a42A65DfD86a1562466E1"]
-          ]
-        ],
-        "$upgradeCount": 7,
-        "owner": "eth:0x2aD631F72fB16d91c4953A7f4260A97C2fE2f31e",
-        "pendingOwner": "eth:0x0000000000000000000000000000000000000000",
-        "pendle": "eth:0x808507121B80c02388fAd14726482e061B8da827"
-      },
-      "errors": { "proxiableUUID": "Processing error occurred." },
-      "implementationNames": {
-        "eth:0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57": "ERC1967Proxy",
-        "eth:0xEf5579F4e7b0063a414a42A65DfD86a1562466E1": "PendleGaugeControllerUpg"
       }
     },
     {
@@ -716,38 +536,6 @@
       }
     },
     {
-      "name": "PendlePYLpOracle",
-      "address": "eth:0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2",
-      "type": "Contract",
-      "sourceHashes": [
-        "0x993403059c5620e6c91110514f9f4a2f2331c55dab587699c67c19edddab92ad",
-        "0x802dfb0972f1411fe61b17666c0bb60ebeb21a84fc91f8cf4f43b53812f8e2d3"
-      ],
-      "proxyType": "EIP1967 proxy",
-      "sinceTimestamp": 1762152839,
-      "sinceBlock": 23717134,
-      "values": {
-        "$admin": "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64",
-        "$implementation": "eth:0x93e832Ee15a9b00448292373531c16c5398E2dA1",
-        "$pastUpgrades": [
-          [
-            "2025-11-03T06:53:59.000Z",
-            "0x9435460d42af5704637cdabe4d66711200e39b420a257c38b33d6f79e4f7deea",
-            ["eth:0x93e832Ee15a9b00448292373531c16c5398E2dA1"]
-          ]
-        ],
-        "$upgradeCount": 1,
-        "BLOCK_CYCLE_DENOMINATOR": 1000,
-        "blockCycleNumerator": 11000,
-        "owner": "eth:0x8119EC16F0573B7dAc7C0CB94EB504FB32456ee1",
-        "pendingOwner": "eth:0x0000000000000000000000000000000000000000"
-      },
-      "implementationNames": {
-        "eth:0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2": "TransparentUpgradeableProxy",
-        "eth:0x93e832Ee15a9b00448292373531c16c5398E2dA1": "PendlePYLpOracle"
-      }
-    },
-    {
       "name": "MorphoChainlinkOracleV2",
       "address": "eth:0x59e347aEF154aDcAe639d0cE032Cb3f5dCB4a6E4",
       "type": "Contract",
@@ -764,7 +552,7 @@
         "BASE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT": "eth:0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD",
         "BASE_VAULT_CONVERSION_SAMPLE": "1000000000000000000",
-        "price": "1099465288103905148939450",
+        "price": "1099465302900308211377146",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -773,34 +561,6 @@
       },
       "implementationNames": {
         "eth:0x59e347aEF154aDcAe639d0cE032Cb3f5dCB4a6E4": "MorphoChainlinkOracleV2"
-      }
-    },
-    {
-      "name": "PendlePrincipalToken",
-      "address": "eth:0x5A19fa369F2895dCD8d2cEE62E4Ceae58eF92BBb",
-      "type": "Contract",
-      "sourceHashes": [
-        "0xf46f0f711f6a93e773fa023d0407c89d0a158ee45b5aa27d1aadf09a5c4ef823"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1776525227,
-      "sinceBlock": 24907581,
-      "values": {
-        "$immutable": true,
-        "decimals": 18,
-        "expiry": 1786579200,
-        "factory": "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637",
-        "isExpired": false,
-        "name": "PT Ethena sUSDE 13AUG2026",
-        "reentrancyGuardEntered": false,
-        "SY": "eth:0xBF98480425A29197e5d99D003017f63a1e595D02",
-        "symbol": "PT-sUSDE-13AUG2026",
-        "totalSupply": "27518327072442652389626375",
-        "VERSION": 6,
-        "YT": "eth:0x45A699A11A4a17fe0931EF3ceA4BFc3235e659F2"
-      },
-      "implementationNames": {
-        "eth:0x5A19fa369F2895dCD8d2cEE62E4Ceae58eF92BBb": "PendlePrincipalToken"
       }
     },
     {
@@ -858,105 +618,9 @@
       }
     },
     {
-      "name": "",
-      "address": "eth:0x601cECFf9CfFd14Ccb8A7084b40Ee576c2470abf",
-      "type": "Contract",
-      "unverified": true,
-      "proxyType": "immutable",
-      "sinceTimestamp": 1769160959,
-      "sinceBlock": 24296630,
-      "values": { "$immutable": true },
-      "implementationNames": {
-        "eth:0x601cECFf9CfFd14Ccb8A7084b40Ee576c2470abf": ""
-      }
-    },
-    {
-      "name": "PendleChainlinkOracleFactory",
-      "address": "eth:0x6502cda86f9110f3655512237C9FF2B9CE247c69",
-      "type": "Contract",
-      "sourceHashes": [
-        "0x93e03abc49af4fb1650a4becd0d175ba7453c2862349473eb0dde72c16af5ca3"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1762334567,
-      "sinceBlock": 23732180,
-      "values": {
-        "$immutable": true,
-        "pyLpOracle": "eth:0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2"
-      },
-      "implementationNames": {
-        "eth:0x6502cda86f9110f3655512237C9FF2B9CE247c69": "PendleChainlinkOracleFactory"
-      }
-    },
-    {
       "address": "eth:0x69FcEFDe2B48503d675181448B3D4272128bca9c",
       "type": "EOA",
       "proxyType": "EOA"
-    },
-    {
-      "name": "PendleMarketFactoryV7Upg",
-      "address": "eth:0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f",
-      "type": "Contract",
-      "sourceHashes": [
-        "0x993403059c5620e6c91110514f9f4a2f2331c55dab587699c67c19edddab92ad",
-        "0xc6c87d3c67127ba94854ce311eeeeb4791e2afad6019c9b1310a00bc3bf63f1f"
-      ],
-      "proxyType": "EIP1967 proxy",
-      "sinceTimestamp": 1761201167,
-      "sinceBlock": 23638439,
-      "values": {
-        "$admin": "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64",
-        "$implementation": "eth:0xE7a7477c636EbC2eD7C1968b5Fac5eaF29Ff6C0C",
-        "$pastUpgrades": [
-          [
-            "2025-10-23T06:32:47.000Z",
-            "0x5253f591cc18aa0d72f4ce3c90deff2f9097bb66c25f6aae5a055c68a1cc0ed6",
-            ["eth:0xEF0a480569eeAfb156B09d4312D69f54F96839C4"]
-          ],
-          [
-            "2026-01-23T05:49:47.000Z",
-            "0x192ebc04ef5a0349e696d9d64164af689fa07a2baaeef832effd749974ea7508",
-            ["eth:0x3fCd900D31a68e39Cb34c3F0b85B6f95EBa2ea26"]
-          ],
-          [
-            "2026-01-24T17:44:59.000Z",
-            "0xa4ee2f92f051bcaab2239bff1e998aeb6bcde171c65cfb86f18c11f62c4f3582",
-            ["eth:0xE7a7477c636EbC2eD7C1968b5Fac5eaF29Ff6C0C"]
-          ]
-        ],
-        "$upgradeCount": 3,
-        "gaugeController": "eth:0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57",
-        "marketCreationCodeContractA": "eth:0x601cECFf9CfFd14Ccb8A7084b40Ee576c2470abf",
-        "marketCreationCodeContractB": "eth:0x6e6F4CAB945859D66C78aF3d9917002e94bfa4E9",
-        "marketCreationCodeSizeA": 13568,
-        "marketCreationCodeSizeB": 13569,
-        "maxLnFeeRateRoot": "48790164169432003",
-        "maxReserveFeePercent": 100,
-        "minInitialAnchor": "1000000000000000000",
-        "owner": "eth:0x2aD631F72fB16d91c4953A7f4260A97C2fE2f31e",
-        "pendingOwner": "eth:0x0000000000000000000000000000000000000000",
-        "reserveFeePercent": 80,
-        "treasury": "eth:0x8270400d528c34e1596EF367eeDEc99080A1b592",
-        "VERSION": 7,
-        "yieldContractFactory": "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637"
-      },
-      "implementationNames": {
-        "eth:0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f": "TransparentUpgradeableProxy",
-        "eth:0xE7a7477c636EbC2eD7C1968b5Fac5eaF29Ff6C0C": "PendleMarketFactoryV7Upg"
-      }
-    },
-    {
-      "name": "",
-      "address": "eth:0x6e6F4CAB945859D66C78aF3d9917002e94bfa4E9",
-      "type": "Contract",
-      "unverified": true,
-      "proxyType": "immutable",
-      "sinceTimestamp": 1769160959,
-      "sinceBlock": 24296630,
-      "values": { "$immutable": true },
-      "implementationNames": {
-        "eth:0x6e6F4CAB945859D66C78aF3d9917002e94bfa4E9": ""
-      }
     },
     {
       "name": "MorphoChainlinkOracleV2",
@@ -966,6 +630,7 @@
         "0x6c540760ca3541be0adea9ccd74bb96e621286f2f25c24538260e302c5b661a2"
       ],
       "proxyType": "immutable",
+      "ignoreInWatchMode": ["price"],
       "sinceTimestamp": 1779986315,
       "sinceBlock": 25195092,
       "values": {
@@ -974,7 +639,7 @@
         "BASE_FEED_2": "eth:0xa569d910839Ae8865Da8F8e70FfFb0cBA869F961",
         "BASE_VAULT": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT_CONVERSION_SAMPLE": 1,
-        "price": "992655517385965224399372",
+        "price": "992655533094998885290258",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -1039,121 +704,6 @@
       "implementationNames": {
         "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0": "WstETH"
       }
-    },
-    {
-      "name": "Pendle Token",
-      "address": "eth:0x808507121B80c02388fAd14726482e061B8da827",
-      "type": "Contract",
-      "sourceHashes": [
-        "0xeab065cb3e797bf67ba8de2f7b74a8612e60638b4606f4128d7b059c7ce3594a"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1619495943,
-      "sinceBlock": 12320098,
-      "values": {
-        "$immutable": true,
-        "configChangesInitiated": 0,
-        "decimals": 18,
-        "DELEGATION_TYPEHASH": "0xe48329057bfd03d55e49b547132e39cffd9c1820ad7b9d4c5307691425d15adf",
-        "DOMAIN_TYPEHASH": "0x8cad95687ba82c2ce50e74f7b754645e5117c3a5bec8151c0726d5857980a866",
-        "emissionRateMultiplierNumerator": 989000000000,
-        "governance": "eth:0x8119EC16F0573B7dAc7C0CB94EB504FB32456ee1",
-        "isBurningAllowed": false,
-        "isPendleToken": true,
-        "lastWeekEmissionSent": 204,
-        "lastWeeklyEmission": "167541018155868821982934",
-        "liquidityIncentivesRecipient": "eth:0xe8D28E2CA24BB16Fc7e6549eF937e05981d02606",
-        "name": "Pendle",
-        "pendingEmissionRateMultiplierNumerator": 0,
-        "pendingGovernance": "eth:0x0000000000000000000000000000000000000000",
-        "pendingIsBurningAllowed": false,
-        "pendingLiquidityIncentivesRecipient": "eth:0x0000000000000000000000000000000000000000",
-        "pendingTerminalInflationRateNumerator": 0,
-        "startTime": 1619495943,
-        "symbol": "PENDLE",
-        "terminalInflationRateNumerator": 379848538,
-        "totalSupply": "281527448458531430459890761"
-      },
-      "implementationNames": {
-        "eth:0x808507121B80c02388fAd14726482e061B8da827": "PENDLE"
-      }
-    },
-    {
-      "name": "Safe",
-      "address": "eth:0x8119EC16F0573B7dAc7C0CB94EB504FB32456ee1",
-      "type": "Contract",
-      "template": "GnosisSafe",
-      "sourceHashes": [
-        "0xd5a33441170541b7df25812e0e3dff6562b2f09ab835a6b431cb9e7198a47605",
-        "0x7d388119a66f3eae147d748f86136f073d907d6b36f7e87e9363c4c7a2899a8a"
-      ],
-      "proxyType": "gnosis safe",
-      "ignoreInWatchMode": ["nonce"],
-      "sinceTimestamp": 1619411021,
-      "sinceBlock": 12313756,
-      "values": {
-        "$immutable": false,
-        "$implementation": "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a",
-        "$members": [
-          "eth:0x231FC5b039d66BA234CB90357082Bf16Be79B17c",
-          "eth:0x7BD456937104Ca5eFfFBD895ccbba52421021C29",
-          "eth:0x9Ce6De7ec862e25a515AA0D8EcFbBBb2DaA8E0fb",
-          "eth:0x38ab4A7Dea2753757F29fe6d10280Df2C42abe27",
-          "eth:0xF517364727Fcc764D58DdF4e53280874A4d0c476"
-        ],
-        "$threshold": 3,
-        "domainSeparator": "0x40e081a4a4eea5d8dfe752e486bccbd73e5d4dbb29d532757ee836b1f7ecaa6a",
-        "getChainId": 1,
-        "GnosisSafe_modules": [],
-        "multisigThreshold": "3 of 5 (60%)",
-        "nonce": 801,
-        "VERSION": "1.4.1"
-      },
-      "implementationNames": {
-        "eth:0x8119EC16F0573B7dAc7C0CB94EB504FB32456ee1": "Proxy",
-        "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a": "Safe"
-      },
-      "receivedPermissions": [
-        {
-          "permission": "upgrade",
-          "from": "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637",
-          "role": "admin",
-          "via": [
-            { "address": "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64" }
-          ]
-        },
-        {
-          "permission": "upgrade",
-          "from": "eth:0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2",
-          "role": "admin",
-          "via": [
-            { "address": "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64" }
-          ]
-        },
-        {
-          "permission": "upgrade",
-          "from": "eth:0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f",
-          "role": "admin",
-          "via": [
-            { "address": "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64" }
-          ]
-        },
-        {
-          "permission": "upgrade",
-          "from": "eth:0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2",
-          "role": "admin",
-          "via": [
-            { "address": "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64" }
-          ]
-        }
-      ],
-      "directlyReceivedPermissions": [
-        {
-          "permission": "act",
-          "from": "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64",
-          "role": ".owner"
-        }
-      ]
     },
     {
       "address": "eth:0x84D3E4EE550DD5F99e76a548aC59a6BE1C8dCf79",
@@ -1355,6 +905,13 @@
         "0x68f689a23d3badd91255602a1eb13d4789baedc16d904c3103244642fc78ca8f"
       ],
       "proxyType": "immutable",
+      "receivedPermissions": [
+        {
+          "permission": "upgrade",
+          "from": "eth:0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2",
+          "role": "admin"
+        }
+      ],
       "sinceTimestamp": 1702883459,
       "sinceBlock": 18811307,
       "values": {
@@ -1363,29 +920,7 @@
       },
       "implementationNames": {
         "eth:0xA28c08f165116587D4F3E708743B4dEe155c5E64": "ProxyAdmin"
-      },
-      "directlyReceivedPermissions": [
-        {
-          "permission": "upgrade",
-          "from": "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637",
-          "role": "admin"
-        },
-        {
-          "permission": "upgrade",
-          "from": "eth:0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2",
-          "role": "admin"
-        },
-        {
-          "permission": "upgrade",
-          "from": "eth:0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f",
-          "role": "admin"
-        },
-        {
-          "permission": "upgrade",
-          "from": "eth:0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2",
-          "role": "admin"
-        }
-      ]
+      }
     },
     {
       "name": "EACAggregatorProxy",
@@ -1422,6 +957,7 @@
         "0xcbd9f9f7e9580fa05de348007a5d94b912f3d81e40cfa9b3bc2ad92cc5cb21d8"
       ],
       "proxyType": "immutable",
+      "ignoreInWatchMode": ["latestRoundData"],
       "sinceTimestamp": 1779984911,
       "sinceBlock": 25194977,
       "values": {
@@ -1433,9 +969,9 @@
         "fromTokenScale": "1000000000000000000",
         "latestRoundData": {
           "roundId": 0,
-          "answer": "993363276732575879",
+          "answer": "993363292452810017",
           "startedAt": 0,
-          "updatedAt": 1781529923,
+          "updatedAt": 1781529935,
           "answeredInRound": 0
         },
         "market": "eth:0x177768caf9D0e036725A51D3f60d7E20F2D4D194",
@@ -1543,7 +1079,7 @@
           "roundId": 0,
           "answer": "1000000000000000000",
           "startedAt": 0,
-          "updatedAt": 1781529923,
+          "updatedAt": 1781529935,
           "answeredInRound": 0
         },
         "market": "eth:0x8dAe8ECe668cf80d348873F23D456448E8694883",
@@ -1695,7 +1231,7 @@
         "BASE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "BASE_VAULT": "eth:0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
         "BASE_VAULT_CONVERSION_SAMPLE": "1000000000000000000",
-        "price": "1234689880304894164908057",
+        "price": "1234689896894567891014146",
         "QUOTE_FEED_1": "eth:0x8f1dF6D7F2db73eECE86a18b4381F4707b918FB1",
         "QUOTE_FEED_2": "eth:0x0000000000000000000000000000000000000000",
         "QUOTE_VAULT": "eth:0x0000000000000000000000000000000000000000",
@@ -1734,105 +1270,6 @@
       "implementationNames": {
         "eth:0xe8C9C99EcaD0686A14A00d8521c572281E938008": "SafeProxy",
         "eth:0x41675C099F32341bf84BFc5382aF534df5C7461a": "Safe"
-      }
-    },
-    {
-      "name": "PendleLiquidityIncentivesMultisig",
-      "address": "eth:0xe8D28E2CA24BB16Fc7e6549eF937e05981d02606",
-      "type": "Contract",
-      "sourceHashes": [
-        "0x82aef08ce85ca2e761e0fef9c4d3b742634514c596e59b97f24549f2865f72fe"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1619407060,
-      "sinceBlock": 12313450,
-      "values": {
-        "$immutable": true,
-        "confirmationTimes": [
-          1619408228, 1619409775, 1623677994, 1623678514, 1623857918
-        ],
-        "getConfirmationCount": [2, 2, 2, 2, 2],
-        "getConfirmations": [
-          [
-            "eth:0x0E7779b85A003FEd82FCdE0E16448b0DBb480b82",
-            "eth:0xC23E9Bb8808403b30f01CD922714329387e29994"
-          ],
-          [
-            "eth:0x35cCD93dB6CA6d7a4dCBd72Ef389929B4179e4b7",
-            "eth:0xC23E9Bb8808403b30f01CD922714329387e29994"
-          ],
-          [
-            "eth:0x0E7779b85A003FEd82FCdE0E16448b0DBb480b82",
-            "eth:0xC23E9Bb8808403b30f01CD922714329387e29994"
-          ],
-          [
-            "eth:0x0E7779b85A003FEd82FCdE0E16448b0DBb480b82",
-            "eth:0xC23E9Bb8808403b30f01CD922714329387e29994"
-          ],
-          [
-            "eth:0x956FE4948253D088f1b3776EbfB537Cb60FD0Df9",
-            "eth:0x0E7779b85A003FEd82FCdE0E16448b0DBb480b82"
-          ]
-        ],
-        "getOwners": [
-          "eth:0x35cCD93dB6CA6d7a4dCBd72Ef389929B4179e4b7",
-          "eth:0x956FE4948253D088f1b3776EbfB537Cb60FD0Df9",
-          "eth:0x0E7779b85A003FEd82FCdE0E16448b0DBb480b82",
-          "eth:0xC23E9Bb8808403b30f01CD922714329387e29994"
-        ],
-        "isConfirmed": [true, true, true, true, true],
-        "MAX_OWNER_COUNT": 50,
-        "owners": [
-          "eth:0x35cCD93dB6CA6d7a4dCBd72Ef389929B4179e4b7",
-          "eth:0x956FE4948253D088f1b3776EbfB537Cb60FD0Df9",
-          "eth:0x0E7779b85A003FEd82FCdE0E16448b0DBb480b82",
-          "eth:0xC23E9Bb8808403b30f01CD922714329387e29994"
-        ],
-        "required": 2,
-        "secondsTimeLocked": 0,
-        "transactionCount": 21,
-        "transactions": [
-          [
-            "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-            0,
-            "0xa9059cbb0000000000000000000000000e7779b85a003fed82fcde0e16448b0dbb480b82000000000000000000000000000000000000000000000000016345785d8a0000",
-            false
-          ],
-          [
-            "eth:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-            0,
-            "0xa9059cbb0000000000000000000000000e7779b85a003fed82fcde0e16448b0dbb480b82000000000000000000000000000000000000000000000000002386f26fc10000",
-            true
-          ],
-          [
-            "eth:0x808507121B80c02388fAd14726482e061B8da827",
-            0,
-            "0xa9059cbb000000000000000000000000747fc744837deda8d1c568d8e90839e5d4495255000000000000000000000000000000000000000000001969368974c05b000000",
-            false
-          ],
-          [
-            "eth:0x808507121B80c02388fAd14726482e061B8da827",
-            0,
-            "0xa9059cbb000000000000000000000000747fc744837deda8d1c568d8e90839e5d4495255000000000000000000000000000000000000000000001969368974c05b000000",
-            true
-          ],
-          [
-            "eth:0x808507121B80c02388fAd14726482e061B8da827",
-            0,
-            "0xa9059cbb0000000000000000000000008119ec16f0573b7dac7c0cb94eb504fb32456ee100000000000000000000000000000000000000000000cb49b44ba602d8000000",
-            true
-          ]
-        ]
-      },
-      "errors": {
-        "confirmationTimes": "Processing error occurred.",
-        "getConfirmationCount": "Processing error occurred.",
-        "getConfirmations": "Processing error occurred.",
-        "isConfirmed": "Processing error occurred.",
-        "transactions": "Processing error occurred."
-      },
-      "implementationNames": {
-        "eth:0xe8D28E2CA24BB16Fc7e6549eF937e05981d02606": "PendleLiquidityIncentivesMultisig"
       }
     },
     {
@@ -2013,64 +1450,6 @@
       "function pricesOf(address[] assets) view returns (uint256[] values)",
       "function updateDataFeedsValuesPartial(bytes32[] dataFeedsIds)",
       "function validateTimestamp(uint256 receivedTimestampMilliseconds) view"
-    ],
-    "eth:0x177768caf9D0e036725A51D3f60d7E20F2D4D194": [
-      "constructor(address _PT, int256 _scalarRoot, int256 _initialAnchor, uint80 _lnFeeRateRoot, address _gaugeController)",
-      "error MarketExchangeRateBelowOne(int256 exchangeRate)",
-      "error MarketExpired()",
-      "error MarketInsufficientPtForTrade(int256 currentAmount, int256 requiredAmount)",
-      "error MarketInsufficientPtReceived(uint256 actualBalance, uint256 requiredBalance)",
-      "error MarketInsufficientSyReceived(uint256 actualBalance, uint256 requiredBalance)",
-      "error MarketProportionMustNotEqualOne()",
-      "error MarketProportionTooHigh(int256 proportion, int256 maxProportion)",
-      "error MarketRateScalarBelowZero(int256 rateScalar)",
-      "error MarketScalarRootBelowZero(int256 scalarRoot)",
-      "error MarketZeroAmountsInput()",
-      "error MarketZeroAmountsOutput()",
-      "error MarketZeroLnImpliedRate()",
-      "error MarketZeroNetLPFee()",
-      "error MarketZeroTotalPtOrTotalAsset(int256 totalPt, int256 totalAsset)",
-      "event Approval(address indexed owner, address indexed spender, uint256 value)",
-      "event Burn(address indexed receiverSy, address indexed receiverPt, uint256 netLpBurned, uint256 netSyOut, uint256 netPtOut)",
-      "event IncreaseObservationCardinalityNext(uint16 observationCardinalityNextOld, uint16 observationCardinalityNextNew)",
-      "event Mint(address indexed receiver, uint256 netLpMinted, uint256 netSyUsed, uint256 netPtUsed)",
-      "event RedeemRewards(address indexed user, uint256[] rewardsOut)",
-      "event Swap(address indexed caller, address indexed receiver, int256 netPtOut, int256 netSyOut, uint256 netSyFee, uint256 netSyToReserve)",
-      "event Transfer(address indexed from, address indexed to, uint256 value)",
-      "event UpdateImpliedRate(uint256 indexed timestamp, uint256 lnLastImpliedRate)",
-      "function VERSION() view returns (uint256)",
-      "function _storage() view returns (int128 totalPt, int128 totalSy, uint96 lastLnImpliedRate, uint16 observationIndex, uint16 observationCardinality, uint16 observationCardinalityNext)",
-      "function activeBalance(address user) view returns (uint256)",
-      "function allowance(address owner, address spender) view returns (uint256)",
-      "function approve(address spender, uint256 amount) returns (bool)",
-      "function balanceOf(address account) view returns (uint256)",
-      "function burn(address receiverSy, address receiverPt, uint256 netLpToBurn) returns (uint256 netSyOut, uint256 netPtOut)",
-      "function decimals() view returns (uint8)",
-      "function expiry() view returns (uint256)",
-      "function factory() view returns (address)",
-      "function getNonOverrideLnFeeRateRoot() view returns (uint80)",
-      "function getRewardTokens() view returns (address[])",
-      "function increaseObservationsCardinalityNext(uint16 cardinalityNext)",
-      "function isExpired() view returns (bool)",
-      "function lastRewardBlock() view returns (uint256)",
-      "function mint(address receiver, uint256 netSyDesired, uint256 netPtDesired) returns (uint256 netLpOut, uint256 netSyUsed, uint256 netPtUsed)",
-      "function name() view returns (string)",
-      "function observations(uint256) view returns (uint32 blockTimestamp, uint216 lnImpliedRateCumulative, bool initialized)",
-      "function observe(uint32[] secondsAgos) view returns (uint216[] lnImpliedRateCumulative)",
-      "function readState(address router) view returns (tuple(int256 totalPt, int256 totalSy, int256 totalLp, address treasury, int256 scalarRoot, uint256 expiry, uint256 lnFeeRateRoot, uint256 reserveFeePercent, uint256 lastLnImpliedRate) market)",
-      "function readTokens() view returns (address _SY, address _PT, address _YT)",
-      "function redeemRewards(address user) returns (uint256[])",
-      "function reentrancyGuardEntered() view returns (bool)",
-      "function rewardState(address) view returns (uint128 index, uint128 lastBalance)",
-      "function skim()",
-      "function swapExactPtForSy(address receiver, uint256 exactPtIn, bytes data) returns (uint256 netSyOut, uint256 netSyFee)",
-      "function swapSyForExactPt(address receiver, uint256 exactPtOut, bytes data) returns (uint256 netSyIn, uint256 netSyFee)",
-      "function symbol() view returns (string)",
-      "function totalActiveSupply() view returns (uint256)",
-      "function totalSupply() view returns (uint256)",
-      "function transfer(address to, uint256 amount) returns (bool)",
-      "function transferFrom(address from, address to, uint256 amount) returns (bool)",
-      "function userReward(address, address) view returns (uint128 index, uint128 accrued)"
     ],
     "eth:0x19b3cD7032B8C062E8d44EaCad661a0970DD8c55": [
       "constructor(address owner, address morpho, uint256 initialTimelock, address _asset, string __name, string __symbol)",
@@ -2253,47 +1632,6 @@
       "function SCALE_FACTOR() view returns (uint256)",
       "function price() view returns (uint256)"
     ],
-    "eth:0x21414E68da7658b5B2d9C04B06a1f03055763087": [
-      "constructor(address _ytCreationCodeContractA, uint256 _ytCreationCodeSizeA, address _ytCreationCodeContractB, uint256 _ytCreationCodeSizeB)",
-      "error YCFactoryInterestFeeRateTooHigh(uint256 interestFeeRate, uint256 maxInterestFeeRate)",
-      "error YCFactoryInvalidExpiry()",
-      "error YCFactoryRewardFeeRateTooHigh(uint256 newRewardFeeRate, uint256 maxRewardFeeRate)",
-      "error YCFactoryYieldContractExisted()",
-      "error YCFactoryZeroExpiryDivisor()",
-      "error YCFactoryZeroTreasury()",
-      "event CreateYieldContract(address indexed SY, uint256 indexed expiry, address PT, address YT)",
-      "event Initialized(uint8 version)",
-      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-      "event SetExpiryDivisor(uint256 newExpiryDivisor)",
-      "event SetInterestFeeRate(uint256 newInterestFeeRate)",
-      "event SetRewardFeeRate(uint256 newRewardFeeRate)",
-      "event SetTreasury(address indexed treasury)",
-      "function VERSION() view returns (uint256)",
-      "function claimOwnership()",
-      "function createYieldContract(address SY, uint32 expiry, bool doCacheIndexSameBlock) returns (address PT, address YT)",
-      "function expiryDivisor() view returns (uint96)",
-      "function getPT(address, uint256) view returns (address)",
-      "function getYT(address, uint256) view returns (address)",
-      "function initialize(uint96 _expiryDivisor, uint128 _interestFeeRate, uint128 _rewardFeeRate, address _treasury, address _owner)",
-      "function interestFeeRate() view returns (uint128)",
-      "function isPT(address) view returns (bool)",
-      "function isYT(address) view returns (bool)",
-      "function maxInterestFeeRate() view returns (uint256)",
-      "function maxRewardFeeRate() view returns (uint256)",
-      "function owner() view returns (address)",
-      "function pendingOwner() view returns (address)",
-      "function rewardFeeRate() view returns (uint128)",
-      "function setExpiryDivisor(uint96 newExpiryDivisor)",
-      "function setInterestFeeRate(uint128 newInterestFeeRate)",
-      "function setRewardFeeRate(uint128 newRewardFeeRate)",
-      "function setTreasury(address newTreasury)",
-      "function transferOwnership(address newOwner, bool direct, bool renounce)",
-      "function treasury() view returns (address)",
-      "function ytCreationCodeContractA() view returns (address)",
-      "function ytCreationCodeContractB() view returns (address)",
-      "function ytCreationCodeSizeA() view returns (uint256)",
-      "function ytCreationCodeSizeB() view returns (uint256)"
-    ],
     "eth:0x221898dA0890Fc5fb6c890Fcdc051FA97946eE11": [
       "constructor(address baseVault, uint256 baseVaultConversionSample, address baseFeed1, address baseFeed2, uint256 baseTokenDecimals, address quoteVault, uint256 quoteVaultConversionSample, address quoteFeed1, address quoteFeed2, uint256 quoteTokenDecimals)",
       "error MathOverflowedMulDiv()",
@@ -2368,12 +1706,6 @@
       "function SCALE_FACTOR() view returns (uint256)",
       "function price() view returns (uint256)"
     ],
-    "eth:0x3E6EBa46AbC5ab18ED95F6667d8B2fd4020E4637": [
-      "constructor(address _logic, address admin_, bytes _data) payable",
-      "event AdminChanged(address previousAdmin, address newAdmin)",
-      "event BeaconUpgraded(address indexed beacon)",
-      "event Upgraded(address indexed implementation)"
-    ],
     "eth:0x4124b5Cb815A21E26fF86c8A6A0A074c7fa2Dd1D": [
       "constructor(address baseVault, uint256 baseVaultConversionSample, address baseFeed1, address baseFeed2, uint256 baseTokenDecimals, address quoteVault, uint256 quoteVaultConversionSample, address quoteFeed1, address quoteFeed2, uint256 quoteTokenDecimals)",
       "error MathOverflowedMulDiv()",
@@ -2436,66 +1768,6 @@
       "function simulateAndRevert(address targetContract, bytes calldataPayload)",
       "function swapOwner(address prevOwner, address oldOwner, address newOwner)"
     ],
-    "eth:0x45A699A11A4a17fe0931EF3ceA4BFc3235e659F2": [
-      "constructor(address _SY, address _PT, string _name, string _symbol, uint8 __decimals, uint256 _expiry, bool _doCacheIndexSameBlock)",
-      "error ArrayEmpty()",
-      "error ArrayLengthMismatch()",
-      "error YCExpired()",
-      "error YCNoFloatingSy()",
-      "error YCNotExpired()",
-      "error YCNothingToRedeem()",
-      "error YCPostExpiryDataNotSet()",
-      "error YieldContractInsufficientSy(uint256 actualSy, uint256 requiredSy)",
-      "event Approval(address indexed owner, address indexed spender, uint256 value)",
-      "event Burn(address indexed caller, address indexed receiver, uint256 amountPYToRedeem, uint256 amountSyOut)",
-      "event CollectInterestFee(uint256 amountInterestFee)",
-      "event CollectRewardFee(address indexed rewardToken, uint256 amountRewardFee)",
-      "event Mint(address indexed caller, address indexed receiverPT, address indexed receiverYT, uint256 amountSyToMint, uint256 amountPYOut)",
-      "event NewInterestIndex(uint256 indexed newIndex)",
-      "event RedeemInterest(address indexed user, uint256 interestOut)",
-      "event RedeemRewards(address indexed user, uint256[] amountRewardsOut)",
-      "event Transfer(address indexed from, address indexed to, uint256 value)",
-      "function PT() view returns (address)",
-      "function SY() view returns (address)",
-      "function VERSION() view returns (uint256)",
-      "function allowance(address owner, address spender) view returns (uint256)",
-      "function approve(address spender, uint256 amount) returns (bool)",
-      "function balanceOf(address account) view returns (uint256)",
-      "function decimals() view returns (uint8)",
-      "function doCacheIndexSameBlock() view returns (bool)",
-      "function expiry() view returns (uint256)",
-      "function factory() view returns (address)",
-      "function getPostExpiryData() view returns (uint256 firstPYIndex, uint256 totalSyInterestForTreasury, uint256[] firstRewardIndexes, uint256[] userRewardOwed)",
-      "function getRewardTokens() view returns (address[])",
-      "function isExpired() view returns (bool)",
-      "function mintPY(address receiverPT, address receiverYT) returns (uint256 amountPYOut)",
-      "function mintPYMulti(address[] receiverPTs, address[] receiverYTs, uint256[] amountSyToMints) returns (uint256[] amountPYOuts)",
-      "function name() view returns (string)",
-      "function postExpiry() view returns (uint128 firstPYIndex, uint128 totalSyInterestForTreasury)",
-      "function pyIndexCurrent() returns (uint256 currentIndex)",
-      "function pyIndexLastUpdatedBlock() view returns (uint128)",
-      "function pyIndexStored() view returns (uint256)",
-      "function redeemDueInterestAndRewards(address user, bool redeemInterest, bool redeemRewards) returns (uint256 interestOut, uint256[] rewardsOut)",
-      "function redeemInterestAndRewardsPostExpiryForTreasury() returns (uint256 interestOut, uint256[] rewardsOut)",
-      "function redeemPY(address receiver) returns (uint256 amountSyOut)",
-      "function redeemPYMulti(address[] receivers, uint256[] amountPYToRedeems) returns (uint256[] amountSyOuts)",
-      "function reentrancyGuardEntered() view returns (bool)",
-      "function rewardIndexesCurrent() returns (uint256[])",
-      "function setPostExpiryData()",
-      "function syReserve() view returns (uint256)",
-      "function symbol() view returns (string)",
-      "function totalSupply() view returns (uint256)",
-      "function transfer(address to, uint256 amount) returns (bool)",
-      "function transferFrom(address from, address to, uint256 amount) returns (bool)",
-      "function userInterest(address) view returns (uint128 index, uint128 accrued)",
-      "function userReward(address, address) view returns (uint128 index, uint128 accrued)"
-    ],
-    "eth:0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57": [
-      "constructor(address _logic, bytes _data) payable",
-      "event AdminChanged(address previousAdmin, address newAdmin)",
-      "event BeaconUpgraded(address indexed beacon)",
-      "event Upgraded(address indexed implementation)"
-    ],
     "eth:0x4F67e4d9BD67eFa28236013288737D39AeF48e79": [
       "constructor(address stETHtoETHPriceFeed_, address wstETH_, uint8 decimals_)",
       "error BadDecimals()",
@@ -2508,12 +1780,6 @@
       "function version() view returns (uint256)",
       "function wstETH() view returns (address)",
       "function wstETHScale() view returns (int256)"
-    ],
-    "eth:0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2": [
-      "constructor(address _logic, address admin_, bytes _data) payable",
-      "event AdminChanged(address previousAdmin, address newAdmin)",
-      "event BeaconUpgraded(address indexed beacon)",
-      "event Upgraded(address indexed implementation)"
     ],
     "eth:0x59e347aEF154aDcAe639d0cE032Cb3f5dCB4a6E4": [
       "constructor(address baseVault, uint256 baseVaultConversionSample, address baseFeed1, address baseFeed2, uint256 baseTokenDecimals, address quoteVault, uint256 quoteVaultConversionSample, address quoteFeed1, address quoteFeed2, uint256 quoteTokenDecimals)",
@@ -2528,33 +1794,6 @@
       "function QUOTE_VAULT_CONVERSION_SAMPLE() view returns (uint256)",
       "function SCALE_FACTOR() view returns (uint256)",
       "function price() view returns (uint256)"
-    ],
-    "eth:0x5A19fa369F2895dCD8d2cEE62E4Ceae58eF92BBb": [
-      "constructor(address _SY, string _name, string _symbol, uint8 __decimals, uint256 _expiry)",
-      "error OnlyYCFactory()",
-      "error OnlyYT()",
-      "event Approval(address indexed owner, address indexed spender, uint256 value)",
-      "event Initialized(uint8 version)",
-      "event Transfer(address indexed from, address indexed to, uint256 value)",
-      "function SY() view returns (address)",
-      "function VERSION() view returns (uint256)",
-      "function YT() view returns (address)",
-      "function allowance(address owner, address spender) view returns (uint256)",
-      "function approve(address spender, uint256 amount) returns (bool)",
-      "function balanceOf(address account) view returns (uint256)",
-      "function burnByYT(address user, uint256 amount)",
-      "function decimals() view returns (uint8)",
-      "function expiry() view returns (uint256)",
-      "function factory() view returns (address)",
-      "function initialize(address _YT)",
-      "function isExpired() view returns (bool)",
-      "function mintByYT(address user, uint256 amount)",
-      "function name() view returns (string)",
-      "function reentrancyGuardEntered() view returns (bool)",
-      "function symbol() view returns (string)",
-      "function totalSupply() view returns (uint256)",
-      "function transfer(address to, uint256 amount) returns (bool)",
-      "function transferFrom(address from, address to, uint256 amount) returns (bool)"
     ],
     "eth:0x5c9C449BbC9a6075A2c061dF312a35fd1E05fF22": [
       "constructor(address _aggregator, address _accessController)",
@@ -2616,22 +1855,6 @@
       "function transferOwnership(address _to)",
       "function version() view returns (uint256)"
     ],
-    "eth:0x6502cda86f9110f3655512237C9FF2B9CE247c69": [
-      "constructor(address _pyLpOracle)",
-      "error OracleAlreadyExists()",
-      "error OracleIncreaseCardinalityRequired(uint32 cardinalityRequired)",
-      "error OracleOldestObservationNotSatisfied()",
-      "event OracleCreated(address indexed market, uint32 indexed twapDuration, uint8 indexed baseOracleType, address oracle, bytes32 oracleId)",
-      "event OracleWithQuoteCreated(address indexed market, uint32 indexed twapDuration, uint8 indexed baseOracleType, address quoteOracle, address oracle, bytes32 oracleId)",
-      "function checkMarketOracleState(address market, uint32 twapDuration) view",
-      "function createOracle(address market, uint32 twapDuration, uint8 baseOracleType) returns (address oracle)",
-      "function createOracleWithQuote(address market, uint32 twapDuration, uint8 baseOracleType, address quoteOracle) returns (address oracle)",
-      "function getOracle(address market, uint32 twapDuration, uint8 baseOracleType) view returns (address)",
-      "function getOracleId(address market, uint32 twapDuration, uint8 baseOracleType) pure returns (bytes32)",
-      "function getOracleWithQuote(address market, uint32 twapDuration, uint8 baseOracleType, address quoteOracle) view returns (address)",
-      "function getOracleWithQuoteId(address market, uint32 twapDuration, uint8 baseOracleType, address quoteOracle) pure returns (bytes32)",
-      "function pyLpOracle() view returns (address)"
-    ],
     "eth:0x6518ab18aDfF9fAeD6f4146403F7b364515e70F8": [
       "constructor()",
       "error InvalidBlockRate(uint256 blockCycleNumerator)",
@@ -2674,12 +1897,6 @@
       "function latestRound() pure returns (uint80)",
       "function latestRoundData() view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
       "function version() pure returns (uint256)"
-    ],
-    "eth:0x6d247b1c044fA1E22e6B04fA9F71Baf99EB29A9f": [
-      "constructor(address _logic, address admin_, bytes _data) payable",
-      "event AdminChanged(address previousAdmin, address newAdmin)",
-      "event BeaconUpgraded(address indexed beacon)",
-      "event Upgraded(address indexed implementation)"
     ],
     "eth:0x7560CaC78c21F882d33355C45a44835653f69ec2": [
       "constructor(address baseVault, uint256 baseVaultConversionSample, address baseFeed1, address baseFeed2, uint256 baseTokenDecimals, address quoteVault, uint256 quoteVaultConversionSample, address quoteFeed1, address quoteFeed2, uint256 quoteTokenDecimals)",
@@ -2734,66 +1951,6 @@
       "function transferFrom(address sender, address recipient, uint256 amount) returns (bool)",
       "function unwrap(uint256 _wstETHAmount) returns (uint256)",
       "function wrap(uint256 _stETHAmount) returns (uint256)"
-    ],
-    "eth:0x808507121B80c02388fAd14726482e061B8da827": [
-      "constructor(address _governance, address pendleTeamTokens, address pendleEcosystemFund, address salesMultisig, address _liquidityIncentivesRecipient)",
-      "event Approval(address indexed owner, address indexed spender, uint256 value)",
-      "event ConfigsChanged(uint256 emissionRateMultiplierNumerator, uint256 terminalInflationRateNumerator, address liquidityIncentivesRecipient, bool isBurningAllowed)",
-      "event DelegateChanged(address indexed delegator, address indexed fromDelegate, address indexed toDelegate)",
-      "event DelegateVotesChanged(address indexed delegate, uint256 previousBalance, uint256 newBalance)",
-      "event EtherWithdraw(uint256 amount, address sendTo)",
-      "event GovernanceClaimed(address newGovernance, address previousGovernance)",
-      "event PendingConfigChanges(uint256 pendingEmissionRateMultiplierNumerator, uint256 pendingTerminalInflationRateNumerator, address pendingLiquidityIncentivesRecipient, bool pendingIsBurningAllowed)",
-      "event TokenWithdraw(address token, uint256 amount, address sendTo)",
-      "event Transfer(address indexed from, address indexed to, uint256 value)",
-      "event TransferGovernancePending(address pendingGovernance)",
-      "function DELEGATION_TYPEHASH() view returns (bytes32)",
-      "function DOMAIN_TYPEHASH() view returns (bytes32)",
-      "function allowance(address account, address spender) view returns (uint256)",
-      "function applyConfigChanges()",
-      "function approve(address spender, uint256 amount) returns (bool)",
-      "function balanceOf(address account) view returns (uint256)",
-      "function burn(uint256 amount) returns (bool)",
-      "function checkpoints(address, uint32) view returns (uint32 fromBlock, uint256 votes)",
-      "function claimGovernance()",
-      "function claimLiquidityEmissions() returns (uint256 totalEmissions)",
-      "function configChangesInitiated() view returns (uint256)",
-      "function decimals() view returns (uint8)",
-      "function decreaseAllowance(address spender, uint256 subtractedValue) returns (bool)",
-      "function delegate(address delegatee)",
-      "function delegateBySig(address delegatee, uint256 nonce, uint256 expiry, uint8 v, bytes32 r, bytes32 s)",
-      "function delegates(address) view returns (address)",
-      "function emissionRateMultiplierNumerator() view returns (uint256)",
-      "function getCurrentVotes(address account) view returns (uint256)",
-      "function getPriorVotes(address account, uint256 blockNumber) view returns (uint256)",
-      "function governance() view returns (address)",
-      "function increaseAllowance(address spender, uint256 addedValue) returns (bool)",
-      "function initiateConfigChanges(uint256 _emissionRateMultiplierNumerator, uint256 _terminalInflationRateNumerator, address _liquidityIncentivesRecipient, bool _isBurningAllowed)",
-      "function isBurningAllowed() view returns (bool)",
-      "function isPendleToken() view returns (bool)",
-      "function lastWeekEmissionSent() view returns (uint256)",
-      "function lastWeeklyEmission() view returns (uint256)",
-      "function liquidityIncentivesRecipient() view returns (address)",
-      "function name() view returns (string)",
-      "function nonces(address) view returns (uint256)",
-      "function numCheckpoints(address) view returns (uint32)",
-      "function pendingEmissionRateMultiplierNumerator() view returns (uint256)",
-      "function pendingGovernance() view returns (address)",
-      "function pendingIsBurningAllowed() view returns (bool)",
-      "function pendingLiquidityIncentivesRecipient() view returns (address)",
-      "function pendingTerminalInflationRateNumerator() view returns (uint256)",
-      "function startTime() view returns (uint256)",
-      "function symbol() view returns (string)",
-      "function terminalInflationRateNumerator() view returns (uint256)",
-      "function totalSupply() view returns (uint256)",
-      "function transfer(address dst, uint256 amount) returns (bool)",
-      "function transferFrom(address src, address dst, uint256 amount) returns (bool)",
-      "function transferGovernance(address _governance)",
-      "function withdrawEther(uint256 amount, address sendTo)",
-      "function withdrawToken(address token, uint256 amount, address sendTo)"
-    ],
-    "eth:0x8119EC16F0573B7dAc7C0CB94EB504FB32456ee1": [
-      "constructor(address _masterCopy)"
     ],
     "eth:0x86392dC19c0b719886221c78AB11eb8Cf5c52812": [
       "constructor(address _aggregator, address _accessController)",
@@ -2884,34 +2041,6 @@
       "function setController(address _accessController)",
       "function transferOwnership(address _to)",
       "function version() view returns (uint256)"
-    ],
-    "eth:0x93e832Ee15a9b00448292373531c16c5398E2dA1": [
-      "constructor()",
-      "error InvalidBlockRate(uint256 blockCycleNumerator)",
-      "error MarketExchangeRateBelowOne(int256 exchangeRate)",
-      "error MarketExpired()",
-      "error MarketProportionMustNotEqualOne()",
-      "error MarketRateScalarBelowZero(int256 rateScalar)",
-      "error MarketZeroTotalPtOrTotalAsset(int256 totalPt, int256 totalAsset)",
-      "error TwapDurationTooLarge(uint32 duration, uint32 cardinalityRequired)",
-      "event Initialized(uint8 version)",
-      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-      "event SetBlockCycleNumerator(uint16 newBlockCycleNumerator)",
-      "function BLOCK_CYCLE_DENOMINATOR() view returns (uint16)",
-      "function blockCycleNumerator() view returns (uint16)",
-      "function claimOwnership()",
-      "function getLpToAssetRate(address market, uint32 duration) view returns (uint256)",
-      "function getLpToSyRate(address market, uint32 duration) view returns (uint256)",
-      "function getOracleState(address market, uint32 duration) view returns (bool increaseCardinalityRequired, uint16 cardinalityRequired, bool oldestObservationSatisfied)",
-      "function getPtToAssetRate(address market, uint32 duration) view returns (uint256)",
-      "function getPtToSyRate(address market, uint32 duration) view returns (uint256)",
-      "function getYtToAssetRate(address market, uint32 duration) view returns (uint256)",
-      "function getYtToSyRate(address market, uint32 duration) view returns (uint256)",
-      "function initialize(uint16 _blockCycleNumerator, address _owner)",
-      "function owner() view returns (address)",
-      "function pendingOwner() view returns (address)",
-      "function setBlockCycleNumerator(uint16 newBlockCycleNumerator)",
-      "function transferOwnership(address newOwner, bool direct, bool renounce)"
     ],
     "eth:0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2": [
       "constructor(address _logic, address admin_, bytes _data) payable",
@@ -3152,114 +2281,8 @@
       "function SCALE_FACTOR() view returns (uint256)",
       "function price() view returns (uint256)"
     ],
-    "eth:0xE7a7477c636EbC2eD7C1968b5Fac5eaF29Ff6C0C": [
-      "constructor(address _yieldContractFactory, address _marketCreationCodeContractA, uint256 _marketCreationCodeSizeA, address _marketCreationCodeContractB, uint256 _marketCreationCodeSizeB, address _gaugeController)",
-      "error MFNotPendleMarket(address addr)",
-      "error MarketFactoryExpiredPt()",
-      "error MarketFactoryInitialAnchorTooLow(int256 initialAnchor, int256 minInitialAnchor)",
-      "error MarketFactoryInvalidPt()",
-      "error MarketFactoryLnFeeRateRootTooHigh(uint80 lnFeeRateRoot, uint256 maxLnFeeRateRoot)",
-      "error MarketFactoryMarketExists()",
-      "error MarketFactoryOverriddenFeeTooHigh(uint80 overriddenFee, uint256 marketLnFeeRateRoot)",
-      "error MarketFactoryReserveFeePercentTooHigh(uint8 reserveFeePercent, uint8 maxReserveFeePercent)",
-      "error MarketFactoryZeroTreasury()",
-      "event CreateNewMarket(address indexed market, address indexed PT, int256 scalarRoot, int256 initialAnchor, uint256 lnFeeRateRoot)",
-      "event Initialized(uint8 version)",
-      "event NewTreasuryAndFeeReserve(address indexed treasury, uint8 reserveFeePercent)",
-      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-      "event SetOverriddenFee(address indexed router, address indexed market, uint80 lnFeeRateRoot)",
-      "function VERSION() view returns (uint256)",
-      "function claimOwnership()",
-      "function createNewMarket(address PT, int256 scalarRoot, int256 initialAnchor, uint80 lnFeeRateRoot) returns (address market)",
-      "function gaugeController() view returns (address)",
-      "function getMarketConfig(address market, address router) view returns (address _treasury, uint80 _overriddenFee, uint8 _reserveFeePercent)",
-      "function initialize(address _owner, address _treasury, uint8 _reserveFeePercent)",
-      "function isValidMarket(address market) view returns (bool)",
-      "function marketCreationCodeContractA() view returns (address)",
-      "function marketCreationCodeContractB() view returns (address)",
-      "function marketCreationCodeSizeA() view returns (uint256)",
-      "function marketCreationCodeSizeB() view returns (uint256)",
-      "function maxLnFeeRateRoot() view returns (uint256)",
-      "function maxReserveFeePercent() view returns (uint8)",
-      "function minInitialAnchor() view returns (int256)",
-      "function owner() view returns (address)",
-      "function pendingOwner() view returns (address)",
-      "function reserveFeePercent() view returns (uint8)",
-      "function setOverriddenFee(address router, address market, uint80 newFee)",
-      "function setTreasuryAndFeeReserve(address newTreasury, uint8 newReserveFeePercent)",
-      "function transferOwnership(address newOwner, bool direct, bool renounce)",
-      "function treasury() view returns (address)",
-      "function yieldContractFactory() view returns (address)"
-    ],
     "eth:0xe8C9C99EcaD0686A14A00d8521c572281E938008": [
       "constructor(address _singleton)"
-    ],
-    "eth:0xe8D28E2CA24BB16Fc7e6549eF937e05981d02606": [
-      "function owners(uint256) view returns (address)",
-      "function removeOwner(address owner)",
-      "function revokeConfirmation(uint256 transactionId)",
-      "function isOwner(address) view returns (bool)",
-      "function confirmations(uint256, address) view returns (bool)",
-      "function secondsTimeLocked() view returns (uint256)",
-      "function getTransactionCount(bool pending, bool executed) view returns (uint256 count)",
-      "function addOwner(address owner)",
-      "function isConfirmed(uint256 transactionId) view returns (bool)",
-      "function changeTimeLock(uint256 _secondsTimeLocked)",
-      "function getConfirmationCount(uint256 transactionId) view returns (uint256 count)",
-      "function transactions(uint256) view returns (address destination, uint256 value, bytes data, bool executed)",
-      "function getOwners() view returns (address[])",
-      "function getTransactionIds(uint256 from, uint256 to, bool pending, bool executed) view returns (uint256[] _transactionIds)",
-      "function getConfirmations(uint256 transactionId) view returns (address[] _confirmations)",
-      "function transactionCount() view returns (uint256)",
-      "function changeRequirement(uint256 _required)",
-      "function confirmTransaction(uint256 transactionId)",
-      "function submitTransaction(address destination, uint256 value, bytes data) returns (uint256 transactionId)",
-      "function confirmationTimes(uint256) view returns (uint256)",
-      "function MAX_OWNER_COUNT() view returns (uint256)",
-      "function required() view returns (uint256)",
-      "function replaceOwner(address owner, address newOwner)",
-      "function executeTransaction(uint256 transactionId)",
-      "constructor(address[] _owners, uint256 _required, uint256 _secondsTimeLocked)",
-      "event ConfirmationTimeSet(uint256 indexed transactionId, uint256 confirmationTime)",
-      "event TimeLockChange(uint256 secondsTimeLocked)",
-      "event Confirmation(address indexed sender, uint256 indexed transactionId)",
-      "event Revocation(address indexed sender, uint256 indexed transactionId)",
-      "event Submission(uint256 indexed transactionId)",
-      "event Execution(uint256 indexed transactionId)",
-      "event ExecutionFailure(uint256 indexed transactionId)",
-      "event Deposit(address indexed sender, uint256 value)",
-      "event OwnerAddition(address indexed owner)",
-      "event OwnerRemoval(address indexed owner)",
-      "event RequirementChange(uint256 required)"
-    ],
-    "eth:0xEf5579F4e7b0063a414a42A65DfD86a1562466E1": [
-      "constructor(address _pendle)",
-      "error ArrayLengthMismatch()",
-      "event AdminChanged(address previousAdmin, address newAdmin)",
-      "event BeaconUpgraded(address indexed beacon)",
-      "event Initialized(uint8 version)",
-      "event MarketClaimReward(address indexed market, uint256 amount)",
-      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-      "event ReceiveVotingResults(uint128 indexed wTime, address[] markets, uint256[] pendleAmounts)",
-      "event UpdateMarketReward(address indexed market, uint256 pendlePerSec, uint256 incentiveEndsAt)",
-      "event UpdateMarketRewardV2(address indexed market, uint128 pendlePerSec, uint128 incentiveEndsAt)",
-      "event Upgraded(address indexed implementation)",
-      "event WhitelistMarketSet(address indexed market, bool isWhitelisted)",
-      "function claimOwnership()",
-      "function initialize(address _owner)",
-      "function isWhitelisted(address market) view returns (bool)",
-      "function owner() view returns (address)",
-      "function pendingOwner() view returns (address)",
-      "function pendle() view returns (address)",
-      "function proxiableUUID() view returns (bytes32)",
-      "function redeemMarketReward()",
-      "function rewardData(address) view returns (uint128 pendlePerSec, uint128 accumulatedPendle, uint128 lastUpdated, uint128 incentiveEndsAt)",
-      "function setRewardDatas(address[] markets, uint128[] pendlePerSecs, uint128[] incentiveEndsAts)",
-      "function transferOwnership(address newOwner, bool direct, bool renounce)",
-      "function upgradeTo(address newImplementation)",
-      "function upgradeToAndCall(address newImplementation, bytes data) payable",
-      "function whitelistMarkets(address[] markets, bool _isWhitelisted)",
-      "function withdrawPendle(uint256 amount)"
     ],
     "eth:0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c": [
       "constructor(address _aggregator, address _accessController)",
@@ -3391,6 +2414,6 @@
     "Steakhouse-USDC/EACAggregatorProxy": "0x3ba2cbd9a884cdfea15efe908af481b5a5a9c747391c8580bd38b0f8b1603921",
     "tokens/Lido/wstETH": "0xd55ccc93c3f52e654ebbffee9194b0b8a0d974753091db2a43a185679e002e88"
   },
-  "usedBlockNumbers": { "ethereum": 25323186 },
-  "permissionsConfigHash": "0x8290261a2124eaf06f418281bfa3fc307d68507dcdf3ea6fbd2eb10f2d6740c7"
+  "usedBlockNumbers": { "ethereum": 25323187 },
+  "permissionsConfigHash": "0xc8c572e1bbecfbce8ad3ad6f6e88c43c5ba2dbc87c266366e7043057637a30e0"
 }

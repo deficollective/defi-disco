@@ -24,7 +24,7 @@
     },
     "eth:0x2aCA71020De61bb532008049e1Bd41E451aE8AdC": {
       "name": "EtherFi Operations Multisig (4-of-7)",
-      "description": "Gnosis Safe holding broad operating-admin roles — EETH_OPERATING_ADMIN_ROLE, STAKING_MANAGER_ADMIN_ROLE, ETHERFI_RATE_LIMITER_ADMIN_ROLE, PRIORITY_WITHDRAWAL_QUEUE_ADMIN_ROLE, plus PROTOCOL_PAUSER and PROTOCOL_UNPAUSER. It also owns six ProxyAdmin contracts and the EtherfiOFTAdapterUpgradeable, letting it upgrade the EtherfiL1SyncPoolETH cross-chain contract and configure LayerZero peers and rate limits without timelock delay. Direct capital exposure is {{operationsMultisigCapital}}."
+      "description": "Gnosis Safe holding broad operating-admin roles — EETH_OPERATING_ADMIN_ROLE, STAKING_MANAGER_ADMIN_ROLE, ETHERFI_RATE_LIMITER_ADMIN_ROLE, PRIORITY_WITHDRAWAL_QUEUE_ADMIN_ROLE, plus PROTOCOL_PAUSER and PROTOCOL_UNPAUSER. It also owns the ProxyAdmin contracts that upgrade the EtherfiL1SyncPoolETH cross-chain contract without timelock delay. Ownership and the LayerZero messaging delegate of the EtherfiOFTAdapterUpgradeable — which configures LayerZero peers and rate limits for cross-chain eETH bridging — were transferred to the EtherFi operational timelock (2-day delay) in June 2026, so those changes now carry a 2-day delay rather than executing instantly through this multisig. Direct capital exposure is {{operationsMultisigCapital}}."
     },
     "eth:0x12582A27E5e19492b4FcD194a60F8f5e1aa31B0F": {
       "name": "EtherFi Validator Operations (EOA)",
