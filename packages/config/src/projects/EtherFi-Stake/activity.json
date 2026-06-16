@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1781530026,
-  "lastConsumedUpdateNotifierId": 266,
+  "lastReconciledAt": 1781612700,
+  "lastConsumedUpdateNotifierId": 272,
   "events": [
     {
       "timestamp": "2026-03-26T08:10:03.000Z",
@@ -2107,6 +2107,60 @@
           "field": "values.quoteStEthWithCurve",
           "before": false,
           "after": true
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-06-16T12:23:22.000Z",
+      "updateNotifierId": 272,
+      "address": "eth:0x858646372CC42E1A627fcE94aa7A7033e7CF075A",
+      "contractName": "StrategyManager",
+      "isDependency": true,
+      "entity": "EigenLayer",
+      "id": "272:eth:0x858646372CC42E1A627fcE94aa7A7033e7CF075A:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.version",
+          "before": "1.12.0",
+          "after": "1.13.0"
+        },
+        {
+          "field": "values.$pastUpgrades.7",
+          "after": [
+            "2026-06-15T21:17:11.000Z",
+            "0x31038718055572d8230555d9929c63496ca7ec520d6af6b9971bbe241f9088e3",
+            [
+              "eth:0xa7536C85898dC424c6BFe8592F983661f830656A"
+            ]
+          ]
+        },
+        {
+          "field": "values.$upgradeCount",
+          "before": 7,
+          "after": 8
+        },
+        {
+          "field": "values.$implementation",
+          "before": "eth:0x88582996b70FDd7C4f16e3Fde7B53858FcE0d394",
+          "after": "eth:0xa7536C85898dC424c6BFe8592F983661f830656A"
+        },
+        {
+          "field": "values.SLASH_RESOLUTION_DELAY_BLOCKS",
+          "after": 50400
+        },
+        {
+          "field": "sourceHashes.1",
+          "before": "0x736195a6d0101e08cc21210f3e0cceae0ac4db2bfdb3e79e113fdae1fc8c418c",
+          "after": "0x7b6fb6847aa5153f0ffe1b6838a0040a7fd4093ac43ca9683da286288f0991f3"
+        },
+        {
+          "field": "implementationNames.eth:0x88582996b70FDd7C4f16e3Fde7B53858FcE0d394",
+          "before": "StrategyManager"
+        },
+        {
+          "field": "implementationNames.eth:0xa7536C85898dC424c6BFe8592F983661f830656A",
+          "after": "StrategyManager"
         }
       ]
     }
