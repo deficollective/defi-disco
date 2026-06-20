@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1781697613,
-  "lastConsumedUpdateNotifierId": 276,
+  "lastReconciledAt": 1781968245,
+  "lastConsumedUpdateNotifierId": 281,
   "events": [
     {
       "timestamp": "2026-03-03T13:51:02.000Z",
@@ -1739,6 +1739,146 @@
         {
           "field": "values.withdrawQueue.8",
           "before": "0x34377fc4f617c51818e92c79df31ff270c6a91bc94ad32e367fdf59b9f4ac5dd"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-06-20T15:07:47.000Z",
+      "updateNotifierId": 281,
+      "address": "eth:0x0A0e559bc3b0950a7e448F0d4894db195b9cf8DD",
+      "contractName": "Safe",
+      "entity": null,
+      "id": "281:eth:0x0A0e559bc3b0950a7e448F0d4894db195b9cf8DD:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.multisigThreshold",
+          "before": "5 of 8 (63%)",
+          "after": "5 of 10 (50%)"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-06-20T15:07:47.000Z",
+      "updateNotifierId": 281,
+      "address": "eth:0x0A0e559bc3b0950a7e448F0d4894db195b9cf8DD",
+      "contractName": "Safe",
+      "entity": null,
+      "id": "281:eth:0x0A0e559bc3b0950a7e448F0d4894db195b9cf8DD:role:Safe.owners",
+      "type": "role-update",
+      "roleName": "Safe.owners",
+      "changes": [
+        {
+          "field": "values.$members.0",
+          "after": "eth:0xfc615395336aADe67fd853a0157001a215Ea1279"
+        },
+        {
+          "field": "values.$members.1",
+          "after": "eth:0xf83dB716A1Ff12F9005F98f678D8BE97B8Bc81d6"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-06-20T15:07:47.000Z",
+      "updateNotifierId": 281,
+      "address": "eth:0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB",
+      "contractName": "MetaMorpho",
+      "isDependency": false,
+      "entity": null,
+      "id": "281:eth:0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.supplyQueue.2",
+          "before": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc"
+        },
+        {
+          "field": "values.supplyQueue.3",
+          "before": "0x34377fc4f617c51818e92c79df31ff270c6a91bc94ad32e367fdf59b9f4ac5dd"
+        },
+        {
+          "field": "values.supplyQueue.6",
+          "after": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc"
+        },
+        {
+          "field": "values.supplyQueue.7",
+          "after": "0x34377fc4f617c51818e92c79df31ff270c6a91bc94ad32e367fdf59b9f4ac5dd"
+        },
+        {
+          "field": "values.marketParams.3",
+          "before": {
+            "irm": "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+            "lltv": "860000000000000000",
+            "oracle": "eth:0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2",
+            "marketId": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc",
+            "loanToken": "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "collateralToken": "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
+          }
+        },
+        {
+          "field": "values.marketParams.4",
+          "before": {
+            "irm": "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+            "lltv": "770000000000000000",
+            "oracle": "eth:0xa3A7A3ceFee206f9d7Fe00eC3C83324ED4228411",
+            "marketId": "0x34377fc4f617c51818e92c79df31ff270c6a91bc94ad32e367fdf59b9f4ac5dd",
+            "loanToken": "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "collateralToken": "eth:0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee"
+          }
+        },
+        {
+          "field": "values.marketParams.7",
+          "after": {
+            "marketId": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc",
+            "loanToken": "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "collateralToken": "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+            "oracle": "eth:0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2",
+            "irm": "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+            "lltv": "860000000000000000"
+          }
+        },
+        {
+          "field": "values.marketParams.8",
+          "after": {
+            "marketId": "0x34377fc4f617c51818e92c79df31ff270c6a91bc94ad32e367fdf59b9f4ac5dd",
+            "loanToken": "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "collateralToken": "eth:0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
+            "oracle": "eth:0xa3A7A3ceFee206f9d7Fe00eC3C83324ED4228411",
+            "irm": "eth:0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+            "lltv": "770000000000000000"
+          }
+        },
+        {
+          "field": "values.marketOracles.3",
+          "before": "eth:0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2"
+        },
+        {
+          "field": "values.marketOracles.4",
+          "before": "eth:0xa3A7A3ceFee206f9d7Fe00eC3C83324ED4228411"
+        },
+        {
+          "field": "values.marketOracles.7",
+          "after": "eth:0x48F7E36EB6B826B2dF4B2E630B62Cd25e89E40e2"
+        },
+        {
+          "field": "values.marketOracles.8",
+          "after": "eth:0xa3A7A3ceFee206f9d7Fe00eC3C83324ED4228411"
+        },
+        {
+          "field": "values.withdrawQueue.3",
+          "before": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc"
+        },
+        {
+          "field": "values.withdrawQueue.4",
+          "before": "0x34377fc4f617c51818e92c79df31ff270c6a91bc94ad32e367fdf59b9f4ac5dd"
+        },
+        {
+          "field": "values.withdrawQueue.7",
+          "after": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc"
+        },
+        {
+          "field": "values.withdrawQueue.8",
+          "after": "0x34377fc4f617c51818e92c79df31ff270c6a91bc94ad32e367fdf59b9f4ac5dd"
         }
       ]
     }
