@@ -1,6 +1,6 @@
 {
   "name": "lido",
-  "timestamp": 1782038495,
+  "timestamp": 1782133173,
   "configHash": "0x637a714a9bdec5c5b17b8cdca22608bc6e77672567218b17ab0fac40b7329577",
   "entries": [
     {
@@ -23,8 +23,8 @@
       "sinceBlock": 11052984,
       "values": {
         "$immutable": true,
-        "get_deposit_count": "0x981d260000000000",
-        "get_deposit_root": "0xdbe13e3ef930c845a92ce106d4a06e26e7e07acc19a1e8345491848150e4377e"
+        "get_deposit_count": "0x7b1f260000000000",
+        "get_deposit_root": "0x9da13b03bc82b90e2e4b5361280b08fa94c1fea66913003698aefa7e98902f86"
       },
       "implementationNames": {
         "eth:0x00000000219ab540356cBB839Cbe05303d7705Fa": "DepositContract"
@@ -377,9 +377,9 @@
         "GENESIS_TIME": 1606824023,
         "getConsensusContract": "eth:0x7FaDB6358950c5fAA66Cb5EB8eE5147De3df355a",
         "getConsensusReport": {
-          "hash": "0x7543b25cb678f6049ddcf3a8f19ee2df5c7e757dc7f7065f1441dd98307f2cd7",
-          "refSlot": 14600159,
-          "processingDeadlineTime": 1782043211,
+          "hash": "0xc68d613f6ec2506ce664ec4399124d802975b4756f87b16bb840d798f53229cf",
+          "refSlot": 14608799,
+          "processingDeadlineTime": 1782146891,
           "processingStarted": true
         },
         "getConsensusVersion": 4,
@@ -393,9 +393,9 @@
         },
         "getMaxValidatorsPerReport": 600,
         "getProcessingState": {
-          "currentFrameRefSlot": 14600159,
-          "processingDeadlineTime": 1782043211,
-          "dataHash": "0x7543b25cb678f6049ddcf3a8f19ee2df5c7e757dc7f7065f1441dd98307f2cd7",
+          "currentFrameRefSlot": 14608799,
+          "processingDeadlineTime": 1782146891,
+          "dataHash": "0xc68d613f6ec2506ce664ec4399124d802975b4756f87b16bb840d798f53229cf",
           "dataSubmitted": true,
           "dataFormat": 1,
           "requestsCount": 0,
@@ -542,7 +542,7 @@
         "getEscrowState": 1,
         "getMinAssetsLockDuration": 18000,
         "getNextWithdrawalBatch": [],
-        "getRageQuitSupport": 1260645,
+        "getRageQuitSupport": 1261515,
         "getSignallingEscrowDetails": {
           "totalStETHLockedShares": 9198714211247,
           "totalStETHClaimedETH": 0,
@@ -1310,7 +1310,7 @@
       "values": {
         "$immutable": true,
         "DAY_DURATION": 86400,
-        "getCurrentDayTime": 38471
+        "getCurrentDayTime": 46751
       },
       "implementationNames": {
         "eth:0x2a30F5aC03187674553024296bed35Aa49749DDa": "TimeConstraints"
@@ -1337,7 +1337,7 @@
         "AGENT": "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c",
         "AMOUNT_CONVERTER": "eth:0x12cc60eea45F705f069B43095FbF2Fb3c7f874c1",
         "estimateTradeOutput": [
-          996720840000, 1993441680000, 2990162520000, 3986883360000
+          996747021220, 1993494042440, 2990241063660, 3986988084880
         ],
         "getOrderParameters": [
           "eth:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
@@ -1595,14 +1595,14 @@
         ],
         "getLimitParameters": ["5000000000000000000000000", 6],
         "getPeriodState": {
-          "_alreadySpentAmount": "250000000000000000000000",
-          "_spendableBalanceInPeriod": "4750000000000000000000000",
+          "_alreadySpentAmount": "450000000000000000000000",
+          "_spendableBalanceInPeriod": "4550000000000000000000000",
           "_periodStartTimestamp": 1767225600,
           "_periodEndTimestamp": 1782864000
         },
         "REMOVE_RECIPIENT_FROM_ALLOWED_LIST_ROLE": "0x491d7752c25cfca0f73715cde1130022a9b815373f91a996bbb1ba8943efc99b",
         "SET_PARAMETERS_ROLE": "0x260b83d52a26066d8e9db550fa70395df5f3f064b50ff9d8a94267d9f1fe1967",
-        "spendableBalance": "4750000000000000000000000",
+        "spendableBalance": "4550000000000000000000000",
         "UPDATE_SPENT_AMOUNT_ROLE": "0xc5260260446719a726d11a6faece21d19daa48b4cbcca118345832d4cb71df99"
       },
       "implementationNames": {
@@ -1707,8 +1707,8 @@
         "$immutable": true,
         "AGENT": "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c",
         "AMOUNT_CONVERTER": "eth:0x12cc60eea45F705f069B43095FbF2Fb3c7f874c1",
-        "estimateTradeOutput": [1710, 3421, 5133, 6844],
-        "estimateTradeOutputFromCurrentBalance": 1710,
+        "estimateTradeOutput": [1743, 3488, 5231, 6976],
+        "estimateTradeOutputFromCurrentBalance": 1743,
         "getOrderParameters": [
           "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
           "eth:0x6B175474E89094C44Da98b954EedeAC495271d0F",
@@ -2347,7 +2347,7 @@
         "RECOVERER_ROLE": "0xb3e25b5404b87e5a838579cb5d7481d61ad96ee284d38ec1e97c07ba64e7f6fc",
         "RESUME_ROLE": "0x2fc10cc8ae19568712f7a176fb4978616a610650813c9d05326c34abb62749c7",
         "SET_BOND_CURVE_ROLE": "0x645c9e6d2a86805cb5a28b1e4751c0dab493df7cf935070ce405489ba1a7bf72",
-        "totalBondShares": "24833640438849561129579",
+        "totalBondShares": "24833465858693854683811",
         "WITHDRAWAL_QUEUE": "eth:0x889edC2eDab5f40e902b864aD4d7AdE8E412F9B1",
         "WSTETH": "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
       },
@@ -2731,7 +2731,7 @@
           }
         },
         "DEFAULT_ADMIN_ROLE": "0x0000000000000000000000000000000000000000000000000000000000000000",
-        "latestReportTimestamp": 1781956811,
+        "latestReportTimestamp": 1782129611,
         "LIDO_LOCATOR": "eth:0xC1d0b3DE6792Bf6b4b37EccdcC24e45978Cfd2Eb",
         "MAX_LIDO_FEE_RATE_PER_SECOND": "10000000000000000000",
         "MAX_QUARANTINE_PERIOD": 2592000,
@@ -2891,7 +2891,7 @@
         "AGENT": "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c",
         "AMOUNT_CONVERTER": "eth:0x12cc60eea45F705f069B43095FbF2Fb3c7f874c1",
         "estimateTradeOutput": [
-          995863918500, 1991727837000, 2987591755500, 3983455674000
+          995860050140, 1991720100280, 2987580150420, 3983440200560
         ],
         "getOrderParameters": [
           "eth:0xdAC17F958D2ee523a2206206994597C13D831ec7",
@@ -3335,13 +3335,13 @@
           [1970, 1, 5]
         ],
         "_isLeapYear": [true, false, false, false, true],
-        "_now": 1782038471,
+        "_now": 1782133151,
         "_nowDateTime": {
           "year": 2026,
           "month": 6,
-          "day": 21,
-          "hour": 10,
-          "minute": 41,
+          "day": 22,
+          "hour": 12,
+          "minute": 59,
           "second": 11
         },
         "$immutable": true,
@@ -3734,10 +3734,10 @@
         "DOMAIN_SEPARATOR": "0xd4a8ff90a402dc7d4fcbf60f5488291263c743ccff180e139f47d139cedfd5fe",
         "name": "Wrapped liquid staked Ether 2.0",
         "stETH": "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
-        "stEthPerToken": "1237498574957027189",
+        "stEthPerToken": "1237654844968913413",
         "symbol": "wstETH",
-        "tokensPerStEth": "808081738627234818",
-        "totalSupply": "3568034942301705146473513"
+        "tokensPerStEth": "807979707803848439",
+        "totalSupply": "3568296563264314612814140"
       },
       "implementationNames": {
         "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0": "WstETH"
@@ -3787,24 +3787,24 @@
           "genesisTime": 1606824023
         },
         "getConsensusState": {
-          "refSlot": 14600159,
-          "consensusReport": "0x7543b25cb678f6049ddcf3a8f19ee2df5c7e757dc7f7065f1441dd98307f2cd7",
+          "refSlot": 14608799,
+          "consensusReport": "0xc68d613f6ec2506ce664ec4399124d802975b4756f87b16bb840d798f53229cf",
           "isReportProcessing": true
         },
         "getCurrentFrame": {
-          "refSlot": 14600159,
-          "reportProcessingDeadlineSlot": 14601599
+          "refSlot": 14608799,
+          "reportProcessingDeadlineSlot": 14610239
         },
         "getFastLaneMembers": {
           "addresses": [
+            "eth:0x404335BcE530400a5814375E7Ec1FB55fAff3eA2",
+            "eth:0x8dB977C13CAA938BC58464bFD622DF0570564b78",
+            "eth:0x007DE4a5F7bc37E2F26c0cb2E8A95006EE9B89b5",
             "eth:0xc79F702202E3A6B0B6310B537E786B9ACAA19BAf",
-            "eth:0x61c91ECd902EB56e314bB2D5c5C07785444Ea1c8",
-            "eth:0xe57B3792aDCc5da47EF4fF588883F0ee0c9835C9",
-            "eth:0x042a9e5acCfa17e28300F1b5967f20891E973922",
-            "eth:0x73181107c8D9ED4ce0bbeF7A0b4ccf3320C41d12"
+            "eth:0x61c91ECd902EB56e314bB2D5c5C07785444Ea1c8"
           ],
           "lastReportedRefSlots": [
-            14600159, 14457599, 14600159, 14600159, 14600159
+            14608799, 14608799, 14608799, 14608799, 14457599
           ]
         },
         "getFrameConfig": {
@@ -3826,17 +3826,17 @@
             "eth:0x042a9e5acCfa17e28300F1b5967f20891E973922"
           ],
           "lastReportedRefSlots": [
-            14600159, 14600159, 14600159, 14600159, 14600159, 14600159,
-            14457599, 14600159, 14600159
+            14608799, 14608799, 14608799, 14608799, 14608799, 14608799,
+            14457599, 14608799, 14604479
           ]
         },
         "getQuorum": 5,
         "getReportProcessor": "eth:0x0De4Ea0184c2ad0BacA7183356Aea5B8d5Bf5c6e",
         "getReportVariants": {
           "variants": [
-            "0x7543b25cb678f6049ddcf3a8f19ee2df5c7e757dc7f7065f1441dd98307f2cd7"
+            "0xc68d613f6ec2506ce664ec4399124d802975b4756f87b16bb840d798f53229cf"
           ],
-          "support": [8]
+          "support": [7]
         },
         "MANAGE_FAST_LANE_CONFIG_ROLE": "0x4af6faa30fabb2c4d8d567d06168f9be8adb583156c1ecb424b4832a7e4d6717",
         "MANAGE_FRAME_CONFIG_ROLE": "0x921f40f434e049d23969cbe68d9cf3ac1013fbe8945da07963af6f3142de6afe",
@@ -3997,19 +3997,19 @@
         "GENESIS_TIME": 1606824023,
         "getConsensusContract": "eth:0xD624B08C83bAECF0807Dd2c6880C3154a5F0B288",
         "getConsensusReport": {
-          "hash": "0xe6f4b8b850b9b7d7752ce55c58028016d6f3d76d6cd1eb69cf79675a9190e4ed",
-          "refSlot": 14594399,
-          "processingDeadlineTime": 1782043211,
+          "hash": "0x7c4e93cd87a707c05c71da52aa9e23c021b354160942bbadd5f5cd354fbc2440",
+          "refSlot": 14608799,
+          "processingDeadlineTime": 1782216011,
           "processingStarted": true
         },
         "getConsensusVersion": 5,
         "getContractVersion": 4,
         "getProcessingState": {
-          "currentFrameRefSlot": 14594399,
-          "processingDeadlineTime": 1782043211,
-          "mainDataHash": "0xe6f4b8b850b9b7d7752ce55c58028016d6f3d76d6cd1eb69cf79675a9190e4ed",
+          "currentFrameRefSlot": 14608799,
+          "processingDeadlineTime": 1782216011,
+          "mainDataHash": "0x7c4e93cd87a707c05c71da52aa9e23c021b354160942bbadd5f5cd354fbc2440",
           "mainDataSubmitted": true,
-          "extraDataHash": "0x2a50e9ca1dbd776a05e160d1e79c4cc8cdc912a240c4ce7a5dcf4f734d59bd48",
+          "extraDataHash": "0x7cc5010412f07370b5367d839caa3d949109b7b27b51b6bab50d4e93d6b4ee98",
           "extraDataFormat": 1,
           "extraDataSubmitted": true,
           "extraDataItemsCount": 1,
@@ -4205,9 +4205,9 @@
         "FINALIZE_ROLE": "0x485191a2ef18512555bd4426d18a716ce8e98c80ec2de16394dcf86d7d91bc80",
         "getBaseURI": "https://wq-api.lido.fi/v1/nft",
         "getContractVersion": 1,
-        "getLastFinalizedRequestId": 127905,
-        "getLastRequestId": 127989,
-        "getLockedEtherAmount": "29729864388859337175342",
+        "getLastFinalizedRequestId": 128063,
+        "getLastRequestId": 128087,
+        "getLockedEtherAmount": "31172702582890524419037",
         "getNFTDescriptorAddress": "eth:0x0000000000000000000000000000000000000000",
         "getResumeSinceTimestamp": 1684163759,
         "isBunkerModeActive": false,
@@ -4226,8 +4226,8 @@
         "RESUME_ROLE": "0x2fc10cc8ae19568712f7a176fb4978616a610650813c9d05326c34abb62749c7",
         "STETH": "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
         "symbol": "unstETH",
-        "unfinalizedRequestNumber": 84,
-        "unfinalizedStETH": "12926997873742847005837",
+        "unfinalizedRequestNumber": 24,
+        "unfinalizedStETH": "12312855438541690107594",
         "WSTETH": "eth:0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
       },
       "implementationNames": {
@@ -5280,17 +5280,17 @@
           "verifyingContract": "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84"
         },
         "getBeaconStat": {
-          "depositedValidators": 467602,
+          "depositedValidators": 467856,
           "beaconValidators": 455863,
-          "beaconBalance": "8637118758483943000000000"
+          "beaconBalance": "8636072088925275000000000"
         },
-        "getBufferedEther": "12454236569579572711555",
+        "getBufferedEther": "288563461422847212869",
         "getContractVersion": 3,
-        "getCurrentStakeLimit": "149868125000000000000000",
+        "getCurrentStakeLimit": "150000000000000000000000",
         "getDepositableEther": 0,
         "getEIP712StETH": "eth:0x8F73e4C2A6D852bb4ab2A45E6a9CF5715b3228B7",
         "getEVMScriptRegistry": "eth:0x853cc0D5917f49B57B8e9F89e491F5E18919093A",
-        "getExternalEther": "4592922793666014446941",
+        "getExternalEther": "4593502783101221369978",
         "getExternalShares": "3711457036486289439525",
         "getFee": 999,
         "getFeeDistribution": {
@@ -5301,19 +5301,19 @@
         "getInitializationBlock": 11473216,
         "getLidoLocator": "eth:0xC1d0b3DE6792Bf6b4b37EccdcC24e45978Cfd2Eb",
         "getMaxExternalRatioBP": 3000,
-        "getMaxMintableExternalShares": "3121909802896887756582223",
+        "getMaxMintableExternalShares": "3119754561569022747386076",
         "getRecoveryVault": "eth:0x0000000000000000000000000000000000000000",
         "getStakeLimitFullInfo": {
           "isStakingPaused_": false,
           "isStakingLimitSet": true,
-          "currentStakeLimit": "149868125000000000000000",
+          "currentStakeLimit": "150000000000000000000000",
           "maxStakeLimit": "150000000000000000000000",
           "maxStakeLimitGrowthBlocks": 6400,
-          "prevStakeLimit": "149540000000000000000000",
-          "prevStakeBlockNumber": 25365420
+          "prevStakeLimit": "149987020000000000000000",
+          "prevStakeBlockNumber": 25373291
         },
-        "getTotalPooledEther": "9029813917847188587158496",
-        "getTotalShares": "7296827730214359063490272",
+        "getTotalPooledEther": "9024730155169799068582847",
+        "getTotalShares": "7291798833782674042032595",
         "getTreasury": "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c",
         "getWithdrawalCredentials": "0x010000000000000000000000b9d7934878b5fb9610b3fe8a5e441e8fad7e293f",
         "hasInitialized": true,
@@ -5330,7 +5330,7 @@
         "STAKING_CONTROL_ROLE": "0xa42eee1333c0758ba72be38e728b6dadb32ea767de5b4ddbaea1dae85b1b051f",
         "STAKING_PAUSE_ROLE": "0x84ea57490227bc2be925c684e2a367071d69890b629590198f4125a018eb1de8",
         "symbol": "stETH",
-        "totalSupply": "9029813917847188587158496",
+        "totalSupply": "9024730155169799068582847",
         "UNSAFE_CHANGE_DEPOSITED_VALIDATORS_ROLE": "0xe6dc5d79630c61871e99d341ad72c5a052bed2fc8c79e5a4480a7cd31117576c"
       },
       "implementationNames": {
@@ -5642,7 +5642,7 @@
         "CHANGE_BUDGETS_ROLE": "0xd79730e82bfef7d2f9639b9d10bf37ebb662b22ae2211502a00bdf7b2cc3a23a",
         "CHANGE_PERIOD_ROLE": "0xd35e458bacdd5343c2f050f574554b2f417a8ea38d6a9a65ce2225dbe8bb9a9d",
         "CREATE_PAYMENTS_ROLE": "0x5de467a460382d13defdc02aacddc9c7d6605d6d4e0b8bd2f70732cae8ea17bc",
-        "currentPeriodId": 66,
+        "currentPeriodId": 67,
         "EXECUTE_PAYMENTS_ROLE": "0x563165d3eae48bcb0a092543ca070d989169c98357e9a1b324ec5da44bab75fd",
         "getEVMScriptRegistry": "eth:0x853cc0D5917f49B57B8e9F89e491F5E18919093A",
         "getInitializationBlock": 11473216,
@@ -5657,9 +5657,9 @@
         "MANAGE_PAYMENTS_ROLE": "0x30597dd103acfaef0649675953d9cb22faadab7e9d9ed57acc1c429d04b80777",
         "nextPaymentTime": [],
         "paymentsNextIndex": 1,
-        "periodsLength": 67,
+        "periodsLength": 68,
         "proxyType": 2,
-        "transactionsNextIndex": 776,
+        "transactionsNextIndex": 777,
         "vault": "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c"
       },
       "implementationNames": {
@@ -6352,7 +6352,7 @@
         "getChainId": 1,
         "GnosisSafe_modules": [],
         "multisigThreshold": "3 of 6 (50%)",
-        "nonce": 455,
+        "nonce": 456,
         "VERSION": "1.3.0"
       },
       "implementationNames": {
@@ -6993,24 +6993,24 @@
           "genesisTime": 1606824023
         },
         "getConsensusState": {
-          "refSlot": 14594399,
-          "consensusReport": "0xe6f4b8b850b9b7d7752ce55c58028016d6f3d76d6cd1eb69cf79675a9190e4ed",
+          "refSlot": 14608799,
+          "consensusReport": "0x7c4e93cd87a707c05c71da52aa9e23c021b354160942bbadd5f5cd354fbc2440",
           "isReportProcessing": true
         },
         "getCurrentFrame": {
-          "refSlot": 14594399,
-          "reportProcessingDeadlineSlot": 14601599
+          "refSlot": 14608799,
+          "reportProcessingDeadlineSlot": 14615999
         },
         "getFastLaneMembers": {
           "addresses": [
-            "eth:0x61c91ECd902EB56e314bB2D5c5C07785444Ea1c8",
-            "eth:0xe57B3792aDCc5da47EF4fF588883F0ee0c9835C9",
             "eth:0x042a9e5acCfa17e28300F1b5967f20891E973922",
             "eth:0x73181107c8D9ED4ce0bbeF7A0b4ccf3320C41d12",
-            "eth:0x4118DAD7f348A4063bD15786c299De2f3B1333F3"
+            "eth:0x4118DAD7f348A4063bD15786c299De2f3B1333F3",
+            "eth:0x404335BcE530400a5814375E7Ec1FB55fAff3eA2",
+            "eth:0x8dB977C13CAA938BC58464bFD622DF0570564b78"
           ],
           "lastReportedRefSlots": [
-            14335199, 14594399, 14594399, 14594399, 14594399
+            14608799, 14608799, 14608799, 14608799, 14608799
           ]
         },
         "getFrameConfig": {
@@ -7032,17 +7032,17 @@
             "eth:0x042a9e5acCfa17e28300F1b5967f20891E973922"
           ],
           "lastReportedRefSlots": [
-            14594399, 14594399, 14594399, 14594399, 14572799, 14594399,
-            14335199, 14594399, 14594399
+            14608799, 14608799, 14608799, 14608799, 14572799, 14594399,
+            14335199, 14601599, 14608799
           ]
         },
         "getQuorum": 5,
         "getReportProcessor": "eth:0x852deD011285fe67063a08005c71a85690503Cee",
         "getReportVariants": {
           "variants": [
-            "0xe6f4b8b850b9b7d7752ce55c58028016d6f3d76d6cd1eb69cf79675a9190e4ed"
+            "0x7c4e93cd87a707c05c71da52aa9e23c021b354160942bbadd5f5cd354fbc2440"
           ],
-          "support": [7]
+          "support": [5]
         },
         "MANAGE_FAST_LANE_CONFIG_ROLE": "0x4af6faa30fabb2c4d8d567d06168f9be8adb583156c1ecb424b4832a7e4d6717",
         "MANAGE_FRAME_CONFIG_ROLE": "0x921f40f434e049d23969cbe68d9cf3ac1013fbe8945da07963af6f3142de6afe",
@@ -7138,14 +7138,14 @@
         "distributionDataHistoryCount": 9,
         "getInitializedVersion": 2,
         "ORACLE": "eth:0x4D4074628678Bd302921c20573EEa1ed38DdF7FB",
-        "pendingSharesToDistribute": "30595261645005871269",
+        "pendingSharesToDistribute": "35644757804363121095",
         "proxy__getAdmin": "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c",
         "proxy__getImplementation": "eth:0x5DCF7cF7c6645E9E822a379dF046a8b0390251A1",
         "proxy__getIsOssified": false,
         "rebateRecipient": "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c",
         "RECOVERER_ROLE": "0xb3e25b5404b87e5a838579cb5d7481d61ad96ee284d38ec1e97c07ba64e7f6fc",
         "STETH": "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
-        "totalClaimableShares": "136807694888974278382",
+        "totalClaimableShares": "136580044228117161579",
         "treeRoot": "0xc078dc3df22764cdd0eacea6b53c13af6cff44aeb4064c9d9c2a553706355b7d"
       },
       "errors": { "distributedShares": "Processing error occurred." },
@@ -7198,10 +7198,10 @@
         "getActiveNodeOperatorsCount": 599,
         "getInitializedVersion": 2,
         "getNodeOperatorsCount": 599,
-        "getNonce": 4985,
+        "getNonce": 4986,
         "getResumeSinceTimestamp": 1729872203,
         "getStakingModuleSummary": {
-          "totalExitedValidators": 1544,
+          "totalExitedValidators": 1546,
           "totalDepositedValidators": 24717,
           "depositableValidatorsCount": 0
         },
@@ -7758,7 +7758,7 @@
         "getContractVersion": 1,
         "getCoverSharesBurnt": "14684898881648297203",
         "getExcessStETH": 0,
-        "getNonCoverSharesBurnt": "13715997604156620900069341",
+        "getNonCoverSharesBurnt": "13731385854783158674507693",
         "getSharesRequestedToBurn": { "coverShares": 0, "nonCoverShares": 0 },
         "isMigrationAllowed": false,
         "LIDO": "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
@@ -7907,17 +7907,6 @@
             "objectionsThreshold": 50,
             "objectionsAmount": 0,
             "evmScriptHash": "0xb619f285d5d1d0b593e8c287868efc8f53de5bc91eddbab6d77b1d08d73a8ba4"
-          },
-          {
-            "id": 1045,
-            "evmScriptFactory": "eth:0xe5656eEe7eeD02bdE009d77C88247BC8271e26Eb",
-            "creator": "eth:0x606f77BF3dd6Ed9790D9771C7003f269a385D942",
-            "duration": 259200,
-            "startDate": 1781811719,
-            "snapshotBlock": 25346606,
-            "objectionsThreshold": 50,
-            "objectionsAmount": 0,
-            "evmScriptHash": "0x1c8738152532815be62bb865ff6fe42ce2e5c703b9f6531e104eb8f0d010060c"
           }
         ],
         "governanceToken": "eth:0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
@@ -7936,17 +7925,6 @@
             50,
             0,
             "0xb619f285d5d1d0b593e8c287868efc8f53de5bc91eddbab6d77b1d08d73a8ba4"
-          ],
-          [
-            1045,
-            "eth:0xe5656eEe7eeD02bdE009d77C88247BC8271e26Eb",
-            "eth:0x606f77BF3dd6Ed9790D9771C7003f269a385D942",
-            259200,
-            1781811719,
-            25346606,
-            50,
-            0,
-            "0x1c8738152532815be62bb865ff6fe42ce2e5c703b9f6531e104eb8f0d010060c"
           ]
         ],
         "motionsCountLimit": 20,
@@ -8648,8 +8626,8 @@
               "stakeShareLimit": 10000,
               "status": 0,
               "name": "curated-onchain-v1",
-              "lastDepositAt": 1782004715,
-              "lastDepositBlock": 25362634,
+              "lastDepositAt": 1782072359,
+              "lastDepositBlock": 25368247,
               "exitedValidatorsCount": 182966,
               "priorityExitShareThreshold": 10000,
               "maxDepositsPerBlock": 150,
@@ -8657,8 +8635,8 @@
             },
             "summary": {
               "totalExitedValidators": 182966,
-              "totalDepositedValidators": 430806,
-              "depositableValidatorsCount": 25783
+              "totalDepositedValidators": 431060,
+              "depositableValidatorsCount": 25529
             }
           },
           {
@@ -8698,13 +8676,13 @@
               "name": "Community Staking",
               "lastDepositAt": 1782024287,
               "lastDepositBlock": 25364262,
-              "exitedValidatorsCount": 1544,
+              "exitedValidatorsCount": 1546,
               "priorityExitShareThreshold": 1020,
               "maxDepositsPerBlock": 30,
               "minDepositBlockDistance": 25
             },
             "summary": {
-              "totalExitedValidators": 1544,
+              "totalExitedValidators": 1546,
               "totalDepositedValidators": 24717,
               "depositableValidatorsCount": 0
             }
@@ -8713,19 +8691,19 @@
         "getContractVersion": 3,
         "getLido": "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
         "getStakingFeeAggregateDistribution": {
-          "modulesFee": "3870405591322926626",
-          "treasuryFee": "6129594408677073370",
+          "modulesFee": "3870056296506775114",
+          "treasuryFee": "6129943703493224883",
           "basePrecision": "100000000000000000000"
         },
-        "getStakingModuleActiveValidatorsCount": [247840, 10280, 23173],
+        "getStakingModuleActiveValidatorsCount": [248094, 10280, 23171],
         "getStakingModuleIds": [1, 2, 3],
         "getStakingModuleIsActive": [true, true, true],
         "getStakingModuleIsDepositsPaused": [false, false, false],
         "getStakingModuleIsStopped": [false, false, false],
-        "getStakingModuleLastDepositBlock": [25362634, 24687607, 25364262],
+        "getStakingModuleLastDepositBlock": [25368247, 24687607, 25364262],
         "getStakingModuleMaxDepositsPerBlock": [150, 150, 30],
         "getStakingModuleMinDepositBlockDistance": [25, 25, 25],
-        "getStakingModuleNonce": [18142, 1085, 4985],
+        "getStakingModuleNonce": [18147, 1085, 4986],
         "getStakingModules": [
           {
             "id": 1,
@@ -8735,8 +8713,8 @@
             "stakeShareLimit": 10000,
             "status": 0,
             "name": "curated-onchain-v1",
-            "lastDepositAt": 1782004715,
-            "lastDepositBlock": 25362634,
+            "lastDepositAt": 1782072359,
+            "lastDepositBlock": 25368247,
             "exitedValidatorsCount": 182966,
             "priorityExitShareThreshold": 10000,
             "maxDepositsPerBlock": 150,
@@ -8767,7 +8745,7 @@
             "name": "Community Staking",
             "lastDepositAt": 1782024287,
             "lastDepositBlock": 25364262,
-            "exitedValidatorsCount": 1544,
+            "exitedValidatorsCount": 1546,
             "priorityExitShareThreshold": 1020,
             "maxDepositsPerBlock": 30,
             "minDepositBlockDistance": 25
@@ -8783,11 +8761,11 @@
           ],
           "stakingModuleIds": [1, 2, 3],
           "stakingModuleFees": [
-            "3083759638526376411",
-            "292364189652781974",
-            "494281763143768241"
+            "3084157061926157452",
+            "292102505816121756",
+            "493796728764495906"
           ],
-          "totalFee": "9999999999999999996",
+          "totalFee": "9999999999999999997",
           "precisionPoints": "100000000000000000000"
         },
         "getTotalFeeE4Precision": 999,
@@ -15795,6 +15773,6 @@
     "tokens/Lido/WithdrawalQueueERC721": "0xa1e1aabda76d31acb0074e52508c9fe4f357b9c4fc00e5cae52840093116c816",
     "tokens/Lido/wstETH": "0xd55ccc93c3f52e654ebbffee9194b0b8a0d974753091db2a43a185679e002e88"
   },
-  "usedBlockNumbers": { "ethereum": 25365434 },
+  "usedBlockNumbers": { "ethereum": 25373296 },
   "permissionsConfigHash": "0x4de318b6c2c1745cd89e0ea7e980be7deb8b6df36daefa2fdec09f06d1218bb6"
 }
