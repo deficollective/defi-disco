@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1782297468,
-  "lastConsumedUpdateNotifierId": 295,
+  "lastReconciledAt": 1782735266,
+  "lastConsumedUpdateNotifierId": 311,
   "events": [
     {
       "timestamp": "2026-03-26T08:10:03.000Z",
@@ -2242,6 +2242,68 @@
           "field": "values.owner",
           "before": "eth:0x2aCA71020De61bb532008049e1Bd41E451aE8AdC",
           "after": "eth:0x9f26d4C958fD811A1F59B01B86Be7dFFc9d20761"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-06-29T12:09:37.000Z",
+      "updateNotifierId": 311,
+      "address": "eth:0xcd2eb13D6831d4602D80E5db9230A57596CDCA63",
+      "contractName": "EtherfiOFTAdapterUpgradeable",
+      "entity": null,
+      "id": "311:eth:0xcd2eb13D6831d4602D80E5db9230A57596CDCA63:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.layerZeroConfig.perEid.30416",
+          "after": {
+            "peer": "0x000000000000000000000000a3d68b74bf0528fdd07263c60d6488749044914b",
+            "sendLibrary": "eth:0xbB2Ea70C9E858123480642Cf96acbcCE1372dCe1",
+            "sendUlnConfig": {
+              "confirmations": "45",
+              "requiredDVNCount": 4,
+              "optionalDVNCount": 0,
+              "optionalDVNThreshold": 0,
+              "requiredDVNs": [
+                "eth:0x380275805876Ff19055EA900CDb2B46a94ecF20D",
+                "eth:0x589dEDbD617e0CBcB916A9223F4d1300c294236b",
+                "eth:0xa4fE5A5B9A846458a70Cd0748228aED3bF65c2cd",
+                "eth:0xa59BA433ac34D2927232918Ef5B2eaAfcF130BA5"
+              ],
+              "optionalDVNs": []
+            },
+            "executorConfig": {
+              "maxMessageSize": 10000,
+              "executor": "eth:0x173272739Bd7Aa6e4e214714048a9fE699453059"
+            },
+            "receiveLibrary": "eth:0xc02Ab410f0734EFa3F14628780e6e695156024C2",
+            "receiveLibraryIsDefault": false,
+            "receiveUlnConfig": {
+              "confirmations": "45",
+              "requiredDVNCount": 4,
+              "optionalDVNCount": 0,
+              "optionalDVNThreshold": 0,
+              "requiredDVNs": [
+                "eth:0x380275805876Ff19055EA900CDb2B46a94ecF20D",
+                "eth:0x589dEDbD617e0CBcB916A9223F4d1300c294236b",
+                "eth:0xa4fE5A5B9A846458a70Cd0748228aED3bF65c2cd",
+                "eth:0xa59BA433ac34D2927232918Ef5B2eaAfcF130BA5"
+              ],
+              "optionalDVNs": []
+            },
+            "inboundRateLimit": {
+              "limit": "1000000000000000000000",
+              "window": "14400"
+            },
+            "outboundRateLimit": {
+              "limit": "1000000000000000000000",
+              "window": "14400"
+            },
+            "enforcedOptions": {
+              "send": "0x00030100110100000000000000000000000000029810",
+              "sendAndCall": "0x00030100110100000000000000000000000000029810"
+            }
+          }
         }
       ]
     }
