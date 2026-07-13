@@ -1,7 +1,7 @@
 {
   "name": "lido",
   "timestamp": 1782553051,
-  "configHash": "0x637a714a9bdec5c5b17b8cdca22608bc6e77672567218b17ab0fac40b7329577",
+  "configHash": "0x50b2c67813c0724df089c0b106e41561f15200c9196cf37178e17ee258af8497",
   "entries": [
     {
       "address": "eth:0x0000000000000000000000000000000000000001",
@@ -1748,43 +1748,6 @@
       ],
       "proxyType": "EIP897 proxy",
       "description": "Custom role-based operations entrypoint for Lido.",
-      "sinceTimestamp": 1608242396,
-      "sinceBlock": 11473216,
-      "values": {
-        "$immutable": false,
-        "$implementation": "eth:0x3A93C17FC82CC33420d1809dDA9Fb715cc89dd37",
-        "acl": "eth:0x9895F0F17cc1d1891b6f18ee0b483B6f221b37Bb",
-        "ADD_PRESIGNED_HASH_ROLE": "0x0b29780bb523a130b3b01f231ef49ed2fa2781645591a0b0a44ca98f15a5994c",
-        "ADD_PROTECTED_TOKEN_ROLE": "0x6eb2a499556bfa2872f5aa15812b956cc4a71b4d64eb3553f7073c7e41415aaa",
-        "appId": "0x701a4fd1f5174d12a0f1d9ad2c88d0ad11ab6aad0ac72b7d9ce621815f8016a9",
-        "DESIGNATE_SIGNER_ROLE": "0x23ce341656c3f14df6692eebd4757791e33662b7dcf9970c8308303da5472b7c",
-        "designatedSigner": "eth:0x0000000000000000000000000000000000000000",
-        "ERC1271_INTERFACE_ID": "0xfb855dc9",
-        "ERC1271_RETURN_INVALID_SIGNATURE": "0x00000000",
-        "ERC1271_RETURN_VALID_SIGNATURE": "0x20c13b0b",
-        "EXECUTE_ROLE": "0xcebf517aa4440d1d125e0355aae64401211d0848a23c02cc5d29a14822580ba4",
-        "getEVMScriptRegistry": "eth:0x853cc0D5917f49B57B8e9F89e491F5E18919093A",
-        "getInitializationBlock": 11473216,
-        "getProtectedTokensLength": 0,
-        "getRecoveryVault": "eth:0x0000000000000000000000000000000000000000",
-        "hasInitialized": true,
-        "implementation": "eth:0x3A93C17FC82CC33420d1809dDA9Fb715cc89dd37",
-        "isDepositable": true,
-        "isForwarder": true,
-        "isPetrified": false,
-        "kernel": "eth:0xb8FFC3Cd6e7Cf5a098A1c92F48009765B24088Dc",
-        "PROTECTED_TOKENS_CAP": 10,
-        "protectedTokens": [],
-        "proxyType": 2,
-        "REMOVE_PROTECTED_TOKEN_ROLE": "0x71eee93d500f6f065e38b27d242a756466a00a52a1dbcd6b4260f01a8640402a",
-        "RUN_SCRIPT_ROLE": "0xb421f7ad7646747f3051c50c0b8e2377839296cd4973e27f63821d73e390338f",
-        "SAFE_EXECUTE_ROLE": "0x0a1ad7b87f5846153c6d5a1f761d71c7d0cfd122384f56066cd33239b7933694",
-        "TRANSFER_ROLE": "0x8502233096d909befbda0999bb8ea2f3a6be3c138b9fbf003752a4c8bce86f6c"
-      },
-      "implementationNames": {
-        "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c": "AppProxyUpgradeable",
-        "eth:0x3A93C17FC82CC33420d1809dDA9Fb715cc89dd37": "Agent"
-      },
       "receivedPermissions": [
         {
           "permission": "upgrade",
@@ -1886,7 +1849,44 @@
           "from": "eth:0xFdDf38947aFB03C621C71b06C9C70bce73f12999",
           "role": "admin"
         }
-      ]
+      ],
+      "sinceTimestamp": 1608242396,
+      "sinceBlock": 11473216,
+      "values": {
+        "$immutable": false,
+        "$implementation": "eth:0x3A93C17FC82CC33420d1809dDA9Fb715cc89dd37",
+        "acl": "eth:0x9895F0F17cc1d1891b6f18ee0b483B6f221b37Bb",
+        "ADD_PRESIGNED_HASH_ROLE": "0x0b29780bb523a130b3b01f231ef49ed2fa2781645591a0b0a44ca98f15a5994c",
+        "ADD_PROTECTED_TOKEN_ROLE": "0x6eb2a499556bfa2872f5aa15812b956cc4a71b4d64eb3553f7073c7e41415aaa",
+        "appId": "0x701a4fd1f5174d12a0f1d9ad2c88d0ad11ab6aad0ac72b7d9ce621815f8016a9",
+        "DESIGNATE_SIGNER_ROLE": "0x23ce341656c3f14df6692eebd4757791e33662b7dcf9970c8308303da5472b7c",
+        "designatedSigner": "eth:0x0000000000000000000000000000000000000000",
+        "ERC1271_INTERFACE_ID": "0xfb855dc9",
+        "ERC1271_RETURN_INVALID_SIGNATURE": "0x00000000",
+        "ERC1271_RETURN_VALID_SIGNATURE": "0x20c13b0b",
+        "EXECUTE_ROLE": "0xcebf517aa4440d1d125e0355aae64401211d0848a23c02cc5d29a14822580ba4",
+        "getEVMScriptRegistry": "eth:0x853cc0D5917f49B57B8e9F89e491F5E18919093A",
+        "getInitializationBlock": 11473216,
+        "getProtectedTokensLength": 0,
+        "getRecoveryVault": "eth:0x0000000000000000000000000000000000000000",
+        "hasInitialized": true,
+        "implementation": "eth:0x3A93C17FC82CC33420d1809dDA9Fb715cc89dd37",
+        "isDepositable": true,
+        "isForwarder": true,
+        "isPetrified": false,
+        "kernel": "eth:0xb8FFC3Cd6e7Cf5a098A1c92F48009765B24088Dc",
+        "PROTECTED_TOKENS_CAP": 10,
+        "protectedTokens": [],
+        "proxyType": 2,
+        "REMOVE_PROTECTED_TOKEN_ROLE": "0x71eee93d500f6f065e38b27d242a756466a00a52a1dbcd6b4260f01a8640402a",
+        "RUN_SCRIPT_ROLE": "0xb421f7ad7646747f3051c50c0b8e2377839296cd4973e27f63821d73e390338f",
+        "SAFE_EXECUTE_ROLE": "0x0a1ad7b87f5846153c6d5a1f761d71c7d0cfd122384f56066cd33239b7933694",
+        "TRANSFER_ROLE": "0x8502233096d909befbda0999bb8ea2f3a6be3c138b9fbf003752a4c8bce86f6c"
+      },
+      "implementationNames": {
+        "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c": "AppProxyUpgradeable",
+        "eth:0x3A93C17FC82CC33420d1809dDA9Fb715cc89dd37": "Agent"
+      }
     },
     {
       "name": "AllowedRecipientsRegistry",
@@ -2807,6 +2807,8 @@
       "values": {
         "$immutable": true,
         "ADMIN": "eth:0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c",
+        "corePauserCommittee": "eth:0x8772E3a2D86B9347A2688f9bc1808A6d8917760C",
+        "csmPauserCommittee": "eth:0xC52fC3081123073078698F1EAc2f1Dc7Bd71880f",
         "getPausables": [
           "eth:0x889edC2eDab5f40e902b864aD4d7AdE8E412F9B1",
           "eth:0x0De4Ea0184c2ad0BacA7183356Aea5B8d5Bf5c6e",
@@ -2826,6 +2828,10 @@
         "MIN_HEARTBEAT_INTERVAL": 2592000,
         "MIN_PAUSE_DURATION": 432000,
         "pauseDuration": 1814400
+      },
+      "errors": {
+        "corePauserCommittee": "Processing error occurred.",
+        "csmPauserCommittee": "Processing error occurred."
       },
       "implementationNames": {
         "eth:0x6019CB557978296BA3C08a7B73225C0975DFB2F7": "CircuitBreaker"

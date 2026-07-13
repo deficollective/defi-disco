@@ -12,6 +12,28 @@
   "defidisco": { "scanPermissions": false },
   "maxAddresses": 400,
   "overrides": {
+    // CircuitBreaker: surface the registered pauser committees so pause()'s owners resolve.
+    // getPauser(pausable) returns the GnosisSafe authorized to pause that target. Two distinct
+    // committees (the former GateSeal sealing committees) split the pausables — protocol-core vs
+    // Community Staking — so query one representative pausable each (VaultHub, CSAccounting).
+    "eth:0x6019CB557978296BA3C08a7B73225C0975DFB2F7": {
+      "fields": {
+        "corePauserCommittee": {
+          "handler": {
+            "type": "call",
+            "method": "function getPauser(address) view returns (address)",
+            "args": ["0x1d201BE093d847f6446530Efb0E8Fb426d176709"]
+          }
+        },
+        "csmPauserCommittee": {
+          "handler": {
+            "type": "call",
+            "method": "function getPauser(address) view returns (address)",
+            "args": ["0x4d72BFF1BeaC69925F8Bd12526a39BAAb069e5Da"]
+          }
+        }
+      }
+    },
     // === External protocol contamination (EasyTrack-allowed treasury payout tokens) ===
     // DAI, USDT, USDC, sUSDS are allowed payment tokens for the DAO — not Lido contracts.
     // sUSDS pulls in the whole Sky/Maker dependency chain (UsdsJoin → Vat/Vow/USDS) so we cut all four.
