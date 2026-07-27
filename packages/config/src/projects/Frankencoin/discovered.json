@@ -1,6 +1,6 @@
 {
   "name": "Frankencoin",
-  "timestamp": 1782987661,
+  "timestamp": 1785149354,
   "configHash": "0x7440d035bac625a1ace4aae6701a406639aa2f173982d1bd491ac07331b4f1e0",
   "entries": [
     {
@@ -25,10 +25,10 @@
         "DOMAIN_SEPARATOR": "0xb0fe1d8373263d2b320b24a4303f6902da9771e5e1a5f379a68082aad9e4c527",
         "MIN_HOLDING_DURATION": 8153726976000,
         "name": "Frankencoin Pool Share",
-        "price": "1388814944008248312352",
+        "price": "1320885663476756484676",
         "symbol": "FPS",
-        "totalSupply": "8890267001230277288998",
-        "totalVotes": "242934483369647292108196796139084003",
+        "totalSupply": "8676590461684811088917",
+        "totalVotes": "250455910762805330152861015124776081",
         "VALUATION_FACTOR": 3,
         "zchf": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB"
       },
@@ -77,7 +77,7 @@
       "values": {
         "$immutable": true,
         "currentRatePPM": 35000,
-        "currentTicks": 1177369260000,
+        "currentTicks": 1253028480000,
         "equity": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
         "INTEREST_DELAY": 259200,
         "nextChange": 1774551239,
@@ -87,6 +87,31 @@
       },
       "implementationNames": {
         "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38": "Savings"
+      }
+    },
+    {
+      "name": "VNXManager",
+      "address": "eth:0x2B535Eb09Fc06431B8C69782E2c2D3A1a175114b",
+      "type": "Contract",
+      "sourceHashes": [
+        "0xa30e2a17992b816e4bb0d6d29592c340dce3317ed2838b507cb3a9ae50098858"
+      ],
+      "proxyType": "immutable",
+      "sinceTimestamp": 1776077855,
+      "sinceBlock": 24870400,
+      "values": {
+        "$immutable": true,
+        "isAdmin": false,
+        "owner": "eth:0x45a149f42FF0B77D148d05904Dd7577dF36A545a",
+        "roles": [
+          ["Superadmin", 0, 2],
+          ["Proxy Admin", 0, 0],
+          ["Minter Role", 0, 1]
+        ],
+        "totalRoles": 3
+      },
+      "implementationNames": {
+        "eth:0x2B535Eb09Fc06431B8C69782E2c2D3A1a175114b": "VNXManager"
       }
     },
     {
@@ -173,7 +198,7 @@
       "values": {
         "$immutable": true,
         "currentRatePPM": 10000,
-        "currentTicks": 1249192500000,
+        "currentTicks": 1270809420000,
         "equity": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
         "INTEREST_DELAY": 259200,
         "nextChange": 1770717611,
@@ -202,7 +227,7 @@
         "decimalMultiplier": 1000000000000,
         "horizon": 1807188455,
         "limit": "10000000000000000000000000",
-        "minted": "504372061650000000000000",
+        "minted": "537370061650000000000000",
         "zchf": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB"
       },
       "implementationNames": {
@@ -259,6 +284,11 @@
       "implementationNames": {
         "eth:0x44835bBBA9D40DEDa9b64858095EcFB2693c9449": "RBACTimelock"
       }
+    },
+    {
+      "address": "eth:0x45a149f42FF0B77D148d05904Dd7577dF36A545a",
+      "type": "EOA",
+      "proxyType": "EOA"
     },
     {
       "name": "ChainLink Token",
@@ -361,7 +391,7 @@
       "sinceTimestamp": 1669986275,
       "sinceBlock": 16097303,
       "values": {
-        "$admin": "eth:0xC8bB8eDa94931cA2F20EF43eA7dBD58E68400400",
+        "$admin": "eth:0x817f8AFEE1A758FAF4492F4844B08DCB57658165",
         "$implementation": "eth:0xD1d7193CE1Aa7808d577058F48Ef8289FC2F81fC",
         "$pastUpgrades": [
           [
@@ -383,23 +413,18 @@
         "isAdmin": false,
         "isAssetProtector": false,
         "isMinter": false,
-        "minterRoleId": 0,
+        "minterRoleId": 2,
         "name": "VNX Franc",
-        "owner": "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE",
+        "owner": "eth:0x45a149f42FF0B77D148d05904Dd7577dF36A545a",
         "paused": false,
         "symbol": "VCHF",
-        "totalSupply": "26107571580000000000000"
+        "totalSupply": "26107570000000000000000"
       },
       "errors": { "eip712Domain": "Processing error occurred." },
       "implementationNames": {
         "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f": "TransparentUpgradeableProxy",
         "eth:0xD1d7193CE1Aa7808d577058F48Ef8289FC2F81fC": "VNXCToken"
       }
-    },
-    {
-      "address": "eth:0x7B0C15f39cD987A7d3F5D8D10B57ac6d633E9403",
-      "type": "EOA",
-      "proxyType": "EOA"
     },
     {
       "name": "StablecoinBridge",
@@ -429,6 +454,33 @@
       "address": "eth:0x8085482Bb0946C68008Ca4c88f90d6Aa3d6C87E5",
       "type": "EOA",
       "proxyType": "EOA"
+    },
+    {
+      "name": "VNXProxyAdmin",
+      "address": "eth:0x817f8AFEE1A758FAF4492F4844B08DCB57658165",
+      "type": "Contract",
+      "sourceHashes": [
+        "0x05f310b8aba462e47ea0d07e67d6e4c8fa5782fc840f50d039dc855d858b29f3"
+      ],
+      "proxyType": "immutable",
+      "sinceTimestamp": 1776078611,
+      "sinceBlock": 24870463,
+      "values": {
+        "$immutable": true,
+        "isUpgradeAdmin": false,
+        "owner": "eth:0x45a149f42FF0B77D148d05904Dd7577dF36A545a",
+        "rbacManager": "eth:0x2B535Eb09Fc06431B8C69782E2c2D3A1a175114b"
+      },
+      "implementationNames": {
+        "eth:0x817f8AFEE1A758FAF4492F4844B08DCB57658165": "VNXProxyAdmin"
+      },
+      "receivedPermissions": [
+        {
+          "permission": "upgrade",
+          "from": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+          "role": "admin"
+        }
+      ]
     },
     {
       "address": "eth:0x87cAaB4d0603764C68a3C28cb888ee1752eEC257",
@@ -678,14 +730,14 @@
         ],
         "decimals": 18,
         "DOMAIN_SEPARATOR": "0x0030eba518c077921487bde9523478fa8ba39b881d0372fd1cb104a3080bfcb0",
-        "equity": "4115645222510668394449930",
+        "equity": "3820261316232879519901558",
         "MIN_APPLICATION_PERIOD": 1209600,
         "MIN_FEE": "1000000000000000000000",
-        "minterReserve": "8631973882657430772754997",
+        "minterReserve": "8634988746195031207142817",
         "name": "Frankencoin",
         "reserve": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
         "symbol": "ZCHF",
-        "totalSupply": "30947697508032430260309231"
+        "totalSupply": "30299158293206654394457274"
       },
       "implementationNames": {
         "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB": "Frankencoin"
@@ -735,7 +787,7 @@
         "paused": false,
         "PAUSER_ROLE": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
         "symbol": "CHFAU",
-        "totalSupply": 39380021921656,
+        "totalSupply": 49640021921656,
         "UPGRADE_INTERFACE_VERSION": "5.0.0",
         "version": "1.0.0"
       },
@@ -749,54 +801,6 @@
       "address": "eth:0xC2F2DB5C3Fe72Dc1014dF451E34FDBBe297dA7af",
       "type": "EOA",
       "proxyType": "EOA"
-    },
-    {
-      "name": "VNXProxyAdmin",
-      "address": "eth:0xC8bB8eDa94931cA2F20EF43eA7dBD58E68400400",
-      "type": "Contract",
-      "sourceHashes": [
-        "0xf936964831cae89cfea493a3a3b42408d0f893751008015da40da8bd6d4a7691"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1626462994,
-      "sinceBlock": 12839705,
-      "values": {
-        "$immutable": true,
-        "isUpgradeAdmin": false,
-        "owner": "eth:0x7B0C15f39cD987A7d3F5D8D10B57ac6d633E9403",
-        "rbacManager": "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE"
-      },
-      "implementationNames": {
-        "eth:0xC8bB8eDa94931cA2F20EF43eA7dBD58E68400400": "VNXProxyAdmin"
-      },
-      "receivedPermissions": [
-        {
-          "permission": "upgrade",
-          "from": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
-          "role": "admin"
-        }
-      ]
-    },
-    {
-      "name": "VNXManager",
-      "address": "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE",
-      "type": "Contract",
-      "sourceHashes": [
-        "0xb460549943b0e5b26bd17da7f437f493cabd39d4ec34c1399fa5b371b783889d"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1626458380,
-      "sinceBlock": 12839391,
-      "values": {
-        "$immutable": true,
-        "isAdmin": false,
-        "owner": "eth:0x7B0C15f39cD987A7d3F5D8D10B57ac6d633E9403",
-        "roles": [["Superadmin", 0, 3], ["ProxyUpgrader", 0, 1]],
-        "totalRoles": 2
-      },
-      "implementationNames": {
-        "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE": "VNXManager"
-      }
     },
     {
       "address": "eth:0xcfA741A56fC0f793426690C6932AABEd31CF3C3B",
@@ -913,7 +917,8 @@
         "$immutable": true,
         "getCursedSubjects": [
           "0x0000000000000000e48c37ec27730186",
-          "0x00000000000000007d7fb61c44d0106a"
+          "0x00000000000000007d7fb61c44d0106a",
+          "0x0000000000000000475f3a7c1964d249"
         ],
         "getLocalChainSelector": "5009297550715157269",
         "getReportDigestHeader": "0x9651943783dbf81935a60e98f218a9d9b5b28823fb2228bbd91320d632facf53",
@@ -1123,6 +1128,25 @@
       "function ticks(uint256 timestamp) view returns (uint64)",
       "function withdraw(address target, uint192 amount) returns (uint256)",
       "function withdraw(uint192 amount, address referrer, uint24 referralFeePPM)"
+    ],
+    "eth:0x2B535Eb09Fc06431B8C69782E2c2D3A1a175114b": [
+      "constructor()",
+      "event BearerAdded(address indexed account, uint256 role)",
+      "event BearerRemoved(address indexed account, uint256 role)",
+      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
+      "event RoleCreated(uint256 role)",
+      "function addBearer(address account, uint256 role)",
+      "function addRole(string roleDescription, uint256 admin) returns (uint256)",
+      "function addRootRole(string roleDescription) returns (uint256)",
+      "function hasRole(address account, uint256 role) view returns (bool)",
+      "function isAdmin() view returns (bool)",
+      "function owner() view returns (address)",
+      "function removeBearer(address account, uint256 role)",
+      "function renounceOwnership()",
+      "function roles(uint256) view returns (string description, uint256 admin, uint256 bearersCount)",
+      "function totalRoles() view returns (uint256)",
+      "function transferContractOwnership(address targetContract, address newOwner) returns (bool)",
+      "function transferOwnership(address newOwner)"
     ],
     "eth:0x318CeE69D79c8e96FB8C63D89FD5505CE424a2a6": [
       "constructor(address _singleton)"
@@ -1489,6 +1513,20 @@
       "function minted() view returns (uint256)",
       "function zchf() view returns (address)"
     ],
+    "eth:0x817f8AFEE1A758FAF4492F4844B08DCB57658165": [
+      "constructor(uint8 role, address rbac)",
+      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
+      "function changeProxyAdmin(address proxy, address newAdmin)",
+      "function getProxyAdmin(address proxy) view returns (address)",
+      "function getProxyImplementation(address proxy) view returns (address)",
+      "function isUpgradeAdmin() view returns (bool)",
+      "function owner() view returns (address)",
+      "function rbacManager() view returns (address)",
+      "function renounceOwnership()",
+      "function transferOwnership(address newOwner)",
+      "function upgrade(address proxy, address implementation)",
+      "function upgradeAndCall(address proxy, address implementation, bytes data) payable"
+    ],
     "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16": [
       "constructor(address zchf, address registry, address router)",
       "error InvalidRouter(address router)",
@@ -1718,39 +1756,6 @@
       "error FailedCall()",
       "event Upgraded(address indexed implementation)"
     ],
-    "eth:0xC8bB8eDa94931cA2F20EF43eA7dBD58E68400400": [
-      "constructor(uint8 role, address rbac)",
-      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-      "function changeProxyAdmin(address proxy, address newAdmin)",
-      "function getProxyAdmin(address proxy) view returns (address)",
-      "function getProxyImplementation(address proxy) view returns (address)",
-      "function isUpgradeAdmin() view returns (bool)",
-      "function owner() view returns (address)",
-      "function rbacManager() view returns (address)",
-      "function renounceOwnership()",
-      "function transferOwnership(address newOwner)",
-      "function upgrade(address proxy, address implementation)",
-      "function upgradeAndCall(address proxy, address implementation, bytes data) payable"
-    ],
-    "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE": [
-      "constructor()",
-      "event BearerAdded(address indexed account, uint256 role)",
-      "event BearerRemoved(address indexed account, uint256 role)",
-      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-      "event RoleCreated(uint256 role)",
-      "function addBearer(address account, uint256 role)",
-      "function addRole(string roleDescription, uint256 admin) returns (uint256)",
-      "function addRootRole(string roleDescription) returns (uint256)",
-      "function hasRole(address account, uint256 role) view returns (bool)",
-      "function isAdmin() view returns (bool)",
-      "function owner() view returns (address)",
-      "function removeBearer(address account, uint256 role)",
-      "function renounceOwnership()",
-      "function roles(uint256) view returns (string description, uint256 admin, uint256 bearersCount)",
-      "function totalRoles() view returns (uint256)",
-      "function transferContractOwnership(address targetContract, address newOwner) returns (bool)",
-      "function transferOwnership(address newOwner)"
-    ],
     "eth:0xD1d7193CE1Aa7808d577058F48Ef8289FC2F81fC": [
       "event AddressFrozen(address indexed _account)",
       "event AddressUnfrozen(address indexed _account)",
@@ -1972,6 +1977,6 @@
     "GnosisSafe": "0x12db59bec64fa8de67bbeb6a6e913f6c5ff1598c0a5fba90282afaf08e2a748c",
     "transporter/TokenPool": "0x32151072569e965287f6dde9deefc6e47dbb9fdd1f404c83312c29b57c3782f3"
   },
-  "usedBlockNumbers": { "ethereum": 25444194 },
-  "permissionsConfigHash": "0x50dd9e0277090d444e81e9e9642e7df9f49a6281683b124281addcca430905af"
+  "usedBlockNumbers": { "ethereum": 25623648 },
+  "permissionsConfigHash": "0x7114167b6de2c61e219355ffa6289974b66a279b7cf37bf62c3ada3532bfb64e"
 }
