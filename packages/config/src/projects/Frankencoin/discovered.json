@@ -1,12 +1,46 @@
 {
   "name": "Frankencoin",
-  "timestamp": 1782553051,
+  "timestamp": 1786351776,
   "configHash": "0x7440d035bac625a1ace4aae6701a406639aa2f173982d1bd491ac07331b4f1e0",
   "entries": [
     {
-      "address": "eth:0x0100000000000000000000000000000000000000",
-      "type": "EOA",
-      "proxyType": "EOA"
+      "name": "RMN",
+      "address": "eth:0x0B047953451A207743fB62541B21199b95190602",
+      "type": "Contract",
+      "sourceHashes": [
+        "0x6a265216e8dbc0105e3a2011f93656a8d57e65d1bc69cc2d33f3b60568cfd5bb"
+      ],
+      "proxyType": "immutable",
+      "sinceTimestamp": 1785833027,
+      "sinceBlock": 25680430,
+      "values": {
+        "$immutable": true,
+        "getAllAuthorizedCallers": [
+          "eth:0xD9aB1714Df2b5d0011B22f6D94812e7813Fa5795"
+        ],
+        "getCursedSubjects": [
+          "0x0000000000000000e48c37ec27730186",
+          "0x00000000000000007d7fb61c44d0106a",
+          "0x0000000000000000475f3a7c1964d249",
+          "0x000000000000000079f596d02e784cb8",
+          "0x00000000000000000687338b8d6a3d21"
+        ],
+        "getReportDigestHeader": "0x9651943783dbf81935a60e98f218a9d9b5b28823fb2228bbd91320d632facf53",
+        "getVersionedConfig": {
+          "version": 0,
+          "config": {
+            "rmnHomeContractConfigDigest": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "signers": [],
+            "fSign": 0
+          }
+        },
+        "isCursed": false,
+        "owner": "eth:0x6608920e3F6b591EC3Cf15CA1DDf66fBE117F56A",
+        "typeAndVersion": "RMN 2.1.0"
+      },
+      "implementationNames": {
+        "eth:0x0B047953451A207743fB62541B21199b95190602": "RMN"
+      }
     },
     {
       "name": "Equity",
@@ -25,10 +59,10 @@
         "DOMAIN_SEPARATOR": "0xb0fe1d8373263d2b320b24a4303f6902da9771e5e1a5f379a68082aad9e4c527",
         "MIN_HOLDING_DURATION": 8153726976000,
         "name": "Frankencoin Pool Share",
-        "price": "1387777037066454085240",
+        "price": "1316255706696423424214",
         "symbol": "FPS",
-        "totalSupply": "8886826978982767979510",
-        "totalVotes": "238915600764326992580179355434667197",
+        "totalSupply": "8673054321008298697677",
+        "totalVotes": "261351988298153670837601068648937882",
         "VALUATION_FACTOR": 3,
         "zchf": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB"
       },
@@ -77,7 +111,7 @@
       "values": {
         "$immutable": true,
         "currentRatePPM": 35000,
-        "currentTicks": 1162158120000,
+        "currentTicks": 1295112900000,
         "equity": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
         "INTEREST_DELAY": 259200,
         "nextChange": 1774551239,
@@ -87,6 +121,31 @@
       },
       "implementationNames": {
         "eth:0x27d9AD987BdE08a0d083ef7e0e4043C857A17B38": "Savings"
+      }
+    },
+    {
+      "name": "VNXManager",
+      "address": "eth:0x2B535Eb09Fc06431B8C69782E2c2D3A1a175114b",
+      "type": "Contract",
+      "sourceHashes": [
+        "0xa30e2a17992b816e4bb0d6d29592c340dce3317ed2838b507cb3a9ae50098858"
+      ],
+      "proxyType": "immutable",
+      "sinceTimestamp": 1776077855,
+      "sinceBlock": 24870400,
+      "values": {
+        "$immutable": true,
+        "isAdmin": false,
+        "owner": "eth:0x45a149f42FF0B77D148d05904Dd7577dF36A545a",
+        "roles": [
+          ["Superadmin", 0, 2],
+          ["Proxy Admin", 0, 0],
+          ["Minter Role", 0, 1]
+        ],
+        "totalRoles": 3
+      },
+      "implementationNames": {
+        "eth:0x2B535Eb09Fc06431B8C69782E2c2D3A1a175114b": "VNXManager"
       }
     },
     {
@@ -173,7 +232,7 @@
       "values": {
         "$immutable": true,
         "currentRatePPM": 10000,
-        "currentTicks": 1244846460000,
+        "currentTicks": 1282833540000,
         "equity": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
         "INTEREST_DELAY": 259200,
         "nextChange": 1770717611,
@@ -202,7 +261,7 @@
         "decimalMultiplier": 1000000000000,
         "horizon": 1807188455,
         "limit": "10000000000000000000000000",
-        "minted": "504372811650000000000000",
+        "minted": "570880684645000000000000",
         "zchf": "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB"
       },
       "implementationNames": {
@@ -226,7 +285,7 @@
       "sinceBlock": 17636043,
       "values": {
         "$immutable": true,
-        "getARM": "eth:0xe8464c353210Cc398A45dB2454FBc5BCd25fFf20",
+        "getARM": "eth:0x0B047953451A207743fB62541B21199b95190602",
         "owner": "eth:0x44835bBBA9D40DEDa9b64858095EcFB2693c9449",
         "typeAndVersion": "ARMProxy 1.0.0"
       },
@@ -259,6 +318,11 @@
       "implementationNames": {
         "eth:0x44835bBBA9D40DEDa9b64858095EcFB2693c9449": "RBACTimelock"
       }
+    },
+    {
+      "address": "eth:0x45a149f42FF0B77D148d05904Dd7577dF36A545a",
+      "type": "EOA",
+      "proxyType": "EOA"
     },
     {
       "name": "ChainLink Token",
@@ -361,7 +425,7 @@
       "sinceTimestamp": 1669986275,
       "sinceBlock": 16097303,
       "values": {
-        "$admin": "eth:0xC8bB8eDa94931cA2F20EF43eA7dBD58E68400400",
+        "$admin": "eth:0x817f8AFEE1A758FAF4492F4844B08DCB57658165",
         "$implementation": "eth:0xD1d7193CE1Aa7808d577058F48Ef8289FC2F81fC",
         "$pastUpgrades": [
           [
@@ -383,23 +447,18 @@
         "isAdmin": false,
         "isAssetProtector": false,
         "isMinter": false,
-        "minterRoleId": 0,
+        "minterRoleId": 2,
         "name": "VNX Franc",
-        "owner": "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE",
+        "owner": "eth:0x45a149f42FF0B77D148d05904Dd7577dF36A545a",
         "paused": false,
         "symbol": "VCHF",
-        "totalSupply": "55673527070000000000000"
+        "totalSupply": "26107570000000000000000"
       },
       "errors": { "eip712Domain": "Processing error occurred." },
       "implementationNames": {
         "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f": "TransparentUpgradeableProxy",
         "eth:0xD1d7193CE1Aa7808d577058F48Ef8289FC2F81fC": "VNXCToken"
       }
-    },
-    {
-      "address": "eth:0x7B0C15f39cD987A7d3F5D8D10B57ac6d633E9403",
-      "type": "EOA",
-      "proxyType": "EOA"
     },
     {
       "name": "StablecoinBridge",
@@ -429,6 +488,33 @@
       "address": "eth:0x8085482Bb0946C68008Ca4c88f90d6Aa3d6C87E5",
       "type": "EOA",
       "proxyType": "EOA"
+    },
+    {
+      "name": "VNXProxyAdmin",
+      "address": "eth:0x817f8AFEE1A758FAF4492F4844B08DCB57658165",
+      "type": "Contract",
+      "sourceHashes": [
+        "0x05f310b8aba462e47ea0d07e67d6e4c8fa5782fc840f50d039dc855d858b29f3"
+      ],
+      "proxyType": "immutable",
+      "sinceTimestamp": 1776078611,
+      "sinceBlock": 24870463,
+      "values": {
+        "$immutable": true,
+        "isUpgradeAdmin": false,
+        "owner": "eth:0x45a149f42FF0B77D148d05904Dd7577dF36A545a",
+        "rbacManager": "eth:0x2B535Eb09Fc06431B8C69782E2c2D3A1a175114b"
+      },
+      "implementationNames": {
+        "eth:0x817f8AFEE1A758FAF4492F4844B08DCB57658165": "VNXProxyAdmin"
+      },
+      "receivedPermissions": [
+        {
+          "permission": "upgrade",
+          "from": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
+          "role": "admin"
+        }
+      ]
     },
     {
       "address": "eth:0x87cAaB4d0603764C68a3C28cb888ee1752eEC257",
@@ -678,14 +764,14 @@
         ],
         "decimals": 18,
         "DOMAIN_SEPARATOR": "0x0030eba518c077921487bde9523478fa8ba39b881d0372fd1cb104a3080bfcb0",
-        "equity": "4110978137938310992748683",
+        "equity": "3805319081505082340935209",
         "MIN_APPLICATION_PERIOD": 1209600,
         "MIN_FEE": "1000000000000000000000",
-        "minterReserve": "8655511269091429931319856",
+        "minterReserve": "8636149050366116349251278",
         "name": "Frankencoin",
         "reserve": "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
         "symbol": "ZCHF",
-        "totalSupply": "31038819019501087334988360"
+        "totalSupply": "30191896131638720329909286"
       },
       "implementationNames": {
         "eth:0xB58E61C3098d85632Df34EecfB899A1Ed80921cB": "Frankencoin"
@@ -735,7 +821,7 @@
         "paused": false,
         "PAUSER_ROLE": "0x65d7a28e3265b37a6474929f336521b332c1681b933f6cb9f3376673440d862a",
         "symbol": "CHFAU",
-        "totalSupply": 32380021921656,
+        "totalSupply": 48280021921656,
         "UPGRADE_INTERFACE_VERSION": "5.0.0",
         "version": "1.0.0"
       },
@@ -749,54 +835,6 @@
       "address": "eth:0xC2F2DB5C3Fe72Dc1014dF451E34FDBBe297dA7af",
       "type": "EOA",
       "proxyType": "EOA"
-    },
-    {
-      "name": "VNXProxyAdmin",
-      "address": "eth:0xC8bB8eDa94931cA2F20EF43eA7dBD58E68400400",
-      "type": "Contract",
-      "sourceHashes": [
-        "0xf936964831cae89cfea493a3a3b42408d0f893751008015da40da8bd6d4a7691"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1626462994,
-      "sinceBlock": 12839705,
-      "values": {
-        "$immutable": true,
-        "isUpgradeAdmin": false,
-        "owner": "eth:0x7B0C15f39cD987A7d3F5D8D10B57ac6d633E9403",
-        "rbacManager": "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE"
-      },
-      "implementationNames": {
-        "eth:0xC8bB8eDa94931cA2F20EF43eA7dBD58E68400400": "VNXProxyAdmin"
-      },
-      "receivedPermissions": [
-        {
-          "permission": "upgrade",
-          "from": "eth:0x79d4f0232A66c4c91b89c76362016A1707CFBF4f",
-          "role": "admin"
-        }
-      ]
-    },
-    {
-      "name": "VNXManager",
-      "address": "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE",
-      "type": "Contract",
-      "sourceHashes": [
-        "0xb460549943b0e5b26bd17da7f437f493cabd39d4ec34c1399fa5b371b783889d"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1626458380,
-      "sinceBlock": 12839391,
-      "values": {
-        "$immutable": true,
-        "isAdmin": false,
-        "owner": "eth:0x7B0C15f39cD987A7d3F5D8D10B57ac6d633E9403",
-        "roles": [["Superadmin", 0, 3], ["ProxyUpgrader", 0, 1]],
-        "totalRoles": 2
-      },
-      "implementationNames": {
-        "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE": "VNXManager"
-      }
     },
     {
       "address": "eth:0xcfA741A56fC0f793426690C6932AABEd31CF3C3B",
@@ -841,6 +879,32 @@
       "implementationNames": {
         "eth:0xd66a4bC77C3bF8f3Ab1827112F4ff70f0dc0472e": "GnosisSafeProxy",
         "eth:0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552": "GnosisSafe"
+      }
+    },
+    {
+      "name": "RBACTimelock",
+      "address": "eth:0xD9aB1714Df2b5d0011B22f6D94812e7813Fa5795",
+      "type": "Contract",
+      "sourceHashes": [
+        "0xd5b2b6b0153f0ac33437f0059e864bae869943a68c01d8626d43eb2abebb728d"
+      ],
+      "proxyType": "immutable",
+      "sinceTimestamp": 1785761147,
+      "sinceBlock": 25674455,
+      "values": {
+        "$immutable": true,
+        "ADMIN_ROLE": "0xa49807205ce4d355092ef5a8a18f56e8913cf4a201fbe287825b095693c21775",
+        "BYPASSER_ROLE": "0xa1b2b8005de234c4b8ce8cd0be058239056e0d54f6097825b5117101469d5a8d",
+        "CANCELLER_ROLE": "0xfd643c72710c63c0180259aba6b2d05451e3591a24e58b62239378085726f783",
+        "DEFAULT_ADMIN_ROLE": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "EXECUTOR_ROLE": "0xd8aa0f3194971a2a116679f7c2090f6939c8d4e01a2a8d7e41d55e5351469e63",
+        "getBlockedFunctionSelectorAt": [],
+        "getBlockedFunctionSelectorCount": 0,
+        "getMinDelay": 0,
+        "PROPOSER_ROLE": "0xb09aa5aeb3702cfd50b6b62bc4532604938f21248a27a1d5ca736082b6819cc1"
+      },
+      "implementationNames": {
+        "eth:0xD9aB1714Df2b5d0011B22f6D94812e7813Fa5795": "RBACTimelock"
       }
     },
     {
@@ -897,42 +961,6 @@
       "errors": { "challenges": "Processing error occurred." },
       "implementationNames": {
         "eth:0xDe12B620A8a714476A97EfD14E6F7180Ca653557": "MintingHub"
-      }
-    },
-    {
-      "name": "RMNRemote",
-      "address": "eth:0xe8464c353210Cc398A45dB2454FBc5BCd25fFf20",
-      "type": "Contract",
-      "sourceHashes": [
-        "0x3664618ea06cf10d0f454add5b6c58096ae0a6b3f86d41ffaf228442727fd581"
-      ],
-      "proxyType": "immutable",
-      "sinceTimestamp": 1744752923,
-      "sinceBlock": 22277104,
-      "values": {
-        "$immutable": true,
-        "getCursedSubjects": ["0x0000000000000000e48c37ec27730186"],
-        "getLocalChainSelector": "5009297550715157269",
-        "getReportDigestHeader": "0x9651943783dbf81935a60e98f218a9d9b5b28823fb2228bbd91320d632facf53",
-        "getVersionedConfig": {
-          "version": 1,
-          "config": {
-            "rmnHomeContractConfigDigest": "0x000b606aed917bf65c4bbdce1a5b061c49e0135e624bdb29182928d11b2d9919",
-            "signers": [
-              {
-                "onchainPublicKey": "eth:0x0100000000000000000000000000000000000000",
-                "nodeIndex": 0
-              }
-            ],
-            "fSign": 0
-          }
-        },
-        "isCursed": false,
-        "owner": "eth:0x6608920e3F6b591EC3Cf15CA1DDf66fBE117F56A",
-        "typeAndVersion": "RMNRemote 1.6.0"
-      },
-      "implementationNames": {
-        "eth:0xe8464c353210Cc398A45dB2454FBc5BCd25fFf20": "RMNRemote"
       }
     },
     {
@@ -1001,6 +1029,38 @@
     }
   ],
   "abis": {
+    "eth:0x0B047953451A207743fB62541B21199b95190602": [
+      "constructor(address[] curseAdmins)",
+      "error CannotTransferToSelf()",
+      "error MustBeProposedOwner()",
+      "error NotCursed(bytes16 subject)",
+      "error OnlyCallableByOwner()",
+      "error OwnerCannotBeZero()",
+      "error UnauthorizedCaller(address caller)",
+      "error ZeroAddressNotAllowed()",
+      "event AuthorizedCallerAdded(address caller)",
+      "event AuthorizedCallerRemoved(address caller)",
+      "event Cursed(bytes16[] subjects)",
+      "event OwnershipTransferRequested(address indexed from, address indexed to)",
+      "event OwnershipTransferred(address indexed from, address indexed to)",
+      "event Uncursed(bytes16[] subjects)",
+      "function acceptOwnership()",
+      "function applyAuthorizedCallerUpdates(tuple(address[] addedCallers, address[] removedCallers) authorizedCallerArgs)",
+      "function curse(bytes16 subject)",
+      "function curse(bytes16[] subjects)",
+      "function getAllAuthorizedCallers() view returns (address[])",
+      "function getCursedSubjects() view returns (bytes16[] subjects)",
+      "function getReportDigestHeader() pure returns (bytes32 digestHeader)",
+      "function getVersionedConfig() pure returns (uint32 version, tuple(bytes32 rmnHomeContractConfigDigest, tuple(address onchainPublicKey, uint64 nodeIndex)[] signers, uint64 fSign) config)",
+      "function isBlessed(tuple(address commitStore, bytes32 root)) pure returns (bool)",
+      "function isCursed(bytes16 subject) view returns (bool)",
+      "function isCursed() view returns (bool)",
+      "function owner() view returns (address)",
+      "function transferOwnership(address to)",
+      "function typeAndVersion() view returns (string)",
+      "function uncurse(bytes16 subject)",
+      "function uncurse(bytes16[] subjects)"
+    ],
     "eth:0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2": [
       "constructor(address zchf_)",
       "error ERC20InsufficientAllowance(address spender, uint256 allowance, uint256 needed)",
@@ -1120,6 +1180,25 @@
       "function ticks(uint256 timestamp) view returns (uint64)",
       "function withdraw(address target, uint192 amount) returns (uint256)",
       "function withdraw(uint192 amount, address referrer, uint24 referralFeePPM)"
+    ],
+    "eth:0x2B535Eb09Fc06431B8C69782E2c2D3A1a175114b": [
+      "constructor()",
+      "event BearerAdded(address indexed account, uint256 role)",
+      "event BearerRemoved(address indexed account, uint256 role)",
+      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
+      "event RoleCreated(uint256 role)",
+      "function addBearer(address account, uint256 role)",
+      "function addRole(string roleDescription, uint256 admin) returns (uint256)",
+      "function addRootRole(string roleDescription) returns (uint256)",
+      "function hasRole(address account, uint256 role) view returns (bool)",
+      "function isAdmin() view returns (bool)",
+      "function owner() view returns (address)",
+      "function removeBearer(address account, uint256 role)",
+      "function renounceOwnership()",
+      "function roles(uint256) view returns (string description, uint256 admin, uint256 bearersCount)",
+      "function totalRoles() view returns (uint256)",
+      "function transferContractOwnership(address targetContract, address newOwner) returns (bool)",
+      "function transferOwnership(address newOwner)"
     ],
     "eth:0x318CeE69D79c8e96FB8C63D89FD5505CE424a2a6": [
       "constructor(address _singleton)"
@@ -1486,6 +1565,20 @@
       "function minted() view returns (uint256)",
       "function zchf() view returns (address)"
     ],
+    "eth:0x817f8AFEE1A758FAF4492F4844B08DCB57658165": [
+      "constructor(uint8 role, address rbac)",
+      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
+      "function changeProxyAdmin(address proxy, address newAdmin)",
+      "function getProxyAdmin(address proxy) view returns (address)",
+      "function getProxyImplementation(address proxy) view returns (address)",
+      "function isUpgradeAdmin() view returns (bool)",
+      "function owner() view returns (address)",
+      "function rbacManager() view returns (address)",
+      "function renounceOwnership()",
+      "function transferOwnership(address newOwner)",
+      "function upgrade(address proxy, address implementation)",
+      "function upgradeAndCall(address proxy, address implementation, bytes data) payable"
+    ],
     "eth:0x88fd2ECD0B9250F203e99E80eb78b0C32B8AdB16": [
       "constructor(address zchf, address registry, address router)",
       "error InvalidRouter(address router)",
@@ -1715,39 +1808,6 @@
       "error FailedCall()",
       "event Upgraded(address indexed implementation)"
     ],
-    "eth:0xC8bB8eDa94931cA2F20EF43eA7dBD58E68400400": [
-      "constructor(uint8 role, address rbac)",
-      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-      "function changeProxyAdmin(address proxy, address newAdmin)",
-      "function getProxyAdmin(address proxy) view returns (address)",
-      "function getProxyImplementation(address proxy) view returns (address)",
-      "function isUpgradeAdmin() view returns (bool)",
-      "function owner() view returns (address)",
-      "function rbacManager() view returns (address)",
-      "function renounceOwnership()",
-      "function transferOwnership(address newOwner)",
-      "function upgrade(address proxy, address implementation)",
-      "function upgradeAndCall(address proxy, address implementation, bytes data) payable"
-    ],
-    "eth:0xCdB3867935247049e87c38eA270edD305D84c9AE": [
-      "constructor()",
-      "event BearerAdded(address indexed account, uint256 role)",
-      "event BearerRemoved(address indexed account, uint256 role)",
-      "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-      "event RoleCreated(uint256 role)",
-      "function addBearer(address account, uint256 role)",
-      "function addRole(string roleDescription, uint256 admin) returns (uint256)",
-      "function addRootRole(string roleDescription) returns (uint256)",
-      "function hasRole(address account, uint256 role) view returns (bool)",
-      "function isAdmin() view returns (bool)",
-      "function owner() view returns (address)",
-      "function removeBearer(address account, uint256 role)",
-      "function renounceOwnership()",
-      "function roles(uint256) view returns (string description, uint256 admin, uint256 bearersCount)",
-      "function totalRoles() view returns (uint256)",
-      "function transferContractOwnership(address targetContract, address newOwner) returns (bool)",
-      "function transferOwnership(address newOwner)"
-    ],
     "eth:0xD1d7193CE1Aa7808d577058F48Ef8289FC2F81fC": [
       "event AddressFrozen(address indexed _account)",
       "event AddressUnfrozen(address indexed _account)",
@@ -1813,6 +1873,52 @@
     ],
     "eth:0xd66a4bC77C3bF8f3Ab1827112F4ff70f0dc0472e": [
       "constructor(address _singleton)"
+    ],
+    "eth:0xD9aB1714Df2b5d0011B22f6D94812e7813Fa5795": [
+      "constructor(uint256 minDelay, address admin, address[] proposers, address[] executors, address[] cancellers, address[] bypassers)",
+      "event BypasserCallExecuted(uint256 indexed index, address target, uint256 value, bytes data)",
+      "event CallExecuted(bytes32 indexed id, uint256 indexed index, address target, uint256 value, bytes data)",
+      "event CallScheduled(bytes32 indexed id, uint256 indexed index, address target, uint256 value, bytes data, bytes32 predecessor, bytes32 salt, uint256 delay)",
+      "event Cancelled(bytes32 indexed id)",
+      "event FunctionSelectorBlocked(bytes4 indexed selector)",
+      "event FunctionSelectorUnblocked(bytes4 indexed selector)",
+      "event MinDelayChange(uint256 oldDuration, uint256 newDuration)",
+      "event RoleAdminChanged(bytes32 indexed role, bytes32 indexed previousAdminRole, bytes32 indexed newAdminRole)",
+      "event RoleGranted(bytes32 indexed role, address indexed account, address indexed sender)",
+      "event RoleRevoked(bytes32 indexed role, address indexed account, address indexed sender)",
+      "function ADMIN_ROLE() view returns (bytes32)",
+      "function BYPASSER_ROLE() view returns (bytes32)",
+      "function CANCELLER_ROLE() view returns (bytes32)",
+      "function DEFAULT_ADMIN_ROLE() view returns (bytes32)",
+      "function EXECUTOR_ROLE() view returns (bytes32)",
+      "function PROPOSER_ROLE() view returns (bytes32)",
+      "function blockFunctionSelector(bytes4 selector)",
+      "function bypasserExecuteBatch(tuple(address target, uint256 value, bytes data)[] calls) payable",
+      "function cancel(bytes32 id)",
+      "function executeBatch(tuple(address target, uint256 value, bytes data)[] calls, bytes32 predecessor, bytes32 salt) payable",
+      "function getBlockedFunctionSelectorAt(uint256 index) view returns (bytes4)",
+      "function getBlockedFunctionSelectorCount() view returns (uint256)",
+      "function getMinDelay() view returns (uint256 duration)",
+      "function getRoleAdmin(bytes32 role) view returns (bytes32)",
+      "function getRoleMember(bytes32 role, uint256 index) view returns (address)",
+      "function getRoleMemberCount(bytes32 role) view returns (uint256)",
+      "function getTimestamp(bytes32 id) view returns (uint256 timestamp)",
+      "function grantRole(bytes32 role, address account)",
+      "function hasRole(bytes32 role, address account) view returns (bool)",
+      "function hashOperationBatch(tuple(address target, uint256 value, bytes data)[] calls, bytes32 predecessor, bytes32 salt) pure returns (bytes32 hash)",
+      "function isOperation(bytes32 id) view returns (bool registered)",
+      "function isOperationDone(bytes32 id) view returns (bool done)",
+      "function isOperationPending(bytes32 id) view returns (bool pending)",
+      "function isOperationReady(bytes32 id) view returns (bool ready)",
+      "function onERC1155BatchReceived(address, address, uint256[], uint256[], bytes) returns (bytes4)",
+      "function onERC1155Received(address, address, uint256, uint256, bytes) returns (bytes4)",
+      "function onERC721Received(address, address, uint256, bytes) returns (bytes4)",
+      "function renounceRole(bytes32 role, address account)",
+      "function revokeRole(bytes32 role, address account)",
+      "function scheduleBatch(tuple(address target, uint256 value, bytes data)[] calls, bytes32 predecessor, bytes32 salt, uint256 delay)",
+      "function supportsInterface(bytes4 interfaceId) view returns (bool)",
+      "function unblockFunctionSelector(bytes4 selector)",
+      "function updateDelay(uint256 newDelay)"
     ],
     "eth:0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552": [
       "constructor()",
@@ -1893,47 +1999,6 @@
       "function roller() view returns (address)",
       "function zchf() view returns (address)"
     ],
-    "eth:0xe8464c353210Cc398A45dB2454FBc5BCd25fFf20": [
-      "constructor(uint64 localChainSelector, address legacyRMN)",
-      "error AlreadyCursed(bytes16 subject)",
-      "error CannotTransferToSelf()",
-      "error ConfigNotSet()",
-      "error DuplicateOnchainPublicKey()",
-      "error InvalidSignature()",
-      "error InvalidSignerOrder()",
-      "error IsBlessedNotAvailable()",
-      "error MustBeProposedOwner()",
-      "error NotCursed(bytes16 subject)",
-      "error NotEnoughSigners()",
-      "error OnlyCallableByOwner()",
-      "error OutOfOrderSignatures()",
-      "error OwnerCannotBeZero()",
-      "error ThresholdNotMet()",
-      "error UnexpectedSigner()",
-      "error ZeroValueNotAllowed()",
-      "event ConfigSet(uint32 indexed version, tuple(bytes32 rmnHomeContractConfigDigest, tuple(address onchainPublicKey, uint64 nodeIndex)[] signers, uint64 fSign) config)",
-      "event Cursed(bytes16[] subjects)",
-      "event OwnershipTransferRequested(address indexed from, address indexed to)",
-      "event OwnershipTransferred(address indexed from, address indexed to)",
-      "event Uncursed(bytes16[] subjects)",
-      "function acceptOwnership()",
-      "function curse(bytes16 subject)",
-      "function curse(bytes16[] subjects)",
-      "function getCursedSubjects() view returns (bytes16[] subjects)",
-      "function getLocalChainSelector() view returns (uint64 localChainSelector)",
-      "function getReportDigestHeader() pure returns (bytes32 digestHeader)",
-      "function getVersionedConfig() view returns (uint32 version, tuple(bytes32 rmnHomeContractConfigDigest, tuple(address onchainPublicKey, uint64 nodeIndex)[] signers, uint64 fSign) config)",
-      "function isBlessed(tuple(address commitStore, bytes32 root) taggedRoot) view returns (bool)",
-      "function isCursed(bytes16 subject) view returns (bool)",
-      "function isCursed() view returns (bool)",
-      "function owner() view returns (address)",
-      "function setConfig(tuple(bytes32 rmnHomeContractConfigDigest, tuple(address onchainPublicKey, uint64 nodeIndex)[] signers, uint64 fSign) newConfig)",
-      "function transferOwnership(address to)",
-      "function typeAndVersion() view returns (string)",
-      "function uncurse(bytes16 subject)",
-      "function uncurse(bytes16[] subjects)",
-      "function verify(address offRampAddress, tuple(uint64 sourceChainSelector, bytes onRampAddress, uint64 minSeqNr, uint64 maxSeqNr, bytes32 merkleRoot)[] merkleRoots, tuple(bytes32 r, bytes32 s)[] signatures) view"
-    ],
     "eth:0xEAFBa0d16D6a0Ff3C6c5d0A46ca7b8fbFf21A9d3": [
       "constructor(address _logic, bytes _data) payable",
       "error AddressEmptyCode(address target)",
@@ -1969,6 +2034,6 @@
     "GnosisSafe": "0x12db59bec64fa8de67bbeb6a6e913f6c5ff1598c0a5fba90282afaf08e2a748c",
     "transporter/TokenPool": "0x32151072569e965287f6dde9deefc6e47dbb9fdd1f404c83312c29b57c3782f3"
   },
-  "usedBlockNumbers": { "ethereum": 25408125 },
-  "permissionsConfigHash": "0x50dd9e0277090d444e81e9e9642e7df9f49a6281683b124281addcca430905af"
+  "usedBlockNumbers": { "ethereum": 25723503 },
+  "permissionsConfigHash": "0x5882e776c97b17f8d76e64b2093895c15d3bcbcb229bce7dce44b300241c74b1"
 }
