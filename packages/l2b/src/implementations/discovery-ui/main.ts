@@ -1320,6 +1320,7 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
       return
     }
     const addToIgnoreWatchMode = Boolean(req.body?.addToIgnoreWatchMode)
+    const skipRecompile = Boolean(req.body?.skipRecompile)
     try {
       const result = await deleteMonitorRow(
         paths,
@@ -1327,7 +1328,7 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
         configWriter,
         monitorAdminDb,
         id,
-        { addToIgnoreWatchMode },
+        { addToIgnoreWatchMode, skipRecompile },
       )
       res.json(result)
     } catch (error) {
@@ -1369,6 +1370,7 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
       return
     }
     const addToIgnoreWatchMode = Boolean(req.body?.addToIgnoreWatchMode)
+    const skipRecompile = Boolean(req.body?.skipRecompile)
     try {
       const result = await stripMonitorFields(
         paths,
@@ -1377,7 +1379,7 @@ export function runDiscoveryUi({ readonly }: { readonly: boolean }) {
         monitorAdminDb,
         id,
         fields,
-        { addToIgnoreWatchMode },
+        { addToIgnoreWatchMode, skipRecompile },
       )
       res.json(result)
     } catch (error) {
