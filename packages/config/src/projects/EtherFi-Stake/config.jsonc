@@ -12,7 +12,42 @@
     },
     // External: Lido stETH
     "eth:0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84": {
-      "ignoreRelatives": ["$implementation","appId","DOMAIN_SEPARATOR","eip712Domain","getEIP712StETH","getEVMScriptRegistry","getLidoLocator","getRecoveryVault","getTreasury","getWithdrawalCredentials","implementation","kernel","PAUSE_ROLE","RESUME_ROLE","STAKING_CONTROL_ROLE","STAKING_PAUSE_ROLE","UNSAFE_CHANGE_DEPOSITED_VALIDATORS_ROLE"]
+      "ignoreRelatives": [
+        "$implementation",
+        "appId",
+        "DOMAIN_SEPARATOR",
+        "eip712Domain",
+        "getEIP712StETH",
+        "getEVMScriptRegistry",
+        "getLidoLocator",
+        "getRecoveryVault",
+        "getTreasury",
+        "getWithdrawalCredentials",
+        "implementation",
+        "kernel",
+        "PAUSE_ROLE",
+        "RESUME_ROLE",
+        "STAKING_CONTROL_ROLE",
+        "STAKING_PAUSE_ROLE",
+        "UNSAFE_CHANGE_DEPOSITED_VALIDATORS_ROLE"
+      ],
+      "ignoreInWatchMode": [
+        "getBalanceStats",
+        "getBeaconStat",
+        "getBufferedEther",
+        "getDepositableEther",
+        "getDepositsReserve",
+        "getExternalEther",
+        "getExternalShares",
+        "getFeeDistribution",
+        "getMaxMintableExternalShares",
+        "getStakeLimitFullInfo",
+        "getTotalELRewardsCollected",
+        "getTotalPooledEther",
+        "getTotalShares",
+        "getWithdrawalsReserve",
+        "totalSupply"
+      ]
     },
     // External: Ethereum DepositContract
     "eth:0x00000000219ab540356cBB839Cbe05303d7705Fa": {
@@ -225,7 +260,17 @@
     },
     // LiquidityPool
     "eth:0x308861A430be4cce5502d0A12724771Fc6DaF216": {
-      "ignoreInWatchMode": ["amountForShare", "ethAmountLockedForWithdrawal", "getTotalPooledEther", "numPendingDeposits", "sharesForAmount", "sharesForWithdrawalAmount", "totalValueInLp", "totalValueOutOfLp"]
+      "ignoreInWatchMode": [
+        "amountForShare",
+        "amountPerShareCeil",
+        "ethAmountLockedForWithdrawal",
+        "getTotalPooledEther",
+        "numPendingDeposits",
+        "sharesForAmount",
+        "sharesForWithdrawalAmount",
+        "totalValueInLp",
+        "totalValueOutOfLp"
+      ]
     },
     // PriorityWithdrawalQueue
     "eth:0x35e7D6feF6f72aDd3c3e39dEc6d9CCc29e3345FA": {
@@ -233,7 +278,25 @@
     },
     // WithdrawRequestNFT
     "eth:0x7d5706f6ef3F89B3951E23e557CDFBC3239D4E2c": {
-      "ignoreInWatchMode": ["aggregateSumOfEEthShare", "currentRequestIdToScanFromForShareRemainder", "getApproved", "getClaimableAmount", "getEEthRemainderAmount", "getRequest", "isFinalized", "isScanOfShareRemainderCompleted", "isValid", "lastFinalizedRequestId", "lastRequestIdToScanUntilForShareRemainder", "nextRequestId", "ownerOf", "tokenURI", "totalRemainderEEthShares"]
+      "ignoreInWatchMode": [
+        "aggregateSumOfEEthShare",
+        "currentRequestIdToScanFromForShareRemainder",
+        "ethAmountLockedForWithdrawal",
+        "finalizationRatesLength",
+        "getApproved",
+        "getClaimableAmount",
+        "getEEthRemainderAmount",
+        "getRequest",
+        "isFinalized",
+        "isScanOfShareRemainderCompleted",
+        "isValid",
+        "lastFinalizedRequestId",
+        "lastRequestIdToScanUntilForShareRemainder",
+        "nextRequestId",
+        "ownerOf",
+        "tokenURI",
+        "totalRemainderEEthShares"
+      ]
     },
     // Wrapped eETH Token (weETH)
     "eth:0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee": {
