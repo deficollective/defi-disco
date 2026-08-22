@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1787301512,
-  "lastConsumedUpdateNotifierId": 449,
+  "lastReconciledAt": 1787386699,
+  "lastConsumedUpdateNotifierId": 456,
   "events": [
     {
       "timestamp": "2026-06-08T12:07:58.000Z",
@@ -3162,6 +3162,77 @@
           "field": "values.getRate",
           "before": "1101851750000249248",
           "after": "1101929351739778248"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-08-22T07:41:17.000Z",
+      "updateNotifierId": 456,
+      "address": "eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA",
+      "contractName": "GnosisSafe",
+      "isDependency": true,
+      "entity": "Chainlink",
+      "id": "456:eth:0x21f73D42Eb58Ba49dDB685dc29D3bF5c0f0373CA:role:Safe.owners",
+      "type": "role-update",
+      "roleName": "Safe.owners",
+      "changes": [
+        {
+          "field": "values.$members.4",
+          "before": "eth:0x47A1dD4E277530fffb5B5f70A43CCbD542F54e17",
+          "after": "eth:0x80D46daD5A5450a3611CD1d7F9110AEdFA55bfF6"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-08-22T07:41:17.000Z",
+      "updateNotifierId": 456,
+      "address": "eth:0x4270E1817576bbA4b640466bE79A408Ef128F828",
+      "contractName": "WeEthToEthExchangeRateAdapter",
+      "entity": null,
+      "id": "456:eth:0x4270E1817576bbA4b640466bE79A408Ef128F828:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.latestRoundData.1",
+          "before": "1101929351739778248",
+          "after": "1101993198538731293"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-08-22T07:41:17.000Z",
+      "updateNotifierId": 456,
+      "address": "eth:0xc3866d726C204C0836E0677A31973c649888973D",
+      "contractName": "DummyFeed",
+      "entity": null,
+      "id": "456:eth:0xc3866d726C204C0836E0677A31973c649888973D:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.latestRoundData.startedAt",
+          "before": 1787298827,
+          "after": 1787384459
+        },
+        {
+          "field": "values.latestRoundData.updatedAt",
+          "before": 1787298827,
+          "after": 1787384459
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-08-22T07:41:17.000Z",
+      "updateNotifierId": 456,
+      "address": "eth:0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
+      "contractName": "Wrapped eETH Token",
+      "entity": null,
+      "id": "456:eth:0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.getRate",
+          "before": "1101929351739778248",
+          "after": "1101993198538731293"
         }
       ]
     }
