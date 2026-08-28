@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "lastReconciledAt": 1787644597,
-  "lastConsumedUpdateNotifierId": 471,
+  "lastReconciledAt": 1787945315,
+  "lastConsumedUpdateNotifierId": 486,
   "events": [
     {
       "timestamp": "2026-03-26T08:10:03.000Z",
@@ -5689,6 +5689,64 @@
           "field": "values.getCurrentStakeLimit",
           "before": "137323546767994371172022",
           "after": "150000000000000000000000"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-08-28T19:26:57.000Z",
+      "updateNotifierId": 486,
+      "address": "eth:0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A",
+      "contractName": "DelegationManager",
+      "isDependency": true,
+      "entity": "EigenLayer",
+      "id": "486:eth:0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A:data-change",
+      "type": "data-change",
+      "changes": [
+        {
+          "field": "values.version",
+          "before": "1.9.0",
+          "after": "1.13.1"
+        },
+        {
+          "field": "values.$pastUpgrades.6",
+          "after": [
+            "2026-08-27T22:55:35.000Z",
+            "0x4dc0d2af7c481fb2ac2371fecbe3e9bb2a79ec311594bedfea7c6a696f2cfd8e",
+            [
+              "eth:0x6a8BEd4062C895130E2d09bA442D3eCEAd5Df6c2"
+            ]
+          ]
+        },
+        {
+          "field": "values.$upgradeCount",
+          "before": 6,
+          "after": 7
+        },
+        {
+          "field": "values.$implementation",
+          "before": "eth:0xE7022a128Acd4C6cad7aFf6FA874D61f984BcE75",
+          "after": "eth:0x6a8BEd4062C895130E2d09bA442D3eCEAd5Df6c2"
+        },
+        {
+          "field": "template",
+          "before": "eigenlayer/DelegationManager"
+        },
+        {
+          "field": "description",
+          "before": "The DelegationManager contract is responsible for registering EigenLayer operators and managing the EigenLayer strategies delegations. The EigenDA StakeRegistry contract reads from the DelegationManager to track the total stake of each EigenDA operator."
+        },
+        {
+          "field": "sourceHashes.1",
+          "before": "0xc7434c1abe25723dac4061deb679b18972a97bda6317eb9b36833da48f9c59c1",
+          "after": "0xb2b1d4d22076a5f54e7076a696dde4fcd30369fd717fc63920f4011c657a2de5"
+        },
+        {
+          "field": "implementationNames.eth:0xE7022a128Acd4C6cad7aFf6FA874D61f984BcE75",
+          "before": "DelegationManager"
+        },
+        {
+          "field": "implementationNames.eth:0x6a8BEd4062C895130E2d09bA442D3eCEAd5Df6c2",
+          "after": "DelegationManager"
         }
       ]
     }
